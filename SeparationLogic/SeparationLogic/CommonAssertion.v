@@ -268,7 +268,7 @@ Notation "x --> y" := (CRules.impp x y) : sac_scope.
 Notation "x || y" := (CRules.orp x y) : sac_scope.
 Notation "x && y" := (CRules.andp x y) : sac_scope.
 Notation "x ** y" := (CRules.sepcon x y) (at level 31, left associativity) : sac_scope.
-Notation " [| P |] " := (CRules.coq_prop P) (at level 29, no associativity) :sac_scope.
+Notation " “ P ” " := (CRules.coq_prop P) (at level 29, no associativity) :sac_scope.
 Notation " 'TT' " := (CRules.truep) (at level 34, no associativity) : sac_scope.
 Notation "'EX' x , p " :=
   (CRules.exp (fun x => p))
@@ -290,86 +290,86 @@ Notation "'ALL' x .. y , p" :=
     (at level 45, x binder, right associativity) : sac_scope.
 
 Definition store_char (x : addr) (v : Z) :=
-  [| isvalidptr_char x /\ v <= Byte.max_signed /\ v >= Byte.min_signed |] && store_byte x v.
+  “ isvalidptr_char x /\ v <= Byte.max_signed /\ v >= Byte.min_signed ” && store_byte x v.
 
 Definition undef_store_char (x : addr) :=
-  [| isvalidptr_char x |] && store_byte_noninit x.
+  “ isvalidptr_char x ” && store_byte_noninit x.
 
 Definition store_uchar (x : addr) (v : Z) :=
-  [| isvalidptr_char x /\ v >= 0 /\ v <= Byte.max_unsigned |] && 
+  “ isvalidptr_char x /\ v >= 0 /\ v <= Byte.max_unsigned ” && 
   store_byte x v.
 
 Definition undef_store_uchar (x : addr) :=
-  [| isvalidptr_char x |] && store_byte_noninit x.
+  “ isvalidptr_char x ” && store_byte_noninit x.
 
 Definition store_short (x : addr) (v : Z) :=
-  [| isvalidptr_short x /\ v <= 32767 /\ v >= -32768 |] && store_2byte x v.
+  “ isvalidptr_short x /\ v <= 32767 /\ v >= -32768 ” && store_2byte x v.
 
 Definition undef_store_short (x : addr) :=
-  [| isvalidptr_short x |] && store_2byte_noninit x.
+  “ isvalidptr_short x ” && store_2byte_noninit x.
 
 Definition store_ushort (x : addr) (v : Z) :=
-  [| isvalidptr_short x /\ v >= 0 /\ v <= 65535 |] &&
+  “ isvalidptr_short x /\ v >= 0 /\ v <= 65535 ” &&
   store_2byte x v.
 
 Definition undef_store_ushort (x : addr) :=
-  [| isvalidptr_short x |] && store_2byte_noninit x.
+  “ isvalidptr_short x ” && store_2byte_noninit x.
 
 Definition store_int (x : addr) (v : Z) :=
-  [| isvalidptr_int x /\ v <= Int.max_signed /\ v >= Int.min_signed |] && store_4byte x v.
+  “ isvalidptr_int x /\ v <= Int.max_signed /\ v >= Int.min_signed ” && store_4byte x v.
 
 Definition undef_store_int (x : addr) :=
-  ([| isvalidptr_int x |] && store_4byte_noninit x).
+  (“ isvalidptr_int x ” && store_4byte_noninit x).
 
 Definition store_uint (x : addr) (v : Z) :=
-  [| isvalidptr_int x /\ v >= 0 /\ v <= Int.max_unsigned |] && 
+  “ isvalidptr_int x /\ v >= 0 /\ v <= Int.max_unsigned ” && 
   store_4byte x v.
 
 Definition undef_store_uint (x : addr) :=
-  [| isvalidptr_int x |] && store_4byte_noninit x.
+  “ isvalidptr_int x ” && store_4byte_noninit x.
 
 Definition store_int64 (x : addr) (v : Z) :=
-  [| isvalidptr_int64 x /\ v <= Int64.max_signed /\ v >= Int64.min_signed |] && store_8byte x v.
+  “ isvalidptr_int64 x /\ v <= Int64.max_signed /\ v >= Int64.min_signed ” && store_8byte x v.
 
 Definition undef_store_int64 (x : addr) :=
-  [| isvalidptr_int64 x |] && store_8byte_noninit x.
+  “ isvalidptr_int64 x ” && store_8byte_noninit x.
 
 Definition store_uint64 (x : addr) (v : Z) :=
-  [| isvalidptr_int64 x /\ v >= 0 /\ v <= Int64.max_unsigned |] && 
+  “ isvalidptr_int64 x /\ v >= 0 /\ v <= Int64.max_unsigned ” && 
   store_8byte x v.
 
 Definition undef_store_uint64 (x : addr) :=
-  [| isvalidptr_int64 x |] && store_8byte_noninit x.
+  “ isvalidptr_int64 x ” && store_8byte_noninit x.
 
 Definition store_ptr (x : addr) (v : Z) := 
-  [| isvalidptr x /\ v >= 0 /\ v <= Int.max_unsigned |] && 
+  “ isvalidptr x /\ v >= 0 /\ v <= Int.max_unsigned ” && 
   store_4byte x v.
 
 Definition undef_store_ptr (x : addr) :=
-  [| isvalidptr x |] && store_4byte_noninit x.
+  “ isvalidptr x ” && store_4byte_noninit x.
 
 Definition Invalid_store (x : addr) (v : Z) :=
-  [| False |].
+  “ False ”.
 
 Definition Invalid_undef_store (x : addr) :=
-  [| False |].
+  “ False ”.
 
 Definition dup_data_at_error (x : addr) := 
-  [| False |].
+  “ False ”.
 
 Definition dup_data_at_error_prop : Prop := True.
 
 Fixpoint store_array_rec {A : Type} (storeA : addr -> Z -> A -> CRules.expr) (x: addr) (lo hi: Z) (l: list A): CRules.expr :=
   match l with
-  | nil     => [| lo = hi |] && [| l = nil |] && emp
+  | nil     => “ lo = hi ” && “ l = nil ” && emp
   | a :: l0 => storeA x lo a ** store_array_rec storeA x (lo + 1) hi l0
   end.
 
 Fixpoint store_array_missing_i_rec {A : Type} (storeA : addr -> Z -> A -> CRules.expr) (x: addr) (i lo hi: Z) (l: list A): CRules.expr :=
   match l with
-  | nil     => [| False |]
-  | a :: l0 => [| i = lo |] && store_array_rec storeA x (lo + 1) hi l0 ||
-               [| i > lo |] && storeA x lo a ** store_array_missing_i_rec storeA x i (lo + 1) hi l0
+  | nil     => “ False ”
+  | a :: l0 => “ i = lo ” && store_array_rec storeA x (lo + 1) hi l0 ||
+               “ i > lo ” && storeA x lo a ** store_array_missing_i_rec storeA x i (lo + 1) hi l0
   end.
 
 Definition store_array {A : Type} (storeA : addr -> Z -> A -> CRules.expr) (x: addr) (n: Z) (l: list A): CRules.expr :=
@@ -377,15 +377,15 @@ Definition store_array {A : Type} (storeA : addr -> Z -> A -> CRules.expr) (x: a
 
 Fixpoint store_undef_array_rec (storeA : addr -> Z -> CRules.expr) (x: addr) (lo hi: Z) (n: nat): CRules.expr :=
   match n with 
-    | O => [| lo = hi |] && emp 
+    | O => “ lo = hi ” && emp 
     | S n' => storeA x lo ** store_undef_array_rec storeA x (lo + 1) hi n'
   end.
 
 Fixpoint store_undef_array_missing_i_rec (storeA : addr -> Z -> CRules.expr) (x: addr) (i lo hi: Z) (n: nat): CRules.expr :=
   match n with 
-    | O => [| False |]
-    | S n' => [| i = lo |] && store_undef_array_rec storeA x (lo + 1) hi n' ||
-               [| i > lo |] && storeA x lo ** store_undef_array_missing_i_rec storeA x i (lo + 1) hi n'
+    | O => “ False ”
+    | S n' => “ i = lo ” && store_undef_array_rec storeA x (lo + 1) hi n' ||
+               “ i > lo ” && storeA x lo ** store_undef_array_missing_i_rec storeA x i (lo + 1) hi n'
   end.
 
 Definition store_undef_array (storeA : addr -> Z -> CRules.expr) (x: addr) (n: Z): CRules.expr :=
@@ -394,11 +394,20 @@ Definition store_undef_array (storeA : addr -> Z -> CRules.expr) (x: addr) (n: Z
 Fixpoint store_align4_list (l : list Z) := 
   match l with 
     | nil => emp
-    | x :: l' => [| isvalidptr x |] && store_4byte_noninit x ** store_align4_list l'
+    | x :: l' => “ isvalidptr x ” && store_4byte_noninit x ** store_align4_list l'
   end.
 
 Definition store_align4_n (n : Z) :=
-  EX l, [| Zlength l = n /\ interval_list 3 0 Int.max_unsigned l |] && store_align4_list l.
+  EX l, “ Zlength l = n /\ interval_list 3 0 Int.max_unsigned l ” && store_align4_list l.
+
+Fixpoint store_align_list (l : list Z) := 
+  match l with 
+    | nil => emp
+    | x :: l' => “ isvalidptr_char x ” && store_byte_noninit x ** store_align_list l'
+  end.
+
+Definition store_align_n (n : Z) :=
+  EX l, “ Zlength l = n /\ interval_list 0 0 Int.max_unsigned l ” && store_align_list l.
 
 Notation "x # 'Char' |-> v" := (store_char x v) (at level 25, no associativity) : sac_scope.
 Notation "x # 'UChar' |-> v" := (store_uchar x v ) (at level 25, no associativity):sac_scope.
@@ -469,24 +478,24 @@ Arguments derivable1s_allp_r {A} _ _ _ .
 Arguments derivable1s_exp_r {A} _ _ _ .
 Arguments derivable1s_allp_l {A} _ _ _ .
 
-Lemma coq_prop_andp_left : forall (P : Prop) (Q R : expr), (P -> Q |-- R) -> [| P |] && Q |-- R.
+Lemma coq_prop_andp_left : forall (P : Prop) (Q R : expr), (P -> Q |-- R) -> “ P ” && Q |-- R.
 Proof.
   unfold andp, coq_prop, derivable1 ; intros. apply H ; tauto.
 Qed.
 
-Lemma coq_prop_andp_right : forall (P : Prop) (Q R : expr), R |-- Q -> P -> R |-- [| P |] && Q.
+Lemma coq_prop_andp_right : forall (P : Prop) (Q R : expr), R |-- Q -> P -> R |-- “ P ” && Q.
 Proof.
   unfold andp, coq_prop, derivable1 ; intros.
   specialize (H m). tauto.
 Qed.
 
-Lemma coq_prop_imply : forall (P Q : Prop), (P -> Q) -> [| P |] |-- [| Q |].
+Lemma coq_prop_imply : forall (P Q : Prop), (P -> Q) -> “ P ” |-- “ Q ”.
 Proof.
   intros.
   unfold coq_prop, derivable1 ; intros ; tauto.
 Qed.
 
-Lemma coq_prop_False_left : forall (P : Prop) Q, (P -> False) -> [| P |] |-- Q.
+Lemma coq_prop_False_left : forall (P : Prop) Q, (P -> False) -> “ P ” |-- Q.
 Proof.
   intros.
   unfold coq_prop, derivable1 ; intros ; tauto.
@@ -588,7 +597,7 @@ Proof.
   - do 2 eexists. split;eauto.
 Qed.
 
-Lemma prop_add_left : forall P Q, P |-- [| Q |] -> P --||-- [| Q |] && P.
+Lemma prop_add_left : forall P Q, P |-- “ Q ” -> P --||-- “ Q ” && P.
 Proof.
   unfold coq_prop, logic_equiv, derivable1, andp ; intros.
   split ; try tauto ; split ; auto.
@@ -635,7 +644,7 @@ Qed.
 
 Lemma sepcon_prop_equiv : 
 forall P Q,
-P ** ([| Q |]) --||-- [| Q |] && P ** TT.
+P ** (“ Q ”) --||-- “ Q ” && P ** TT.
 Proof.
   unfold logic_equiv, sepcon, andp, truep, coq_prop, derivable1;
   split;intros.
@@ -776,7 +785,7 @@ Ltac Rename_rec l Tac :=
   | ?x :: ?l' => 
     let a := fresh "v" in
     match x with 
-      | norm_asrt ([| ?B |]) => pose (a := B) ; change B with a
+      | norm_asrt (“ ?B ”) => pose (a := B) ; change B with a
       | norm_asrt ?v => pose (a := v) ; change v with a
       | dependent_asrt _ ?B => pose (a := B) ; change B with a
     end; Rename_rec l' Tac ; subst a
@@ -803,7 +812,7 @@ Ltac pure_Rename_rec l :=
   | ?x :: ?l' => 
     let a := fresh "v" in
     match x with 
-      | norm_asrt ([| ?B |]) => pose (a := B) ; change B with a
+      | norm_asrt (“ ?B ”) => pose (a := B) ; change B with a
       | norm_asrt ?v => pose (a := v) ; change v with a
       | dependent_asrt _ ?B => pose (a := B) ; change B with a
     end; pure_Rename_rec l'
@@ -938,9 +947,9 @@ Ltac sepcon_assoc_change :=
 
 Ltac coq_prop_lift :=
   repeat progress match goal with 
-  | |- context [ ([| ?P |] && ?Q) ** ?R ] => rewrite (logic_equiv_coq_prop_andp_sepcon P Q R)
-  | |- context [ ?P ** ([| ?Q |] && ?R) ] => rewrite (logic_equiv_sepcon_coq_prop_andp P Q R)
-  | |- context [ ?P ** [| ?Q |] ] => rewrite (sepcon_prop_equiv P Q)
+  | |- context [ (“ ?P ” && ?Q) ** ?R ] => rewrite (logic_equiv_coq_prop_andp_sepcon P Q R)
+  | |- context [ ?P ** (“ ?Q ” && ?R) ] => rewrite (logic_equiv_sepcon_coq_prop_andp P Q R)
+  | |- context [ ?P ** “ ?Q ” ] => rewrite (sepcon_prop_equiv P Q)
   end.
 
 Ltac asrt_easysimpl := TT_simpl; andp_assoc_change; coq_prop_lift.
@@ -974,17 +983,17 @@ Ltac asrt_complex_simpl :=
     | |- context [ (_ ** _ ) && ?P ] => andp_lift P
     | |- context [ ?P ** emp ] => rewrite (sepcon_emp_equiv P)
     | |- context [ emp ** ?P ] => rewrite (logic_equiv_sepcon_comm emp P); rewrite (sepcon_emp_equiv P)
-    | |- context [( [| ?B |] && ?Q) && ?R] => rewrite (logic_equiv_andp_assoc ([| B |]) Q R )
-    | |- context [( [| ?B |] && ?Q) ** ?R] => rewrite (logic_equiv_coq_prop_andp_sepcon B Q R )
-    | |- context [( ?P && [| ?B |]) && ?R] => 
-      rewrite (logic_equiv_andp_comm P ([| B |])) ;
-      rewrite (logic_equiv_andp_assoc ([| B |]) P R)
-    | |- context [( ?P && [| ?B |]) ** ?R] =>
-      rewrite (logic_equiv_andp_comm P ([| B |])) ; 
+    | |- context [( “ ?B ” && ?Q) && ?R] => rewrite (logic_equiv_andp_assoc (“ B ”) Q R )
+    | |- context [( “ ?B ” && ?Q) ** ?R] => rewrite (logic_equiv_coq_prop_andp_sepcon B Q R )
+    | |- context [( ?P && “ ?B ”) && ?R] => 
+      rewrite (logic_equiv_andp_comm P (“ B ”)) ;
+      rewrite (logic_equiv_andp_assoc (“ B ”) P R)
+    | |- context [( ?P && “ ?B ”) ** ?R] =>
+      rewrite (logic_equiv_andp_comm P (“ B ”)) ; 
       rewrite (logic_equiv_coq_prop_andp_sepcon B P R )
-    | |- context [?P ** ([| ?B |] && ?R)] => rewrite (logic_equiv_sepcon_coq_prop_andp P B R)
-    | |- context [?P ** ([| ?B |]) ] => rewrite (sepcon_prop_equiv P B)
-    | |- context [([| ?B |]) ** ?P ] => rewrite (logic_equiv_sepcon_comm ([| B |]) P)
+    | |- context [?P ** (“ ?B ” && ?R)] => rewrite (logic_equiv_sepcon_coq_prop_andp P B R)
+    | |- context [?P ** (“ ?B ”) ] => rewrite (sepcon_prop_equiv P B)
+    | |- context [(“ ?B ”) ** ?P ] => rewrite (logic_equiv_sepcon_comm (“ B ”) P)
     | |- context [ (@exp ?t ?P) && ?Q ] => rewrite (ex_logic_equiv_andp _ Q)
     | |- context [ (@exp ?t ?P) ** ?Q ] => rewrite (ex_logic_equiv_sepcon _ Q)
     | |- context [ @exp ?t ?P ] => try andp_lift (@exp t P) ; try sepcon_lift (@exp t P)
@@ -1019,15 +1028,15 @@ Ltac andp_cancel := asrt_simpl_pure;
    | |- ?P |-- ?Q || ?R => idtac 
    | |- ?P || ?Q |-- ?R => idtac
    | |- ?P |-- ?Q =>  match P with 
-                      | context [ [| ?B |]] => try andp_lift ( [| B |]); eapply coq_prop_andp_left; intros; andp_cancel
+                      | context [ “ ?B ”] => try andp_lift ( “ B ”); eapply coq_prop_andp_left; intros; andp_cancel
                       end
    | |- ?P |-- ?Q  => match Q with 
-                      | context [ [| ?B |]] => try andp_lift ( [| B |]); simple eapply (coq_prop_andp_right);[  andp_cancel | solve_auto B ]
+                      | context [ “ ?B ”] => try andp_lift ( “ B ”); simple eapply (coq_prop_andp_right);[  andp_cancel | solve_auto B ]
                       end
-   | |- [| False |] |-- ?Q => apply derivables_false_coq_prop ; auto
-   | |- [| ?P |] |-- [| ?Q |] => apply coq_prop_imply ; solve_auto Q
-   | |- _ |-- [| ?Q |] => apply (derivable1s_coq_prop_r Q); solve_auto Q
-   | |- [| ?P |] |-- ?Q => eapply derivable1s_coq_prop_l; intros; andp_cancel
+   | |- “ False ” |-- ?Q => apply derivables_false_coq_prop ; auto
+   | |- “ ?P ” |-- “ ?Q ” => apply coq_prop_imply ; solve_auto Q
+   | |- _ |-- “ ?Q ” => apply (derivable1s_coq_prop_r Q); solve_auto Q
+   | |- “ ?P ” |-- ?Q => eapply derivable1s_coq_prop_l; intros; andp_cancel
    | |- _ |-- TT => apply derivable1_truep_intros ; auto
    | |- _ => andp_cancel''
     end.
@@ -1035,7 +1044,7 @@ Ltac andp_cancel := asrt_simpl_pure;
 Ltac pureIntros_without_rename := asrt_simpl_pure;
 repeat progress (match goal with 
 | |- ?P |-- ?Q => (match P with 
-                    | context [ [| ?B |]] => apply (coq_prop_andp_left B); intros
+                    | context [ “ ?B ”] => apply (coq_prop_andp_left B); intros
                   end)
 end) ; sepcon_assoc_change .
 
@@ -1240,7 +1249,7 @@ Ltac prop_apply H :=
                 | _ => let _x := fresh "_x"  in evar (_x : T); specialize(h _x);subst _x;
                       find_lemmapre_rec h
                 end
-  | ?P |-- [| ?Q |] => unify_prewithgoal P;
+  | ?P |-- “ ?Q ” => unify_prewithgoal P;
                   match type of h with 
                   | ?P |-- _ =>  let L:= (sepconlistasrts P) in prop_apply_L L h;clear  h
                   end
@@ -1310,7 +1319,7 @@ Tactic Notation "pre_process_default" := pre_process.
 
 (* ----- Goal decomposition and pure export ----- *)
 
-Lemma dump_spatial_left : forall P Q, Q -> P |-- [| Q |].
+Lemma dump_spatial_left : forall P Q, Q -> P |-- “ Q ”.
 Proof.
   intros. easy.
 Qed.
@@ -1326,21 +1335,18 @@ Qed.
 
 Ltac _assert_pure t :=
   lazymatch t with
-  | [| _ |] => idtac
+  | “ _ ” => idtac
   | ?A && ?B => _assert_pure A; _assert_pure B
-  | _ => fail 1 "not pure: RHS contains non-[| _ |] parts"
+  | _ => fail "not pure: RHS contains non-“ _ ” parts"
   end.
 
 Ltac _assert_no_pure t :=
-  first
-  [ lazymatch t with
-    | context [ [| _ |] ] => fail 1 "spatial part contains a pure [| _ |]"
-    | ?A ** ?B => _assert_no_pure A; _assert_no_pure B
-    | ?A && ?B => _assert_no_pure A; _assert_no_pure B
-    | _ => idtac
-    end
-  | fail 1 "spatial part contains a pure [| _ |]"
-  ].
+  lazymatch t with
+  | “ _ ” => fail "spatial part contains a pure “ _ ”"
+  | ?A ** ?B => _assert_no_pure A; _assert_no_pure B
+  | ?A && ?B => _assert_no_pure A; _assert_no_pure B
+  | _ => idtac
+  end.
 
 Ltac split_pure_spatial :=
   normalize;
@@ -1380,17 +1386,17 @@ Tactic Notation "Intros_p" simple_intropattern(x) :=
   lazymatch goal with
   | |- ?P |-- ?Q =>
       lazymatch P with
-      | context [ [| ?B |] ] =>
+      | context [ “ ?B ” ] =>
           apply (coq_prop_andp_left B);
           intro x
-      | _ => fail 1 "Intros_p: no pure [| _ |] on the left"
+      | _ => fail 1 "Intros_p: no pure “ _ ” on the left"
       end
   | _ => fail "Intros_p: goal is not an entailment"
   end.
 
 Lemma add_pure_split : forall (P : Prop) (C F : expr) ,
-  C |-- [| P |] ->
-  ([| P |] && C) |-- F ->
+  C |-- “ P ” ->
+  (“ P ” && C) |-- F ->
   C |-- F.
 Proof.
   unfold derivable1, andp, coq_prop; firstorder.
@@ -1578,16 +1584,16 @@ Ltac sep_apply_r_aux H :=
 
 Ltac prop_apply_p H :=
   lazymatch type of H with
-  | ?P0 |-- [| ?Q0 |] =>
+  | ?P0 |-- “ ?Q0 ” =>
       unify_prewithgoal P0;
       let L := (sepconlistasrts P0) in
       prop_apply_L L H; sepcon_assoc_change
-  | ?P0 --||-- [| ?Q0 |] =>
+  | ?P0 --||-- “ ?Q0 ” =>
       unify_prewithgoal P0;
       let L := (sepconlistasrts P0) in
       prop_apply_L L (proj1 H); sepcon_assoc_change
   | _ =>
-      fail 1 "prop_apply_p: Please instantiate parameters and premises until the lemma has the shape P |-- [| Q |] (or P --||-- [| Q |])."
+      fail 1 "prop_apply_p: Please instantiate parameters and premises until the lemma has the shape P |-- “ Q ” (or P --||-- “ Q ”)."
   end.
 
 Ltac _try_sep_apply_r t := sep_apply_r_aux t.
@@ -1644,7 +1650,7 @@ Tactic Notation "sep_apply_r_atomic" uconstr(t) :=
 
 (* ----- Experimental / disabled ideas kept for reference ----- *)
 
-(* Lemma split_pure_right : forall P Q R, P |-- R -> P |-- [| Q |] -> P |-- R && [| Q |].
+(* Lemma split_pure_right : forall P Q R, P |-- R -> P |-- “ Q ” -> P |-- R && “ Q ”.
 Proof.
   intros. split.
   - apply H. assumption.

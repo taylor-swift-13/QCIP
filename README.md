@@ -1,13 +1,19 @@
 # QCP: A Practical Separation Logic-based C Program Verification Tool
 
 ## File Structure
-- `linux-binary/`, `win-binary/`, `mac-x86-64-binary`, `mac-arm64-binary`: Precompiled QCP binaries
-- `QCP_examples/`: Annotated C programs, split into `Applications/`, `QCP_democases/`, and `LLM_friendly_cases/`
-- `SeparationLogic/`: Rocq scripts to check QCP-generated VCs
-- `tutorial/`: Step-by-step QCP usage guide
-- `run-example-linux.sh`, `run-example-windows.sh`: Scripts to run QCP examples
-- `mcp/`: QCP-mcp and Rocq-mcp files
-- `qide.vsix` : QCP VSCode Extension
+- `linux-binary/`, `win-binary/`, `mac-x86-64-binary/`, `mac-arm64-binary/`: Precompiled QCP binaries, including `symexec`, `StrategyCheck`, `lsp`, and `mcp`.
+- `QCP_examples/`: Annotated C programs used as QCP inputs. Current subtrees are `Applications_human/`, `QCP_demos_human/`, `QCP_demos_LLM/`, and `LLM_bench/`.
+- `SeparationLogic/`: Rocq libraries and generated verification artifacts used to check QCP-generated VCs. Its `examples/` subtree mirrors the main `QCP_examples/` layout.
+- `mcp/`: MCP server integrations. `mcp/qcp-mcp/` provides the QCP MCP server, and `mcp/rocq-mcp/` is a submodule for Rocq interaction.
+- `.agents/`: Agent-facing verification workflow assets. It contains local skills for orchestration, annotation, VC checking, VC proving, and final consistency checks.
+- `AGENTS.md`: Repository-level contract for agents working on end-to-end C verification cases.
+- `.codex/`, `.vscode/`, `.devcontainer/`: Local agent/editor/container configuration.
+- `scripts/`: Utility scripts for repository-level analysis.
+- `tutorial/`: Step-by-step QCP usage guide.
+- `run-example-linux.sh`, `run-example-windows.sh`: Scripts that run QCP examples and refresh generated Rocq files.
+- `categories.json`, `categories.md`: Case categorization metadata.
+- `qide.vsix`: QCP VS Code extension.
+
 
 ## Environment Setup
 
@@ -77,7 +83,7 @@ cd ..
 make depend && make
 ```
 
-If you only want part of the generated files under SeparationLogic/examples, the build targets are now split by the same three folders:
+If you only want part of the generated files under `SeparationLogic/examples`, the build targets are split by the current example groups:
 
 ```bash
 cd SeparationLogic
@@ -92,6 +98,7 @@ make depend-examples && make examples
 make depend-examples-applications && make examples-applications
 make depend-examples-qcp-democases && make examples-qcp-democases
 make depend-examples-llm-friendly-cases && make examples-llm-friendly-cases
+make depend-examples-llm-bench && make examples-llm-bench
 
 # Clean outputs without removing everything
 make clean-core
@@ -99,10 +106,11 @@ make clean-examples
 make clean-examples-applications
 make clean-examples-qcp-democases
 make clean-examples-llm-friendly-cases
+make clean-examples-llm-bench
 make clean-deps
 ```
 
-This is useful because SeparationLogic/examples is organized into Applications, QCP_democases, and LLM_friendly_cases, and you no longer need to regenerate dependencies for all example folders every time.
+This is useful because `SeparationLogic/examples` is organized into `Applications_human`, `QCP_demos_human`, `QCP_demos_LLM`, and `LLM_bench`, and you no longer need to regenerate dependencies for all example folders every time.
 The clean targets follow the same split, so you can remove only core outputs, all example outputs, one example subtree, or just the generated dependency files.
 
 ### Docker Environment Setup
@@ -359,10 +367,43 @@ For more details, refer to:
 - `mcp/qcp-mcp/README.md`
 - `mcp/rocq-mcp/README.md`
 
+## Agent Verification Workflow
+
+The repository includes agent-specific instructions for running a complete verification case, not just isolated edits. The top-level `AGENTS.md` is the entry point. Detailed phase contracts live under `.agents/skills/`.
+
+The supported verification modes are:
+
+- `direct proof`: annotate a C program, run symbolic execution, prove generated Rocq VCs, and perform final checks.
+- `refinement proof`: relate a C program to an abstract monadic program, prove the refinement obligations, and finish the same Rocq/final-check workflow.
+
+The phase state machine is:
+
+```text
+intake -> annotation -> goal-frozen -> vc-checking -> vc-proving -> final-check -> done
+```
+
+Downstream phases may return to `annotation` or `vc-proving` when they expose stale inputs, annotation bugs, or proof obligations that require earlier fixes.
+
+### Agent Roles
+
+- Main agent: owns phase transitions, official file writes, symbolic execution, Rocq compilation, final checks, and case status records.
+- `annotation-subagent`: works only in annotation scratch files, uses `annotation-filling`, and runs `annotation-checking` before anything is integrated into official files.
+- `vc-checking-subagent`: uses `vc-checking` to classify manual VCs and produce proof grouping hints.
+- `vc-proving-subagent`: uses `vc-proving` to prove manual VCs in proving scratch files, normally through the scripted concurrent worker pipeline.
+
+### Agent Skills
+
+- `.agents/skills/verification-orchestrator/`: phase ownership, state machine, scratch lifecycle, formal file boundaries, artifact templates, and stale-input rules.
+- `.agents/skills/annotation-filling/`: spec-first and predicate-first C annotation work using isolated annotation C scratch plus `annotation_scratch_lib`.
+- `.agents/skills/annotation-checking/`: quality gate for mathematical specs, function contracts, assertions, and loop invariants before official integration.
+- `.agents/skills/vc-checking/`: semantic triage of generated VCs and proof group planning.
+- `.agents/skills/vc-proving/`: scripted proof splitting, worker preparation, concurrent proving, validation, helper migration, and manual proof verification.
+- `.agents/skills/final-check/`: final structure audit, symexec freshness check, Rocq compilation, `Admitted`/extra `Axiom` review, and cleanup checks.
+- `.agents/skills/annotation-and-symbolic-execution/`: legacy annotation workflow kept for compatibility; new cases should use `annotation-filling` plus `annotation-checking`.
 
 ## Evaluation
 
 Our evaluation consists of two parts: the Tool component and the VSCode Extension component. 
-- The Tool component allows you to check files in the ``QCP_examples`` tree by running ``sh ./run-example-linux.sh``, and it generates the corresponding Coq files in the ``SeparationLogic/examples/`` directory, grouped under ``Applications/``, ``QCP_democases/``, and ``LLM_friendly_cases/``. 
-- The Rocq build in ``SeparationLogic/`` mirrors this layout with folder-specific targets: ``examples-applications``, ``examples-qcp-democases``, and ``examples-llm-friendly-cases``, together with matching ``depend-examples-*`` targets.
+- The Tool component allows you to check files in the ``QCP_examples`` tree by running ``sh ./run-example-linux.sh``, and it generates the corresponding Coq files in the ``SeparationLogic/examples/`` directory, grouped under ``Applications_human/``, ``QCP_demos_human/``, ``QCP_demos_LLM/``, and ``LLM_bench/``.
+- The Rocq build in ``SeparationLogic/`` mirrors this layout with folder-specific targets: ``examples-applications``, ``examples-qcp-democases``, ``examples-llm-friendly-cases``, and ``examples-llm-bench``, together with matching ``depend-examples-*`` targets.
 - The VSCode Extension component is designed to support real-time verification interaction. You can open any annotated C file to view the current assertion state, which facilitates the continued writing of annotations for proofs.
