@@ -1,0 +1,6 @@
+From QCIPCases.xizi.xizi_double_link_insert_before Require Import xizi_double_link_insert_before_goal xizi_double_link_insert_before_proof_auto xizi_double_link_insert_before_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include xizi_double_link_insert_before_proof_auto.
+  Include xizi_double_link_insert_before_proof_manual.
+End VC_Correctness.
