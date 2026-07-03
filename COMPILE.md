@@ -180,6 +180,74 @@ Note: Only `#include` is natively supported.
 **Coq Integration:**
 The generated `.v` files must be used with SeparationLogic. For details, see `SeparationLogic/README.md`.
 
+## QCIP Local Verification Paths
+
+QCIP-specific verification work is compiled from the repository root:
+
+```bash
+cd /home/yangfp/QCIP
+```
+
+The Rocq logical paths are provided by the root `_CoqProject`. For QCIP cases the important mappings are:
+
+```text
+-R QCIPLib QCIPLib
+-R QCIPCases QCIPCases
+```
+
+Directory roles:
+
+- `QCIPLib/`: reusable Rocq libraries, recursive separation-logic predicates, helper lemmas, and strategy proofs.
+- `QCIPCases/`: generated per-case Rocq artifacts from `symexec`, including `*_goal.v`, `*_proof_auto.v`, `*_proof_manual.v`, and `*_goal_check.v`.
+- `INPUT/`: unannotated, standalone C closures used as problem inputs.
+- `OUTPUT/`: delivery artifacts, annotated source copies, Rocq snapshots, and reports.
+
+Compile reusable QCIP libraries with:
+
+```bash
+coqc $(cat _CoqProject) QCIPLib/xizi/xizi_single_link_common/xizi_single_link_lib_core.v
+coqc $(cat _CoqProject) QCIPLib/xizi/xizi_single_link_common/xizi_single_link_lib.v
+coqc $(cat _CoqProject) QCIPLib/xizi/xizi_single_link_common/xizi_single_link_strategy_goal.v
+coqc $(cat _CoqProject) QCIPLib/xizi/xizi_single_link_common/xizi_single_link_strategy_proof.v
+
+coqc $(cat _CoqProject) QCIPLib/xizi/xizi_double_link_common/xizi_double_link_lib_core.v
+coqc $(cat _CoqProject) QCIPLib/xizi/xizi_double_link_common/xizi_double_link_lib.v
+coqc $(cat _CoqProject) QCIPLib/xizi/xizi_double_link_common/xizi_double_link_strategy_goal.v
+coqc $(cat _CoqProject) QCIPLib/xizi/xizi_double_link_common/xizi_double_link_strategy_proof.v
+```
+
+Compile a generated case with:
+
+```bash
+case=xizi_double_link_empty_rec
+coqc $(cat _CoqProject) QCIPCases/xizi/$case/${case}_goal.v
+coqc $(cat _CoqProject) QCIPCases/xizi/$case/${case}_proof_auto.v
+coqc $(cat _CoqProject) QCIPCases/xizi/$case/${case}_proof_manual.v
+coqc $(cat _CoqProject) QCIPCases/xizi/$case/${case}_goal_check.v
+```
+
+Run `symexec` for a QCIP xizi case with the annotated source under `OUTPUT` and generated Rocq files under `QCIPCases`:
+
+```bash
+case=xizi_double_link_empty_rec
+common=xizi_double_link_common
+
+linux-binary/symexec \
+  --goal-file=QCIPCases/xizi/$case/${case}_goal.v \
+  --proof-auto-file=QCIPCases/xizi/$case/${case}_proof_auto.v \
+  --proof-manual-file=QCIPCases/xizi/$case/${case}_proof_manual.v \
+  --coq-logic-path=QCIPCases.xizi.$case \
+  -IOUTPUT/xizi/$case/source \
+  -IQCP_examples/QCP_demos_LLM/ \
+  -slp OUTPUT/xizi/$case/source QCIPCases.xizi.$case \
+  -slp QCIPLib/xizi/$common QCIPLib.xizi.$common \
+  -slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM \
+  --input-file=OUTPUT/xizi/$case/source/${case}.c \
+  --no-exec-info
+```
+
+Use `common=xizi_single_link_common` for single-link cases and `common=xizi_double_link_common` for double-link cases. `-I` is for C header search paths; `-slp` is for QCP strategy search paths and generated Rocq logical paths. They are not interchangeable.
+
 ## MCP Setup
 
 The `mcp/rocq-mcp` directory is a git submodule. Before configuring MCP, make sure submodule content is initialized and up to date.
