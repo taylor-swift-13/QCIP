@@ -10,7 +10,7 @@ typedef struct CircularArea *CircularAreaType;
 #define RET_FALSE 0
 #define ERROR (-1)
 #define NULL_PARAM_CHECK(p) do { if ((p) == NONE) return ERROR; } while (0)
-#define KPrintf(...) ((void)0)
+// #define KPrintf(...) ((void)0)
 
 struct CircularAreaOps;
 
@@ -31,7 +31,7 @@ x_bool CircularAreaIsEmpty(CircularAreaType circular_area)
 
     if ((circular_area->readidx == circular_area->writeidx) &&
         !circular_area->b_status) {
-        KPrintf("the circular area is empty\n");
+        // KPrintf("the circular area is empty\n");
         return RET_TRUE;
     } else {
         return RET_FALSE;

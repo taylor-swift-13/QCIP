@@ -13,7 +13,7 @@ typedef struct CircularArea *CircularAreaType;
 #define MEM_ALIGN_SIZE 4u
 #define ALIGN_MEN_DOWN(length, align) ((uint32)((length) / (align) * (align)))
 #define CHECK(cond) do { if (!(cond)) return NONE; } while (0)
-#define KPrintf(...) ((void)0)
+// #define KPrintf(...) ((void)0)
 #define x_malloc malloc
 #define x_free free
 
@@ -95,7 +95,7 @@ CircularAreaType CircularAreaInit(uint32 circular_area_length)
 
     CircularAreaType circular_area = x_malloc(sizeof(struct CircularArea));
     if (NONE == circular_area) {
-        KPrintf("CircularAreaInit malloc struct circular_area failed\n");
+        // KPrintf("CircularAreaInit malloc struct circular_area failed\n");
         x_free(circular_area);
         return NONE;
     }
@@ -104,7 +104,7 @@ CircularAreaType CircularAreaInit(uint32 circular_area_length)
 
     circular_area->data_buffer = x_malloc(circular_area_length);
     if (NONE == circular_area->data_buffer) {
-        KPrintf("CircularAreaInit malloc circular_area data_buffer failed\n");
+        // KPrintf("CircularAreaInit malloc circular_area data_buffer failed\n");
         x_free(circular_area->data_buffer);
         return NONE;
     }
@@ -113,9 +113,9 @@ CircularAreaType CircularAreaInit(uint32 circular_area_length)
     circular_area->p_tail = circular_area->data_buffer + circular_area_length;
     circular_area->area_length = circular_area_length;
 
-    KPrintf("CircularAreaInit done p_head %p p_tail %p length %u\n",
-            circular_area->p_head, circular_area->p_tail,
-            circular_area->area_length);
+    // KPrintf("CircularAreaInit done p_head %p p_tail %p length %u\n",
+    //         circular_area->p_head, circular_area->p_tail,
+    //         circular_area->area_length);
 
     circular_area->CircularAreaOperations = &CircularAreaOperations;
 
