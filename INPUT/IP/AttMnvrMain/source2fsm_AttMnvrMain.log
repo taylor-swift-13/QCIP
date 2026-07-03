@@ -1,0 +1,21 @@
+===== source2fsm batch debug =====
+name: AttMnvrMain
+source: IP_AttMnvrMain.c
+source directory: /AttMnvrMain
+output directory: /AttMnvrMain
+copied input .c files:
+  IP_AttMnvrMain.c
+===== docker output =====
+source-only mode: /work/input/IP_AttMnvrMain.c
+source-only cfg
+function "AttMnvrMain" found
+nodes: 8
+edges: 8
+dot: /work/output/.AttMnvrMain.dot
+cfg nodes:
+  n0 [basic] float64 qtm[4]; | float64 Cw[3]; | float64 sX, cX; | unint32 workmode; | workmode = UI8_LO4( WorkMode ); | targetTrack(); | sX = Sinx( sAttMnvr.phair / 2.0 ); | cX = Cosx( sAttMnvr.phair / 2.0 ); | qtm[0] = sX * sAttMnvr.e[0]; | qtm[1] = sX * sAttMnvr.e[1]; | qtm[2] = sX * sAttMnvr.e[2]; | qtm[3] = cX;
+  n1 [if] if ( ( IN_RANGE_CLOSE( workmode, 7, 11 ) ) && ( sAttMnvr.F_AttManeuInVVLH == | 1 ) )
+  n2 [basic] QMulti( sAttMnvr.qtm0, sAttMnvr.qb0, qtm ); | QMulti( sAttPub.qti, sAttPub.qoitemp, sAttMnvr.qtm0 ); | Q2C( sAttMnvr.Ctm0[0], sAttMnvr.qtm0 ); | VectorScalar3( sAttPub.wti, sAttMnvr.e, sAttMnvr.dphair ); | MatrixMulti331( Cw, sAttMnvr.Ctm0[0], sAttPub.woitemp ); | VectorAdd3( sAttPub.wti, sAttPub.wti, Cw );
+  n3 [basic] QMulti( sAttPub.qti, sAttMnvr.qb0, qtm ); | VectorScalar3( sAttPub.wti, sAttMnvr.e, sAttMnvr.dphair );
+  n4 [terminal] return;
+png: /work/output/AttMnvrMain.png

@@ -1,0 +1,811 @@
+# No-Compile Static Analysis Log
+
+Root: /WheelFriction/IP_WheelFriction.c
+Files: 1
+Functions: 1
+Call edges: 1
+Field accesses: 9
+Unresolved calls: 1
+Missing local includes: 0
+Function invariants: 19
+Project invariants: 7
+
+## Missing Local Includes
+- none
+
+## Duplicate Function Definitions
+- none
+
+## Unresolved Calls
+- Sgn2: WheelFriction@IP_WheelFriction.c:17
+
+## Call Graph
+- WheelFriction -> Sgn2?
+
+## State Transitions
+- none
+
+## Field Access Summary
+- para->cut: read=1 write=0 read_write=0 functions=WheelFriction
+- para->kf: read=1 write=0 read_write=0 functions=WheelFriction
+- para->vf0: read=1 write=0 read_write=0 functions=WheelFriction
+- sMWCtrl.para: read=1 write=0 read_write=0 functions=WheelFriction
+- sMWData.F_Valid_MW: read=1 write=0 read_write=0 functions=WheelFriction
+- sMWData.h: read=2 write=0 read_write=0 functions=WheelFriction
+- sMWData.vf: read=0 write=2 read_write=0 functions=WheelFriction
+
+## Project Invariants
+- [project_input_field/medium] para->cut is only read by WheelFriction (field summary)
+- [project_input_field/medium] para->kf is only read by WheelFriction (field summary)
+- [project_input_field/medium] para->vf0 is only read by WheelFriction (field summary)
+- [project_input_field/medium] sMWCtrl.para is only read by WheelFriction (field summary)
+- [project_input_field/medium] sMWData.F_Valid_MW is only read by WheelFriction (field summary)
+- [project_input_field/medium] sMWData.h is only read by WheelFriction (field summary)
+- [project_output_field/medium] sMWData.vf is only written by WheelFriction (field summary)
+
+## Function Details
+### WheelFriction (IP_WheelFriction.c:7)
+- params: void
+- locals: i, para
+- calls: Sgn2
+- undefined_calls: Sgn2
+- reads: F_Valid_MW, Sgn2, TRUE32, cut, h, kf, sMWCtrl, sMWData, vf0
+- writes: i, para, sMWData
+- summary.modifies: sMWData.vf
+- summary.ensures_observed:
+  - i in [0, 3]
+  - sMWData.vf[i] in [0, 0]
+  - i is reset to 0
+  - sMWData.vf[i] is reset to 0
+- invariants:
+  - [value_range/medium] i in [0, 3] (decl unint32@9; literal@13; ++@13; for-loop < 4@13)
+  - [value_range/medium] sMWData.vf[i] in [0, 0] (literal@21)
+  - [condition_range/high]@13 i in [-1.79769e+308, 3] when i < 4 (i < 4)
+  - [branch_condition/high]@15 inside if branch: sMWData.F_Valid_MW[i] == TRUE32 (sMWData.F_Valid_MW[i] == TRUE32)
+  - [loop_index_range/high]@13 i in [0, 3] (for-loop i = 0; i < 4; i++)
+  - [array_index_range/medium]@17 sMWData.vf[i] uses i in [0, 3] (loop@13)
+  - [array_index_range/medium]@17 para->kf[i] uses i in [0, 3] (loop@13)
+  - [array_index_range/medium]@17 sMWData.h[i] uses i in [0, 3] (loop@13)
+  - [array_index_range/medium]@17 para->cut[i] uses i in [0, 3] (loop@13)
+  - [array_index_range/medium]@17 para->vf0[i] uses i in [0, 3] (loop@13)
+  - [array_index_range/medium]@21 sMWData.vf[i] uses i in [0, 3] (loop@13)
+  - [assignment_value/high]@13 i may be assigned 0 (i = 0)
+  - [reset/high]@13 i is reset to 0 (i = 0)
+  - [counter_update/medium]@13 i is nondecreasing at this update (i ++)
+  - [assignment_value/high]@21 sMWData.vf[i] may be assigned 0.0 (sMWData.vf[i] = 0.0)
+  - [reset/high]@21 sMWData.vf[i] is reset to 0 (sMWData.vf[i] = 0.0)
+  - [modifies_fields/high] function may modify fields: sMWData.vf (field writes)
+  - [reads_fields/high] function may read fields: para->cut, para->kf, para->vf0, sMWCtrl.para, sMWData.F_Valid_MW, sMWData.h (field reads)
+  - [modifies_symbols/medium] function may assign symbols: i, para, sMWData.vf[i] (assignments)
+- value_ranges:
+  - i: [0, 3] (decl unint32@9; literal@13; ++@13; for-loop < 4@13)
+  - sMWData.vf[i]: [0, 0] (literal@21)
+- condition_ranges:
+  - i: [-1.79769e+308, 3] when i < 4@13
+- conditions:
+  - for@13: i = 0; i < 4; i++
+  - if@15: sMWData.F_Valid_MW[i] == TRUE32
+- assignments:
+  - 11: para = para,sMWCtrl
+  - 13: i = <literal/unknown>
+  - 13: i ++ <literal/unknown>
+  - 17: sMWData.vf[i] = Sgn2,cut,h,i,kf,para,sMWData,vf0
+  - 21: sMWData.vf[i] = <literal/unknown>
+
+## JSON
+{
+  "root": "/WheelFriction/IP_WheelFriction.c",
+  "files": [
+    {
+      "file": "/WheelFriction/IP_WheelFriction.c",
+      "lines": 27,
+      "includes": [
+        {
+          "name": "IP_WheelFriction.h",
+          "kind": "local",
+          "line": 1,
+          "resolved": "/WheelFriction/IP_WheelFriction.h"
+        }
+      ],
+      "macros": [],
+      "typedefs": [],
+      "globals": [],
+      "functions": [
+        {
+          "name": "WheelFriction",
+          "line": 7,
+          "params": []
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "file_count": 1,
+    "function_count": 1,
+    "defined_function_count": 1,
+    "declared_function_count": 0,
+    "macro_count": 0,
+    "typedef_count": 0,
+    "global_count": 0,
+    "call_edge_count": 1,
+    "unresolved_call_count": 1,
+    "field_access_count": 9,
+    "missing_local_include_count": 0,
+    "function_invariant_count": 19,
+    "project_invariant_count": 7
+  },
+  "symbols": {
+    "defined_functions": {
+      "WheelFriction": [
+        {
+          "file": "/WheelFriction/IP_WheelFriction.c",
+          "line": 7
+        }
+      ]
+    },
+    "declared_functions": {},
+    "macros": {},
+    "typedefs": {},
+    "enum_constants": [],
+    "globals": {},
+    "struct_fields": {},
+    "duplicate_functions": {}
+  },
+  "functions": [
+    {
+      "file": "/WheelFriction/IP_WheelFriction.c",
+      "name": "WheelFriction",
+      "line": 7,
+      "return_type": "void",
+      "params": [],
+      "locals": [
+        "i",
+        "para"
+      ],
+      "calls": [
+        {
+          "name": "Sgn2",
+          "line": 17,
+          "kind": "function",
+          "resolved": false
+        }
+      ],
+      "assignments": [
+        {
+          "line": 11,
+          "lhs": "para",
+          "operator": "=",
+          "rhs": "sMWCtrl.para",
+          "rhs_identifiers": [
+            "para",
+            "sMWCtrl"
+          ]
+        },
+        {
+          "line": 13,
+          "lhs": "i",
+          "operator": "=",
+          "rhs": "0",
+          "rhs_identifiers": []
+        },
+        {
+          "line": 13,
+          "lhs": "i",
+          "operator": "++",
+          "rhs": "",
+          "rhs_identifiers": []
+        },
+        {
+          "line": 17,
+          "lhs": "sMWData.vf[i]",
+          "operator": "=",
+          "rhs": "para->kf[i] * sMWData.h[i] / para->cut[i] + para->vf0[i] * Sgn2( sMWData.h[i] )",
+          "rhs_identifiers": [
+            "Sgn2",
+            "cut",
+            "h",
+            "i",
+            "kf",
+            "para",
+            "sMWData",
+            "vf0"
+          ]
+        },
+        {
+          "line": 21,
+          "lhs": "sMWData.vf[i]",
+          "operator": "=",
+          "rhs": "0.0",
+          "rhs_identifiers": []
+        }
+      ],
+      "conditions": [
+        {
+          "line": 13,
+          "kind": "for",
+          "expression": "i = 0; i < 4; i++",
+          "identifiers": [
+            "i"
+          ]
+        },
+        {
+          "line": 15,
+          "kind": "if",
+          "expression": "sMWData.F_Valid_MW[i] == TRUE32",
+          "identifiers": [
+            "F_Valid_MW",
+            "TRUE32",
+            "i",
+            "sMWData"
+          ]
+        }
+      ],
+      "switch_cases": [],
+      "field_accesses": [
+        {
+          "line": 11,
+          "object": "sMWCtrl",
+          "operator": ".",
+          "field": "para",
+          "access": "read",
+          "name": "sMWCtrl.para"
+        },
+        {
+          "line": 15,
+          "object": "sMWData",
+          "operator": ".",
+          "field": "F_Valid_MW",
+          "access": "read",
+          "name": "sMWData.F_Valid_MW"
+        },
+        {
+          "line": 17,
+          "object": "sMWData",
+          "operator": ".",
+          "field": "vf",
+          "access": "write",
+          "name": "sMWData.vf"
+        },
+        {
+          "line": 17,
+          "object": "para",
+          "operator": "->",
+          "field": "kf",
+          "access": "read",
+          "name": "para->kf"
+        },
+        {
+          "line": 17,
+          "object": "sMWData",
+          "operator": ".",
+          "field": "h",
+          "access": "read",
+          "name": "sMWData.h"
+        },
+        {
+          "line": 17,
+          "object": "para",
+          "operator": "->",
+          "field": "cut",
+          "access": "read",
+          "name": "para->cut"
+        },
+        {
+          "line": 17,
+          "object": "para",
+          "operator": "->",
+          "field": "vf0",
+          "access": "read",
+          "name": "para->vf0"
+        },
+        {
+          "line": 17,
+          "object": "sMWData",
+          "operator": ".",
+          "field": "h",
+          "access": "read",
+          "name": "sMWData.h"
+        },
+        {
+          "line": 21,
+          "object": "sMWData",
+          "operator": ".",
+          "field": "vf",
+          "access": "write",
+          "name": "sMWData.vf"
+        }
+      ],
+      "returns": [
+        {
+          "line": 25,
+          "expression": "",
+          "identifiers": []
+        }
+      ],
+      "macro_uses": [
+        {
+          "name": "MW_PARAM",
+          "line": 8,
+          "known": false
+        },
+        {
+          "name": "TRUE32",
+          "line": 15,
+          "known": false
+        }
+      ],
+      "type_uses": [],
+      "value_ranges": [
+        {
+          "symbol": "i",
+          "range": "[0, 3]",
+          "min": 0.0,
+          "max": 3.0,
+          "evidence": [
+            "decl unint32@9",
+            "literal@13",
+            "++@13",
+            "for-loop < 4@13"
+          ]
+        },
+        {
+          "symbol": "sMWData.vf[i]",
+          "range": "[0, 0]",
+          "min": 0.0,
+          "max": 0.0,
+          "evidence": [
+            "literal@21"
+          ]
+        }
+      ],
+      "condition_ranges": [
+        {
+          "symbol": "i",
+          "range": "[-1.79769e+308, 3]",
+          "min": -1.7976931348623157e+308,
+          "max": 3.0,
+          "line": 13,
+          "condition": "i < 4"
+        }
+      ],
+      "reads": [
+        "F_Valid_MW",
+        "Sgn2",
+        "TRUE32",
+        "cut",
+        "h",
+        "kf",
+        "sMWCtrl",
+        "sMWData",
+        "vf0"
+      ],
+      "writes": [
+        "i",
+        "para",
+        "sMWData"
+      ],
+      "global_reads": [],
+      "global_writes": [],
+      "input_fields": [
+        "para->cut",
+        "para->kf",
+        "para->vf0",
+        "sMWCtrl.para",
+        "sMWData.F_Valid_MW",
+        "sMWData.h"
+      ],
+      "output_fields": [
+        "sMWData.vf"
+      ],
+      "undefined_calls": [
+        "Sgn2"
+      ],
+      "invariants": [
+        {
+          "kind": "value_range",
+          "text": "i in [0, 3]",
+          "confidence": "medium",
+          "evidence": "decl unint32@9; literal@13; ++@13; for-loop < 4@13",
+          "symbol": "i",
+          "min": 0.0,
+          "max": 3.0
+        },
+        {
+          "kind": "value_range",
+          "text": "sMWData.vf[i] in [0, 0]",
+          "confidence": "medium",
+          "evidence": "literal@21",
+          "symbol": "sMWData.vf[i]",
+          "min": 0.0,
+          "max": 0.0
+        },
+        {
+          "kind": "condition_range",
+          "text": "i in [-1.79769e+308, 3] when i < 4",
+          "confidence": "high",
+          "line": 13,
+          "evidence": "i < 4",
+          "symbol": "i",
+          "min": -1.7976931348623157e+308,
+          "max": 3.0
+        },
+        {
+          "kind": "branch_condition",
+          "text": "inside if branch: sMWData.F_Valid_MW[i] == TRUE32",
+          "confidence": "high",
+          "line": 15,
+          "evidence": "sMWData.F_Valid_MW[i] == TRUE32",
+          "identifiers": [
+            "F_Valid_MW",
+            "TRUE32",
+            "i",
+            "sMWData"
+          ]
+        },
+        {
+          "kind": "loop_index_range",
+          "text": "i in [0, 3]",
+          "confidence": "high",
+          "line": 13,
+          "evidence": "for-loop i = 0; i < 4; i++",
+          "symbol": "i",
+          "min": 0.0,
+          "max": 3.0
+        },
+        {
+          "kind": "array_index_range",
+          "text": "sMWData.vf[i] uses i in [0, 3]",
+          "confidence": "medium",
+          "line": 17,
+          "evidence": "loop@13",
+          "array": "sMWData.vf",
+          "index": "i",
+          "min": 0.0,
+          "max": 3.0
+        },
+        {
+          "kind": "array_index_range",
+          "text": "para->kf[i] uses i in [0, 3]",
+          "confidence": "medium",
+          "line": 17,
+          "evidence": "loop@13",
+          "array": "para->kf",
+          "index": "i",
+          "min": 0.0,
+          "max": 3.0
+        },
+        {
+          "kind": "array_index_range",
+          "text": "sMWData.h[i] uses i in [0, 3]",
+          "confidence": "medium",
+          "line": 17,
+          "evidence": "loop@13",
+          "array": "sMWData.h",
+          "index": "i",
+          "min": 0.0,
+          "max": 3.0
+        },
+        {
+          "kind": "array_index_range",
+          "text": "para->cut[i] uses i in [0, 3]",
+          "confidence": "medium",
+          "line": 17,
+          "evidence": "loop@13",
+          "array": "para->cut",
+          "index": "i",
+          "min": 0.0,
+          "max": 3.0
+        },
+        {
+          "kind": "array_index_range",
+          "text": "para->vf0[i] uses i in [0, 3]",
+          "confidence": "medium",
+          "line": 17,
+          "evidence": "loop@13",
+          "array": "para->vf0",
+          "index": "i",
+          "min": 0.0,
+          "max": 3.0
+        },
+        {
+          "kind": "array_index_range",
+          "text": "sMWData.vf[i] uses i in [0, 3]",
+          "confidence": "medium",
+          "line": 21,
+          "evidence": "loop@13",
+          "array": "sMWData.vf",
+          "index": "i",
+          "min": 0.0,
+          "max": 3.0
+        },
+        {
+          "kind": "assignment_value",
+          "text": "i may be assigned 0",
+          "confidence": "high",
+          "line": 13,
+          "evidence": "i = 0",
+          "symbol": "i",
+          "value": "0"
+        },
+        {
+          "kind": "reset",
+          "text": "i is reset to 0",
+          "confidence": "high",
+          "line": 13,
+          "evidence": "i = 0",
+          "symbol": "i"
+        },
+        {
+          "kind": "counter_update",
+          "text": "i is nondecreasing at this update",
+          "confidence": "medium",
+          "line": 13,
+          "evidence": "i ++",
+          "symbol": "i",
+          "direction": "nondecreasing"
+        },
+        {
+          "kind": "assignment_value",
+          "text": "sMWData.vf[i] may be assigned 0.0",
+          "confidence": "high",
+          "line": 21,
+          "evidence": "sMWData.vf[i] = 0.0",
+          "symbol": "sMWData.vf[i]",
+          "value": "0.0"
+        },
+        {
+          "kind": "reset",
+          "text": "sMWData.vf[i] is reset to 0",
+          "confidence": "high",
+          "line": 21,
+          "evidence": "sMWData.vf[i] = 0.0",
+          "symbol": "sMWData.vf[i]"
+        },
+        {
+          "kind": "modifies_fields",
+          "text": "function may modify fields: sMWData.vf",
+          "confidence": "high",
+          "evidence": "field writes",
+          "fields": [
+            "sMWData.vf"
+          ]
+        },
+        {
+          "kind": "reads_fields",
+          "text": "function may read fields: para->cut, para->kf, para->vf0, sMWCtrl.para, sMWData.F_Valid_MW, sMWData.h",
+          "confidence": "high",
+          "evidence": "field reads",
+          "fields": [
+            "para->cut",
+            "para->kf",
+            "para->vf0",
+            "sMWCtrl.para",
+            "sMWData.F_Valid_MW",
+            "sMWData.h"
+          ]
+        },
+        {
+          "kind": "modifies_symbols",
+          "text": "function may assign symbols: i, para, sMWData.vf[i]",
+          "confidence": "medium",
+          "evidence": "assignments",
+          "symbols": [
+            "i",
+            "para",
+            "sMWData.vf[i]"
+          ]
+        }
+      ],
+      "summary": {
+        "requires_observed": [
+          "inside if branch: sMWData.F_Valid_MW[i] == TRUE32"
+        ],
+        "modifies": [
+          "sMWData.vf"
+        ],
+        "ensures_observed": [
+          "i in [0, 3]",
+          "sMWData.vf[i] in [0, 0]",
+          "i is reset to 0",
+          "sMWData.vf[i] is reset to 0"
+        ],
+        "calls": [
+          "Sgn2"
+        ],
+        "undefined_calls": [
+          "Sgn2"
+        ]
+      }
+    }
+  ],
+  "relations": {
+    "call_graph": [
+      {
+        "caller": "WheelFriction",
+        "callee": "Sgn2",
+        "file": "/WheelFriction/IP_WheelFriction.c",
+        "line": 17,
+        "kind": "function",
+        "resolved": false
+      }
+    ],
+    "field_accesses": [
+      {
+        "name": "para->cut",
+        "reads": 1,
+        "writes": 0,
+        "read_writes": 0,
+        "functions": [
+          "WheelFriction"
+        ],
+        "readers": [
+          "WheelFriction"
+        ],
+        "writers": []
+      },
+      {
+        "name": "para->kf",
+        "reads": 1,
+        "writes": 0,
+        "read_writes": 0,
+        "functions": [
+          "WheelFriction"
+        ],
+        "readers": [
+          "WheelFriction"
+        ],
+        "writers": []
+      },
+      {
+        "name": "para->vf0",
+        "reads": 1,
+        "writes": 0,
+        "read_writes": 0,
+        "functions": [
+          "WheelFriction"
+        ],
+        "readers": [
+          "WheelFriction"
+        ],
+        "writers": []
+      },
+      {
+        "name": "sMWCtrl.para",
+        "reads": 1,
+        "writes": 0,
+        "read_writes": 0,
+        "functions": [
+          "WheelFriction"
+        ],
+        "readers": [
+          "WheelFriction"
+        ],
+        "writers": []
+      },
+      {
+        "name": "sMWData.F_Valid_MW",
+        "reads": 1,
+        "writes": 0,
+        "read_writes": 0,
+        "functions": [
+          "WheelFriction"
+        ],
+        "readers": [
+          "WheelFriction"
+        ],
+        "writers": []
+      },
+      {
+        "name": "sMWData.h",
+        "reads": 2,
+        "writes": 0,
+        "read_writes": 0,
+        "functions": [
+          "WheelFriction"
+        ],
+        "readers": [
+          "WheelFriction"
+        ],
+        "writers": []
+      },
+      {
+        "name": "sMWData.vf",
+        "reads": 0,
+        "writes": 2,
+        "read_writes": 0,
+        "functions": [
+          "WheelFriction"
+        ],
+        "readers": [],
+        "writers": [
+          "WheelFriction"
+        ]
+      }
+    ],
+    "state_transitions": [],
+    "missing_local_includes": [],
+    "unresolved_calls": {
+      "Sgn2": [
+        {
+          "caller": "WheelFriction",
+          "file": "/WheelFriction/IP_WheelFriction.c",
+          "line": 17
+        }
+      ]
+    }
+  },
+  "invariants": {
+    "project": [
+      {
+        "kind": "project_input_field",
+        "text": "para->cut is only read by WheelFriction",
+        "confidence": "medium",
+        "evidence": "field summary",
+        "field": "para->cut",
+        "readers": [
+          "WheelFriction"
+        ]
+      },
+      {
+        "kind": "project_input_field",
+        "text": "para->kf is only read by WheelFriction",
+        "confidence": "medium",
+        "evidence": "field summary",
+        "field": "para->kf",
+        "readers": [
+          "WheelFriction"
+        ]
+      },
+      {
+        "kind": "project_input_field",
+        "text": "para->vf0 is only read by WheelFriction",
+        "confidence": "medium",
+        "evidence": "field summary",
+        "field": "para->vf0",
+        "readers": [
+          "WheelFriction"
+        ]
+      },
+      {
+        "kind": "project_input_field",
+        "text": "sMWCtrl.para is only read by WheelFriction",
+        "confidence": "medium",
+        "evidence": "field summary",
+        "field": "sMWCtrl.para",
+        "readers": [
+          "WheelFriction"
+        ]
+      },
+      {
+        "kind": "project_input_field",
+        "text": "sMWData.F_Valid_MW is only read by WheelFriction",
+        "confidence": "medium",
+        "evidence": "field summary",
+        "field": "sMWData.F_Valid_MW",
+        "readers": [
+          "WheelFriction"
+        ]
+      },
+      {
+        "kind": "project_input_field",
+        "text": "sMWData.h is only read by WheelFriction",
+        "confidence": "medium",
+        "evidence": "field summary",
+        "field": "sMWData.h",
+        "readers": [
+          "WheelFriction"
+        ]
+      },
+      {
+        "kind": "project_output_field",
+        "text": "sMWData.vf is only written by WheelFriction",
+        "confidence": "medium",
+        "evidence": "field summary",
+        "field": "sMWData.vf",
+        "writers": [
+          "WheelFriction"
+        ]
+      }
+    ]
+  }
+}

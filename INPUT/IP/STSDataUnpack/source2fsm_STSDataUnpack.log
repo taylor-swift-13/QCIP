@@ -1,0 +1,33 @@
+===== source2fsm batch debug =====
+name: STSDataUnpack
+source: IP_STSDataUnpack.c
+source directory: /0526/Orbiter_flat_out/STSDataUnpack
+output directory: /0526/Orbiter_flat_out/STSDataUnpack
+copied input .c files:
+  IP_STSDataUnpack.c
+===== docker output =====
+source-only mode: /work/input/IP_STSDataUnpack.c
+source-only cfg
+function "STSDataUnpack" found
+nodes: 20
+edges: 25
+dot: /work/output/.STSDataUnpack.dot
+cfg nodes:
+  n0 [basic] UTYPECONVER32 uc32; | llong64 tsm; | unint32 SyncTemp; | siint32 offsetTemp; | unint32 modeErr = FALSE32; | unint32 attErr = FALSE32; | unint32 i; | unint32 nStarsIden; | uc32.ui32 = 0; | uc32.si32 = 0; | sSTSObj[devNO].ADBValid = FALSE32;
+  n1 [if] if ( sSTSObj[devNO].dev.comFlag == TRUE32 )
+  n2 [basic] uc32.ui08[3] = pSrc[34]; | uc32.ui08[2] = pSrc[35]; | uc32.ui08[1] = pSrc[36]; | uc32.ui08[0] = pSrc[37]; | SyncTemp = uc32.ui32; | uc32.ui08[3] = pSrc[38]; | uc32.ui08[2] = pSrc[39]; | uc32.ui08[1] = pSrc[40]; | uc32.ui08[0] = pSrc[41]; | offsetTemp = uc32.si32; | nStarsIden = pSrc[43]; | sSTSObj[devNO].mode = UI32_BIT_GET4( pSrc[44], 1);
+  n3 [if] if ( sSTSObj[devNO].mode != 0x4 )
+  n4 [basic] modeErr = TRUE32;
+  n5 [if] if ( UI32_BIT_GET3( pSrc[48], 0) != 0x7 )
+  n6 [basic] attErr = TRUE32;
+  n7 [if] if ( ( modeErr == TRUE32 ) /* 非C模式 */ || ( attErr == TRUE32 ) /* 姿态无效 */ || | ( nStarsIden < 6 ) /* 识别星数不够 */ || ( ( SyncTemp == sSTSObj[devNO].SYNCCnt ) | && ( offsetTemp == sSTSObj[devNO].OffSet ) ) )
+  n8 [basic] sSTSObj[devNO].ADBValid = FALSE32;
+  n9 [basic] sSTSObj[devNO].ADBValid = TRUE32; | sSTSObj[devNO].SYNCCnt = SyncTemp; | sSTSObj[devNO].OffSet = offsetTemp;
+  n10 [loop] for ( i = 0; i < 4; i++ )
+  n11 [basic] uc32.ui08[3] = pSrc[12+4*i]; | uc32.ui08[2] = pSrc[13+4*i]; | uc32.ui08[1] = pSrc[14+4*i]; | uc32.ui08[0] = pSrc[15+4*i]; | sSTSObj[devNO].qINT[i] = uc32.si32;
+  n12 [basic] tsm = sSyncTime.tLong + sSTSObj[devNO].OffSet;
+  n13 [if] if ( tsm > TIME_D2L( sTime.tDbl ) )
+  n14 [basic] tsm = tsm - 1024000;
+  n15 [basic] sSTSObj[devNO].attTimeL = tsm; | sSTSObj[devNO].attTimeMS = sSTSObj[devNO].attTimeL / ONE_MILSEC;
+  n16 [terminal] return;
+png: /work/output/STSDataUnpack.png

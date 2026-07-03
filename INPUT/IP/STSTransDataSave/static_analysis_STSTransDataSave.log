@@ -1,0 +1,442 @@
+# No-Compile Static Analysis Log
+
+Root: /0526/Orbiter_flat_out/STSTransDataSave/IP_STSTransDataSave.c
+Files: 1
+Functions: 1
+Call edges: 1
+Field accesses: 5
+Unresolved calls: 1
+Missing local includes: 0
+Function invariants: 6
+Project invariants: 2
+
+## Missing Local Includes
+- none
+
+## Duplicate Function Definitions
+- none
+
+## Unresolved Calls
+- Memcpyx: STSTransDataSave@IP_STSTransDataSave.c:13
+
+## Call Graph
+- STSTransDataSave -> Memcpyx?
+
+## State Transitions
+- none
+
+## Field Access Summary
+- sSTSTran.dataBuf: read=1 write=0 read_write=0 functions=STSTransDataSave
+- sSTSTran.ptr: read=3 write=1 read_write=0 functions=STSTransDataSave
+
+## Project Invariants
+- [project_input_field/medium] sSTSTran.dataBuf is only read by STSTransDataSave (field summary)
+- [project_state_field/medium] sSTSTran.ptr is read and written (field summary)
+
+## Function Details
+### STSTransDataSave (IP_STSTransDataSave.c:7)
+- params: void
+- locals: pDst
+- calls: Memcpyx
+- undefined_calls: Memcpyx
+- reads: SRAM_BASE, STS_PK_UP, ptr, sSTSTran
+- writes: pDst, sSTSTran
+- summary.modifies: sSTSTran.ptr
+- summary.ensures_observed:
+  - pDst in [0, 4294967295]
+- invariants:
+  - [value_range/medium] pDst in [0, 4294967295] (decl unint32@8)
+  - [condition_range/high]@10 sSTSTran.ptr in [-1.79769e+308, 775] when sSTSTran.ptr < 776 (sSTSTran.ptr < 776)
+  - [branch_condition/high]@10 inside if branch: sSTSTran.ptr < 776 (sSTSTran.ptr < 776)
+  - [modifies_fields/high] function may modify fields: sSTSTran.ptr (field writes)
+  - [reads_fields/high] function may read fields: sSTSTran.dataBuf, sSTSTran.ptr (field reads)
+  - [modifies_symbols/medium] function may assign symbols: pDst, sSTSTran.ptr (assignments)
+- value_ranges:
+  - pDst: [0, 4294967295] (decl unint32@8)
+- condition_ranges:
+  - sSTSTran.ptr: [-1.79769e+308, 775] when sSTSTran.ptr < 776@10
+- conditions:
+  - if@10: sSTSTran.ptr < 776
+- assignments:
+  - 12: pDst = SRAM_BASE,STS_PK_UP,ptr,sSTSTran
+  - 14: sSTSTran.ptr = ptr,sSTSTran
+
+## JSON
+{
+  "root": "/0526/Orbiter_flat_out/STSTransDataSave/IP_STSTransDataSave.c",
+  "files": [
+    {
+      "file": "/0526/Orbiter_flat_out/STSTransDataSave/IP_STSTransDataSave.c",
+      "lines": 19,
+      "includes": [
+        {
+          "name": "IP_STSTransDataSave.h",
+          "kind": "local",
+          "line": 1,
+          "resolved": "/0526/Orbiter_flat_out/STSTransDataSave/IP_STSTransDataSave.h"
+        }
+      ],
+      "macros": [],
+      "typedefs": [],
+      "globals": [],
+      "functions": [
+        {
+          "name": "STSTransDataSave",
+          "line": 7,
+          "params": []
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "file_count": 1,
+    "function_count": 1,
+    "defined_function_count": 1,
+    "declared_function_count": 0,
+    "macro_count": 0,
+    "typedef_count": 0,
+    "global_count": 0,
+    "call_edge_count": 1,
+    "unresolved_call_count": 1,
+    "field_access_count": 5,
+    "missing_local_include_count": 0,
+    "function_invariant_count": 6,
+    "project_invariant_count": 2
+  },
+  "symbols": {
+    "defined_functions": {
+      "STSTransDataSave": [
+        {
+          "file": "/0526/Orbiter_flat_out/STSTransDataSave/IP_STSTransDataSave.c",
+          "line": 7
+        }
+      ]
+    },
+    "declared_functions": {},
+    "macros": {},
+    "typedefs": {},
+    "enum_constants": [],
+    "globals": {},
+    "struct_fields": {},
+    "duplicate_functions": {}
+  },
+  "functions": [
+    {
+      "file": "/0526/Orbiter_flat_out/STSTransDataSave/IP_STSTransDataSave.c",
+      "name": "STSTransDataSave",
+      "line": 7,
+      "return_type": "void",
+      "params": [],
+      "locals": [
+        "pDst"
+      ],
+      "calls": [
+        {
+          "name": "Memcpyx",
+          "line": 13,
+          "kind": "function",
+          "resolved": false
+        }
+      ],
+      "assignments": [
+        {
+          "line": 12,
+          "lhs": "pDst",
+          "operator": "=",
+          "rhs": "SRAM_BASE + STS_PK_UP + sSTSTran.ptr",
+          "rhs_identifiers": [
+            "SRAM_BASE",
+            "STS_PK_UP",
+            "ptr",
+            "sSTSTran"
+          ]
+        },
+        {
+          "line": 14,
+          "lhs": "sSTSTran.ptr",
+          "operator": "=",
+          "rhs": "sSTSTran.ptr + 248",
+          "rhs_identifiers": [
+            "ptr",
+            "sSTSTran"
+          ]
+        }
+      ],
+      "conditions": [
+        {
+          "line": 10,
+          "kind": "if",
+          "expression": "sSTSTran.ptr < 776",
+          "identifiers": [
+            "ptr",
+            "sSTSTran"
+          ]
+        }
+      ],
+      "switch_cases": [],
+      "field_accesses": [
+        {
+          "line": 10,
+          "object": "sSTSTran",
+          "operator": ".",
+          "field": "ptr",
+          "access": "read",
+          "name": "sSTSTran.ptr"
+        },
+        {
+          "line": 12,
+          "object": "sSTSTran",
+          "operator": ".",
+          "field": "ptr",
+          "access": "read",
+          "name": "sSTSTran.ptr"
+        },
+        {
+          "line": 13,
+          "object": "sSTSTran",
+          "operator": ".",
+          "field": "dataBuf",
+          "access": "read",
+          "name": "sSTSTran.dataBuf"
+        },
+        {
+          "line": 14,
+          "object": "sSTSTran",
+          "operator": ".",
+          "field": "ptr",
+          "access": "write",
+          "name": "sSTSTran.ptr"
+        },
+        {
+          "line": 14,
+          "object": "sSTSTran",
+          "operator": ".",
+          "field": "ptr",
+          "access": "read",
+          "name": "sSTSTran.ptr"
+        }
+      ],
+      "returns": [
+        {
+          "line": 17,
+          "expression": "",
+          "identifiers": []
+        }
+      ],
+      "macro_uses": [
+        {
+          "name": "SRAM_BASE",
+          "line": 12,
+          "known": false
+        },
+        {
+          "name": "STS_PK_UP",
+          "line": 12,
+          "known": false
+        }
+      ],
+      "type_uses": [],
+      "value_ranges": [
+        {
+          "symbol": "pDst",
+          "range": "[0, 4294967295]",
+          "min": 0.0,
+          "max": 4294967295.0,
+          "evidence": [
+            "decl unint32@8"
+          ]
+        }
+      ],
+      "condition_ranges": [
+        {
+          "symbol": "sSTSTran.ptr",
+          "range": "[-1.79769e+308, 775]",
+          "min": -1.7976931348623157e+308,
+          "max": 775.0,
+          "line": 10,
+          "condition": "sSTSTran.ptr < 776"
+        }
+      ],
+      "reads": [
+        "SRAM_BASE",
+        "STS_PK_UP",
+        "ptr",
+        "sSTSTran"
+      ],
+      "writes": [
+        "pDst",
+        "sSTSTran"
+      ],
+      "global_reads": [],
+      "global_writes": [],
+      "input_fields": [
+        "sSTSTran.dataBuf",
+        "sSTSTran.ptr"
+      ],
+      "output_fields": [
+        "sSTSTran.ptr"
+      ],
+      "undefined_calls": [
+        "Memcpyx"
+      ],
+      "invariants": [
+        {
+          "kind": "value_range",
+          "text": "pDst in [0, 4294967295]",
+          "confidence": "medium",
+          "evidence": "decl unint32@8",
+          "symbol": "pDst",
+          "min": 0.0,
+          "max": 4294967295.0
+        },
+        {
+          "kind": "condition_range",
+          "text": "sSTSTran.ptr in [-1.79769e+308, 775] when sSTSTran.ptr < 776",
+          "confidence": "high",
+          "line": 10,
+          "evidence": "sSTSTran.ptr < 776",
+          "symbol": "sSTSTran.ptr",
+          "min": -1.7976931348623157e+308,
+          "max": 775.0
+        },
+        {
+          "kind": "branch_condition",
+          "text": "inside if branch: sSTSTran.ptr < 776",
+          "confidence": "high",
+          "line": 10,
+          "evidence": "sSTSTran.ptr < 776",
+          "identifiers": [
+            "ptr",
+            "sSTSTran"
+          ]
+        },
+        {
+          "kind": "modifies_fields",
+          "text": "function may modify fields: sSTSTran.ptr",
+          "confidence": "high",
+          "evidence": "field writes",
+          "fields": [
+            "sSTSTran.ptr"
+          ]
+        },
+        {
+          "kind": "reads_fields",
+          "text": "function may read fields: sSTSTran.dataBuf, sSTSTran.ptr",
+          "confidence": "high",
+          "evidence": "field reads",
+          "fields": [
+            "sSTSTran.dataBuf",
+            "sSTSTran.ptr"
+          ]
+        },
+        {
+          "kind": "modifies_symbols",
+          "text": "function may assign symbols: pDst, sSTSTran.ptr",
+          "confidence": "medium",
+          "evidence": "assignments",
+          "symbols": [
+            "pDst",
+            "sSTSTran.ptr"
+          ]
+        }
+      ],
+      "summary": {
+        "requires_observed": [
+          "inside if branch: sSTSTran.ptr < 776"
+        ],
+        "modifies": [
+          "sSTSTran.ptr"
+        ],
+        "ensures_observed": [
+          "pDst in [0, 4294967295]"
+        ],
+        "calls": [
+          "Memcpyx"
+        ],
+        "undefined_calls": [
+          "Memcpyx"
+        ]
+      }
+    }
+  ],
+  "relations": {
+    "call_graph": [
+      {
+        "caller": "STSTransDataSave",
+        "callee": "Memcpyx",
+        "file": "/0526/Orbiter_flat_out/STSTransDataSave/IP_STSTransDataSave.c",
+        "line": 13,
+        "kind": "function",
+        "resolved": false
+      }
+    ],
+    "field_accesses": [
+      {
+        "name": "sSTSTran.dataBuf",
+        "reads": 1,
+        "writes": 0,
+        "read_writes": 0,
+        "functions": [
+          "STSTransDataSave"
+        ],
+        "readers": [
+          "STSTransDataSave"
+        ],
+        "writers": []
+      },
+      {
+        "name": "sSTSTran.ptr",
+        "reads": 3,
+        "writes": 1,
+        "read_writes": 0,
+        "functions": [
+          "STSTransDataSave"
+        ],
+        "readers": [
+          "STSTransDataSave"
+        ],
+        "writers": [
+          "STSTransDataSave"
+        ]
+      }
+    ],
+    "state_transitions": [],
+    "missing_local_includes": [],
+    "unresolved_calls": {
+      "Memcpyx": [
+        {
+          "caller": "STSTransDataSave",
+          "file": "/0526/Orbiter_flat_out/STSTransDataSave/IP_STSTransDataSave.c",
+          "line": 13
+        }
+      ]
+    }
+  },
+  "invariants": {
+    "project": [
+      {
+        "kind": "project_input_field",
+        "text": "sSTSTran.dataBuf is only read by STSTransDataSave",
+        "confidence": "medium",
+        "evidence": "field summary",
+        "field": "sSTSTran.dataBuf",
+        "readers": [
+          "STSTransDataSave"
+        ]
+      },
+      {
+        "kind": "project_state_field",
+        "text": "sSTSTran.ptr is read and written",
+        "confidence": "medium",
+        "evidence": "field summary",
+        "field": "sSTSTran.ptr",
+        "readers": [
+          "STSTransDataSave"
+        ],
+        "writers": [
+          "STSTransDataSave"
+        ]
+      }
+    ]
+  }
+}

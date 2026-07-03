@@ -1,0 +1,35 @@
+===== source2fsm batch debug =====
+name: STSCmdPack
+source: IP_STSCmdPack.c
+source directory: /0526/Orbiter_flat_out/STSCmdPack
+output directory: /0526/Orbiter_flat_out/STSCmdPack
+copied input .c files:
+  IP_STSCmdPack.c
+===== docker output =====
+source-only mode: /work/input/IP_STSCmdPack.c
+source-only cfg
+function "STSCmdPack" found
+nodes: 22
+edges: 28
+dot: /work/output/.STSCmdPack.dot
+cfg nodes:
+  n0 [basic] unint32 pkLen = 0; | unint32 chkSum = 0; | unint32 cmdLen = 0; | unint32 valid = TRUE32; | unint08 * pBuf; | pBuf = &sSTSObj[devNO].testBuf[0]; | Memsetx( pBuf, 0, 64 ); | pBuf[0] = 0xA4; | pBuf[1] = 0x2B; | pBuf[2] = 0xB1; | pBuf[3] = 0xF2;
+  n1 [switch] switch ( cmdID )
+  n2 [case] case 1:
+  n3 [terminal] pBuf[8] = 0x0D; | cmdLen = 40; | break;
+  n4 [case] case 2:
+  n5 [terminal] pBuf[8] = 0x0D; | pBuf[17] = 1; | pBuf[18] = 0xFF; | pBuf[19] = 0xFF; | pBuf[25] = 1; | pBuf[26] = 0xFF; | pBuf[27] = 0xFF; | cmdLen = 40; | break;
+  n6 [case] case 3:
+  n7 [terminal] pBuf[8] = 0x02; | pBuf[13] = 0x20; | pBuf[14] = 0x00; | pBuf[15] = 0x20; | cmdLen = 4; | break;
+  n8 [case] case 4:
+  n9 [terminal] pBuf[8] = 0x02; | pBuf[14] = 0x00; | pBuf[15] = 0x20; | cmdLen = 4; | break;
+  n10 [case] case 5:
+  n11 [terminal] pBuf[8] = 0x1; | cmdLen = 0; | break;
+  n12 [case] case 6:
+  n13 [terminal] pBuf[8] = 0xFE; | cmdLen = 0; | break;
+  n14 [case] default:
+  n15 [terminal] valid = FALSE32; | break;
+  n16 [if] if ( valid == TRUE32 )
+  n17 [basic] pBuf[9] = UI32_HILO8(cmdLen); | pBuf[10] = UI32_LOHI8(cmdLen); | pBuf[11] = UI32_LOLO8(cmdLen); | pkLen = cmdLen + 12; | chkSum = CheckSumAdd08to32( &pBuf[8], (siint32)( cmdLen + 4 ) ); | pBuf[4] = UI32_HIHI8(chkSum); | pBuf[5] = UI32_HILO8(chkSum); | pBuf[6] = UI32_LOHI8(chkSum); | pBuf[7] = UI32_LOLO8(chkSum);
+  n18 [terminal] return pkLen;
+png: /work/output/STSCmdPack.png
