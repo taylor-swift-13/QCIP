@@ -1,0 +1,32 @@
+## Annotation Checking Report
+
+- status: failed
+- checked_scope: IP_STSTransDataSave r3 byte-copy annotation candidate in `.tmp/INPUT/IP/STSTransDataSave/r3/` and r3 `annotation_scratch_lib` in `.tmp/SeparationLogic/examples/LLM_bench/Engineering/STSTransDataSave/r3/`
+- qcp_mcp_requirement_satisfied: yes
+- annotation_scratch_lib_coqc_status: passed
+- spec_definition_status: conditionally reasonable but not accepted because C scratch imports a different scratch lib path
+- function_spec_status: failed due scratch/lib reference inconsistency
+- invariant_status: not applicable; target function has no loop invariants
+- annotation_scratch_lib_changes: r3 scratch lib defines `STS_PACKET_BASE`, `STS_PACKET_WINDOW_LEN`, `STS_COPY_LEN`, `STS_DATABUF_LEN`, `STS_PTR_LIMIT`, `STSTransDataSavePost`, `STSSramAfterCopy`, and `STSTransDataSaveBytePost`
+- summary: r3 makes substantive progress over the ptr-only baseline and the byte-copy spec is predicate-first: `STSSramAfterCopy` specifies the SRAM packet-window post-state by list slicing/concatenation, and `STSTransDataSaveBytePost` combines that with the conditional ptr update. The scratch lib compiles under `_CoqProject` flags, and the recorded MCP symbolic run reports success to file tail. However, the checked C scratch imports `SimpleC.EE.LLM_bench.Engineering.STSTransDataSave.r2.IP_STSTransDataSave__annotation_subagent_tmp_lib`, while the ticket requires checking the r3 annotation_scratch_lib at `.tmp/SeparationLogic/examples/LLM_bench/Engineering/STSTransDataSave/r3/IP_STSTransDataSave__annotation_subagent_tmp_lib.v`. The current `.tmp` tree contains only the r3 lib, so the C candidate and the checked lib are not a consistent pair. Because annotation-checking must confirm that scratch C and annotation_scratch_lib reference the same accepted spec definitions, this candidate cannot be marked `passed`.
+- failed_checks:
+  - C/lib consistency: failed. The C scratch `/*@ Import Coq ... */` points to `.STSTransDataSave.r2.IP_STSTransDataSave__annotation_subagent_tmp_lib`, not `.STSTransDataSave.r3.IP_STSTransDataSave__annotation_subagent_tmp_lib`.
+  - Ticket conformance: failed. The required input lib is the r3 annotation_scratch_lib, but the candidate C annotation does not import that module.
+  - Pass gate: failed. A `passed` checking report would allow main to integrate the wrong or stale module reference.
+- passed_checks:
+  - qcp-mcp evidence: the recorded `mcp_symbolic_999_output.txt` reports `result: success`, `errormessage: null`, loaded `char_array` strategies, and file-tail witness summary for `STSTransDataSave`; this satisfies the qcp-mcp-style execution requirement for the recorded candidate.
+  - r3 annotation_scratch_lib compile: `coqc $(tr -d '\r' < _CoqProject) .tmp/SeparationLogic/examples/LLM_bench/Engineering/STSTransDataSave/r3/IP_STSTransDataSave__annotation_subagent_tmp_lib.v` returned exit code 0.
+  - Spec shape: the r3 lib is predicate-first rather than a C algorithm mirror; it states conditional SRAM list replacement and conditional pointer update without defining a Rocq implementation of `STSTransDataSave` or `Memcpyx`.
+  - Branch intent: the C annotation attempts to model true branch copy from `dataBuf[0..248)` into `1074343936 + ptr` followed by `ptr + 248`, and false branch preservation of SRAM and `ptr`.
+  - Builtin array usage: `CharArray::full` is reasonable for the available byte-buffer strategy support in this project; unsigned-char signedness should remain noted for main/VC proving because `unint08` is an unsigned byte alias while the builtin strategy is named `CharArray`.
+- required_annotation_rework:
+  - Update the r3 scratch C import to the r3 module path: `SimpleC.EE.LLM_bench.Engineering.STSTransDataSave.r3.IP_STSTransDataSave__annotation_subagent_tmp_lib`.
+  - Re-run the qcp-mcp symbolic check on that exact r3 C + r3 lib pair, then repeat annotation-checking.
+  - Preserve the existing `Memcpyx` call shape using `&(sSTSTran.dataBuf[0])`, because the recorded witness evidence shows it avoids the previous dataBuf precondition mismatch.
+- required_annotation_scratch_lib_rework:
+  - No semantic rewrite is required by this checking round. The r3 lib passed compile and its definitions are mathematically acceptable for the byte-copy post-state.
+  - If the import path is corrected, ensure the module logical path matches the scratch directory used by the qcp-mcp/symexec command.
+- ready_for_main_common_case_formal_lib_update: no
+- ready_for_main_symexec: no
+- timing_summary: r3 checking read ticket, checking skill, spec-quality checklist, scratch C/header/lib, MCP evidence; compiled r3 scratch lib successfully; stopped before pass due C/lib path mismatch.
+- timing_gaps: no full rerun after patch was performed because this checking task did not edit the candidate.
