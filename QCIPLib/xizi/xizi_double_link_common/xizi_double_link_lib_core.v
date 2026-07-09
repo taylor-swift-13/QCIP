@@ -37,6 +37,7 @@ Fixpoint generic_dllseg
   | nil => “ x = tail ” && “ prev = last ” && emp
   | a :: l0 =>
       “ x <> NULL ” &&
+      “ x <> tail ” &&
       EX y: addr,
         storeA x y prev a **
         generic_dllseg storeA y x tail last l0
@@ -60,27 +61,3 @@ Definition dll_addr_store (struct_name next_field prev_field: string)
 Definition dll_head_store (struct_name next_field prev_field: string)
   (head first last: addr): Assertion :=
   dll_links struct_name next_field prev_field head first last.
-
-Module Type DLL_LAYOUT.
-  Parameter Inline struct_name : string.
-  Parameter Inline next_field : string.
-  Parameter Inline prev_field : string.
-End DLL_LAYOUT.
-
-Module DLLLib (Layout : DLL_LAYOUT).
-
-  Import Layout.
-
-  Definition addr_node_store : addr -> addr -> addr -> addr -> Assertion :=
-    dll_addr_store struct_name next_field prev_field.
-
-  Definition head_store : addr -> addr -> addr -> Assertion :=
-    dll_head_store struct_name next_field prev_field.
-
-  Definition dllseg : addr -> addr -> addr -> addr -> list addr -> Assertion :=
-    generic_dllseg addr_node_store.
-
-  Definition dll : addr -> list addr -> Assertion :=
-    generic_dll_head addr_node_store head_store.
-
-End DLLLib.

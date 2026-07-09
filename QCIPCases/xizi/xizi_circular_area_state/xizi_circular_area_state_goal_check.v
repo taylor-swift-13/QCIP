@@ -1,0 +1,6 @@
+From QCIPCases.xizi.xizi_circular_area_state Require Import xizi_circular_area_state_goal xizi_circular_area_state_proof_auto xizi_circular_area_state_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include xizi_circular_area_state_proof_auto.
+  Include xizi_circular_area_state_proof_manual.
+End VC_Correctness.
