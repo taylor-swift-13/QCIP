@@ -21,92 +21,16 @@ Local Open Scope sac.
 
 (*----- Function float_clamp -----*)
 
-Definition float_clamp_safety_wit_1 := 
-(
-forall (hi_pre: fp32) (lo_pre: fp32) (x_pre: fp32) (PreH1 : (clampFloatSafe x_pre lo_pre hi_pre )) ,
-  ((( &( "hi" ) )) # Ptr  |-> hi_pre)
-  **  ((( &( "lo" ) )) # Ptr  |-> lo_pre)
-  **  ((( &( "x" ) )) # Ptr  |-> x_pre)
-|--
-  “ (fp32_isFinite x_pre ) ” 
-  &&  “ (fp32_isFinite lo_pre ) ”
-) \/
-(
-forall (hi_pre: fp32) (lo_pre: fp32) (x_pre: fp32) (PreH1 : (clampFloatSafe x_pre lo_pre hi_pre )) ,
-  ((( &( "hi" ) )) # Ptr  |-> hi_pre)
-  **  ((( &( "lo" ) )) # Ptr  |-> lo_pre)
-  **  ((( &( "x" ) )) # Ptr  |-> x_pre)
-|--
-  “ (fp32_isFinite x_pre ) ” 
-  &&  “ (fp32_isFinite lo_pre ) ”
-).
-
-Definition float_clamp_safety_wit_1_split_goal_1 := 
-forall (hi_pre: fp32) (lo_pre: fp32) (x_pre: fp32) (PreH1 : (clampFloatSafe x_pre lo_pre hi_pre )) ,
-  ((( &( "hi" ) )) # Ptr  |-> hi_pre)
-  **  ((( &( "lo" ) )) # Ptr  |-> lo_pre)
-  **  ((( &( "x" ) )) # Ptr  |-> x_pre)
-|--
-  “ (fp32_isFinite x_pre ) ”
-.
-
-Definition float_clamp_safety_wit_1_split_goal_2 := 
-forall (hi_pre: fp32) (lo_pre: fp32) (x_pre: fp32) (PreH1 : (clampFloatSafe x_pre lo_pre hi_pre )) ,
-  ((( &( "hi" ) )) # Ptr  |-> hi_pre)
-  **  ((( &( "lo" ) )) # Ptr  |-> lo_pre)
-  **  ((( &( "x" ) )) # Ptr  |-> x_pre)
-|--
-  “ (fp32_isFinite lo_pre ) ”
-.
-
-Definition float_clamp_safety_wit_2 := 
-(
-forall (hi_pre: fp32) (lo_pre: fp32) (x_pre: fp32) (PreH1 : (fp32_GE x_pre lo_pre )) (PreH2 : (clampFloatSafe x_pre lo_pre hi_pre )) ,
-  ((( &( "hi" ) )) # Ptr  |-> hi_pre)
-  **  ((( &( "lo" ) )) # Ptr  |-> lo_pre)
-  **  ((( &( "x" ) )) # Ptr  |-> x_pre)
-|--
-  “ (fp32_isFinite x_pre ) ” 
-  &&  “ (fp32_isFinite hi_pre ) ”
-) \/
-(
-forall (hi_pre: fp32) (lo_pre: fp32) (x_pre: fp32) (PreH1 : (fp32_GE x_pre lo_pre )) (PreH2 : (clampFloatSafe x_pre lo_pre hi_pre )) ,
-  ((( &( "hi" ) )) # Ptr  |-> hi_pre)
-  **  ((( &( "lo" ) )) # Ptr  |-> lo_pre)
-  **  ((( &( "x" ) )) # Ptr  |-> x_pre)
-|--
-  “ (fp32_isFinite x_pre ) ” 
-  &&  “ (fp32_isFinite hi_pre ) ”
-).
-
-Definition float_clamp_safety_wit_2_split_goal_1 := 
-forall (hi_pre: fp32) (lo_pre: fp32) (x_pre: fp32) (PreH1 : (fp32_GE x_pre lo_pre )) (PreH2 : (clampFloatSafe x_pre lo_pre hi_pre )) ,
-  ((( &( "hi" ) )) # Ptr  |-> hi_pre)
-  **  ((( &( "lo" ) )) # Ptr  |-> lo_pre)
-  **  ((( &( "x" ) )) # Ptr  |-> x_pre)
-|--
-  “ (fp32_isFinite x_pre ) ”
-.
-
-Definition float_clamp_safety_wit_2_split_goal_2 := 
-forall (hi_pre: fp32) (lo_pre: fp32) (x_pre: fp32) (PreH1 : (fp32_GE x_pre lo_pre )) (PreH2 : (clampFloatSafe x_pre lo_pre hi_pre )) ,
-  ((( &( "hi" ) )) # Ptr  |-> hi_pre)
-  **  ((( &( "lo" ) )) # Ptr  |-> lo_pre)
-  **  ((( &( "x" ) )) # Ptr  |-> x_pre)
-|--
-  “ (fp32_isFinite hi_pre ) ”
-.
-
 Definition float_clamp_return_wit_1 := 
 (
-forall (hi_pre: fp32) (lo_pre: fp32) (x_pre: fp32) (PreH1 : (fp32_LE x_pre hi_pre )) (PreH2 : (fp32_GE x_pre lo_pre )) (PreH3 : (clampFloatSafe x_pre lo_pre hi_pre )) ,
+forall (hi_pre: fp32) (lo_pre: fp32) (x_pre: fp32) (PreH1 : (fp32_le x_pre hi_pre )) (PreH2 : (fp32_ge x_pre lo_pre )) (PreH3 : (clampFloatSafe x_pre lo_pre hi_pre )) ,
   TT && emp 
 |--
   “ (clampFloatPost x_pre lo_pre hi_pre x_pre ) ”
   &&  emp
 ) \/
 (
-forall (hi_pre: fp32) (lo_pre: fp32) (x_pre: fp32) (PreH1 : (fp32_LE x_pre hi_pre )) (PreH2 : (fp32_GE x_pre lo_pre )) (PreH3 : (clampFloatSafe x_pre lo_pre hi_pre )) ,
+forall (hi_pre: fp32) (lo_pre: fp32) (x_pre: fp32) (PreH1 : (fp32_le x_pre hi_pre )) (PreH2 : (fp32_ge x_pre lo_pre )) (PreH3 : (clampFloatSafe x_pre lo_pre hi_pre )) ,
   TT && emp 
 |--
   “ (clampFloatPost x_pre lo_pre hi_pre x_pre ) ”
@@ -114,22 +38,20 @@ forall (hi_pre: fp32) (lo_pre: fp32) (x_pre: fp32) (PreH1 : (fp32_LE x_pre hi_pr
 ).
 
 Definition float_clamp_return_wit_1_split_goal_1 := 
-forall (hi_pre: fp32) (lo_pre: fp32) (x_pre: fp32) (PreH1 : (fp32_LE x_pre hi_pre )) (PreH2 : (fp32_GE x_pre lo_pre )) (PreH3 : (clampFloatSafe x_pre lo_pre hi_pre )) ,
-  TT && emp 
-|--
-  “ (clampFloatPost x_pre lo_pre hi_pre x_pre ) ”
+forall (hi_pre: fp32) (lo_pre: fp32) (x_pre: fp32) (PreH1 : (fp32_le x_pre hi_pre )) (PreH2 : (fp32_ge x_pre lo_pre )) (PreH3 : (clampFloatSafe x_pre lo_pre hi_pre )) ,
+  (clampFloatPost x_pre lo_pre hi_pre x_pre )
 .
 
 Definition float_clamp_return_wit_2 := 
 (
-forall (hi_pre: fp32) (lo_pre: fp32) (x_pre: fp32) (PreH1 : (fp32_GT x_pre hi_pre )) (PreH2 : (fp32_GE x_pre lo_pre )) (PreH3 : (clampFloatSafe x_pre lo_pre hi_pre )) ,
+forall (hi_pre: fp32) (lo_pre: fp32) (x_pre: fp32) (PreH1 : (fp32_gt x_pre hi_pre )) (PreH2 : (fp32_ge x_pre lo_pre )) (PreH3 : (clampFloatSafe x_pre lo_pre hi_pre )) ,
   TT && emp 
 |--
   “ (clampFloatPost x_pre lo_pre hi_pre hi_pre ) ”
   &&  emp
 ) \/
 (
-forall (hi_pre: fp32) (lo_pre: fp32) (x_pre: fp32) (PreH1 : (fp32_GT x_pre hi_pre )) (PreH2 : (fp32_GE x_pre lo_pre )) (PreH3 : (clampFloatSafe x_pre lo_pre hi_pre )) ,
+forall (hi_pre: fp32) (lo_pre: fp32) (x_pre: fp32) (PreH1 : (fp32_gt x_pre hi_pre )) (PreH2 : (fp32_ge x_pre lo_pre )) (PreH3 : (clampFloatSafe x_pre lo_pre hi_pre )) ,
   TT && emp 
 |--
   “ (clampFloatPost x_pre lo_pre hi_pre hi_pre ) ”
@@ -137,22 +59,20 @@ forall (hi_pre: fp32) (lo_pre: fp32) (x_pre: fp32) (PreH1 : (fp32_GT x_pre hi_pr
 ).
 
 Definition float_clamp_return_wit_2_split_goal_1 := 
-forall (hi_pre: fp32) (lo_pre: fp32) (x_pre: fp32) (PreH1 : (fp32_GT x_pre hi_pre )) (PreH2 : (fp32_GE x_pre lo_pre )) (PreH3 : (clampFloatSafe x_pre lo_pre hi_pre )) ,
-  TT && emp 
-|--
-  “ (clampFloatPost x_pre lo_pre hi_pre hi_pre ) ”
+forall (hi_pre: fp32) (lo_pre: fp32) (x_pre: fp32) (PreH1 : (fp32_gt x_pre hi_pre )) (PreH2 : (fp32_ge x_pre lo_pre )) (PreH3 : (clampFloatSafe x_pre lo_pre hi_pre )) ,
+  (clampFloatPost x_pre lo_pre hi_pre hi_pre )
 .
 
 Definition float_clamp_return_wit_3 := 
 (
-forall (hi_pre: fp32) (lo_pre: fp32) (x_pre: fp32) (PreH1 : (fp32_LT x_pre lo_pre )) (PreH2 : (clampFloatSafe x_pre lo_pre hi_pre )) ,
+forall (hi_pre: fp32) (lo_pre: fp32) (x_pre: fp32) (PreH1 : (fp32_lt x_pre lo_pre )) (PreH2 : (clampFloatSafe x_pre lo_pre hi_pre )) ,
   TT && emp 
 |--
   “ (clampFloatPost x_pre lo_pre hi_pre lo_pre ) ”
   &&  emp
 ) \/
 (
-forall (hi_pre: fp32) (lo_pre: fp32) (x_pre: fp32) (PreH1 : (fp32_LT x_pre lo_pre )) (PreH2 : (clampFloatSafe x_pre lo_pre hi_pre )) ,
+forall (hi_pre: fp32) (lo_pre: fp32) (x_pre: fp32) (PreH1 : (fp32_lt x_pre lo_pre )) (PreH2 : (clampFloatSafe x_pre lo_pre hi_pre )) ,
   TT && emp 
 |--
   “ (clampFloatPost x_pre lo_pre hi_pre lo_pre ) ”
@@ -160,100 +80,22 @@ forall (hi_pre: fp32) (lo_pre: fp32) (x_pre: fp32) (PreH1 : (fp32_LT x_pre lo_pr
 ).
 
 Definition float_clamp_return_wit_3_split_goal_1 := 
-forall (hi_pre: fp32) (lo_pre: fp32) (x_pre: fp32) (PreH1 : (fp32_LT x_pre lo_pre )) (PreH2 : (clampFloatSafe x_pre lo_pre hi_pre )) ,
-  TT && emp 
-|--
-  “ (clampFloatPost x_pre lo_pre hi_pre lo_pre ) ”
+forall (hi_pre: fp32) (lo_pre: fp32) (x_pre: fp32) (PreH1 : (fp32_lt x_pre lo_pre )) (PreH2 : (clampFloatSafe x_pre lo_pre hi_pre )) ,
+  (clampFloatPost x_pre lo_pre hi_pre lo_pre )
 .
 
 (*----- Function double_clamp -----*)
 
-Definition double_clamp_safety_wit_1 := 
-(
-forall (hi_pre: fp64) (lo_pre: fp64) (x_pre: fp64) (PreH1 : (clampSafe x_pre lo_pre hi_pre )) ,
-  ((( &( "hi" ) )) # Ptr  |-> hi_pre)
-  **  ((( &( "lo" ) )) # Ptr  |-> lo_pre)
-  **  ((( &( "x" ) )) # Ptr  |-> x_pre)
-|--
-  “ (fp64_isFinite x_pre ) ” 
-  &&  “ (fp64_isFinite lo_pre ) ”
-) \/
-(
-forall (hi_pre: fp64) (lo_pre: fp64) (x_pre: fp64) (PreH1 : (clampSafe x_pre lo_pre hi_pre )) ,
-  ((( &( "hi" ) )) # Ptr  |-> hi_pre)
-  **  ((( &( "lo" ) )) # Ptr  |-> lo_pre)
-  **  ((( &( "x" ) )) # Ptr  |-> x_pre)
-|--
-  “ (fp64_isFinite x_pre ) ” 
-  &&  “ (fp64_isFinite lo_pre ) ”
-).
-
-Definition double_clamp_safety_wit_1_split_goal_1 := 
-forall (hi_pre: fp64) (lo_pre: fp64) (x_pre: fp64) (PreH1 : (clampSafe x_pre lo_pre hi_pre )) ,
-  ((( &( "hi" ) )) # Ptr  |-> hi_pre)
-  **  ((( &( "lo" ) )) # Ptr  |-> lo_pre)
-  **  ((( &( "x" ) )) # Ptr  |-> x_pre)
-|--
-  “ (fp64_isFinite x_pre ) ”
-.
-
-Definition double_clamp_safety_wit_1_split_goal_2 := 
-forall (hi_pre: fp64) (lo_pre: fp64) (x_pre: fp64) (PreH1 : (clampSafe x_pre lo_pre hi_pre )) ,
-  ((( &( "hi" ) )) # Ptr  |-> hi_pre)
-  **  ((( &( "lo" ) )) # Ptr  |-> lo_pre)
-  **  ((( &( "x" ) )) # Ptr  |-> x_pre)
-|--
-  “ (fp64_isFinite lo_pre ) ”
-.
-
-Definition double_clamp_safety_wit_2 := 
-(
-forall (hi_pre: fp64) (lo_pre: fp64) (x_pre: fp64) (PreH1 : (fp64_GE x_pre lo_pre )) (PreH2 : (clampSafe x_pre lo_pre hi_pre )) ,
-  ((( &( "hi" ) )) # Ptr  |-> hi_pre)
-  **  ((( &( "lo" ) )) # Ptr  |-> lo_pre)
-  **  ((( &( "x" ) )) # Ptr  |-> x_pre)
-|--
-  “ (fp64_isFinite x_pre ) ” 
-  &&  “ (fp64_isFinite hi_pre ) ”
-) \/
-(
-forall (hi_pre: fp64) (lo_pre: fp64) (x_pre: fp64) (PreH1 : (fp64_GE x_pre lo_pre )) (PreH2 : (clampSafe x_pre lo_pre hi_pre )) ,
-  ((( &( "hi" ) )) # Ptr  |-> hi_pre)
-  **  ((( &( "lo" ) )) # Ptr  |-> lo_pre)
-  **  ((( &( "x" ) )) # Ptr  |-> x_pre)
-|--
-  “ (fp64_isFinite x_pre ) ” 
-  &&  “ (fp64_isFinite hi_pre ) ”
-).
-
-Definition double_clamp_safety_wit_2_split_goal_1 := 
-forall (hi_pre: fp64) (lo_pre: fp64) (x_pre: fp64) (PreH1 : (fp64_GE x_pre lo_pre )) (PreH2 : (clampSafe x_pre lo_pre hi_pre )) ,
-  ((( &( "hi" ) )) # Ptr  |-> hi_pre)
-  **  ((( &( "lo" ) )) # Ptr  |-> lo_pre)
-  **  ((( &( "x" ) )) # Ptr  |-> x_pre)
-|--
-  “ (fp64_isFinite x_pre ) ”
-.
-
-Definition double_clamp_safety_wit_2_split_goal_2 := 
-forall (hi_pre: fp64) (lo_pre: fp64) (x_pre: fp64) (PreH1 : (fp64_GE x_pre lo_pre )) (PreH2 : (clampSafe x_pre lo_pre hi_pre )) ,
-  ((( &( "hi" ) )) # Ptr  |-> hi_pre)
-  **  ((( &( "lo" ) )) # Ptr  |-> lo_pre)
-  **  ((( &( "x" ) )) # Ptr  |-> x_pre)
-|--
-  “ (fp64_isFinite hi_pre ) ”
-.
-
 Definition double_clamp_return_wit_1 := 
 (
-forall (hi_pre: fp64) (lo_pre: fp64) (x_pre: fp64) (PreH1 : (fp64_LE x_pre hi_pre )) (PreH2 : (fp64_GE x_pre lo_pre )) (PreH3 : (clampSafe x_pre lo_pre hi_pre )) ,
+forall (hi_pre: fp64) (lo_pre: fp64) (x_pre: fp64) (PreH1 : (fp64_le x_pre hi_pre )) (PreH2 : (fp64_ge x_pre lo_pre )) (PreH3 : (clampSafe x_pre lo_pre hi_pre )) ,
   TT && emp 
 |--
   “ (clampPost x_pre lo_pre hi_pre x_pre ) ”
   &&  emp
 ) \/
 (
-forall (hi_pre: fp64) (lo_pre: fp64) (x_pre: fp64) (PreH1 : (fp64_LE x_pre hi_pre )) (PreH2 : (fp64_GE x_pre lo_pre )) (PreH3 : (clampSafe x_pre lo_pre hi_pre )) ,
+forall (hi_pre: fp64) (lo_pre: fp64) (x_pre: fp64) (PreH1 : (fp64_le x_pre hi_pre )) (PreH2 : (fp64_ge x_pre lo_pre )) (PreH3 : (clampSafe x_pre lo_pre hi_pre )) ,
   TT && emp 
 |--
   “ (clampPost x_pre lo_pre hi_pre x_pre ) ”
@@ -261,22 +103,20 @@ forall (hi_pre: fp64) (lo_pre: fp64) (x_pre: fp64) (PreH1 : (fp64_LE x_pre hi_pr
 ).
 
 Definition double_clamp_return_wit_1_split_goal_1 := 
-forall (hi_pre: fp64) (lo_pre: fp64) (x_pre: fp64) (PreH1 : (fp64_LE x_pre hi_pre )) (PreH2 : (fp64_GE x_pre lo_pre )) (PreH3 : (clampSafe x_pre lo_pre hi_pre )) ,
-  TT && emp 
-|--
-  “ (clampPost x_pre lo_pre hi_pre x_pre ) ”
+forall (hi_pre: fp64) (lo_pre: fp64) (x_pre: fp64) (PreH1 : (fp64_le x_pre hi_pre )) (PreH2 : (fp64_ge x_pre lo_pre )) (PreH3 : (clampSafe x_pre lo_pre hi_pre )) ,
+  (clampPost x_pre lo_pre hi_pre x_pre )
 .
 
 Definition double_clamp_return_wit_2 := 
 (
-forall (hi_pre: fp64) (lo_pre: fp64) (x_pre: fp64) (PreH1 : (fp64_GT x_pre hi_pre )) (PreH2 : (fp64_GE x_pre lo_pre )) (PreH3 : (clampSafe x_pre lo_pre hi_pre )) ,
+forall (hi_pre: fp64) (lo_pre: fp64) (x_pre: fp64) (PreH1 : (fp64_gt x_pre hi_pre )) (PreH2 : (fp64_ge x_pre lo_pre )) (PreH3 : (clampSafe x_pre lo_pre hi_pre )) ,
   TT && emp 
 |--
   “ (clampPost x_pre lo_pre hi_pre hi_pre ) ”
   &&  emp
 ) \/
 (
-forall (hi_pre: fp64) (lo_pre: fp64) (x_pre: fp64) (PreH1 : (fp64_GT x_pre hi_pre )) (PreH2 : (fp64_GE x_pre lo_pre )) (PreH3 : (clampSafe x_pre lo_pre hi_pre )) ,
+forall (hi_pre: fp64) (lo_pre: fp64) (x_pre: fp64) (PreH1 : (fp64_gt x_pre hi_pre )) (PreH2 : (fp64_ge x_pre lo_pre )) (PreH3 : (clampSafe x_pre lo_pre hi_pre )) ,
   TT && emp 
 |--
   “ (clampPost x_pre lo_pre hi_pre hi_pre ) ”
@@ -284,22 +124,20 @@ forall (hi_pre: fp64) (lo_pre: fp64) (x_pre: fp64) (PreH1 : (fp64_GT x_pre hi_pr
 ).
 
 Definition double_clamp_return_wit_2_split_goal_1 := 
-forall (hi_pre: fp64) (lo_pre: fp64) (x_pre: fp64) (PreH1 : (fp64_GT x_pre hi_pre )) (PreH2 : (fp64_GE x_pre lo_pre )) (PreH3 : (clampSafe x_pre lo_pre hi_pre )) ,
-  TT && emp 
-|--
-  “ (clampPost x_pre lo_pre hi_pre hi_pre ) ”
+forall (hi_pre: fp64) (lo_pre: fp64) (x_pre: fp64) (PreH1 : (fp64_gt x_pre hi_pre )) (PreH2 : (fp64_ge x_pre lo_pre )) (PreH3 : (clampSafe x_pre lo_pre hi_pre )) ,
+  (clampPost x_pre lo_pre hi_pre hi_pre )
 .
 
 Definition double_clamp_return_wit_3 := 
 (
-forall (hi_pre: fp64) (lo_pre: fp64) (x_pre: fp64) (PreH1 : (fp64_LT x_pre lo_pre )) (PreH2 : (clampSafe x_pre lo_pre hi_pre )) ,
+forall (hi_pre: fp64) (lo_pre: fp64) (x_pre: fp64) (PreH1 : (fp64_lt x_pre lo_pre )) (PreH2 : (clampSafe x_pre lo_pre hi_pre )) ,
   TT && emp 
 |--
   “ (clampPost x_pre lo_pre hi_pre lo_pre ) ”
   &&  emp
 ) \/
 (
-forall (hi_pre: fp64) (lo_pre: fp64) (x_pre: fp64) (PreH1 : (fp64_LT x_pre lo_pre )) (PreH2 : (clampSafe x_pre lo_pre hi_pre )) ,
+forall (hi_pre: fp64) (lo_pre: fp64) (x_pre: fp64) (PreH1 : (fp64_lt x_pre lo_pre )) (PreH2 : (clampSafe x_pre lo_pre hi_pre )) ,
   TT && emp 
 |--
   “ (clampPost x_pre lo_pre hi_pre lo_pre ) ”
@@ -307,22 +145,16 @@ forall (hi_pre: fp64) (lo_pre: fp64) (x_pre: fp64) (PreH1 : (fp64_LT x_pre lo_pr
 ).
 
 Definition double_clamp_return_wit_3_split_goal_1 := 
-forall (hi_pre: fp64) (lo_pre: fp64) (x_pre: fp64) (PreH1 : (fp64_LT x_pre lo_pre )) (PreH2 : (clampSafe x_pre lo_pre hi_pre )) ,
-  TT && emp 
-|--
-  “ (clampPost x_pre lo_pre hi_pre lo_pre ) ”
+forall (hi_pre: fp64) (lo_pre: fp64) (x_pre: fp64) (PreH1 : (fp64_lt x_pre lo_pre )) (PreH2 : (clampSafe x_pre lo_pre hi_pre )) ,
+  (clampPost x_pre lo_pre hi_pre lo_pre )
 .
 
 Module Type VC_Correct.
 
 
-Axiom proof_of_float_clamp_safety_wit_1 : float_clamp_safety_wit_1.
-Axiom proof_of_float_clamp_safety_wit_2 : float_clamp_safety_wit_2.
 Axiom proof_of_float_clamp_return_wit_1 : float_clamp_return_wit_1.
 Axiom proof_of_float_clamp_return_wit_2 : float_clamp_return_wit_2.
 Axiom proof_of_float_clamp_return_wit_3 : float_clamp_return_wit_3.
-Axiom proof_of_double_clamp_safety_wit_1 : double_clamp_safety_wit_1.
-Axiom proof_of_double_clamp_safety_wit_2 : double_clamp_safety_wit_2.
 Axiom proof_of_double_clamp_return_wit_1 : double_clamp_return_wit_1.
 Axiom proof_of_double_clamp_return_wit_2 : double_clamp_return_wit_2.
 Axiom proof_of_double_clamp_return_wit_3 : double_clamp_return_wit_3.
