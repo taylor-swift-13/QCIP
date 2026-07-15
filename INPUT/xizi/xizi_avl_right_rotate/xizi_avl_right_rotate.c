@@ -24,14 +24,7 @@
  * AvlTreeGetNodeHeight; those writes only touch the per-node height metadata,
  * which the shape predicates abstract away, so they are elided here. */
 struct AvlNode *xizi_avl_right_rotate(struct AvlNode *avl_node)
-/*@ With d h l r
-    Require avl_node != 0 &&
-            single_tree_node(avl_node, d, h, l, r) *
-            store_non_empty_tree(l) *
-            store_tree_shape(r)
-    Ensure  __return == l &&
-            store_non_empty_tree(l)
-*/
+
 {
     struct AvlNode *new_node = avl_node->left;
 

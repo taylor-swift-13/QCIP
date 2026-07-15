@@ -1,0 +1,259 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "annotation",
+  "status": "blocked",
+  "terminal": "yes",
+  "agent_result": {
+    "annotation": {
+      "status": "blocked",
+      "ready_for_annotation_check_round": false,
+      "source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "f710204cb22c6a96bb9fb23d86bc2980d545bb5df4dfcdc4f5502ad9b499878f",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "binding": "input handoff version verified before edits"
+      },
+      "candidate_source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "808720e0bc52822ad9b967c969189e4671454343108f6935f462ae3a0fb6e171",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "relative_path": "INPUT/xizi/xizi_double_link_len/xizi_double_link_len.c",
+            "sha256": "982870a72574a9fa33da5ce20fa16265735c2e1543824d8fddec425d580307b1",
+            "state": "present",
+            "role": "target-c"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_len/xizi_double_link_len_lib.v",
+            "sha256": "c80b086c0b6cc0139aff9e79cf604887c5733c1552069cfb53237ccc88c6ebcc",
+            "state": "present",
+            "role": "case-lib-seed"
+          }
+        ]
+      },
+      "source_goal_version": null,
+      "summary": "Produced a predicate-first specification for every finite sentinel circular doubly linked list. The abstract list is the forward sequence of non-sentinel node addresses; xizi_dllseg owns each forward next field and the matching backward prev field, while xizi_dll owns the closing last-to-head edge. The loop invariant preserves head identity, decomposes l into traversed prefix and remaining suffix, relates the counter to Zlength(prefix), and preserves the UINT_MAX bound. Candidate is locally compileable and canonical direct symexec reaches EOF, but mandatory qcp-mcp session_manager evidence cannot be obtained because qcp-mcp is not installed or exposed in this agent environment.",
+      "spec_design": {
+        "style": "predicate-first",
+        "abstract_sequence": "non-sentinel node addresses in forward traversal order",
+        "complete_predicate": "xizi_dll",
+        "segment_predicate": "xizi_dllseg",
+        "head_identity_policy": "the head parameter is threaded through every recursive segment and every data-node destination is constrained unequal to head",
+        "integer_bound": "Zlength(l) <= UINT_MAX",
+        "mathematical_postcondition": "__return == Zlength(l)",
+        "preservation_postcondition": "xizi_dll(linklist, l)"
+      },
+      "canonical_symexec_evidence": {
+        "status": "passed",
+        "evidence_kind": "direct canonical symexec; not qcp-mcp evidence",
+        "driver": "/home/yangfp/QCIP/linux-binary/symexec",
+        "cwd": "/home/yangfp/QCIP/worktrees/xizi_double_link_len-20260714180007/xizi_double_link_len-annotation-r1",
+        "include_args": [
+          "QCP_examples/QCP_demos_LLM/"
+        ],
+        "slp_args": [
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM"
+        ],
+        "coq_logic_path": "SimpleC.EE.INPUT.xizi.xizi_double_link_len",
+        "input_file": "INPUT/xizi/xizi_double_link_len/xizi_double_link_len.c",
+        "final_elapsed_seconds": 0.05,
+        "stdout_summary": "Start to symbolic execution; End of symbolic execution; Successfully finished symbolic execution",
+        "reached_file_end": true
+      },
+      "qcp_mcp_interactive_evidence": {
+        "status": "unavailable",
+        "qcp_mcp_requirement_satisfied": "no",
+        "required_interface": "qcp-mcp session_manager with canonical args",
+        "tool_inventory_result": "No qcp/session_manager/symexec MCP tool was present in ALL_TOOLS",
+        "command_probe": "command -v qcp-mcp and command -v qcp_mcp returned no path",
+        "mcp_configuration_probe": "codex mcp list showed only openaiDeveloperDocs",
+        "direct_symexec_substitution_allowed": "no"
+      },
+      "case_lib_coqc_evidence": {
+        "schema_version": "qcp-coqc-check-evidence/v1",
+        "status": "passed",
+        "tool": "coqc",
+        "target_kind": "case_lib",
+        "target_file": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_len/xizi_double_link_len_lib.v",
+        "source_goal_version": "f710204cb22c6a96bb9fb23d86bc2980d545bb5df4dfcdc4f5502ad9b499878f",
+        "fixed_flags_hash": "9bdaa2ffdbaca882e29d6aa89234fc849f2f8987edc04425059c56c78ab70f0d",
+        "candidate_sha256": "c80b086c0b6cc0139aff9e79cf604887c5733c1552069cfb53237ccc88c6ebcc",
+        "elapsed_seconds": 1.423,
+        "returncode": 0
+      },
+      "annotation_checking_evidence": {
+        "status": "blocked",
+        "checked_scope": [
+          "candidate case_lib definitions",
+          "function Require/Ensure",
+          "loop Inv Assert",
+          "canonical argument record",
+          "qcp-mcp requirement"
+        ],
+        "qcp_mcp_requirement_satisfied": "no",
+        "annotation_scratch_lib_coqc_status": "passed",
+        "spec_definition_status": "passed: recursive predicates express a mathematical finite circular bidirectional shape and do not mirror the C loop",
+        "function_spec_status": "passed: computes Zlength(l), preserves xizi_dll, and assumes the UINT_MAX bound",
+        "invariant_status": "passed: head identity, abstract sequence prefix/suffix decomposition, bidirectional edge ownership, counter semantics, and bound are explicit",
+        "failed_checks": [
+          "Mandatory qcp-mcp session_manager run to file end is unavailable"
+        ],
+        "required_annotation_rework": [],
+        "required_annotation_scratch_lib_rework": [],
+        "ready_for_main_common_case_formal_lib_update": "no",
+        "ready_for_main_symexec": "no"
+      },
+      "iterations": {
+        "complete_repair_cycles": 5,
+        "final_successful_direct_symexec_cycles": 3,
+        "failure_and_repair_log": [
+          {
+            "cycle": 1,
+            "failure_class": "annotation-syntax",
+            "evidence": "Cannot unify types Assertion and Z at loop invariant",
+            "repair": "placed field ownership atoms before spatial segment composition"
+          },
+          {
+            "cycle": 2,
+            "failure_class": "qcp-symbolic-execution",
+            "evidence": "Cannot derive precondition of Memory Read at loop guard",
+            "repair": "made the current next/prev edge explicit and split invariant into empty-suffix/nonempty-suffix cases"
+          },
+          {
+            "cycle": 3,
+            "failure_class": "spec-quality",
+            "evidence": "expanded full-shape specification passed direct symexec but did not expose the named complete predicate in Require/Ensure",
+            "repair": "restored xizi_dll as the function-level complete recursive predicate while retaining explicit loop-edge ownership"
+          },
+          {
+            "cycle": 4,
+            "failure_class": "where-instantiation/spec-strength",
+            "evidence": "generated exit obligations contained a semantically impossible branch where the next data node could equal the sentinel",
+            "repair": "threaded the distinguished head through xizi_dllseg and required every abstract data-node destination to differ from head"
+          },
+          {
+            "cycle": 5,
+            "failure_class": "validation",
+            "evidence": "case_lib fixed coqc check passed and canonical direct symexec reached EOF",
+            "repair": "none"
+          }
+        ],
+        "self_repair_budget": {
+          "min_complete_cycles": 3,
+          "cycles_performed": 5,
+          "min_wall_clock_minutes": 30,
+          "wall_clock_minimum_reached": false,
+          "reason_for_terminal_before_minimum": "hard required-tool blocker established by tool inventory, executable probe, and MCP configuration probe; further annotation edits cannot produce qcp-mcp evidence"
+        },
+        "self_reworkable_failures": []
+      },
+      "changed_files": [
+        {
+          "path": "INPUT/xizi/xizi_double_link_len/xizi_double_link_len.c",
+          "sha256": "982870a72574a9fa33da5ce20fa16265735c2e1543824d8fddec425d580307b1",
+          "change_kind": "annotation and Coq interface"
+        },
+        {
+          "path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_len/xizi_double_link_len_lib.v",
+          "sha256": "c80b086c0b6cc0139aff9e79cf604887c5733c1552069cfb53237ccc88c6ebcc",
+          "change_kind": "annotation-approved candidate spec declarations"
+        },
+        {
+          "path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_len/xizi_double_link_len_goal.v",
+          "sha256": "cfd37daa42a4107b70af2294c1ddc7115a70beff6922b0d5fa1c96e7dc7812c0",
+          "change_kind": "canonical symexec generated"
+        },
+        {
+          "path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_len/xizi_double_link_len_proof_auto.v",
+          "sha256": "fa62803167673ceca4584fc4a8b01b24d2edb1dce87890ef52f05177c3cdd49c",
+          "change_kind": "canonical symexec generated"
+        },
+        {
+          "path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_len/xizi_double_link_len_proof_manual.v",
+          "sha256": "a6c3024f5ba7ce74d751563c3781db1957d08d7badd50ad1e149d5f9d63d4c59",
+          "change_kind": "canonical symexec generated skeleton"
+        },
+        {
+          "path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_len/xizi_double_link_len_goal_check.v",
+          "sha256": "4b97618dc89023d84768e76fb4b6c51f9716d73ae893c023940848dc3884a21d",
+          "change_kind": "canonical symexec generated"
+        }
+      ],
+      "file_access_summary": {
+        "must_log_file_reads": "yes",
+        "read_categories": {
+          "handoff_and_rules": [
+            "reports/xizi_double_link_len-20260714180007/rounds/xizi_double_link_len-annotation-r1/agent_input.json",
+            ".agents/skills/verification-orchestrator/SKILL.md",
+            ".agents/skills/annotation-filling/SKILL.md",
+            ".agents/skills/annotation-checking/SKILL.md",
+            "directly linked annotation/orchestrator rule and checklist documents"
+          ],
+          "target_case": [
+            "INPUT/xizi/xizi_double_link_len/xizi_double_link_len.c",
+            "INPUT/xizi/xizi_double_link_len/xizi_double_link_def.h",
+            "SeparationLogic/examples/INPUT/xizi/xizi_double_link_len/xizi_double_link_len_lib.v",
+            "generated files under SeparationLogic/examples/INPUT/xizi/xizi_double_link_len"
+          ],
+          "declared_reference_cases": [
+            "OUTPUT/xizi/xizi_single_link_len/source/xizi_single_link_len.c",
+            "OUTPUT/xizi/xizi_single_link_len/source/xizi_single_link_def.h",
+            "OUTPUT/xizi/xizi_single_link_len/rocq/xizi_single_link_len_goal.v",
+            "QCP_examples/QCP_demos_LLM/dll_auto.c",
+            "QCP_examples/QCP_demos_LLM/dll_shape_def.h",
+            "SeparationLogic/examples/QCP_demos_LLM/dll_shape_lib.v",
+            "SeparationLogic/examples/QCP_demos_LLM/dll_queue_lib.v",
+            "QCP_examples/QCP_demos_LLM/sll_insert_sort.c",
+            "QCP_examples/QCP_demos_LLM/bubble_sort.c"
+          ]
+        },
+        "searches": [
+          "targeted search for qcp-mcp/session_manager in declared skill directories",
+          "targeted filename lookup for xizi single-link/double-link lib names under SeparationLogic/examples/INPUT/xizi",
+          "targeted disjunction syntax search in QCP_examples/QCP_demos_LLM C files",
+          "targeted controller schema/evidence field lookup"
+        ],
+        "denied_globs_touched": []
+      },
+      "previous_attempts_reviewed": [],
+      "prior_blockers_addressed": [],
+      "blockers": [
+        {
+          "failure_class": "required-toolchain-unavailable",
+          "message": "annotation-checking cannot pass because qcp-mcp session_manager is neither exposed as a tool nor installed/configured as a command/MCP server in this environment",
+          "evidence": [
+            "ALL_TOOLS qcp/session_manager query returned an empty list",
+            "command -v qcp-mcp and qcp_mcp returned no executable",
+            "codex mcp list contained only openaiDeveloperDocs"
+          ],
+          "reusable_candidate": "candidate C annotation, case_lib, and canonical direct symexec outputs remain in the declared round worktree"
+        }
+      ]
+    }
+  },
+  "verification_result": {
+    "annotation_subagent": {
+      "status": "blocked",
+      "case_lib_coqc": "passed",
+      "canonical_direct_symexec": "passed",
+      "qcp_mcp": "unavailable",
+      "annotation_checking": "blocked"
+    },
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-07-14T10:54:17Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_double_link_len-20260714180007/rounds/xizi_double_link_len-annotation-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    }
+  },
+  "blockers": [
+    {
+      "failure_class": "required-toolchain-unavailable",
+      "message": "Mandatory qcp-mcp interactive evidence cannot be produced in the current environment."
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+From SimpleC.EE.INPUT.xizi.xizi_double_link_remove_node Require Import xizi_double_link_remove_node_goal xizi_double_link_remove_node_proof_auto xizi_double_link_remove_node_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include xizi_double_link_remove_node_proof_auto.
+  Include xizi_double_link_remove_node_proof_manual.
+End VC_Correctness.

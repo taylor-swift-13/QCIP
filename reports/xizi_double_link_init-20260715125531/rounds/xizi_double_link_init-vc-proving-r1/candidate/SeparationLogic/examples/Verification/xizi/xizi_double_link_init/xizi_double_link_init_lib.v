@@ -1,0 +1,1 @@
+From QCIPLib.xizi.xizi_double_link_common Require Export xizi_double_link_lib.

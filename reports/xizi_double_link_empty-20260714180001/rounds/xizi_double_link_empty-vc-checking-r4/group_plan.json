@@ -1,0 +1,59 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "8a3e5c83f0db2fceff3c9ccecb93b2ed6a076e35b57d04b028d39d7ff58414b7",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_empty_entail_wit_1",
+    "proof_of_xizi_double_link_empty_return_wit_1",
+    "proof_of_xizi_double_link_empty_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "dll_empty_classification",
+      "witness_names": [
+        "proof_of_xizi_double_link_empty_entail_wit_1",
+        "proof_of_xizi_double_link_empty_return_wit_1",
+        "proof_of_xizi_double_link_empty_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_empty_return_wit_2",
+      "dependencies": [],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "xizi_dll_front_empty_iff",
+          "statement_shape": "Resource-preserving entailment from sentinel next/prev ownership and xizi_dllseg first head head last l to pure(first = head <-> l = nil) conjoined with the unchanged spatial precondition.",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_empty_return_wit_1",
+            "proof_of_xizi_double_link_empty_return_wit_2"
+          ],
+          "destination": "group-local case_lib; declaration name must end with this group's helper_namespace suffix"
+        }
+      ],
+      "expected_helpers": [
+        "xizi_dll_front_empty_iff with group-id suffix"
+      ],
+      "proof_strategy": "Prove the group-suffixed empty-characterization helper by destructing l. The nil case follows by simplifying xizi_dllseg; in the cons case, first=head makes node_store own the same head next/prev locations already owned by the sentinel frame, yielding contradiction from separation. Prove the entail witness by unfolding xizi_dll and cancellation. For each return witness apply the helper, discharge the pure implication pair from PreH1, and fold xizi_dll with first/last.",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_empty_entail_wit_1": "Select the left disjunct, rewrite linklist_pre=head, unfold xizi_dll, instantiate last/first, cancel.",
+        "proof_of_xizi_double_link_empty_return_wit_1": "Select the full return disjunct; helper plus first<>head gives l<>nil; discharge both implications and fold xizi_dll.",
+        "proof_of_xizi_double_link_empty_return_wit_2": "Select the full return disjunct; helper plus first=head gives l=nil; discharge both implications and fold xizi_dll."
+      },
+      "premise_discharge": {
+        "helper_spatial_premise": "Exactly the return-witness precondition.",
+        "return_wit_1_branch_fact": "PreH1 first<>head plus the helper equivalence.",
+        "return_wit_2_branch_fact": "PreH1 first=head plus the helper equivalence."
+      },
+      "grouping_reason": "All targets are in one function, use the same xizi_dll/xizi_dllseg fold-unfold pattern, and the two nontrivial targets share one helper. The group contains 3 witnesses, within max_witnesses_per_group=12.",
+      "confidence": "high"
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

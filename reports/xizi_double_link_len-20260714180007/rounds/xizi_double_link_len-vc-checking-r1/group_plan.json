@@ -1,0 +1,75 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "f3913ade71684c876d5521542d7c0da57147d4044e9983bc89f7ea6832cb84ba",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_len_entail_wit_1",
+    "proof_of_xizi_double_link_len_entail_wit_2",
+    "proof_of_xizi_double_link_len_return_wit_1"
+  ],
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  },
+  "proof_groups": [
+    {
+      "group_id": "dll_len_invariant",
+      "witness_names": [
+        "proof_of_xizi_double_link_len_entail_wit_1",
+        "proof_of_xizi_double_link_len_entail_wit_2",
+        "proof_of_xizi_double_link_len_return_wit_1"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_len_entail_wit_2",
+      "dependencies": [],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "xizi_dllseg_extend_one",
+          "statement_shape": "forall head x y z l, z <> head -> x <> z -> xizi_dllseg head x y l ** y.node_next |-> z ** z.node_prev |-> y |-- xizi_dllseg head x z (l ++ [z])",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_len_entail_wit_2"
+          ],
+          "premises": [
+            "z <> head from the loop guard/invariant",
+            "x <> z at this call because x = head"
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        }
+      ],
+      "expected_helpers": [
+        "xizi_dllseg_extend_one__dll_len_invariant"
+      ],
+      "proof_strategy": "Prove the segment-extension helper in the group-local case_lib with suffix __dll_len_invariant. For entail_wit_1 unfold xizi_dll and destruct l to select the empty/nonempty invariant branch. For entail_wit_2 append next to the prefix with the helper, destruct rest_2 to select termination/continuation, and prove unsigned_last_nbits is exact from the total UINT_MAX bound. For return_wit_1 choose one outer disjunct, rewrite the empty suffix, and rebuild xizi_dll with last = tmp_node.",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_len_entail_wit_1": "Unfold xizi_dll; destruct l; instantiate the generated branch existentials directly from the closing-node witness and unfolded segment.",
+        "proof_of_xizi_double_link_len_entail_wit_2": "Extend l1_2 by [next], destruct rest_2, preserve/redistribute the suffix and closure resources, and establish the unsigned increment using Zlength bounds.",
+        "proof_of_xizi_double_link_len_return_wit_1": "Choose the left duplicate disjunct, rewrite l2 = nil and l = l1, then unfold xizi_dll and instantiate last with tmp_node."
+      },
+      "vc_shape": {
+        "family": "sentinel circular doubly linked list prefix/suffix invariant",
+        "spatial_core": "xizi_dllseg prefix/suffix plus paired node_next/node_prev cells and sentinel closure",
+        "pure_core": "sequence app decomposition, Zlength processed-prefix counter, UINT_MAX no-wrap bound"
+      },
+      "witness_instantiation": {
+        "initial": "empty prefix and l as remaining suffix",
+        "transition": "l1 = l1_2 ++ [next], l2 = rest_2",
+        "return": "last = tmp_node after l2 = nil"
+      },
+      "space_plan": "Use predicate unfolding at the initial/terminal boundaries and one suffixed segment-extension helper at the loop transition; frame the sentinel closing cells.",
+      "pure_plan": "Use app/Zlength normalization and the preserved total-length bound to show the C unsigned increment equals mathematical successor.",
+      "refinement_plan": "not applicable",
+      "premise_discharge": {
+        "segment_extension": "next <> linklist_pre from PreH1/PreH7 and symmetry for linklist_pre <> next",
+        "unsigned_increment": "linklist_length = Zlength l1_2, l = l1_2 ++ next :: rest_2, nonnegative suffix length, and Zlength l <= UINT_MAX"
+      },
+      "difficulty": "medium",
+      "confidence": "high",
+      "grouping_reason": "One invariant lifecycle and helper family, one function, and 3 witnesses <= controller maximum 12; no dependency or context boundary justifies splitting."
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true
+}

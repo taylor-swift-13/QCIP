@@ -1,0 +1,194 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "pending",
+  "terminal": "yes",
+  "agent_result": {
+    "status": "completed",
+    "round_outcome": "completed",
+    "source_version": {
+      "schema_version": "qcp-source-version/v1",
+      "digest": "784dad23e8e0cafa7797ceacd8a460dc22b4fa86012a21f357b7c111ff22d4ff",
+      "verified_current": true,
+      "file_digest_matches": [
+        {
+          "relative_path": "INPUT/xizi/xizi_double_link_init/xizi_double_link_init.c",
+          "expected_sha256": "3a89f5c61e835a09f091a4715a3bfe3e9376d26bd7ec963b21781f728cd42246",
+          "actual_sha256": "3a89f5c61e835a09f091a4715a3bfe3e9376d26bd7ec963b21781f728cd42246",
+          "match": true
+        },
+        {
+          "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_init/xizi_double_link_init_lib.v",
+          "expected_sha256": "5a4ca8fcbc012aed8fbebd8dedd246b1e2bc8fa508c3ab38843877f420c90e84",
+          "actual_sha256": "5a4ca8fcbc012aed8fbebd8dedd246b1e2bc8fa508c3ab38843877f420c90e84",
+          "match": true
+        }
+      ]
+    },
+    "source_goal_version": {
+      "schema_version": "qcp-source-goal-version/v1",
+      "digest": "a41924a725104b5fc768ce468962271e07e42079f2e027d78bec3da77a3344cb",
+      "verified_current": true,
+      "target_witnesses": [
+        "proof_of_xizi_double_link_init_return_wit_1"
+      ],
+      "generated_file_digests_match": true,
+      "witness_statement_hashes_match": true
+    },
+    "vc_checking": {
+      "status": "passed",
+      "summary": "The only target witness is semantically proofable. Both disjuncts are identical. After selecting one disjunct and unfolding the current-case definition xizi_dll_empty, the postcondition is definitionally the same two-field separating conjunction already present in the precondition.",
+      "checked_witness_scope": [
+        "proof_of_xizi_double_link_init_return_wit_1"
+      ],
+      "ready_for_vc_proving": "yes",
+      "recommended_next_phase": "vc-proving",
+      "required_annotation_rework": [],
+      "required_lib_rework": [],
+      "candidate_lib_lemmas": [],
+      "existing_library_lemmas": [],
+      "failed_witnesses": [],
+      "witness_analyses": [
+        {
+          "witness_id": "proof_of_xizi_double_link_init_return_wit_1",
+          "judgment": "proofable",
+          "vc_shape": {
+            "pre_spatial": "For an arbitrary non-null linklist_head_pre, ownership of the node_next field storing linklist_head_pre, separated from ownership of the node_prev field storing linklist_head_pre.",
+            "pre_pure": "PreH1 : linklist_head_pre <> 0.",
+            "pre_exists": [],
+            "post_spatial": "One of two identical disjuncts, each requiring xizi_dll_empty linklist_head_pre. Unfolding xizi_dll_empty yields exactly the same node_next and node_prev points-to resources as the precondition.",
+            "post_pure": "No additional pure proposition inside either entailment branch.",
+            "post_exists": []
+          },
+          "witness_instantiation": "There is no existential witness. Choose the left branch of the outer disjunction; the right branch is identical and would work equally well.",
+          "space_plan": "Introduce linklist_head_pre and PreH1, choose the left disjunct, unfold xizi_dll_empty, then close the reflexive spatial entailment by the standard structural cancellation tactic. The node_next points-to resource matches the first conjunct and the node_prev points-to resource matches the second conjunct with the same addresses, field types, and stored value.",
+          "pure_plan": "No pure fact is needed after branch selection. PreH1 is available but unused because the entailment is an exact spatial identity.",
+          "used_existing_lemmas": [],
+          "candidate_lib_lemmas": [],
+          "premise_discharge": [
+            {
+              "obligation": "Select a constructor of the outer disjunction.",
+              "discharged_by": "Choose the left branch; both branches contain the identical universally quantified entailment."
+            },
+            {
+              "obligation": "Provide the node_next field ownership required by xizi_dll_empty linklist_head_pre.",
+              "discharged_by": "The first spatial conjunct of the VC precondition is the identical points-to assertion."
+            },
+            {
+              "obligation": "Provide the node_prev field ownership required by xizi_dll_empty linklist_head_pre.",
+              "discharged_by": "The second spatial conjunct of the VC precondition is the identical points-to assertion."
+            },
+            {
+              "obligation": "Satisfy any helper-lemma premises.",
+              "discharged_by": "No helper or existing theorem is required; xizi_dll_empty is unfolded definitionally and the remaining entailment is reflexive."
+            }
+          ],
+          "missing_or_unjustified_premises": [],
+          "failure_signal": "none",
+          "recommended_next_phase": "vc-proving",
+          "proof_group_candidate": "dll_empty_definition_unfold",
+          "grouping_reason": "This sole witness is a direct predicate-unfolding and spatial-identity proof, so it forms one coherent group."
+        }
+      ],
+      "natural_language_analysis": {
+        "overall": "Write the goal as P |-- Q inside either disjunct. P owns head.node_next |-> head ** head.node_prev |-> head. Q is xizi_dll_empty head. The current case lib defines Q to be exactly P. Thus select one identical disjunct, introduce the universal variables, delta-reduce xizi_dll_empty, and use structural cancellation/reflexivity. No information is missing from the annotation and no helper lemma is needed.",
+        "countermodel_pattern": "none: every heap satisfying P satisfies the unfolded Q by definition",
+        "diagnostics_hints_used": [
+          "The diagnostics splitter classified the only subgoal as spatial.",
+          "The diagnostic split goal has the same points-to resources and xizi_dll_empty target as the manual obligation.",
+          "Diagnostics were used only as a planning hint; the sole target witness was taken from the cleaned proof_manual file and source_goal_version."
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-vc-group-plan/v1",
+        "status": "ready",
+        "source_goal_version": "a41924a725104b5fc768ce468962271e07e42079f2e027d78bec3da77a3344cb",
+        "target_witnesses": [
+          "proof_of_xizi_double_link_init_return_wit_1"
+        ],
+        "proof_groups": [
+          {
+            "proof_group_id": "dll_empty_definition_unfold",
+            "members": [
+              "proof_of_xizi_double_link_init_return_wit_1"
+            ],
+            "representative_witness": "proof_of_xizi_double_link_init_return_wit_1",
+            "natural_language_proof_pattern": "Select either identical disjunct, introduce the universally quantified head and non-null fact, unfold xizi_dll_empty, and close the now-identical two-field separating conjunction by standard structural cancellation/reflexivity.",
+            "shared_helper_candidates": [],
+            "proving_hints": [
+              "A likely script shape is: unfold xizi_double_link_init_return_wit_1; left; intros; unfold xizi_dll_empty; cancel.",
+              "PreH1 is not needed for the exact spatial identity.",
+              "Do not add a helper lemma or modify the case-lib seed declaration."
+            ],
+            "grouping_confidence": "high",
+            "grouping_reason": "There is one target witness and it has one compact predicate-unfolding proof pattern; the group size is 1, below the configured maximum of 12."
+          }
+        ],
+        "excluded_annotation_bug_witnesses": [],
+        "unplanned_proofable_witnesses": [],
+        "reason": "All target witnesses are proofable and exactly covered by one proof-pattern group."
+      },
+      "witness_group_plan": {
+        "status": "ready",
+        "source_goal_version": "a41924a725104b5fc768ce468962271e07e42079f2e027d78bec3da77a3344cb",
+        "target_witnesses": [
+          "proof_of_xizi_double_link_init_return_wit_1"
+        ],
+        "proof_groups": [
+          {
+            "proof_group_id": "dll_empty_definition_unfold",
+            "members": [
+              "proof_of_xizi_double_link_init_return_wit_1"
+            ],
+            "representative_witness": "proof_of_xizi_double_link_init_return_wit_1",
+            "natural_language_proof_pattern": "Select either identical disjunct, introduce the universally quantified head and non-null fact, unfold xizi_dll_empty, and close the now-identical two-field separating conjunction by standard structural cancellation/reflexivity.",
+            "shared_helper_candidates": [],
+            "proving_hints": [
+              "Unfold the witness definition and xizi_dll_empty before applying the standard spatial cancellation tactic.",
+              "No pure arithmetic or helper lemma is required."
+            ],
+            "grouping_confidence": "high",
+            "grouping_reason": "Single target witness with a single direct spatial identity proof pattern."
+          }
+        ],
+        "reason": "The single-group plan minimizes groups and exactly covers the cleaned manual obligation set."
+      },
+      "changed_files": [],
+      "formal_files_modified": false,
+      "timing": {
+        "phase_started_at": null,
+        "first_precise_timestamp_observed_at": "2026-07-14T18:19:07+08:00",
+        "phase_finished_at": "2026-07-14T18:19:29+08:00",
+        "elapsed_seconds": 22.0,
+        "witness_or_cluster_timings": [
+          {
+            "cluster": "dll_empty_definition_unfold",
+            "witnesses": [
+              "proof_of_xizi_double_link_init_return_wit_1"
+            ],
+            "elapsed_seconds": 22.0
+          }
+        ],
+        "slowest_diagnostic_point": "Version and formal-shape audit followed by exact spatial-resource matching for the sole witness.",
+        "major_time_sinks": [
+          "Reading the complete handoff and required skill/rule documents.",
+          "Checking all declared file digests and the cleaned-manual/diagnostics witness boundary.",
+          "Auditing the predicate unfolding and resource-by-resource premise discharge."
+        ],
+        "timing_gap_reason": "The spawning environment did not provide a precise wall-clock timestamp at the first instruction-read action. The reported 22 seconds covers the final precisely timestamped analysis/report-preparation segment; earlier rule reading and file inspection are an explicit unquantified timing gap."
+      },
+      "blockers": []
+    }
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-07-14T10:21:08Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_double_link_init-20260714180003/rounds/xizi_double_link_init-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    }
+  },
+  "blockers": []
+}

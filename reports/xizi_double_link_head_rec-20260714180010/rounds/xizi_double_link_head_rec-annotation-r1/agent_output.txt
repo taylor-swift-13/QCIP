@@ -1,0 +1,9 @@
+# Reuse Note
+Note kind: non-authoritative reuse note
+This file is not acceptance evidence.
+
+The ready candidate defines `xizi_double_link_rec prev cur sentinel l`, where `l` records node addresses and each recursive step owns both link fields. Sentinel `node_next` and `node_prev` stores remain explicit in the function contract, allowing QCP to read the observed head without an unfolding strategy.
+
+Two failed paths were repaired in this attempt: QCP annotation syntax uses `Znth`, not `hd`; and folding sentinel fields inside the recursive predicate prevents the memory read. The final qcp-mcp run reached line 24 successfully and reported one auto safety witness plus two manual return witnesses. The case-lib fixed compile gate and canonical symexec both passed.
+
+The two return witnesses are intentionally mathematical: destructing `l` and unfolding `xizi_double_link_rec` shows that `head = sentinel` iff the sequence is empty, and that the nonempty head is `Znth 0 l 0`. JSON handoff, current files, hashes, and controller state override this note.

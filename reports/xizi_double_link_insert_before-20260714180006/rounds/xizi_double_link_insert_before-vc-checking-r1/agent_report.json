@@ -1,0 +1,156 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "pending",
+  "terminal": "no",
+  "agent_result": {
+    "schema_version": "qcp-vc-checking-agent-result/v1",
+    "status": "blocked",
+    "phase": "vc-checking",
+    "attempt_id": "xizi_double_link_insert_before-vc-checking-r1-attempt-1",
+    "summary": "Both target return witnesses are semantically unprovable under the current generated statements: new_order is universally quantified and unconstrained by the precondition, while the postcondition requires xizi_insert_before_order old_order linklist_node_pre new_order, i.e. new_order = old_order ++ [linklist_node_pre]. The spatial reconstruction has a plausible proof route, but it cannot establish this false-for-arbitrary-new_order pure proposition.",
+    "source_version": {
+      "digest": "4fc637671f0997a1a8d94985e59613e4eb3da19b3d183168cd0786bf60498cce",
+      "match": "yes"
+    },
+    "source_goal_version": {
+      "digest": "d3e0104d29055179cfc0cc6d961c01c1d99940778e85a8afef089089f5862c4f",
+      "match": "yes"
+    },
+    "evidence": {
+      "version_hash_check": {
+        "status": "passed",
+        "checked_files": [
+          "INPUT/xizi/xizi_double_link_insert_before/xizi_double_link_insert_before.c",
+          "SeparationLogic/examples/INPUT/xizi/xizi_double_link_insert_before/xizi_double_link_insert_before_lib.v",
+          "SeparationLogic/examples/INPUT/xizi/xizi_double_link_insert_before/xizi_double_link_insert_before_goal.v",
+          "SeparationLogic/examples/INPUT/xizi/xizi_double_link_insert_before/xizi_double_link_insert_before_proof_auto.v",
+          "SeparationLogic/examples/INPUT/xizi/xizi_double_link_insert_before/xizi_double_link_insert_before_proof_manual.v",
+          "SeparationLogic/examples/INPUT/xizi/xizi_double_link_insert_before/xizi_double_link_insert_before_goal_check.v",
+          "SeparationLogic/examples/INPUT/xizi/xizi_double_link_insert_before/xizi_double_link_insert_before_proof_diagnostics.v",
+          "SeparationLogic/examples/INPUT/xizi/xizi_double_link_insert_before/diagnostics_snapshot.json"
+        ],
+        "detail": "All eight SHA-256 digests match agent_input.json."
+      },
+      "manual_witness_check": {
+        "status": "passed",
+        "manual_witnesses": [
+          "proof_of_xizi_double_link_insert_before_return_wit_1",
+          "proof_of_xizi_double_link_insert_before_return_wit_2"
+        ],
+        "target_witnesses_match": "yes",
+        "diagnostics_used_as_hint_only": "yes"
+      },
+      "formal_files_modified": "no",
+      "coq_tooling_invoked": "no; semantic contradiction is explicit in the generated definitions and vc-checking is read-only"
+    },
+    "vc_checking": {
+      "status": "blocked",
+      "source_goal_version": "d3e0104d29055179cfc0cc6d961c01c1d99940778e85a8afef089089f5862c4f",
+      "target_witnesses": [
+        "proof_of_xizi_double_link_insert_before_return_wit_1",
+        "proof_of_xizi_double_link_insert_before_return_wit_2"
+      ],
+      "natural_language_analysis": {
+        "witnesses": [
+          {
+            "witness_name": "proof_of_xizi_double_link_insert_before_return_wit_1",
+            "judgment": "annotation-bug",
+            "vc_shape": {
+              "pre_spatial": "root.next |-> node ** root.prev |-> node ** node.prev |-> root ** node.next |-> root",
+              "pre_pure": "root <> 0; node <> 0; old_prev = root; first = root; old_order = [root]",
+              "pre_exists": "none",
+              "post_spatial": "xizi_cdll root new_order",
+              "post_pure": "xizi_insert_before_order old_order node new_order, which unfolds to new_order = old_order ++ [node]",
+              "post_exists": "the internal first/prev/rest witnesses of xizi_cdll"
+            },
+            "witness_instantiation": "If the order were fixed to old_order ++ [node], instantiate xizi_cdll with first=node, prev=node, rest=[node], then unfold the one-element xizi_dllseg.",
+            "space_plan": "The four points-to resources exactly construct the root fields and the one-node segment for the intended order [root; node].",
+            "pure_plan": "PreH5 rewrites old_order to [root], but no hypothesis constrains universally quantified new_order. Taking new_order=[] makes the required equality []=[root;node] false (root and node are nonzero addresses, and list constructors already distinguish these lists).",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "PreH5 discharges only old_order=[root].",
+              "There is no premise capable of discharging new_order=old_order++[node]."
+            ],
+            "failure_signal": "The post-state logical output new_order appears as an unconstrained forall binder in the generated VC.",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": null,
+            "grouping_reason": "Unprovable witnesses must not enter a proof group."
+          },
+          {
+            "witness_name": "proof_of_xizi_double_link_insert_before_return_wit_2",
+            "judgment": "annotation-bug",
+            "vc_shape": {
+              "pre_spatial": "root.next |-> first ** root.prev |-> node ** xizi_dllseg first root old_prev before_old_prev prefix ** old_prev.next |-> node ** old_prev.prev |-> before_old_prev ** node.prev |-> old_prev ** node.next |-> root",
+              "pre_pure": "root <> 0; node <> 0; old_prev <> root; old_order = root :: (prefix ++ [old_prev])",
+              "pre_exists": "existentials internal to xizi_dllseg when prefix is unfolded",
+              "post_spatial": "xizi_cdll root new_order",
+              "post_pure": "xizi_insert_before_order old_order node new_order, which unfolds to new_order = old_order ++ [node]",
+              "post_exists": "the internal first/prev/rest witnesses of xizi_cdll"
+            },
+            "witness_instantiation": "If new_order were fixed to old_order ++ [node], instantiate xizi_cdll with first=first, prev=node, rest=prefix ++ [old_prev;node].",
+            "space_plan": "A proved xizi_dllseg concatenation/extension helper could combine the existing prefix segment with old_prev and node, while the root points-to fields close the circular list.",
+            "pure_plan": "PreH4 determines old_order but leaves universally quantified new_order arbitrary. Taking new_order=[] falsifies new_order=old_order++[node]; old_order is nonempty because it is headed by root.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "PreH4 discharges old_order=root::(prefix++[old_prev]).",
+              "There is no premise capable of discharging new_order=old_order++[node]."
+            ],
+            "failure_signal": "The post-state logical output new_order appears as an unconstrained forall binder in the generated VC.",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": null,
+            "grouping_reason": "Unprovable witnesses must not enter a proof group."
+          }
+        ],
+        "analysis_groups": []
+      },
+      "group_plan": {
+        "source_goal_version": "d3e0104d29055179cfc0cc6d961c01c1d99940778e85a8afef089089f5862c4f",
+        "target_witnesses": [
+          "proof_of_xizi_double_link_insert_before_return_wit_1",
+          "proof_of_xizi_double_link_insert_before_return_wit_2"
+        ],
+        "proof_groups": [],
+        "ready_for_vc_proving_preparing": "no",
+        "blockers": [
+          "Both target witnesses require a pure equality for an arbitrary unconstrained new_order."
+        ]
+      },
+      "required_annotation_rework": {
+        "location": "the C function contract, not the generated Rocq files",
+        "requirement": "Make the post-state order determined existentially or directly express the concrete updated order old_order ++ [linklist_node] in the postcondition. Do not leave new_order as an unconstrained universally quantified With variable. Then rerun canonical symbolic execution.",
+        "case_lib_seed_change_required": "no; xizi_insert_before_order already states the intended list equality"
+      },
+      "ready_for_vc_proving": "no",
+      "recommended_next_phase": "annotation"
+    },
+    "changed_files": [],
+    "blockers": [
+      {
+        "kind": "annotation-spec-semantic-gap",
+        "witnesses": [
+          "proof_of_xizi_double_link_insert_before_return_wit_1",
+          "proof_of_xizi_double_link_insert_before_return_wit_2"
+        ],
+        "missing_fact": "new_order = old_order ++ [linklist_node_pre]",
+        "why_not_helper": "No helper can prove an equality about an arbitrary list without a corresponding premise; adding such an assumption in a helper would leave an undischarged premise.",
+        "recommended_action": "Return to annotation, bind or concretize the post-state order, and regenerate all generated files."
+      }
+    ]
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-07-14T11:14:48Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_double_link_insert_before-20260714180006/rounds/xizi_double_link_insert_before-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    }
+  },
+  "blockers": []
+}

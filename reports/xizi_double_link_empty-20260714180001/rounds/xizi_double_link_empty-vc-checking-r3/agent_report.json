@@ -1,0 +1,291 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "pending",
+  "terminal": "no",
+  "agent_result": {
+    "status": "completed",
+    "terminal": "yes",
+    "round_outcome": "annotation-bug",
+    "phase": "vc-checking",
+    "round": "xizi_double_link_empty-vc-checking-r3",
+    "attempt_id": "xizi_double_link_empty-vc-checking-r3-attempt-1",
+    "source_version": {
+      "schema_version": "qcp-source-version/v1",
+      "digest": "5ebbdc71ef7576193bab4fb098143ae43719f553b87ee2cdac82a4c288636fd4",
+      "verified_current": true,
+      "file_digest_matches": [
+        {
+          "relative_path": "INPUT/xizi/xizi_double_link_empty/xizi_double_link_empty.c",
+          "sha256": "8d2338595a35c6df29a9e99a00f14be1c578a5ca646aaf817cb9e917cef55243",
+          "match": true
+        },
+        {
+          "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_empty/xizi_double_link_empty_lib.v",
+          "sha256": "39442e9881d08ecacc78024554215710a057a47a5aa6cab263635dc9d092bc96",
+          "match": true
+        }
+      ]
+    },
+    "source_goal_version": {
+      "schema_version": "qcp-source-goal-version/v1",
+      "digest": "f9d840e197df71167d0f787b2cb46d800b492bd4d3f41eba98e8345bac712e4c",
+      "verified_current": true,
+      "target_witnesses": [
+        "proof_of_xizi_double_link_empty_entail_wit_1",
+        "proof_of_xizi_double_link_empty_return_wit_1",
+        "proof_of_xizi_double_link_empty_return_wit_2"
+      ],
+      "witness_statement_hashes": {
+        "proof_of_xizi_double_link_empty_entail_wit_1": "f8a94bae6da549e322f772ef64671c4e3a6bf9efacf45dfdfdc91fb58b0d4bad",
+        "proof_of_xizi_double_link_empty_return_wit_1": "f41bc22f8095e562361bebe359f71ec4af5a41fbce59ba033ce1e7a9a4058d1c",
+        "proof_of_xizi_double_link_empty_return_wit_2": "738abba31b17fabe7b9b979e3bca222e0677c0b20bd9cb8ae2c975282b43cb22"
+      }
+    },
+    "vc_checking": {
+      "overall_judgment": "annotation-bug",
+      "vc_proving_ready": "no",
+      "failure_layer": "C intermediate assertion / address identity preservation",
+      "summary": "The entry entailment is definitionally proofable, but both return witnesses quantify linklist_pre and linklist independently. Their preconditions own the complete circular-list resources at linklist, while their postconditions require xizi_dll at linklist_pre, with no equality connecting the two addresses. This is a semantic annotation gap and cannot be repaired by a Rocq tactic or group-local helper.",
+      "target_witness_coverage": {
+        "expected_count": 3,
+        "analyzed_count": 3,
+        "exact_match": true
+      },
+      "candidate_lib_lemmas": [],
+      "witness_analyses": [
+        {
+          "witness_id": "proof_of_xizi_double_link_empty_entail_wit_1",
+          "statement_hash": "f8a94bae6da549e322f772ef64671c4e3a6bf9efacf45dfdfdc91fb58b0d4bad",
+          "judgment": "proofable",
+          "vc_shape": {
+            "pre_spatial": [
+              "xizi_dll linklist_pre l"
+            ],
+            "pre_pure": [
+              "linklist_pre <> 0 (unused by the entailment)"
+            ],
+            "pre_exists": [],
+            "post_spatial": [
+              "head.node_next |-> first",
+              "head.node_prev |-> last",
+              "xizi_dllseg first head head last l"
+            ],
+            "post_pure": [],
+            "post_exists": [
+              "last",
+              "first"
+            ]
+          },
+          "witness_instantiation": "Unfold xizi_dll linklist_pre l and reuse its existing existential witnesses first and last.",
+          "space_plan": "Unfold xizi_dll once; the unfolded body is exactly the required three-resource separating conjunction, modulo existential order/associativity.",
+          "pure_plan": "No pure conclusion is required; PreH1 is not needed.",
+          "used_existing_lemmas": [
+            {
+              "lemma_name": "xizi_dll",
+              "source": "current-case-lib definition",
+              "statement_shape": "EX first last, head.next |-> first ** head.prev |-> last ** xizi_dllseg first head head last nodes",
+              "premises": [],
+              "premise_discharge": []
+            }
+          ],
+          "candidate_lib_lemmas": [],
+          "failure_signal": null,
+          "recommended_next_phase": "vc-proving only after the return-witness annotation bug is repaired and source_goal_version is regenerated",
+          "proof_group_candidate": "dll_definition_unfold",
+          "grouping_reason": "A direct definition-unfold witness with no helper dependency.",
+          "timing_seconds": 18
+        },
+        {
+          "witness_id": "proof_of_xizi_double_link_empty_return_wit_1",
+          "statement_hash": "f41bc22f8095e562361bebe359f71ec4af5a41fbce59ba033ce1e7a9a4058d1c",
+          "judgment": "annotation-bug",
+          "vc_shape": {
+            "pre_spatial": [
+              "linklist.node_next |-> first",
+              "linklist.node_prev |-> last",
+              "xizi_dllseg first linklist linklist last l"
+            ],
+            "pre_pure": [
+              "first <> linklist"
+            ],
+            "pre_exists": [],
+            "post_spatial": [
+              "xizi_dll linklist_pre l"
+            ],
+            "post_pure": [
+              "l = nil -> 0 = 1",
+              "in one disjunct: l <> nil -> 0 = 0"
+            ],
+            "post_exists": [
+              "the first/last witnesses hidden by xizi_dll at linklist_pre"
+            ]
+          },
+          "witness_instantiation": "No valid instantiation exists for the postcondition head address: the precondition supplies resources at linklist, not at the independent universal variable linklist_pre.",
+          "space_plan": "Impossible under the frozen statement. Unfolding xizi_dll would require the two head-field cells at linklist_pre; the heap resources are at linklist and no equality or substitution premise relates these addresses.",
+          "pure_plan": "The non-empty branch fact itself is derivable by destructing l: if l=nil, xizi_dllseg simplifies to first=linklist, contradicting PreH1. This does not repair the missing spatial head identity.",
+          "used_existing_lemmas": [],
+          "candidate_lib_lemmas": [],
+          "premise_discharge": [
+            {
+              "premise": "linklist_pre = linklist, needed to retarget the owned head fields",
+              "discharged_by": "not present in P",
+              "result": "undischarged"
+            }
+          ],
+          "failure_signal": "goal.v lines 46-49 own resources at linklist, while lines 53 and 62 require xizi_dll linklist_pre l; linklist_pre and linklist are independent forall binders.",
+          "semantic_counterexample_shape": "Choose linklist=h, first=r<>h, last=r, l=[r], with the sentinel fields at h and one circular data-node at r satisfying xizi_dllseg r h h r [r]. Choose a fresh linklist_pre=p distinct from h and r. P owns no fields at p, so xizi_dll p [r] cannot be constructed.",
+          "recommended_next_phase": "annotation",
+          "proof_group_candidate": null,
+          "grouping_reason": "Excluded from proving because the frozen VC is not semantically valid.",
+          "timing_seconds": 47
+        },
+        {
+          "witness_id": "proof_of_xizi_double_link_empty_return_wit_2",
+          "statement_hash": "738abba31b17fabe7b9b979e3bca222e0677c0b20bd9cb8ae2c975282b43cb22",
+          "judgment": "annotation-bug",
+          "vc_shape": {
+            "pre_spatial": [
+              "linklist.node_next |-> first",
+              "linklist.node_prev |-> last",
+              "xizi_dllseg first linklist linklist last l"
+            ],
+            "pre_pure": [
+              "first = linklist"
+            ],
+            "pre_exists": [],
+            "post_spatial": [
+              "xizi_dll linklist_pre l"
+            ],
+            "post_pure": [
+              "l = nil -> 1 = 1",
+              "in one disjunct: l <> nil -> 1 = 0"
+            ],
+            "post_exists": [
+              "the first/last witnesses hidden by xizi_dll at linklist_pre"
+            ]
+          },
+          "witness_instantiation": "No valid head-address instantiation exists because linklist_pre is universally fixed and unrelated to linklist.",
+          "space_plan": "Impossible under the frozen statement for the same address-identity reason as return_wit_1. The empty-list case already supplies a direct counterexample.",
+          "pure_plan": "For the intended same-head specification, first=linklist together with the circular segment shape is the empty case; however, even granting the pure facts, the post spatial assertion remains at the unrelated address linklist_pre.",
+          "used_existing_lemmas": [],
+          "candidate_lib_lemmas": [],
+          "premise_discharge": [
+            {
+              "premise": "linklist_pre = linklist, needed to retarget the owned head fields",
+              "discharged_by": "not present in P",
+              "result": "undischarged"
+            }
+          ],
+          "failure_signal": "goal.v lines 85-88 and 95-98 own resources at linklist, while lines 92 and 101 require xizi_dll linklist_pre l; no equality connects the two forall binders.",
+          "semantic_counterexample_shape": "Take l=nil and first=last=linklist=h. Then xizi_dllseg h h h h nil is pure-and-emp, so P consists of the two sentinel field cells at h. Choose a fresh linklist_pre=p<>h. Q requires sentinel field cells at p, which the heap does not own.",
+          "recommended_next_phase": "annotation",
+          "proof_group_candidate": null,
+          "grouping_reason": "Excluded from proving because the frozen VC is not semantically valid.",
+          "timing_seconds": 39
+        }
+      ],
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "f9d840e197df71167d0f787b2cb46d800b492bd4d3f41eba98e8345bac712e4c",
+        "target_witnesses": [
+          "proof_of_xizi_double_link_empty_entail_wit_1",
+          "proof_of_xizi_double_link_empty_return_wit_1",
+          "proof_of_xizi_double_link_empty_return_wit_2"
+        ],
+        "proof_groups": [
+          {
+            "proof_group_id": "dll_definition_unfold",
+            "members": [
+              "proof_of_xizi_double_link_empty_entail_wit_1"
+            ],
+            "representative_witness": "proof_of_xizi_double_link_empty_entail_wit_1",
+            "natural_language_proof_pattern": "Unfold xizi_dll, select the definition's first/last existential witnesses, and close the identical spatial body by cancellation/associativity.",
+            "shared_helper_candidates": [],
+            "proving_hints": [
+              "Choose either identical disjunct.",
+              "Unfold xizi_dll exactly once.",
+              "No case-lib helper should be added."
+            ],
+            "grouping_confidence": "high",
+            "reason": "This is the only currently proofable witness and is a direct definition-unfold obligation. One group minimizes worker count while keeping semantically invalid return witnesses out of proving."
+          }
+        ],
+        "excluded_from_proving": [
+          {
+            "witness": "proof_of_xizi_double_link_empty_return_wit_1",
+            "reason": "annotation-bug: missing linklist_pre=linklist"
+          },
+          {
+            "witness": "proof_of_xizi_double_link_empty_return_wit_2",
+            "reason": "annotation-bug: missing linklist_pre=linklist"
+          }
+        ],
+        "downstream_valid": "no",
+        "invalidation_reason": "Any annotation repair and canonical symbolic-execution refresh will create a new source_goal_version and invalidate this provisional proofable-witness grouping."
+      },
+      "annotation_repair_recommendation": {
+        "required_property": "Preserve a single logical head address across Require, the intermediate Assert, and Ensure so generated return witnesses use the same address for owned resources and xizi_dll.",
+        "conservative_pattern": "Introduce an explicit logical head in With; Require linklist == head and xizi_dll(head,l); carry linklist == head (or use head consistently) in the intermediate predicate-first assertion; Ensure xizi_dll(head,l).",
+        "must_preserve": [
+          "recursive xizi_dll/xizi_dllseg separation-logic specification",
+          "sentinel next/prev closed-ring resources",
+          "the l=nil iff first=head intended emptiness distinction"
+        ],
+        "next_checks": [
+          "rerun annotation-filling and annotation-checking",
+          "rerun canonical symbolic execution and diagnostics split",
+          "verify refreshed return witnesses no longer quantify unrelated linklist_pre/linklist heads",
+          "rerun vc-checking against the new source_goal_version"
+        ]
+      },
+      "diagnostics_hint": {
+        "used_as_hint_only": true,
+        "split_spatial_goals_confirm_issue": [
+          "xizi_double_link_empty_return_wit_1_split_goal_spatial",
+          "xizi_double_link_empty_return_wit_2_split_goal_spatial"
+        ],
+        "not_target_witnesses": true
+      }
+    },
+    "evidence": {
+      "input_versions_match_current_files": true,
+      "manual_target_set_exact": true,
+      "formal_files_modified": false,
+      "coq_check_run": false,
+      "coq_check_reason": "vc-checking is a read-only semantic planning phase; the semantic counterexamples make proving feedback inapplicable.",
+      "primary_files": [
+        "SeparationLogic/examples/INPUT/xizi/xizi_double_link_empty/xizi_double_link_empty_goal.v",
+        "SeparationLogic/examples/INPUT/xizi/xizi_double_link_empty/xizi_double_link_empty_lib.v",
+        "SeparationLogic/examples/INPUT/xizi/xizi_double_link_empty/xizi_double_link_empty_proof_manual.v",
+        "SeparationLogic/examples/INPUT/xizi/xizi_double_link_empty/diagnostics_snapshot.json"
+      ]
+    },
+    "changed_files": [],
+    "blockers": [],
+    "recommended_next_phase": "annotation",
+    "timing": {
+      "phase_started_at": "2026-07-14T18:14:50+08:00",
+      "phase_finished_at": "2026-07-14T18:17:18+08:00",
+      "elapsed_seconds": 148,
+      "witness_analysis_seconds": 104,
+      "version_and_target_audit_seconds": 19,
+      "rules_and_context_read_seconds": 25,
+      "slowest_diagnostic_point": "proof_of_xizi_double_link_empty_return_wit_1",
+      "major_time_reason": "Constructing an explicit satisfiable non-empty circular-list precondition to demonstrate that the head-address mismatch is semantic rather than merely a missing tactic.",
+      "long_duration": false,
+      "open_or_incomplete_timing_events": []
+    }
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-07-14T10:19:55Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_double_link_empty-20260714180001/rounds/xizi_double_link_empty-vc-checking-r3/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    }
+  },
+  "blockers": []
+}

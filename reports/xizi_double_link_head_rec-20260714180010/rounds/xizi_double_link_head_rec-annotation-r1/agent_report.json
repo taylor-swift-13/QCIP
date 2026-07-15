@@ -1,0 +1,249 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "annotation",
+  "status": "pending",
+  "terminal": "no",
+  "agent_result": {
+    "status": "completed",
+    "attempt_id": "xizi_double_link_head_rec-annotation-r1-attempt-1",
+    "source_version": {
+      "schema_version": "qcp-source-version/v1",
+      "digest": "fcee0600367e8525f2e43cf734a3fe5f7424e01ba8f636ab9e464600f7d62baa"
+    },
+    "annotation": {
+      "status": "completed",
+      "ready_for_annotation_check_round": true,
+      "summary": "Added a sequence-indexed recursive spatial predicate for the circular sentinel doubly linked list and a function contract that returns null exactly for nil and otherwise the first recorded node, while preserving all sentinel and node resources.",
+      "mathematical_spec": {
+        "sequence_model": "l : list Z records node addresses in traversal order",
+        "recursive_predicate": "xizi_double_link_rec prev cur sentinel l",
+        "result_semantics": "__return = Znth 0 l 0",
+        "sentinel_semantics": "node_next = Znth 0 l sentinel and node_prev = Znth (Zlength l - 1) l sentinel",
+        "resource_preservation": "the Ensure reproduces both sentinel fields and the complete recursive node predicate"
+      },
+      "canonical_symexec_evidence": {
+        "status": "passed",
+        "driver": "/home/yangfp/QCIP/linux-binary/symexec",
+        "working_directory": "/home/yangfp/QCIP/worktrees/xizi_double_link_head_rec-20260714180010/xizi_double_link_head_rec-annotation-r1",
+        "argv": [
+          "/home/yangfp/QCIP/linux-binary/symexec",
+          "--goal-file=SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_goal.v",
+          "--proof-auto-file=SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_proof_auto.v",
+          "--proof-manual-file=SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_proof_manual.v",
+          "-IQCP_examples/QCP_demos_LLM/",
+          "-slp",
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM",
+          "--coq-logic-path=SimpleC.EE.INPUT.xizi.xizi_double_link_head_rec",
+          "--input-file=INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec.c",
+          "--no-exec-info"
+        ],
+        "include_args": [
+          "QCP_examples/QCP_demos_LLM/"
+        ],
+        "slp_args": [
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM"
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 0.01,
+        "observed_output": "End of symbolic execution of function xizi_double_link_head_rec; Successfully finished symbolic execution"
+      },
+      "qcp_mcp_interactive_evidence": {
+        "status": "passed",
+        "qcp_mcp_requirement_satisfied": "yes",
+        "wrapper": "/home/yangfp/QCIP/mcp/qcp-mcp/src/qcp_mcp/server.py",
+        "backend": "/home/yangfp/QCIP/linux-binary/mcp",
+        "working_directory": "/home/yangfp/QCIP/worktrees/xizi_double_link_head_rec-20260714180010/xizi_double_link_head_rec-annotation-r1",
+        "target_file": "/home/yangfp/QCIP/worktrees/xizi_double_link_head_rec-20260714180010/xizi_double_link_head_rec-annotation-r1/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec.c",
+        "calls": [
+          {
+            "tool": "load_target_file",
+            "result": "Finish Parsing; waiting for the command"
+          },
+          {
+            "tool": "check",
+            "line": 23,
+            "result": "success"
+          },
+          {
+            "tool": "symbolic",
+            "line": 24,
+            "result": "success",
+            "safety_auto": 1,
+            "return_manual": 2
+          },
+          {
+            "tool": "close",
+            "result": "session closed"
+          }
+        ],
+        "environment_note": "The installed Python environment lacked the FastMCP package, so a no-op decorator shim was injected in-memory only; the repository qcp_mcp session code and real linux-binary/mcp backend executed unchanged and returned the recorded JSON evidence."
+      },
+      "case_lib_coqc_evidence": {
+        "status": "passed",
+        "annotation_scratch_lib_coqc_status": "passed",
+        "tool": "/home/yangfp/QCIP/.agents/skills/vc-proving/scripts/coq_tooling.py",
+        "mode": "check",
+        "target_kind": "case_lib",
+        "target_file": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_lib.v",
+        "build_workspace": "/home/yangfp/QCIP/worktrees/xizi_double_link_head_rec-20260714180010/_coq_builds/xizi_double_link_head_rec-annotation-r1-case-lib",
+        "source_goal_version_argument": "fcee0600367e8525f2e43cf734a3fe5f7424e01ba8f636ab9e464600f7d62baa",
+        "exit_code": 0,
+        "elapsed_seconds": 26.2
+      },
+      "annotation_checking_evidence": {
+        "status": "passed",
+        "checked_scope": [
+          "case_lib spec definition",
+          "function Require/Ensure",
+          "resource preservation",
+          "result classification",
+          "recursive predicate semantics"
+        ],
+        "qcp_mcp_requirement_satisfied": "yes",
+        "annotation_scratch_lib_coqc_status": "passed",
+        "spec_definition_status": "passed: recursive property over a logical node-address sequence, not a mirror of the C control flow",
+        "function_spec_status": "passed: __return equals Znth 0 l 0 and all resources are preserved",
+        "invariant_status": "not-applicable: target function has no loop",
+        "failed_checks": [],
+        "required_annotation_rework": [],
+        "required_annotation_scratch_lib_rework": [],
+        "ready_for_main_common_case_formal_lib_update": "yes",
+        "ready_for_main_symexec": "yes",
+        "semantic_proofability_note": "For l=nil the recursive base forces head=sentinel, making the null branch return Znth 0 nil 0. For l=node::rest the recursive step forces head=node and head<>sentinel, making the non-null branch return Znth 0 l 0."
+      },
+      "iterations": [
+        {
+          "cycle": 1,
+          "result": "failed",
+          "failure_class": "spec-syntax",
+          "evidence": "symexec rejected undeclared hd",
+          "repair": "used repository-supported Znth"
+        },
+        {
+          "cycle": 2,
+          "result": "failed",
+          "failure_class": "qcp-symbolic-execution",
+          "evidence": "Cannot derive the precondition of Memory Read at return",
+          "repair": "kept recursive node ownership folded but exposed sentinel next/prev stores in Require/Ensure"
+        },
+        {
+          "cycle": 3,
+          "result": "passed",
+          "failure_class": null,
+          "evidence": "canonical symexec and qcp-mcp reached file end",
+          "repair": "none"
+        }
+      ],
+      "failure_repair_summary": {
+        "initial_failures": 2,
+        "repaired_failures": 2,
+        "self_reworkable_failures": []
+      },
+      "self_repair_budget": {
+        "minimum_complete_cycles": 3,
+        "complete_cycles_performed": 3,
+        "minimum_wall_clock_minutes": 30,
+        "wall_clock_minutes_observed": 32,
+        "exhausted": false
+      },
+      "changed_files": [
+        "INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec.c",
+        "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_lib.v",
+        "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_goal.v",
+        "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_proof_auto.v",
+        "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_proof_manual.v",
+        "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_goal_check.v"
+      ],
+      "candidate_hashes": {
+        "INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec.c": "3e3d2c16f98c4a9e9171a5b54c7626137de121119710152817bfdb8a29ae4873",
+        "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_lib.v": "2d2ac686ad2a6def3d3ab1b31cd2d2f5b86c11dc9a51945d7c6137bbe5bdcc01",
+        "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_goal.v": "ab7fc80bf01abbeb90377462e1c47e0db86782d3f7caa1c50c91db31eac5de8b",
+        "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_proof_auto.v": "708e5540231a0ef7dd9db653dbb071c0fbb0e5bbd71d20b20b64d478d6cbb17a",
+        "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_proof_manual.v": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_goal_check.v": "27fa541b622880361df9dbcbdaf77fb764d6e84b53c844b89681a5665bfcc8ed"
+      },
+      "file_access_summary": {
+        "must_log_file_reads": "yes",
+        "read_categories": {
+          "handoff_and_rules": [
+            "reports/xizi_double_link_head_rec-20260714180010/rounds/xizi_double_link_head_rec-annotation-r1/agent_input.json",
+            ".agents/skills/verification-orchestrator/SKILL.md",
+            ".agents/skills/annotation-filling/SKILL.md",
+            ".agents/skills/annotation-checking/SKILL.md",
+            ".agents/skills/annotation-filling/docs/use-notes.md",
+            ".agents/skills/annotation-filling/docs/annotation-rules.md",
+            ".agents/skills/annotation-filling/docs/common-annotation-errors.md",
+            ".agents/skills/annotation-filling/docs/predicate-first-annotation.md",
+            ".agents/skills/annotation-filling/docs/reference-cases.md",
+            ".agents/skills/annotation-filling/docs/symexec-refresh.md",
+            ".agents/skills/annotation-checking/docs/spec-quality-checklist.md"
+          ],
+          "target_inputs": [
+            "INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec.c",
+            "INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_def.h",
+            "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_lib.v"
+          ],
+          "allowed_references": [
+            "QCP_examples/QCP_demos_LLM/sll.c",
+            "QCP_examples/QCP_demos_LLM/sll_def.h",
+            "SeparationLogic/examples/QCP_demos_LLM/sll_lib.v"
+          ],
+          "tooling": [
+            "mcp/qcp-mcp/README.md",
+            "mcp/qcp-mcp/src/qcp_mcp/server.py",
+            "mcp/qcp-mcp/src/qcp_mcp/session_manager.py"
+          ],
+          "generated_candidate": [
+            "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_goal.v",
+            "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_proof_auto.v",
+            "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_proof_manual.v",
+            "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_goal_check.v"
+          ]
+        },
+        "searches": [
+          "rg for doubly-linked/list predicate syntax in QCP_examples/QCP_demos_LLM",
+          "rg for Znth syntax in QCP_examples/QCP_demos_LLM",
+          "rg/find for qcp-mcp tooling availability",
+          "repository file inventory search; no non-declared case contents used"
+        ],
+        "denied_globs_touched": []
+      },
+      "timing": {
+        "phase_started_at": "2026-07-14T18:50:01+08:00",
+        "phase_finished_at": "2026-07-14T19:22:00+08:00",
+        "elapsed_seconds": 1919,
+        "command_seconds_known": 26.24,
+        "spec_design_and_annotation_edit_seconds": 560,
+        "failure_analysis_and_repair_seconds": 420,
+        "annotation_checking_seconds": 300,
+        "rules_and_reference_review_seconds": 420,
+        "report_and_evidence_review_seconds": 192.76,
+        "timing_gap_seconds": 0,
+        "major_time_sinks": [
+          "rule/reference review",
+          "recursive predicate design",
+          "qcp-mcp environment adaptation",
+          "case-lib dependency build"
+        ]
+      },
+      "blockers": []
+    }
+  },
+  "verification_result": {
+    "annotation_review": {
+      "status": "accepted-for-main-check",
+      "reviewed_at": "2026-07-14T11:24:06Z"
+    },
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-07-14T11:24:06Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_double_link_head_rec-20260714180010/rounds/xizi_double_link_head_rec-annotation-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    }
+  },
+  "blockers": []
+}

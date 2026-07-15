@@ -37,10 +37,24 @@ Fixpoint generic_dllseg
   | nil => “ x = tail ” && “ prev = last ” && emp
   | a :: l0 =>
       “ x <> NULL ” &&
+      “ x <> tail ” &&
       EX y: addr,
         storeA x y prev a **
         generic_dllseg storeA y x tail last l0
   end.
+
+Lemma generic_dllseg_len1: forall
+  (A: Type) (storeA: addr -> addr -> addr -> A -> Assertion)
+  x prev tail (a: A),
+  x <> NULL ->
+  x <> tail ->
+  storeA x tail prev a |-- generic_dllseg storeA x prev tail x [a].
+Proof.
+  intros.
+  simpl.
+  Exists tail.
+  entailer!.
+Qed.
 
 Definition generic_dll_head
   {A: Type}
@@ -77,7 +91,8 @@ Module DLLLib (Layout : DLL_LAYOUT).
   Definition head_store : addr -> addr -> addr -> Assertion :=
     dll_head_store struct_name next_field prev_field.
 
-  Definition dllseg : addr -> addr -> addr -> addr -> list addr -> Assertion :=
+  Definition dllseg :
+    addr -> addr -> addr -> addr -> list addr -> Assertion :=
     generic_dllseg addr_node_store.
 
   Definition dll : addr -> list addr -> Assertion :=

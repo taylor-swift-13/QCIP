@@ -1,0 +1,286 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "annotation",
+  "status": "pending",
+  "terminal": "yes",
+  "agent_result": {
+    "status": "blocked",
+    "terminal": "yes",
+    "round_outcome": "blocked",
+    "phase": "annotation",
+    "round": "xizi_double_link_remove_node-annotation-r2",
+    "attempt_id": "xizi_double_link_remove_node-annotation-r2-attempt-1",
+    "source_version": {
+      "schema_version": "qcp-source-version/v1",
+      "digest": "e5144cc1a8fd48fac7acee728ea7a6e2c6d0382441a290b23efa4e53c8e968fe",
+      "verified_current_before_edit": true,
+      "file_digest_matches": [
+        {
+          "relative_path": "INPUT/xizi/xizi_double_link_remove_node/xizi_double_link_remove_node.c",
+          "expected_sha256": "b079f711879b75e532b280e3a9e49f8c41e8eb8228ad96255663108b319dbd68",
+          "actual_sha256_before_edit": "b079f711879b75e532b280e3a9e49f8c41e8eb8228ad96255663108b319dbd68",
+          "match": true
+        },
+        {
+          "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_remove_node/xizi_double_link_remove_node_lib.v",
+          "expected_sha256": "27dce0c34cd9cdecc5748b9cdbc38841bd26cc4362fe0336db19f8ac09ac00ad",
+          "actual_sha256_before_edit": "27dce0c34cd9cdecc5748b9cdbc38841bd26cc4362fe0336db19f8ac09ac00ad",
+          "match": true
+        }
+      ]
+    },
+    "candidate_source_version": {
+      "schema_version": "qcp-source-version/v1",
+      "digest": "dd25cf9c1b7b252b814627426db80410b39d0728ae4a55151d28b91336378b2e",
+      "digest_input_policy": "relative_path+sha256+state+role only",
+      "files": [
+        {
+          "relative_path": "INPUT/xizi/xizi_double_link_remove_node/xizi_double_link_remove_node.c",
+          "sha256": "4ca58cf655851cc6ab09667c2432ac7e26885e7927b06e91dcd55441636a2b61",
+          "state": "present",
+          "role": "target-c-annotated"
+        },
+        {
+          "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_remove_node/xizi_double_link_remove_node_lib.v",
+          "sha256": "7d58e84db41f7ab73b8149d39bad0eb5c9bd3738fa60358b11c1867d0572c5ec",
+          "state": "present",
+          "role": "case-lib-seed"
+        }
+      ]
+    },
+    "source_goal_version": null,
+    "annotation": {
+      "status": "blocked",
+      "ready_for_annotation_check_round": false,
+      "summary": "A mathematically meaningful, sequence-indexed DLL removal specification was implemented and passes three canonical direct symexec runs, case_lib compilation, and full goal-check compilation. Strict completion is blocked only because qcp-mcp is unavailable in the current agent tool inventory and filesystem; direct symexec is not claimed as a substitute.",
+      "spec_design": {
+        "predicate": "xizi_dll_open first last nodes",
+        "mathematical_meaning": "nodes is the traversal-order sequence of all non-removed nodes from successor to predecessor; the predicate owns exactly the interior forward/back links while omitting first.prev and last.next as explicit circular boundary cells",
+        "precondition_effect": "owns the designated node fields, successor.prev = designated node, predecessor.next = designated node, and the sequence-indexed open path",
+        "postcondition_effect": "owns successor.prev = predecessor, predecessor.next = successor, the unchanged open-path sequence, and the removed node with both fields self-linked",
+        "alias_handling": "supports successor = predecessor (the lone sentinel around one member) without overlapping ownership because node_prev and node_next are distinct fields; requires the designated member itself to differ from both boundary nodes",
+        "algorithm_mirror": false,
+        "loop_invariant_required": false
+      },
+      "canonical_symexec_evidence": {
+        "status": "passed",
+        "driver": "/home/yangfp/QCIP/linux-binary/symexec",
+        "working_directory": "/home/yangfp/QCIP/worktrees/xizi_double_link_remove_node-20260714180014/xizi_double_link_remove_node-annotation-r2",
+        "include_args": [
+          "-IQCP_examples/QCP_demos_LLM/"
+        ],
+        "slp_args": [
+          "-slp",
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM"
+        ],
+        "coq_logic_path": "SimpleC.EE.INPUT.xizi.xizi_double_link_remove_node",
+        "input_file": "INPUT/xizi/xizi_double_link_remove_node/xizi_double_link_remove_node.c",
+        "cycles": [
+          {
+            "cycle": 1,
+            "status": "failed",
+            "failure_class": "where-instantiation/spatial-unfolding",
+            "diagnostic": "Assign Exec fail at line 26 because the initial opaque xizi_dllseg did not expose successor.prev ownership"
+          },
+          {
+            "cycle": 2,
+            "status": "passed",
+            "end_of_file": true,
+            "repair": "replaced the opaque-boundary segment with xizi_dll_open plus explicit boundary field ownership"
+          },
+          {
+            "cycle": 3,
+            "status": "passed",
+            "end_of_file": true
+          },
+          {
+            "cycle": 4,
+            "status": "passed",
+            "end_of_file": true
+          }
+        ]
+      },
+      "qcp_mcp_interactive_evidence": {
+        "status": "unavailable",
+        "qcp_mcp_requirement_satisfied": "no",
+        "tool_inventory_evidence": "No qcp-mcp callable tool was present in the agent tool inventory; list_mcp_resources exposed only codex_apps resources.",
+        "local_command_evidence": "command -v qcp-mcp returned no path; bounded filesystem searches found no qcp-mcp executable or script.",
+        "direct_symexec_substitution": "forbidden",
+        "reason": "annotation-checking explicitly forbids treating direct symexec success as qcp-mcp success"
+      },
+      "case_lib_coqc_evidence": {
+        "status": "passed",
+        "annotation_scratch_lib_coqc_status": "passed",
+        "tool": ".agents/skills/vc-proving/scripts/coq_tooling.py check",
+        "target_kind": "case_lib",
+        "fixed_flags_hash": "9bdaa2ffdbaca882e29d6aa89234fc849f2f8987edc04425059c56c78ab70f0d",
+        "final_returncode": 0,
+        "final_elapsed_seconds": 1.888,
+        "repair_history": [
+          "initial compile failed because string scope was not imported",
+          "added Coq.Strings.String and string_scope",
+          "fixed check passed"
+        ],
+        "evidence_file": "/tmp/xizi_case_lib_check2.json"
+      },
+      "goal_check_evidence": {
+        "status": "passed",
+        "tool": ".agents/skills/vc-proving/scripts/coq_tooling.py check",
+        "target_kind": "check",
+        "target_file": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_remove_node/xizi_double_link_remove_node_goal_check.v",
+        "fixed_flags_hash": "9bdaa2ffdbaca882e29d6aa89234fc849f2f8987edc04425059c56c78ab70f0d",
+        "returncode": 0,
+        "elapsed_seconds": 151.793,
+        "evidence_file": "/tmp/xizi_goal_check.json",
+        "note": "Supplemental round evidence only; controller still owns canonical acceptance and source_goal_version creation."
+      },
+      "annotation_checking_evidence": {
+        "status": "blocked",
+        "checked_scope": [
+          "case_lib compile gate",
+          "sequence-indexed mathematical shape definition",
+          "function Require/Ensure logical and spatial effect",
+          "alias/non-overlap analysis",
+          "absence of algorithm-mirror specification",
+          "loop-invariant applicability",
+          "qcp-mcp requirement"
+        ],
+        "qcp_mcp_requirement_satisfied": "no",
+        "annotation_scratch_lib_coqc_status": "passed",
+        "spec_definition_status": "passed: strict sequence-indexed open DLL path predicate, not an algorithm mirror",
+        "function_spec_status": "passed: states both boundary repairs and detached self-linked ownership while preserving the non-removed node sequence",
+        "invariant_status": "not-applicable: target function contains no loop",
+        "annotation_scratch_lib_changes": "added xizi_dll_open and the separation-logic imports/scopes required to define it",
+        "summary": "All semantic checks pass, but annotation-checking cannot return passed while qcp_mcp_requirement_satisfied is no.",
+        "failed_checks": [
+          "qcp-mcp interactive check could not be run because the required tool is unavailable"
+        ],
+        "required_annotation_rework": [],
+        "required_annotation_scratch_lib_rework": [],
+        "ready_for_main_common_case_formal_lib_update": "no",
+        "ready_for_main_symexec": "no"
+      },
+      "changed_files": [
+        {
+          "path": "INPUT/xizi/xizi_double_link_remove_node/xizi_double_link_remove_node.c",
+          "change_kind": "annotation/spec edit",
+          "sha256": "4ca58cf655851cc6ab09667c2432ac7e26885e7927b06e91dcd55441636a2b61"
+        },
+        {
+          "path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_remove_node/xizi_double_link_remove_node_lib.v",
+          "change_kind": "case_lib spec definition",
+          "sha256": "7d58e84db41f7ab73b8149d39bad0eb5c9bd3738fa60358b11c1867d0572c5ec"
+        },
+        {
+          "path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_remove_node/xizi_double_link_remove_node_goal.v",
+          "change_kind": "generated by canonical symexec",
+          "sha256": "7e8f9d13159446a5ae37d5bf49ca0ebe4d26feba6ba2d1cfac76fc4917fb821e"
+        },
+        {
+          "path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_remove_node/xizi_double_link_remove_node_proof_auto.v",
+          "change_kind": "generated by canonical symexec",
+          "sha256": "23ea7ab5db7631b05b064033e9a1069c83905cc14f0c489c91a8570b11c38715"
+        },
+        {
+          "path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_remove_node/xizi_double_link_remove_node_proof_manual.v",
+          "change_kind": "generated empty manual file",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_remove_node/xizi_double_link_remove_node_goal_check.v",
+          "change_kind": "generated by canonical symexec",
+          "sha256": "d82d821eb3e1b6905550b95bc03d126c1b94f05094dccf7bc531a90126c0824c"
+        }
+      ],
+      "generated_files_modified_by_hand": false,
+      "iteration_evidence": {
+        "complete_cycles": 4,
+        "successful_canonical_cycles": 3,
+        "self_reworkable_failures": [],
+        "repairs_completed_inside_spawn": [
+          "made boundary field ownership explicit after symbolic-execution failure",
+          "recompiled case_lib after adding the missing string scope",
+          "reran canonical symbolic execution three times to file end"
+        ],
+        "self_repair_budget": {
+          "min_complete_cycles": 3,
+          "completed_cycles": 4,
+          "min_wall_clock_minutes": 30,
+          "exhausted": false,
+          "early_terminal_reason": "required qcp-mcp toolchain is completely unavailable after inventory, command-path, resource, and bounded filesystem checks; artificial waiting is not permitted"
+        }
+      },
+      "file_access_summary": {
+        "must_log_file_reads": "yes",
+        "read_categories": [
+          "agent_input and all handoff.rules_source skills",
+          "skill-linked annotation/checking rule and quality documents",
+          "current round target C, target header, and case_lib seed",
+          "previous_attempt report/output explicitly authorized by the handoff",
+          "QCP_demos_LLM doubly-linked-list C/header examples and matching LLM formal predicate definitions",
+          "controller source-version digest helper",
+          "generated current-case files"
+        ],
+        "searches": [
+          "rg constrained to QCP_examples/QCP_demos_LLM for DLL representations",
+          "exact-path reads of QCP_demos_LLM DLL formal libraries",
+          "rg constrained to annotation/orchestrator skill directories for qcp-mcp entry points",
+          "bounded filename search for a local qcp-mcp executable"
+        ],
+        "reference_files_read": [
+          "QCP_examples/QCP_demos_LLM/dll_shape_def.h",
+          "QCP_examples/QCP_demos_LLM/dll_auto.c",
+          "QCP_examples/QCP_demos_LLM/dll_queue_def.h",
+          "QCP_examples/QCP_demos_LLM/dll_data_def.h",
+          "SeparationLogic/examples/QCP_demos_LLM/dll_queue_lib.v",
+          "SeparationLogic/examples/QCP_demos_LLM/dll_shape_lib.v"
+        ],
+        "denied_globs_touched": []
+      },
+      "blockers": [
+        {
+          "code": "required-qcp-mcp-tool-unavailable",
+          "reason": "The annotation-checking quality gate requires a successful qcp-mcp run to file end, but this agent session provides no qcp-mcp tool, resource, command, or local executable. Direct symexec succeeded but is explicitly forbidden as a substitute.",
+          "evidence": "agent_result.annotation.qcp_mcp_interactive_evidence",
+          "recommended_action": "Controller/main should retry this annotation round only in an environment that exposes qcp-mcp; the candidate and direct fixed-tool evidence are reusable analysis, but controller acceptance must remain false until the MCP check genuinely passes."
+        }
+      ],
+      "recommended_next_phase": "annotation"
+    },
+    "changed_files": [
+      "INPUT/xizi/xizi_double_link_remove_node/xizi_double_link_remove_node.c",
+      "SeparationLogic/examples/INPUT/xizi/xizi_double_link_remove_node/xizi_double_link_remove_node_lib.v",
+      "SeparationLogic/examples/INPUT/xizi/xizi_double_link_remove_node/xizi_double_link_remove_node_goal.v",
+      "SeparationLogic/examples/INPUT/xizi/xizi_double_link_remove_node/xizi_double_link_remove_node_proof_auto.v",
+      "SeparationLogic/examples/INPUT/xizi/xizi_double_link_remove_node/xizi_double_link_remove_node_proof_manual.v",
+      "SeparationLogic/examples/INPUT/xizi/xizi_double_link_remove_node/xizi_double_link_remove_node_goal_check.v"
+    ],
+    "blockers": [
+      {
+        "code": "required-qcp-mcp-tool-unavailable",
+        "evidence": "agent_result.annotation.qcp_mcp_interactive_evidence"
+      }
+    ],
+    "timing": {
+      "tracked_qcp_mcp_cycles": 0,
+      "tracked_direct_symexec_cycles": 4,
+      "successful_direct_symexec_cycles": 3,
+      "case_lib_final_compile_seconds": 1.888,
+      "goal_check_compile_seconds": 151.793,
+      "canonical_symexec_status": "passed",
+      "timing_gap": "Rule reading, spec design, edits, failed compile dependency build, tool availability audit, and report preparation were not captured by an external incremental activity ledger and are not retrospectively estimated.",
+      "open_or_incomplete_timing_events": []
+    }
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-07-14T12:22:33Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_double_link_remove_node-20260714180014/rounds/xizi_double_link_remove_node-annotation-r2/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    }
+  }
+}

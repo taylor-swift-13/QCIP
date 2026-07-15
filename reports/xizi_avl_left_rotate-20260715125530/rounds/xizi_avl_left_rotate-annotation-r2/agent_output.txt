@@ -1,0 +1,19 @@
+# Reuse Note
+Note kind: non-authoritative reuse note
+This file is not acceptance evidence.
+
+Attempt: xizi_avl_left_rotate-annotation-r2-attempt-1
+Outcome: completed candidate, pending controller review and annotation-check-round.
+
+Reusable facts for downstream/retry work:
+- The target C imports the shared `QCIPLib/xizi/xizi_avl_common/xizi_avl_def.h` through the correct source-directory-relative path and has no active case-private Rocq import.
+- Its public contract owns `store_addr_avl(avl_node, before)`, fixes the exact non-null root/right-child model, and returns an exact `after` satisfying both `store_addr_avl(__return, after)` and `avl_left_rotation(before, after)`.
+- One internal complete `Assert` exposes only shared `avl_node_fields` / `store_addr_avl` components so common strategies can unfold the right child.
+- The case-local lib contains no declarations; it is only a compatibility re-export of `QCIPLib.xizi.xizi_avl_common.xizi_avl_lib`.
+- Final qcp-mcp reached file tail with explicit canonical `-I` / `-slp` backend args and loaded `xizi_avl`; canonical symexec also reached file end.
+- The fixed case_lib coqc check passed with flags hash `1637faae25397c4c30221b8193a63d94b656cb2c56e2ccfd6b0cfa1f2bcf8771`.
+- Two target manual witnesses remain: the internal constructor-injectivity/exposure entailment and the final fold plus exact rotation return entailment. They are semantically valid proof obligations.
+
+Controller-owned follow-up:
+- Rerun canonical symexec and the deterministic diagnostics splitter in `annotation-check-round`; this must replace the old diagnostics artifact and remove generated `_split_goal_` / `Proof. Abort.` blocks from the cleaned manual.
+- JSON handoff, current files, source versions, and controller state take precedence over this note.

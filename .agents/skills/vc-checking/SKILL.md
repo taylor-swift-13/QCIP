@@ -1,68 +1,59 @@
 ---
 name: vc-checking
-description: 判断 QCP 生成的 separation logic VC 是否语义可证，并区分问题来自 annotation、witness 结构、group-local helper lemma 需求还是 manual proof；helper lemmas 先由 vc-proving 迁入本轮 task_local_scratch_lib，所有目标 VC 完成后再批量回填 common_case_formal_lib。
+description: 由 vc-checking-subagent 在 vc-checking round worktree 中检查 generated manual VC 是否语义可证，并输出与当前 source_goal_version 绑定的 proof group plan。
 ---
 
 # VC Checking
 
-这个 skill 只负责 witness / VC 的可证性分诊。它固定绑定给 `vc-checking-subagent`；phase、`Witness Ledger` 字段、状态枚举和 stale 规则统一由 `verification-orchestrator` 定义，本 skill 不再重复这些基础合同。
+本 skill 固定由 `vc-checking-subagent` 使用。它只读 `agent_input.json` 和 vc-checking round worktree，判断当前 generated manual VC 是否语义可证，并输出 proof group plan。
 
+`spawn.fork_context == false`、`fork_turns == "none"`、`parent_context_allowed == false`；不得依赖 main agent 聊天历史。
 
-## 何时使用
+## 文档
 
-- case 已由 `verification-orchestrator` 置于 `vc-checking` 阶段。
-- 主 agent 已为当前 vc-checking 轮次启动 `vc-checking-subagent`。
-- 需要判断某个 witness 是否语义可证。
-- 需要判断问题更像 annotation bug、lemma 缺失还是 proof gap。
+- `docs/vc-checking-guide.md`：`P |-- Q` 分析流程、judgment、group plan 模板和 annotation/spec blocker 信号。
+- `docs/natural-language-analysis.md`：自然语言证明分析 group 的规范化输出、blocked 规则和与 proof group plan 的连接。
 
-## 进入前提
+## 输入
 
-- 当前 `goal` / witness 集合对应最新冻结版本。
-- 主 agent 已确认本轮分诊不是基于过期生成文件。
-- 当前 delegation ticket 的 `subagent_name` 固定为 `vc-checking-subagent`。
+- accepted annotation round worktree
+- 当前 `*_goal.v`、`*_proof_auto.v`、`*_proof_manual.v`、`*_goal_check.v`
+- 当前 `case_lib`
+- `source_version`
+- `source_goal_version`
+- diagnostics 文件和 snapshot，仅作为 planning hint
+- `problem_context` 和 `annotation_design_summary`，用于理解题目语义和 annotation 设计，不需要读取 parent chat。
 
-## 直接输出
+## 输出
 
-- 对目标 witness 或 witness 集的分诊结论。
-- 对应的失败信号、证明难点以及后续 proving / annotation 建议。
-- `witness_group_plan`：按自然语言证明思路归类的 proving 分组计划。每组至少包含 `proof_group_id`、`members`、`representative_witness`、`natural_language_proof_pattern`、`shared_helper_candidates`、`proving_hints`、`grouping_confidence`。
-- 本轮 vc-checking 总耗时、每个 witness 或 witness cluster 的分析耗时、最慢分诊点以及主要耗时原因。
-- 若本轮返回 `blocked` 或总耗时超过 600 秒，必须额外输出 blocked / long-duration 诊断：blocked reason、long-duration reason、具体证据、受影响 witness/cluster、已经尝试过的判断路径、下一步建议。
-- 若结论是 `needs-lemma`，必须明确该 helper lemma 先由 `vc-proving` group worker 在 `worker_helper_scratch_lib` 中证明，再通过 helper migration 迁入本轮 `task_local_scratch_lib` 后缀；不要建议在 vc-checking 或单个 witness 证明期间直接修改 `common_case_formal_lib`。
+写入 `agent_report.json.agent_result.vc_checking.group_plan`。计划必须绑定当前 `source_goal_version`，并列出：
 
-## Informal Proof 判定规则
+- target witnesses
+- `proof_groups`
+- 每组 `group_id`
+- `witness_names`
+- `representative_witness`
+- dependencies
+- likely helper declarations
+- natural-language proof strategy
+- `natural_language_analysis`，建议包含每个 witness 的自然语言可证性分析和用于分组的 analysis groups；该字段是 vc-checking 的结构化辅助，不是 controller acceptance gate
+- blockers
 
-1. 先把每个目标写成 `P |-- Q`，明确当前 VC 前条件 `P` 中的空间资源、纯事实、存在量词、数学 spec 假设和局部变量关系。
-2. 给出足够具体的 informal proof，说明从 `P` 如何构造 `Q` 中要求的资源和纯结论。
-3. 每个 proof 使用的 lemma 都必须逐条列出，且来源只能是现有项目 library / 当前 case 已存在的 `*_lib.v`，或本轮显式列入 `candidate_lib_lemmas` 的候选 helper。
-4. 对每个 lemma 的每个 premise，必须逐项说明它如何由当前 VC 的前条件推出；可以来自 `P` 中已有纯事实、空间资源解释、已展开的数学 spec，或可安全实例化的存在量词。
-5. 如果某个 lemma 不在现有 library，也没有列入 candidate lib；或某个 premise 需要额外假设、需要改写冻结前缀、或无法由当前 VC 前条件推出，则该 VC 不能判为 `proofable` / `needs-lemma`，必须返回 `annotation-bug` 或 `blocked`。
-6. 只有所有目标 VC 的 judgment 都是 `proofable` 或 `needs-lemma`，且所有 lemma 来源 / premise discharge 都可审计时，才能建议进入 `vc-proving`。
+vc-checking 应先用自然语言分析每个 target VC 的证明思路，再用这些分析辅助分组。若某个 VC 在语义上无法证明，返回 `blocked` 并说明应回到 annotation/spec 的原因，不交给 vc-proving-preparing / group-worker 硬证。若 VC 语义可证但需要 helper、证明较难或 proof route 不确定，应输出 proof plan 并交给 group-worker，不得 blocked。controller 不因缺失 `natural_language_analysis` 字段拒绝本轮；基本流程仍以 `group_plan.proof_groups`、版本和 witness 覆盖为准。
 
-## 会使哪些产物失效
+group plan 必须遵守 `agent_input.json.grouping_policy`。默认策略是 bounded witness groups：每组最多放入 `max_witnesses_per_group` 个 witness；当 target witness 数超过该上限时必须拆成多个 group。分组参考自然语言 analysis group、proof pattern、helper family、loop/refinement phase 和依赖关系，manual witness order 只作为确定性 tie-breaker。不得为了减少 spawn 数把大量 witness 无约束塞进一个组。
 
-- 本 skill 本身不刷新 `goal`，但一旦它得出 `annotation-bug` 结论，主 agent 必须把 case 退回 annotation，并按 orchestrator 规则使下游 proving 计划失效。
+同时写 `agent_output.txt` 作为 `non-authoritative reuse note`。第一行必须是 `# Reuse Note`，正文包含 `Note kind: non-authoritative reuse note` 和 `This file is not acceptance evidence.`。
 
-## 主 / 子 Agent 局部边界
+## Blocking 原则
 
-- `vc-checking-subagent` 负责给出 witness 分诊建议与关键依据。
-- 主 agent 负责确认最终分诊结论、更新 ledger，并决定后续 phase 去向。
-- `vc-checking-subagent` 不直接改写当前 case 的 annotation 或 `*_proof_manual.v`。
+vc-checking-subagent 的 `blocked` 只用于两类情况：
 
-## 参考文档
+- 发现某个 target VC 语义上不可证，即当前 `P` 确实无法推出 `Q`，并且缺口必须回到 C annotation 或 `case_lib` spec 修正。
+- 必要检查工具发生重大错误：无法读取当前 generated/manual VC、无法解析 witness、或固定检查脚本完全不可运行，并已记录具体 evidence。
 
-1. 先读 `../verification-orchestrator/SKILL.md`
-2. `docs/use-notes.md`
-3. `docs/checking-workflow.md`
-4. `docs/informal-proof-analysis.md`
-5. `docs/common-failure-signals.md`
+以下情况不得 `blocked`，必须自行处理并输出 group plan：helper 尚未证明、proof route 不确定、diagnostics hint 缺失、annotation design summary 缺字段、某些 witness 较难、需要把多个相关 witness 在 group size 上限内放进同一 group 由 worker 顺序证明。输入版本失效写 `stale`。context compaction 只写 `compact-error` 事实；是否重试或最终 block 由 controller / main agent 判定。
 
-## 工作步骤
+## Main-owned 检查
 
-1. 读取当前 vc-checking 轮次的 delegation ticket，确认目标 witness 集、`source_goal_version`、输出格式和 timing 要求，并记录本轮 `phase_started_at`。
-2. 取当前 witness 或 VC，先识别其形状，重点分析 `P |-- Q` 中前后条件分别表达什么；对每个 witness 或 witness cluster 记录分析开始 / 结束时间。
-3. 判断该目标在当前 annotation 下是否语义可证。
-4. 如果目标不可证，明确说明应回到 `annotation-filling` / `annotation-checking` 修正 C annotation 或 `annotation_scratch_lib` spec，而不是继续堆 Rocq tactic。
-5. 如果目标可证，再判断缺的是证明结构、group-local helper lemma，还是 tactic 选择；若结论是 `needs-lemma`，明确指出该 lemma 应由 `vc-proving` worker 在组内 `worker_helper_scratch_lib` 中证明，再通过 `migrate_helpers_to_lib.py` 迁入本轮 `task_local_scratch_lib` 后缀，而不是修改冻结前缀，也不是提前追加到 `common_case_formal_lib`。
-6. 基于自然语言证明思路构造 `witness_group_plan`：把证明模式、关键前后条件、可能共享的 helper 和 tactic 入口相似的 witness 放进同一组；每组指定一个代表 witness。不要把“一条 witness 一个 group”当作默认策略，除非这些 witness 的证明形状确实无法共享。
-7. 把分诊结论、`witness_group_plan` 和 timing 摘要交回主 agent，由主 agent 更新 ledger、决定 phase 去向，并在必要时刷新生成文件后重新进入 vc-checking。若本轮 `elapsed_seconds > 600`，必须提供 `long_duration_reason`；若本轮 `round_outcome = blocked`，必须提供 `blocking_reason`、证据和 recommended next phase/action。
+main agent 调用 `vc-checking-check-round`，确认 source versions 匹配、target witness 集合与 cleaned `*_proof_manual.v` 完全一致、没有重复分配、dependency graph 无环，满足 controller grouping policy，且 group plan 不要求修改 generated files 或 witness statements。

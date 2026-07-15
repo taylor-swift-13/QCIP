@@ -13,10 +13,7 @@
  * counts, and the precondition tree_depth(tr) <= INT_MAX keeps the +1
  * increments inside the int range so they never overflow. */
 int xizi_avl_height(struct AvlNode *avl_node)
-/*@ With tr
-    Require store_tree(avl_node, tr) && tree_depth(tr) <= INT_MAX
-    Ensure store_tree(avl_node, tr) && __return == tree_depth(tr)
-*/
+
 {
     if (avl_node == (void *)0) {
         return 0;

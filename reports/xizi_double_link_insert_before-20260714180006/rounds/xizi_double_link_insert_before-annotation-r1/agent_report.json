@@ -1,0 +1,181 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "annotation",
+  "status": "blocked",
+  "terminal": "yes",
+  "agent_result": {
+    "annotation": {
+      "status": "blocked",
+      "ready_for_annotation_check_round": false,
+      "source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "07447cb8d07bac31dc80feefc4852824aa907cd60760664c06ca4a576c3f7b04"
+      },
+      "candidate_digests": {
+        "INPUT/xizi/xizi_double_link_insert_before/xizi_double_link_insert_before.c": "42f9516ce72f6110f2f1c86119baa98dc3d403d243e4a83cdedeac53cfa77717",
+        "SeparationLogic/examples/INPUT/xizi/xizi_double_link_insert_before/xizi_double_link_insert_before_lib.v": "3a381ea757d809f1f4d91879fc32993de3a60706a61ae496edb7d5da30d02d79"
+      },
+      "previous_attempts_reviewed": [],
+      "prior_blockers_addressed": [],
+      "spec_design": {
+        "style": "predicate-first",
+        "segment_predicate": "xizi_dllseg owns a forward address sequence and records both node_next and node_prev consistency between endpoints",
+        "complete_predicate": "xizi_cdll owns a nonempty circular doubly linked list rooted at linklist and records its forward abstract address order",
+        "detached_node": "the two link fields of linklist_node are separately owned in the precondition",
+        "mathematical_postcondition": "xizi_insert_before_order old_order linklist_node new_order means new_order = old_order ++ [linklist_node] when the circular order is observed from linklist",
+        "scope_note": "The executable precondition explicitly requires old_prev <> linklist, i.e. a distinct predecessor, so the spatial decomposition is non-aliasing."
+      },
+      "canonical_symexec_evidence": {
+        "status": "passed",
+        "evidence_kind": "direct-symexec-only",
+        "driver": "/home/yangfp/QCIP/linux-binary/symexec",
+        "cwd": "/home/yangfp/QCIP/worktrees/xizi_double_link_insert_before-20260714180006/xizi_double_link_insert_before-annotation-r1",
+        "include_args": [
+          "QCP_examples/QCP_demos_LLM/"
+        ],
+        "slp_args": [
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM"
+        ],
+        "coq_logic_path": "SimpleC.EE.INPUT.xizi.xizi_double_link_insert_before",
+        "input_file": "INPUT/xizi/xizi_double_link_insert_before/xizi_double_link_insert_before.c",
+        "result": "Successfully finished symbolic execution and reached the end of xizi_double_link_insert_before",
+        "warning": "Direct symexec is not qcp-mcp evidence and is not used to satisfy the interactive requirement."
+      },
+      "qcp_mcp_interactive_evidence": {
+        "status": "unavailable",
+        "qcp_mcp_requirement_satisfied": "no",
+        "evidence": "The current agent tool inventory contains no qcp-mcp or session_manager callable tool; no compliant interactive session could be started.",
+        "direct_symexec_substitution_allowed": "no"
+      },
+      "case_lib_coqc_evidence": {
+        "status": "passed",
+        "schema_version": "qcp-coqc-check-evidence/v1",
+        "tool": "coqc",
+        "target_kind": "case_lib",
+        "target_file": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_insert_before/xizi_double_link_insert_before_lib.v",
+        "fixed_flags_hash": "9bdaa2ffdbaca882e29d6aa89234fc849f2f8987edc04425059c56c78ab70f0d",
+        "source_goal_version": "07447cb8d07bac31dc80feefc4852824aa907cd60760664c06ca4a576c3f7b04",
+        "returncode": 0,
+        "elapsed_seconds": 139.778,
+        "first_diagnostic": null
+      },
+      "annotation_checking_evidence": {
+        "status": "blocked",
+        "checked_scope": [
+          "case_lib spec definitions",
+          "function Require/Ensure",
+          "spatial completeness",
+          "abstract order update"
+        ],
+        "qcp_mcp_requirement_satisfied": "no",
+        "annotation_scratch_lib_coqc_status": "passed",
+        "spec_definition_status": "passed",
+        "function_spec_status": "passed-with-explicit-distinct-predecessor-scope",
+        "invariant_status": "not-applicable-no-loops",
+        "algorithm_mirror_detected": "no",
+        "ready_for_main_common_case_formal_lib_update": "no",
+        "ready_for_main_symexec": "no",
+        "failed_checks": [
+          "mandatory qcp-mcp interactive run-to-end evidence is unavailable"
+        ]
+      },
+      "iteration_summary": {
+        "complete_repair_cycles": 3,
+        "failures": [
+          "initial Coq pure-assertion notation and missing string scope",
+          "initial QCP type inference conflict caused by wrapping detached fields in an external Assertion",
+          "list append parsed in string scope"
+        ],
+        "repairs": [
+          "used the repository pure assertion notation and enabled string_scope",
+          "kept detached-node link fields explicit while retaining segment and complete-list predicates",
+          "qualified list append with %list and regenerated all symbolic-execution outputs"
+        ],
+        "self_reworkable_failures": [],
+        "self_repair_budget": {
+          "min_complete_cycles": 3,
+          "min_wall_clock_minutes": 30,
+          "cycles_met": true,
+          "wall_clock_met": true
+        }
+      },
+      "changed_files": [
+        "INPUT/xizi/xizi_double_link_insert_before/xizi_double_link_insert_before.c",
+        "SeparationLogic/examples/INPUT/xizi/xizi_double_link_insert_before/xizi_double_link_insert_before_lib.v",
+        "SeparationLogic/examples/INPUT/xizi/xizi_double_link_insert_before/xizi_double_link_insert_before_goal.v",
+        "SeparationLogic/examples/INPUT/xizi/xizi_double_link_insert_before/xizi_double_link_insert_before_proof_auto.v",
+        "SeparationLogic/examples/INPUT/xizi/xizi_double_link_insert_before/xizi_double_link_insert_before_proof_manual.v",
+        "SeparationLogic/examples/INPUT/xizi/xizi_double_link_insert_before/xizi_double_link_insert_before_goal_check.v"
+      ],
+      "file_access_summary": {
+        "must_log_file_reads": "yes",
+        "read_categories": {
+          "handoff_and_rules": [
+            "reports/xizi_double_link_insert_before-20260714180006/rounds/xizi_double_link_insert_before-annotation-r1/agent_input.json",
+            ".agents/skills/verification-orchestrator/SKILL.md",
+            ".agents/skills/annotation-filling/SKILL.md",
+            ".agents/skills/annotation-checking/SKILL.md",
+            ".agents/skills/annotation-filling/docs/use-notes.md",
+            ".agents/skills/annotation-filling/docs/annotation-rules.md",
+            ".agents/skills/annotation-filling/docs/common-annotation-errors.md",
+            ".agents/skills/annotation-filling/docs/predicate-first-annotation.md",
+            ".agents/skills/annotation-filling/docs/reference-cases.md",
+            ".agents/skills/annotation-filling/docs/symexec-refresh.md",
+            ".agents/skills/annotation-checking/docs/spec-quality-checklist.md"
+          ],
+          "target": [
+            "INPUT/xizi/xizi_double_link_insert_before/xizi_double_link_insert_before.c",
+            "INPUT/xizi/xizi_double_link_insert_before/xizi_double_link_def.h",
+            "SeparationLogic/examples/INPUT/xizi/xizi_double_link_insert_before/xizi_double_link_insert_before_lib.v"
+          ],
+          "allowed_references": [
+            "OUTPUT/xizi/xizi_single_link_insert_after/source/xizi_single_link_insert_after.c",
+            "OUTPUT/xizi/xizi_single_link_insert_after/source/xizi_single_link_def.h",
+            "OUTPUT/xizi/xizi_single_link_insert_after/rocq/xizi_single_link_insert_after_goal.v",
+            "QCP_examples/QCP_demos_LLM/dll_auto.c",
+            "QCP_examples/QCP_demos_LLM/dll_shape_def.h",
+            "SeparationLogic/examples/QCP_demos_LLM/dll_shape_lib.v"
+          ],
+          "tooling": [
+            ".agents/skills/vc-proving/scripts/coq_tooling.py help output",
+            ".agents/skills/verification-orchestrator/scripts/controller.py annotation contract sections"
+          ]
+        },
+        "searches": [
+          "targeted listing under OUTPUT/xizi/xizi_single_link_insert_after",
+          "targeted names under SeparationLogic/examples/INPUT/xizi",
+          "targeted qcp-mcp filename lookup at shallow depth",
+          "targeted controller schema-field lookup"
+        ],
+        "denied_globs_touched": []
+      },
+      "blockers": [
+        {
+          "failure_class": "required-tool-unavailable",
+          "message": "annotation-checking cannot pass because qcp-mcp interactive evidence is mandatory and no qcp-mcp/session_manager tool is exposed in this agent session",
+          "recoverable_candidate": "yes",
+          "recommended_action": "retry this annotation round in a session with qcp-mcp session_manager available, using the current C/lib candidate and canonical arguments"
+        }
+      ]
+    }
+  },
+  "verification_result": {
+    "controller_acceptance": "not-requested",
+    "candidate_state": "preserved-in-round-worktree",
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-07-14T11:00:28Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_double_link_insert_before-20260714180006/rounds/xizi_double_link_insert_before-annotation-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    }
+  },
+  "blockers": [
+    {
+      "failure_class": "required-tool-unavailable",
+      "message": "mandatory qcp-mcp interactive validation could not be executed"
+    }
+  ]
+}

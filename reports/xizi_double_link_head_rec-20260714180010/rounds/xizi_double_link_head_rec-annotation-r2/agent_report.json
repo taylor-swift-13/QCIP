@@ -1,0 +1,503 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "annotation",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "status": "completed",
+    "attempt_id": "xizi_double_link_head_rec-annotation-r2-attempt-1",
+    "source_version": {
+      "schema_version": "qcp-source-version/v1",
+      "digest": "fcee0600367e8525f2e43cf734a3fe5f7424e01ba8f636ab9e464600f7d62baa"
+    },
+    "annotation": {
+      "status": "completed",
+      "ready_for_annotation_check_round": true,
+      "summary": "Defined a sequence-indexed circular doubly linked spatial predicate and a head-observation contract. Repaired the declared invalid-generated-manual retry by running canonical symbolic execution while the manual target was absent, which generated a nonempty two-witness manual skeleton; a second canonical run preserved it unchanged.",
+      "required_lesson_resolution": {
+        "lesson_id": "xizi_double_link_head_rec-annotation-r1-annotation-retry-1",
+        "prior_failure": "invalid-generated-manual",
+        "root_cause": "The prior candidate had an already-existing empty proof_manual target; symexec preserves an existing manual file and therefore left it empty.",
+        "repair": "In the fresh r2 worktree the proof_manual path was absent before the first canonical symexec. Symexec generated a 41-line skeleton containing both return witnesses; a repeat run reported that the existing manual was not updated and its SHA-256 stayed stable.",
+        "evidence": {
+          "line_count": 41,
+          "sha256": "52a2a5c681586f1cd49256ee32b5071ba429d8287da5f976d6bff2d2ba7c7f7b",
+          "witnesses": [
+            "proof_of_xizi_double_link_head_rec_return_wit_1",
+            "proof_of_xizi_double_link_head_rec_return_wit_2"
+          ]
+        }
+      },
+      "mathematical_spec": {
+        "sequence_model": "l : list Z records the addresses of non-sentinel nodes in next-link traversal order",
+        "recursive_predicate": "xizi_double_link_rec prev cur sentinel l owns both next and prev fields of each recorded non-sentinel node and ends exactly at sentinel",
+        "result_semantics": "__return = Znth 0 l 0, hence null exactly for nil and the first recorded node otherwise",
+        "sentinel_semantics": "sentinel node_next = Znth 0 l sentinel and sentinel node_prev = Znth (Zlength l - 1) l sentinel",
+        "resource_preservation": "Ensure reproduces both sentinel fields and the complete recursive node predicate"
+      },
+      "canonical_symexec_evidence": {
+        "status": "passed",
+        "driver": "/home/yangfp/QCIP/linux-binary/symexec",
+        "working_directory": "/home/yangfp/QCIP/worktrees/xizi_double_link_head_rec-20260714180010/xizi_double_link_head_rec-annotation-r2",
+        "argv": [
+          "/home/yangfp/QCIP/linux-binary/symexec",
+          "--goal-file=SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_goal.v",
+          "--proof-auto-file=SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_proof_auto.v",
+          "--proof-manual-file=SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_proof_manual.v",
+          "-IQCP_examples/QCP_demos_LLM/",
+          "-slp",
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM",
+          "--coq-logic-path=SimpleC.EE.INPUT.xizi.xizi_double_link_head_rec",
+          "--input-file=INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec.c",
+          "--no-exec-info"
+        ],
+        "include_args": [
+          "QCP_examples/QCP_demos_LLM/"
+        ],
+        "slp_args": [
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM"
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 0.01,
+        "observed_output": "End of symbolic execution of function xizi_double_link_head_rec; Successfully finished symbolic execution",
+        "manual_generation": {
+          "first_run_target_state": "absent",
+          "first_run_result": "generated 41-line manual skeleton",
+          "repeat_run_result": "manual proof file not updated because it already exists",
+          "repeat_run_sha256_before": "52a2a5c681586f1cd49256ee32b5071ba429d8287da5f976d6bff2d2ba7c7f7b",
+          "repeat_run_sha256_after": "52a2a5c681586f1cd49256ee32b5071ba429d8287da5f976d6bff2d2ba7c7f7b"
+        }
+      },
+      "qcp_mcp_interactive_evidence": {
+        "status": "passed",
+        "qcp_mcp_requirement_satisfied": "yes",
+        "wrapper": "/home/yangfp/QCIP/mcp/qcp-mcp/src/qcp_mcp/server.py",
+        "backend": "/home/yangfp/QCIP/linux-binary/mcp",
+        "working_directory": "/home/yangfp/QCIP/worktrees/xizi_double_link_head_rec-20260714180010/xizi_double_link_head_rec-annotation-r2",
+        "target_file": "/home/yangfp/QCIP/worktrees/xizi_double_link_head_rec-20260714180010/xizi_double_link_head_rec-annotation-r2/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec.c",
+        "calls": [
+          {
+            "tool": "load_target_file",
+            "result": "Finish Parsing; waiting for the command"
+          },
+          {
+            "tool": "check",
+            "line": 23,
+            "result": "success",
+            "safety_auto": 1
+          },
+          {
+            "tool": "symbolic",
+            "line": 24,
+            "result": "success",
+            "safety_auto": 1,
+            "return_manual": 2
+          },
+          {
+            "tool": "close",
+            "result": "session closed"
+          }
+        ],
+        "environment_note": "The installed Python environment lacked FastMCP, so an in-memory no-op decorator shim was used only to import the repository server tool functions. The repository qcp_mcp session manager and real linux-binary/mcp backend executed unchanged."
+      },
+      "case_lib_coqc_evidence": {
+        "status": "passed",
+        "annotation_scratch_lib_coqc_status": "passed",
+        "tool": "/home/yangfp/QCIP/.agents/skills/vc-proving/scripts/coq_tooling.py",
+        "mode": "check",
+        "target_kind": "case_lib",
+        "target_file": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_lib.v",
+        "build_workspace": "/home/yangfp/QCIP/worktrees/xizi_double_link_head_rec-20260714180010/_coq_builds/xizi_double_link_head_rec-annotation-r2-case-lib",
+        "source_goal_version_argument": "fcee0600367e8525f2e43cf734a3fe5f7424e01ba8f636ab9e464600f7d62baa",
+        "exit_code": 0,
+        "elapsed_seconds": 26.6
+      },
+      "round_check_evidence": {
+        "status": "passed",
+        "tool": "/home/yangfp/QCIP/.agents/skills/vc-proving/scripts/coq_tooling.py",
+        "target_kind": "check",
+        "target_file": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_goal_check.v",
+        "build_workspace": "/home/yangfp/QCIP/worktrees/xizi_double_link_head_rec-20260714180010/_coq_builds/xizi_double_link_head_rec-annotation-r2-round-check",
+        "exit_code": 0,
+        "elapsed_seconds": 28.0,
+        "purpose": "Additional evidence that the nonempty generated manual skeleton is structurally valid before controller diagnostics splitting; this does not claim witness proofs are complete."
+      },
+      "annotation_checking_evidence": {
+        "status": "passed",
+        "checked_scope": [
+          "case_lib mathematical predicate",
+          "function Require/Ensure",
+          "sentinel ownership",
+          "bidirectional node ownership",
+          "result classification",
+          "generated manual skeleton validity"
+        ],
+        "qcp_mcp_requirement_satisfied": "yes",
+        "annotation_scratch_lib_coqc_status": "passed",
+        "spec_definition_status": "passed: the Fixpoint is an inductive spatial property indexed by a mathematical address sequence, not a mirror of C control flow",
+        "function_spec_status": "passed: __return equals Znth 0 l 0 and all sentinel/node resources are preserved",
+        "invariant_status": "not-applicable: the target function has no loop",
+        "annotation_scratch_lib_changes": "Added xizi_double_link_rec and only its required imports/scopes",
+        "summary": "For l=nil the predicate forces head=sentinel and Znth 0 nil 0=0. For l=node::rest it forces head=node and head<>sentinel, while Znth 0 l 0=node. Sentinel next/prev fields and all recursive node fields are reproduced unchanged in Ensure.",
+        "failed_checks": [],
+        "required_annotation_rework": [],
+        "required_annotation_scratch_lib_rework": [],
+        "ready_for_main_common_case_formal_lib_update": "yes",
+        "ready_for_main_symexec": "yes",
+        "timing_summary": "Semantic review, qcp-mcp validation, fixed case-lib compilation, canonical symexec, and full generated check completed in this attempt.",
+        "timing_gaps": "Fine-grained manual-analysis timing was not instrumented before the spawn began; overall elapsed is taken from controller attempt start."
+      },
+      "iterations": [
+        {
+          "cycle": 1,
+          "result": "passed-after-repair",
+          "failure_class": "invalid-generated-manual",
+          "evidence": "Fresh canonical symexec generated a 41-line manual skeleton with both return witnesses",
+          "repair": "Ensured the proof_manual target did not exist before first generation"
+        },
+        {
+          "cycle": 2,
+          "result": "passed",
+          "failure_class": null,
+          "evidence": "qcp-mcp load/check/symbolic reached line 24 with one auto safety witness and two manual return witnesses",
+          "repair": "none"
+        },
+        {
+          "cycle": 3,
+          "result": "passed",
+          "failure_class": null,
+          "evidence": "case_lib fixed compile gate and full goal_check fixed compile passed; repeat canonical symexec preserved the manual SHA-256",
+          "repair": "none"
+        }
+      ],
+      "failure_repair_summary": {
+        "initial_failures": 1,
+        "repaired_failures": 1,
+        "self_reworkable_failures": []
+      },
+      "self_repair_budget": {
+        "minimum_complete_cycles": 3,
+        "complete_cycles_performed": 3,
+        "minimum_wall_clock_minutes": 30,
+        "wall_clock_minutes_observed": 4,
+        "exhausted": false,
+        "early_completion_reason": "The declared retry defect was deterministically repaired and all strict phase gates passed; no self-reworkable failure remained to consume further repair budget."
+      },
+      "changed_files": [
+        "INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec.c",
+        "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_lib.v",
+        "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_goal.v",
+        "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_proof_auto.v",
+        "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_proof_manual.v",
+        "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_goal_check.v"
+      ],
+      "candidate_hashes": {
+        "INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec.c": "3e3d2c16f98c4a9e9171a5b54c7626137de121119710152817bfdb8a29ae4873",
+        "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_lib.v": "4555200612ee141a6d3b6e726b382ba40c63f0af084b04a252e0a7ce256695fc",
+        "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_goal.v": "ab7fc80bf01abbeb90377462e1c47e0db86782d3f7caa1c50c91db31eac5de8b",
+        "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_proof_auto.v": "708e5540231a0ef7dd9db653dbb071c0fbb0e5bbd71d20b20b64d478d6cbb17a",
+        "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_proof_manual.v": "52a2a5c681586f1cd49256ee32b5071ba429d8287da5f976d6bff2d2ba7c7f7b",
+        "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_goal_check.v": "27fa541b622880361df9dbcbdaf77fb764d6e84b53c844b89681a5665bfcc8ed"
+      },
+      "file_access_summary": {
+        "must_log_file_reads": "yes",
+        "read_categories": {
+          "handoff_and_rules": [
+            "reports/xizi_double_link_head_rec-20260714180010/rounds/xizi_double_link_head_rec-annotation-r2/agent_input.json",
+            ".agents/skills/verification-orchestrator/SKILL.md",
+            ".agents/skills/verification-orchestrator/docs/use-notes.md",
+            ".agents/skills/verification-orchestrator/docs/phase-ownership.md",
+            ".agents/skills/verification-orchestrator/docs/state-machine.md",
+            ".agents/skills/verification-orchestrator/docs/artifact-templates.md",
+            ".agents/skills/verification-orchestrator/docs/delegation-contracts.md",
+            ".agents/skills/verification-orchestrator/docs/invalidation-rules.md",
+            ".agents/skills/verification-orchestrator/docs/forbidden_lemma.md",
+            ".agents/skills/annotation-filling/SKILL.md",
+            ".agents/skills/annotation-checking/SKILL.md",
+            ".agents/skills/annotation-filling/docs/use-notes.md",
+            ".agents/skills/annotation-filling/docs/annotation-rules.md",
+            ".agents/skills/annotation-filling/docs/common-annotation-errors.md",
+            ".agents/skills/annotation-filling/docs/predicate-first-annotation.md",
+            ".agents/skills/annotation-filling/docs/reference-cases.md",
+            ".agents/skills/annotation-filling/docs/symexec-refresh.md",
+            ".agents/skills/annotation-checking/docs/spec-quality-checklist.md"
+          ],
+          "previous_attempt_declared_read_only": [
+            "reports/xizi_double_link_head_rec-20260714180010/rounds/xizi_double_link_head_rec-annotation-r1/agent_report.json",
+            "reports/xizi_double_link_head_rec-20260714180010/rounds/xizi_double_link_head_rec-annotation-r1/agent_output.txt",
+            "worktrees/xizi_double_link_head_rec-20260714180010/xizi_double_link_head_rec-annotation-r1 current candidate files"
+          ],
+          "target_inputs": [
+            "INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec.c",
+            "INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_def.h",
+            "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_lib.v"
+          ],
+          "allowed_references": [
+            "QCP_examples/QCP_demos_LLM/sll.c",
+            "QCP_examples/QCP_demos_LLM/sll_def.h",
+            "SeparationLogic/examples/QCP_demos_LLM/sll_lib.v"
+          ],
+          "tooling": [
+            "mcp/qcp-mcp/README.md",
+            "mcp/qcp-mcp/src/qcp_mcp/server.py",
+            "mcp/qcp-mcp/src/qcp_mcp/session_manager.py",
+            ".agents/skills/vc-proving/scripts/coq_tooling.py --help"
+          ],
+          "generated_candidate": [
+            "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_goal.v",
+            "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_proof_auto.v",
+            "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_proof_manual.v",
+            "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_goal_check.v"
+          ]
+        },
+        "searches": [
+          "run_logs.json filtered for the declared invalid-generated-manual retry",
+          "rg for generated manual witness, Abort, Admitted, and split-goal markers",
+          "rg for denied QCP_demos_human references and case_lib Axiom/Admitted"
+        ],
+        "denied_globs_touched": []
+      },
+      "timing": {
+        "phase_started_at": "2026-07-14T19:25:49+08:00",
+        "phase_finished_at": "2026-07-14T19:29:38+08:00",
+        "elapsed_seconds": 229,
+        "command_seconds_known": 54.81,
+        "spec_review_and_annotation_edit_seconds": 55,
+        "failure_analysis_and_repair_seconds": 35,
+        "annotation_checking_seconds": 35,
+        "rules_reference_and_previous_attempt_review_seconds": 49.19,
+        "timing_gap_seconds": 0,
+        "major_time_sinks": [
+          "fixed dependency builds for case_lib and goal_check",
+          "complete rule and declared previous-attempt review",
+          "invalid manual root-cause analysis"
+        ]
+      },
+      "blockers": []
+    }
+  },
+  "verification_result": {
+    "annotation_review": {
+      "status": "accepted-for-main-check",
+      "reviewed_at": "2026-07-14T11:32:06Z"
+    },
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-07-14T11:32:06Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_double_link_head_rec-20260714180010/rounds/xizi_double_link_head_rec-annotation-r2/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    },
+    "annotation_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-07-14T11:32:06Z",
+      "source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "4404742dafd82c0aa72a512f89bd6edec73e43a497b576213021c275d972129a",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_head_rec-20260714180010/xizi_double_link_head_rec-annotation-r2/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec.c",
+            "relative_path": "INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec.c",
+            "sha256": "3e3d2c16f98c4a9e9171a5b54c7626137de121119710152817bfdb8a29ae4873",
+            "state": "present",
+            "role": "target-c-annotated"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_head_rec-20260714180010/xizi_double_link_head_rec-annotation-r2/SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_lib.v",
+            "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_lib.v",
+            "sha256": "4555200612ee141a6d3b6e726b382ba40c63f0af084b04a252e0a7ce256695fc",
+            "state": "present",
+            "role": "case-lib-seed"
+          }
+        ]
+      },
+      "source_goal_version": {
+        "schema_version": "qcp-source-goal-version/v1",
+        "digest": "484bb1d16a18c744f32b01533ffbd2b4aa4832f0ab2ce8f59c8844453fd7dd9c",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_goal.v",
+            "sha256": "ab7fc80bf01abbeb90377462e1c47e0db86782d3f7caa1c50c91db31eac5de8b",
+            "state": "present",
+            "role": "generated-goal"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_proof_auto.v",
+            "sha256": "708e5540231a0ef7dd9db653dbb071c0fbb0e5bbd71d20b20b64d478d6cbb17a",
+            "state": "present",
+            "role": "generated-proof-auto"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_proof_manual.v",
+            "sha256": "52c74430a3cdfeba050c3d670fecee0cbe959de4170173cbb2f2ec04c13fbb93",
+            "state": "present",
+            "role": "generated-proof-manual"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_goal_check.v",
+            "sha256": "27fa541b622880361df9dbcbdaf77fb764d6e84b53c844b89681a5665bfcc8ed",
+            "state": "present",
+            "role": "generated-goal-check"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_proof_diagnostics.v",
+            "sha256": "2fdca68c2d8a27b2ce4ec0e65c2307ae4750791274704ed4030bf6770b284aa1",
+            "state": "present",
+            "role": "generated-diagnostics"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/diagnostics_snapshot.json",
+            "sha256": "618b174370222ce70f8d811f3d2cdb9db748a0377db2e4eaaa725ea82e40004b",
+            "state": "present",
+            "role": "generated-diagnostics-snapshot"
+          }
+        ],
+        "target_witnesses": [
+          "proof_of_xizi_double_link_head_rec_return_wit_1",
+          "proof_of_xizi_double_link_head_rec_return_wit_2"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_xizi_double_link_head_rec_return_wit_1": "55df97569b7a1c62ce5adaf1b224f329788d0a4cb465048cf7ec4e9bb693832b",
+          "proof_of_xizi_double_link_head_rec_return_wit_2": "8feec5680eb52306ccaaf99e34e49d543c8e12dafd8e63f01f69a67374242cfe"
+        },
+        "witnesses": [
+          {
+            "name": "proof_of_xizi_double_link_head_rec_return_wit_1",
+            "target_symbol": "xizi_double_link_head_rec_return_wit_1",
+            "statement_hash": "55df97569b7a1c62ce5adaf1b224f329788d0a4cb465048cf7ec4e9bb693832b",
+            "start_line": 24,
+            "end_line": 26
+          },
+          {
+            "name": "proof_of_xizi_double_link_head_rec_return_wit_2",
+            "target_symbol": "xizi_double_link_head_rec_return_wit_2",
+            "statement_hash": "8feec5680eb52306ccaaf99e34e49d543c8e12dafd8e63f01f69a67374242cfe",
+            "start_line": 27,
+            "end_line": 29
+          }
+        ]
+      },
+      "annotation_design_summary": {
+        "schema_version": "qcp-annotation-design-summary/v1",
+        "source": "controller-fallback",
+        "case_lib_spec_declarations": [
+          {
+            "kind": "Fixpoint",
+            "name": "xizi_double_link_rec"
+          }
+        ],
+        "case_lib_sha256": "4555200612ee141a6d3b6e726b382ba40c63f0af084b04a252e0a7ce256695fc",
+        "hidden_properties": [],
+        "known_risks": [],
+        "qcp_repair_history": [],
+        "changed_files": [
+          "INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec.c",
+          "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_lib.v",
+          "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_goal.v",
+          "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_proof_auto.v",
+          "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_proof_manual.v",
+          "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_goal_check.v"
+        ]
+      },
+      "canonical_symexec_evidence": {
+        "schema_version": "qcp-canonical-symexec-evidence/v1",
+        "driver": "/home/yangfp/QCIP/linux-binary/symexec",
+        "cwd": "/home/yangfp/QCIP/worktrees/xizi_double_link_head_rec-20260714180010/xizi_double_link_head_rec-annotation-r2",
+        "argv": [
+          "/home/yangfp/QCIP/linux-binary/symexec",
+          "--goal-file=SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_goal.v",
+          "--proof-auto-file=SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_proof_auto.v",
+          "--proof-manual-file=SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_proof_manual.v",
+          "-IQCP_examples/QCP_demos_LLM/",
+          "-slp",
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM",
+          "--coq-logic-path=SimpleC.EE.INPUT.xizi.xizi_double_link_head_rec",
+          "--input-file=INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec.c",
+          "--no-exec-info"
+        ],
+        "include_args": [
+          "QCP_examples/QCP_demos_LLM/"
+        ],
+        "slp_args": [
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM"
+        ],
+        "status": "passed",
+        "returncode": 0,
+        "stdout_tail": "Start to symbolic execution on program : INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec.c\nSymbolic Execution into function xizi_double_link_head_rec\nEnd of symbolic execution of function xizi_double_link_head_rec\nWarning: manual proof file not updated. file open failed or file already exists.\nSuccessfully finished symbolic execution\n",
+        "stderr_tail": ""
+      },
+      "diagnostics_split": {
+        "status": "passed",
+        "normalized_at": "2026-07-14T11:32:06Z",
+        "proof_manual_file": "/home/yangfp/QCIP/worktrees/xizi_double_link_head_rec-20260714180010/xizi_double_link_head_rec-annotation-r2/SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_proof_manual.v",
+        "proof_diagnostics_file": "/home/yangfp/QCIP/worktrees/xizi_double_link_head_rec-20260714180010/xizi_double_link_head_rec-annotation-r2/SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_proof_diagnostics.v",
+        "diagnostics_snapshot": "/home/yangfp/QCIP/worktrees/xizi_double_link_head_rec-20260714180010/xizi_double_link_head_rec-annotation-r2/SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/diagnostics_snapshot.json",
+        "schema_version": "qcp-diagnostics-snapshot/v1",
+        "manual_obligations": [
+          {
+            "name": "proof_of_xizi_double_link_head_rec_return_wit_1",
+            "statement_hash": "55df97569b7a1c62ce5adaf1b224f329788d0a4cb465048cf7ec4e9bb693832b",
+            "target_symbol": "xizi_double_link_head_rec_return_wit_1",
+            "start_line": 30,
+            "end_line": 32
+          },
+          {
+            "name": "proof_of_xizi_double_link_head_rec_return_wit_2",
+            "statement_hash": "8feec5680eb52306ccaaf99e34e49d543c8e12dafd8e63f01f69a67374242cfe",
+            "target_symbol": "xizi_double_link_head_rec_return_wit_2",
+            "start_line": 39,
+            "end_line": 41
+          }
+        ],
+        "diagnostics": [
+          {
+            "name": "proof_of_xizi_double_link_head_rec_return_wit_1_split_goal_1",
+            "statement_hash": "448b939befbc5c413065bd3548430e778b4b5d75ea064c37ff96d741b9b54eec",
+            "target_symbol": "xizi_double_link_head_rec_return_wit_1_split_goal_1",
+            "start_line": 24,
+            "end_line": 26,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_double_link_head_rec_return_wit_1_split_goal_spatial",
+            "statement_hash": "28427cbdf27ae40d173c357a11492b291b19098a82044cfe0c22351715348d6d",
+            "target_symbol": "xizi_double_link_head_rec_return_wit_1_split_goal_spatial",
+            "start_line": 27,
+            "end_line": 29,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_double_link_head_rec_return_wit_2_split_goal_1",
+            "statement_hash": "27264541419bfe380f021c47b5926e58b2bd8c8d2dd4f4075665856c6d8f37f8",
+            "target_symbol": "xizi_double_link_head_rec_return_wit_2_split_goal_1",
+            "start_line": 33,
+            "end_line": 35,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_double_link_head_rec_return_wit_2_split_goal_spatial",
+            "statement_hash": "2c8c7f2cf3c62925d7ebe9ee3101ce8171c77206056e231b350bcaf51ddeaf15",
+            "target_symbol": "xizi_double_link_head_rec_return_wit_2_split_goal_spatial",
+            "start_line": 36,
+            "end_line": 38,
+            "has_abort": true,
+            "has_split_goal": true
+          }
+        ],
+        "manual_obligation_count": 2,
+        "diagnostic_count": 4
+      }
+    }
+  },
+  "blockers": []
+}

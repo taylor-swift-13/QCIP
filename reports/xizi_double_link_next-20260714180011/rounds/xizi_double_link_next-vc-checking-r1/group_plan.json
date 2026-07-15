@@ -1,0 +1,57 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "9a8bcb26165cefb333598a9c10b8b6d1de0816df881a068d28098d80c39d8bc5",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_next_return_wit_1",
+    "proof_of_xizi_double_link_next_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "next_return_by_suffix_cases",
+      "witness_names": [
+        "proof_of_xizi_double_link_next_return_wit_1",
+        "proof_of_xizi_double_link_next_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_next_return_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "For each witness unfold the return-witness definition, select the second disjunct, introduce parameters, destruct suffix, unfold xizi_dll_suffix in PreH4 and reduce xizi_dll_next_result. In return_wit_1 the nil case yields zero and the cons case contradicts PreH1; in return_wit_2 the nil case contradicts PreH1 and the cons case yields the required next equality. Preserve both xizi_dllseg conjuncts by identity/cancellation.",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_next_return_wit_1": "right; intros; destruct suffix; nil closes by next-result reduction and spatial identity; cons closes by contradiction between PreH1 and the cons clause of PreH4",
+        "proof_of_xizi_double_link_next_return_wit_2": "right; intros; destruct suffix; nil contradicts PreH1 via the nil clause of PreH4; cons obtains next = head-of-suffix from PreH4; cancel the unchanged segment pair"
+      },
+      "vc_shape": {
+        "common_pre_spatial": "xizi_dllseg first linklist_pre linklist_node_pre before prefix ** xizi_dllseg next linklist_node_pre linklist_pre last suffix",
+        "common_post_spatial": "the identical pair of xizi_dllseg resources",
+        "pure_split": "return_wit_1 proves zero result under next=sentinel; return_wit_2 proves next result under next<>sentinel"
+      },
+      "witness_instantiation": {
+        "proof_of_xizi_double_link_next_return_wit_1": "none",
+        "proof_of_xizi_double_link_next_return_wit_2": "none"
+      },
+      "space_plan": "Frame/cancel both xizi_dllseg predicates unchanged; no segment decomposition is required.",
+      "pure_plan": "Destruct suffix, unfold the suffix relation and result function, and use exactly PreH1 plus the appropriate clause of PreH4.",
+      "refinement_plan": "not applicable",
+      "premise_discharge": {
+        "definitions": "xizi_dll_suffix and xizi_dll_next_result reduce on suffix",
+        "empty_nonempty_branch_facts": "from PreH1 and the nil/cons clauses of PreH4",
+        "spatial": "identity of the two xizi_dllseg resources"
+      },
+      "difficulty": "low",
+      "confidence": "high",
+      "grouping_reason": "Both target witnesses share a single suffix-destructor and framing proof pattern, require no helper declarations, and fit within max_witnesses_per_group=12."
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 2,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

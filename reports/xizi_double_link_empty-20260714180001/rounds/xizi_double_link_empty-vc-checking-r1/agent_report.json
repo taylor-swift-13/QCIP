@@ -1,0 +1,233 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "pending",
+  "terminal": "yes",
+  "agent_result": {
+    "status": "completed",
+    "round_outcome": "completed",
+    "source_version": {
+      "schema_version": "qcp-source-version/v1",
+      "digest": "5ebbdc71ef7576193bab4fb098143ae43719f553b87ee2cdac82a4c288636fd4",
+      "verified_current": true,
+      "file_digest_matches": [
+        {
+          "relative_path": "INPUT/xizi/xizi_double_link_empty/xizi_double_link_empty.c",
+          "expected_sha256": "8d2338595a35c6df29a9e99a00f14be1c578a5ca646aaf817cb9e917cef55243",
+          "actual_sha256": "8d2338595a35c6df29a9e99a00f14be1c578a5ca646aaf817cb9e917cef55243",
+          "match": true
+        },
+        {
+          "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_empty/xizi_double_link_empty_lib.v",
+          "expected_sha256": "39442e9881d08ecacc78024554215710a057a47a5aa6cab263635dc9d092bc96",
+          "actual_sha256": "39442e9881d08ecacc78024554215710a057a47a5aa6cab263635dc9d092bc96",
+          "match": true
+        }
+      ]
+    },
+    "source_goal_version": {
+      "schema_version": "qcp-source-goal-version/v1",
+      "digest": "f9d840e197df71167d0f787b2cb46d800b492bd4d3f41eba98e8345bac712e4c",
+      "verified_current": true,
+      "target_witnesses": [
+        "proof_of_xizi_double_link_empty_entail_wit_1",
+        "proof_of_xizi_double_link_empty_return_wit_1",
+        "proof_of_xizi_double_link_empty_return_wit_2"
+      ],
+      "generated_file_digests_match": true,
+      "witness_statement_hashes_match": true
+    },
+    "vc_checking": {
+      "status": "failed",
+      "summary": "The representation-opening entailment is proofable, but both return witnesses are semantically invalid because the structural Assert loses the equality between the current program pointer linklist and its frozen entry value linklist_pre. The antecedents own the sentinel fields and xizi_dllseg at linklist, while both postconditions demand xizi_dll linklist_pre l for an unconstrained address.",
+      "checked_witness_scope": [
+        "proof_of_xizi_double_link_empty_entail_wit_1",
+        "proof_of_xizi_double_link_empty_return_wit_1",
+        "proof_of_xizi_double_link_empty_return_wit_2"
+      ],
+      "ready_for_vc_proving": false,
+      "recommended_next_phase": "annotation",
+      "required_annotation_rework": [
+        "Preserve the unchanged parameter identity in the structural Assert, using the repository annotation pattern linklist == linklist@pre.",
+        "Rerun annotation checking and canonical symbolic execution so the return witnesses either substitute linklist_pre for linklist or carry a usable equality premise.",
+        "Re-run vc-checking on the new source_goal_version; all conclusions and the empty proving plan in this report become stale after regeneration."
+      ],
+      "required_lib_rework": [],
+      "candidate_lib_lemmas": [],
+      "existing_library_lemmas": [],
+      "failed_witnesses": [
+        "proof_of_xizi_double_link_empty_return_wit_1",
+        "proof_of_xizi_double_link_empty_return_wit_2"
+      ],
+      "witness_analyses": [
+        {
+          "witness_id": "proof_of_xizi_double_link_empty_entail_wit_1",
+          "judgment": "proofable",
+          "vc_shape": {
+            "pre_spatial": "xizi_dll linklist_pre l",
+            "pre_pure": "linklist_pre <> 0 (not needed for the unfolding)",
+            "pre_exists": [],
+            "post_spatial": "sentinel node_next |-> first ** sentinel node_prev |-> last ** xizi_dllseg first linklist_pre linklist_pre last l",
+            "post_pure": "none",
+            "post_exists": [
+              "last",
+              "first"
+            ]
+          },
+          "witness_instantiation": "Use the existential first and last already packaged by the definition of xizi_dll.",
+          "space_plan": "Unfold xizi_dll once, select either identical disjunct of the generated goal, and reuse the three conjunctive spatial resources without changing their addresses or contents.",
+          "pure_plan": "No pure obligation remains after unfolding; PreH1 is unused.",
+          "used_existing_lemmas": [
+            {
+              "name": "xizi_dll",
+              "source": "current-case-lib-definition",
+              "statement_shape": "xizi_dll head nodes is definitionally EX first last, head.next |-> first ** head.prev |-> last ** xizi_dllseg first head head last nodes",
+              "premises": [],
+              "premise_discharge": []
+            }
+          ],
+          "candidate_lib_lemmas": [],
+          "premise_discharge": "Definitional unfolding supplies both existential witnesses and every post spatial resource directly from P.",
+          "missing_or_unjustified_premises": [],
+          "failure_signal": null,
+          "recommended_next_phase": "would-be-vc-proving-only-if-all-witnesses-were-proofable",
+          "proof_group_candidate": "open_representation",
+          "grouping_reason": "single definitional-unfolding witness"
+        },
+        {
+          "witness_id": "proof_of_xizi_double_link_empty_return_wit_1",
+          "judgment": "annotation-bug",
+          "vc_shape": {
+            "pre_spatial": "linklist.next |-> first ** linklist.prev |-> last ** xizi_dllseg first linklist linklist last l",
+            "pre_pure": "first <> linklist",
+            "pre_exists": [],
+            "post_spatial": "xizi_dll linklist_pre l",
+            "post_pure": "at least (l=nil -> 0=1), and in the stronger disjunct also (l<>nil -> 0=0)",
+            "post_exists": "the first/last witnesses hidden inside xizi_dll linklist_pre l"
+          },
+          "witness_instantiation": "The natural first/last values reconstruct xizi_dll linklist l, not xizi_dll linklist_pre l; no witness can change the head address demanded by the postcondition.",
+          "space_plan": "Impossible under the frozen VC. P owns fields at linklist, whereas Q requires fields at an arbitrary independently quantified linklist_pre.",
+          "pure_plan": "If the address identity were preserved, unfolding the nil case of xizi_dllseg would turn l=nil into first=linklist, contradicting PreH1. This handles the boolean fact but cannot repair the spatial head mismatch.",
+          "used_existing_lemmas": [],
+          "candidate_lib_lemmas": [],
+          "premise_discharge": "There is no premise in P equating linklist_pre and linklist. A helper lemma asserting the entailment would require this missing premise and therefore would be unsound.",
+          "missing_or_unjustified_premises": [
+            "linklist = linklist_pre"
+          ],
+          "failure_signal": "generated return VC dropped the unchanged parameter identity at the intermediate Assert boundary",
+          "recommended_next_phase": "annotation",
+          "proof_group_candidate": null,
+          "grouping_reason": "annotation-bug witnesses must not enter a proving group"
+        },
+        {
+          "witness_id": "proof_of_xizi_double_link_empty_return_wit_2",
+          "judgment": "annotation-bug",
+          "vc_shape": {
+            "pre_spatial": "linklist.next |-> first ** linklist.prev |-> last ** xizi_dllseg first linklist linklist last l",
+            "pre_pure": "first = linklist",
+            "pre_exists": [],
+            "post_spatial": "xizi_dll linklist_pre l",
+            "post_pure": "at least (l<>nil -> 1=0), and in the stronger disjunct also (l=nil -> 1=1)",
+            "post_exists": "the first/last witnesses hidden inside xizi_dll linklist_pre l"
+          },
+          "witness_instantiation": "The existing first/last values can only reconstruct xizi_dll at linklist; linklist_pre remains unconstrained.",
+          "space_plan": "Impossible under the frozen VC for the same head-address mismatch as return_wit_1.",
+          "pure_plan": "After address identity is restored, first=linklist plus the separated sentinel fields rules out a nonempty xizi_dllseg whose first node would re-own the same sentinel fields; this establishes l=nil. That semantic path does not provide the missing linklist=linklist_pre premise.",
+          "used_existing_lemmas": [],
+          "candidate_lib_lemmas": [],
+          "premise_discharge": "No antecedent fact relates linklist_pre to linklist, so the required spatial postcondition is not derivable.",
+          "missing_or_unjustified_premises": [
+            "linklist = linklist_pre"
+          ],
+          "failure_signal": "generated return VC dropped the unchanged parameter identity at the intermediate Assert boundary",
+          "recommended_next_phase": "annotation",
+          "proof_group_candidate": null,
+          "grouping_reason": "annotation-bug witnesses must not enter a proving group"
+        }
+      ],
+      "natural_language_analysis": {
+        "overall": "P entails the representation opening at function entry. At return, P can reconstruct the same representation at the current linklist address, and the branch conditions are intended to characterize nil versus non-nil. However Q universally selects an unrelated linklist_pre address. Separation-logic ownership cannot be transported between unrelated addresses; this is a missing annotation equality, not a tactic or helper-lemma gap.",
+        "countermodel_pattern": "Choose linklist_pre distinct from linklist and a satisfiable heap containing only the sentinel fields and segment rooted at linklist. The post requires ownership of sentinel fields at linklist_pre, which the antecedent does not provide. This refutes each disjunct of each return witness independently.",
+        "diagnostics_hints_used": [
+          "return_wit_1_split_goal_spatial isolates the invalid xizi_dll linklist_pre l reconstruction",
+          "return_wit_2_split_goal_spatial isolates the same invalid reconstruction",
+          "split_goal diagnostics were treated only as hints and were not included as target witnesses"
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "status": "invalidated-by-annotation-bug",
+        "source_goal_version": "f9d840e197df71167d0f787b2cb46d800b492bd4d3f41eba98e8345bac712e4c",
+        "target_witnesses": [
+          "proof_of_xizi_double_link_empty_entail_wit_1",
+          "proof_of_xizi_double_link_empty_return_wit_1",
+          "proof_of_xizi_double_link_empty_return_wit_2"
+        ],
+        "proof_groups": [],
+        "excluded_annotation_bug_witnesses": [
+          "proof_of_xizi_double_link_empty_return_wit_1",
+          "proof_of_xizi_double_link_empty_return_wit_2"
+        ],
+        "unplanned_proofable_witnesses": [
+          "proof_of_xizi_double_link_empty_entail_wit_1"
+        ],
+        "reason": "Downstream proving is invalid when any target witness is an annotation-bug; the proofable entry witness is deliberately not dispatched alone. Regeneration must produce a new complete plan bound to the new source_goal_version."
+      },
+      "witness_group_plan": {
+        "status": "invalidated-by-annotation-bug",
+        "source_goal_version": "f9d840e197df71167d0f787b2cb46d800b492bd4d3f41eba98e8345bac712e4c",
+        "target_witnesses": [
+          "proof_of_xizi_double_link_empty_entail_wit_1",
+          "proof_of_xizi_double_link_empty_return_wit_1",
+          "proof_of_xizi_double_link_empty_return_wit_2"
+        ],
+        "proof_groups": [],
+        "reason": "No proving handoff is valid until annotation repair and regeneration."
+      },
+      "changed_files": [],
+      "formal_files_modified": false,
+      "timing": {
+        "phase_started_at": "unrecorded-before-first-command",
+        "first_precise_timestamp_observed_at": "2026-07-14T10:08:15Z",
+        "phase_finished_at": "2026-07-14T10:08:15Z",
+        "elapsed_seconds": "unknown",
+        "witness_or_cluster_timings": [
+          {
+            "cluster": "representation-opening",
+            "witnesses": [
+              "proof_of_xizi_double_link_empty_entail_wit_1"
+            ],
+            "elapsed_seconds": "not-separately-recorded"
+          },
+          {
+            "cluster": "return-address-identity-gap",
+            "witnesses": [
+              "proof_of_xizi_double_link_empty_return_wit_1",
+              "proof_of_xizi_double_link_empty_return_wit_2"
+            ],
+            "elapsed_seconds": "not-separately-recorded"
+          }
+        ],
+        "slowest_diagnostic_point": "return-address-identity-gap cluster",
+        "major_time_sinks": [
+          "reading the complete workflow rule set",
+          "auditing frozen hashes and generated witness shapes",
+          "distinguishing the pure nil/non-nil reasoning from the fatal spatial address mismatch"
+        ],
+        "timing_gap_reason": "The first activity start was not timestamped before analysis began; no elapsed value is fabricated."
+      },
+      "blockers": []
+    }
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-07-14T10:10:17Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_double_link_empty-20260714180001/rounds/xizi_double_link_empty-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    }
+  },
+  "blockers": []
+}

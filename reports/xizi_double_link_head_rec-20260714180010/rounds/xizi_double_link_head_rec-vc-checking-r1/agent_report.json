@@ -1,0 +1,315 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "status": "completed",
+    "terminal": "yes",
+    "round_outcome": "completed",
+    "round": "xizi_double_link_head_rec-vc-checking-r1",
+    "attempt_id": "xizi_double_link_head_rec-vc-checking-r1-attempt-1",
+    "source_version": {
+      "schema_version": "qcp-source-version/v1",
+      "digest": "4404742dafd82c0aa72a512f89bd6edec73e43a497b576213021c275d972129a",
+      "verified_current": true
+    },
+    "source_goal_version": {
+      "schema_version": "qcp-source-goal-version/v1",
+      "digest": "484bb1d16a18c744f32b01533ffbd2b4aa4832f0ab2ce8f59c8844453fd7dd9c",
+      "verified_current": true
+    },
+    "vc_checking": {
+      "status": "completed",
+      "source_goal_version": {
+        "schema_version": "qcp-source-goal-version/v1",
+        "digest": "484bb1d16a18c744f32b01533ffbd2b4aa4832f0ab2ce8f59c8844453fd7dd9c"
+      },
+      "target_witnesses_verified": [
+        "proof_of_xizi_double_link_head_rec_return_wit_1",
+        "proof_of_xizi_double_link_head_rec_return_wit_2"
+      ],
+      "manual_obligation_check": {
+        "status": "passed",
+        "manual_obligation_count": 2,
+        "target_set_matches_source_goal_version": true,
+        "manual_statement_hashes_match": true,
+        "diagnostics_excluded_from_targets": true,
+        "witness_statement_hashes": {
+          "proof_of_xizi_double_link_head_rec_return_wit_1": "55df97569b7a1c62ce5adaf1b224f329788d0a4cb465048cf7ec4e9bb693832b",
+          "proof_of_xizi_double_link_head_rec_return_wit_2": "8feec5680eb52306ccaaf99e34e49d543c8e12dafd8e63f01f69a67374242cfe"
+        }
+      },
+      "version_evidence": {
+        "status": "passed",
+        "source_version_digest": "4404742dafd82c0aa72a512f89bd6edec73e43a497b576213021c275d972129a",
+        "source_goal_version_digest": "484bb1d16a18c744f32b01533ffbd2b4aa4832f0ab2ce8f59c8844453fd7dd9c",
+        "all_declared_file_sha256_values_match": true
+      },
+      "natural_language_analysis": {
+        "summary": "Both return witnesses are semantically valid. In each generated disjunction, select the second disjunct, destruct l, reduce Znth, and return xizi_double_link_rec unchanged. Witness 1 uses the recursive predicate's non-sentinel pure fact to eliminate the nonempty branch; witness 2 uses PreH2 and PreH1 to eliminate the empty branch. No helper is required.",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_xizi_double_link_head_rec_return_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "xizi_double_link_rec linklist_pre head linklist_pre l in the selected second disjunct",
+              "pre_pure": "PreH1: head = linklist_pre; PreH2: head = Znth 0 l linklist_pre; PreH3 specifies tail but is irrelevant to this weaker disjunct",
+              "pre_exists": "When l is nonempty, unfolding xizi_double_link_rec exposes the next address existential after the pure facts head = first(l) and head <> linklist_pre; its value is not needed because this branch is contradictory",
+              "post_spatial": "the identical xizi_double_link_rec linklist_pre head linklist_pre l resource",
+              "post_pure": "0 = Znth 0 l 0",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "No right-side existential is required. Destruct l. For nil, Znth 0 nil 0 reduces to 0. For node :: rest, unfolding xizi_double_link_rec yields head <> linklist_pre, contradicting PreH1.",
+            "space_plan": "Choose the second disjunct and preserve xizi_double_link_rec unchanged. In the nil branch it can be reconstructed or cancelled after reduction. In the cons branch expose only the recursive predicate's pure prefix to derive contradiction; no owned node field is consumed or invented.",
+            "pure_plan": "Destruct l. The nil target is definitional reflexivity. In the cons branch, unfold xizi_double_link_rec enough to obtain head <> linklist_pre and contradict PreH1: head = linklist_pre. PreH2 and PreH3 are not needed for that contradiction.",
+            "refinement_plan": "not applicable; this VC contains no safeExec or abstract-program state",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "l = nil branch establishes 0 = Znth 0 l 0",
+                "discharged_by": "definition reduction of Znth on nil with default 0"
+              },
+              {
+                "premise": "l = node :: rest branch is impossible under head = linklist_pre",
+                "discharged_by": "the pure prefix of unfolded xizi_double_link_rec gives head <> linklist_pre, contradicting PreH1"
+              },
+              {
+                "premise": "post spatial resource",
+                "discharged_by": "identity/cancellation of the unchanged xizi_double_link_rec antecedent"
+              }
+            ],
+            "failure_signal": "none; the current recursive predicate provides the exact non-sentinel fact needed to rule out the nonempty case",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "head_rec_return_by_list_cases",
+            "grouping_reason": "same list case split, Znth reduction, recursive-predicate framing, and complementary impossible-branch pattern as return_wit_2"
+          },
+          {
+            "witness_name": "proof_of_xizi_double_link_head_rec_return_wit_2",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "xizi_double_link_rec linklist_pre head linklist_pre l in the selected second disjunct",
+              "pre_pure": "PreH1: head <> linklist_pre; PreH2: head = Znth 0 l linklist_pre; PreH3 specifies tail but is irrelevant to this weaker disjunct",
+              "pre_exists": "none needed; the recursive predicate remains folded and framed",
+              "post_spatial": "the identical xizi_double_link_rec linklist_pre head linklist_pre l resource",
+              "post_pure": "head = Znth 0 l 0",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "No right-side existential is required. Destruct l. In the nil branch PreH2 reduces to head = linklist_pre, contradicting PreH1. In the node :: rest branch, Znth at index 0 reduces to node independently of its default, so PreH2 is exactly the target equality.",
+            "space_plan": "Choose the second disjunct and frame/cancel xizi_double_link_rec unchanged. No predicate unfolding or new ownership is needed in the nonempty branch.",
+            "pure_plan": "Destruct l and simplify Znth in PreH2 and the goal. Nil contradicts PreH1 using the simplified PreH2. Cons closes from the simplified PreH2 because both default choices select the head element. No arithmetic solver or length premise is needed.",
+            "refinement_plan": "not applicable; this VC contains no safeExec or abstract-program state",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "l = nil branch is impossible",
+                "discharged_by": "PreH2 reduces to head = linklist_pre, contradicting PreH1"
+              },
+              {
+                "premise": "l = node :: rest establishes head = Znth 0 l 0",
+                "discharged_by": "PreH2 plus definition reduction of both Znth expressions at index 0"
+              },
+              {
+                "premise": "post spatial resource",
+                "discharged_by": "identity/cancellation of the unchanged xizi_double_link_rec antecedent"
+              }
+            ],
+            "failure_signal": "none; PreH1 and PreH2 completely distinguish the empty and nonempty list cases",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "head_rec_return_by_list_cases",
+            "grouping_reason": "same list case split, Znth reduction, recursive-predicate framing, and complementary impossible-branch pattern as return_wit_1"
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "head_rec_return_by_list_cases",
+            "witness_names": [
+              "proof_of_xizi_double_link_head_rec_return_wit_1",
+              "proof_of_xizi_double_link_head_rec_return_wit_2"
+            ],
+            "representative_witness": "proof_of_xizi_double_link_head_rec_return_wit_1",
+            "shared_proof_pattern": "Select the second return disjunct, destruct l, reduce Znth at index 0, eliminate one impossible list branch from sentinel equality/inequality, and frame the unchanged xizi_double_link_rec resource.",
+            "shared_space_plan": "Return xizi_double_link_rec unchanged; expose its pure cons-case prefix only for return_wit_1's contradiction.",
+            "shared_pure_plan": "Both proofs are list-case analyses using PreH1/PreH2 and definitional reduction; no arithmetic or additional premise is required.",
+            "shared_refinement_plan": "not applicable",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "The two witnesses belong to the same function and share one compact list-destructor/framing proof pattern; the combined size 2 is below the controller maximum 12.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "484bb1d16a18c744f32b01533ffbd2b4aa4832f0ab2ce8f59c8844453fd7dd9c",
+        "target_witnesses": [
+          "proof_of_xizi_double_link_head_rec_return_wit_1",
+          "proof_of_xizi_double_link_head_rec_return_wit_2"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "head_rec_return_by_list_cases",
+            "witness_names": [
+              "proof_of_xizi_double_link_head_rec_return_wit_1",
+              "proof_of_xizi_double_link_head_rec_return_wit_2"
+            ],
+            "representative_witness": "proof_of_xizi_double_link_head_rec_return_wit_1",
+            "dependencies": [],
+            "candidate_helper_declarations": [],
+            "expected_helpers": [],
+            "proof_strategy": "For each theorem unfold the return-witness definition, select the second disjunct, introduce parameters, destruct l, simplify Znth at index 0, and preserve xizi_double_link_rec by identity. For return_wit_1, the nil case closes by reduction and the cons case closes after exposing xizi_double_link_rec's head <> linklist_pre fact against PreH1. For return_wit_2, the nil case contradicts PreH1 through simplified PreH2 and the cons case closes directly from simplified PreH2.",
+            "per_witness_plan": {
+              "proof_of_xizi_double_link_head_rec_return_wit_1": "right; intros; destruct l; nil closes by Znth reduction plus spatial identity; cons closes by contradiction between PreH1 and the non-sentinel pure fact exposed from xizi_double_link_rec",
+              "proof_of_xizi_double_link_head_rec_return_wit_2": "right; intros; destruct l; nil contradicts PreH1 via simplified PreH2; cons obtains the target equality from simplified PreH2; cancel the unchanged xizi_double_link_rec"
+            },
+            "vc_shape": {
+              "common_pre_spatial": "xizi_double_link_rec linklist_pre head linklist_pre l",
+              "common_post_spatial": "the identical xizi_double_link_rec resource",
+              "pure_split": "return_wit_1 proves 0 = Znth 0 l 0 under head=sentinel; return_wit_2 proves head = Znth 0 l 0 under head<>sentinel"
+            },
+            "witness_instantiation": {
+              "proof_of_xizi_double_link_head_rec_return_wit_1": "none",
+              "proof_of_xizi_double_link_head_rec_return_wit_2": "none"
+            },
+            "space_plan": "Frame/cancel xizi_double_link_rec unchanged; expose its cons-case pure prefix only for return_wit_1's contradiction.",
+            "pure_plan": "Destruct l and simplify Znth; use PreH1/PreH2 and, for return_wit_1's cons branch, the non-sentinel pure fact from xizi_double_link_rec.",
+            "refinement_plan": "not applicable",
+            "premise_discharge": {
+              "definitions": "Znth reduces on nil and on node :: rest at index 0",
+              "empty_nonempty_branch_facts": "from PreH1/PreH2 and, for return_wit_1 cons, the pure prefix of xizi_double_link_rec",
+              "spatial": "identity of xizi_double_link_rec"
+            },
+            "difficulty": "low",
+            "confidence": "high",
+            "grouping_reason": "Both witnesses share one list-destructor/framing proof pattern and have no dependency or helper boundary; one group minimizes workers while respecting max_witnesses_per_group=12."
+          }
+        ],
+        "blockers": []
+      },
+      "group_plan_ready": true,
+      "changed_files": [],
+      "blockers": [],
+      "recommended_next_phase": "vc-proving-preparing"
+    },
+    "changed_files": [],
+    "blockers": []
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-07-14T11:36:00Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_double_link_head_rec-20260714180010/rounds/xizi_double_link_head_rec-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    },
+    "controller_simple_repairs": [
+      {
+        "kind": "materialized-inline-group-plan",
+        "source": "/home/yangfp/QCIP/reports/xizi_double_link_head_rec-20260714180010/rounds/xizi_double_link_head_rec-vc-checking-r1/agent_report.json",
+        "target": "/home/yangfp/QCIP/reports/xizi_double_link_head_rec-20260714180010/rounds/xizi_double_link_head_rec-vc-checking-r1/group_plan.json",
+        "reason": "vc-checking report included an inline group_plan but the default group_plan.json artifact was missing"
+      }
+    ],
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-07-14T11:36:00Z",
+      "source_version": {
+        "digest": "4404742dafd82c0aa72a512f89bd6edec73e43a497b576213021c275d972129a",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_head_rec-20260714180010/xizi_double_link_head_rec-annotation-r2/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec.c",
+            "relative_path": "INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec.c",
+            "role": "target-c-annotated",
+            "sha256": "3e3d2c16f98c4a9e9171a5b54c7626137de121119710152817bfdb8a29ae4873",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_head_rec-20260714180010/xizi_double_link_head_rec-annotation-r2/SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_lib.v",
+            "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "4555200612ee141a6d3b6e726b382ba40c63f0af084b04a252e0a7ce256695fc",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "484bb1d16a18c744f32b01533ffbd2b4aa4832f0ab2ce8f59c8844453fd7dd9c",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_goal.v",
+            "role": "generated-goal",
+            "sha256": "ab7fc80bf01abbeb90377462e1c47e0db86782d3f7caa1c50c91db31eac5de8b",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "708e5540231a0ef7dd9db653dbb071c0fbb0e5bbd71d20b20b64d478d6cbb17a",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "52c74430a3cdfeba050c3d670fecee0cbe959de4170173cbb2f2ec04c13fbb93",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "27fa541b622880361df9dbcbdaf77fb764d6e84b53c844b89681a5665bfcc8ed",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/xizi_double_link_head_rec_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "2fdca68c2d8a27b2ce4ec0e65c2307ae4750791274704ed4030bf6770b284aa1",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head_rec/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "618b174370222ce70f8d811f3d2cdb9db748a0377db2e4eaaa725ea82e40004b",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_xizi_double_link_head_rec_return_wit_1",
+          "proof_of_xizi_double_link_head_rec_return_wit_2"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_xizi_double_link_head_rec_return_wit_1": "55df97569b7a1c62ce5adaf1b224f329788d0a4cb465048cf7ec4e9bb693832b",
+          "proof_of_xizi_double_link_head_rec_return_wit_2": "8feec5680eb52306ccaaf99e34e49d543c8e12dafd8e63f01f69a67374242cfe"
+        },
+        "witnesses": [
+          {
+            "end_line": 26,
+            "name": "proof_of_xizi_double_link_head_rec_return_wit_1",
+            "start_line": 24,
+            "statement_hash": "55df97569b7a1c62ce5adaf1b224f329788d0a4cb465048cf7ec4e9bb693832b",
+            "target_symbol": "xizi_double_link_head_rec_return_wit_1"
+          },
+          {
+            "end_line": 29,
+            "name": "proof_of_xizi_double_link_head_rec_return_wit_2",
+            "start_line": 27,
+            "statement_hash": "8feec5680eb52306ccaaf99e34e49d543c8e12dafd8e63f01f69a67374242cfe",
+            "target_symbol": "xizi_double_link_head_rec_return_wit_2"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_double_link_head_rec-20260714180010/rounds/xizi_double_link_head_rec-vc-checking-r1/group_plan.json",
+      "target_witnesses": [
+        "proof_of_xizi_double_link_head_rec_return_wit_1",
+        "proof_of_xizi_double_link_head_rec_return_wit_2"
+      ]
+    }
+  },
+  "blockers": []
+}

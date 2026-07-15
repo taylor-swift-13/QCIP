@@ -1,118 +1,152 @@
 Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
 Require Import Coq.Strings.String.
-Require Import Coq.Lists.List.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.micromega.Psatz.
-Require Import Coq.Sorting.Permutation.
 From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
 Require Import SetsClass.SetsClass. Import SetsNotation.
 From SimpleC.SL Require Import Mem SeparationLogic.
 Require Import Logic.LogicGenerator.demo932.Interface.
+From QCIPLib.xizi.xizi_avl_common Require Export xizi_avl_lib_core.
+
 Local Open Scope Z_scope.
 Local Open Scope sets.
-Local Open Scope string.
-Local Open Scope list.
+Local Open Scope string_scope.
+
 Import naive_C_Rules.
 Local Open Scope sac.
-Require Import Coq.Structures.Orders.
-Require Import Coq.Structures.OrdersFacts.
-From AUXLib Require Import BinaryTree OrdersDecFact.
 
-(* ================================================================= *)
-(* Shape representation of the crtos AVL tree (kernel/thread/avl_tree.c).*)
-(*                                                                   *)
-(*   struct AvlNode { int32 data; uint32 height;                     *)
-(*                    struct AvlNode *left, *right; };               *)
-(*                                                                   *)
-(* The abstract [tree] records only the structure; the data and      *)
-(* height stored at each node are existentially quantified inside     *)
-(* [store_tree].                                                     *)
-(* ================================================================= *)
+Definition xizi_avl_struct_name : string := "AvlNode".
+Definition xizi_avl_data_field : string := "data".
+Definition xizi_avl_height_field : string := "height".
+Definition xizi_avl_left_field : string := "left".
+Definition xizi_avl_right_field : string := "right".
 
-Definition key := Z.
+Definition avl_node_fields
+    (p : addr) (data height : Z) (left right : addr) : Assertion :=
+  avl_concrete_node_store
+    xizi_avl_struct_name xizi_avl_data_field xizi_avl_height_field
+    xizi_avl_left_field xizi_avl_right_field p data height left right.
 
-Inductive tree : Type :=
-  | empty : tree
-  | make_tree : tree -> tree -> tree.
+Definition store_addr_avl : addr -> addr_avl_tree -> Assertion :=
+  generic_store_addr_avl avl_node_fields.
 
-Fixpoint store_tree (p: addr) (tr: tree): Assertion :=
-    match tr with
-    | empty =>
-        “ p = NULL ” && emp
-    | make_tree l r =>
-        EX pl pr d h,
-            “ p <> NULL ” &&
-            &(p # "AvlNode" ->ₛ "data") # Int |-> d **
-            &(p # "AvlNode" ->ₛ "height") # UInt |-> h **
-            &(p # "AvlNode" ->ₛ "left") # Ptr |-> pl **
-            &(p # "AvlNode" ->ₛ "right") # Ptr |-> pr **
-            store_tree pl l **
-            store_tree pr r
-    end.
+Definition store_addr_avl_shape : addr -> Assertion :=
+  generic_store_addr_avl_shape avl_node_fields.
 
-Definition store_tree_shape (p:addr): Assertion :=
-    EX tr, store_tree p tr.
+Definition store_nonempty_addr_avl : addr -> Assertion :=
+  generic_store_nonempty_addr_avl avl_node_fields.
 
-Definition store_non_empty_tree (p: addr): Assertion :=
-    “ p <> NULL ” && store_tree_shape p.
-
-Definition single_tree_node (p: addr) (d: key) (h: Z) (l r: addr): Assertion :=
-    &(p # "AvlNode" ->ₛ "data") # Int |-> d **
-    &(p # "AvlNode" ->ₛ "height") # UInt |-> h **
-    &(p # "AvlNode" ->ₛ "left") # Ptr |-> l **
-    &(p # "AvlNode" ->ₛ "right") # Ptr |-> r.
-
-(* ================================================================= *)
-(* Pure structural measure: height (longest root-to-leaf path).      *)
-(* empty has height 0.  This is the mathematical meaning of the C     *)
-(* recursive function AvlTreeGetNodeHeight.                          *)
-(* ================================================================= *)
-
-Fixpoint tree_depth (tr: tree) : Z :=
-    match tr with
-    | empty => 0
-    | make_tree l r => Z.max (tree_depth l) (tree_depth r) + 1
-    end.
-
-Fixpoint tree_size (tr: tree) : Z :=
-    match tr with
-    | empty => 0
-    | make_tree l r => tree_size l + tree_size r + 1
-    end.
-
-(* Balance factor of a node: height of left subtree minus height of right    *)
-(* subtree (the empty tree is balanced with factor 0).  This is the           *)
-(* mathematical meaning of the C routine AvlTreeGetNodeBalanceFactor.         *)
-Definition tree_balance_factor (tr: tree) : Z :=
-    match tr with
-    | empty => 0
-    | make_tree l r => tree_depth l - tree_depth r
-    end.
-
-Lemma tree_depth_nonneg : forall tr, 0 <= tree_depth tr.
+Lemma avl_node_fields_unfold : forall p data height left right,
+  avl_node_fields p data height left right |--
+    &(p # "AvlNode" ->ₛ "data") # Int |-> data **
+    &(p # "AvlNode" ->ₛ "height") # UInt |-> height **
+    &(p # "AvlNode" ->ₛ "left") # Ptr |-> left **
+    &(p # "AvlNode" ->ₛ "right") # Ptr |-> right.
 Proof.
-  induction tr; simpl; lia.
+  intros. unfold avl_node_fields, avl_concrete_node_store,
+    xizi_avl_struct_name, xizi_avl_data_field, xizi_avl_height_field,
+    xizi_avl_left_field, xizi_avl_right_field.
+  entailer!.
 Qed.
 
-Lemma tree_size_nonneg : forall tr, 0 <= tree_size tr.
+Lemma avl_node_fields_fold : forall p data height left right,
+  &(p # "AvlNode" ->ₛ "data") # Int |-> data **
+  &(p # "AvlNode" ->ₛ "height") # UInt |-> height **
+  &(p # "AvlNode" ->ₛ "left") # Ptr |-> left **
+  &(p # "AvlNode" ->ₛ "right") # Ptr |-> right |--
+  avl_node_fields p data height left right.
 Proof.
-  induction tr; simpl; lia.
+  intros. unfold avl_node_fields, avl_concrete_node_store,
+    xizi_avl_struct_name, xizi_avl_data_field, xizi_avl_height_field,
+    xizi_avl_left_field, xizi_avl_right_field.
+  entailer!.
 Qed.
 
-(* A tree stored at the NULL address is necessarily the empty tree. *)
-Theorem store_tree_zero:
-  forall p tr,
-    p = 0 -> store_tree p tr |-- “ tr = empty ” && emp.
+Lemma store_addr_avl_null : forall p t,
+  p = NULL ->
+  store_addr_avl p t |-- “ t = avl_empty ” && emp.
 Proof.
-  intros p tr Hp.
-  destruct tr.
-  - simpl. subst p.
-    split_pure_spatial.
-    + Intros_p Hnull. cancel.
-    + dump_pre_spatial. reflexivity.
-  - simpl. subst p.
-    Intros pl pr d h.
-    contradiction.
+  intros. unfold store_addr_avl.
+  apply generic_store_addr_avl_null; assumption.
+Qed.
+
+Lemma store_addr_avl_empty_rev :
+  emp |-- store_addr_avl NULL avl_empty.
+Proof.
+  unfold store_addr_avl.
+  apply generic_store_addr_avl_empty_rev.
+Qed.
+
+Lemma store_addr_avl_nonnull : forall p t,
+  p <> NULL ->
+  store_addr_avl p t |--
+    EX data height left_tree right_tree,
+      “ t = avl_node_model p data height left_tree right_tree ” &&
+      avl_node_fields p data height
+        (avl_root_addr left_tree) (avl_root_addr right_tree) **
+      store_addr_avl (avl_root_addr left_tree) left_tree **
+      store_addr_avl (avl_root_addr right_tree) right_tree.
+Proof.
+  intros. unfold store_addr_avl.
+  apply generic_store_addr_avl_nonnull; assumption.
+Qed.
+
+Lemma store_addr_avl_node_rev : forall p data height left_tree right_tree,
+  p <> NULL ->
+  avl_node_fields p data height
+      (avl_root_addr left_tree) (avl_root_addr right_tree) **
+  store_addr_avl (avl_root_addr left_tree) left_tree **
+  store_addr_avl (avl_root_addr right_tree) right_tree |--
+  store_addr_avl p
+    (avl_node_model p data height left_tree right_tree).
+Proof.
+  intros. unfold store_addr_avl.
+  apply generic_store_addr_avl_node_rev; assumption.
+Qed.
+
+Lemma store_addr_avl_singleton : forall p data height,
+  p <> NULL ->
+  store_addr_avl p (avl_node_model p data height avl_empty avl_empty) |--
+  avl_node_fields p data height NULL NULL.
+Proof.
+  intros. unfold store_addr_avl. simpl. Intros. entailer!.
+Qed.
+
+Lemma store_addr_avl_singleton_rev : forall p data height,
+  p <> NULL ->
+  avl_node_fields p data height NULL NULL |--
+  store_addr_avl p (avl_node_model p data height avl_empty avl_empty).
+Proof.
+  intros. unfold store_addr_avl.
+  apply generic_store_addr_avl_singleton_rev; assumption.
+Qed.
+
+Lemma store_addr_avl_shape_unfold : forall p,
+  store_addr_avl_shape p |-- EX t, store_addr_avl p t.
+Proof.
+  intros. unfold store_addr_avl_shape, generic_store_addr_avl_shape,
+    store_addr_avl. entailer!.
+Qed.
+
+Lemma store_addr_avl_shape_fold : forall p t,
+  store_addr_avl p t |-- store_addr_avl_shape p.
+Proof.
+  intros. unfold store_addr_avl_shape, generic_store_addr_avl_shape,
+    store_addr_avl. Exists t. entailer!.
+Qed.
+
+Lemma store_nonempty_addr_avl_unfold : forall p,
+  store_nonempty_addr_avl p |--
+    “ p <> NULL ” && store_addr_avl_shape p.
+Proof.
+  intros. unfold store_nonempty_addr_avl,
+    generic_store_nonempty_addr_avl, store_addr_avl_shape.
+  entailer!.
+Qed.
+
+Lemma store_nonempty_addr_avl_fold : forall p,
+  p <> NULL ->
+  store_addr_avl_shape p |-- store_nonempty_addr_avl p.
+Proof.
+  intros. unfold store_nonempty_addr_avl,
+    generic_store_nonempty_addr_avl, store_addr_avl_shape.
+  entailer!.
 Qed.

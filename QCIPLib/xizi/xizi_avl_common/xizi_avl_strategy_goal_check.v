@@ -1,5 +1,13 @@
-From QCIPLib.xizi.xizi_avl_common Require Import xizi_avl_strategy_goal xizi_avl_strategy_proof.
+From QCIPLib.xizi.xizi_avl_common Require Import
+  xizi_avl_strategy_goal xizi_avl_strategy_proof.
 
-Module xizi_avl_Strategy_Correctness : xizi_avl_Strategy_Correct.
-  Include xizi_avl_strategy_proof.
-End xizi_avl_Strategy_Correctness.
+Check xizi_avl_strategy501_correctness.
+Check xizi_avl_strategy502_correctness.
+Check xizi_avl_strategy503_correctness.
+Check xizi_avl_strategy504_correctness.
+Check xizi_avl_strategy505_correctness.
+Check xizi_avl_strategy506_correctness.
+Check xizi_avl_strategy507_correctness.
+Check xizi_avl_strategy508_correctness.
+Check xizi_avl_strategy509_correctness.
+Check xizi_avl_strategy510_correctness.

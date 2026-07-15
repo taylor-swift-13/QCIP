@@ -1,0 +1,22 @@
+# Reuse Note
+Note kind: non-authoritative reuse note
+This file is not acceptance evidence.
+
+Attempt: xizi_avl_left_rotate-annotation-r1-attempt-1
+Outcome: blocked before target symbolic execution by an out-of-scope shared strategy parser error.
+
+Reusable candidate ideas:
+- The target C candidate imports `QCIPLib/xizi/xizi_avl_common/xizi_avl_def.h`, uses a whole-tree `store_addr_avl(avl_node, before)` precondition with the exact two-node root/right-child model equation, and existentially returns the exact rotated `after` tree satisfying `avl_left_rotation(before, after)`.
+- The case lib candidate contains no private definitions; it only re-exports `QCIPLib.xizi.xizi_avl_common.xizi_avl_lib` as a compatibility seed.
+- The compatibility case lib passed the fixed `coq_tooling.py check --target-kind case_lib` gate.
+
+Blocking evidence:
+- `QCIPLib/xizi/xizi_avl_common/xizi_avl.strategies` line 40 contains `?left` (and line 49 repeats the pattern). The current QCP strategy lexer reports `unexpected LEFT, expecting IDENT` while loading `xizi_avl_def.h:27`.
+- The failure is reproduced by both the qcp-mcp SessionManager chain and the exact canonical symexec argv recorded in `agent_report.json`.
+- The shared file is outside this round's `allowed_write_paths`; it must be repaired before a fresh controller-created annotation retry.
+
+Do not reuse these generated files from this attempt:
+- `xizi_avl_left_rotate_goal.v` and `xizi_avl_left_rotate_proof_auto.v` were truncated to zero bytes by the failed canonical symexec before it exited.
+- `xizi_avl_left_rotate_proof_manual.v` is an old skeleton that still imports the private case lib. It was intentionally not hand-edited.
+
+After the shared strategy repair, start a fresh annotation attempt, review the current JSON handoff and versions, reapply/adapt only the C and compatibility-lib candidate, then rerun qcp-mcp, canonical QCP, case-lib Coq checking, and annotation-checking. JSON handoff, current files, and current versions take precedence over this note.

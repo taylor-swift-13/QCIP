@@ -1,0 +1,357 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "status": "completed",
+    "terminal": "yes",
+    "round_outcome": "completed",
+    "phase": "vc-checking",
+    "round": "xizi_avl_left_rotate-vc-checking-r1",
+    "attempt_id": "xizi_avl_left_rotate-vc-checking-r1-attempt-1",
+    "source_version": {
+      "schema_version": "qcp-source-version/v1",
+      "digest": "d97884a42e883b870f367b56f13bcadd6b89559a3a61723c6b6c04aca86be5c1",
+      "verified_current": true,
+      "file_digest_matches": [
+        {
+          "relative_path": "Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate.c",
+          "sha256": "d51c21288e1dac7798eb2bb9853256cea3e0fb5c997bd6f1337aa7a682a6e529",
+          "match": true
+        },
+        {
+          "relative_path": "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_lib.v",
+          "sha256": "0e061e4413eb9a968852695e2a8fd7b3539177bb0ae94e5237598c7ae5f4d951",
+          "match": true
+        }
+      ]
+    },
+    "source_goal_version": {
+      "schema_version": "qcp-source-goal-version/v1",
+      "digest": "6da032c68fa16d1834116bcb630fedb46237df8880afa00b9f967b09cfefed95",
+      "verified_current": true,
+      "target_witnesses": [
+        "proof_of_xizi_avl_left_rotate_return_wit_1"
+      ],
+      "witness_statement_hashes": {
+        "proof_of_xizi_avl_left_rotate_return_wit_1": "41156a97677b4d13224494381edb025b04400b2823d1c13a6b88e0c682026e7f"
+      }
+    },
+    "vc_checking": {
+      "schema_version": "qcp-vc-checking-result/v1",
+      "status": "completed",
+      "overall_judgment": "proofable",
+      "summary": "The sole target VC is semantically provable. Select the second return-witness disjunct: its antecedent and postcondition contain the identical three store_addr_avl resources, while PreH3 supplies exactly the before-tree equality required to construct avl_left_rotation. Instantiate the relation with the current old-root address, promoted-node address, payloads, cached heights, and subtrees a/b/c; its after-tree equality is reflexive. No helper declaration and no annotation or case_lib rework are needed.",
+      "source_version": "d97884a42e883b870f367b56f13bcadd6b89559a3a61723c6b6c04aca86be5c1",
+      "source_goal_version": "6da032c68fa16d1834116bcb630fedb46237df8880afa00b9f967b09cfefed95",
+      "target_witnesses_verified": [
+        "proof_of_xizi_avl_left_rotate_return_wit_1"
+      ],
+      "manual_obligation_check": {
+        "status": "passed",
+        "manual_obligation_count": 1,
+        "target_set_matches_source_goal_version": true,
+        "manual_statement_hashes_match": true,
+        "diagnostics_excluded_from_targets": true
+      },
+      "version_evidence": {
+        "status": "passed",
+        "source_version_digest": "d97884a42e883b870f367b56f13bcadd6b89559a3a61723c6b6c04aca86be5c1",
+        "source_goal_version_digest": "6da032c68fa16d1834116bcb630fedb46237df8880afa00b9f967b09cfefed95",
+        "all_declared_file_sha256_values_match": true,
+        "checked_source_files": 2,
+        "checked_generated_and_diagnostic_files": 6
+      },
+      "witness_judgments": [
+        {
+          "witness_name": "proof_of_xizi_avl_left_rotate_return_wit_1",
+          "judgment": "proofable",
+          "reason": "The pure rotation relation is witnessed directly from PreH3 and the post spatial resources are syntactically identical to the selected disjunct's antecedent."
+        }
+      ],
+      "natural_language_analysis": {
+        "schema_version": "qcp-vc-natural-language-analysis/v1",
+        "summary": "One direct pure-relation construction plus unchanged spatial framing obligation; there is no recursive predicate unfolding, arithmetic, refinement transition, or helper family.",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_xizi_avl_left_rotate_return_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "In the selected second disjunct: store_addr_avl left_addr a ** store_addr_avl middle_addr b ** store_addr_avl far_right_addr c.",
+              "pre_pure": "Outer Rocq premises PreH1: avl_node_pre <> 0, PreH2: right_addr <> 0, and PreH3: before = avl_node_model avl_node_pre root_data root_height a (avl_node_model right_addr right_data right_height b c). Only PreH3 is needed by this VC.",
+              "pre_exists": "none inside the antecedent; all addresses, payloads, cached heights, subtrees, and before are universally quantified parameters",
+              "post_spatial": "The identical store_addr_avl left_addr a ** store_addr_avl middle_addr b ** store_addr_avl far_right_addr c resources, in the same order.",
+              "post_pure": "avl_left_rotation before (avl_node_model right_addr right_data right_height (avl_node_model avl_node_pre root_data root_height a b) c).",
+              "post_exists": "Inside avl_left_rotation, instantiate root=avl_node_pre, promoted=right_addr, root_data=root_data, root_height=root_height, right_data=right_data, right_height=right_height, and subtrees a=a, b=b, c=c."
+            },
+            "witness_instantiation": "Unfold avl_left_rotation and choose the nine witnesses avl_node_pre, right_addr, root_data, root_height, right_data, right_height, a, b, and c. The relation's before equality is exactly PreH3; the relation's after equality is reflexivity.",
+            "space_plan": "Choose the second top-level disjunct to avoid expanding the eleven explicit field and subtree resources in the first disjunct. Introduce the quantified parameters and preserve the three store_addr_avl resources by direct structural cancellation/identity. Do not unfold store_addr_avl: no heap shape transformation remains in this return VC.",
+            "pure_plan": "Unfold only avl_left_rotation. Construct its existential witnesses from the universally quantified current state. Discharge the first conjunction with PreH3 and the second by reflexivity. PreH1 and PreH2 are not required; no arithmetic or non-null inference is needed.",
+            "refinement_plan": "not applicable; this VC contains no safeExec fact or abstract refinement state",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "before = avl_node_model avl_node_pre root_data root_height a (avl_node_model right_addr right_data right_height b c)",
+                "discharged_by": "exactly outer premise PreH3",
+                "needs_unfold": [
+                  "avl_left_rotation"
+                ],
+                "arithmetic": "none",
+                "spatial_resource": "none"
+              },
+              {
+                "premise": "the relation's after tree equals avl_node_model right_addr right_data right_height (avl_node_model avl_node_pre root_data root_height a b) c",
+                "discharged_by": "reflexivity after the explicit existential instantiation",
+                "needs_unfold": [
+                  "avl_left_rotation"
+                ],
+                "arithmetic": "none",
+                "spatial_resource": "none"
+              },
+              {
+                "premise": "all three post spatial resources",
+                "discharged_by": "the three antecedent store_addr_avl resources are syntactically identical and remain folded",
+                "needs_unfold": [],
+                "arithmetic": "none",
+                "spatial_resource": "store_addr_avl left_addr a, store_addr_avl middle_addr b, and store_addr_avl far_right_addr c"
+              }
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "left_rotation_relation_and_frame",
+            "grouping_reason": "The only target witness is one self-contained relation-construction and spatial-identity proof with no helper or dependency."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "left_rotation_relation_and_frame",
+            "witness_names": [
+              "proof_of_xizi_avl_left_rotate_return_wit_1"
+            ],
+            "representative_witness": "proof_of_xizi_avl_left_rotate_return_wit_1",
+            "shared_proof_pattern": "Select the compact second disjunct, introduce the universal parameters, unfold avl_left_rotation, instantiate its nine mathematical witnesses, discharge the before equality with PreH3 and the after equality by reflexivity, then return the three folded subtree resources unchanged.",
+            "shared_space_plan": "Direct identity/cancellation of the three folded store_addr_avl resources.",
+            "shared_pure_plan": "One definition unfold and explicit existential construction from PreH3; no arithmetic or additional premise.",
+            "shared_refinement_plan": "not applicable",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "There is exactly one target witness, it has one compact proof pattern, and the one-witness group is within max_witnesses_per_group=12.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "group_plan_ready": true,
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "6da032c68fa16d1834116bcb630fedb46237df8880afa00b9f967b09cfefed95",
+        "target_witnesses": [
+          "proof_of_xizi_avl_left_rotate_return_wit_1"
+        ],
+        "grouping_policy": {
+          "controller_policy": "bounded-witness-groups/v1",
+          "max_witnesses_per_group": 12,
+          "target_witness_count": 1,
+          "policy_satisfied": "yes"
+        },
+        "natural_language_analysis": {
+          "analysis_group_ids": [
+            "left_rotation_relation_and_frame"
+          ],
+          "all_target_witnesses_semantically_provable": "yes",
+          "annotation_or_spec_rework_required": "no"
+        },
+        "proof_groups": [
+          {
+            "group_id": "left_rotation_relation_and_frame",
+            "witness_names": [
+              "proof_of_xizi_avl_left_rotate_return_wit_1"
+            ],
+            "representative_witness": "proof_of_xizi_avl_left_rotate_return_wit_1",
+            "dependencies": [],
+            "likely_helper_declarations": [],
+            "candidate_helper_declarations": [],
+            "expected_helpers": [],
+            "natural_language_proof_strategy": "Unfold xizi_avl_left_rotate_return_wit_1 and select the second disjunct. Introduce all parameters and premises. Introduce the separation-logic pure/spatial conjunction; unfold avl_left_rotation only, instantiate root/promoted/data/height/a/b/c from the current parameters, close the before equality with PreH3 and the after equality by reflexivity, and close the unchanged three-resource spatial goal by direct structural cancellation.",
+            "proof_strategy": "Direct pure existential construction plus folded spatial identity. Prefer the compact second disjunct; do not unfold store_addr_avl, do not add a helper, do not modify generated statements, and do not use any forbidden entailment lemma.",
+            "per_witness_plan": {
+              "proof_of_xizi_avl_left_rotate_return_wit_1": {
+                "judgment": "proofable",
+                "disjunction_branch": "right/second",
+                "unfold": [
+                  "xizi_avl_left_rotate_return_wit_1",
+                  "avl_left_rotation"
+                ],
+                "relation_witnesses": {
+                  "root": "avl_node_pre",
+                  "promoted": "right_addr",
+                  "root_data": "root_data",
+                  "root_height": "root_height",
+                  "right_data": "right_data",
+                  "right_height": "right_height",
+                  "a": "a",
+                  "b": "b",
+                  "c": "c"
+                },
+                "pure_goal": "first equality from PreH3; second equality by reflexivity",
+                "spatial_goal": "the same three folded store_addr_avl resources as the antecedent"
+              }
+            },
+            "grouping_reason": "The single independent target witness must form one group; no distinct strategy, helper family, or dependency motivates a split.",
+            "difficulty": "low",
+            "confidence": "high"
+          }
+        ],
+        "blockers": []
+      },
+      "evidence": {
+        "version_hash_check": {
+          "status": "passed",
+          "checked_files": 8,
+          "mismatches": []
+        },
+        "manual_target_coverage": {
+          "status": "passed",
+          "manual_obligations": [
+            "proof_of_xizi_avl_left_rotate_return_wit_1"
+          ],
+          "handoff_target_witnesses": [
+            "proof_of_xizi_avl_left_rotate_return_wit_1"
+          ],
+          "exact_match": "yes",
+          "duplicates": []
+        },
+        "witness_statement_hash": {
+          "status": "passed",
+          "proof_of_xizi_avl_left_rotate_return_wit_1": "41156a97677b4d13224494381edb025b04400b2823d1c13a6b88e0c682026e7f"
+        },
+        "diagnostics_usage": "The two split-goal diagnostics were used only as planning hints. Neither is a target witness, and both remain excluded from the proof group plan.",
+        "case_lib_semantics": "avl_left_rotation records exactly the old-root/promoted-node address identity, both payloads, both cached heights, and subtrees a/b/c; PreH3 supplies its before equality and the requested after model is definitionally its rotation result.",
+        "reference_scope": {
+          "conclusion_sources": [
+            "agent_input.json",
+            "declared vc-checking round worktree formal files",
+            "declared diagnostics snapshot",
+            "accepted annotation report identified by agent_input.json"
+          ],
+          "qcp_demos_human_used": "no"
+        }
+      },
+      "changed_files": [],
+      "blockers": [],
+      "recommended_next_phase": "vc-proving-preparing",
+      "controller_acceptance": "not-claimed"
+    },
+    "changed_files": [],
+    "blockers": [],
+    "recommended_next_phase": "vc-proving-preparing"
+  },
+  "verification_result": {
+    "vc_checking_subagent_checks": {
+      "status": "completed",
+      "source_version_match": "passed",
+      "source_goal_version_match": "passed",
+      "target_witness_coverage": "passed",
+      "semantic_provability": "passed",
+      "grouping_policy": "passed",
+      "controller_acceptance": "not-claimed"
+    },
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-07-14T13:45:40Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_avl_left_rotate-20260714130000/rounds/xizi_avl_left_rotate-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    },
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-07-14T13:47:35Z",
+      "source_version": {
+        "digest": "d97884a42e883b870f367b56f13bcadd6b89559a3a61723c6b6c04aca86be5c1",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_avl_left_rotate-20260714130000/xizi_avl_left_rotate-annotation-r1/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate.c",
+            "relative_path": "Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate.c",
+            "role": "target-c-annotated",
+            "sha256": "d51c21288e1dac7798eb2bb9853256cea3e0fb5c997bd6f1337aa7a682a6e529",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_avl_left_rotate-20260714130000/xizi_avl_left_rotate-annotation-r1/SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_lib.v",
+            "relative_path": "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "0e061e4413eb9a968852695e2a8fd7b3539177bb0ae94e5237598c7ae5f4d951",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "6da032c68fa16d1834116bcb630fedb46237df8880afa00b9f967b09cfefed95",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_goal.v",
+            "role": "generated-goal",
+            "sha256": "704af84e2f06bc2849435d2d39b4d98a9f95088e4804467d6d78a554b7fd4813",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "26f614246c505b31a5cf1594582325f32018fbe0438a8007ed80bbb3f0cab39f",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "2cac886deeb0e1d6b95281e2f48d4efc5ec3c404e1c271d04b533bd9bca3bf8a",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "3b730d95ae2ff136ad7028e022cf467a737b7ed3d251f232f3300f93f6c73870",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "bf7a1bbe201d4bd28ca6827351d3df32d49a2602da2a37609ca10ff80a29d6ba",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "0a0923a4d5e71159f5ed72aac52452277588ab48aaa808b6e5b770a193f2d2f1",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_xizi_avl_left_rotate_return_wit_1"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_xizi_avl_left_rotate_return_wit_1": "41156a97677b4d13224494381edb025b04400b2823d1c13a6b88e0c682026e7f"
+        },
+        "witnesses": [
+          {
+            "end_line": 27,
+            "name": "proof_of_xizi_avl_left_rotate_return_wit_1",
+            "start_line": 25,
+            "statement_hash": "41156a97677b4d13224494381edb025b04400b2823d1c13a6b88e0c682026e7f",
+            "target_symbol": "xizi_avl_left_rotate_return_wit_1"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_avl_left_rotate-20260714130000/rounds/xizi_avl_left_rotate-vc-checking-r1/group_plan.json",
+      "target_witnesses": [
+        "proof_of_xizi_avl_left_rotate_return_wit_1"
+      ]
+    }
+  },
+  "blockers": []
+}

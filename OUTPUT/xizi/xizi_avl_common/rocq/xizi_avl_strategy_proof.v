@@ -1,242 +1,97 @@
 Require Import Coq.ZArith.ZArith.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Lists.List.
 Require Import Coq.Strings.String.
-Require Import Coq.micromega.Psatz.
 From SimpleC.SL Require Import SeparationLogic.
+Require Import Logic.LogicGenerator.demo932.Interface.
+From QCIPLib.xizi.xizi_avl_common Require Import xizi_avl_lib.
 From QCIPLib.xizi.xizi_avl_common Require Import xizi_avl_strategy_goal.
+
 Import naive_C_Rules.
-Require Import QCIPLib.xizi.xizi_avl_common.xizi_avl_lib.
 Local Open Scope Z_scope.
 Local Open Scope sac.
-Local Open Scope string.
+Local Open Scope string_scope.
 
-Lemma xizi_avl_strategy0_correctness : xizi_avl_strategy0.
+Lemma xizi_avl_strategy501_correctness : xizi_avl_strategy501.
 Proof.
   pre_process_default.
-  Intros_p H0.
-  subst tr1.
-  cancel.
+  Intros.
+  sep_apply store_addr_avl_null; [ | assumption].
+  entailer!.
 Qed.
 
-Lemma xizi_avl_strategy9_correctness : xizi_avl_strategy9.
-  pre_process_default.
-Qed.
-
-Lemma xizi_avl_strategy12_correctness : xizi_avl_strategy12.
-  pre_process_default.
-Qed.
-
-Lemma xizi_avl_strategy7_correctness : xizi_avl_strategy7.
+Lemma xizi_avl_strategy502_correctness : xizi_avl_strategy502.
 Proof.
   pre_process_default.
-  unfold single_tree_node.
-  repeat cancel.
+  sep_apply store_addr_avl_empty_rev.
+  entailer!.
 Qed.
 
-Lemma xizi_avl_strategy8_correctness : xizi_avl_strategy8.
+Lemma xizi_avl_strategy503_correctness : xizi_avl_strategy503.
 Proof.
   pre_process_default.
-  unfold single_tree_node.
-  repeat cancel.
+  Intros.
+  sep_apply store_addr_avl_nonnull; [ | assumption].
+  Intros data height left_tree right_tree.
+  Exists data height left_tree right_tree.
+  entailer!.
+  apply derivable1_wand_sepcon_adjoint.
+  entailer!.
 Qed.
 
-Lemma xizi_avl_strategy1_correctness : xizi_avl_strategy1.
+Lemma xizi_avl_strategy504_correctness : xizi_avl_strategy504.
 Proof.
   pre_process_default.
-  destruct tr.
-  - simpl.
-    Intros_p H0.
-    contradiction.
-  - simpl.
-    Intros pl.
-    Intros pr.
-    Intros d.
-    Intros h.
-    Exists d.
-    Exists h.
-    Exists pl.
-    Exists pr.
-    Exists tr1.
-    Exists tr2.
-    normalize.
-    rewrite <- elim_wand_emp_emp.
-    elim_emp.
-    split_pures.
-    split_pure_spatial.
-    + unfold single_tree_node.
-      repeat cancel.
-    + split_pures.
-      * dump_pre_spatial.
-        exact H.
-      * dump_pre_spatial.
-        reflexivity.
+  Intros.
+  unfold store_addr_avl, generic_store_addr_avl.
+  entailer!.
 Qed.
 
-Lemma xizi_avl_strategy2_correctness : xizi_avl_strategy2.
+Lemma xizi_avl_strategy505_correctness : xizi_avl_strategy505.
 Proof.
   pre_process_default.
-  split_pure_spatial.
-  - Intros_r tr.
-    Intros_r tr1.
-    Intros_r tr2.
-    Intros_r l.
-    Intros_r h.
-    Intros_r d.
-    Intros_r r.
-    apply_sepcon_adjoint.
-    elim_emp.
-    Intros_p H0.
-    subst tr.
-    simpl.
-    Exists l.
-    Exists r.
-    Exists d.
-    Exists h.
-    split_pure_spatial.
-    + unfold single_tree_node.
-      repeat cancel.
-    + dump_pre_spatial.
-      exact H.
-  - dump_pre_spatial.
-    exact H.
+  sep_apply avl_node_fields_unfold.
+  entailer!.
 Qed.
 
-Lemma xizi_avl_strategy3_correctness : xizi_avl_strategy3.
+Lemma xizi_avl_strategy506_correctness : xizi_avl_strategy506.
 Proof.
   pre_process_default.
-  destruct tr.
-  - simpl.
-    split_pure_spatial.
-    + Intros_p H0.
-      cancel.
-    + split_pures.
-      * dump_pre_spatial.
-        exact H.
-      * dump_pre_spatial.
-        reflexivity.
-  - simpl.
-    Intros pl.
-    Intros pr.
-    Intros d.
-    Intros h.
-    contradiction.
+  unfold avl_node_fields, avl_concrete_node_store,
+    xizi_avl_struct_name, xizi_avl_data_field, xizi_avl_height_field,
+    xizi_avl_left_field, xizi_avl_right_field.
+  entailer!.
 Qed.
 
-Lemma xizi_avl_strategy4_correctness : xizi_avl_strategy4.
+Lemma xizi_avl_strategy507_correctness : xizi_avl_strategy507.
 Proof.
   pre_process_default.
-  split_pure_spatial.
-  - Intros_r tr.
-    apply_sepcon_adjoint.
-    elim_emp.
-    Intros_p H0.
-    subst tr p.
-    simpl.
-    split_pure_spatial.
-    + cancel.
-    + dump_pre_spatial.
-      reflexivity.
-  - dump_pre_spatial.
-    exact H.
+  sep_apply store_addr_avl_shape_unfold.
+  Intros t.
+  Exists t.
+  entailer!.
+  apply derivable1_wand_sepcon_adjoint.
+  entailer!.
 Qed.
 
-Lemma xizi_avl_strategy10_correctness : xizi_avl_strategy10.
+Lemma xizi_avl_strategy508_correctness : xizi_avl_strategy508.
 Proof.
   pre_process_default.
-  Intros tr.
-  Exists tr.
-  normalize.
-  rewrite <- elim_wand_emp_emp.
-  elim_emp.
-  cancel.
+  unfold store_addr_avl_shape, generic_store_addr_avl_shape,
+    store_addr_avl.
+  Exists t.
+  entailer!.
 Qed.
 
-Lemma xizi_avl_strategy11_correctness : xizi_avl_strategy11.
+Lemma xizi_avl_strategy509_correctness : xizi_avl_strategy509.
 Proof.
   pre_process_default.
-  unfold store_tree_shape.
-  Exists tr.
-  cancel.
+  sep_apply store_nonempty_addr_avl_unfold.
+  entailer!.
 Qed.
 
-Lemma xizi_avl_strategy13_correctness : xizi_avl_strategy13.
+Lemma xizi_avl_strategy510_correctness : xizi_avl_strategy510.
 Proof.
   pre_process_default.
-  unfold store_non_empty_tree.
-  Intros_p H.
-  split_pure_spatial.
-  - cancel.
-  - dump_pre_spatial.
-    exact H.
-Qed.
-
-Lemma xizi_avl_strategy15_correctness : xizi_avl_strategy15.
-Proof.
-  pre_process_default.
-  split_pure_spatial.
-  - apply_sepcon_adjoint.
-    elim_emp.
-    unfold store_non_empty_tree.
-    split_pure_spatial.
-    + cancel.
-    + dump_pre_spatial.
-      exact H.
-  - dump_pre_spatial.
-    exact H.
-Qed.
-
-Lemma xizi_avl_strategy16_correctness : xizi_avl_strategy16.
-Proof.
-  pre_process_default.
-  split_pure_spatial.
-  - Intros_r tr.
-    Intros_r tr1.
-    Intros_r tr2.
-    Intros_r l.
-    Intros_r h.
-    Intros_r d.
-    Intros_r r.
-    apply_sepcon_adjoint.
-    elim_emp.
-    Intros_p H0.
-    subst tr.
-    simpl.
-    Exists l.
-    Exists r.
-    Exists d.
-    Exists h.
-    split_pure_spatial.
-    + unfold single_tree_node.
-      repeat cancel.
-    + dump_pre_spatial.
-      exact H.
-  - dump_pre_spatial.
-    exact H.
-Qed.
-
-Lemma xizi_avl_strategy17_correctness : xizi_avl_strategy17.
-Proof.
-  pre_process_default.
-  Intros_p H.
-  subst tr.
-  simpl.
-  split_pure_spatial.
-  - cancel.
-  - dump_pre_spatial.
-    reflexivity.
-Qed.
-
-Lemma xizi_avl_strategy5_correctness : xizi_avl_strategy5.
-Proof.
-  pre_process_default.
-  unfold single_tree_node.
-  repeat cancel.
-Qed.
-
-Lemma xizi_avl_strategy6_correctness : xizi_avl_strategy6.
-Proof.
-  pre_process_default.
-  unfold single_tree_node.
-  repeat cancel.
+  Intros.
+  unfold store_nonempty_addr_avl, generic_store_nonempty_addr_avl.
+  entailer!.
 Qed.

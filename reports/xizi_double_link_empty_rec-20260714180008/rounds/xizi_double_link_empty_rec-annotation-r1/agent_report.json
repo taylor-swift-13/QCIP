@@ -1,0 +1,221 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "annotation",
+  "status": "blocked",
+  "terminal": "yes",
+  "agent_result": {
+    "phase": "annotation",
+    "annotation": {
+      "status": "blocked",
+      "round": "xizi_double_link_empty_rec-annotation-r1",
+      "attempt_id": "xizi_double_link_empty_rec-annotation-r1-attempt-1",
+      "source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "bd619c50fd137729a23ec878bf7be2e7bea07cccb51ff07401a71a6071459743"
+      },
+      "ready_for_annotation_check_round": false,
+      "candidate_ready_except_required_qcp_mcp_gate": true,
+      "spec_design": {
+        "abstract_sequence": "nodes : list addr, recording the non-sentinel node addresses in forward order",
+        "predicate": "circular_dll sentinel nodes owns both sentinel links and circular_dll_chain owns every non-sentinel node; each prev points to its predecessor, the last next returns to the sentinel, and sentinel.prev names the last node",
+        "mathematical_postcondition": "return 1 iff nodes = nil, otherwise return 0, while preserving circular_dll sentinel nodes",
+        "algorithm_mirror": "no"
+      },
+      "canonical_symexec_evidence": {
+        "status": "passed",
+        "driver": "/home/yangfp/QCIP/linux-binary/symexec",
+        "cwd": "/home/yangfp/QCIP/worktrees/xizi_double_link_empty_rec-20260714180008/xizi_double_link_empty_rec-annotation-r1",
+        "include_args": [
+          "QCP_examples/QCP_demos_LLM/"
+        ],
+        "slp_args": [
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM"
+        ],
+        "coq_logic_path": "SimpleC.EE.INPUT.xizi.xizi_double_link_empty_rec",
+        "input_file": "INPUT/xizi/xizi_double_link_empty_rec/xizi_double_link_empty_rec.c",
+        "retries": 3,
+        "reached_file_end": true,
+        "final_stdout": [
+          "Start to symbolic execution on program : INPUT/xizi/xizi_double_link_empty_rec/xizi_double_link_empty_rec.c",
+          "End of symbolic execution of function xizi_double_link_empty_rec",
+          "Successfully finished symbolic execution"
+        ]
+      },
+      "qcp_mcp_interactive_evidence": {
+        "status": "unavailable",
+        "qcp_mcp_requirement_satisfied": "no",
+        "tool_discovery": "No qcp MCP tool is exposed in the current agent tool registry.",
+        "repository_server": "/home/yangfp/QCIP/mcp/qcp-mcp/src/qcp_mcp/server.py",
+        "repository_server_import_check": "failed: ModuleNotFoundError: No module named 'mcp.server'",
+        "repository_venv": "missing: /home/yangfp/QCIP/mcp/qcp-mcp/.venv/bin/python",
+        "constraint": "Installing a new environment would write outside the handoff allowed_write_paths.",
+        "direct_symexec_not_substituted": true
+      },
+      "case_lib_coqc_evidence": {
+        "status": "passed",
+        "tool": "/home/yangfp/QCIP/.agents/skills/vc-proving/scripts/coq_tooling.py check",
+        "target_kind": "case_lib",
+        "workspace_root": "/home/yangfp/QCIP/worktrees/xizi_double_link_empty_rec-20260714180008/xizi_double_link_empty_rec-annotation-r1",
+        "build_workspace": "/home/yangfp/QCIP/worktrees/xizi_double_link_empty_rec-20260714180008/_coq_builds/annotation-r1-case-lib-final",
+        "target_file": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_empty_rec/xizi_double_link_empty_rec_lib.v",
+        "exit_code": 0
+      },
+      "annotation_checking_evidence": {
+        "status": "blocked",
+        "checked_scope": [
+          "circular_dll_chain mathematical and spatial semantics",
+          "circular_dll sentinel ownership and closure",
+          "function Require/Ensure exact Boolean semantics",
+          "internal Assert pre-state bridge and spatial unfolding",
+          "case_lib fixed coqc compile gate",
+          "qcp-mcp mandatory interactive gate"
+        ],
+        "qcp_mcp_requirement_satisfied": "no",
+        "annotation_scratch_lib_coqc_status": "passed",
+        "spec_definition_status": "passed",
+        "function_spec_status": "passed",
+        "invariant_status": "not-applicable-no-loop",
+        "summary": "The mathematical predicate and C annotation pass semantic review, compile, and canonical direct symbolic execution. The checking result cannot be passed because the required qcp-mcp session is unavailable and direct symexec is not an allowed substitute.",
+        "failed_checks": [
+          "required qcp-mcp interactive symbolic execution did not run"
+        ],
+        "required_annotation_rework": [],
+        "required_annotation_scratch_lib_rework": [],
+        "ready_for_main_common_case_formal_lib_update": "no",
+        "ready_for_main_symexec": "no",
+        "rework_plan": []
+      },
+      "iterations": [
+        {
+          "cycle": 1,
+          "result": "canonical symexec passed; generated VCs exposed a missing linklist == linklist@pre bridge in the internal Assert"
+        },
+        {
+          "cycle": 2,
+          "result": "added the pre-state bridge; canonical symexec passed and return witnesses use one consistent sentinel address"
+        },
+        {
+          "cycle": 3,
+          "result": "refreshed the manual skeleton from the final annotation; canonical symexec reached file end with three target witnesses"
+        }
+      ],
+      "self_repair_budget": {
+        "min_complete_cycles": 3,
+        "complete_cycles_performed": 3,
+        "min_wall_clock_minutes": 30,
+        "wall_clock_minimum_reached": false,
+        "note": "Stopped on a hard mandatory-tool availability blocker after all annotation-local repair classes were exhausted; budget exhaustion is not used as the blocker."
+      },
+      "self_reworkable_failures": [],
+      "previous_attempts_reviewed": [],
+      "prior_blockers_addressed": [],
+      "file_access_summary": {
+        "must_log_file_reads": "yes",
+        "read_categories": {
+          "handoff_and_rules": [
+            "reports/xizi_double_link_empty_rec-20260714180008/rounds/xizi_double_link_empty_rec-annotation-r1/agent_input.json",
+            ".agents/skills/verification-orchestrator/SKILL.md",
+            ".agents/skills/annotation-filling/SKILL.md",
+            ".agents/skills/annotation-checking/SKILL.md",
+            "annotation-filling/checking directly referenced rule documents"
+          ],
+          "target_inputs": [
+            "INPUT/xizi/xizi_double_link_empty_rec/xizi_double_link_empty_rec.c",
+            "INPUT/xizi/xizi_double_link_empty_rec/xizi_double_link_def.h",
+            "SeparationLogic/examples/INPUT/xizi/xizi_double_link_empty_rec/xizi_double_link_empty_rec_lib.v",
+            "generated files under the declared target formal directory"
+          ],
+          "allowed_reference_examples": [
+            "QCP_examples/QCP_demos_LLM/sll.c",
+            "QCP_examples/QCP_demos_LLM/dll_queue_def.h",
+            "SeparationLogic/examples/QCP_demos_LLM/dll_queue_lib.v"
+          ],
+          "tooling": [
+            ".agents/skills/vc-proving/scripts/coq_tooling.py",
+            "mcp/qcp-mcp/README.md",
+            "mcp/qcp-mcp/pyproject.toml",
+            "mcp/qcp-mcp/src/qcp_mcp/server.py"
+          ]
+        },
+        "searches": [
+          "rg for DLL/SLL predicate style under QCP_examples/QCP_demos_LLM and SeparationLogic/examples/QCP_demos_LLM",
+          "rg for target-family declarations under INPUT/xizi and SeparationLogic/examples/INPUT/xizi; no sibling case file was used as a specification reference",
+          "rg/controller inspection for report schema and annotation acceptance fields",
+          "find/command discovery for qcp-mcp availability"
+        ],
+        "denied_globs_touched": []
+      },
+      "changed_files": [
+        {
+          "path": "INPUT/xizi/xizi_double_link_empty_rec/xizi_double_link_empty_rec.c",
+          "sha256": "882244964fee39f20bd01ed1c20938053b719075d54ef1262f0d49d2292fb348",
+          "role": "annotated-c"
+        },
+        {
+          "path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_empty_rec/xizi_double_link_empty_rec_lib.v",
+          "sha256": "e2afcf2323c669f1eecd76dbc04b1795d8cf08cafeb4b0eb9ffea5e66e4c9592",
+          "role": "case-lib-candidate"
+        },
+        {
+          "path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_empty_rec/xizi_double_link_empty_rec_goal.v",
+          "sha256": "249c6e5a0bc45e4b6d7e21a608f979c1f33c382be7d1489d4882f3e821cd6b77",
+          "role": "symexec-generated"
+        },
+        {
+          "path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_empty_rec/xizi_double_link_empty_rec_proof_auto.v",
+          "sha256": "ea22774b834df917617175a77a0a058dc560ec94cad7438466ec6281865b2d9f",
+          "role": "symexec-generated"
+        },
+        {
+          "path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_empty_rec/xizi_double_link_empty_rec_proof_manual.v",
+          "sha256": "08680edcc12509cfef955e6c48533414cc265c8f113c109b0d4135bf3dab0bf7",
+          "role": "symexec-generated-manual-skeleton"
+        },
+        {
+          "path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_empty_rec/xizi_double_link_empty_rec_goal_check.v",
+          "sha256": "7da75dfb6dedaf5d2c9cf4eed705821b89d8d5840b06b4d4b60d83e390c29272",
+          "role": "symexec-generated"
+        }
+      ],
+      "blockers": [
+        {
+          "kind": "required-tool-unavailable",
+          "failure_class": "qcp-mcp-interactive",
+          "message": "The mandatory qcp-mcp interactive gate cannot run in this attempt: no qcp MCP tool is exposed, the repository qcp-mcp virtual environment is absent, and its Python server cannot import the mcp dependency. Direct canonical symexec passed but is explicitly not substituted for qcp-mcp.",
+          "recoverable_by": "Provide an exposed qcp MCP tool or a pre-existing configured qcp-mcp environment, then rerun this round against the unchanged candidate."
+        }
+      ],
+      "timing_summary": {
+        "status": "partial",
+        "major_time_sinks": [
+          "case_lib dependency compilation",
+          "three annotation/symexec repair cycles",
+          "qcp-mcp environment discovery"
+        ],
+        "timing_gap_seconds": "not precisely logged before the first command; no command durations are presented as full wall-clock coverage"
+      },
+      "open_or_incomplete_timing_events": []
+    }
+  },
+  "verification_result": {
+    "canonical_symexec": "passed",
+    "case_lib_coqc": "passed",
+    "annotation_checking": "blocked",
+    "qcp_mcp_requirement_satisfied": "no",
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-07-14T11:15:23Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_double_link_empty_rec-20260714180008/rounds/xizi_double_link_empty_rec-annotation-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    }
+  },
+  "blockers": [
+    {
+      "kind": "required-tool-unavailable",
+      "message": "qcp-mcp interactive evidence is unavailable; direct symexec was not substituted."
+    }
+  ]
+}

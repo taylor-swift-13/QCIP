@@ -1,0 +1,631 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "annotation",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "status": "completed",
+    "terminal": "yes",
+    "round_outcome": "completed",
+    "phase": "annotation",
+    "round": "xizi_avl_left_rotate-annotation-r1",
+    "attempt_id": "xizi_avl_left_rotate-annotation-r1-attempt-1",
+    "source_version": {
+      "schema_version": "qcp-source-version/v1",
+      "digest": "d97884a42e883b870f367b56f13bcadd6b89559a3a61723c6b6c04aca86be5c1",
+      "digest_input_policy": "relative_path+sha256+state+role only",
+      "verified_input_version_before_edit": true,
+      "input_digest": "107d988c9d0269bf0976e57934eb997db90b708ee7d276b1f52c3e674062a87b",
+      "files": [
+        {
+          "relative_path": "Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate.c",
+          "sha256": "d51c21288e1dac7798eb2bb9853256cea3e0fb5c997bd6f1337aa7a682a6e529",
+          "state": "present",
+          "role": "target-c-annotated"
+        },
+        {
+          "relative_path": "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_lib.v",
+          "sha256": "0e061e4413eb9a968852695e2a8fd7b3539177bb0ae94e5237598c7ae5f4d951",
+          "state": "present",
+          "role": "case-lib-seed"
+        }
+      ]
+    },
+    "source_goal_version": {
+      "status": "to-be-computed-by-controller",
+      "reason": "controller annotation-check-round owns canonical regeneration, deterministic diagnostics split, target-witness cleanup, and source_goal_version computation"
+    },
+    "annotation": {
+      "status": "completed",
+      "ready_for_annotation_check_round": true,
+      "summary": "Bootstrapped an address-labelled recursive AVL-tree model and a full separation-logic contract for one pointer-level left rotation. The post-state promotes the original right child, moves its original left subtree to the old root's right edge, and preserves both node addresses, both data values, both cached heights, and subtrees A/B/C without claiming height recomputation or balance restoration.",
+      "spec_design": {
+        "style": "predicate-first address-labelled recursive representation",
+        "mathematical_result": "avl_left_rotation relates root A (promoted B C) to promoted (root A B) C with identical physical addresses, data, cached heights, and abstract subtrees.",
+        "spatial_preservation": "The pre/post contracts own the old root fields, promoted-node fields, and complete recursive resources for A, B, and C; the two pointer writes are reflected exactly and all other cells are retained verbatim.",
+        "height_and_balance_scope": "Cached height fields are recorded and preserved unchanged. No AVL height-correctness or balance-restoration claim is made because the C primitive does not update heights.",
+        "hidden_properties": [
+          "Every nonempty abstract constructor records its physical node address, preventing the specification from forgetting root identity.",
+          "Separating ownership of both explicit rotation nodes and recursive A/B/C resources rules out allocation, loss, duplication, and overlapping represented nodes.",
+          "The left-rotation relation is derived in the postcondition from the pre-state equality; it is not assumed in the precondition."
+        ],
+        "algorithm_mirror_review": "passed: addr_avl_tree/store_addr_avl describe a recursive mathematical heap representation and avl_left_rotation states a tree relation, rather than replaying the C statements"
+      },
+      "canonical_symexec_evidence": {
+        "schema_version": "qcp-canonical-symexec-evidence/v1",
+        "status": "passed",
+        "driver": "/home/yangfp/QCIP/linux-binary/symexec",
+        "cwd": "/home/yangfp/QCIP/worktrees/xizi_avl_left_rotate-20260714130000/xizi_avl_left_rotate-annotation-r1",
+        "include_args": [
+          "QCP_examples/QCP_demos_LLM/"
+        ],
+        "slp_args": [
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM"
+        ],
+        "coq_logic_path": "SimpleC.EE.Verification.xizi.xizi_avl_left_rotate",
+        "argv": [
+          "/home/yangfp/QCIP/linux-binary/symexec",
+          "--goal-file=SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_goal.v",
+          "--proof-auto-file=SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_proof_auto.v",
+          "--proof-manual-file=SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_proof_manual.v",
+          "-IQCP_examples/QCP_demos_LLM/",
+          "-slp",
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM",
+          "--coq-logic-path=SimpleC.EE.Verification.xizi.xizi_avl_left_rotate",
+          "--input-file=Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate.c",
+          "--no-exec-info"
+        ],
+        "exit_code": 0,
+        "reached_file_end": true,
+        "stdout_summary": "Start symbolic execution; function xizi_avl_left_rotate; End of symbolic execution; Successfully finished symbolic execution",
+        "generated_file_digests": {
+          "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_goal.v": "704af84e2f06bc2849435d2d39b4d98a9f95088e4804467d6d78a554b7fd4813",
+          "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_proof_auto.v": "26f614246c505b31a5cf1594582325f32018fbe0438a8007ed80bbb3f0cab39f",
+          "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_proof_manual.v": "d819f698eb71b8c8dc092756764517edabe1ca4932dacb6e4bb31c83b136b9ab",
+          "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_goal_check.v": "3b730d95ae2ff136ad7028e022cf467a737b7ed3d251f232f3300f93f6c73870"
+        }
+      },
+      "qcp_mcp_interactive_evidence": {
+        "schema_version": "qcp-mcp-interactive-evidence/v1",
+        "status": "passed",
+        "qcp_mcp_requirement_satisfied": "yes",
+        "driver": "/home/yangfp/QCIP/linux-binary/mcp",
+        "cwd": "/home/yangfp/QCIP/worktrees/xizi_avl_left_rotate-20260714130000/xizi_avl_left_rotate-annotation-r1",
+        "target_file": "Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate.c",
+        "interactive_command": "<symbolic>999</symbolic>",
+        "operations_per_cycle": [
+          "start driver with canonical -I/-slp/coq-logic-path/file arguments",
+          "submit symbolic request",
+          "close cleanly with EOF"
+        ],
+        "complete_cycles": 3,
+        "cycle_results": [
+          {
+            "cycle": 1,
+            "result": "success",
+            "error": null,
+            "return_checker": {
+              "total": 1,
+              "auto_solved": 0,
+              "manual": 1
+            }
+          },
+          {
+            "cycle": 2,
+            "result": "success",
+            "error": null,
+            "return_checker": {
+              "total": 1,
+              "auto_solved": 0,
+              "manual": 1
+            }
+          },
+          {
+            "cycle": 3,
+            "result": "success",
+            "error": null,
+            "return_checker": {
+              "total": 1,
+              "auto_solved": 0,
+              "manual": 1
+            }
+          }
+        ],
+        "manual_witness": "proof_of_xizi_avl_left_rotate_return_wit_1",
+        "manual_witness_semantic_summary": "unfold avl_left_rotation, rewrite with the pre-state before equality, construct the exact root/promoted/data/height/A/B/C witnesses, and preserve the spatial resources",
+        "reached_file_end": true,
+        "canonical_parameter_transport": {
+          "status": "passed",
+          "include_args": [
+            "QCP_examples/QCP_demos_LLM/"
+          ],
+          "slp_args": [
+            "QCP_examples/QCP_demos_LLM/",
+            "SimpleC.EE.QCP_demos_LLM"
+          ]
+        }
+      },
+      "goal_check_coqc_evidence": {
+        "schema_version": "qcp-coqc-check-evidence/v1",
+        "status": "passed",
+        "tool": "coqc",
+        "entrypoint": "/home/yangfp/QCIP/.agents/skills/vc-proving/scripts/coq_tooling.py check",
+        "target_kind": "check",
+        "target_file": "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_goal_check.v",
+        "workspace_root": "/home/yangfp/QCIP/worktrees/xizi_avl_left_rotate-20260714130000/xizi_avl_left_rotate-annotation-r1",
+        "build_workspace": "/home/yangfp/QCIP/worktrees/xizi_avl_left_rotate-20260714130000/_coq_builds/annotation-r1-final2-goal-check",
+        "fixed_flags_hash": "9bdaa2ffdbaca882e29d6aa89234fc849f2f8987edc04425059c56c78ab70f0d",
+        "coq_version": "The Coq Proof Assistant, version 8.20.1",
+        "returncode": 0,
+        "first_diagnostic": null,
+        "elapsed_seconds": 136.947,
+        "source_binding": "107d988c9d0269bf0976e57934eb997db90b708ee7d276b1f52c3e674062a87b",
+        "scope_note": "This annotation-phase compile gate checks generated-file consistency; the raw manual witness remains for downstream proving after controller diagnostics splitting."
+      },
+      "case_lib_coqc_evidence": {
+        "schema_version": "qcp-coqc-check-evidence/v1",
+        "status": "passed",
+        "tool": "coqc",
+        "entrypoint": "/home/yangfp/QCIP/.agents/skills/vc-proving/scripts/coq_tooling.py check",
+        "target_kind": "case_lib",
+        "target_file": "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_lib.v",
+        "workspace_root": "/home/yangfp/QCIP/worktrees/xizi_avl_left_rotate-20260714130000/xizi_avl_left_rotate-annotation-r1",
+        "build_workspace": "/home/yangfp/QCIP/worktrees/xizi_avl_left_rotate-20260714130000/_coq_builds/annotation-r1-final2-goal-check",
+        "fixed_flags_hash": "9bdaa2ffdbaca882e29d6aa89234fc849f2f8987edc04425059c56c78ab70f0d",
+        "coq_version": "The Coq Proof Assistant, version 8.20.1",
+        "returncode": 0,
+        "first_diagnostic": null,
+        "elapsed_seconds": 0.986,
+        "target_digest": "0e061e4413eb9a968852695e2a8fd7b3539177bb0ae94e5237598c7ae5f4d951",
+        "source_binding": "107d988c9d0269bf0976e57934eb997db90b708ee7d276b1f52c3e674062a87b"
+      },
+      "annotation_checking_evidence": {
+        "schema_version": "qcp-annotation-checking-evidence/v1",
+        "status": "passed",
+        "checked_scope": [
+          "address-labelled recursive mathematical tree and heap predicate",
+          "left-rotation relation and exact pre/post tree transformation",
+          "physical node identity, data, cached-height, and A/B/C preservation",
+          "complete spatial ownership and generated return-witness semantic shape",
+          "INPUT annotation-free boundary and case_lib forbidden-content contract"
+        ],
+        "qcp_mcp_requirement_satisfied": "yes",
+        "case_lib_coqc_status": "passed",
+        "spec_definition_status": "passed: addr_avl_tree records physical addresses, payloads, cached heights, and recursive children; avl_left_rotation states the exact root A (promoted B C) to promoted (root A B) C relation",
+        "function_spec_status": "passed: Require owns the old root, promoted node, and complete A/B/C heaps; Ensure returns the promoted address, derives the rotation relation, reflects both pointer writes, and preserves all untouched fields and recursive resources",
+        "invariant_status": "not-applicable: target function contains no loop",
+        "input_annotation_free_status": "passed: INPUT/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate.c contains no QCP annotation markers and retains its input sha256",
+        "failed_checks": [],
+        "required_annotation_rework": [],
+        "required_case_lib_rework": [],
+        "ready_for_main_case_lib_update": "yes",
+        "ready_for_main_symexec": "yes",
+        "semantic_review": {
+          "result_relation_is_mathematical": true,
+          "recursive_separation_logic_predicate_present": true,
+          "node_identity_retained": true,
+          "data_and_cached_heights_retained": true,
+          "all_three_subtrees_retained": true,
+          "weak_shape_only_postcondition_absent": true,
+          "unjustified_balance_or_height_claim_absent": true,
+          "algorithm_mirror_absent": true,
+          "spatial_resource_preserved": true,
+          "post_relation_not_preassumed": true
+        },
+        "skill_effect": "The semantic gate rejected an earlier circular draft that assumed avl_left_rotation in Require; the final contract derives the relation only in Ensure from the concrete pre-state equality.",
+        "summary": "passed"
+      },
+      "iteration_evidence": {
+        "complete_cycles": 3,
+        "total_validation_attempts": 6,
+        "failures": [
+          {
+            "failure_class": "case_lib-coqc",
+            "cause": "An early pattern binder named right conflicted with an existing identifier."
+          },
+          {
+            "failure_class": "case_lib-coqc",
+            "cause": "String field notation was used before opening string_scope."
+          },
+          {
+            "failure_class": "spec-quality",
+            "cause": "An early draft carried avl_left_rotation as a precondition instead of deriving it as the mathematical result."
+          },
+          {
+            "failure_class": "qcp-symbolic-execution-refresh",
+            "cause": "The symbolic executor retained an older manual skeleton after the contract changed."
+          }
+        ],
+        "repairs": [
+          {
+            "repair_class": "identifier-and-scope-repair",
+            "change": "Renamed recursive-tree binders and added the required Coq string import/scope.",
+            "validated_by": [
+              "case_lib fixed coqc pass",
+              "full goal_check fixed coqc pass"
+            ]
+          },
+          {
+            "repair_class": "post-state-order-and-semantic-strengthening",
+            "change": "Aligned post resources with the terminal heap and removed the circular rotation preassumption so the exact relation is proved in Ensure.",
+            "validated_by": [
+              "three final-candidate qcp-mcp passes",
+              "canonical symexec pass",
+              "annotation-checking pass"
+            ]
+          },
+          {
+            "repair_class": "generated-skeleton-refresh",
+            "change": "Removed only the stale generated manual skeleton and immediately regenerated it with the canonical symbolic executor; no generated proof statement or body was hand-edited.",
+            "validated_by": [
+              "final generated-file digests",
+              "full fixed goal_check pass"
+            ]
+          }
+        ],
+        "self_reworkable_failures": [],
+        "self_repair_budget": {
+          "min_complete_cycles": 3,
+          "completed_cycles": 3,
+          "min_wall_clock_minutes": 30,
+          "elapsed_wall_clock_minutes": 30.03,
+          "elapsed_seconds": 1802,
+          "exhausted": false,
+          "note": "All ready gates passed within one spawn after the required three final-candidate cycles and minimum wall-clock audit window."
+        }
+      },
+      "previous_attempts_reviewed": [],
+      "prior_blockers_addressed": [],
+      "self_reworkable_failures": [],
+      "file_access_summary": {
+        "must_log_file_reads": "yes",
+        "read_categories": [
+          "agent_input.json, repository AGENTS.md, and every handoff.rules_source skill",
+          "all annotation-filling and annotation-checking rule/checklist documents directly required by those skills",
+          "current round target C/header/case_lib/generated files and INPUT counterparts",
+          "QCP_demos_LLM AVL/BST/list C, header, strategy, and Rocq predicate examples",
+          "fixed coq tooling, controller source-version/report logic, run log, and existing annotation report schema"
+        ],
+        "searches": [
+          "rg for recursive tree predicates, Extern Coq declarations, and With/Require/Ensure patterns while excluding QCP_demos_human",
+          "rg for forbidden case_lib content, manual split goals, Abort/Admitted skeleton markers, and target witness names",
+          "rg for controller source-version, annotation review, and design-summary schema behavior"
+        ],
+        "denied_globs_touched": [],
+        "reference_files_read": [
+          "QCP_examples/QCP_demos_LLM/avl_def.h",
+          "QCP_examples/QCP_demos_LLM/avl_insert.c",
+          "QCP_examples/QCP_demos_LLM/avl.strategies",
+          "QCP_examples/QCP_demos_LLM/bst_def.h",
+          "QCP_examples/QCP_demos_LLM/bst_insert_rec.c",
+          "QCP_examples/QCP_demos_LLM/dll_queue.c",
+          "QCP_examples/QCP_demos_LLM/sll_merge_rel.c",
+          "SeparationLogic/examples/QCP_demos_LLM/avl_shape.v",
+          "SeparationLogic/examples/QCP_demos_LLM/bst_lib.v"
+        ],
+        "non_reference_search_note": "Toolchain and controller sources were inspected only to obey the workflow and validate evidence/schema handling; no QCP_demos_human reference input was read."
+      },
+      "annotation_design_summary": {
+        "schema_version": "qcp-annotation-design-summary/v1",
+        "source": "annotation-subagent",
+        "case_lib_spec_declarations": [
+          {
+            "kind": "Inductive",
+            "name": "addr_avl_tree"
+          },
+          {
+            "kind": "Definition",
+            "name": "avl_root_addr"
+          },
+          {
+            "kind": "Fixpoint",
+            "name": "store_addr_avl"
+          },
+          {
+            "kind": "Definition",
+            "name": "avl_left_rotation"
+          }
+        ],
+        "case_lib_sha256": "0e061e4413eb9a968852695e2a8fd7b3539177bb0ae94e5237598c7ae5f4d951",
+        "hidden_properties": [
+          "Physical node identity is retained in every nonempty abstract node.",
+          "Data, cached heights, and all three subtrees are preserved by the rotation relation.",
+          "Recursive separation ownership excludes overlap and covers the complete represented subheaps."
+        ],
+        "known_risks": [
+          "The raw symexec manual file contains two diagnostic split lemmas with Proof. Abort. plus the one target witness skeleton; controller annotation-check-round must run its deterministic diagnostics splitter before computing source_goal_version.",
+          "The single target witness remains manual by design and must be proved in the downstream VC-proving workflow."
+        ],
+        "qcp_repair_history": [
+          "Repaired Coq binder/scope errors.",
+          "Aligned final spatial resource order.",
+          "Removed the circular preassumed rotation relation and regenerated the manual skeleton canonically."
+        ],
+        "changed_files": [
+          "Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate.c",
+          "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_lib.v",
+          "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_goal.v",
+          "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_proof_auto.v",
+          "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_proof_manual.v",
+          "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_goal_check.v"
+        ]
+      },
+      "known_risks": [
+        "Raw diagnostic split blocks remain in the symexec-generated manual file pending controller deterministic splitting; they are diagnostics, not target witnesses.",
+        "One semantically straightforward manual return witness remains for downstream proof."
+      ],
+      "changed_files": [
+        "Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate.c",
+        "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_lib.v",
+        "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_goal.v",
+        "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_proof_auto.v",
+        "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_proof_manual.v",
+        "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_goal_check.v"
+      ],
+      "changed_file_digests": {
+        "Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate.c": "d51c21288e1dac7798eb2bb9853256cea3e0fb5c997bd6f1337aa7a682a6e529",
+        "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_lib.v": "0e061e4413eb9a968852695e2a8fd7b3539177bb0ae94e5237598c7ae5f4d951",
+        "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_goal.v": "704af84e2f06bc2849435d2d39b4d98a9f95088e4804467d6d78a554b7fd4813",
+        "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_proof_auto.v": "26f614246c505b31a5cf1594582325f32018fbe0438a8007ed80bbb3f0cab39f",
+        "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_proof_manual.v": "d819f698eb71b8c8dc092756764517edabe1ca4932dacb6e4bb31c83b136b9ab",
+        "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_goal_check.v": "3b730d95ae2ff136ad7028e022cf467a737b7ed3d251f232f3300f93f6c73870"
+      },
+      "input_boundary_check": {
+        "status": "passed",
+        "path": "INPUT/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate.c",
+        "sha256": "255658c237ffe2d9eb87f22afa7d6a7fb159f5569126894818f76a7635e02224",
+        "qcp_annotation_markers_found": 0,
+        "modified_by_annotation_subagent": false,
+        "content_equal_to_main_worktree_at_final_audit": true,
+        "round_git_index_status": "modified-inherited-from-main-snapshot",
+        "note": "The annotation-free INPUT content was already different from repository HEAD in both main and round worktrees; this phase did not write it. Only the declared Verification copy received annotations."
+      },
+      "generated_files_modified_by_hand": false,
+      "generated_refresh_note": "A stale manual skeleton was deleted solely to force canonical symexec regeneration after the contract changed; the final generated file contents are entirely symexec output.",
+      "blockers": [],
+      "recommended_next_phase": "controller annotation-check-round"
+    },
+    "changed_files": [
+      "Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate.c",
+      "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_lib.v",
+      "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_goal.v",
+      "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_proof_auto.v",
+      "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_proof_manual.v",
+      "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_goal_check.v"
+    ],
+    "blockers": [],
+    "timing": {
+      "phase_started_at": "2026-07-14T21:05:31+08:00",
+      "phase_finished_at": "2026-07-14T21:35:33+08:00",
+      "elapsed_seconds": 1802,
+      "qcp_mcp_cycles": 3,
+      "final_goal_check_seconds": 136.947,
+      "final_case_lib_check_seconds": 0.986,
+      "open_or_incomplete_timing_events": []
+    }
+  },
+  "verification_result": {
+    "annotation_subagent_final_checks": {
+      "status": "passed",
+      "checked_at": "2026-07-14T21:35:33+08:00",
+      "canonical_symexec": "passed",
+      "qcp_mcp_interactive_cycles": 3,
+      "fixed_goal_check": "passed",
+      "fixed_case_lib_check": "passed",
+      "annotation_checking": "passed",
+      "input_boundary": "passed",
+      "controller_acceptance": "pending"
+    },
+    "annotation_review": {
+      "status": "accepted-for-main-check",
+      "reviewed_at": "2026-07-14T13:40:36Z"
+    },
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-07-14T13:40:36Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_avl_left_rotate-20260714130000/rounds/xizi_avl_left_rotate-annotation-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    },
+    "annotation_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-07-14T13:40:36Z",
+      "source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "d97884a42e883b870f367b56f13bcadd6b89559a3a61723c6b6c04aca86be5c1",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_avl_left_rotate-20260714130000/xizi_avl_left_rotate-annotation-r1/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate.c",
+            "relative_path": "Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate.c",
+            "sha256": "d51c21288e1dac7798eb2bb9853256cea3e0fb5c997bd6f1337aa7a682a6e529",
+            "state": "present",
+            "role": "target-c-annotated"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_avl_left_rotate-20260714130000/xizi_avl_left_rotate-annotation-r1/SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_lib.v",
+            "relative_path": "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_lib.v",
+            "sha256": "0e061e4413eb9a968852695e2a8fd7b3539177bb0ae94e5237598c7ae5f4d951",
+            "state": "present",
+            "role": "case-lib-seed"
+          }
+        ]
+      },
+      "source_goal_version": {
+        "schema_version": "qcp-source-goal-version/v1",
+        "digest": "6da032c68fa16d1834116bcb630fedb46237df8880afa00b9f967b09cfefed95",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_goal.v",
+            "sha256": "704af84e2f06bc2849435d2d39b4d98a9f95088e4804467d6d78a554b7fd4813",
+            "state": "present",
+            "role": "generated-goal"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_proof_auto.v",
+            "sha256": "26f614246c505b31a5cf1594582325f32018fbe0438a8007ed80bbb3f0cab39f",
+            "state": "present",
+            "role": "generated-proof-auto"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_proof_manual.v",
+            "sha256": "2cac886deeb0e1d6b95281e2f48d4efc5ec3c404e1c271d04b533bd9bca3bf8a",
+            "state": "present",
+            "role": "generated-proof-manual"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_goal_check.v",
+            "sha256": "3b730d95ae2ff136ad7028e022cf467a737b7ed3d251f232f3300f93f6c73870",
+            "state": "present",
+            "role": "generated-goal-check"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_proof_diagnostics.v",
+            "sha256": "bf7a1bbe201d4bd28ca6827351d3df32d49a2602da2a37609ca10ff80a29d6ba",
+            "state": "present",
+            "role": "generated-diagnostics"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/diagnostics_snapshot.json",
+            "sha256": "0a0923a4d5e71159f5ed72aac52452277588ab48aaa808b6e5b770a193f2d2f1",
+            "state": "present",
+            "role": "generated-diagnostics-snapshot"
+          }
+        ],
+        "target_witnesses": [
+          "proof_of_xizi_avl_left_rotate_return_wit_1"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_xizi_avl_left_rotate_return_wit_1": "41156a97677b4d13224494381edb025b04400b2823d1c13a6b88e0c682026e7f"
+        },
+        "witnesses": [
+          {
+            "name": "proof_of_xizi_avl_left_rotate_return_wit_1",
+            "target_symbol": "xizi_avl_left_rotate_return_wit_1",
+            "statement_hash": "41156a97677b4d13224494381edb025b04400b2823d1c13a6b88e0c682026e7f",
+            "start_line": 25,
+            "end_line": 27
+          }
+        ]
+      },
+      "annotation_design_summary": {
+        "schema_version": "qcp-annotation-design-summary/v1",
+        "source": "annotation-subagent",
+        "case_lib_spec_declarations": [
+          {
+            "kind": "Inductive",
+            "name": "addr_avl_tree"
+          },
+          {
+            "kind": "Definition",
+            "name": "avl_root_addr"
+          },
+          {
+            "kind": "Fixpoint",
+            "name": "store_addr_avl"
+          },
+          {
+            "kind": "Definition",
+            "name": "avl_left_rotation"
+          }
+        ],
+        "case_lib_sha256": "0e061e4413eb9a968852695e2a8fd7b3539177bb0ae94e5237598c7ae5f4d951",
+        "hidden_properties": [
+          "Physical node identity is retained in every nonempty abstract node.",
+          "Data, cached heights, and all three subtrees are preserved by the rotation relation.",
+          "Recursive separation ownership excludes overlap and covers the complete represented subheaps."
+        ],
+        "known_risks": [
+          "The raw symexec manual file contains two diagnostic split lemmas with Proof. Abort. plus the one target witness skeleton; controller annotation-check-round must run its deterministic diagnostics splitter before computing source_goal_version.",
+          "The single target witness remains manual by design and must be proved in the downstream VC-proving workflow."
+        ],
+        "qcp_repair_history": [
+          "Repaired Coq binder/scope errors.",
+          "Aligned final spatial resource order.",
+          "Removed the circular preassumed rotation relation and regenerated the manual skeleton canonically."
+        ],
+        "changed_files": [
+          "Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate.c",
+          "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_lib.v",
+          "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_goal.v",
+          "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_proof_auto.v",
+          "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_proof_manual.v",
+          "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_goal_check.v"
+        ]
+      },
+      "canonical_symexec_evidence": {
+        "schema_version": "qcp-canonical-symexec-evidence/v1",
+        "driver": "/home/yangfp/QCIP/linux-binary/symexec",
+        "cwd": "/home/yangfp/QCIP/worktrees/xizi_avl_left_rotate-20260714130000/xizi_avl_left_rotate-annotation-r1",
+        "argv": [
+          "/home/yangfp/QCIP/linux-binary/symexec",
+          "--goal-file=SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_goal.v",
+          "--proof-auto-file=SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_proof_auto.v",
+          "--proof-manual-file=SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_proof_manual.v",
+          "-IQCP_examples/QCP_demos_LLM/",
+          "-slp",
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM",
+          "--coq-logic-path=SimpleC.EE.Verification.xizi.xizi_avl_left_rotate",
+          "--input-file=Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate.c",
+          "--no-exec-info"
+        ],
+        "include_args": [
+          "QCP_examples/QCP_demos_LLM/"
+        ],
+        "slp_args": [
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM"
+        ],
+        "status": "passed",
+        "returncode": 0,
+        "stdout_tail": "Start to symbolic execution on program : Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate.c\nSymbolic Execution into function xizi_avl_left_rotate\nEnd of symbolic execution of function xizi_avl_left_rotate\nWarning: manual proof file not updated. file open failed or file already exists.\nSuccessfully finished symbolic execution\n",
+        "stderr_tail": ""
+      },
+      "diagnostics_split": {
+        "status": "passed",
+        "normalized_at": "2026-07-14T13:40:36Z",
+        "proof_manual_file": "/home/yangfp/QCIP/worktrees/xizi_avl_left_rotate-20260714130000/xizi_avl_left_rotate-annotation-r1/SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_proof_manual.v",
+        "proof_diagnostics_file": "/home/yangfp/QCIP/worktrees/xizi_avl_left_rotate-20260714130000/xizi_avl_left_rotate-annotation-r1/SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_proof_diagnostics.v",
+        "diagnostics_snapshot": "/home/yangfp/QCIP/worktrees/xizi_avl_left_rotate-20260714130000/xizi_avl_left_rotate-annotation-r1/SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/diagnostics_snapshot.json",
+        "schema_version": "qcp-diagnostics-snapshot/v1",
+        "manual_obligations": [
+          {
+            "name": "proof_of_xizi_avl_left_rotate_return_wit_1",
+            "statement_hash": "41156a97677b4d13224494381edb025b04400b2823d1c13a6b88e0c682026e7f",
+            "target_symbol": "xizi_avl_left_rotate_return_wit_1",
+            "start_line": 31,
+            "end_line": 33
+          }
+        ],
+        "diagnostics": [
+          {
+            "name": "proof_of_xizi_avl_left_rotate_return_wit_1_split_goal_1",
+            "statement_hash": "b5a2f664ac9626c50a589c7a3f2bf047c39671e069306c9c0cc6da64ab43edee",
+            "target_symbol": "xizi_avl_left_rotate_return_wit_1_split_goal_1",
+            "start_line": 25,
+            "end_line": 27,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_avl_left_rotate_return_wit_1_split_goal_spatial",
+            "statement_hash": "eb0d0ceb2de17886e6d14067975ff3f2c5aed55a89bbc2a94b10b6333c6c9cc0",
+            "target_symbol": "xizi_avl_left_rotate_return_wit_1_split_goal_spatial",
+            "start_line": 28,
+            "end_line": 30,
+            "has_abort": true,
+            "has_split_goal": true
+          }
+        ],
+        "manual_obligation_count": 1,
+        "diagnostic_count": 2
+      }
+    }
+  },
+  "blockers": []
+}

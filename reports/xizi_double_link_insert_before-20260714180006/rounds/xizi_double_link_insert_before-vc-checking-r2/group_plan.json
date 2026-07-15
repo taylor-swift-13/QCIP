@@ -1,0 +1,57 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "c7ae810358c77bd964d0cde5eb020b9db95560a20de034016bfe85453c456b65",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_insert_before_return_wit_1",
+    "proof_of_xizi_double_link_insert_before_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "return_cdll_reconstruction",
+      "witness_names": [
+        "proof_of_xizi_double_link_insert_before_return_wit_1",
+        "proof_of_xizi_double_link_insert_before_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_insert_before_return_wit_2",
+      "dependencies": [],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "xizi_dllseg_append_two_nodes",
+          "statement_shape": "Extend xizi_dllseg x px y py xs by owned nodes y and z to xizi_dllseg x px q z (xs ++ [y; z]); add the current group suffix if materialized.",
+          "destination": "group-local case_lib with helper_namespace.suffix",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_insert_before_return_wit_2"
+          ]
+        }
+      ],
+      "expected_helpers": [
+        "Optional group-suffixed xizi_dllseg_append_two_nodes; a direct induction is also valid."
+      ],
+      "proof_strategy": "Prove return_wit_1 first as the direct two-node circular-list construction, then reuse the unfolding/order-normalization pattern for return_wit_2 and prove the prefix segment extension by induction or a group-suffixed helper in case_lib. In both goals choose the left identical disjunct and never modify generated statements.",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_insert_before_return_wit_1": "Unfold xizi_insert_before_order, xizi_cdll, and singleton xizi_dllseg; instantiate node/node/[node] and cancel four cells.",
+        "proof_of_xizi_double_link_insert_before_return_wit_2": "Normalize old_order ++ [node], instantiate xizi_cdll with first/node/(prefix ++ [old_prev;node]), and extend the existing prefix segment with old_prev and node."
+      },
+      "premise_discharge": {
+        "root_nonnull": "PreH1",
+        "new_node_nonnull": "PreH2",
+        "old_tail_validity": "owned old_prev.node_next points-to cell / standard field-validity fact",
+        "order_shape": "PreH5 for return_wit_1 and PreH4 plus app_assoc for return_wit_2"
+      },
+      "difficulty": "medium",
+      "confidence": "high",
+      "grouping_reason": "Same function, same return postcondition, same xizi_cdll reconstruction, and one segment-extension helper family; group size 2 is within the controller limit 12."
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 2,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

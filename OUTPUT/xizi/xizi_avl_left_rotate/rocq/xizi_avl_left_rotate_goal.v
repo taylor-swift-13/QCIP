@@ -18,126 +18,261 @@ Local Open Scope list.
 Import naive_C_Rules.
 Require Import QCIPLib.xizi.xizi_avl_common.xizi_avl_lib.
 Local Open Scope sac.
-From QCIPLib.xizi.xizi_avl_common Require Import xizi_avl_strategy_goal.
-From QCIPLib.xizi.xizi_avl_common Require Import xizi_avl_strategy_proof.
+Require Import xizi_avl_strategy_goal.
+Require Import xizi_avl_strategy_proof.
 
 (*----- Function xizi_avl_left_rotate -----*)
 
-Definition xizi_avl_left_rotate_return_wit_1 := 
-forall (avl_node_pre: Z) (r: Z) (l: Z) (h: Z) (d: Z) (tr: tree) (tr_2: tree) (d_2: Z) (h_2: Z) (l_2: Z) (r_2: Z) (tr1: tree) (tr2: tree) (PreH1 : (tr_2 = (make_tree (tr1) (tr2)))) (PreH2 : (r <> 0)) (PreH3 : (avl_node_pre <> 0)) ,
-  (single_tree_node r d_2 h_2 avl_node_pre r_2 )
-  **  (single_tree_node avl_node_pre d h l l_2 )
-  **  (store_tree r_2 tr2 )
-  **  (store_tree l_2 tr1 )
-  **  (store_tree l tr )
+Definition xizi_avl_left_rotate_entail_wit_1 := 
+(
+forall (avl_node_pre: Z) (before: addr_avl_tree) (c: addr_avl_tree) (b: addr_avl_tree) (a: addr_avl_tree) (right_height: Z) (right_data: Z) (root_height: Z) (root_data: Z) (right_addr: Z) (data: Z) (height: Z) (left_tree: addr_avl_tree) (right_tree: addr_avl_tree) (PreH1 : (before = (avl_node_model (avl_node_pre) (data) (height) (left_tree) (right_tree)))) (PreH2 : (avl_node_pre <> 0)) (PreH3 : (right_addr <> 0)) (PreH4 : (before = (avl_node_model (avl_node_pre) (root_data) (root_height) (a) ((avl_node_model (right_addr) (right_data) (right_height) (b) (c)))))) ,
+  ((&((avl_node_pre)  # "AvlNode" ->ₛ "right")) # Ptr  |-> (avl_root_addr (right_tree)))
+  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "left")) # Ptr  |-> (avl_root_addr (left_tree)))
+  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "height")) # UInt  |-> height)
+  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "data")) # Int  |-> data)
+  **  (store_addr_avl (avl_root_addr (right_tree)) right_tree )
+  **  (store_addr_avl (avl_root_addr (left_tree)) left_tree )
+  **  ((( &( "new_node" ) )) # Ptr  |-> (avl_root_addr (right_tree)))
 |--
-  “ (r = r) ”
-  &&  (store_non_empty_tree r )
+  “ (avl_node_pre <> 0) ” 
+  &&  “ (right_addr <> 0) ” 
+  &&  “ (before = (avl_node_model (avl_node_pre) (root_data) (root_height) (a) ((avl_node_model (right_addr) (right_data) (right_height) (b) (c))))) ”
+  &&  ((( &( "new_node" ) )) # Ptr  |-> right_addr)
+  **  (avl_node_fields avl_node_pre root_data root_height (avl_root_addr (a)) right_addr )
+  **  (store_addr_avl (avl_root_addr (a)) a )
+  **  (store_addr_avl right_addr (avl_node_model (right_addr) (right_data) (right_height) (b) (c)) )
+) \/
+(
+forall (avl_node_pre: Z) (before: addr_avl_tree) (c: addr_avl_tree) (b: addr_avl_tree) (a: addr_avl_tree) (right_height: Z) (right_data: Z) (root_height: Z) (root_data: Z) (right_addr: Z) (data: Z) (height: Z) (left_tree: addr_avl_tree) (right_tree: addr_avl_tree) (PreH1 : (before = (avl_node_model (avl_node_pre) (data) (height) (left_tree) (right_tree)))) (PreH2 : (avl_node_pre <> 0)) (PreH3 : (right_addr <> 0)) (PreH4 : (before = (avl_node_model (avl_node_pre) (root_data) (root_height) (a) ((avl_node_model (right_addr) (right_data) (right_height) (b) (c)))))) ,
+  (store_addr_avl (avl_root_addr (right_tree)) right_tree )
+  **  (store_addr_avl (avl_root_addr (left_tree)) left_tree )
+|--
+  “ ((avl_root_addr (right_tree)) = right_addr) ” 
+  &&  “ ((avl_root_addr (left_tree)) = (avl_root_addr (a))) ” 
+  &&  “ (height = root_height) ” 
+  &&  “ (data = root_data) ”
+  &&  ((&((right_addr)  # "AvlNode" ->ₛ "right")) # Ptr  |-> (avl_root_addr (c)))
+  **  ((&((right_addr)  # "AvlNode" ->ₛ "left")) # Ptr  |-> (avl_root_addr (b)))
+  **  ((&((right_addr)  # "AvlNode" ->ₛ "height")) # UInt  |-> right_height)
+  **  ((&((right_addr)  # "AvlNode" ->ₛ "data")) # Int  |-> right_data)
+  **  (store_addr_avl (avl_root_addr (c)) c )
+  **  (store_addr_avl (avl_root_addr (b)) b )
+  **  (store_addr_avl (avl_root_addr (a)) a )
+).
+
+Definition xizi_avl_left_rotate_entail_wit_1_split_goal_1 := 
+forall (avl_node_pre: Z) (before: addr_avl_tree) (c: addr_avl_tree) (b: addr_avl_tree) (a: addr_avl_tree) (right_height: Z) (right_data: Z) (root_height: Z) (root_data: Z) (right_addr: Z) (data: Z) (height: Z) (left_tree: addr_avl_tree) (right_tree: addr_avl_tree) (PreH1 : (before = (avl_node_model (avl_node_pre) (data) (height) (left_tree) (right_tree)))) (PreH2 : (avl_node_pre <> 0)) (PreH3 : (right_addr <> 0)) (PreH4 : (before = (avl_node_model (avl_node_pre) (root_data) (root_height) (a) ((avl_node_model (right_addr) (right_data) (right_height) (b) (c)))))) ,
+  (store_addr_avl (avl_root_addr (right_tree)) right_tree )
+  **  (store_addr_avl (avl_root_addr (left_tree)) left_tree )
+|--
+  “ ((avl_root_addr (right_tree)) = right_addr) ”
+.
+
+Definition xizi_avl_left_rotate_entail_wit_1_split_goal_2 := 
+forall (avl_node_pre: Z) (before: addr_avl_tree) (c: addr_avl_tree) (b: addr_avl_tree) (a: addr_avl_tree) (right_height: Z) (right_data: Z) (root_height: Z) (root_data: Z) (right_addr: Z) (data: Z) (height: Z) (left_tree: addr_avl_tree) (right_tree: addr_avl_tree) (PreH1 : (before = (avl_node_model (avl_node_pre) (data) (height) (left_tree) (right_tree)))) (PreH2 : (avl_node_pre <> 0)) (PreH3 : (right_addr <> 0)) (PreH4 : (before = (avl_node_model (avl_node_pre) (root_data) (root_height) (a) ((avl_node_model (right_addr) (right_data) (right_height) (b) (c)))))) ,
+  (store_addr_avl (avl_root_addr (right_tree)) right_tree )
+  **  (store_addr_avl (avl_root_addr (left_tree)) left_tree )
+|--
+  “ ((avl_root_addr (left_tree)) = (avl_root_addr (a))) ”
+.
+
+Definition xizi_avl_left_rotate_entail_wit_1_split_goal_3 := 
+forall (avl_node_pre: Z) (before: addr_avl_tree) (c: addr_avl_tree) (b: addr_avl_tree) (a: addr_avl_tree) (right_height: Z) (right_data: Z) (root_height: Z) (root_data: Z) (right_addr: Z) (data: Z) (height: Z) (left_tree: addr_avl_tree) (right_tree: addr_avl_tree) (PreH1 : (before = (avl_node_model (avl_node_pre) (data) (height) (left_tree) (right_tree)))) (PreH2 : (avl_node_pre <> 0)) (PreH3 : (right_addr <> 0)) (PreH4 : (before = (avl_node_model (avl_node_pre) (root_data) (root_height) (a) ((avl_node_model (right_addr) (right_data) (right_height) (b) (c)))))) ,
+  (store_addr_avl (avl_root_addr (right_tree)) right_tree )
+  **  (store_addr_avl (avl_root_addr (left_tree)) left_tree )
+|--
+  “ (height = root_height) ”
+.
+
+Definition xizi_avl_left_rotate_entail_wit_1_split_goal_4 := 
+forall (avl_node_pre: Z) (before: addr_avl_tree) (c: addr_avl_tree) (b: addr_avl_tree) (a: addr_avl_tree) (right_height: Z) (right_data: Z) (root_height: Z) (root_data: Z) (right_addr: Z) (data: Z) (height: Z) (left_tree: addr_avl_tree) (right_tree: addr_avl_tree) (PreH1 : (before = (avl_node_model (avl_node_pre) (data) (height) (left_tree) (right_tree)))) (PreH2 : (avl_node_pre <> 0)) (PreH3 : (right_addr <> 0)) (PreH4 : (before = (avl_node_model (avl_node_pre) (root_data) (root_height) (a) ((avl_node_model (right_addr) (right_data) (right_height) (b) (c)))))) ,
+  (store_addr_avl (avl_root_addr (right_tree)) right_tree )
+  **  (store_addr_avl (avl_root_addr (left_tree)) left_tree )
+|--
+  “ (data = root_data) ”
+.
+
+Definition xizi_avl_left_rotate_entail_wit_1_split_goal_spatial := 
+forall (avl_node_pre: Z) (before: addr_avl_tree) (c: addr_avl_tree) (b: addr_avl_tree) (a: addr_avl_tree) (right_height: Z) (right_data: Z) (root_height: Z) (root_data: Z) (right_addr: Z) (data: Z) (height: Z) (left_tree: addr_avl_tree) (right_tree: addr_avl_tree) (PreH1 : (before = (avl_node_model (avl_node_pre) (data) (height) (left_tree) (right_tree)))) (PreH2 : (avl_node_pre <> 0)) (PreH3 : (right_addr <> 0)) (PreH4 : (before = (avl_node_model (avl_node_pre) (root_data) (root_height) (a) ((avl_node_model (right_addr) (right_data) (right_height) (b) (c)))))) ,
+  (store_addr_avl (avl_root_addr (right_tree)) right_tree )
+  **  (store_addr_avl (avl_root_addr (left_tree)) left_tree )
+|--
+  ((&((right_addr)  # "AvlNode" ->ₛ "right")) # Ptr  |-> (avl_root_addr (c)))
+  **  ((&((right_addr)  # "AvlNode" ->ₛ "left")) # Ptr  |-> (avl_root_addr (b)))
+  **  ((&((right_addr)  # "AvlNode" ->ₛ "height")) # UInt  |-> right_height)
+  **  ((&((right_addr)  # "AvlNode" ->ₛ "data")) # Int  |-> right_data)
+  **  (store_addr_avl (avl_root_addr (c)) c )
+  **  (store_addr_avl (avl_root_addr (b)) b )
+  **  (store_addr_avl (avl_root_addr (a)) a )
+.
+
+Definition xizi_avl_left_rotate_return_wit_1 := 
+(
+forall (avl_node_pre: Z) (before: addr_avl_tree) (c: addr_avl_tree) (b: addr_avl_tree) (a: addr_avl_tree) (right_height: Z) (right_data: Z) (root_height: Z) (root_data: Z) (right_addr: Z) (data: Z) (height: Z) (left_tree: addr_avl_tree) (right_tree: addr_avl_tree) (PreH1 : ((avl_node_model (right_addr) (right_data) (right_height) (b) (c)) = (avl_node_model (right_addr) (data) (height) (left_tree) (right_tree)))) (PreH2 : (avl_node_pre <> 0)) (PreH3 : (right_addr <> 0)) (PreH4 : (before = (avl_node_model (avl_node_pre) (root_data) (root_height) (a) ((avl_node_model (right_addr) (right_data) (right_height) (b) (c)))))) ,
+  ((&((right_addr)  # "AvlNode" ->ₛ "left")) # Ptr  |-> avl_node_pre)
+  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "right")) # Ptr  |-> (avl_root_addr (left_tree)))
+  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "left")) # Ptr  |-> (avl_root_addr (a)))
+  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "height")) # UInt  |-> root_height)
+  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "data")) # Int  |-> root_data)
+  **  ((&((right_addr)  # "AvlNode" ->ₛ "right")) # Ptr  |-> (avl_root_addr (right_tree)))
+  **  ((&((right_addr)  # "AvlNode" ->ₛ "height")) # UInt  |-> height)
+  **  ((&((right_addr)  # "AvlNode" ->ₛ "data")) # Int  |-> data)
+  **  (store_addr_avl (avl_root_addr (right_tree)) right_tree )
+  **  (store_addr_avl (avl_root_addr (left_tree)) left_tree )
+  **  (store_addr_avl (avl_root_addr (a)) a )
+|--
+  EX (after: addr_avl_tree) ,
+  “ (right_addr = right_addr) ” 
+  &&  “ (after = (avl_node_model (right_addr) (right_data) (right_height) ((avl_node_model (avl_node_pre) (root_data) (root_height) (a) (b))) (c))) ” 
+  &&  “ (avl_left_rotation before after ) ”
+  &&  (store_addr_avl right_addr after )
+) \/
+(
+forall (avl_node_pre: Z) (before: addr_avl_tree) (c: addr_avl_tree) (b: addr_avl_tree) (a: addr_avl_tree) (right_height: Z) (right_data: Z) (root_height: Z) (root_data: Z) (right_addr: Z) (data: Z) (height: Z) (left_tree: addr_avl_tree) (right_tree: addr_avl_tree) (PreH1 : (root_height <= UINT_MAX)) (PreH2 : (root_height >= 0)) (PreH3 : (root_data <= INT_MAX)) (PreH4 : (root_data >= INT_MIN)) (PreH5 : ((avl_node_model (right_addr) (right_data) (right_height) (b) (c)) = (avl_node_model (right_addr) (data) (height) (left_tree) (right_tree)))) (PreH6 : (avl_node_pre <> 0)) (PreH7 : (right_addr <> 0)) (PreH8 : (before = (avl_node_model (avl_node_pre) (root_data) (root_height) (a) ((avl_node_model (right_addr) (right_data) (right_height) (b) (c)))))) ,
+  ((&((avl_node_pre)  # "AvlNode" ->ₛ "right")) # Ptr  |-> (avl_root_addr (left_tree)))
+  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "left")) # Ptr  |-> (avl_root_addr (a)))
+  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "height")) # UInt  |-> root_height)
+  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "data")) # Int  |-> root_data)
+  **  (store_addr_avl (avl_root_addr (right_tree)) right_tree )
+  **  (store_addr_avl (avl_root_addr (left_tree)) left_tree )
+  **  (store_addr_avl (avl_root_addr (a)) a )
+|--
+  “ (avl_left_rotation before (avl_node_model (right_addr) (right_data) (right_height) ((avl_node_model (avl_node_pre) (root_data) (root_height) (a) (b))) (c)) ) ” 
+  &&  “ (avl_node_pre = (avl_root_addr ((avl_node_model (avl_node_pre) (root_data) (root_height) (a) (b))))) ” 
+  &&  “ ((avl_root_addr (right_tree)) = (avl_root_addr (c))) ” 
+  &&  “ (height = right_height) ” 
+  &&  “ (data = right_data) ”
+  &&  (store_addr_avl (avl_root_addr (c)) c )
+  **  (store_addr_avl (avl_root_addr ((avl_node_model (avl_node_pre) (root_data) (root_height) (a) (b)))) (avl_node_model (avl_node_pre) (root_data) (root_height) (a) (b)) )
+).
+
+Definition xizi_avl_left_rotate_return_wit_1_split_goal_1 := 
+forall (avl_node_pre: Z) (before: addr_avl_tree) (c: addr_avl_tree) (b: addr_avl_tree) (a: addr_avl_tree) (right_height: Z) (right_data: Z) (root_height: Z) (root_data: Z) (right_addr: Z) (data: Z) (height: Z) (left_tree: addr_avl_tree) (right_tree: addr_avl_tree) (PreH1 : (root_height <= UINT_MAX)) (PreH2 : (root_height >= 0)) (PreH3 : (root_data <= INT_MAX)) (PreH4 : (root_data >= INT_MIN)) (PreH5 : ((avl_node_model (right_addr) (right_data) (right_height) (b) (c)) = (avl_node_model (right_addr) (data) (height) (left_tree) (right_tree)))) (PreH6 : (avl_node_pre <> 0)) (PreH7 : (right_addr <> 0)) (PreH8 : (before = (avl_node_model (avl_node_pre) (root_data) (root_height) (a) ((avl_node_model (right_addr) (right_data) (right_height) (b) (c)))))) ,
+  ((&((avl_node_pre)  # "AvlNode" ->ₛ "right")) # Ptr  |-> (avl_root_addr (left_tree)))
+  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "left")) # Ptr  |-> (avl_root_addr (a)))
+  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "height")) # UInt  |-> root_height)
+  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "data")) # Int  |-> root_data)
+  **  (store_addr_avl (avl_root_addr (right_tree)) right_tree )
+  **  (store_addr_avl (avl_root_addr (left_tree)) left_tree )
+  **  (store_addr_avl (avl_root_addr (a)) a )
+|--
+  “ (avl_left_rotation before (avl_node_model (right_addr) (right_data) (right_height) ((avl_node_model (avl_node_pre) (root_data) (root_height) (a) (b))) (c)) ) ”
+.
+
+Definition xizi_avl_left_rotate_return_wit_1_split_goal_2 := 
+forall (avl_node_pre: Z) (before: addr_avl_tree) (c: addr_avl_tree) (b: addr_avl_tree) (a: addr_avl_tree) (right_height: Z) (right_data: Z) (root_height: Z) (root_data: Z) (right_addr: Z) (data: Z) (height: Z) (left_tree: addr_avl_tree) (right_tree: addr_avl_tree) (PreH1 : (root_height <= UINT_MAX)) (PreH2 : (root_height >= 0)) (PreH3 : (root_data <= INT_MAX)) (PreH4 : (root_data >= INT_MIN)) (PreH5 : ((avl_node_model (right_addr) (right_data) (right_height) (b) (c)) = (avl_node_model (right_addr) (data) (height) (left_tree) (right_tree)))) (PreH6 : (avl_node_pre <> 0)) (PreH7 : (right_addr <> 0)) (PreH8 : (before = (avl_node_model (avl_node_pre) (root_data) (root_height) (a) ((avl_node_model (right_addr) (right_data) (right_height) (b) (c)))))) ,
+  ((&((avl_node_pre)  # "AvlNode" ->ₛ "right")) # Ptr  |-> (avl_root_addr (left_tree)))
+  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "left")) # Ptr  |-> (avl_root_addr (a)))
+  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "height")) # UInt  |-> root_height)
+  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "data")) # Int  |-> root_data)
+  **  (store_addr_avl (avl_root_addr (right_tree)) right_tree )
+  **  (store_addr_avl (avl_root_addr (left_tree)) left_tree )
+  **  (store_addr_avl (avl_root_addr (a)) a )
+|--
+  “ (avl_node_pre = (avl_root_addr ((avl_node_model (avl_node_pre) (root_data) (root_height) (a) (b))))) ”
+.
+
+Definition xizi_avl_left_rotate_return_wit_1_split_goal_3 := 
+forall (avl_node_pre: Z) (before: addr_avl_tree) (c: addr_avl_tree) (b: addr_avl_tree) (a: addr_avl_tree) (right_height: Z) (right_data: Z) (root_height: Z) (root_data: Z) (right_addr: Z) (data: Z) (height: Z) (left_tree: addr_avl_tree) (right_tree: addr_avl_tree) (PreH1 : (root_height <= UINT_MAX)) (PreH2 : (root_height >= 0)) (PreH3 : (root_data <= INT_MAX)) (PreH4 : (root_data >= INT_MIN)) (PreH5 : ((avl_node_model (right_addr) (right_data) (right_height) (b) (c)) = (avl_node_model (right_addr) (data) (height) (left_tree) (right_tree)))) (PreH6 : (avl_node_pre <> 0)) (PreH7 : (right_addr <> 0)) (PreH8 : (before = (avl_node_model (avl_node_pre) (root_data) (root_height) (a) ((avl_node_model (right_addr) (right_data) (right_height) (b) (c)))))) ,
+  ((&((avl_node_pre)  # "AvlNode" ->ₛ "right")) # Ptr  |-> (avl_root_addr (left_tree)))
+  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "left")) # Ptr  |-> (avl_root_addr (a)))
+  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "height")) # UInt  |-> root_height)
+  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "data")) # Int  |-> root_data)
+  **  (store_addr_avl (avl_root_addr (right_tree)) right_tree )
+  **  (store_addr_avl (avl_root_addr (left_tree)) left_tree )
+  **  (store_addr_avl (avl_root_addr (a)) a )
+|--
+  “ ((avl_root_addr (right_tree)) = (avl_root_addr (c))) ”
+.
+
+Definition xizi_avl_left_rotate_return_wit_1_split_goal_4 := 
+forall (avl_node_pre: Z) (before: addr_avl_tree) (c: addr_avl_tree) (b: addr_avl_tree) (a: addr_avl_tree) (right_height: Z) (right_data: Z) (root_height: Z) (root_data: Z) (right_addr: Z) (data: Z) (height: Z) (left_tree: addr_avl_tree) (right_tree: addr_avl_tree) (PreH1 : (root_height <= UINT_MAX)) (PreH2 : (root_height >= 0)) (PreH3 : (root_data <= INT_MAX)) (PreH4 : (root_data >= INT_MIN)) (PreH5 : ((avl_node_model (right_addr) (right_data) (right_height) (b) (c)) = (avl_node_model (right_addr) (data) (height) (left_tree) (right_tree)))) (PreH6 : (avl_node_pre <> 0)) (PreH7 : (right_addr <> 0)) (PreH8 : (before = (avl_node_model (avl_node_pre) (root_data) (root_height) (a) ((avl_node_model (right_addr) (right_data) (right_height) (b) (c)))))) ,
+  ((&((avl_node_pre)  # "AvlNode" ->ₛ "right")) # Ptr  |-> (avl_root_addr (left_tree)))
+  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "left")) # Ptr  |-> (avl_root_addr (a)))
+  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "height")) # UInt  |-> root_height)
+  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "data")) # Int  |-> root_data)
+  **  (store_addr_avl (avl_root_addr (right_tree)) right_tree )
+  **  (store_addr_avl (avl_root_addr (left_tree)) left_tree )
+  **  (store_addr_avl (avl_root_addr (a)) a )
+|--
+  “ (height = right_height) ”
+.
+
+Definition xizi_avl_left_rotate_return_wit_1_split_goal_5 := 
+forall (avl_node_pre: Z) (before: addr_avl_tree) (c: addr_avl_tree) (b: addr_avl_tree) (a: addr_avl_tree) (right_height: Z) (right_data: Z) (root_height: Z) (root_data: Z) (right_addr: Z) (data: Z) (height: Z) (left_tree: addr_avl_tree) (right_tree: addr_avl_tree) (PreH1 : (root_height <= UINT_MAX)) (PreH2 : (root_height >= 0)) (PreH3 : (root_data <= INT_MAX)) (PreH4 : (root_data >= INT_MIN)) (PreH5 : ((avl_node_model (right_addr) (right_data) (right_height) (b) (c)) = (avl_node_model (right_addr) (data) (height) (left_tree) (right_tree)))) (PreH6 : (avl_node_pre <> 0)) (PreH7 : (right_addr <> 0)) (PreH8 : (before = (avl_node_model (avl_node_pre) (root_data) (root_height) (a) ((avl_node_model (right_addr) (right_data) (right_height) (b) (c)))))) ,
+  ((&((avl_node_pre)  # "AvlNode" ->ₛ "right")) # Ptr  |-> (avl_root_addr (left_tree)))
+  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "left")) # Ptr  |-> (avl_root_addr (a)))
+  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "height")) # UInt  |-> root_height)
+  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "data")) # Int  |-> root_data)
+  **  (store_addr_avl (avl_root_addr (right_tree)) right_tree )
+  **  (store_addr_avl (avl_root_addr (left_tree)) left_tree )
+  **  (store_addr_avl (avl_root_addr (a)) a )
+|--
+  “ (data = right_data) ”
+.
+
+Definition xizi_avl_left_rotate_return_wit_1_split_goal_spatial := 
+forall (avl_node_pre: Z) (before: addr_avl_tree) (c: addr_avl_tree) (b: addr_avl_tree) (a: addr_avl_tree) (right_height: Z) (right_data: Z) (root_height: Z) (root_data: Z) (right_addr: Z) (data: Z) (height: Z) (left_tree: addr_avl_tree) (right_tree: addr_avl_tree) (PreH1 : (root_height <= UINT_MAX)) (PreH2 : (root_height >= 0)) (PreH3 : (root_data <= INT_MAX)) (PreH4 : (root_data >= INT_MIN)) (PreH5 : ((avl_node_model (right_addr) (right_data) (right_height) (b) (c)) = (avl_node_model (right_addr) (data) (height) (left_tree) (right_tree)))) (PreH6 : (avl_node_pre <> 0)) (PreH7 : (right_addr <> 0)) (PreH8 : (before = (avl_node_model (avl_node_pre) (root_data) (root_height) (a) ((avl_node_model (right_addr) (right_data) (right_height) (b) (c)))))) ,
+  ((&((avl_node_pre)  # "AvlNode" ->ₛ "right")) # Ptr  |-> (avl_root_addr (left_tree)))
+  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "left")) # Ptr  |-> (avl_root_addr (a)))
+  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "height")) # UInt  |-> root_height)
+  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "data")) # Int  |-> root_data)
+  **  (store_addr_avl (avl_root_addr (right_tree)) right_tree )
+  **  (store_addr_avl (avl_root_addr (left_tree)) left_tree )
+  **  (store_addr_avl (avl_root_addr (a)) a )
+|--
+  (store_addr_avl (avl_root_addr (c)) c )
+  **  (store_addr_avl (avl_root_addr ((avl_node_model (avl_node_pre) (root_data) (root_height) (a) (b)))) (avl_node_model (avl_node_pre) (root_data) (root_height) (a) (b)) )
 .
 
 Definition xizi_avl_left_rotate_partial_solve_wit_1 := 
-forall (avl_node_pre: Z) (r: Z) (l: Z) (h: Z) (d: Z) (PreH1 : (avl_node_pre <> 0)) ,
-  (single_tree_node avl_node_pre d h l r )
-  **  (store_tree_shape l )
-  **  (store_non_empty_tree r )
+forall (avl_node_pre: Z) (before: addr_avl_tree) (c: addr_avl_tree) (b: addr_avl_tree) (a: addr_avl_tree) (right_height: Z) (right_data: Z) (root_height: Z) (root_data: Z) (right_addr: Z) (PreH1 : (avl_node_pre <> 0)) (PreH2 : (right_addr <> 0)) (PreH3 : (before = (avl_node_model (avl_node_pre) (root_data) (root_height) (a) ((avl_node_model (right_addr) (right_data) (right_height) (b) (c)))))) ,
+  (store_addr_avl avl_node_pre before )
 |--
-  EX (tr2: tree)  (tr1: tree)  (r_2: Z)  (l_2: Z)  (h_2: Z)  (d_2: Z)  (tr_2: tree)  (tr: tree) ,
-  “ (tr_2 = (make_tree (tr1) (tr2))) ” 
-  &&  “ (r <> 0) ” 
-  &&  “ (avl_node_pre <> 0) ”
-  &&  ((&((avl_node_pre)  # "AvlNode" ->ₛ "right")) # Ptr  |-> r)
-  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "left")) # Ptr  |-> l)
-  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "height")) # UInt  |-> h)
-  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "data")) # Int  |-> d)
-  **  ((&((r)  # "AvlNode" ->ₛ "right")) # Ptr  |-> r_2)
-  **  ((&((r)  # "AvlNode" ->ₛ "left")) # Ptr  |-> l_2)
-  **  ((&((r)  # "AvlNode" ->ₛ "height")) # UInt  |-> h_2)
-  **  ((&((r)  # "AvlNode" ->ₛ "data")) # Int  |-> d_2)
-  **  (store_tree r_2 tr2 )
-  **  (store_tree l_2 tr1 )
-  **  (store_tree l tr )
+  EX (right_tree: addr_avl_tree)  (left_tree: addr_avl_tree)  (height: Z)  (data: Z) ,
+  “ (before = (avl_node_model (avl_node_pre) (data) (height) (left_tree) (right_tree))) ” 
+  &&  “ (avl_node_pre <> 0) ” 
+  &&  “ (right_addr <> 0) ” 
+  &&  “ (before = (avl_node_model (avl_node_pre) (root_data) (root_height) (a) ((avl_node_model (right_addr) (right_data) (right_height) (b) (c))))) ”
+  &&  ((&((avl_node_pre)  # "AvlNode" ->ₛ "right")) # Ptr  |-> (avl_root_addr (right_tree)))
+  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "left")) # Ptr  |-> (avl_root_addr (left_tree)))
+  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "height")) # UInt  |-> height)
+  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "data")) # Int  |-> data)
+  **  (store_addr_avl (avl_root_addr (right_tree)) right_tree )
+  **  (store_addr_avl (avl_root_addr (left_tree)) left_tree )
 .
 
 Definition xizi_avl_left_rotate_partial_solve_wit_2 := 
-forall (avl_node_pre: Z) (r: Z) (l: Z) (h: Z) (d: Z) (tr: tree) (tr_2: tree) (d_2: Z) (h_2: Z) (l_2: Z) (r_2: Z) (tr1: tree) (tr2: tree) (PreH1 : (tr_2 = (make_tree (tr1) (tr2)))) (PreH2 : (r <> 0)) (PreH3 : (avl_node_pre <> 0)) ,
-  (single_tree_node r d_2 h_2 l_2 r_2 )
-  **  (single_tree_node avl_node_pre d h l r )
-  **  (store_tree r_2 tr2 )
-  **  (store_tree l_2 tr1 )
-  **  (store_tree l tr )
+forall (avl_node_pre: Z) (before: addr_avl_tree) (c: addr_avl_tree) (b: addr_avl_tree) (a: addr_avl_tree) (right_height: Z) (right_data: Z) (root_height: Z) (root_data: Z) (right_addr: Z) (PreH1 : (avl_node_pre <> 0)) (PreH2 : (right_addr <> 0)) (PreH3 : (before = (avl_node_model (avl_node_pre) (root_data) (root_height) (a) ((avl_node_model (right_addr) (right_data) (right_height) (b) (c)))))) ,
+  (avl_node_fields avl_node_pre root_data root_height (avl_root_addr (a)) right_addr )
+  **  (store_addr_avl (avl_root_addr (a)) a )
+  **  (store_addr_avl right_addr (avl_node_model (right_addr) (right_data) (right_height) (b) (c)) )
 |--
-  “ (tr_2 = (make_tree (tr1) (tr2))) ” 
-  &&  “ (r <> 0) ” 
-  &&  “ (avl_node_pre <> 0) ”
-  &&  ((&((r)  # "AvlNode" ->ₛ "left")) # Ptr  |-> l_2)
-  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "right")) # Ptr  |-> r)
-  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "left")) # Ptr  |-> l)
-  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "height")) # UInt  |-> h)
-  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "data")) # Int  |-> d)
-  **  ((&((r)  # "AvlNode" ->ₛ "right")) # Ptr  |-> r_2)
-  **  ((&((r)  # "AvlNode" ->ₛ "height")) # UInt  |-> h_2)
-  **  ((&((r)  # "AvlNode" ->ₛ "data")) # Int  |-> d_2)
-  **  (store_tree r_2 tr2 )
-  **  (store_tree l_2 tr1 )
-  **  (store_tree l tr )
-.
-
-Definition xizi_avl_left_rotate_partial_solve_wit_3 := 
-forall (avl_node_pre: Z) (r: Z) (l: Z) (h: Z) (d: Z) (tr: tree) (tr_2: tree) (d_2: Z) (h_2: Z) (l_2: Z) (r_2: Z) (tr1: tree) (tr2: tree) (PreH1 : (tr_2 = (make_tree (tr1) (tr2)))) (PreH2 : (r <> 0)) (PreH3 : (avl_node_pre <> 0)) ,
-  (single_tree_node r d_2 h_2 l_2 r_2 )
-  **  (single_tree_node avl_node_pre d h l r )
-  **  (store_tree r_2 tr2 )
-  **  (store_tree l_2 tr1 )
-  **  (store_tree l tr )
-|--
-  “ (tr_2 = (make_tree (tr1) (tr2))) ” 
-  &&  “ (r <> 0) ” 
-  &&  “ (avl_node_pre <> 0) ”
-  &&  ((&((avl_node_pre)  # "AvlNode" ->ₛ "right")) # Ptr  |->_)
-  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "left")) # Ptr  |-> l)
-  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "height")) # UInt  |-> h)
-  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "data")) # Int  |-> d)
-  **  ((&((r)  # "AvlNode" ->ₛ "right")) # Ptr  |-> r_2)
-  **  ((&((r)  # "AvlNode" ->ₛ "left")) # Ptr  |-> l_2)
-  **  ((&((r)  # "AvlNode" ->ₛ "height")) # UInt  |-> h_2)
-  **  ((&((r)  # "AvlNode" ->ₛ "data")) # Int  |-> d_2)
-  **  (store_tree r_2 tr2 )
-  **  (store_tree l_2 tr1 )
-  **  (store_tree l tr )
-.
-
-Definition xizi_avl_left_rotate_partial_solve_wit_4 := 
-forall (avl_node_pre: Z) (r: Z) (l: Z) (h: Z) (d: Z) (tr: tree) (tr_2: tree) (d_2: Z) (h_2: Z) (l_2: Z) (r_2: Z) (tr1: tree) (tr2: tree) (PreH1 : (tr_2 = (make_tree (tr1) (tr2)))) (PreH2 : (r <> 0)) (PreH3 : (avl_node_pre <> 0)) ,
-  (single_tree_node r d_2 h_2 l_2 r_2 )
-  **  (single_tree_node avl_node_pre d h l l_2 )
-  **  (store_tree r_2 tr2 )
-  **  (store_tree l_2 tr1 )
-  **  (store_tree l tr )
-|--
-  “ (tr_2 = (make_tree (tr1) (tr2))) ” 
-  &&  “ (r <> 0) ” 
-  &&  “ (avl_node_pre <> 0) ”
-  &&  ((&((r)  # "AvlNode" ->ₛ "left")) # Ptr  |->_)
-  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "right")) # Ptr  |-> l_2)
-  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "left")) # Ptr  |-> l)
-  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "height")) # UInt  |-> h)
-  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "data")) # Int  |-> d)
-  **  ((&((r)  # "AvlNode" ->ₛ "right")) # Ptr  |-> r_2)
-  **  ((&((r)  # "AvlNode" ->ₛ "height")) # UInt  |-> h_2)
-  **  ((&((r)  # "AvlNode" ->ₛ "data")) # Int  |-> d_2)
-  **  (store_tree r_2 tr2 )
-  **  (store_tree l_2 tr1 )
-  **  (store_tree l tr )
+  EX (right_tree: addr_avl_tree)  (left_tree: addr_avl_tree)  (height: Z)  (data: Z) ,
+  “ ((avl_node_model (right_addr) (right_data) (right_height) (b) (c)) = (avl_node_model (right_addr) (data) (height) (left_tree) (right_tree))) ” 
+  &&  “ (avl_node_pre <> 0) ” 
+  &&  “ (right_addr <> 0) ” 
+  &&  “ (before = (avl_node_model (avl_node_pre) (root_data) (root_height) (a) ((avl_node_model (right_addr) (right_data) (right_height) (b) (c))))) ”
+  &&  ((&((right_addr)  # "AvlNode" ->ₛ "left")) # Ptr  |-> (avl_root_addr (left_tree)))
+  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "right")) # Ptr  |-> right_addr)
+  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "left")) # Ptr  |-> (avl_root_addr (a)))
+  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "height")) # UInt  |-> root_height)
+  **  ((&((avl_node_pre)  # "AvlNode" ->ₛ "data")) # Int  |-> root_data)
+  **  ((&((right_addr)  # "AvlNode" ->ₛ "right")) # Ptr  |-> (avl_root_addr (right_tree)))
+  **  ((&((right_addr)  # "AvlNode" ->ₛ "height")) # UInt  |-> height)
+  **  ((&((right_addr)  # "AvlNode" ->ₛ "data")) # Int  |-> data)
+  **  (store_addr_avl (avl_root_addr (right_tree)) right_tree )
+  **  (store_addr_avl (avl_root_addr (left_tree)) left_tree )
+  **  (store_addr_avl (avl_root_addr (a)) a )
 .
 
 Module Type VC_Correct.
 
 Include xizi_avl_Strategy_Correct.
 
+Axiom proof_of_xizi_avl_left_rotate_entail_wit_1 : xizi_avl_left_rotate_entail_wit_1.
 Axiom proof_of_xizi_avl_left_rotate_return_wit_1 : xizi_avl_left_rotate_return_wit_1.
 Axiom proof_of_xizi_avl_left_rotate_partial_solve_wit_1 : xizi_avl_left_rotate_partial_solve_wit_1.
 Axiom proof_of_xizi_avl_left_rotate_partial_solve_wit_2 : xizi_avl_left_rotate_partial_solve_wit_2.
-Axiom proof_of_xizi_avl_left_rotate_partial_solve_wit_3 : xizi_avl_left_rotate_partial_solve_wit_3.
-Axiom proof_of_xizi_avl_left_rotate_partial_solve_wit_4 : xizi_avl_left_rotate_partial_solve_wit_4.
 
 End VC_Correct.

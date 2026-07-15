@@ -1,0 +1,59 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "e1ad6be44e0d7f6e6ed0e4bd68c4fd8ce064a9437bee350e43d7b43f3d4ce0a7",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_empty_rec_entail_wit_1",
+    "proof_of_xizi_double_link_empty_rec_return_wit_1",
+    "proof_of_xizi_double_link_empty_rec_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "circular_dll_empty_classification",
+      "witness_names": [
+        "proof_of_xizi_double_link_empty_rec_entail_wit_1",
+        "proof_of_xizi_double_link_empty_rec_return_wit_1",
+        "proof_of_xizi_double_link_empty_rec_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_empty_rec_return_wit_2",
+      "dependencies": [],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "circular_dll_front_empty_iff",
+          "statement_shape": "Entail pure(first = sentinel <-> nodes = nil) from the owned sentinel next/prev fields and circular_dll_chain first sentinel sentinel last nodes.",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_empty_rec_return_wit_1",
+            "proof_of_xizi_double_link_empty_rec_return_wit_2"
+          ],
+          "destination": "group-local case_lib; declaration name must end with this group's helper_namespace suffix"
+        }
+      ],
+      "expected_helpers": [
+        "circular_dll_front_empty_iff with group-id suffix"
+      ],
+      "proof_strategy": "First prove the group-suffixed classification helper by destructing nodes and simplifying circular_dll_chain: nil gives first=sentinel, while cons gives first=node and node<>sentinel. Prove the entail witness by unfolding circular_dll and cancellation. For each return witness apply the helper, derive the branch fact from PreH1, discharge the reflexive return equality, and fold circular_dll with first/last.",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_empty_rec_entail_wit_1": "Select an identical disjunct, unfold circular_dll, expose first/last, instantiate generated last/first, and cancel.",
+        "proof_of_xizi_double_link_empty_rec_return_wit_1": "Select the full disjunct; helper plus first<>sentinel gives nodes<>nil; prove 0=0 and fold circular_dll.",
+        "proof_of_xizi_double_link_empty_rec_return_wit_2": "Select the full disjunct; helper plus first=sentinel gives nodes=nil; prove 1=1 and fold circular_dll."
+      },
+      "premise_discharge": {
+        "helper_spatial_premise": "Exactly the return-witness spatial precondition.",
+        "return_wit_1_branch_fact": "PreH1 first<>sentinel plus the helper equivalence.",
+        "return_wit_2_branch_fact": "PreH1 first=sentinel plus the helper equivalence."
+      },
+      "grouping_reason": "The three targets share one function and the same circular_dll/circular_dll_chain fold-unfold pattern; the two nontrivial targets share one helper. One group minimizes worker overhead and contains 3 witnesses, within max_witnesses_per_group=12.",
+      "confidence": "high"
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

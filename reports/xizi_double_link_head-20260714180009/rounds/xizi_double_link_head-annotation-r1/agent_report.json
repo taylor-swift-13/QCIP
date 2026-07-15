@@ -1,0 +1,489 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "annotation",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "status": "completed",
+    "terminal": "yes",
+    "round_outcome": "completed",
+    "phase": "annotation",
+    "round": "xizi_double_link_head-annotation-r1",
+    "attempt_id": "xizi_double_link_head-annotation-r1-attempt-1",
+    "source_version": {
+      "schema_version": "qcp-source-version/v1",
+      "digest": "4d381b51debb211b6d1417bd0bf01eb3e7fac49f5a7d2a329f4a701197468339",
+      "digest_input_policy": "relative_path+sha256+state+role only",
+      "verified_input_version_before_edit": true,
+      "input_digest": "16aef7a060ea36006340555dd66cb26b0eca6c4ab417b02c5443e9ee82eb0d25",
+      "files": [
+        {
+          "relative_path": "INPUT/xizi/xizi_double_link_head/xizi_double_link_head.c",
+          "sha256": "f664200874d4437fe76fad931bd2d81cdf17fcec7e26aba45862d3e62f44dc1f",
+          "state": "present",
+          "role": "target-c-annotated"
+        },
+        {
+          "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/xizi_double_link_head_lib.v",
+          "sha256": "f682ec53fce26d8719a490048484df25621e786b2ff5bee60579e7f4487324d3",
+          "state": "present",
+          "role": "case-lib-seed"
+        }
+      ]
+    },
+    "source_goal_version": {
+      "status": "to-be-computed-by-controller",
+      "reason": "controller annotation-check-round owns canonical regeneration, diagnostics split, target witness cleanup, and source_goal_version computation"
+    },
+    "annotation": {
+      "status": "completed",
+      "ready_for_annotation_check_round": true,
+      "summary": "Bootstrapped a predicate-first specification for an arbitrary finite circular sentinel doubly linked list. The contract returns NULL exactly for the empty abstract address sequence, otherwise its first node, while preserving the sentinel's next/prev cells and every recursively reachable node cell.",
+      "spec_design": {
+        "style": "predicate-first",
+        "mathematical_result": "xizi_dll_head_value nodes is NULL for nil and the first address for node :: rest.",
+        "spatial_preservation": "The same sentinel node_next/node_prev cells and xizi_dllseg(first,sentinel,sentinel,last,nodes) resource are returned unchanged.",
+        "hidden_properties": [
+          "xizi_dllseg checks each represented node address against the logical sequence and owns both next and prev fields",
+          "the empty segment closes with cur=sentinel and prev=last, forcing the empty ring endpoints to the sentinel",
+          "xizi_dll_first_value connects the exposed sentinel.next witness to the abstract sequence without mirroring the C conditional"
+        ],
+        "algorithm_mirror_review": "passed: the Rocq definitions describe an address-sequence representation and its mathematical head, not a replay of C control flow"
+      },
+      "canonical_symexec_evidence": {
+        "schema_version": "qcp-canonical-symexec-evidence/v1",
+        "status": "passed",
+        "driver": "/home/yangfp/QCIP/linux-binary/symexec",
+        "cwd": "/home/yangfp/QCIP/worktrees/xizi_double_link_head-20260714180009/xizi_double_link_head-annotation-r1",
+        "include_args": [
+          "QCP_examples/QCP_demos_LLM/"
+        ],
+        "slp_args": [
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM"
+        ],
+        "coq_logic_path": "SimpleC.EE.INPUT.xizi.xizi_double_link_head",
+        "argv": [
+          "/home/yangfp/QCIP/linux-binary/symexec",
+          "--goal-file=SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/xizi_double_link_head_goal.v",
+          "--proof-auto-file=SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/xizi_double_link_head_proof_auto.v",
+          "--proof-manual-file=SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/xizi_double_link_head_proof_manual.v",
+          "-IQCP_examples/QCP_demos_LLM/",
+          "-slp",
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM",
+          "--coq-logic-path=SimpleC.EE.INPUT.xizi.xizi_double_link_head",
+          "--input-file=INPUT/xizi/xizi_double_link_head/xizi_double_link_head.c",
+          "--no-exec-info"
+        ],
+        "exit_code": 0,
+        "reached_file_end": true,
+        "stdout_summary": "End of symbolic execution of function xizi_double_link_head; Successfully finished symbolic execution",
+        "generated_file_digests": {
+          "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/xizi_double_link_head_goal.v": "f06d729cb5b92607d199cbfa9ca52aad79c7bd96a21d53b47f41f994a7b34d0b",
+          "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/xizi_double_link_head_proof_auto.v": "a2c58ec1b1b54f7a32ab4992245b935988a3b50f88f6acbf2a958fd92c6548ee",
+          "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/xizi_double_link_head_proof_manual.v": "25a5089d56427db17141f3015e751a00f80a0359ca59b2d313bd82d748f3ff4d",
+          "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/xizi_double_link_head_goal_check.v": "e16617f897d96a71fa0d17ebc843e9d39136dec161175483774fbe4554e1c558"
+        }
+      },
+      "qcp_mcp_interactive_evidence": {
+        "schema_version": "qcp-mcp-interactive-evidence/v1",
+        "status": "passed",
+        "qcp_mcp_requirement_satisfied": "yes",
+        "wrapper": "qcp_mcp.session_manager loader fallback",
+        "wrapper_frontend_status": "qcp_mcp.server import unavailable because Python package mcp.server is not installed; the same qcp-mcp session manager and backend protocol were used directly",
+        "backend_driver": "/home/yangfp/QCIP/linux-binary/mcp",
+        "cwd": "/home/yangfp/QCIP/worktrees/xizi_double_link_head-20260714180009/xizi_double_link_head-annotation-r1",
+        "target_file": "/home/yangfp/QCIP/worktrees/xizi_double_link_head-20260714180009/xizi_double_link_head-annotation-r1/INPUT/xizi/xizi_double_link_head/xizi_double_link_head.c",
+        "operations": [
+          "load_target_file",
+          "symbolic(26)",
+          "close"
+        ],
+        "complete_cycles": 3,
+        "cycle_results": [
+          "success: 1 automatic safety witness and 2 manual return witnesses; no error",
+          "success: 1 automatic safety witness and 2 manual return witnesses; no error",
+          "success: 1 automatic safety witness and 2 manual return witnesses; no error"
+        ],
+        "reached_file_end": true,
+        "error": null,
+        "canonical_parameter_transport": {
+          "status": "unsupported-by-wrapper-not-claimed",
+          "note": "qcp-mcp load_target_file transports only target and temporary goal paths; canonical -I/-slp evidence comes from the separate direct canonical symexec run"
+        }
+      },
+      "case_lib_coqc_evidence": {
+        "schema_version": "qcp-coqc-check-evidence/v1",
+        "status": "passed",
+        "tool": "coqc",
+        "entrypoint": "/home/yangfp/QCIP/.agents/skills/vc-proving/scripts/coq_tooling.py check",
+        "target_kind": "case_lib",
+        "target_file": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/xizi_double_link_head_lib.v",
+        "workspace_root": "/home/yangfp/QCIP/worktrees/xizi_double_link_head-20260714180009/xizi_double_link_head-annotation-r1",
+        "build_workspace": "/home/yangfp/QCIP/worktrees/xizi_double_link_head-20260714180009/_coq_builds/xizi_double_link_head-annotation-r1-case-lib",
+        "fixed_flags_hash": "9bdaa2ffdbaca882e29d6aa89234fc849f2f8987edc04425059c56c78ab70f0d",
+        "coq_version": "The Coq Proof Assistant, version 8.20.1",
+        "returncode": 0,
+        "first_diagnostic": null,
+        "elapsed_seconds": 1.028,
+        "source_binding": "4d381b51debb211b6d1417bd0bf01eb3e7fac49f5a7d2a329f4a701197468339"
+      },
+      "annotation_checking_evidence": {
+        "schema_version": "qcp-annotation-checking-evidence/v1",
+        "status": "passed",
+        "checked_scope": [
+          "case_lib recursive representation and mathematical head definitions",
+          "function Require/Ensure",
+          "full sentinel and reachable-node resource preservation",
+          "generated return-goal semantic shape"
+        ],
+        "qcp_mcp_requirement_satisfied": "yes",
+        "annotation_scratch_lib_coqc_status": "passed",
+        "spec_definition_status": "passed: xizi_dllseg/xizi_dll form a finite sentinel-closed doubly linked representation over an abstract address list; head-value definitions are mathematical list destructors",
+        "function_spec_status": "passed: the result is NULL iff nodes=nil and otherwise the first represented address; all sentinel and recursive node resources are preserved",
+        "invariant_status": "not-applicable: target function contains no loop",
+        "annotation_scratch_lib_changes": "Bootstrapped xizi_dllseg, xizi_dll, xizi_dll_head_value, xizi_dll_first_value, and required separation-logic imports.",
+        "failed_checks": [],
+        "required_annotation_rework": [],
+        "required_annotation_scratch_lib_rework": [],
+        "ready_for_main_common_case_formal_lib_update": "yes",
+        "ready_for_main_symexec": "yes",
+        "semantic_review": {
+          "result_definition_is_mathematical": true,
+          "recursive_separation_logic_predicate_present": true,
+          "sentinel_prev_and_reachable_nodes_retained": true,
+          "field_only_antipattern_absent": true,
+          "algorithm_mirror_absent": true,
+          "spatial_resource_preserved": true
+        },
+        "summary": "passed",
+        "timing_summary": "Completed after three successful qcp-mcp symbolic cycles, canonical symexec, and a version-bound fixed case_lib compile gate.",
+        "timing_gaps": "Fine-grained rule-reading and manual semantic-review subintervals were not captured separately; aggregate wall time is recorded."
+      },
+      "iteration_evidence": {
+        "complete_cycles": 3,
+        "failures": [
+          {
+            "failure_class": "qcp-symbolic-execution",
+            "cause": "An initial opaque whole-list predicate did not expose the sentinel node_next cell required by Memory Read."
+          }
+        ],
+        "repairs": [
+          {
+            "repair_class": "predicate-decomposition",
+            "change": "Exposed sentinel next/prev ownership in the function contract while retaining the complete recursive xizi_dllseg resource and mathematical endpoint relation.",
+            "validated_by": [
+              "three qcp-mcp symbolic successes",
+              "canonical symexec success",
+              "case_lib fixed coqc success"
+            ]
+          }
+        ],
+        "self_reworkable_failures": [],
+        "self_repair_budget": {
+          "min_complete_cycles": 3,
+          "completed_cycles": 3,
+          "min_wall_clock_minutes": 30,
+          "elapsed_wall_clock_minutes": 35,
+          "exhausted": false,
+          "note": "All ready gates passed within the available repair window."
+        }
+      },
+      "file_access_summary": {
+        "must_log_file_reads": "yes",
+        "read_categories": [
+          "agent_input.json and every handoff.rules_source skill",
+          "annotation-filling and annotation-checking directly linked rule/checklist documents",
+          "current round target C/header/case_lib/generated files",
+          "QCP_demos_LLM singly and doubly linked list C/header/lib/strategy references",
+          "local qcp-mcp README and implementation",
+          "fixed coq tooling and controller digest implementation",
+          "existing annotation report schemas"
+        ],
+        "searches": [
+          "rg for doubly linked representation predicates and annotation conventions",
+          "rg for With/Require/Ensure patterns",
+          "rg/find for qcp-mcp and coq_tooling entry points",
+          "rg across INPUT and generated INPUT formal trees for current structure names"
+        ],
+        "denied_globs_touched": [],
+        "reference_files_read": [
+          "QCP_examples/QCP_demos_LLM/sll.c",
+          "QCP_examples/QCP_demos_LLM/sll_def.h",
+          "SeparationLogic/examples/QCP_demos_LLM/sll_lib.v",
+          "QCP_examples/QCP_demos_LLM/dll_queue.c",
+          "QCP_examples/QCP_demos_LLM/dll_queue_def.h",
+          "SeparationLogic/examples/QCP_demos_LLM/dll_queue_lib.v"
+        ],
+        "non_reference_search_note": "A repository-wide rg also listed sibling INPUT xizi paths before the reference policy was narrowed; no QCP_demos_human path was touched and no sibling case was used as normative evidence."
+      },
+      "changed_files": [
+        "INPUT/xizi/xizi_double_link_head/xizi_double_link_head.c",
+        "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/xizi_double_link_head_lib.v",
+        "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/xizi_double_link_head_goal.v",
+        "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/xizi_double_link_head_proof_auto.v",
+        "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/xizi_double_link_head_proof_manual.v",
+        "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/xizi_double_link_head_goal_check.v"
+      ],
+      "generated_files_modified_by_hand": false,
+      "blockers": [],
+      "recommended_next_phase": "controller annotation-check-round"
+    },
+    "changed_files": [
+      "INPUT/xizi/xizi_double_link_head/xizi_double_link_head.c",
+      "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/xizi_double_link_head_lib.v",
+      "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/xizi_double_link_head_goal.v",
+      "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/xizi_double_link_head_proof_auto.v",
+      "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/xizi_double_link_head_proof_manual.v",
+      "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/xizi_double_link_head_goal_check.v"
+    ],
+    "blockers": [],
+    "timing": {
+      "phase_started_at": "2026-07-14T18:50:00+08:00",
+      "phase_finished_at": "2026-07-14T19:24:56+08:00",
+      "elapsed_seconds": 2096,
+      "qcp_mcp_cycles": 3,
+      "canonical_symexec_seconds": 0.1,
+      "case_lib_final_check_seconds": 1.028,
+      "timing_gap_seconds": 2094.872,
+      "timing_gap_reason": "Rule reading, source/reference analysis, predicate design, editing, qcp-mcp interaction, full dependency compile attempts, and semantic review were not individually timestamped.",
+      "slowest_step": "workflow/rule reading and semantic predicate design",
+      "open_or_incomplete_timing_events": []
+    }
+  },
+  "verification_result": {
+    "annotation_review": {
+      "status": "accepted-for-main-check",
+      "reviewed_at": "2026-07-14T11:27:01Z"
+    },
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-07-14T11:27:01Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_double_link_head-20260714180009/rounds/xizi_double_link_head-annotation-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    },
+    "annotation_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-07-14T11:27:01Z",
+      "source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "4d381b51debb211b6d1417bd0bf01eb3e7fac49f5a7d2a329f4a701197468339",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_head-20260714180009/xizi_double_link_head-annotation-r1/INPUT/xizi/xizi_double_link_head/xizi_double_link_head.c",
+            "relative_path": "INPUT/xizi/xizi_double_link_head/xizi_double_link_head.c",
+            "sha256": "f664200874d4437fe76fad931bd2d81cdf17fcec7e26aba45862d3e62f44dc1f",
+            "state": "present",
+            "role": "target-c-annotated"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_head-20260714180009/xizi_double_link_head-annotation-r1/SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/xizi_double_link_head_lib.v",
+            "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/xizi_double_link_head_lib.v",
+            "sha256": "f682ec53fce26d8719a490048484df25621e786b2ff5bee60579e7f4487324d3",
+            "state": "present",
+            "role": "case-lib-seed"
+          }
+        ]
+      },
+      "source_goal_version": {
+        "schema_version": "qcp-source-goal-version/v1",
+        "digest": "358c04bfa5e075db7732d287a80da2b4c5e1c44eadf61e59987dd758e661ca64",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/xizi_double_link_head_goal.v",
+            "sha256": "f06d729cb5b92607d199cbfa9ca52aad79c7bd96a21d53b47f41f994a7b34d0b",
+            "state": "present",
+            "role": "generated-goal"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/xizi_double_link_head_proof_auto.v",
+            "sha256": "a2c58ec1b1b54f7a32ab4992245b935988a3b50f88f6acbf2a958fd92c6548ee",
+            "state": "present",
+            "role": "generated-proof-auto"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/xizi_double_link_head_proof_manual.v",
+            "sha256": "67e8c0e5730370279f86d17364f5fc4559a14f500e4f0c7df7e0a32f7d6944ec",
+            "state": "present",
+            "role": "generated-proof-manual"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/xizi_double_link_head_goal_check.v",
+            "sha256": "e16617f897d96a71fa0d17ebc843e9d39136dec161175483774fbe4554e1c558",
+            "state": "present",
+            "role": "generated-goal-check"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/xizi_double_link_head_proof_diagnostics.v",
+            "sha256": "b9868f71a84cc7183bf8f4827934799f3e8b325a50928141516c9ece00140a43",
+            "state": "present",
+            "role": "generated-diagnostics"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/diagnostics_snapshot.json",
+            "sha256": "fd2fb7a5e83813e3590a0c3606aaf9394bf39f6074b93f61e128ceeb98e0cf7b",
+            "state": "present",
+            "role": "generated-diagnostics-snapshot"
+          }
+        ],
+        "target_witnesses": [
+          "proof_of_xizi_double_link_head_return_wit_1",
+          "proof_of_xizi_double_link_head_return_wit_2"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_xizi_double_link_head_return_wit_1": "428ffcace336e57b6d78f86fd7e5cbd83ccb79fcc6f6e8d4558641242b5f1e2b",
+          "proof_of_xizi_double_link_head_return_wit_2": "b8cbafce5f5a9957df17737d709e6c0a6a35b10d730a294727300cdb78854193"
+        },
+        "witnesses": [
+          {
+            "name": "proof_of_xizi_double_link_head_return_wit_1",
+            "target_symbol": "xizi_double_link_head_return_wit_1",
+            "statement_hash": "428ffcace336e57b6d78f86fd7e5cbd83ccb79fcc6f6e8d4558641242b5f1e2b",
+            "start_line": 24,
+            "end_line": 26
+          },
+          {
+            "name": "proof_of_xizi_double_link_head_return_wit_2",
+            "target_symbol": "xizi_double_link_head_return_wit_2",
+            "statement_hash": "b8cbafce5f5a9957df17737d709e6c0a6a35b10d730a294727300cdb78854193",
+            "start_line": 27,
+            "end_line": 29
+          }
+        ]
+      },
+      "annotation_design_summary": {
+        "schema_version": "qcp-annotation-design-summary/v1",
+        "source": "controller-fallback",
+        "case_lib_spec_declarations": [
+          {
+            "kind": "Fixpoint",
+            "name": "xizi_dllseg"
+          },
+          {
+            "kind": "Definition",
+            "name": "xizi_dll"
+          },
+          {
+            "kind": "Definition",
+            "name": "xizi_dll_head_value"
+          },
+          {
+            "kind": "Definition",
+            "name": "xizi_dll_first_value"
+          }
+        ],
+        "case_lib_sha256": "f682ec53fce26d8719a490048484df25621e786b2ff5bee60579e7f4487324d3",
+        "hidden_properties": [],
+        "known_risks": [],
+        "qcp_repair_history": [],
+        "changed_files": [
+          "INPUT/xizi/xizi_double_link_head/xizi_double_link_head.c",
+          "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/xizi_double_link_head_lib.v",
+          "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/xizi_double_link_head_goal.v",
+          "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/xizi_double_link_head_proof_auto.v",
+          "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/xizi_double_link_head_proof_manual.v",
+          "SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/xizi_double_link_head_goal_check.v"
+        ]
+      },
+      "canonical_symexec_evidence": {
+        "schema_version": "qcp-canonical-symexec-evidence/v1",
+        "driver": "/home/yangfp/QCIP/linux-binary/symexec",
+        "cwd": "/home/yangfp/QCIP/worktrees/xizi_double_link_head-20260714180009/xizi_double_link_head-annotation-r1",
+        "argv": [
+          "/home/yangfp/QCIP/linux-binary/symexec",
+          "--goal-file=SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/xizi_double_link_head_goal.v",
+          "--proof-auto-file=SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/xizi_double_link_head_proof_auto.v",
+          "--proof-manual-file=SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/xizi_double_link_head_proof_manual.v",
+          "-IQCP_examples/QCP_demos_LLM/",
+          "-slp",
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM",
+          "--coq-logic-path=SimpleC.EE.INPUT.xizi.xizi_double_link_head",
+          "--input-file=INPUT/xizi/xizi_double_link_head/xizi_double_link_head.c",
+          "--no-exec-info"
+        ],
+        "include_args": [
+          "QCP_examples/QCP_demos_LLM/"
+        ],
+        "slp_args": [
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM"
+        ],
+        "status": "passed",
+        "returncode": 0,
+        "stdout_tail": "Start to symbolic execution on program : INPUT/xizi/xizi_double_link_head/xizi_double_link_head.c\nSymbolic Execution into function xizi_double_link_head\nEnd of symbolic execution of function xizi_double_link_head\nWarning: manual proof file not updated. file open failed or file already exists.\nSuccessfully finished symbolic execution\n",
+        "stderr_tail": ""
+      },
+      "diagnostics_split": {
+        "status": "passed",
+        "normalized_at": "2026-07-14T11:27:01Z",
+        "proof_manual_file": "/home/yangfp/QCIP/worktrees/xizi_double_link_head-20260714180009/xizi_double_link_head-annotation-r1/SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/xizi_double_link_head_proof_manual.v",
+        "proof_diagnostics_file": "/home/yangfp/QCIP/worktrees/xizi_double_link_head-20260714180009/xizi_double_link_head-annotation-r1/SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/xizi_double_link_head_proof_diagnostics.v",
+        "diagnostics_snapshot": "/home/yangfp/QCIP/worktrees/xizi_double_link_head-20260714180009/xizi_double_link_head-annotation-r1/SeparationLogic/examples/INPUT/xizi/xizi_double_link_head/diagnostics_snapshot.json",
+        "schema_version": "qcp-diagnostics-snapshot/v1",
+        "manual_obligations": [
+          {
+            "name": "proof_of_xizi_double_link_head_return_wit_1",
+            "statement_hash": "428ffcace336e57b6d78f86fd7e5cbd83ccb79fcc6f6e8d4558641242b5f1e2b",
+            "target_symbol": "xizi_double_link_head_return_wit_1",
+            "start_line": 30,
+            "end_line": 32
+          },
+          {
+            "name": "proof_of_xizi_double_link_head_return_wit_2",
+            "statement_hash": "b8cbafce5f5a9957df17737d709e6c0a6a35b10d730a294727300cdb78854193",
+            "target_symbol": "xizi_double_link_head_return_wit_2",
+            "start_line": 39,
+            "end_line": 41
+          }
+        ],
+        "diagnostics": [
+          {
+            "name": "proof_of_xizi_double_link_head_return_wit_1_split_goal_1",
+            "statement_hash": "a202ab50cc1f8379fb8b9968d5a4f0b0c4052b849bcc9fc0a9ae0bb4c9418afa",
+            "target_symbol": "xizi_double_link_head_return_wit_1_split_goal_1",
+            "start_line": 24,
+            "end_line": 26,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_double_link_head_return_wit_1_split_goal_spatial",
+            "statement_hash": "0a6a05f57212f162ca6598326da575c7b9848ac7b81b99e47a6209ca189a0dda",
+            "target_symbol": "xizi_double_link_head_return_wit_1_split_goal_spatial",
+            "start_line": 27,
+            "end_line": 29,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_double_link_head_return_wit_2_split_goal_1",
+            "statement_hash": "33d043fefeba64e13ab4e80988ab68e0d9af313d563f67891124dabb70df4195",
+            "target_symbol": "xizi_double_link_head_return_wit_2_split_goal_1",
+            "start_line": 33,
+            "end_line": 35,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_double_link_head_return_wit_2_split_goal_spatial",
+            "statement_hash": "e5afcf73d72343a0ffba8c99b5a50146736bd901038f56f7b3bed36e1bf87a0a",
+            "target_symbol": "xizi_double_link_head_return_wit_2_split_goal_spatial",
+            "start_line": 36,
+            "end_line": 38,
+            "has_abort": true,
+            "has_split_goal": true
+          }
+        ],
+        "manual_obligation_count": 2,
+        "diagnostic_count": 4
+      }
+    }
+  },
+  "blockers": []
+}

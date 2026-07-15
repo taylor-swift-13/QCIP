@@ -1,0 +1,365 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "status": "completed",
+    "terminal": "yes",
+    "round_outcome": "completed",
+    "round": "xizi_double_link_empty_rec-vc-checking-r1",
+    "attempt_id": "xizi_double_link_empty_rec-vc-checking-r1-attempt-1",
+    "source_version": {
+      "schema_version": "qcp-source-version/v1",
+      "digest": "c56805c3fd0520af6642dbbee5ca86f889d77274aefb9c40f7348acca4b41b80",
+      "verified_current": true
+    },
+    "source_goal_version": {
+      "schema_version": "qcp-source-goal-version/v1",
+      "digest": "e1ad6be44e0d7f6e6ed0e4bd68c4fd8ce064a9437bee350e43d7b43f3d4ce0a7",
+      "verified_current": true
+    },
+    "vc_checking": {
+      "status": "completed",
+      "source_goal_version": "e1ad6be44e0d7f6e6ed0e4bd68c4fd8ce064a9437bee350e43d7b43f3d4ce0a7",
+      "summary": "All three cleaned manual obligations are semantically provable under the current recursive circular doubly-linked-list specification. The entail witness is a direct unfolding of circular_dll. The two return witnesses share the classification first = sentinel iff nodes = nil, derivable by case analysis on circular_dll_chain while preserving the owned sentinel fields and chain.",
+      "target_witnesses": [
+        "proof_of_xizi_double_link_empty_rec_entail_wit_1",
+        "proof_of_xizi_double_link_empty_rec_return_wit_1",
+        "proof_of_xizi_double_link_empty_rec_return_wit_2"
+      ],
+      "natural_language_analysis": {
+        "schema_version": "qcp-vc-natural-language-analysis/v1",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_xizi_double_link_empty_rec_entail_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "circular_dll linklist_pre nodes.",
+              "pre_pure": "No external pure hypotheses.",
+              "pre_exists": "Unfolding circular_dll exposes first and last.",
+              "post_spatial": "The sentinel node_next cell, sentinel node_prev cell, and circular_dll_chain first linklist_pre linklist_pre last nodes.",
+              "post_pure": "No additional pure assertion.",
+              "post_exists": "Instantiate generated existentials last and first with the witnesses exposed by circular_dll."
+            },
+            "witness_instantiation": "Select either identical generated disjunct, unfold circular_dll, extract its first and last, and instantiate the post existentials in generated order as last and first.",
+            "space_plan": "After unfolding circular_dll, all three post resources are exactly the precondition resources and cancel without mutation.",
+            "pure_plan": "No pure reasoning or arithmetic is required.",
+            "refinement_plan": "Not applicable; this is a direct predicate unfold.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [],
+            "failure_signal": "None; Q is definitionally the body of circular_dll.",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "circular_dll_empty_classification",
+            "grouping_reason": "Uses the same circular_dll/circular_dll_chain fold-unfold family as both return witnesses."
+          },
+          {
+            "witness_name": "proof_of_xizi_double_link_empty_rec_return_wit_1",
+            "judgment": "needs-helper",
+            "vc_shape": {
+              "pre_spatial": "Sentinel node_next |-> first, sentinel node_prev |-> last, and circular_dll_chain first sentinel sentinel last nodes.",
+              "pre_pure": "PreH1: first <> sentinel.",
+              "pre_exists": "Any next address is internal to a nonempty circular_dll_chain constructor.",
+              "post_spatial": "circular_dll sentinel nodes over exactly the same sentinel cells and chain.",
+              "post_pure": "0 = 0 and nodes <> nil.",
+              "post_exists": "Fold circular_dll with current first and last."
+            },
+            "witness_instantiation": "Select the full first disjunct and instantiate circular_dll's first/last witnesses with the current first/last.",
+            "space_plan": "Apply the empty-classification helper to the current sentinel fields and chain, retain the spatial frame, then fold circular_dll with first and last.",
+            "pure_plan": "The helper gives first = sentinel iff nodes = nil. If nodes were nil, the nil-to-first direction would contradict PreH1; hence nodes <> nil. The equality 0 = 0 is reflexive.",
+            "refinement_plan": "Not applicable.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "circular_dll_front_empty_iff",
+                "statement_shape": "forall sentinel first last nodes, sentinel.next |-> first ** sentinel.prev |-> last ** circular_dll_chain first sentinel sentinel last nodes |-- pure (first = sentinel <-> nodes = nil)",
+                "used_by_witnesses": [
+                  "proof_of_xizi_double_link_empty_rec_return_wit_1",
+                  "proof_of_xizi_double_link_empty_rec_return_wit_2"
+                ],
+                "premises": [
+                  {
+                    "premise": "Ownership of both sentinel fields and circular_dll_chain first sentinel sentinel last nodes.",
+                    "discharged_by": "Exactly the three spatial conjuncts in P.",
+                    "needs_unfold": [
+                      "circular_dll_chain"
+                    ],
+                    "arithmetic": "none",
+                    "spatial_resource": "For nodes=nil, simplification yields first=sentinel. For nodes=node::rest, simplification yields first=node and node<>sentinel, hence first<>sentinel; the list is definitionally nonempty."
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "premise_discharge": [
+              "Every helper spatial premise is a literal conjunct of P.",
+              "PreH1 supplies first <> sentinel; no extra length, allocation, or arithmetic premise is required."
+            ],
+            "failure_signal": "None; the required nonemptiness follows from the chain definition and branch guard.",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "circular_dll_empty_classification",
+            "grouping_reason": "Shares one classification helper and the same circular_dll fold with return_wit_2."
+          },
+          {
+            "witness_name": "proof_of_xizi_double_link_empty_rec_return_wit_2",
+            "judgment": "needs-helper",
+            "vc_shape": {
+              "pre_spatial": "Sentinel node_next |-> first, sentinel node_prev |-> last, and circular_dll_chain first sentinel sentinel last nodes.",
+              "pre_pure": "PreH1: first = sentinel.",
+              "pre_exists": "Any next address is internal to a nonempty circular_dll_chain constructor.",
+              "post_spatial": "circular_dll sentinel nodes over exactly the same resources.",
+              "post_pure": "1 = 1 and nodes = nil.",
+              "post_exists": "Fold circular_dll with current first and last."
+            },
+            "witness_instantiation": "Select the full first disjunct and instantiate circular_dll's first/last witnesses with the current first/last.",
+            "space_plan": "Apply the same classification helper while retaining all spatial resources, then fold circular_dll.",
+            "pure_plan": "Combine PreH1 with the first=sentinel-to-nil direction of the helper to obtain nodes=nil. The equality 1=1 is reflexive.",
+            "refinement_plan": "Not applicable.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "circular_dll_front_empty_iff",
+                "statement_shape": "The same circular_dll_chain front-pointer/empty-list classification listed for return_wit_1.",
+                "used_by_witnesses": [
+                  "proof_of_xizi_double_link_empty_rec_return_wit_1",
+                  "proof_of_xizi_double_link_empty_rec_return_wit_2"
+                ],
+                "premises": [
+                  {
+                    "premise": "Owned sentinel next/prev fields plus circular_dll_chain first sentinel sentinel last nodes.",
+                    "discharged_by": "The complete spatial precondition of this witness.",
+                    "needs_unfold": [
+                      "circular_dll_chain"
+                    ],
+                    "arithmetic": "none",
+                    "spatial_resource": "The nil constructor yields first=sentinel; the cons constructor explicitly yields node<>sentinel together with first=node."
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "premise_discharge": [
+              "Every helper spatial premise occurs directly in P.",
+              "PreH1 supplies first = sentinel."
+            ],
+            "failure_signal": "None; first=sentinel excludes the nonempty chain constructor by its explicit node<>sentinel conjunct.",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "circular_dll_empty_classification",
+            "grouping_reason": "Same classification helper and fold pattern as return_wit_1."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "circular_dll_empty_classification",
+            "witness_names": [
+              "proof_of_xizi_double_link_empty_rec_entail_wit_1",
+              "proof_of_xizi_double_link_empty_rec_return_wit_1",
+              "proof_of_xizi_double_link_empty_rec_return_wit_2"
+            ],
+            "representative_witness": "proof_of_xizi_double_link_empty_rec_return_wit_2",
+            "shared_proof_pattern": "Unfold or fold circular_dll around the same sentinel fields and circular_dll_chain; derive the return branch facts from a single front-pointer/empty-list classification.",
+            "shared_space_plan": "All witnesses preserve the same sentinel next/prev cells and chain.",
+            "shared_pure_plan": "The return witnesses derive nodes<>nil or nodes=nil from first<>sentinel or first=sentinel using the same equivalence.",
+            "shared_refinement_plan": "not applicable",
+            "candidate_helper_declarations": [
+              "circular_dll_front_empty_iff with the group-id suffix required by the group handoff"
+            ],
+            "dependencies": [],
+            "grouping_reason": "All three witnesses belong to one function, share one representation predicate/helper family, and the group size 3 is within the bound 12.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "e1ad6be44e0d7f6e6ed0e4bd68c4fd8ce064a9437bee350e43d7b43f3d4ce0a7",
+        "target_witnesses": [
+          "proof_of_xizi_double_link_empty_rec_entail_wit_1",
+          "proof_of_xizi_double_link_empty_rec_return_wit_1",
+          "proof_of_xizi_double_link_empty_rec_return_wit_2"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "circular_dll_empty_classification",
+            "witness_names": [
+              "proof_of_xizi_double_link_empty_rec_entail_wit_1",
+              "proof_of_xizi_double_link_empty_rec_return_wit_1",
+              "proof_of_xizi_double_link_empty_rec_return_wit_2"
+            ],
+            "representative_witness": "proof_of_xizi_double_link_empty_rec_return_wit_2",
+            "dependencies": [],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "circular_dll_front_empty_iff",
+                "statement_shape": "Entail pure(first = sentinel <-> nodes = nil) from the owned sentinel next/prev fields and circular_dll_chain first sentinel sentinel last nodes.",
+                "used_by_witnesses": [
+                  "proof_of_xizi_double_link_empty_rec_return_wit_1",
+                  "proof_of_xizi_double_link_empty_rec_return_wit_2"
+                ],
+                "destination": "group-local case_lib; declaration name must end with this group's helper_namespace suffix"
+              }
+            ],
+            "expected_helpers": [
+              "circular_dll_front_empty_iff with group-id suffix"
+            ],
+            "proof_strategy": "First prove the group-suffixed classification helper by destructing nodes and simplifying circular_dll_chain: nil gives first=sentinel, while cons gives first=node and node<>sentinel. Prove the entail witness by unfolding circular_dll and cancellation. For each return witness apply the helper, derive the branch fact from PreH1, discharge the reflexive return equality, and fold circular_dll with first/last.",
+            "per_witness_plan": {
+              "proof_of_xizi_double_link_empty_rec_entail_wit_1": "Select an identical disjunct, unfold circular_dll, expose first/last, instantiate generated last/first, and cancel.",
+              "proof_of_xizi_double_link_empty_rec_return_wit_1": "Select the full disjunct; helper plus first<>sentinel gives nodes<>nil; prove 0=0 and fold circular_dll.",
+              "proof_of_xizi_double_link_empty_rec_return_wit_2": "Select the full disjunct; helper plus first=sentinel gives nodes=nil; prove 1=1 and fold circular_dll."
+            },
+            "premise_discharge": {
+              "helper_spatial_premise": "Exactly the return-witness spatial precondition.",
+              "return_wit_1_branch_fact": "PreH1 first<>sentinel plus the helper equivalence.",
+              "return_wit_2_branch_fact": "PreH1 first=sentinel plus the helper equivalence."
+            },
+            "grouping_reason": "The three targets share one function and the same circular_dll/circular_dll_chain fold-unfold pattern; the two nontrivial targets share one helper. One group minimizes worker overhead and contains 3 witnesses, within max_witnesses_per_group=12.",
+            "confidence": "high"
+          }
+        ],
+        "blockers": []
+      },
+      "group_plan_ready": true,
+      "ready_for_vc_proving": true,
+      "version_evidence": {
+        "all_declared_file_hashes_match_round_worktree": true,
+        "manual_witnesses_match_target_witnesses_exactly": true,
+        "manual_witness_count": 3,
+        "diagnostic_split_goals_excluded_from_targets": true,
+        "witness_statement_hashes_match": true
+      },
+      "changed_files": [],
+      "blockers": [],
+      "recommended_next_phase": "vc-proving-preparing"
+    },
+    "changed_files": [],
+    "blockers": []
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-07-14T12:34:37Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_double_link_empty_rec-20260714180008/rounds/xizi_double_link_empty_rec-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    },
+    "controller_simple_repairs": [
+      {
+        "kind": "materialized-inline-group-plan",
+        "source": "/home/yangfp/QCIP/reports/xizi_double_link_empty_rec-20260714180008/rounds/xizi_double_link_empty_rec-vc-checking-r1/agent_report.json",
+        "target": "/home/yangfp/QCIP/reports/xizi_double_link_empty_rec-20260714180008/rounds/xizi_double_link_empty_rec-vc-checking-r1/group_plan.json",
+        "reason": "vc-checking report included an inline group_plan but the default group_plan.json artifact was missing"
+      }
+    ],
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-07-14T12:34:37Z",
+      "source_version": {
+        "digest": "c56805c3fd0520af6642dbbee5ca86f889d77274aefb9c40f7348acca4b41b80",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_empty_rec-20260714180008/xizi_double_link_empty_rec-annotation-r2/INPUT/xizi/xizi_double_link_empty_rec/xizi_double_link_empty_rec.c",
+            "relative_path": "INPUT/xizi/xizi_double_link_empty_rec/xizi_double_link_empty_rec.c",
+            "role": "target-c-annotated",
+            "sha256": "882244964fee39f20bd01ed1c20938053b719075d54ef1262f0d49d2292fb348",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_empty_rec-20260714180008/xizi_double_link_empty_rec-annotation-r2/SeparationLogic/examples/INPUT/xizi/xizi_double_link_empty_rec/xizi_double_link_empty_rec_lib.v",
+            "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_empty_rec/xizi_double_link_empty_rec_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "5aa1241c44d06833274bb4cf6b58c96d5ac501fbcd4df4870be92b8d4d4e70d7",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "e1ad6be44e0d7f6e6ed0e4bd68c4fd8ce064a9437bee350e43d7b43f3d4ce0a7",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_empty_rec/xizi_double_link_empty_rec_goal.v",
+            "role": "generated-goal",
+            "sha256": "249c6e5a0bc45e4b6d7e21a608f979c1f33c382be7d1489d4882f3e821cd6b77",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_empty_rec/xizi_double_link_empty_rec_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "ea22774b834df917617175a77a0a058dc560ec94cad7438466ec6281865b2d9f",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_empty_rec/xizi_double_link_empty_rec_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "2b0022e19a4abb477dd0aa20835dee219681a5be723b984ded28dedcc9ebba24",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_empty_rec/xizi_double_link_empty_rec_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "7da75dfb6dedaf5d2c9cf4eed705821b89d8d5840b06b4d4b60d83e390c29272",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_empty_rec/xizi_double_link_empty_rec_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "acead51a7476486bb182dbe2fa56dbc8e021af376c0f67c0e2f565425acec8f6",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_empty_rec/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "d7eaf314d37f6654071a75fe28db32158f779e54132e642cfb50891de078b93d",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_xizi_double_link_empty_rec_entail_wit_1",
+          "proof_of_xizi_double_link_empty_rec_return_wit_1",
+          "proof_of_xizi_double_link_empty_rec_return_wit_2"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_xizi_double_link_empty_rec_entail_wit_1": "0d8b43ceb4318124d4589611cdab29e4b97f1a1a485a6196bff477de7b838806",
+          "proof_of_xizi_double_link_empty_rec_return_wit_1": "c0101e044735031a927b412b945fe60fa399e12db1192616aca5587be2d518b4",
+          "proof_of_xizi_double_link_empty_rec_return_wit_2": "f5f104f300736efdd885e11a5f9f4dc5c2dd3b93bb6ad4649fbb8e390fd4e3e4"
+        },
+        "witnesses": [
+          {
+            "end_line": 26,
+            "name": "proof_of_xizi_double_link_empty_rec_entail_wit_1",
+            "start_line": 24,
+            "statement_hash": "0d8b43ceb4318124d4589611cdab29e4b97f1a1a485a6196bff477de7b838806",
+            "target_symbol": "xizi_double_link_empty_rec_entail_wit_1"
+          },
+          {
+            "end_line": 29,
+            "name": "proof_of_xizi_double_link_empty_rec_return_wit_1",
+            "start_line": 27,
+            "statement_hash": "c0101e044735031a927b412b945fe60fa399e12db1192616aca5587be2d518b4",
+            "target_symbol": "xizi_double_link_empty_rec_return_wit_1"
+          },
+          {
+            "end_line": 32,
+            "name": "proof_of_xizi_double_link_empty_rec_return_wit_2",
+            "start_line": 30,
+            "statement_hash": "f5f104f300736efdd885e11a5f9f4dc5c2dd3b93bb6ad4649fbb8e390fd4e3e4",
+            "target_symbol": "xizi_double_link_empty_rec_return_wit_2"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_double_link_empty_rec-20260714180008/rounds/xizi_double_link_empty_rec-vc-checking-r1/group_plan.json",
+      "target_witnesses": [
+        "proof_of_xizi_double_link_empty_rec_entail_wit_1",
+        "proof_of_xizi_double_link_empty_rec_return_wit_1",
+        "proof_of_xizi_double_link_empty_rec_return_wit_2"
+      ]
+    }
+  },
+  "blockers": []
+}

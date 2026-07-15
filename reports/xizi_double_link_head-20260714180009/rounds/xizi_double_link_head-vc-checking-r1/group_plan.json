@@ -1,0 +1,57 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "358c04bfa5e075db7732d287a80da2b4c5e1c44eadf61e59987dd758e661ca64",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_head_return_wit_1",
+    "proof_of_xizi_double_link_head_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "head_return_by_nodes_cases",
+      "witness_names": [
+        "proof_of_xizi_double_link_head_return_wit_1",
+        "proof_of_xizi_double_link_head_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_head_return_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "For each witness unfold the return-witness definition, select the second disjunct, introduce the parameters, destruct nodes, simplify xizi_dll_first_value/xizi_dll_head_value, and preserve xizi_dllseg by identity. In return_wit_1 unfold xizi_dllseg only in the impossible cons case to obtain first <> linklist_pre against PreH1. In return_wit_2 the nil case contradicts PreH1 through the simplified PreH2, while the cons case closes from PreH2.",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_head_return_wit_1": "right; intros; destruct nodes; nil closes by head-value reduction and spatial identity; cons closes by contradiction between PreH1 and the pure non-sentinel fact exposed from xizi_dllseg",
+        "proof_of_xizi_double_link_head_return_wit_2": "right; intros; destruct nodes; nil contradicts PreH1 via simplified PreH2; cons obtains the head equality from simplified PreH2; cancel the unchanged xizi_dllseg"
+      },
+      "vc_shape": {
+        "common_pre_spatial": "xizi_dllseg first linklist_pre linklist_pre last nodes",
+        "common_post_spatial": "the identical xizi_dllseg resource",
+        "pure_split": "return_wit_1 proves 0 = head_value under first=sentinel; return_wit_2 proves first=head_value under first<>sentinel"
+      },
+      "witness_instantiation": {
+        "proof_of_xizi_double_link_head_return_wit_1": "none",
+        "proof_of_xizi_double_link_head_return_wit_2": "none"
+      },
+      "space_plan": "Frame/cancel xizi_dllseg unchanged; expose its pure cons-case prefix only for return_wit_1 contradiction.",
+      "pure_plan": "Destruct nodes and simplify the two mathematical list destructors; use exactly PreH1, PreH2, and return_wit_1's xizi_dllseg non-sentinel fact.",
+      "refinement_plan": "not applicable",
+      "premise_discharge": {
+        "definitions": "xizi_dll_first_value and xizi_dll_head_value reduce on nodes",
+        "empty_nonempty_branch_facts": "from PreH1/PreH2 and, for return_wit_1 cons, the pure prefix of xizi_dllseg",
+        "spatial": "identity of xizi_dllseg"
+      },
+      "difficulty": "low",
+      "confidence": "high",
+      "grouping_reason": "Both witnesses share a single compact list-destructor/framing proof pattern and have no dependency or helper boundary; one group minimizes workers while respecting max_witnesses_per_group=12."
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 2,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

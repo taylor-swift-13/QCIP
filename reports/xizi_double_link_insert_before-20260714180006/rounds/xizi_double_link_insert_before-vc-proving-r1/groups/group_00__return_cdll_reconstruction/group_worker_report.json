@@ -1,0 +1,169 @@
+{
+  "schema_version": "qcp-group-worker-report/v1",
+  "group_id": "return_cdll_reconstruction",
+  "agent_result": {
+    "vc_proving": {
+      "group": {
+        "status": "blocked",
+        "group_id": "return_cdll_reconstruction",
+        "assigned_witnesses": [
+          "proof_of_xizi_double_link_insert_before_return_wit_1",
+          "proof_of_xizi_double_link_insert_before_return_wit_2"
+        ],
+        "helper_namespace": {
+          "policy": "group-id-suffixed",
+          "group_id": "return_cdll_reconstruction",
+          "suffix": "__return_cdll_reconstruction",
+          "required": "yes"
+        },
+        "source_goal_version": "c7ae810358c77bd964d0cde5eb020b9db95560a20de034016bfe85453c456b65",
+        "solved_witnesses": [
+          "proof_of_xizi_double_link_insert_before_return_wit_1"
+        ],
+        "unsolved_witnesses": [
+          "proof_of_xizi_double_link_insert_before_return_wit_2"
+        ],
+        "errors": [
+          "The fixed group-check returned 0 because the inherited skeleton for return_wit_2 still contains Admitted.; this compile result is recorded but is not claimed as proof completion evidence for that witness."
+        ],
+        "blockers": [
+          {
+            "kind": "unprovable-current-vc-missing-premise",
+            "witness": "proof_of_xizi_double_link_insert_before_return_wit_2",
+            "required_premise": "old_prev <> NULL",
+            "reason": "The postcondition xizi_cdll unfolds to an xizi_dllseg whose appended old_prev node requires old_prev <> NULL. The VC only supplies PreH1: linklist_pre <> 0, PreH2: linklist_node_pre <> 0, and PreH3: old_prev <> linklist_pre. None implies old_prev <> 0. The owned old_prev field points-to assertions expose isvalidptr of field addresses, but CommonAssertion.isvalidptr permits address 0, so they do not bridge the missing node-base non-null fact.",
+            "concrete_counterexample_shape": "Take prefix = nil, old_prev = first = 0, before_old_prev = linklist_pre, and choose distinct aligned nonzero linklist_pre and linklist_node_pre with disjoint field cells. The precondition pure facts and xizi_dllseg nil endpoint equalities hold, while the required post xizi_dllseg node for old_prev unfolds to old_prev <> NULL, which is false.",
+            "required_upstream_action": "Return to annotation/spec and preserve or assert old_prev <> NULL on the non-singleton branch before regenerating the VC."
+          }
+        ],
+        "candidate": {
+          "proof_manual_file": "/home/yangfp/QCIP/worktrees/xizi_double_link_insert_before-20260714180006/xizi_double_link_insert_before-vc-proving-r1/group_00__return_cdll_reconstruction/SeparationLogic/examples/INPUT/xizi/xizi_double_link_insert_before/xizi_double_link_insert_before_proof_manual.v",
+          "case_lib": "/home/yangfp/QCIP/worktrees/xizi_double_link_insert_before-20260714180006/xizi_double_link_insert_before-vc-proving-r1/group_00__return_cdll_reconstruction/SeparationLogic/examples/INPUT/xizi/xizi_double_link_insert_before/xizi_double_link_insert_before_lib.v",
+          "merge_vc_ready": "no"
+        },
+        "changed_files": [
+          {
+            "path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_insert_before/xizi_double_link_insert_before_proof_manual.v",
+            "change": "replaced only the assigned return_wit_1 proof body; inherited return_wit_2 Admitted skeleton remains because the current VC is blocked",
+            "sha256": "0ad93cdc000d747cf62bc3aa0ddd140500ec266a8a3c18b79a9b140a5568f672"
+          },
+          {
+            "path": "SeparationLogic/examples/INPUT/xizi/xizi_double_link_insert_before/xizi_double_link_insert_before_lib.v",
+            "change": "added one proved singleton-segment helper with the current group suffix",
+            "sha256": "cd9ad076b047e51df636b2b4b77193eb1dc3786d4bbe2d4a77637cd9232c778f"
+          }
+        ],
+        "case_lib_added_declarations": [
+          {
+            "name": "xizi_dllseg_singleton__return_cdll_reconstruction",
+            "kind": "Lemma",
+            "statement_hash": "70e90287b1cc2faa91acb823e39aace458664cf1ff8b3411452519811e5d2626"
+          }
+        ],
+        "verification_result": {
+          "coqc_check": {
+            "status": "passed",
+            "tool": "coqc",
+            "kind": "coqc_check",
+            "argv": [
+              "coqc",
+              "-q",
+              "-R",
+              "SeparationLogic/flocq/src",
+              "Flocq",
+              "-R",
+              "SeparationLogic/SeparationLogic",
+              "SimpleC.SL",
+              "-R",
+              "SeparationLogic/unifysl",
+              "Logic",
+              "-R",
+              "SeparationLogic/sets",
+              "SetsClass",
+              "-R",
+              "SeparationLogic/compcert_lib",
+              "compcert.lib",
+              "-R",
+              "SeparationLogic/auxlibs",
+              "AUXLib",
+              "-R",
+              "SeparationLogic/examples",
+              "SimpleC.EE",
+              "-R",
+              "SeparationLogic/stdlib",
+              "SimpleC.StdLib",
+              "-R",
+              "SeparationLogic/StrategyLib",
+              "SimpleC.StrategyLib",
+              "-R",
+              "SeparationLogic/Common",
+              "SimpleC.Common",
+              "-R",
+              "SeparationLogic/fixedpoints",
+              "FP",
+              "-R",
+              "SeparationLogic/MonadLib",
+              "MonadLib",
+              "-R",
+              "SeparationLogic/listlib",
+              "ListLib",
+              "-R",
+              "SeparationLogic/MaxMinLib",
+              "MaxMinLib",
+              "-R",
+              "SeparationLogic/GraphLib",
+              "GraphLib",
+              "-R",
+              "SeparationLogic/SumLib",
+              "SumLib",
+              "-R",
+              "SeparationLogic/tracelib",
+              "TraceLib",
+              "-R",
+              "SeparationLogic/coq-record-update/src",
+              "RecordUpdate",
+              "-Q",
+              "SeparationLogic/algorithms",
+              "Algorithms",
+              ".coq_group_checks/xizi_double_link_insert_before_group_00__return_cdll_reconstruction_check.v"
+            ],
+            "cwd": "/home/yangfp/QCIP/worktrees/xizi_double_link_insert_before-20260714180006/_coq_builds/xizi_double_link_insert_before-vc-proving-r1/group_00__return_cdll_reconstruction/src",
+            "target_file": ".coq_group_checks/xizi_double_link_insert_before_group_00__return_cdll_reconstruction_check.v",
+            "target_kind": "group-check",
+            "fixed_flags_hash": "9bdaa2ffdbaca882e29d6aa89234fc849f2f8987edc04425059c56c78ab70f0d",
+            "source_goal_version": "c7ae810358c77bd964d0cde5eb020b9db95560a20de034016bfe85453c456b65",
+            "returncode": 0,
+            "stdout_tail": "",
+            "stderr_tail": "",
+            "first_diagnostic": null,
+            "failed_target_file": null,
+            "elapsed_seconds": 145.722,
+            "acceptance_usable": "no",
+            "acceptance_usable_reason": "return_wit_2 still has inherited Admitted."
+          },
+          "coqtop_debug": {
+            "status": "passed",
+            "tool": "coqtop",
+            "kind": "coqtop_debug",
+            "debug_script": ".coq_debug/group_00__return_cdll_reconstruction.v",
+            "cwd": "/home/yangfp/QCIP/worktrees/xizi_double_link_insert_before-20260714180006/_coq_builds/xizi_double_link_insert_before-vc-proving-r1/group_00__return_cdll_reconstruction/src",
+            "fixed_flags_hash": "9bdaa2ffdbaca882e29d6aa89234fc849f2f8987edc04425059c56c78ab70f0d",
+            "source_goal_version": "c7ae810358c77bd964d0cde5eb020b9db95560a20de034016bfe85453c456b65",
+            "returncode": 0,
+            "purpose": "validated the return_wit_1 proof route with an equivalent local singleton lemma; the actual current-suffix helper and proof body were compiled by the fixed group-check"
+          }
+        }
+      }
+    }
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-07-14T11:51:56Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_double_link_insert_before-20260714180006/rounds/xizi_double_link_insert_before-vc-proving-r1/groups/group_00__return_cdll_reconstruction/group_worker_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    }
+  }
+}

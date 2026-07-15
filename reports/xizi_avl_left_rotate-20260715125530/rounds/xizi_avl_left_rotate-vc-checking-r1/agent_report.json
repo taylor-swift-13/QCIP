@@ -1,0 +1,354 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "vc_checking": {
+      "status": "completed",
+      "attempt_id": "xizi_avl_left_rotate-vc-checking-r1-attempt-1",
+      "source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "79056f46e5e6709c92416c4217f5ad586b77fbef02e72bb5775c0d418a6f7b0c",
+        "validation": "matched-current-round-worktree",
+        "files": {
+          "Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate.c": "4d32ed8974687423e1f4161ae46cc016fcc15fab490a26efc11ccdcfc529574c",
+          "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_lib.v": "4029d4026201744898a0e98aa3501fc222a885498e09654b85bd171fd65a96ed"
+        }
+      },
+      "source_goal_version": {
+        "schema_version": "qcp-source-goal-version/v1",
+        "digest": "811b046ad0c8852547bbc7bbaf63ca0b034be1bcab4ce9471bbf2ccb156afd52",
+        "validation": "all-declared-generated-file-hashes-and-target-witnesses-match-current-round-worktree",
+        "target_witnesses": [
+          "proof_of_xizi_avl_left_rotate_entail_wit_1",
+          "proof_of_xizi_avl_left_rotate_return_wit_1"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_xizi_avl_left_rotate_entail_wit_1": "dcc01fdc25df2d94d714ec60a4e461b0f373bfcd1ac53c04709ed0067baf4192",
+          "proof_of_xizi_avl_left_rotate_return_wit_1": "41156a97677b4d13224494381edb025b04400b2823d1c13a6b88e0c682026e7f"
+        }
+      },
+      "ready_for_main_check": true,
+      "recommended_next_phase": "vc-proving-preparing",
+      "summary": "Both current manual witnesses are semantically provable from the shared addr_avl_tree/store_addr_avl model. Constructor injectivity supplies every pure model equality, the existing shared fold lemmas reconstruct the old root and promoted right-child ownership, and avl_left_rotation is witnessed directly by the exact pre/post models. No annotation/spec repair or new helper declaration is needed.",
+      "input_validation": {
+        "round_worktree": "/home/yangfp/QCIP/worktrees/xizi_avl_left_rotate-20260715125530/xizi_avl_left_rotate-vc-checking-r1",
+        "source_version_match": "yes",
+        "source_goal_version_match": "yes",
+        "declared_generated_file_hashes_checked": 6,
+        "manual_target_witnesses_exact_match": "yes",
+        "manual_target_witness_order": [
+          "proof_of_xizi_avl_left_rotate_entail_wit_1",
+          "proof_of_xizi_avl_left_rotate_return_wit_1"
+        ],
+        "manual_contains_split_goal_or_abort": "no",
+        "diagnostics_used_as_hint_only": "yes",
+        "case_lib_contract_observed": "compatibility Require Export of QCIPLib.xizi.xizi_avl_common.xizi_avl_lib only"
+      },
+      "natural_language_analysis": {
+        "schema_version": "qcp-vc-natural-language-analysis/v1",
+        "source_goal_version": "811b046ad0c8852547bbc7bbaf63ca0b034be1bcab4ce9471bbf2ccb156afd52",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_xizi_avl_left_rotate_entail_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "For the left disjunct: four raw fields of avl_node_pre, store_addr_avl(avl_root_addr right_tree,right_tree), store_addr_avl(avl_root_addr left_tree,left_tree), and the local new_node cell containing avl_root_addr right_tree.",
+              "pre_pure": "PreH1 identifies before with avl_node_model(avl_node_pre,data,height,left_tree,right_tree); PreH2 and PreH3 give non-null root/right_addr; PreH4 identifies before with the exact root/right-child model using root_data, root_height, a, b, and c.",
+              "pre_exists": "None in the chosen top-level disjunct; data, height, left_tree, and right_tree are universally quantified values produced by the earlier shared-predicate unfold.",
+              "post_spatial": "The new_node cell at right_addr, avl_node_fields for the old root with children avl_root_addr(a) and right_addr, store_addr_avl(avl_root_addr(a),a), and store_addr_avl(right_addr,avl_node_model(right_addr,right_data,right_height,b,c)).",
+              "post_pure": "The two non-null facts and the exact before-model equation already present in the hypotheses.",
+              "post_exists": "None; close the outer Rocq disjunction with its left branch."
+            },
+            "witness_instantiation": "Choose the left side of the outer disjunction. Constructor injectivity on PreH1 and PreH4 identifies data=root_data, height=root_height, left_tree=a, and right_tree=avl_node_model(right_addr,right_data,right_height,b,c); avl_root_addr then reduces to the expected addresses.",
+            "space_plan": "After substituting the constructor equalities, retain both subtree predicates and the new_node points-to unchanged. Fold the four raw old-root field cells with the existing avl_node_fields_fold lemma (or unfold the target definition and cancel); the remaining resources already match the target exactly.",
+            "pure_plan": "Form equality between the two avl_node_model expressions through PreH1 and PreH4, use constructor injectivity, and simplify avl_root_addr. PreH2, PreH3, and PreH4 discharge the remaining pure conjuncts directly; no arithmetic automation is needed.",
+            "refinement_plan": "Not applicable; this is a direct spatial entailment with an address-labelled tree model.",
+            "used_existing_lemmas": [
+              "avl_node_fields_fold"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "obligation": "old-root field values and child addresses match the public model",
+                "discharged_by": "constructor injectivity from PreH1 and PreH4, followed by simplification of avl_root_addr"
+              },
+              {
+                "obligation": "avl_node_fields_fold premises",
+                "discharged_by": "the lemma has no pure premise; its four raw field resources occur in P"
+              },
+              {
+                "obligation": "root and promoted child are non-null",
+                "discharged_by": "PreH2 and PreH3"
+              }
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "shared_avl_rotation_fold",
+            "grouping_reason": "Shares constructor-injectivity, avl_root_addr simplification, and common AVL fold tactics with the return witness."
+          },
+          {
+            "witness_name": "proof_of_xizi_avl_left_rotate_return_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "For the left disjunct after both pointer writes: the promoted node's left field points to avl_node_pre; the old root's right field points to avl_root_addr(left_tree); all remaining old-root/promoted-node fields are preserved; and store_addr_avl owns right_tree, left_tree, and a.",
+              "pre_pure": "PreH1 equates the exact promoted-right-child model with avl_node_model(right_addr,data,height,left_tree,right_tree); PreH2/PreH3 give both node addresses non-null; PreH4 fixes before as the exact unrotated model.",
+              "pre_exists": "None in the chosen top-level disjunct.",
+              "post_spatial": "store_addr_avl(right_addr,after), where after is the promoted node whose left subtree is the rebuilt old root and whose right subtree is c.",
+              "post_pure": "Return-address reflexivity, the exact after-model equality, and avl_left_rotation(before,after).",
+              "post_exists": "Instantiate after with avl_node_model(right_addr,right_data,right_height,avl_node_model(avl_node_pre,root_data,root_height,a,b),c)."
+            },
+            "witness_instantiation": "Choose the left side of the outer disjunction and instantiate after with the exact rotated model from the Ensure clause. Constructor injectivity on PreH1 gives data=right_data, height=right_height, left_tree=b, and right_tree=c.",
+            "space_plan": "First fold the old root's four raw fields with avl_node_fields_fold, then apply store_addr_avl_node_rev using PreH2 to combine those fields with store_addr_avl(a) and store_addr_avl(b). Next fold the promoted node's four raw fields and apply store_addr_avl_node_rev using PreH3 to combine them with the rebuilt old-root store and store_addr_avl(c). The result is exactly store_addr_avl(right_addr,after).",
+            "pure_plan": "Use constructor injectivity on PreH1 for promoted-node data, cached height, and fringe subtrees. Unfold avl_left_rotation and provide witnesses avl_node_pre, right_addr, root_data, root_height, right_data, right_height, a, b, and c; PreH4 proves the before equality and the chosen after term proves the after equality by reflexivity. No numeric bound or arithmetic fact is needed on this branch.",
+            "refinement_plan": "Not applicable; the rotation relation is a first-order topology relation, not a safeExec/refinement state.",
+            "used_existing_lemmas": [
+              "avl_node_fields_fold",
+              "store_addr_avl_node_rev"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "obligation": "promoted-node component equalities",
+                "discharged_by": "constructor injectivity from PreH1"
+              },
+              {
+                "obligation": "old-root store fold requires avl_node_pre <> NULL",
+                "discharged_by": "PreH2"
+              },
+              {
+                "obligation": "promoted-root store fold requires right_addr <> NULL",
+                "discharged_by": "PreH3"
+              },
+              {
+                "obligation": "avl_left_rotation before after",
+                "discharged_by": "unfold avl_left_rotation; instantiate its nine existential parameters from PreH4 and the chosen after model"
+              }
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "shared_avl_rotation_fold",
+            "grouping_reason": "Uses the same constructor-injectivity and shared AVL fold family as the entail witness, then performs one additional outer-node fold."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "shared_avl_rotation_fold",
+            "witness_names": [
+              "proof_of_xizi_avl_left_rotate_entail_wit_1",
+              "proof_of_xizi_avl_left_rotate_return_wit_1"
+            ],
+            "representative_witness": "proof_of_xizi_avl_left_rotate_entail_wit_1",
+            "shared_proof_pattern": "Select the provable left disjunct, derive component equalities by avl_node_model constructor injectivity, simplify avl_root_addr, and fold common AVL node/tree predicates from the available field and subtree resources.",
+            "shared_space_plan": "Use avl_node_fields_fold for raw node cells and store_addr_avl_node_rev for complete tree layers; no resource is missing from either precondition.",
+            "shared_pure_plan": "All component equalities come from the exact model equalities in the VC hypotheses; both non-null premises are explicit.",
+            "shared_refinement_plan": "not-applicable",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "Same function, same address-labelled AVL model, same injectivity/fold proof family, and only two witnesses (within the controller limit of 12).",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "811b046ad0c8852547bbc7bbaf63ca0b034be1bcab4ce9471bbf2ccb156afd52",
+        "target_witnesses": [
+          "proof_of_xizi_avl_left_rotate_entail_wit_1",
+          "proof_of_xizi_avl_left_rotate_return_wit_1"
+        ],
+        "grouping_policy": {
+          "controller_policy": "bounded-witness-groups/v1",
+          "max_witnesses_per_group": 12,
+          "target_witness_count": 2,
+          "single_group_allowed": "yes"
+        },
+        "proof_groups": [
+          {
+            "group_id": "shared_avl_rotation_fold",
+            "witness_names": [
+              "proof_of_xizi_avl_left_rotate_entail_wit_1",
+              "proof_of_xizi_avl_left_rotate_return_wit_1"
+            ],
+            "representative_witness": "proof_of_xizi_avl_left_rotate_entail_wit_1",
+            "dependencies": [],
+            "candidate_helper_declarations": [],
+            "likely_helper_declarations": [],
+            "expected_helpers": [],
+            "proof_strategy": "For each theorem, unfold its definition and choose the left side of the outer disjunction. Derive all addr_avl_tree constructor-component equalities from the exact model hypotheses. For the entail witness, fold the old-root raw fields into avl_node_fields and cancel the already matching subtree/local-variable resources. For the return witness, instantiate the exact rotated after model, fold the old root with avl_node_fields_fold plus store_addr_avl_node_rev, then fold the promoted node the same way; unfold avl_left_rotation and discharge it from PreH4.",
+            "natural_language_proof_strategy": "Constructor injectivity aligns the symbolic-execution names with the public model, after which existing shared AVL fold lemmas reconstruct exactly the required tree ownership and exact rotation relation.",
+            "natural_language_proof_pattern": "constructor injectivity -> avl_root_addr simplification -> inner-node fold -> outer-node fold -> exact rotation witness",
+            "shared_helper_candidates": [],
+            "proving_hints": [
+              "Prefer the first disjunct of each generated witness; the diagnostics split goals are hints for another generated branch and are not target witnesses.",
+              "Use only shared QCIPLib.xizi.xizi_avl_common declarations; do not add a case-private dependency.",
+              "No helper is expected: avl_node_fields_fold, store_addr_avl_node_rev, and the definition of avl_left_rotation are sufficient.",
+              "Avoid every forbidden lemma listed by the orchestrator; none is needed for this proof pattern."
+            ],
+            "grouping_reason": "Both targets are tightly related obligations from one two-write AVL rotation and share one coherent proof route. A single group minimizes worker spawns while remaining far below max_witnesses_per_group=12.",
+            "difficulty": "low-to-medium",
+            "confidence": "high",
+            "grouping_confidence": "high",
+            "per_witness_plan": {
+              "proof_of_xizi_avl_left_rotate_entail_wit_1": "left disjunct; inject model equalities; fold avl_node_fields; cancel",
+              "proof_of_xizi_avl_left_rotate_return_wit_1": "left disjunct; inject promoted model equality; instantiate after; fold old root then promoted root; unfold rotation relation"
+            }
+          }
+        ],
+        "blockers": []
+      },
+      "existing_library_lemmas": [
+        {
+          "name": "avl_node_fields_fold",
+          "source": "QCIPLib.xizi.xizi_avl_common.xizi_avl_lib",
+          "premise_discharge": "no pure premise; each witness supplies the four raw field cells"
+        },
+        {
+          "name": "store_addr_avl_node_rev",
+          "source": "QCIPLib.xizi.xizi_avl_common.xizi_avl_lib",
+          "premise_discharge": "the required non-null address is PreH2 for avl_node_pre or PreH3 for right_addr"
+        }
+      ],
+      "candidate_helper_declarations": [],
+      "annotation_rework_required": [],
+      "changed_files": [],
+      "blockers": [],
+      "file_access_summary": {
+        "read_categories": [
+          "agent_input.json and all handoff.rules_source skill/rule documents",
+          "current round target C, case_lib, generated goal/auto/manual/check, diagnostics and snapshot",
+          "shared QCIPLib.xizi.xizi_avl_common definitions and strategy proofs needed to identify existing fold lemmas",
+          "accepted annotation report explicitly declared by agent_input.json",
+          "controller/group-plan schema helpers for report compatibility"
+        ],
+        "denied_reference_content_used": [],
+        "qcp_demos_human_used": "no",
+        "formal_writes": "none"
+      },
+      "timing_summary": {
+        "completed_at": "2026-07-15T05:36:16Z",
+        "elapsed_seconds": null,
+        "timing_gap": "The JSON handoff supplies neither an activity-ledger path nor a persisted spawn-start timestamp. Rule reading, hash validation, witness analysis, and report composition are therefore not assigned fabricated durations.",
+        "major_time_sink": "semantic decomposition of the two disjunctive witnesses and audit of the shared fold lemmas",
+        "slowest_witness": "proof_of_xizi_avl_left_rotate_return_wit_1 because it requires two nested store_addr_avl folds plus explicit avl_left_rotation instantiation"
+      }
+    }
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-07-15T05:41:13Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_avl_left_rotate-20260715125530/rounds/xizi_avl_left_rotate-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    },
+    "controller_simple_repairs": [
+      {
+        "kind": "materialized-inline-group-plan",
+        "source": "/home/yangfp/QCIP/reports/xizi_avl_left_rotate-20260715125530/rounds/xizi_avl_left_rotate-vc-checking-r1/agent_report.json",
+        "target": "/home/yangfp/QCIP/reports/xizi_avl_left_rotate-20260715125530/rounds/xizi_avl_left_rotate-vc-checking-r1/group_plan.json",
+        "reason": "vc-checking report included an inline group_plan but the default group_plan.json artifact was missing"
+      }
+    ],
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-07-15T05:41:13Z",
+      "source_version": {
+        "digest": "79056f46e5e6709c92416c4217f5ad586b77fbef02e72bb5775c0d418a6f7b0c",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_avl_left_rotate-20260715125530/xizi_avl_left_rotate-annotation-r2/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate.c",
+            "relative_path": "Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate.c",
+            "role": "target-c-annotated",
+            "sha256": "4d32ed8974687423e1f4161ae46cc016fcc15fab490a26efc11ccdcfc529574c",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_avl_left_rotate-20260715125530/xizi_avl_left_rotate-annotation-r2/SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_lib.v",
+            "relative_path": "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "4029d4026201744898a0e98aa3501fc222a885498e09654b85bd171fd65a96ed",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "811b046ad0c8852547bbc7bbaf63ca0b034be1bcab4ce9471bbf2ccb156afd52",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_goal.v",
+            "role": "generated-goal",
+            "sha256": "ea25ab25f58114635f52f7f38e83b74d28142ba4ffb7ef1666b337e9a64b098a",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "a8085ec2feb688e9015d46ba80d40e30c754807fdf5e33760d0744bd6f934356",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "ebde740bdead1647f0eee66b09207d59e9afdc80790c5257f4b192cce7402c0d",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "e9d5f4e6039f294a8ebf0450846d33eeda05d222200de9e047c645b16ad02419",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/xizi_avl_left_rotate_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "efb76ad0107e680816a9ec5a543b756dc490fbe905e90a9bac4bd78f0a28f4b2",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/Verification/xizi/xizi_avl_left_rotate/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "7035cf88f0c43e4f4909dc3dd2b55f45ec4fea5a6aaf82bfe32f198f4a92a378",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_xizi_avl_left_rotate_entail_wit_1",
+          "proof_of_xizi_avl_left_rotate_return_wit_1"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_xizi_avl_left_rotate_entail_wit_1": "dcc01fdc25df2d94d714ec60a4e461b0f373bfcd1ac53c04709ed0067baf4192",
+          "proof_of_xizi_avl_left_rotate_return_wit_1": "41156a97677b4d13224494381edb025b04400b2823d1c13a6b88e0c682026e7f"
+        },
+        "witnesses": [
+          {
+            "end_line": 26,
+            "name": "proof_of_xizi_avl_left_rotate_entail_wit_1",
+            "start_line": 24,
+            "statement_hash": "dcc01fdc25df2d94d714ec60a4e461b0f373bfcd1ac53c04709ed0067baf4192",
+            "target_symbol": "xizi_avl_left_rotate_entail_wit_1"
+          },
+          {
+            "end_line": 29,
+            "name": "proof_of_xizi_avl_left_rotate_return_wit_1",
+            "start_line": 27,
+            "statement_hash": "41156a97677b4d13224494381edb025b04400b2823d1c13a6b88e0c682026e7f",
+            "target_symbol": "xizi_avl_left_rotate_return_wit_1"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_avl_left_rotate-20260715125530/rounds/xizi_avl_left_rotate-vc-checking-r1/group_plan.json",
+      "target_witnesses": [
+        "proof_of_xizi_avl_left_rotate_entail_wit_1",
+        "proof_of_xizi_avl_left_rotate_return_wit_1"
+      ]
+    }
+  },
+  "blockers": []
+}

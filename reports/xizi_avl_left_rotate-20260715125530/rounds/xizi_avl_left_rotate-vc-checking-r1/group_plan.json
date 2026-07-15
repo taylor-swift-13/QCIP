@@ -1,0 +1,51 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "811b046ad0c8852547bbc7bbaf63ca0b034be1bcab4ce9471bbf2ccb156afd52",
+  "target_witnesses": [
+    "proof_of_xizi_avl_left_rotate_entail_wit_1",
+    "proof_of_xizi_avl_left_rotate_return_wit_1"
+  ],
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 2,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  },
+  "proof_groups": [
+    {
+      "group_id": "shared_avl_rotation_fold",
+      "witness_names": [
+        "proof_of_xizi_avl_left_rotate_entail_wit_1",
+        "proof_of_xizi_avl_left_rotate_return_wit_1"
+      ],
+      "representative_witness": "proof_of_xizi_avl_left_rotate_entail_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "For each theorem, unfold its definition and choose the left side of the outer disjunction. Derive all addr_avl_tree constructor-component equalities from the exact model hypotheses. For the entail witness, fold the old-root raw fields into avl_node_fields and cancel the already matching subtree/local-variable resources. For the return witness, instantiate the exact rotated after model, fold the old root with avl_node_fields_fold plus store_addr_avl_node_rev, then fold the promoted node the same way; unfold avl_left_rotation and discharge it from PreH4.",
+      "natural_language_proof_strategy": "Constructor injectivity aligns the symbolic-execution names with the public model, after which existing shared AVL fold lemmas reconstruct exactly the required tree ownership and exact rotation relation.",
+      "natural_language_proof_pattern": "constructor injectivity -> avl_root_addr simplification -> inner-node fold -> outer-node fold -> exact rotation witness",
+      "shared_helper_candidates": [],
+      "proving_hints": [
+        "Prefer the first disjunct of each generated witness; the diagnostics split goals are hints for another generated branch and are not target witnesses.",
+        "Use only shared QCIPLib.xizi.xizi_avl_common declarations; do not add a case-private dependency.",
+        "No helper is expected: avl_node_fields_fold, store_addr_avl_node_rev, and the definition of avl_left_rotation are sufficient.",
+        "Avoid every forbidden lemma listed by the orchestrator; none is needed for this proof pattern."
+      ],
+      "grouping_reason": "Both targets are tightly related obligations from one two-write AVL rotation and share one coherent proof route. A single group minimizes worker spawns while remaining far below max_witnesses_per_group=12.",
+      "difficulty": "low-to-medium",
+      "confidence": "high",
+      "grouping_confidence": "high",
+      "per_witness_plan": {
+        "proof_of_xizi_avl_left_rotate_entail_wit_1": "left disjunct; inject model equalities; fold avl_node_fields; cancel",
+        "proof_of_xizi_avl_left_rotate_return_wit_1": "left disjunct; inject promoted model equality; instantiate after; fold old root then promoted root; unfold rotation relation"
+      }
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true
+}

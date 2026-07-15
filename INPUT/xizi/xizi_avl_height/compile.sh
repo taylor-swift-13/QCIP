@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Syntax-check the C source. The QCP annotations live in /*@ ... */ comments
+# Syntax-check the C source. The source is plain C
 # and are ignored by the C compiler.
 set -euo pipefail
 cc="${CC:-gcc}"

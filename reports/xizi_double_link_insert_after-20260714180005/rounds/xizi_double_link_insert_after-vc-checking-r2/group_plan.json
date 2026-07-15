@@ -1,0 +1,52 @@
+{
+  "source_goal_version": "d73e48805cb375ed90b3eb3d839e89655f88a9b45707f728a482992252e0e4b5",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_insert_after_return_wit_1"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "return_rebuild",
+      "witness_names": [
+        "proof_of_xizi_double_link_insert_after_return_wit_1"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_insert_after_return_wit_1",
+      "dependencies": [],
+      "likely_helper_declarations": [
+        {
+          "name_hint": "xizi_dll_tail_from_prev_rest",
+          "statement_shape": "forall anchor first prev xs, first.prev |-> prev ** xizi_dll_rest anchor first xs |-- xizi_dll_tail first prev anchor xs",
+          "destination": "group-local case_lib",
+          "suffix_required": "yes"
+        }
+      ],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "xizi_dll_tail_from_prev_rest",
+          "statement_shape": "forall anchor first prev xs, &(first # SysDoubleLinklistNode -> node_prev) # Ptr |-> prev ** xizi_dll_rest anchor first xs |-- xizi_dll_tail first prev anchor xs",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_insert_after_return_wit_1"
+          ],
+          "premise_discharge": [
+            "first.prev ownership is the VC conjunct next.prev |-> linklist_node_pre",
+            "xizi_dll_rest is directly present in the VC precondition"
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        }
+      ],
+      "natural_language_proof_strategy": "Select one identical disjunct, unfold xizi_dll, choose linklist_node_pre as the first node and next as its successor, cancel the exposed anchor/new-node cells, apply the proved rest-to-tail bridge to next.prev and xizi_dll_rest, and close the reconstructed predicate.",
+      "proof_strategy": "Case-split the helper on l to rebuild xizi_dll_tail from the predecessor cell and xizi_dll_rest; then select a disjunct, instantiate the xizi_dll existentials, apply the suffixed helper, and finish by spatial cancellation.",
+      "grouping_reason": "The sole witness has one self-contained spatial proof pattern and no dependency; a single group is allowed because 1 <= 12."
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 1,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}
