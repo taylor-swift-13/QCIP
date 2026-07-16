@@ -13,11 +13,9 @@ void B_TcProcessFun(void *p)
 	chksum = 0;
 	pIp->bSucc = 0;
 
-#ifdef __GCC_COMPILED__
-
 	unint32 numerror;
 
-	/* ·¢ËÍÈ¡ÊýÖ¸Áî */
+	/* å‘é€å–æ•°æŒ‡ä»¤ */
 	obdhSendData[0] = 0xEB;
 	obdhSendData[1] = 0x94;
 
@@ -25,29 +23,24 @@ void B_TcProcessFun(void *p)
 
 	SYS_Delay(1000);
 
-	/* ´®¿ÚÊÕÊý */
+	/* ä¸²å£æ”¶æ•° */
 	pIp->bSucc = UartRecv(pIp->uartno, &obdhRecvData[0], &len, &numerror);
 
 	if (obdhRecvData[0] == 0xE1)
 	{
-		pIp->bSucc = 0x1;		/* ´®¿ÚÒÑÊÕµ½Êý¾Ý */
+		pIp->bSucc = 0x1;		/* ä¸²å£å·²æ”¶åˆ°æ•°æ® */
 	}
-
-#else
-	/* ¿ì·Â»·¾³ÏÂ */
-
-#endif
 
 	if (pIp->bSucc == 0x1)
 	{
-	    if ((obdhRecvData[0] == 0xE1) && (obdhRecvData[1] == 0x00))		/* °üÍ·ÕýÈ· */
+	    if ((obdhRecvData[0] == 0xE1) && (obdhRecvData[1] == 0x00))		/* åŒ…å¤´æ­£ç¡® */
 		{
 			for (i = 0; i < 3; i++)
 			{
 				chksum = chksum + obdhRecvData[i];
 			}
 
-			if(obdhRecvData[3] == chksum)					/* Ð£ÑéºÍÕýÈ· */
+			if(obdhRecvData[3] == chksum)					/* æ ¡éªŒå’Œæ­£ç¡® */
 			{
 				if (obdhRecvData[2] == 0)
 				{

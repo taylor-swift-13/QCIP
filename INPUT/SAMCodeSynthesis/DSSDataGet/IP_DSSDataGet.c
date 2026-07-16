@@ -6,8 +6,6 @@ void DSSDataGetFun(void *p)
 {
 	DSSDataGet *pIp = (DSSDataGet*)p;
 
-#ifdef __GCC_COMPILED__
-
 	unint32 len;
 	unint32 numerror;
 	unint32 bSucc = 0;
@@ -16,7 +14,7 @@ void DSSDataGetFun(void *p)
 	unint32 sum = 0, i;
 	USED_WORD tmpw;
 
-	/* ·¢ËÍÌ«ÑôÈ¡ÊıÖ¸Áî */
+	/* å‘é€å¤ªé˜³å–æ•°æŒ‡ä»¤ */
     dssSendData[0] = 0xEB;
     dssSendData[1] = 0x92;
 
@@ -47,7 +45,7 @@ void DSSDataGetFun(void *p)
         }
     }
 
-	// tmpw.Byte.High_h = dssRecvData[0];	/* ´óĞ¡¶Ë */
+	// tmpw.Byte.High_h = dssRecvData[0];	/* å¤§å°ç«¯ */
 	// tmpw.Byte.High_l = dssRecvData[1];
 	// tmpw.Byte.Low_h  = dssRecvData[2];
 	// tmpw.Byte.Low_l  = dssRecvData[3];
@@ -57,7 +55,7 @@ void DSSDataGetFun(void *p)
 	tmpw.Byte.High_h = dssRecvData[3];
 	pIp->royaw = tmpw.Float;
 
-	// tmpw.Byte.High_h = dssRecvData[4];	/* ´óĞ¡¶Ë */
+	// tmpw.Byte.High_h = dssRecvData[4];	/* å¤§å°ç«¯ */
 	// tmpw.Byte.High_l = dssRecvData[5];
 	// tmpw.Byte.Low_h  = dssRecvData[6];
 	// tmpw.Byte.Low_l  = dssRecvData[7];
@@ -75,11 +73,6 @@ void DSSDataGetFun(void *p)
 	{
 		pIp->flgSP = 0x0;
 	}
-
-#else
-	/* ¿ì·Â»·¾³ÏÂ */
-
-#endif
 
 	return;
 }

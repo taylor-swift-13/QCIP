@@ -6,8 +6,6 @@ void GyroStateGetFun(void *p)
 {
     GyroStateGet *pIp = (GyroStateGet*)p;
 
-#ifdef __GCC_COMPILED__
-
     unint32 i;
     unint32 fifoCnt;
     unint32 bSucc;
@@ -19,7 +17,7 @@ void GyroStateGetFun(void *p)
     unint32 sum = 0;
     USED_WORD tmpw;
 
-    /* ·¢ËÍÍÓÂİÈ¡ÊıÖ¸Áî */
+    /* å‘é€é™€èºå–æ•°æŒ‡ä»¤ */
     gyroSendData[0] = 0xEB;
     gyroSendData[1] = 0x91;
 
@@ -27,7 +25,7 @@ void GyroStateGetFun(void *p)
 
     SYS_Delay(5000);
 
-    /* ÊÕÊı¾İ */
+    /* æ”¶æ•°æ® */
     bSucc = 0;
     len = 48;
 
@@ -53,11 +51,11 @@ void GyroStateGetFun(void *p)
         }
     }
 
-    /* ÍÓÂİÊı¾İÍ¨Ñ¶´¦Àí */
+    /* é™€èºæ•°æ®é€šè®¯å¤„ç† */
     for (i = 0; i < pIp->NumGyro; i++)
     {
-        /* ÍÓÂİÂö³å¼ÆÊı1-9 */
-        // tmpw.Byte.High_h = gyroRecvData[2+4*i];  /* ´óĞ¡¶Ë */
+        /* é™€èºè„‰å†²è®¡æ•°1-9 */
+        // tmpw.Byte.High_h = gyroRecvData[2+4*i];  /* å¤§å°ç«¯ */
         // tmpw.Byte.High_l = gyroRecvData[3+4*i];
         // tmpw.Byte.Low_h  = gyroRecvData[4+4*i];
         // tmpw.Byte.Low_l  = gyroRecvData[5+4*i];
@@ -68,14 +66,9 @@ void GyroStateGetFun(void *p)
         pIp->wa[i] = tmpw.Float;
         // pIp->wa[i] = DIVIATION_TO_FLOAT_FOG((gyroRecvData[2 + i * 2] << 8) | (gyroRecvData[2 + i * 2 + 1]));
 
-        /* ÍÓÂİ¼Óµç×´Ì¬1-9 */
+        /* é™€èºåŠ ç”µçŠ¶æ€1-9 */
         pIp->stateFlag[i] = gyroRecvData[38 + i];
     }
-
-#else
-	/* ¿ì·Â»·¾³ÏÂ */
-
-#endif
 
     return;
 }
