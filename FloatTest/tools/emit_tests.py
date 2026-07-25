@@ -20,6 +20,8 @@ FUN_NAMES = {
     'PseudoRate': 'pseudoRate_fun',
     'ThreeAxisController': 'threeAxisController_fun',
     'SAMSubModeRoll': 'samSubModeRoll_fun',
+    'SAMSubModePitch': 'samSubModePitch_fun',
+    'SAMSubModeDamp': 'samSubModeDamp_fun',
 }
 FUN = FUN_NAMES.get(CASE, CASE[0].lower() + CASE[1:] + '_fun')
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -92,10 +94,22 @@ def emit_samsubmoderoll(idx, cols):
     expected = f'({wm}, {cm}, {cp}, [{"; ".join(outs)}])'
     return lemma(idx, f'{FUN} {args}\n  = {expected}')
 
+# ---- SAMSubModeDamp：11 列 = 3 输入 bits + 5 整数输入 + 3 整数输出 ----
+
+def emit_samsubmodedamp(idx, cols):
+    assert len(cols) == 11, f'line {idx}: {len(cols)} cols'
+    args = (' '.join(f(b) for b in cols[0:3]) + ' '
+            + ' '.join(cols[3:8]))
+    expected = f'({cols[8]}, {cols[9]}, {cols[10]})'
+    return lemma(idx, f'{FUN} {args}\n  = {expected}')
+
 EMITTERS = {
     'PseudoRate': emit_pseudorate,
     'ThreeAxisController': emit_threeaxiscontroller,
     'SAMSubModeRoll': emit_samsubmoderoll,
+    # SAMSubModePitch 与 Roll 列布局相同（14 列），复用同一发射器
+    'SAMSubModePitch': emit_samsubmoderoll,
+    'SAMSubModeDamp': emit_samsubmodedamp,
 }
 
 def main():

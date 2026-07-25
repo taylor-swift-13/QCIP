@@ -1,0 +1,6012 @@
+(* 由 FloatTest/tools/emit_tests.py 自动生成，请勿手改。
+ * 每条约 1000 条向量一条 vm_compute 定理；coqc 编译通过即差分测试通过。 *)
+Require Import Coq.ZArith.ZArith.
+Require Import Coq.Bool.Bool.
+Require Import Coq.Lists.List.
+From SimpleC.SL Require Import FloatLib.
+From Flocq.IEEE754 Require Import BinarySingleNaN Binary Bits.
+Require Import FloatTest.lib.FloatTestCommon.
+Require Import OUTPUT.SAMCodeSynthesis.SAMSubModePitch.rocq.spec.
+
+Import ListNotations.
+Local Open Scope Z_scope.
+
+
+Example t_0000 :
+  samSubModePitch_fun (f32 (1074407732)) 70 0 674 2 (f32 (1052279022)) (f32 (1054250762)) (f32 (1068717298))
+  = (70, 675, 0, [1052279022; 1054250762; 1068717298]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0001 :
+  samSubModePitch_fun (f32 (1065353216)) 21 1 5685 7 (f32 (3219374199)) (f32 (1063552616)) (f32 (1066069153))
+  = (34, 0, 0, [3219374199; 1063552616; 1066069153]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0002 :
+  samSubModePitch_fun (f32 (1073741824)) 31 1 6073 11 (f32 (1064496750)) (f32 (3219245918)) (f32 (1009656097))
+  = (34, 0, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0003 :
+  samSubModePitch_fun (f32 (1073741824)) 3 1 2133 12 (f32 (3205608903)) (f32 (3197924495)) (f32 (1067020512))
+  = (51, 0, 0, [3205608903; 3197924495; 1067020512]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0004 :
+  samSubModePitch_fun (f32 (1060777519)) 13 0 5625 13 (f32 (1046715266)) (f32 (3206112657)) (f32 (1065299968))
+  = (34, 0, 0, [1046715266; 3206112657; 1065299968]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0005 :
+  samSubModePitch_fun (f32 (3220744536)) 41 0 5624 9 (f32 (1064364397)) (f32 (3196552799)) (f32 (1070478571))
+  = (41, 5625, 0, [1064364397; 3196552799; 1070478571]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0006 :
+  samSubModePitch_fun (f32 (1073741824)) 31 2 480 5 (f32 (3215166306)) (f32 (1063266142)) (f32 (3211229700))
+  = (31, 481, 0, [3215166306; 1063266142; 3211229700]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0007 :
+  samSubModePitch_fun (f32 (1073741824)) 31 1 5625 12 (f32 (3205517161)) (f32 (1048731159)) (f32 (3211367525))
+  = (51, 0, 0, [3205517161; 1048731159; 3211367525]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0008 :
+  samSubModePitch_fun (f32 (2143289344)) 14 1 1266 5 (f32 (3201521560)) (f32 (3206804131)) (f32 (1072371413))
+  = (14, 1267, 5, [3201521560; 3206804131; 1072371413]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0009 :
+  samSubModePitch_fun (f32 (4286578688)) 32 1 6999 5 (f32 (1066854804)) (f32 (3216841045)) (f32 (3215899708))
+  = (34, 0, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0010 :
+  samSubModePitch_fun (f32 (3224702389)) 17 0 4294967295 4 (f32 (3198472237)) (f32 (1061380323)) (f32 (1071714379))
+  = (17, 0, 0, [3198472237; 1061380323; 1071714379]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0011 :
+  samSubModePitch_fun (f32 (1073741824)) 34 1 0 4294967295 (f32 (3213399020)) (f32 (1069772184)) (f32 (1052401450))
+  = (34, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0012 :
+  samSubModePitch_fun (f32 (3212836864)) 55 1 5060 5 (f32 (1059034696)) (f32 (3212074497)) (f32 (3176270808))
+  = (55, 5061, 5, [1059034696; 3212074497; 3176270808]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0013 :
+  samSubModePitch_fun (f32 (1055682768)) 29 1 1241 8 (f32 (3212763066)) (f32 (1073225895)) (f32 (3215543486))
+  = (29, 1242, 8, [3212763066; 1073225895; 3215543486]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0014 :
+  samSubModePitch_fun (f32 (1065353216)) 4 1 3057 0 (f32 (3216898226)) (f32 (1063872367)) (f32 (3210789129))
+  = (4, 3058, 0, [3216898226; 1063872367; 3210789129]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0015 :
+  samSubModePitch_fun (f32 (1073741824)) 1 1 3518 11 (f32 (1057437044)) (f32 (1051222796)) (f32 (3212936059))
+  = (1, 3519, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0016 :
+  samSubModePitch_fun (f32 (1073741824)) 10 1 5471 12 (f32 (1028561135)) (f32 (1053386162)) (f32 (1066496636))
+  = (51, 0, 0, [1028561135; 1053386162; 1066496636]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0017 :
+  samSubModePitch_fun (f32 (3206926573)) 21 0 5625 17 (f32 (1070861641)) (f32 (3207800768)) (f32 (1068291305))
+  = (34, 0, 0, [1070861641; 3207800768; 1068291305]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0018 :
+  samSubModePitch_fun (f32 (1050670877)) 20 0 5624 1 (f32 (3178273775)) (f32 (1053230211)) (f32 (1063526482))
+  = (20, 5625, 0, [3178273775; 1053230211; 1063526482]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0019 :
+  samSubModePitch_fun (f32 (1073741824)) 59 2 272 5 (f32 (1072813668)) (f32 (3209816950)) (f32 (3212571537))
+  = (59, 273, 0, [1072813668; 3209816950; 3212571537]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0020 :
+  samSubModePitch_fun (f32 (1073741824)) 7 1 5625 12 (f32 (3221178029)) (f32 (1066361775)) (f32 (3199342605))
+  = (51, 0, 0, [3221178029; 1066361775; 3199342605]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0021 :
+  samSubModePitch_fun (f32 (2143289344)) 73 1 406 5 (f32 (1071864122)) (f32 (3213142127)) (f32 (3207123608))
+  = (73, 407, 5, [1071864122; 3213142127; 3207123608]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0022 :
+  samSubModePitch_fun (f32 (4286578688)) 34 1 5063 5 (f32 (1064991078)) (f32 (1068447208)) (f32 (3196390717))
+  = (34, 5064, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0023 :
+  samSubModePitch_fun (f32 (3210633099)) 11 0 4294967295 12 (f32 (1062769258)) (f32 (1062196665)) (f32 (1059188603))
+  = (11, 0, 0, [1062769258; 1062196665; 1059188603]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0024 :
+  samSubModePitch_fun (f32 (1073741824)) 5 1 0 4294967295 (f32 (1057161936)) (f32 (3210331878)) (f32 (3217512269))
+  = (5, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0025 :
+  samSubModePitch_fun (f32 (3212836864)) 33 1 2777 5 (f32 (1070134512)) (f32 (1065477008)) (f32 (3220974439))
+  = (33, 2778, 5, [1070134512; 1065477008; 3220974439]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0026 :
+  samSubModePitch_fun (f32 (1075335974)) 63 1 3990 7 (f32 (3197887541)) (f32 (1061956234)) (f32 (1040995334))
+  = (63, 3991, 8, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0027 :
+  samSubModePitch_fun (f32 (1065353216)) 1 1 1327 14 (f32 (3216389036)) (f32 (1069939435)) (f32 (1065626148))
+  = (1, 1328, 14, [3216389036; 1069939435; 1065626148]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0028 :
+  samSubModePitch_fun (f32 (1073741824)) 35 1 6854 11 (f32 (3217949972)) (f32 (3217457875)) (f32 (3217658163))
+  = (34, 0, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0029 :
+  samSubModePitch_fun (f32 (1073741824)) 22 1 2711 12 (f32 (3196229991)) (f32 (1061809718)) (f32 (1056852913))
+  = (51, 0, 0, [3196229991; 1061809718; 1056852913]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0030 :
+  samSubModePitch_fun (f32 (1053806190)) 75 0 5625 7 (f32 (1065368303)) (f32 (3218719858)) (f32 (1047260439))
+  = (34, 0, 0, [1065368303; 3218719858; 1047260439]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0031 :
+  samSubModePitch_fun (f32 (997077587)) 16 0 5624 2 (f32 (3188818885)) (f32 (1065074083)) (f32 (1055841893))
+  = (16, 5625, 0, [3188818885; 1065074083; 1055841893]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0032 :
+  samSubModePitch_fun (f32 (1073741824)) 70 2 5200 5 (f32 (3212477275)) (f32 (1072175081)) (f32 (1023478701))
+  = (70, 5201, 0, [3212477275; 1072175081; 1023478701]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0033 :
+  samSubModePitch_fun (f32 (1073741824)) 34 1 5625 12 (f32 (1059526133)) (f32 (3217560728)) (f32 (3207258472))
+  = (51, 0, 0, [1059526133; 3217560728; 3207258472]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0034 :
+  samSubModePitch_fun (f32 (2143289344)) 16 1 6181 5 (f32 (1062602473)) (f32 (1073179651)) (f32 (1054266651))
+  = (34, 0, 0, [1062602473; 1073179651; 1054266651]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0035 :
+  samSubModePitch_fun (f32 (4286578688)) 15 1 5086 5 (f32 (1066044585)) (f32 (1063296374)) (f32 (1064913438))
+  = (15, 5087, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0036 :
+  samSubModePitch_fun (f32 (3189588254)) 39 0 4294967295 2 (f32 (3218669712)) (f32 (3212711714)) (f32 (1062865385))
+  = (39, 0, 0, [3218669712; 3212711714; 1062865385]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0037 :
+  samSubModePitch_fun (f32 (1073741824)) 55 1 0 4294967295 (f32 (1046691446)) (f32 (3219625895)) (f32 (3218540640))
+  = (55, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0038 :
+  samSubModePitch_fun (f32 (3212836864)) 77 1 6405 5 (f32 (3207263029)) (f32 (3193645265)) (f32 (1073332472))
+  = (34, 0, 0, [3207263029; 3193645265; 1073332472]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0039 :
+  samSubModePitch_fun (f32 (3223459780)) 37 0 6847 5 (f32 (1040419934)) (f32 (1064559897)) (f32 (1019798720))
+  = (34, 0, 0, [1040419934; 1064559897; 1019798720]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0040 :
+  samSubModePitch_fun (f32 (1065353216)) 49 1 6465 13 (f32 (3214595911)) (f32 (3204672129)) (f32 (3217265733))
+  = (34, 0, 0, [3214595911; 3204672129; 3217265733]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0041 :
+  samSubModePitch_fun (f32 (1073741824)) 32 1 2751 11 (f32 (3158974943)) (f32 (1072383477)) (f32 (1072186938))
+  = (32, 2752, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0042 :
+  samSubModePitch_fun (f32 (1073741824)) 72 1 5756 12 (f32 (1062277772)) (f32 (3217226311)) (f32 (3219608063))
+  = (51, 0, 0, [1062277772; 3217226311; 3219608063]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0043 :
+  samSubModePitch_fun (f32 (1059353934)) 68 0 5625 5 (f32 (3213705094)) (f32 (3197869720)) (f32 (3209758038))
+  = (34, 0, 0, [3213705094; 3197869720; 3209758038]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0044 :
+  samSubModePitch_fun (f32 (1074480446)) 29 0 5624 18 (f32 (1064679558)) (f32 (3193549960)) (f32 (1068240710))
+  = (29, 5625, 0, [1064679558; 3193549960; 1068240710]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0045 :
+  samSubModePitch_fun (f32 (1073741824)) 52 2 6605 5 (f32 (1067724626)) (f32 (1035846124)) (f32 (3217701016))
+  = (34, 0, 0, [1067724626; 1035846124; 3217701016]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0046 :
+  samSubModePitch_fun (f32 (1073741824)) 23 1 5625 12 (f32 (1034288431)) (f32 (1068101142)) (f32 (3192952626))
+  = (51, 0, 0, [1034288431; 1068101142; 3192952626]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0047 :
+  samSubModePitch_fun (f32 (2143289344)) 41 1 3820 5 (f32 (1067214755)) (f32 (1058118270)) (f32 (1047675084))
+  = (41, 3821, 5, [1067214755; 1058118270; 1047675084]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0048 :
+  samSubModePitch_fun (f32 (4286578688)) 60 1 4399 5 (f32 (3219475181)) (f32 (1071458581)) (f32 (1069841201))
+  = (60, 4400, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0049 :
+  samSubModePitch_fun (f32 (1071145614)) 5 0 4294967295 12 (f32 (1072528841)) (f32 (3206037066)) (f32 (3211133370))
+  = (5, 0, 0, [1072528841; 3206037066; 3211133370]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0050 :
+  samSubModePitch_fun (f32 (1073741824)) 68 1 0 4294967295 (f32 (3221089112)) (f32 (1070346883)) (f32 (1071036320))
+  = (68, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0051 :
+  samSubModePitch_fun (f32 (3212836864)) 3 1 444 5 (f32 (1065485787)) (f32 (1072269779)) (f32 (1073173801))
+  = (3, 445, 5, [1065485787; 1072269779; 1073173801]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0052 :
+  samSubModePitch_fun (f32 (3213991588)) 26 1 5618 10 (f32 (1072835199)) (f32 (1068038290)) (f32 (3201819331))
+  = (26, 5619, 11, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0053 :
+  samSubModePitch_fun (f32 (1065353216)) 57 1 3821 3 (f32 (3186226679)) (f32 (1038705547)) (f32 (1060107862))
+  = (57, 3822, 3, [3186226679; 1038705547; 1060107862]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0054 :
+  samSubModePitch_fun (f32 (1073741824)) 39 1 6240 11 (f32 (3204798765)) (f32 (1045899468)) (f32 (1067549488))
+  = (34, 0, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0055 :
+  samSubModePitch_fun (f32 (1073741824)) 11 1 2116 12 (f32 (1041371425)) (f32 (1067106368)) (f32 (3184624838))
+  = (51, 0, 0, [1041371425; 1067106368; 3184624838]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0056 :
+  samSubModePitch_fun (f32 (3224161391)) 26 0 5625 9 (f32 (1069957769)) (f32 (1067916466)) (f32 (1069685843))
+  = (34, 0, 0, [1069957769; 1067916466; 1069685843]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0057 :
+  samSubModePitch_fun (f32 (3205274702)) 32 0 5624 4 (f32 (3220144305)) (f32 (3213838904)) (f32 (1028987905))
+  = (32, 5625, 0, [3220144305; 3213838904; 1028987905]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0058 :
+  samSubModePitch_fun (f32 (1073741824)) 70 2 5721 5 (f32 (3213985868)) (f32 (3213485683)) (f32 (3214413002))
+  = (34, 0, 0, [3213985868; 3213485683; 3214413002]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0059 :
+  samSubModePitch_fun (f32 (1073741824)) 76 1 5625 12 (f32 (1054430270)) (f32 (1055780969)) (f32 (3212852570))
+  = (51, 0, 0, [1054430270; 1055780969; 3212852570]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0060 :
+  samSubModePitch_fun (f32 (2143289344)) 26 1 6867 5 (f32 (1062641235)) (f32 (1060354883)) (f32 (1038361534))
+  = (34, 0, 0, [1062641235; 1060354883; 1038361534]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0061 :
+  samSubModePitch_fun (f32 (4286578688)) 70 1 6321 5 (f32 (1062239267)) (f32 (1029446271)) (f32 (3219161116))
+  = (34, 0, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0062 :
+  samSubModePitch_fun (f32 (3200369173)) 41 0 4294967295 11 (f32 (1044303575)) (f32 (1071956277)) (f32 (1065103384))
+  = (41, 0, 0, [1044303575; 1071956277; 1065103384]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0063 :
+  samSubModePitch_fun (f32 (1073741824)) 56 1 0 4294967295 (f32 (1066874255)) (f32 (3218886286)) (f32 (3196689907))
+  = (56, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0064 :
+  samSubModePitch_fun (f32 (3212836864)) 53 1 6559 5 (f32 (1042385206)) (f32 (1046215325)) (f32 (1070113883))
+  = (34, 0, 0, [1042385206; 1046215325; 1070113883]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0065 :
+  samSubModePitch_fun (f32 (3219395426)) 73 0 5373 0 (f32 (1073002376)) (f32 (1069933055)) (f32 (3212002923))
+  = (73, 5374, 0, [1073002376; 1069933055; 3212002923]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0066 :
+  samSubModePitch_fun (f32 (1065353216)) 39 1 6397 3 (f32 (3215515657)) (f32 (1069129404)) (f32 (1068145199))
+  = (34, 0, 0, [3215515657; 1069129404; 1068145199]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0067 :
+  samSubModePitch_fun (f32 (1073741824)) 13 1 5851 11 (f32 (3189059869)) (f32 (1058351922)) (f32 (1073203778))
+  = (34, 0, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0068 :
+  samSubModePitch_fun (f32 (1073741824)) 71 1 2638 12 (f32 (1065867231)) (f32 (1067385425)) (f32 (1065723490))
+  = (51, 0, 0, [1065867231; 1067385425; 1065723490]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0069 :
+  samSubModePitch_fun (f32 (1067680135)) 0 0 5625 5 (f32 (3211125250)) (f32 (3191118895)) (f32 (3181059525))
+  = (34, 0, 0, [3211125250; 3191118895; 3181059525]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0070 :
+  samSubModePitch_fun (f32 (3218188554)) 14 0 5624 14 (f32 (3210853728)) (f32 (1037501391)) (f32 (1065853256))
+  = (14, 5625, 0, [3210853728; 1037501391; 1065853256]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0071 :
+  samSubModePitch_fun (f32 (1073741824)) 36 2 5742 5 (f32 (3216220026)) (f32 (1054313511)) (f32 (3219695502))
+  = (34, 0, 0, [3216220026; 1054313511; 3219695502]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0072 :
+  samSubModePitch_fun (f32 (1073741824)) 59 1 5625 12 (f32 (3203204065)) (f32 (3205937856)) (f32 (1066748883))
+  = (51, 0, 0, [3203204065; 3205937856; 1066748883]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0073 :
+  samSubModePitch_fun (f32 (2143289344)) 5 1 5424 5 (f32 (3198585618)) (f32 (3221220259)) (f32 (3209623420))
+  = (5, 5425, 5, [3198585618; 3221220259; 3209623420]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0074 :
+  samSubModePitch_fun (f32 (4286578688)) 15 1 338 5 (f32 (3131062825)) (f32 (1062627223)) (f32 (3213637461))
+  = (15, 339, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0075 :
+  samSubModePitch_fun (f32 (1057272885)) 34 0 4294967295 17 (f32 (1050381852)) (f32 (1073089196)) (f32 (1062874184))
+  = (34, 0, 0, [1050381852; 1073089196; 1062874184]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0076 :
+  samSubModePitch_fun (f32 (1073741824)) 40 1 0 4294967295 (f32 (1046881370)) (f32 (3213750872)) (f32 (3188298025))
+  = (40, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0077 :
+  samSubModePitch_fun (f32 (3212836864)) 29 1 1857 5 (f32 (1042749792)) (f32 (1072180383)) (f32 (3197664163))
+  = (29, 1858, 5, [1042749792; 1072180383; 3197664163]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0078 :
+  samSubModePitch_fun (f32 (1068350628)) 44 1 3366 19 (f32 (1068050794)) (f32 (3204365847)) (f32 (3206499875))
+  = (51, 0, 0, [1068050794; 3204365847; 3206499875]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0079 :
+  samSubModePitch_fun (f32 (1065353216)) 66 1 2040 14 (f32 (1032453033)) (f32 (3216364110)) (f32 (1071168138))
+  = (66, 2041, 14, [1032453033; 3216364110; 1071168138]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0080 :
+  samSubModePitch_fun (f32 (1073741824)) 61 1 5801 11 (f32 (3211791795)) (f32 (1066210158)) (f32 (3217691443))
+  = (34, 0, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0081 :
+  samSubModePitch_fun (f32 (1073741824)) 62 1 1754 12 (f32 (3209323735)) (f32 (3171186377)) (f32 (3197131771))
+  = (51, 0, 0, [3209323735; 3171186377; 3197131771]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0082 :
+  samSubModePitch_fun (f32 (1077632196)) 16 0 5625 20 (f32 (1066550201)) (f32 (3190093345)) (f32 (1062804575))
+  = (34, 0, 0, [1066550201; 3190093345; 1062804575]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0083 :
+  samSubModePitch_fun (f32 (3215034311)) 38 0 5624 2 (f32 (1065947527)) (f32 (3209586877)) (f32 (3180898084))
+  = (38, 5625, 0, [1065947527; 3209586877; 3180898084]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0084 :
+  samSubModePitch_fun (f32 (1073741824)) 19 2 2108 5 (f32 (1062159453)) (f32 (1064868970)) (f32 (3221080600))
+  = (19, 2109, 0, [1062159453; 1064868970; 3221080600]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0085 :
+  samSubModePitch_fun (f32 (1073741824)) 15 1 5625 12 (f32 (1070360320)) (f32 (3220568718)) (f32 (1064796518))
+  = (51, 0, 0, [1070360320; 3220568718; 1064796518]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0086 :
+  samSubModePitch_fun (f32 (2143289344)) 79 1 4615 5 (f32 (3209159911)) (f32 (1072016057)) (f32 (1065207498))
+  = (79, 4616, 5, [3209159911; 1072016057; 1065207498]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0087 :
+  samSubModePitch_fun (f32 (4286578688)) 60 1 4477 5 (f32 (1054803530)) (f32 (1067936143)) (f32 (3218650585))
+  = (60, 4478, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0088 :
+  samSubModePitch_fun (f32 (3224392713)) 66 0 4294967295 11 (f32 (3196988575)) (f32 (3219957496)) (f32 (1073227090))
+  = (66, 0, 0, [3196988575; 3219957496; 1073227090]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0089 :
+  samSubModePitch_fun (f32 (1073741824)) 9 1 0 4294967295 (f32 (3217854304)) (f32 (1062779512)) (f32 (1065845995))
+  = (9, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0090 :
+  samSubModePitch_fun (f32 (3212836864)) 51 1 1047 5 (f32 (3200218228)) (f32 (1067422099)) (f32 (1069580101))
+  = (51, 1048, 5, [3200218228; 1067422099; 1069580101]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0091 :
+  samSubModePitch_fun (f32 (3189672518)) 45 0 1128 17 (f32 (1044445133)) (f32 (3215086259)) (f32 (1060321237))
+  = (45, 1129, 0, [1044445133; 3215086259; 1060321237]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0092 :
+  samSubModePitch_fun (f32 (1065353216)) 67 1 2444 4 (f32 (1068053398)) (f32 (1063749764)) (f32 (1053607182))
+  = (67, 2445, 4, [1068053398; 1063749764; 1053607182]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0093 :
+  samSubModePitch_fun (f32 (1073741824)) 24 1 4483 11 (f32 (1059814714)) (f32 (1069721464)) (f32 (3218274710))
+  = (24, 4484, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0094 :
+  samSubModePitch_fun (f32 (1073741824)) 49 1 1783 12 (f32 (3218641214)) (f32 (1023843600)) (f32 (3217344006))
+  = (51, 0, 0, [3218641214; 1023843600; 3217344006]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0095 :
+  samSubModePitch_fun (f32 (1065442797)) 65 0 5625 15 (f32 (1065571667)) (f32 (3207988370)) (f32 (3207340233))
+  = (34, 0, 0, [1065571667; 3207988370; 3207340233]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0096 :
+  samSubModePitch_fun (f32 (3156673090)) 74 0 5624 13 (f32 (3211872564)) (f32 (3177179069)) (f32 (1046639389))
+  = (74, 5625, 0, [3211872564; 3177179069; 1046639389]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0097 :
+  samSubModePitch_fun (f32 (1073741824)) 12 2 4032 5 (f32 (1066521155)) (f32 (1060975583)) (f32 (3201742535))
+  = (12, 4033, 0, [1066521155; 1060975583; 3201742535]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0098 :
+  samSubModePitch_fun (f32 (1073741824)) 21 1 5625 12 (f32 (3209356536)) (f32 (3208401224)) (f32 (3181934359))
+  = (51, 0, 0, [3209356536; 3208401224; 3181934359]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0099 :
+  samSubModePitch_fun (f32 (2143289344)) 62 1 5487 5 (f32 (3212992866)) (f32 (3203296651)) (f32 (1072575945))
+  = (62, 5488, 5, [3212992866; 3203296651; 1072575945]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0100 :
+  samSubModePitch_fun (f32 (4286578688)) 79 1 3118 5 (f32 (1058705026)) (f32 (3207238431)) (f32 (1052758461))
+  = (79, 3119, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0101 :
+  samSubModePitch_fun (f32 (3209809716)) 48 0 4294967295 0 (f32 (3218974844)) (f32 (1068828381)) (f32 (3208383894))
+  = (48, 0, 0, [3218974844; 1068828381; 3208383894]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0102 :
+  samSubModePitch_fun (f32 (1073741824)) 49 1 0 4294967295 (f32 (3215901658)) (f32 (3218578358)) (f32 (1058100393))
+  = (49, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0103 :
+  samSubModePitch_fun (f32 (3212836864)) 64 1 1254 5 (f32 (1037792319)) (f32 (3213945440)) (f32 (3218437228))
+  = (64, 1255, 5, [1037792319; 3213945440; 3218437228]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0104 :
+  samSubModePitch_fun (f32 (3223098116)) 12 1 2204 2 (f32 (3212230077)) (f32 (1066076838)) (f32 (1072626934))
+  = (12, 2205, 3, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0105 :
+  samSubModePitch_fun (f32 (1065353216)) 14 1 2705 8 (f32 (1068569045)) (f32 (3217765626)) (f32 (3217567618))
+  = (14, 2706, 8, [1068569045; 3217765626; 3217567618]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0106 :
+  samSubModePitch_fun (f32 (1073741824)) 65 1 252 11 (f32 (3211265555)) (f32 (3213568318)) (f32 (3176227566))
+  = (65, 253, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0107 :
+  samSubModePitch_fun (f32 (1073741824)) 50 1 2269 12 (f32 (1049250881)) (f32 (1057744738)) (f32 (1070755405))
+  = (51, 0, 0, [1049250881; 1057744738; 1070755405]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0108 :
+  samSubModePitch_fun (f32 (1076775211)) 51 0 5625 13 (f32 (3212659164)) (f32 (1064966087)) (f32 (3204957489))
+  = (34, 0, 0, [3212659164; 1064966087; 3204957489]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0109 :
+  samSubModePitch_fun (f32 (1068139490)) 43 0 5624 14 (f32 (3204454376)) (f32 (3216988730)) (f32 (3215692088))
+  = (43, 5625, 0, [3204454376; 3216988730; 3215692088]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0110 :
+  samSubModePitch_fun (f32 (1073741824)) 42 2 2311 5 (f32 (1066357235)) (f32 (3205369012)) (f32 (3202522308))
+  = (42, 2312, 0, [1066357235; 3205369012; 3202522308]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0111 :
+  samSubModePitch_fun (f32 (1073741824)) 2 1 5625 12 (f32 (3208154971)) (f32 (3217948260)) (f32 (1059924996))
+  = (51, 0, 0, [3208154971; 3217948260; 1059924996]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0112 :
+  samSubModePitch_fun (f32 (2143289344)) 52 1 4041 5 (f32 (1071905541)) (f32 (1056906900)) (f32 (3197945026))
+  = (52, 4042, 5, [1071905541; 1056906900; 3197945026]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0113 :
+  samSubModePitch_fun (f32 (4286578688)) 79 1 5558 5 (f32 (1050710852)) (f32 (1052228292)) (f32 (1067058129))
+  = (79, 5559, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0114 :
+  samSubModePitch_fun (f32 (3221773745)) 15 0 4294967295 15 (f32 (3203871017)) (f32 (1067528000)) (f32 (1073501152))
+  = (15, 0, 0, [3203871017; 1067528000; 1073501152]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0115 :
+  samSubModePitch_fun (f32 (1073741824)) 6 1 0 4294967295 (f32 (3207968899)) (f32 (1066016681)) (f32 (1062615734))
+  = (6, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0116 :
+  samSubModePitch_fun (f32 (3212836864)) 25 1 4064 5 (f32 (1039689624)) (f32 (1063118336)) (f32 (1060451497))
+  = (25, 4065, 5, [1039689624; 1063118336; 1060451497]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0117 :
+  samSubModePitch_fun (f32 (3213303593)) 35 0 5715 16 (f32 (1069593900)) (f32 (3205386931)) (f32 (1071600886))
+  = (34, 0, 0, [1069593900; 3205386931; 1071600886]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0118 :
+  samSubModePitch_fun (f32 (1065353216)) 73 1 6237 9 (f32 (3220075846)) (f32 (1072391561)) (f32 (1072462848))
+  = (34, 0, 0, [3220075846; 1072391561; 1072462848]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0119 :
+  samSubModePitch_fun (f32 (1073741824)) 8 1 2465 11 (f32 (1056064897)) (f32 (3218370688)) (f32 (1061410817))
+  = (8, 2466, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0120 :
+  samSubModePitch_fun (f32 (1073741824)) 71 1 5000 12 (f32 (3188748267)) (f32 (3201311504)) (f32 (3213777529))
+  = (51, 0, 0, [3188748267; 3201311504; 3213777529]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0121 :
+  samSubModePitch_fun (f32 (3209515555)) 33 0 5625 15 (f32 (3217489448)) (f32 (3209277513)) (f32 (1065545457))
+  = (34, 0, 0, [3217489448; 3209277513; 1065545457]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0122 :
+  samSubModePitch_fun (f32 (3216988698)) 28 0 5624 15 (f32 (1013592604)) (f32 (1073649567)) (f32 (1073091721))
+  = (28, 5625, 0, [1013592604; 1073649567; 1073091721]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0123 :
+  samSubModePitch_fun (f32 (1073741824)) 34 2 6511 5 (f32 (3186925553)) (f32 (3206171677)) (f32 (3213665079))
+  = (34, 0, 0, [3186925553; 3206171677; 3213665079]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0124 :
+  samSubModePitch_fun (f32 (1073741824)) 44 1 5625 12 (f32 (3192685881)) (f32 (3216564078)) (f32 (3206882931))
+  = (51, 0, 0, [3192685881; 3216564078; 3206882931]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0125 :
+  samSubModePitch_fun (f32 (2143289344)) 71 1 2188 5 (f32 (1066387323)) (f32 (1016530537)) (f32 (3219518831))
+  = (71, 2189, 5, [1066387323; 1016530537; 3219518831]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0126 :
+  samSubModePitch_fun (f32 (4286578688)) 24 1 5751 5 (f32 (1072372826)) (f32 (3219225781)) (f32 (3190920990))
+  = (34, 0, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0127 :
+  samSubModePitch_fun (f32 (1066242510)) 31 0 4294967295 6 (f32 (3201001371)) (f32 (3220247372)) (f32 (1061849114))
+  = (31, 0, 0, [3201001371; 3220247372; 1061849114]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0128 :
+  samSubModePitch_fun (f32 (1073741824)) 47 1 0 4294967295 (f32 (1073299619)) (f32 (3219619582)) (f32 (3215531253))
+  = (47, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0129 :
+  samSubModePitch_fun (f32 (3212836864)) 78 1 5530 5 (f32 (3204216250)) (f32 (1067996903)) (f32 (1067370740))
+  = (78, 5531, 5, [3204216250; 1067996903; 1067370740]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0130 :
+  samSubModePitch_fun (f32 (3223528953)) 40 1 4639 8 (f32 (3204381820)) (f32 (1041818433)) (f32 (1067071656))
+  = (40, 4640, 9, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0131 :
+  samSubModePitch_fun (f32 (1065353216)) 4 1 3779 13 (f32 (1041930909)) (f32 (1067535904)) (f32 (1027246500))
+  = (4, 3780, 13, [1041930909; 1067535904; 1027246500]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0132 :
+  samSubModePitch_fun (f32 (1073741824)) 39 1 791 11 (f32 (3209256212)) (f32 (3214787602)) (f32 (3204628489))
+  = (39, 792, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0133 :
+  samSubModePitch_fun (f32 (1073741824)) 2 1 4549 12 (f32 (3217124306)) (f32 (1058625748)) (f32 (1069926332))
+  = (51, 0, 0, [3217124306; 1058625748; 1069926332]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0134 :
+  samSubModePitch_fun (f32 (1077520935)) 73 0 5625 15 (f32 (3219231043)) (f32 (3173166574)) (f32 (3162695287))
+  = (34, 0, 0, [3219231043; 3173166574; 3162695287]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0135 :
+  samSubModePitch_fun (f32 (3216537212)) 26 0 5624 20 (f32 (1056214778)) (f32 (3184733705)) (f32 (3190554310))
+  = (26, 5625, 0, [1056214778; 3184733705; 3190554310]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0136 :
+  samSubModePitch_fun (f32 (1073741824)) 46 2 3840 5 (f32 (1072929247)) (f32 (3184369913)) (f32 (1070231066))
+  = (46, 3841, 0, [1072929247; 3184369913; 1070231066]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0137 :
+  samSubModePitch_fun (f32 (1073741824)) 41 1 5625 12 (f32 (1069990011)) (f32 (1066004500)) (f32 (1070824152))
+  = (51, 0, 0, [1069990011; 1066004500; 1070824152]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0138 :
+  samSubModePitch_fun (f32 (2143289344)) 39 1 5020 5 (f32 (3197314620)) (f32 (3214068513)) (f32 (3209428192))
+  = (39, 5021, 5, [3197314620; 3214068513; 3209428192]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0139 :
+  samSubModePitch_fun (f32 (4286578688)) 2 1 6597 5 (f32 (3207876259)) (f32 (3207407288)) (f32 (3220650625))
+  = (34, 0, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0140 :
+  samSubModePitch_fun (f32 (3221507317)) 17 0 4294967295 14 (f32 (1071319007)) (f32 (3188078195)) (f32 (1073162539))
+  = (17, 0, 0, [1071319007; 3188078195; 1073162539]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0141 :
+  samSubModePitch_fun (f32 (1073741824)) 63 1 0 4294967295 (f32 (1073390070)) (f32 (1069492472)) (f32 (3218043929))
+  = (63, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0142 :
+  samSubModePitch_fun (f32 (3212836864)) 48 1 433 5 (f32 (3211805555)) (f32 (1068914933)) (f32 (3201875339))
+  = (48, 434, 5, [3211805555; 1068914933; 3201875339]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0143 :
+  samSubModePitch_fun (f32 (1066352870)) 2 0 876 14 (f32 (3214718417)) (f32 (1061340673)) (f32 (3221019379))
+  = (2, 877, 0, [3214718417; 1061340673; 3221019379]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0144 :
+  samSubModePitch_fun (f32 (1065353216)) 63 1 961 1 (f32 (3220119202)) (f32 (1021601715)) (f32 (1065866122))
+  = (63, 962, 1, [3220119202; 1021601715; 1065866122]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0145 :
+  samSubModePitch_fun (f32 (1073741824)) 60 1 2388 11 (f32 (1061296484)) (f32 (1050804497)) (f32 (1060814307))
+  = (60, 2389, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0146 :
+  samSubModePitch_fun (f32 (1073741824)) 18 1 960 12 (f32 (1067394215)) (f32 (1073004794)) (f32 (3214080413))
+  = (51, 0, 0, [1067394215; 1073004794; 3214080413]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0147 :
+  samSubModePitch_fun (f32 (3222044176)) 22 0 5625 16 (f32 (1039392370)) (f32 (1070910827)) (f32 (1050129658))
+  = (34, 0, 0, [1039392370; 1070910827; 1050129658]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0148 :
+  samSubModePitch_fun (f32 (3220135486)) 16 0 5624 18 (f32 (1064548644)) (f32 (3216295091)) (f32 (1072722473))
+  = (16, 5625, 0, [1064548644; 3216295091; 1072722473]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0149 :
+  samSubModePitch_fun (f32 (1073741824)) 35 2 6446 5 (f32 (3219622384)) (f32 (1069197906)) (f32 (1072712973))
+  = (34, 0, 0, [3219622384; 1069197906; 1072712973]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0150 :
+  samSubModePitch_fun (f32 (1073741824)) 25 1 5625 12 (f32 (1057887869)) (f32 (3213509238)) (f32 (3188208790))
+  = (51, 0, 0, [1057887869; 3213509238; 3188208790]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0151 :
+  samSubModePitch_fun (f32 (2143289344)) 46 1 3434 5 (f32 (3215248879)) (f32 (1029839517)) (f32 (3220866660))
+  = (46, 3435, 5, [3215248879; 1029839517; 3220866660]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0152 :
+  samSubModePitch_fun (f32 (4286578688)) 5 1 4143 5 (f32 (3215393604)) (f32 (3208290204)) (f32 (1071376573))
+  = (5, 4144, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0153 :
+  samSubModePitch_fun (f32 (1059715887)) 65 0 4294967295 8 (f32 (3205986198)) (f32 (3214687254)) (f32 (3218195409))
+  = (65, 0, 0, [3205986198; 3214687254; 3218195409]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0154 :
+  samSubModePitch_fun (f32 (1073741824)) 31 1 0 4294967295 (f32 (3215819371)) (f32 (3205566511)) (f32 (3192451869))
+  = (31, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0155 :
+  samSubModePitch_fun (f32 (3212836864)) 27 1 6466 5 (f32 (1061189295)) (f32 (3214236790)) (f32 (1047766541))
+  = (34, 0, 0, [1061189295; 3214236790; 1047766541]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0156 :
+  samSubModePitch_fun (f32 (1070063067)) 30 1 4497 10 (f32 (1066853618)) (f32 (1050399944)) (f32 (1073467974))
+  = (30, 4498, 11, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0157 :
+  samSubModePitch_fun (f32 (1065353216)) 47 1 1110 13 (f32 (1051363130)) (f32 (3207365283)) (f32 (3218887258))
+  = (47, 1111, 13, [1051363130; 3207365283; 3218887258]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0158 :
+  samSubModePitch_fun (f32 (1073741824)) 63 1 3619 11 (f32 (3219678484)) (f32 (3181529942)) (f32 (1067682898))
+  = (63, 3620, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0159 :
+  samSubModePitch_fun (f32 (1073741824)) 11 1 2050 12 (f32 (1067559937)) (f32 (1072300322)) (f32 (3215812630))
+  = (51, 0, 0, [1067559937; 1072300322; 3215812630]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0160 :
+  samSubModePitch_fun (f32 (1059872042)) 12 0 5625 17 (f32 (3217867001)) (f32 (1061360328)) (f32 (1067023198))
+  = (34, 0, 0, [3217867001; 1061360328; 1067023198]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0161 :
+  samSubModePitch_fun (f32 (1066364885)) 13 0 5624 19 (f32 (1058028230)) (f32 (1069981075)) (f32 (3216964771))
+  = (13, 5625, 0, [1058028230; 1069981075; 3216964771]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0162 :
+  samSubModePitch_fun (f32 (1073741824)) 24 2 4705 5 (f32 (1069990820)) (f32 (1071674999)) (f32 (3189809594))
+  = (24, 4706, 0, [1069990820; 1071674999; 3189809594]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0163 :
+  samSubModePitch_fun (f32 (1073741824)) 19 1 5625 12 (f32 (3217030487)) (f32 (3216517191)) (f32 (3183322544))
+  = (51, 0, 0, [3217030487; 3216517191; 3183322544]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0164 :
+  samSubModePitch_fun (f32 (2143289344)) 48 1 504 5 (f32 (3214909387)) (f32 (1061008074)) (f32 (3213136000))
+  = (48, 505, 5, [3214909387; 1061008074; 3213136000]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0165 :
+  samSubModePitch_fun (f32 (4286578688)) 55 1 7000 5 (f32 (1068370673)) (f32 (3205071144)) (f32 (3217539208))
+  = (34, 0, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0166 :
+  samSubModePitch_fun (f32 (3202754561)) 56 0 4294967295 10 (f32 (1066529624)) (f32 (3220617810)) (f32 (3215123270))
+  = (56, 0, 0, [1066529624; 3220617810; 3215123270]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0167 :
+  samSubModePitch_fun (f32 (1073741824)) 71 1 0 4294967295 (f32 (1069861894)) (f32 (3213454274)) (f32 (3204644551))
+  = (71, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0168 :
+  samSubModePitch_fun (f32 (3212836864)) 16 1 4373 5 (f32 (1062786470)) (f32 (1072855426)) (f32 (3202907856))
+  = (16, 4374, 5, [1062786470; 1072855426; 3202907856]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0169 :
+  samSubModePitch_fun (f32 (3188119671)) 37 0 6541 16 (f32 (1055577288)) (f32 (3214875630)) (f32 (1062387432))
+  = (34, 0, 0, [1055577288; 3214875630; 1062387432]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0170 :
+  samSubModePitch_fun (f32 (1065353216)) 9 1 6246 6 (f32 (3177699647)) (f32 (3215259531)) (f32 (1066903912))
+  = (34, 0, 0, [3177699647; 3215259531; 1066903912]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0171 :
+  samSubModePitch_fun (f32 (1073741824)) 60 1 1347 11 (f32 (3202086126)) (f32 (1066091037)) (f32 (3204910414))
+  = (60, 1348, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0172 :
+  samSubModePitch_fun (f32 (1073741824)) 20 1 958 12 (f32 (3214336489)) (f32 (1072566852)) (f32 (1071088326))
+  = (51, 0, 0, [3214336489; 1072566852; 1071088326]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0173 :
+  samSubModePitch_fun (f32 (1076569373)) 57 0 5625 2 (f32 (1073065285)) (f32 (3207535654)) (f32 (1068963938))
+  = (34, 0, 0, [1073065285; 3207535654; 1068963938]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0174 :
+  samSubModePitch_fun (f32 (3223953806)) 20 0 5624 18 (f32 (1045029074)) (f32 (1059827593)) (f32 (1045173575))
+  = (20, 5625, 0, [1045029074; 1059827593; 1045173575]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0175 :
+  samSubModePitch_fun (f32 (1073741824)) 64 2 4893 5 (f32 (1071755286)) (f32 (3220979980)) (f32 (3188512631))
+  = (64, 4894, 0, [1071755286; 3220979980; 3188512631]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0176 :
+  samSubModePitch_fun (f32 (1073741824)) 53 1 5625 12 (f32 (3217441882)) (f32 (1073198686)) (f32 (1069705843))
+  = (51, 0, 0, [3217441882; 1073198686; 1069705843]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0177 :
+  samSubModePitch_fun (f32 (2143289344)) 66 1 3149 5 (f32 (1071125331)) (f32 (1065432536)) (f32 (1059270416))
+  = (66, 3150, 5, [1071125331; 1065432536; 1059270416]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0178 :
+  samSubModePitch_fun (f32 (4286578688)) 27 1 4453 5 (f32 (3202504519)) (f32 (1071608375)) (f32 (3191111210))
+  = (27, 4454, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0179 :
+  samSubModePitch_fun (f32 (1072788895)) 68 0 4294967295 13 (f32 (3216999733)) (f32 (3219769523)) (f32 (1073559860))
+  = (68, 0, 0, [3216999733; 3219769523; 1073559860]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0180 :
+  samSubModePitch_fun (f32 (1073741824)) 67 1 0 4294967295 (f32 (1058435925)) (f32 (1009596324)) (f32 (1068019528))
+  = (67, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0181 :
+  samSubModePitch_fun (f32 (3212836864)) 38 1 3749 5 (f32 (1051250602)) (f32 (1069388912)) (f32 (3197019634))
+  = (38, 3750, 5, [1051250602; 1069388912; 3197019634]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0182 :
+  samSubModePitch_fun (f32 (1067510010)) 38 1 6632 3 (f32 (3214906510)) (f32 (1060689588)) (f32 (1057810125))
+  = (34, 0, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0183 :
+  samSubModePitch_fun (f32 (1065353216)) 68 1 6936 18 (f32 (1065385268)) (f32 (1062978039)) (f32 (3180109935))
+  = (34, 0, 0, [1065385268; 1062978039; 3180109935]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0184 :
+  samSubModePitch_fun (f32 (1073741824)) 17 1 4448 11 (f32 (3202158483)) (f32 (3209586983)) (f32 (3211956045))
+  = (17, 4449, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0185 :
+  samSubModePitch_fun (f32 (1073741824)) 54 1 4698 12 (f32 (1050622838)) (f32 (1065852258)) (f32 (3220730224))
+  = (51, 0, 0, [1050622838; 1065852258; 3220730224]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0186 :
+  samSubModePitch_fun (f32 (3180879607)) 30 0 5625 0 (f32 (3219307601)) (f32 (1069139593)) (f32 (3211150241))
+  = (34, 0, 0, [3219307601; 1069139593; 3211150241]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0187 :
+  samSubModePitch_fun (f32 (3219374648)) 32 0 5624 12 (f32 (1071839725)) (f32 (1054554175)) (f32 (1033004836))
+  = (32, 5625, 0, [1071839725; 1054554175; 1033004836]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0188 :
+  samSubModePitch_fun (f32 (1073741824)) 30 2 6150 5 (f32 (3207662529)) (f32 (1073175826)) (f32 (3205365675))
+  = (34, 0, 0, [3207662529; 1073175826; 3205365675]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0189 :
+  samSubModePitch_fun (f32 (1073741824)) 0 1 5625 12 (f32 (3199420749)) (f32 (1069078403)) (f32 (1049952230))
+  = (51, 0, 0, [3199420749; 1069078403; 1049952230]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0190 :
+  samSubModePitch_fun (f32 (2143289344)) 44 1 4567 5 (f32 (3213900299)) (f32 (1070487286)) (f32 (3198568807))
+  = (44, 4568, 5, [3213900299; 1070487286; 3198568807]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0191 :
+  samSubModePitch_fun (f32 (4286578688)) 48 1 2269 5 (f32 (3208363496)) (f32 (3219747526)) (f32 (1037839496))
+  = (48, 2270, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0192 :
+  samSubModePitch_fun (f32 (3220283681)) 50 0 4294967295 18 (f32 (1057414246)) (f32 (1070788173)) (f32 (3218580197))
+  = (50, 0, 0, [1057414246; 1070788173; 3218580197]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0193 :
+  samSubModePitch_fun (f32 (1073741824)) 1 1 0 4294967295 (f32 (3214108655)) (f32 (1056263634)) (f32 (3217705392))
+  = (1, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0194 :
+  samSubModePitch_fun (f32 (3212836864)) 77 1 3743 5 (f32 (1071019022)) (f32 (1072446114)) (f32 (1070409107))
+  = (77, 3744, 5, [1071019022; 1072446114; 1070409107]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0195 :
+  samSubModePitch_fun (f32 (1071363957)) 26 1 2108 0 (f32 (1060021614)) (f32 (3179416666)) (f32 (1064156444))
+  = (26, 2109, 1, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0196 :
+  samSubModePitch_fun (f32 (1065353216)) 55 1 5504 5 (f32 (3219312214)) (f32 (3219151822)) (f32 (1058734915))
+  = (55, 5505, 5, [3219312214; 3219151822; 1058734915]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0197 :
+  samSubModePitch_fun (f32 (1073741824)) 46 1 3266 11 (f32 (1046135526)) (f32 (3212229771)) (f32 (3214717853))
+  = (46, 3267, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0198 :
+  samSubModePitch_fun (f32 (1073741824)) 19 1 3507 12 (f32 (3217723617)) (f32 (3215736127)) (f32 (1071546418))
+  = (51, 0, 0, [3217723617; 3215736127; 1071546418]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0199 :
+  samSubModePitch_fun (f32 (3211900562)) 3 0 5625 17 (f32 (1057012512)) (f32 (3199722327)) (f32 (3219891410))
+  = (34, 0, 0, [1057012512; 3199722327; 3219891410]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0200 :
+  samSubModePitch_fun (f32 (1075689036)) 40 0 5624 13 (f32 (1072484378)) (f32 (3219702858)) (f32 (3220915212))
+  = (40, 5625, 0, [1072484378; 3219702858; 3220915212]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0201 :
+  samSubModePitch_fun (f32 (1073741824)) 68 2 1662 5 (f32 (1072246390)) (f32 (1065109493)) (f32 (3216633137))
+  = (68, 1663, 0, [1072246390; 1065109493; 3216633137]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0202 :
+  samSubModePitch_fun (f32 (1073741824)) 14 1 5625 12 (f32 (3198380200)) (f32 (3215825640)) (f32 (3211709269))
+  = (51, 0, 0, [3198380200; 3215825640; 3211709269]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0203 :
+  samSubModePitch_fun (f32 (2143289344)) 45 1 5090 5 (f32 (3199052553)) (f32 (1051145413)) (f32 (1072835814))
+  = (45, 5091, 5, [3199052553; 1051145413; 1072835814]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0204 :
+  samSubModePitch_fun (f32 (4286578688)) 35 1 509 5 (f32 (3193014561)) (f32 (1057154212)) (f32 (1068435638))
+  = (35, 510, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0205 :
+  samSubModePitch_fun (f32 (3205777654)) 6 0 4294967295 15 (f32 (1062649149)) (f32 (3214829133)) (f32 (1071144301))
+  = (6, 0, 0, [1062649149; 3214829133; 1071144301]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0206 :
+  samSubModePitch_fun (f32 (1073741824)) 34 1 0 4294967295 (f32 (3218055011)) (f32 (3217708530)) (f32 (3215420575))
+  = (34, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0207 :
+  samSubModePitch_fun (f32 (3212836864)) 52 1 2938 5 (f32 (994152310)) (f32 (3220947712)) (f32 (1067118246))
+  = (52, 2939, 5, [994152310; 3220947712; 1067118246]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0208 :
+  samSubModePitch_fun (f32 (3224736834)) 38 0 400 11 (f32 (1037498576)) (f32 (3220412966)) (f32 (1068345768))
+  = (38, 401, 0, [1037498576; 3220412966; 1068345768]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0209 :
+  samSubModePitch_fun (f32 (1065353216)) 17 1 1729 8 (f32 (3203121870)) (f32 (3213621148)) (f32 (1064003434))
+  = (17, 1730, 8, [3203121870; 3213621148; 1064003434]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0210 :
+  samSubModePitch_fun (f32 (1073741824)) 49 1 5188 11 (f32 (3203071083)) (f32 (3216471339)) (f32 (3204829639))
+  = (49, 5189, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0211 :
+  samSubModePitch_fun (f32 (1073741824)) 12 1 4586 12 (f32 (3220596486)) (f32 (3207363433)) (f32 (3183802012))
+  = (51, 0, 0, [3220596486; 3207363433; 3183802012]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0212 :
+  samSubModePitch_fun (f32 (1071352570)) 23 0 5625 5 (f32 (3213501197)) (f32 (3213965454)) (f32 (1068991019))
+  = (34, 0, 0, [3213501197; 3213965454; 1068991019]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0213 :
+  samSubModePitch_fun (f32 (3222976082)) 36 0 5624 11 (f32 (1061853862)) (f32 (3211391033)) (f32 (1061868800))
+  = (36, 5625, 0, [1061853862; 3211391033; 1061868800]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0214 :
+  samSubModePitch_fun (f32 (1073741824)) 17 2 6103 5 (f32 (1067219871)) (f32 (1063568816)) (f32 (3189522036))
+  = (34, 0, 0, [1067219871; 1063568816; 3189522036]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0215 :
+  samSubModePitch_fun (f32 (1073741824)) 46 1 5625 12 (f32 (1065868769)) (f32 (3218769945)) (f32 (3218239170))
+  = (51, 0, 0, [1065868769; 3218769945; 3218239170]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0216 :
+  samSubModePitch_fun (f32 (2143289344)) 67 1 3375 5 (f32 (1044414181)) (f32 (3217077559)) (f32 (3217836704))
+  = (67, 3376, 5, [1044414181; 3217077559; 3217836704]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0217 :
+  samSubModePitch_fun (f32 (4286578688)) 18 1 2244 5 (f32 (1070875680)) (f32 (1059259848)) (f32 (1063225800))
+  = (18, 2245, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0218 :
+  samSubModePitch_fun (f32 (3218768074)) 69 0 4294967295 14 (f32 (3216003881)) (f32 (3211757286)) (f32 (3208078136))
+  = (69, 0, 0, [3216003881; 3211757286; 3208078136]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0219 :
+  samSubModePitch_fun (f32 (1073741824)) 0 1 0 4294967295 (f32 (1066339586)) (f32 (1061218161)) (f32 (3219902512))
+  = (0, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0220 :
+  samSubModePitch_fun (f32 (3212836864)) 31 1 4483 5 (f32 (3215451119)) (f32 (3206433549)) (f32 (3213839646))
+  = (31, 4484, 5, [3215451119; 3206433549; 3213839646]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0221 :
+  samSubModePitch_fun (f32 (3213098233)) 31 0 1515 17 (f32 (3207887474)) (f32 (3215891734)) (f32 (1073280661))
+  = (31, 1516, 0, [3207887474; 3215891734; 1073280661]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0222 :
+  samSubModePitch_fun (f32 (1065353216)) 70 1 2423 12 (f32 (1050459869)) (f32 (3211218673)) (f32 (3165477411))
+  = (70, 2424, 12, [1050459869; 3211218673; 3165477411]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0223 :
+  samSubModePitch_fun (f32 (1073741824)) 71 1 1235 11 (f32 (1071235403)) (f32 (1060417715)) (f32 (1065854011))
+  = (71, 1236, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0224 :
+  samSubModePitch_fun (f32 (1073741824)) 77 1 4124 12 (f32 (1055606612)) (f32 (1030936458)) (f32 (3217137838))
+  = (51, 0, 0, [1055606612; 1030936458; 3217137838]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0225 :
+  samSubModePitch_fun (f32 (3192240889)) 65 0 5625 6 (f32 (1073039074)) (f32 (1063212277)) (f32 (1069734341))
+  = (34, 0, 0, [1073039074; 1063212277; 1069734341]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0226 :
+  samSubModePitch_fun (f32 (3195157991)) 70 0 5624 18 (f32 (1072733363)) (f32 (1068886434)) (f32 (3215901731))
+  = (70, 5625, 0, [1072733363; 1068886434; 3215901731]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0227 :
+  samSubModePitch_fun (f32 (1073741824)) 71 2 4845 5 (f32 (1035983207)) (f32 (3214689368)) (f32 (1063068210))
+  = (71, 4846, 0, [1035983207; 3214689368; 1063068210]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0228 :
+  samSubModePitch_fun (f32 (1073741824)) 31 1 5625 12 (f32 (3221054563)) (f32 (1040845530)) (f32 (3217477818))
+  = (51, 0, 0, [3221054563; 1040845530; 3217477818]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0229 :
+  samSubModePitch_fun (f32 (2143289344)) 23 1 468 5 (f32 (1071782005)) (f32 (1073110594)) (f32 (3214891303))
+  = (23, 469, 5, [1071782005; 1073110594; 3214891303]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0230 :
+  samSubModePitch_fun (f32 (4286578688)) 55 1 6920 5 (f32 (3216976665)) (f32 (1043921137)) (f32 (3194209554))
+  = (34, 0, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0231 :
+  samSubModePitch_fun (f32 (1077613654)) 58 0 4294967295 11 (f32 (1067499223)) (f32 (1061845775)) (f32 (1051420191))
+  = (58, 0, 0, [1067499223; 1061845775; 1051420191]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0232 :
+  samSubModePitch_fun (f32 (1073741824)) 27 1 0 4294967295 (f32 (3213784985)) (f32 (3218135232)) (f32 (1066791702))
+  = (27, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0233 :
+  samSubModePitch_fun (f32 (3212836864)) 41 1 1240 5 (f32 (3215381552)) (f32 (1056370658)) (f32 (3208833741))
+  = (41, 1241, 5, [3215381552; 1056370658; 3208833741]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0234 :
+  samSubModePitch_fun (f32 (3218825823)) 79 0 4659 1 (f32 (1046361639)) (f32 (1062992784)) (f32 (1050798486))
+  = (79, 4660, 0, [1046361639; 1062992784; 1050798486]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0235 :
+  samSubModePitch_fun (f32 (1065353216)) 44 1 2301 8 (f32 (3213731095)) (f32 (1057574516)) (f32 (1058650140))
+  = (44, 2302, 8, [3213731095; 1057574516; 1058650140]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0236 :
+  samSubModePitch_fun (f32 (1073741824)) 36 1 4778 11 (f32 (3183201947)) (f32 (3206579968)) (f32 (3218321297))
+  = (36, 4779, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0237 :
+  samSubModePitch_fun (f32 (1073741824)) 45 1 6989 12 (f32 (3210680430)) (f32 (3217351226)) (f32 (3211157193))
+  = (51, 0, 0, [3210680430; 3217351226; 3211157193]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0238 :
+  samSubModePitch_fun (f32 (1071364989)) 45 0 5625 5 (f32 (3216729052)) (f32 (1070232338)) (f32 (3208791621))
+  = (34, 0, 0, [3216729052; 1070232338; 3208791621]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0239 :
+  samSubModePitch_fun (f32 (3214362343)) 4 0 5624 7 (f32 (1063207948)) (f32 (1069573002)) (f32 (3219276792))
+  = (4, 5625, 0, [1063207948; 1069573002; 3219276792]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0240 :
+  samSubModePitch_fun (f32 (1073741824)) 50 2 142 5 (f32 (3218499161)) (f32 (3217767893)) (f32 (3218992759))
+  = (50, 143, 0, [3218499161; 3217767893; 3218992759]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0241 :
+  samSubModePitch_fun (f32 (1073741824)) 6 1 5625 12 (f32 (1049527444)) (f32 (1069740374)) (f32 (1070105662))
+  = (51, 0, 0, [1049527444; 1069740374; 1070105662]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0242 :
+  samSubModePitch_fun (f32 (2143289344)) 38 1 1223 5 (f32 (3211376603)) (f32 (1072861761)) (f32 (1072208230))
+  = (38, 1224, 5, [3211376603; 1072861761; 1072208230]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0243 :
+  samSubModePitch_fun (f32 (4286578688)) 8 1 5483 5 (f32 (3214774370)) (f32 (3216466770)) (f32 (3216312796))
+  = (8, 5484, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0244 :
+  samSubModePitch_fun (f32 (3222296630)) 54 0 4294967295 19 (f32 (3218535368)) (f32 (1065828723)) (f32 (3213209556))
+  = (54, 0, 0, [3218535368; 1065828723; 3213209556]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0245 :
+  samSubModePitch_fun (f32 (1073741824)) 8 1 0 4294967295 (f32 (3208477718)) (f32 (3213352548)) (f32 (1064691862))
+  = (8, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0246 :
+  samSubModePitch_fun (f32 (3212836864)) 40 1 6636 5 (f32 (1009305363)) (f32 (1069847791)) (f32 (1069624541))
+  = (34, 0, 0, [1009305363; 1069847791; 1069624541]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0247 :
+  samSubModePitch_fun (f32 (1074794923)) 29 0 5010 20 (f32 (1071777174)) (f32 (3214103355)) (f32 (1066637475))
+  = (29, 5011, 0, [1071777174; 3214103355; 1066637475]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0248 :
+  samSubModePitch_fun (f32 (1065353216)) 16 1 3565 7 (f32 (3210186953)) (f32 (3196465098)) (f32 (3162489209))
+  = (16, 3566, 7, [3210186953; 3196465098; 3162489209]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0249 :
+  samSubModePitch_fun (f32 (1073741824)) 67 1 3323 11 (f32 (3219944829)) (f32 (1060025786)) (f32 (1066403000))
+  = (67, 3324, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0250 :
+  samSubModePitch_fun (f32 (1073741824)) 12 1 903 12 (f32 (1070393912)) (f32 (3171290536)) (f32 (1066184262))
+  = (51, 0, 0, [1070393912; 3171290536; 1066184262]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0251 :
+  samSubModePitch_fun (f32 (1077875583)) 76 0 5625 14 (f32 (3210085608)) (f32 (1070376942)) (f32 (1066651182))
+  = (34, 0, 0, [3210085608; 1070376942; 1066651182]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0252 :
+  samSubModePitch_fun (f32 (1076383437)) 66 0 5624 9 (f32 (1058442862)) (f32 (1070629944)) (f32 (1064594252))
+  = (66, 5625, 0, [1058442862; 1070629944; 1064594252]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0253 :
+  samSubModePitch_fun (f32 (1073741824)) 64 2 521 5 (f32 (3216734413)) (f32 (1038229250)) (f32 (3218740639))
+  = (64, 522, 0, [3216734413; 1038229250; 3218740639]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0254 :
+  samSubModePitch_fun (f32 (1073741824)) 57 1 5625 12 (f32 (1072383161)) (f32 (3218739501)) (f32 (3212907416))
+  = (51, 0, 0, [1072383161; 3218739501; 3212907416]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0255 :
+  samSubModePitch_fun (f32 (2143289344)) 51 1 2509 5 (f32 (3175204549)) (f32 (3213128898)) (f32 (3209187540))
+  = (51, 2510, 5, [3175204549; 3213128898; 3209187540]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0256 :
+  samSubModePitch_fun (f32 (4286578688)) 16 1 4610 5 (f32 (3205941945)) (f32 (3162900794)) (f32 (3220010140))
+  = (16, 4611, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0257 :
+  samSubModePitch_fun (f32 (3225022143)) 61 0 4294967295 19 (f32 (3208695538)) (f32 (1073701047)) (f32 (3177757264))
+  = (61, 0, 0, [3208695538; 1073701047; 3177757264]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0258 :
+  samSubModePitch_fun (f32 (1073741824)) 16 1 0 4294967295 (f32 (1064590026)) (f32 (3204904043)) (f32 (3204503275))
+  = (16, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0259 :
+  samSubModePitch_fun (f32 (3212836864)) 78 1 1977 5 (f32 (1051325827)) (f32 (1069375551)) (f32 (1058054783))
+  = (78, 1978, 5, [1051325827; 1069375551; 1058054783]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0260 :
+  samSubModePitch_fun (f32 (1073971073)) 78 1 2884 5 (f32 (1066274549)) (f32 (1066173987)) (f32 (1067192975))
+  = (78, 2885, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0261 :
+  samSubModePitch_fun (f32 (1065353216)) 67 1 2220 9 (f32 (1067492713)) (f32 (3198444982)) (f32 (1072435595))
+  = (67, 2221, 9, [1067492713; 3198444982; 1072435595]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0262 :
+  samSubModePitch_fun (f32 (1073741824)) 56 1 215 11 (f32 (3213436060)) (f32 (1042885038)) (f32 (3216004572))
+  = (56, 216, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0263 :
+  samSubModePitch_fun (f32 (1073741824)) 68 1 2890 12 (f32 (1072356120)) (f32 (3169007531)) (f32 (3203741266))
+  = (51, 0, 0, [1072356120; 3169007531; 3203741266]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0264 :
+  samSubModePitch_fun (f32 (3221268068)) 1 0 5625 9 (f32 (3210752347)) (f32 (3216922863)) (f32 (1058423920))
+  = (34, 0, 0, [3210752347; 3216922863; 1058423920]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0265 :
+  samSubModePitch_fun (f32 (1070422717)) 32 0 5624 2 (f32 (3214422725)) (f32 (3215636202)) (f32 (3217464146))
+  = (32, 5625, 0, [3214422725; 3215636202; 3217464146]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0266 :
+  samSubModePitch_fun (f32 (1073741824)) 60 2 140 5 (f32 (3185311287)) (f32 (3219600544)) (f32 (1069913245))
+  = (60, 141, 0, [3185311287; 3219600544; 1069913245]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0267 :
+  samSubModePitch_fun (f32 (1073741824)) 18 1 5625 12 (f32 (1045743336)) (f32 (1070102598)) (f32 (3213815258))
+  = (51, 0, 0, [1045743336; 1070102598; 3213815258]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0268 :
+  samSubModePitch_fun (f32 (2143289344)) 11 1 6021 5 (f32 (3182718748)) (f32 (1069198466)) (f32 (3210025125))
+  = (34, 0, 0, [3182718748; 1069198466; 3210025125]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0269 :
+  samSubModePitch_fun (f32 (4286578688)) 75 1 6724 5 (f32 (1071638075)) (f32 (1050180333)) (f32 (3211112753))
+  = (34, 0, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0270 :
+  samSubModePitch_fun (f32 (1074992989)) 3 0 4294967295 5 (f32 (1069509802)) (f32 (3214608282)) (f32 (1069846246))
+  = (3, 0, 0, [1069509802; 3214608282; 1069846246]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0271 :
+  samSubModePitch_fun (f32 (1073741824)) 22 1 0 4294967295 (f32 (1073556610)) (f32 (3208156969)) (f32 (3206506644))
+  = (22, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0272 :
+  samSubModePitch_fun (f32 (3212836864)) 3 1 617 5 (f32 (1070359778)) (f32 (1067192297)) (f32 (3204730887))
+  = (3, 618, 5, [1070359778; 1067192297; 3204730887]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0273 :
+  samSubModePitch_fun (f32 (3209093513)) 49 1 3993 20 (f32 (3207320596)) (f32 (1068932959)) (f32 (1066381402))
+  = (49, 3994, 20, [3207320596; 1068932959; 1066381402]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0274 :
+  samSubModePitch_fun (f32 (1065353216)) 63 1 2435 4 (f32 (1060358866)) (f32 (1069846670)) (f32 (1072707717))
+  = (63, 2436, 4, [1060358866; 1069846670; 1072707717]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0275 :
+  samSubModePitch_fun (f32 (1073741824)) 58 1 4835 11 (f32 (1061965577)) (f32 (1011251357)) (f32 (1061305960))
+  = (58, 4836, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0276 :
+  samSubModePitch_fun (f32 (1073741824)) 79 1 2139 12 (f32 (3184144269)) (f32 (3220707139)) (f32 (3209401260))
+  = (51, 0, 0, [3184144269; 3220707139; 3209401260]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0277 :
+  samSubModePitch_fun (f32 (1070738448)) 9 0 5625 8 (f32 (1071428763)) (f32 (3192674566)) (f32 (1053915015))
+  = (34, 0, 0, [1071428763; 3192674566; 1053915015]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0278 :
+  samSubModePitch_fun (f32 (3222796458)) 24 0 5624 4 (f32 (3213736711)) (f32 (1050115135)) (f32 (1068525162))
+  = (24, 5625, 0, [3213736711; 1050115135; 1068525162]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0279 :
+  samSubModePitch_fun (f32 (1073741824)) 10 2 5379 5 (f32 (1071043860)) (f32 (3214743108)) (f32 (1073601529))
+  = (10, 5380, 0, [1071043860; 3214743108; 1073601529]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0280 :
+  samSubModePitch_fun (f32 (1073741824)) 56 1 5625 12 (f32 (1066882982)) (f32 (3215140653)) (f32 (3207107083))
+  = (51, 0, 0, [1066882982; 3215140653; 3207107083]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0281 :
+  samSubModePitch_fun (f32 (2143289344)) 19 1 3418 5 (f32 (3205860506)) (f32 (3209669195)) (f32 (1067735074))
+  = (19, 3419, 5, [3205860506; 3209669195; 1067735074]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0282 :
+  samSubModePitch_fun (f32 (4286578688)) 26 1 1695 5 (f32 (3191855193)) (f32 (3179530839)) (f32 (3220688106))
+  = (26, 1696, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0283 :
+  samSubModePitch_fun (f32 (1068125290)) 31 0 4294967295 18 (f32 (3217620972)) (f32 (3216099581)) (f32 (1070566724))
+  = (31, 0, 0, [3217620972; 3216099581; 1070566724]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0284 :
+  samSubModePitch_fun (f32 (1073741824)) 0 1 0 4294967295 (f32 (3217784371)) (f32 (1045600631)) (f32 (1068524841))
+  = (0, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0285 :
+  samSubModePitch_fun (f32 (3212836864)) 55 1 6512 5 (f32 (3205520241)) (f32 (3218995770)) (f32 (3211297015))
+  = (34, 0, 0, [3205520241; 3218995770; 3211297015]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0286 :
+  samSubModePitch_fun (f32 (1040284438)) 18 0 4171 15 (f32 (1036638413)) (f32 (1061841375)) (f32 (3206816154))
+  = (18, 4172, 0, [1036638413; 1061841375; 3206816154]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0287 :
+  samSubModePitch_fun (f32 (1065353216)) 29 1 2423 20 (f32 (3190804145)) (f32 (3208403292)) (f32 (3216924377))
+  = (29, 2424, 20, [3190804145; 3208403292; 3216924377]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0288 :
+  samSubModePitch_fun (f32 (1073741824)) 17 1 401 11 (f32 (3197885915)) (f32 (3201417000)) (f32 (3207674982))
+  = (17, 402, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0289 :
+  samSubModePitch_fun (f32 (1073741824)) 17 1 5568 12 (f32 (3193241302)) (f32 (3214050119)) (f32 (1072278070))
+  = (51, 0, 0, [3193241302; 3214050119; 1072278070]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0290 :
+  samSubModePitch_fun (f32 (3223588664)) 3 0 5625 10 (f32 (3196346554)) (f32 (3216976798)) (f32 (1066125449))
+  = (34, 0, 0, [3196346554; 3216976798; 1066125449]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0291 :
+  samSubModePitch_fun (f32 (1065622235)) 70 0 5624 11 (f32 (1060623280)) (f32 (3214068152)) (f32 (1068159256))
+  = (70, 5625, 0, [1060623280; 3214068152; 1068159256]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0292 :
+  samSubModePitch_fun (f32 (1073741824)) 21 2 729 5 (f32 (3179616164)) (f32 (1073106184)) (f32 (3214385968))
+  = (21, 730, 0, [3179616164; 1073106184; 3214385968]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0293 :
+  samSubModePitch_fun (f32 (1073741824)) 74 1 5625 12 (f32 (1056210706)) (f32 (1062305525)) (f32 (1045732938))
+  = (51, 0, 0, [1056210706; 1062305525; 1045732938]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0294 :
+  samSubModePitch_fun (f32 (2143289344)) 51 1 4068 5 (f32 (3195768595)) (f32 (1060046473)) (f32 (1072024892))
+  = (51, 4069, 5, [3195768595; 1060046473; 1072024892]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0295 :
+  samSubModePitch_fun (f32 (4286578688)) 55 1 603 5 (f32 (1069599737)) (f32 (1047253837)) (f32 (3198568789))
+  = (55, 604, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0296 :
+  samSubModePitch_fun (f32 (1076822893)) 4 0 4294967295 3 (f32 (3197400978)) (f32 (3212297796)) (f32 (1058814436))
+  = (4, 0, 0, [3197400978; 3212297796; 1058814436]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0297 :
+  samSubModePitch_fun (f32 (1073741824)) 9 1 0 4294967295 (f32 (1073595965)) (f32 (3210179616)) (f32 (3192535555))
+  = (9, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0298 :
+  samSubModePitch_fun (f32 (3212836864)) 33 1 1541 5 (f32 (3189809880)) (f32 (1073705885)) (f32 (1072646938))
+  = (33, 1542, 5, [3189809880; 1073705885; 1072646938]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0299 :
+  samSubModePitch_fun (f32 (3225191894)) 20 0 3908 7 (f32 (3220546219)) (f32 (3215089409)) (f32 (1058882863))
+  = (20, 3909, 0, [3220546219; 3215089409; 1058882863]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0300 :
+  samSubModePitch_fun (f32 (1065353216)) 57 1 6407 6 (f32 (1071093346)) (f32 (3217637715)) (f32 (1056890993))
+  = (34, 0, 0, [1071093346; 3217637715; 1056890993]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0301 :
+  samSubModePitch_fun (f32 (1073741824)) 18 1 3680 11 (f32 (3213183589)) (f32 (1066865871)) (f32 (3218779402))
+  = (18, 3681, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0302 :
+  samSubModePitch_fun (f32 (1073741824)) 21 1 6923 12 (f32 (1045061394)) (f32 (3192022705)) (f32 (1049796964))
+  = (51, 0, 0, [1045061394; 3192022705; 1049796964]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0303 :
+  samSubModePitch_fun (f32 (1077608935)) 22 0 5625 17 (f32 (3206364049)) (f32 (3201352763)) (f32 (3219890057))
+  = (34, 0, 0, [3206364049; 3201352763; 3219890057]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0304 :
+  samSubModePitch_fun (f32 (1073097751)) 8 0 5624 19 (f32 (1066590819)) (f32 (3172913830)) (f32 (1071290327))
+  = (8, 5625, 0, [1066590819; 3172913830; 1071290327]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0305 :
+  samSubModePitch_fun (f32 (1073741824)) 64 2 5647 5 (f32 (1070721476)) (f32 (1054992142)) (f32 (3212921882))
+  = (34, 0, 0, [1070721476; 1054992142; 3212921882]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0306 :
+  samSubModePitch_fun (f32 (1073741824)) 17 1 5625 12 (f32 (3202328744)) (f32 (3194859001)) (f32 (1056007013))
+  = (51, 0, 0, [3202328744; 3194859001; 1056007013]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0307 :
+  samSubModePitch_fun (f32 (2143289344)) 15 1 613 5 (f32 (1032592747)) (f32 (3217503830)) (f32 (3204892331))
+  = (15, 614, 5, [1032592747; 3217503830; 3204892331]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0308 :
+  samSubModePitch_fun (f32 (4286578688)) 26 1 6603 5 (f32 (3218737657)) (f32 (1069937414)) (f32 (3204704469))
+  = (34, 0, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0309 :
+  samSubModePitch_fun (f32 (1039649306)) 18 0 4294967295 0 (f32 (1071340696)) (f32 (3216564948)) (f32 (3215474987))
+  = (18, 0, 0, [1071340696; 3216564948; 3215474987]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0310 :
+  samSubModePitch_fun (f32 (1073741824)) 6 1 0 4294967295 (f32 (3220885517)) (f32 (1066802423)) (f32 (3193976906))
+  = (6, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0311 :
+  samSubModePitch_fun (f32 (3212836864)) 61 1 5592 5 (f32 (3193786547)) (f32 (3194525969)) (f32 (1059366877))
+  = (61, 5593, 5, [3193786547; 3194525969; 1059366877]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0312 :
+  samSubModePitch_fun (f32 (3224000985)) 77 0 2023 19 (f32 (1040874968)) (f32 (3198416905)) (f32 (3204181342))
+  = (77, 2024, 0, [1040874968; 3198416905; 3204181342]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0313 :
+  samSubModePitch_fun (f32 (1065353216)) 66 1 3479 4 (f32 (1057346623)) (f32 (3203104701)) (f32 (3205266924))
+  = (66, 3480, 4, [1057346623; 3203104701; 3205266924]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0314 :
+  samSubModePitch_fun (f32 (1073741824)) 54 1 1755 11 (f32 (1065561432)) (f32 (1036874685)) (f32 (1073387536))
+  = (54, 1756, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0315 :
+  samSubModePitch_fun (f32 (1073741824)) 58 1 3306 12 (f32 (1067485422)) (f32 (3221065400)) (f32 (1065659660))
+  = (51, 0, 0, [1067485422; 3221065400; 1065659660]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0316 :
+  samSubModePitch_fun (f32 (1069716746)) 27 0 5625 4 (f32 (3207746824)) (f32 (3220640934)) (f32 (3210914067))
+  = (34, 0, 0, [3207746824; 3220640934; 3210914067]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0317 :
+  samSubModePitch_fun (f32 (1070719635)) 77 0 5624 7 (f32 (3204614702)) (f32 (3219981958)) (f32 (3205830908))
+  = (77, 5625, 0, [3204614702; 3219981958; 3205830908]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0318 :
+  samSubModePitch_fun (f32 (1073741824)) 52 2 4211 5 (f32 (1066472235)) (f32 (1061815637)) (f32 (1048826044))
+  = (52, 4212, 0, [1066472235; 1061815637; 1048826044]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0319 :
+  samSubModePitch_fun (f32 (1073741824)) 12 1 5625 12 (f32 (3189978239)) (f32 (1044803005)) (f32 (3219935563))
+  = (51, 0, 0, [3189978239; 1044803005; 3219935563]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0320 :
+  samSubModePitch_fun (f32 (2143289344)) 70 1 4023 5 (f32 (3205787432)) (f32 (3212980651)) (f32 (1066356416))
+  = (70, 4024, 5, [3205787432; 3212980651; 1066356416]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0321 :
+  samSubModePitch_fun (f32 (4286578688)) 60 1 2175 5 (f32 (3206704394)) (f32 (3217035728)) (f32 (3216942202))
+  = (60, 2176, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0322 :
+  samSubModePitch_fun (f32 (3203779778)) 34 0 4294967295 4 (f32 (3212852454)) (f32 (1053513502)) (f32 (1063201964))
+  = (34, 0, 0, [3212852454; 1053513502; 1063201964]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0323 :
+  samSubModePitch_fun (f32 (1073741824)) 35 1 0 4294967295 (f32 (1059841747)) (f32 (1057075788)) (f32 (3216238251))
+  = (35, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0324 :
+  samSubModePitch_fun (f32 (3212836864)) 44 1 1632 5 (f32 (3218048018)) (f32 (1030890995)) (f32 (3220962698))
+  = (44, 1633, 5, [3218048018; 1030890995; 3220962698]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0325 :
+  samSubModePitch_fun (f32 (3187738270)) 47 0 285 14 (f32 (3181719698)) (f32 (3188052327)) (f32 (1059324803))
+  = (47, 286, 0, [3181719698; 3188052327; 1059324803]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0326 :
+  samSubModePitch_fun (f32 (1065353216)) 64 1 1560 19 (f32 (1067727076)) (f32 (1071184026)) (f32 (1063837403))
+  = (64, 1561, 19, [1067727076; 1071184026; 1063837403]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0327 :
+  samSubModePitch_fun (f32 (1073741824)) 10 1 5966 11 (f32 (1032319955)) (f32 (1073730680)) (f32 (1058866363))
+  = (34, 0, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0328 :
+  samSubModePitch_fun (f32 (1073741824)) 68 1 2650 12 (f32 (1049493646)) (f32 (3210925600)) (f32 (3200573999))
+  = (51, 0, 0, [1049493646; 3210925600; 3200573999]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0329 :
+  samSubModePitch_fun (f32 (1056680467)) 73 0 5625 10 (f32 (1073631879)) (f32 (3199295324)) (f32 (3201638192))
+  = (34, 0, 0, [1073631879; 3199295324; 3201638192]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0330 :
+  samSubModePitch_fun (f32 (3211804316)) 38 0 5624 10 (f32 (1064511247)) (f32 (3215128268)) (f32 (1045282320))
+  = (38, 5625, 0, [1064511247; 3215128268; 1045282320]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0331 :
+  samSubModePitch_fun (f32 (1073741824)) 39 2 5190 5 (f32 (3211128242)) (f32 (1069857941)) (f32 (3213426198))
+  = (39, 5191, 0, [3211128242; 1069857941; 3213426198]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0332 :
+  samSubModePitch_fun (f32 (1073741824)) 12 1 5625 12 (f32 (1071727885)) (f32 (1065806948)) (f32 (1068244368))
+  = (51, 0, 0, [1071727885; 1065806948; 1068244368]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0333 :
+  samSubModePitch_fun (f32 (2143289344)) 13 1 4787 5 (f32 (3204726026)) (f32 (3221171565)) (f32 (1071612115))
+  = (13, 4788, 5, [3204726026; 3221171565; 1071612115]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0334 :
+  samSubModePitch_fun (f32 (4286578688)) 50 1 5133 5 (f32 (1044009227)) (f32 (3200967966)) (f32 (3207871751))
+  = (50, 5134, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0335 :
+  samSubModePitch_fun (f32 (1067679662)) 16 0 4294967295 15 (f32 (1061715624)) (f32 (1047663147)) (f32 (3213695441))
+  = (16, 0, 0, [1061715624; 1047663147; 3213695441]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0336 :
+  samSubModePitch_fun (f32 (1073741824)) 20 1 0 4294967295 (f32 (1066483041)) (f32 (1067755776)) (f32 (1063522164))
+  = (20, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0337 :
+  samSubModePitch_fun (f32 (3212836864)) 16 1 650 5 (f32 (1048544695)) (f32 (1066597207)) (f32 (1042314001))
+  = (16, 651, 5, [1048544695; 1066597207; 1042314001]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0338 :
+  samSubModePitch_fun (f32 (3219835588)) 65 1 5535 11 (f32 (3205815464)) (f32 (1057793439)) (f32 (3206222199))
+  = (65, 5536, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0339 :
+  samSubModePitch_fun (f32 (1065353216)) 14 1 1267 15 (f32 (1066714239)) (f32 (1058875512)) (f32 (3210998845))
+  = (14, 1268, 15, [1066714239; 1058875512; 3210998845]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0340 :
+  samSubModePitch_fun (f32 (1073741824)) 5 1 749 11 (f32 (1069759615)) (f32 (3216851982)) (f32 (1060821730))
+  = (5, 750, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0341 :
+  samSubModePitch_fun (f32 (1073741824)) 62 1 1601 12 (f32 (3197731523)) (f32 (3220338589)) (f32 (1018260376))
+  = (51, 0, 0, [3197731523; 3220338589; 1018260376]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0342 :
+  samSubModePitch_fun (f32 (3210436736)) 52 0 5625 7 (f32 (3209887971)) (f32 (1069311548)) (f32 (1068822058))
+  = (34, 0, 0, [3209887971; 1069311548; 1068822058]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0343 :
+  samSubModePitch_fun (f32 (3218311319)) 29 0 5624 7 (f32 (1068470086)) (f32 (3216745368)) (f32 (1059223871))
+  = (29, 5625, 0, [1068470086; 3216745368; 1059223871]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0344 :
+  samSubModePitch_fun (f32 (1073741824)) 57 2 847 5 (f32 (3220266869)) (f32 (3196080541)) (f32 (1067355647))
+  = (57, 848, 0, [3220266869; 3196080541; 1067355647]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0345 :
+  samSubModePitch_fun (f32 (1073741824)) 73 1 5625 12 (f32 (3213420088)) (f32 (1052845231)) (f32 (1068248877))
+  = (51, 0, 0, [3213420088; 1052845231; 1068248877]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0346 :
+  samSubModePitch_fun (f32 (2143289344)) 61 1 2834 5 (f32 (3216510962)) (f32 (1066054064)) (f32 (1062264036))
+  = (61, 2835, 5, [3216510962; 1066054064; 1062264036]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0347 :
+  samSubModePitch_fun (f32 (4286578688)) 53 1 2669 5 (f32 (1066815986)) (f32 (1065377473)) (f32 (3218302384))
+  = (53, 2670, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0348 :
+  samSubModePitch_fun (f32 (3224800101)) 29 0 4294967295 14 (f32 (3220821324)) (f32 (1067659839)) (f32 (1071860135))
+  = (29, 0, 0, [3220821324; 1067659839; 1071860135]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0349 :
+  samSubModePitch_fun (f32 (1073741824)) 7 1 0 4294967295 (f32 (1060003939)) (f32 (1072062939)) (f32 (3196441823))
+  = (7, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0350 :
+  samSubModePitch_fun (f32 (3212836864)) 33 1 3222 5 (f32 (1069632223)) (f32 (3216890419)) (f32 (1058674523))
+  = (33, 3223, 5, [1069632223; 3216890419; 1058674523]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0351 :
+  samSubModePitch_fun (f32 (3220292319)) 78 0 3596 1 (f32 (3219360355)) (f32 (3213947762)) (f32 (3212364750))
+  = (78, 3597, 0, [3219360355; 3213947762; 3212364750]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0352 :
+  samSubModePitch_fun (f32 (1065353216)) 51 1 2914 20 (f32 (1062497026)) (f32 (1047143364)) (f32 (3219231708))
+  = (51, 2915, 20, [1062497026; 1047143364; 3219231708]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0353 :
+  samSubModePitch_fun (f32 (1073741824)) 47 1 3886 11 (f32 (3201120676)) (f32 (1067850472)) (f32 (1065384515))
+  = (47, 3887, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0354 :
+  samSubModePitch_fun (f32 (1073741824)) 23 1 381 12 (f32 (1056336381)) (f32 (1071312391)) (f32 (3219301467))
+  = (51, 0, 0, [1056336381; 1071312391; 3219301467]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0355 :
+  samSubModePitch_fun (f32 (1070360876)) 46 0 5625 8 (f32 (3194218088)) (f32 (3216389114)) (f32 (3208404244))
+  = (34, 0, 0, [3194218088; 3216389114; 3208404244]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0356 :
+  samSubModePitch_fun (f32 (3223459254)) 20 0 5624 5 (f32 (1073078708)) (f32 (3203736271)) (f32 (3198373879))
+  = (20, 5625, 0, [1073078708; 3203736271; 3198373879]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0357 :
+  samSubModePitch_fun (f32 (1073741824)) 17 2 2645 5 (f32 (1073333624)) (f32 (3201672488)) (f32 (1071241367))
+  = (17, 2646, 0, [1073333624; 3201672488; 1071241367]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0358 :
+  samSubModePitch_fun (f32 (1073741824)) 14 1 5625 12 (f32 (1051865853)) (f32 (1062457795)) (f32 (1066426380))
+  = (51, 0, 0, [1051865853; 1062457795; 1066426380]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0359 :
+  samSubModePitch_fun (f32 (2143289344)) 8 1 5794 5 (f32 (1071525712)) (f32 (3212998733)) (f32 (1055643494))
+  = (34, 0, 0, [1071525712; 3212998733; 1055643494]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0360 :
+  samSubModePitch_fun (f32 (4286578688)) 12 1 6677 5 (f32 (1069470770)) (f32 (1069273625)) (f32 (1070713361))
+  = (34, 0, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0361 :
+  samSubModePitch_fun (f32 (3221797778)) 29 0 4294967295 14 (f32 (1039215401)) (f32 (3210936587)) (f32 (1027647403))
+  = (29, 0, 0, [1039215401; 3210936587; 1027647403]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0362 :
+  samSubModePitch_fun (f32 (1073741824)) 39 1 0 4294967295 (f32 (1058137565)) (f32 (3214220884)) (f32 (3212829649))
+  = (39, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0363 :
+  samSubModePitch_fun (f32 (3212836864)) 24 1 2600 5 (f32 (1069022337)) (f32 (3219249590)) (f32 (3207197799))
+  = (24, 2601, 5, [1069022337; 3219249590; 3207197799]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0364 :
+  samSubModePitch_fun (f32 (1075299665)) 24 0 2076 8 (f32 (3220412117)) (f32 (1073456627)) (f32 (3219460818))
+  = (24, 2077, 0, [3220412117; 1073456627; 3219460818]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0365 :
+  samSubModePitch_fun (f32 (1065353216)) 53 1 1906 19 (f32 (3193172466)) (f32 (3214675201)) (f32 (1054106518))
+  = (53, 1907, 19, [3193172466; 3214675201; 1054106518]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0366 :
+  samSubModePitch_fun (f32 (1073741824)) 7 1 850 11 (f32 (3200971484)) (f32 (1043168845)) (f32 (1070284330))
+  = (7, 851, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0367 :
+  samSubModePitch_fun (f32 (1073741824)) 79 1 4449 12 (f32 (1063449374)) (f32 (1070135097)) (f32 (1063337697))
+  = (51, 0, 0, [1063449374; 1070135097; 1063337697]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0368 :
+  samSubModePitch_fun (f32 (3197162553)) 66 0 5625 13 (f32 (1073401181)) (f32 (1070809504)) (f32 (3213871833))
+  = (34, 0, 0, [1073401181; 1070809504; 3213871833]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0369 :
+  samSubModePitch_fun (f32 (1068649147)) 37 0 5624 15 (f32 (1058168635)) (f32 (1060479614)) (f32 (1034605484))
+  = (37, 5625, 0, [1058168635; 1060479614; 1034605484]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0370 :
+  samSubModePitch_fun (f32 (1073741824)) 50 2 5526 5 (f32 (1069677026)) (f32 (3199019451)) (f32 (1050151989))
+  = (50, 5527, 0, [1069677026; 3199019451; 1050151989]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0371 :
+  samSubModePitch_fun (f32 (1073741824)) 58 1 5625 12 (f32 (1072412396)) (f32 (3194199201)) (f32 (3216120164))
+  = (51, 0, 0, [1072412396; 3194199201; 3216120164]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0372 :
+  samSubModePitch_fun (f32 (2143289344)) 53 1 4498 5 (f32 (1061998949)) (f32 (1031244906)) (f32 (1057571173))
+  = (53, 4499, 5, [1061998949; 1031244906; 1057571173]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0373 :
+  samSubModePitch_fun (f32 (4286578688)) 76 1 4777 5 (f32 (1058732886)) (f32 (3219181028)) (f32 (3220868600))
+  = (76, 4778, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0374 :
+  samSubModePitch_fun (f32 (3212178600)) 79 0 4294967295 1 (f32 (1053605248)) (f32 (3209805422)) (f32 (1066244937))
+  = (79, 0, 0, [1053605248; 3209805422; 1066244937]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0375 :
+  samSubModePitch_fun (f32 (1073741824)) 21 1 0 4294967295 (f32 (1072762666)) (f32 (3213935942)) (f32 (3207525447))
+  = (21, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0376 :
+  samSubModePitch_fun (f32 (3212836864)) 52 1 1938 5 (f32 (1073099160)) (f32 (1064976325)) (f32 (3196984763))
+  = (52, 1939, 5, [1073099160; 1064976325; 3196984763]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0377 :
+  samSubModePitch_fun (f32 (1065449646)) 52 0 5204 1 (f32 (3213312507)) (f32 (3204507190)) (f32 (1060232750))
+  = (52, 5205, 0, [3213312507; 3204507190; 1060232750]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0378 :
+  samSubModePitch_fun (f32 (1065353216)) 69 1 2937 14 (f32 (1005158544)) (f32 (3198939117)) (f32 (1069701061))
+  = (69, 2938, 14, [1005158544; 3198939117; 1069701061]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0379 :
+  samSubModePitch_fun (f32 (1073741824)) 60 1 2364 11 (f32 (1058302737)) (f32 (1071838404)) (f32 (3156134335))
+  = (60, 2365, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0380 :
+  samSubModePitch_fun (f32 (1073741824)) 79 1 2112 12 (f32 (1042037367)) (f32 (3171454016)) (f32 (1072258471))
+  = (51, 0, 0, [1042037367; 3171454016; 1072258471]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0381 :
+  samSubModePitch_fun (f32 (1010255072)) 30 0 5625 12 (f32 (3208059295)) (f32 (1070524235)) (f32 (3207012968))
+  = (34, 0, 0, [3208059295; 1070524235; 3207012968]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0382 :
+  samSubModePitch_fun (f32 (3208118566)) 34 0 5624 0 (f32 (3218916060)) (f32 (3209381768)) (f32 (1043486969))
+  = (34, 5625, 0, [3218916060; 3209381768; 1043486969]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0383 :
+  samSubModePitch_fun (f32 (1073741824)) 9 2 988 5 (f32 (1063983062)) (f32 (1056189970)) (f32 (3208543101))
+  = (9, 989, 0, [1063983062; 1056189970; 3208543101]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0384 :
+  samSubModePitch_fun (f32 (1073741824)) 73 1 5625 12 (f32 (3213096347)) (f32 (3208189283)) (f32 (3214246371))
+  = (51, 0, 0, [3213096347; 3208189283; 3214246371]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0385 :
+  samSubModePitch_fun (f32 (2143289344)) 38 1 3847 5 (f32 (1031931699)) (f32 (3220569252)) (f32 (1068100950))
+  = (38, 3848, 5, [1031931699; 3220569252; 1068100950]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0386 :
+  samSubModePitch_fun (f32 (4286578688)) 38 1 4255 5 (f32 (3215556132)) (f32 (3211880356)) (f32 (1050812155))
+  = (38, 4256, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0387 :
+  samSubModePitch_fun (f32 (1076946776)) 2 0 4294967295 10 (f32 (1065736880)) (f32 (1064273347)) (f32 (1040842023))
+  = (2, 0, 0, [1065736880; 1064273347; 1040842023]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0388 :
+  samSubModePitch_fun (f32 (1073741824)) 18 1 0 4294967295 (f32 (3207578234)) (f32 (1053579417)) (f32 (3189308594))
+  = (18, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0389 :
+  samSubModePitch_fun (f32 (3212836864)) 16 1 6704 5 (f32 (3214326842)) (f32 (1073712431)) (f32 (3216219534))
+  = (34, 0, 0, [3214326842; 1073712431; 3216219534]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0390 :
+  samSubModePitch_fun (f32 (3221373220)) 33 0 619 8 (f32 (1069922569)) (f32 (3198602144)) (f32 (3215500256))
+  = (33, 620, 0, [1069922569; 3198602144; 3215500256]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0391 :
+  samSubModePitch_fun (f32 (1065353216)) 44 1 4220 20 (f32 (3200590199)) (f32 (3208379060)) (f32 (3204611250))
+  = (44, 4221, 20, [3200590199; 3208379060; 3204611250]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0392 :
+  samSubModePitch_fun (f32 (1073741824)) 50 1 1494 11 (f32 (1068618181)) (f32 (3220573135)) (f32 (3221004113))
+  = (50, 1495, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0393 :
+  samSubModePitch_fun (f32 (1073741824)) 54 1 944 12 (f32 (1067162247)) (f32 (3203196268)) (f32 (1059228170))
+  = (51, 0, 0, [1067162247; 3203196268; 1059228170]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0394 :
+  samSubModePitch_fun (f32 (1076200969)) 78 0 5625 14 (f32 (1042463529)) (f32 (1071568988)) (f32 (1064095513))
+  = (34, 0, 0, [1042463529; 1071568988; 1064095513]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0395 :
+  samSubModePitch_fun (f32 (1042794941)) 72 0 5624 1 (f32 (3177155310)) (f32 (1036352689)) (f32 (3208185519))
+  = (72, 5625, 0, [3177155310; 1036352689; 3208185519]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0396 :
+  samSubModePitch_fun (f32 (1073741824)) 41 2 6667 5 (f32 (1036734064)) (f32 (3218023037)) (f32 (1067180906))
+  = (34, 0, 0, [1036734064; 3218023037; 1067180906]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0397 :
+  samSubModePitch_fun (f32 (1073741824)) 77 1 5625 12 (f32 (3218005034)) (f32 (1068844566)) (f32 (3218033052))
+  = (51, 0, 0, [3218005034; 1068844566; 3218033052]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0398 :
+  samSubModePitch_fun (f32 (2143289344)) 79 1 5551 5 (f32 (3214186916)) (f32 (3204304831)) (f32 (3221169228))
+  = (79, 5552, 5, [3214186916; 3204304831; 3221169228]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0399 :
+  samSubModePitch_fun (f32 (4286578688)) 35 1 6809 5 (f32 (3209429233)) (f32 (1072749911)) (f32 (3185492041))
+  = (34, 0, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0400 :
+  samSubModePitch_fun (f32 (1075678595)) 34 0 4294967295 0 (f32 (3214824400)) (f32 (1070365107)) (f32 (3219926066))
+  = (34, 0, 0, [3214824400; 1070365107; 3219926066]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0401 :
+  samSubModePitch_fun (f32 (1073741824)) 36 1 0 4294967295 (f32 (1055753805)) (f32 (1069766696)) (f32 (3216859899))
+  = (36, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0402 :
+  samSubModePitch_fun (f32 (3212836864)) 71 1 324 5 (f32 (3210966776)) (f32 (3216142227)) (f32 (3197078629))
+  = (71, 325, 5, [3210966776; 3216142227; 3197078629]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0403 :
+  samSubModePitch_fun (f32 (3198437292)) 46 0 4268 7 (f32 (3220030495)) (f32 (1070150196)) (f32 (1050984556))
+  = (46, 4269, 0, [3220030495; 1070150196; 1050984556]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0404 :
+  samSubModePitch_fun (f32 (1065353216)) 15 1 4186 17 (f32 (1059756042)) (f32 (3216131847)) (f32 (3215396728))
+  = (15, 4187, 17, [1059756042; 3216131847; 3215396728]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0405 :
+  samSubModePitch_fun (f32 (1073741824)) 66 1 2117 11 (f32 (3213724124)) (f32 (3195216786)) (f32 (1066064872))
+  = (66, 2118, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0406 :
+  samSubModePitch_fun (f32 (1073741824)) 41 1 3960 12 (f32 (3208882173)) (f32 (1072231401)) (f32 (3214251122))
+  = (51, 0, 0, [3208882173; 1072231401; 3214251122]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0407 :
+  samSubModePitch_fun (f32 (1076759718)) 6 0 5625 20 (f32 (3215676850)) (f32 (3213617109)) (f32 (1070284055))
+  = (34, 0, 0, [3215676850; 3213617109; 1070284055]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0408 :
+  samSubModePitch_fun (f32 (1072618654)) 0 0 5624 15 (f32 (1053577183)) (f32 (1049757672)) (f32 (3205693684))
+  = (0, 5625, 0, [1053577183; 1049757672; 3205693684]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0409 :
+  samSubModePitch_fun (f32 (1073741824)) 72 2 6195 5 (f32 (3214813802)) (f32 (1049748815)) (f32 (3214357999))
+  = (34, 0, 0, [3214813802; 1049748815; 3214357999]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0410 :
+  samSubModePitch_fun (f32 (1073741824)) 33 1 5625 12 (f32 (1071316809)) (f32 (1071324254)) (f32 (3211136823))
+  = (51, 0, 0, [1071316809; 1071324254; 3211136823]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0411 :
+  samSubModePitch_fun (f32 (2143289344)) 18 1 1954 5 (f32 (3215380381)) (f32 (3220494260)) (f32 (3213658090))
+  = (18, 1955, 5, [3215380381; 3220494260; 3213658090]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0412 :
+  samSubModePitch_fun (f32 (4286578688)) 65 1 5406 5 (f32 (3217300000)) (f32 (1070753113)) (f32 (1070320746))
+  = (65, 5407, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0413 :
+  samSubModePitch_fun (f32 (1020100712)) 54 0 4294967295 10 (f32 (1069485472)) (f32 (3215180924)) (f32 (1066776962))
+  = (54, 0, 0, [1069485472; 3215180924; 1066776962]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0414 :
+  samSubModePitch_fun (f32 (1073741824)) 37 1 0 4294967295 (f32 (3218529470)) (f32 (1072331859)) (f32 (3200578439))
+  = (37, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0415 :
+  samSubModePitch_fun (f32 (3212836864)) 54 1 188 5 (f32 (3202918999)) (f32 (3221205830)) (f32 (1057928628))
+  = (54, 189, 5, [3202918999; 3221205830; 1057928628]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0416 :
+  samSubModePitch_fun (f32 (3205612095)) 56 0 838 10 (f32 (1040961418)) (f32 (1071009234)) (f32 (3215474326))
+  = (56, 839, 0, [1040961418; 1071009234; 3215474326]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0417 :
+  samSubModePitch_fun (f32 (1065353216)) 77 1 5609 16 (f32 (3203764489)) (f32 (1069106462)) (f32 (1058405740))
+  = (77, 5610, 16, [3203764489; 1069106462; 1058405740]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0418 :
+  samSubModePitch_fun (f32 (1073741824)) 40 1 1026 11 (f32 (1071210880)) (f32 (3215353053)) (f32 (1071918222))
+  = (40, 1027, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0419 :
+  samSubModePitch_fun (f32 (1073741824)) 61 1 2513 12 (f32 (1053487388)) (f32 (3219459126)) (f32 (3195403380))
+  = (51, 0, 0, [1053487388; 3219459126; 3195403380]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0420 :
+  samSubModePitch_fun (f32 (1061615609)) 17 0 5625 10 (f32 (1069698177)) (f32 (1066008725)) (f32 (1066854123))
+  = (34, 0, 0, [1069698177; 1066008725; 1066854123]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0421 :
+  samSubModePitch_fun (f32 (1072891987)) 11 0 5624 13 (f32 (1070048850)) (f32 (3204569777)) (f32 (1033317646))
+  = (11, 5625, 0, [1070048850; 3204569777; 1033317646]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0422 :
+  samSubModePitch_fun (f32 (1073741824)) 7 2 40 5 (f32 (1068616895)) (f32 (1034424111)) (f32 (1057789410))
+  = (7, 41, 0, [1068616895; 1034424111; 1057789410]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0423 :
+  samSubModePitch_fun (f32 (1073741824)) 15 1 5625 12 (f32 (3213251020)) (f32 (3220691038)) (f32 (3213461525))
+  = (51, 0, 0, [3213251020; 3220691038; 3213461525]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0424 :
+  samSubModePitch_fun (f32 (2143289344)) 10 1 5367 5 (f32 (1056995349)) (f32 (3214372928)) (f32 (1066276119))
+  = (10, 5368, 5, [1056995349; 3214372928; 1066276119]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0425 :
+  samSubModePitch_fun (f32 (4286578688)) 2 1 5972 5 (f32 (1063514143)) (f32 (1037925412)) (f32 (3192339196))
+  = (34, 0, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0426 :
+  samSubModePitch_fun (f32 (3214780732)) 4 0 4294967295 14 (f32 (3214305186)) (f32 (3214508847)) (f32 (1057535308))
+  = (4, 0, 0, [3214305186; 3214508847; 1057535308]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0427 :
+  samSubModePitch_fun (f32 (1073741824)) 44 1 0 4294967295 (f32 (1071870897)) (f32 (1067241501)) (f32 (1062067349))
+  = (44, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0428 :
+  samSubModePitch_fun (f32 (3212836864)) 37 1 3324 5 (f32 (1054496197)) (f32 (3204897447)) (f32 (3205722533))
+  = (37, 3325, 5, [1054496197; 3204897447; 3205722533]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0429 :
+  samSubModePitch_fun (f32 (3181987381)) 31 0 6906 1 (f32 (1066322025)) (f32 (1054788490)) (f32 (3189647307))
+  = (34, 0, 0, [1066322025; 1054788490; 3189647307]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0430 :
+  samSubModePitch_fun (f32 (1065353216)) 73 1 4356 6 (f32 (1060487252)) (f32 (3201650561)) (f32 (1069405140))
+  = (73, 4357, 6, [1060487252; 3201650561; 1069405140]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0431 :
+  samSubModePitch_fun (f32 (1073741824)) 25 1 1182 11 (f32 (3218521902)) (f32 (3176494147)) (f32 (3199429551))
+  = (25, 1183, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0432 :
+  samSubModePitch_fun (f32 (1073741824)) 71 1 4620 12 (f32 (3206991801)) (f32 (1058233121)) (f32 (3188776161))
+  = (51, 0, 0, [3206991801; 1058233121; 3188776161]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0433 :
+  samSubModePitch_fun (f32 (1074078158)) 69 0 5625 8 (f32 (1069472275)) (f32 (3195617603)) (f32 (1057236507))
+  = (34, 0, 0, [1069472275; 3195617603; 1057236507]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0434 :
+  samSubModePitch_fun (f32 (3210370269)) 9 0 5624 4 (f32 (3220129441)) (f32 (3213522342)) (f32 (3218657245))
+  = (9, 5625, 0, [3220129441; 3213522342; 3218657245]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0435 :
+  samSubModePitch_fun (f32 (1073741824)) 76 2 46 5 (f32 (3202862590)) (f32 (3213226777)) (f32 (1064296334))
+  = (76, 47, 0, [3202862590; 3213226777; 1064296334]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0436 :
+  samSubModePitch_fun (f32 (1073741824)) 43 1 5625 12 (f32 (3193880591)) (f32 (1069545549)) (f32 (1072271167))
+  = (51, 0, 0, [3193880591; 1069545549; 1072271167]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0437 :
+  samSubModePitch_fun (f32 (2143289344)) 30 1 3099 5 (f32 (3214773536)) (f32 (3197503027)) (f32 (3217015121))
+  = (30, 3100, 5, [3214773536; 3197503027; 3217015121]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0438 :
+  samSubModePitch_fun (f32 (4286578688)) 27 1 6471 5 (f32 (3189531729)) (f32 (3220683354)) (f32 (1050917058))
+  = (34, 0, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0439 :
+  samSubModePitch_fun (f32 (3219790713)) 78 0 4294967295 6 (f32 (3216649614)) (f32 (1050654236)) (f32 (1072670147))
+  = (78, 0, 0, [3216649614; 1050654236; 1072670147]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0440 :
+  samSubModePitch_fun (f32 (1073741824)) 78 1 0 4294967295 (f32 (3198670237)) (f32 (3207815258)) (f32 (3209596274))
+  = (78, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0441 :
+  samSubModePitch_fun (f32 (3212836864)) 72 1 3706 5 (f32 (1067660438)) (f32 (1050976358)) (f32 (1072302167))
+  = (72, 3707, 5, [1067660438; 1050976358; 1072302167]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0442 :
+  samSubModePitch_fun (f32 (3221948705)) 77 1 3916 9 (f32 (1072420401)) (f32 (3172898417)) (f32 (1062048865))
+  = (77, 3917, 10, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0443 :
+  samSubModePitch_fun (f32 (1065353216)) 43 1 2234 3 (f32 (1063965765)) (f32 (1063633211)) (f32 (1066595293))
+  = (43, 2235, 3, [1063965765; 1063633211; 1066595293]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0444 :
+  samSubModePitch_fun (f32 (1073741824)) 13 1 5301 11 (f32 (3209926882)) (f32 (3200101835)) (f32 (1064856325))
+  = (13, 5302, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0445 :
+  samSubModePitch_fun (f32 (1073741824)) 64 1 3495 12 (f32 (3176356150)) (f32 (1057993781)) (f32 (3210018921))
+  = (51, 0, 0, [3176356150; 1057993781; 3210018921]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0446 :
+  samSubModePitch_fun (f32 (3221556644)) 30 0 5625 13 (f32 (3208828562)) (f32 (3217639154)) (f32 (1072760937))
+  = (34, 0, 0, [3208828562; 3217639154; 1072760937]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0447 :
+  samSubModePitch_fun (f32 (3217329859)) 41 0 5624 20 (f32 (1067207307)) (f32 (1059205119)) (f32 (3207410012))
+  = (41, 5625, 0, [1067207307; 1059205119; 3207410012]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0448 :
+  samSubModePitch_fun (f32 (1073741824)) 13 2 1295 5 (f32 (3211683394)) (f32 (1055247521)) (f32 (1069224640))
+  = (13, 1296, 0, [3211683394; 1055247521; 1069224640]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0449 :
+  samSubModePitch_fun (f32 (1073741824)) 59 1 5625 12 (f32 (1061260133)) (f32 (3172153212)) (f32 (1061405000))
+  = (51, 0, 0, [1061260133; 3172153212; 1061405000]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0450 :
+  samSubModePitch_fun (f32 (2143289344)) 24 1 6844 5 (f32 (1053920595)) (f32 (3220656194)) (f32 (3193679058))
+  = (34, 0, 0, [1053920595; 3220656194; 3193679058]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0451 :
+  samSubModePitch_fun (f32 (4286578688)) 0 1 5463 5 (f32 (1067390282)) (f32 (3219799450)) (f32 (3216643570))
+  = (0, 5464, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0452 :
+  samSubModePitch_fun (f32 (3213702450)) 77 0 4294967295 6 (f32 (1063010362)) (f32 (3192755412)) (f32 (1063667530))
+  = (77, 0, 0, [1063010362; 3192755412; 1063667530]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0453 :
+  samSubModePitch_fun (f32 (1073741824)) 55 1 0 4294967295 (f32 (1051953819)) (f32 (1064911004)) (f32 (1072932425))
+  = (55, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0454 :
+  samSubModePitch_fun (f32 (3212836864)) 1 1 1951 5 (f32 (1058697510)) (f32 (3216997300)) (f32 (1060481764))
+  = (1, 1952, 5, [1058697510; 3216997300; 1060481764]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0455 :
+  samSubModePitch_fun (f32 (1075135264)) 1 0 6575 6 (f32 (3208328685)) (f32 (3215278457)) (f32 (1060541817))
+  = (34, 0, 0, [3208328685; 3215278457; 1060541817]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0456 :
+  samSubModePitch_fun (f32 (1065353216)) 64 1 4456 12 (f32 (1053020712)) (f32 (1058380983)) (f32 (3211347143))
+  = (64, 4457, 12, [1053020712; 1058380983; 3211347143]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0457 :
+  samSubModePitch_fun (f32 (1073741824)) 61 1 1662 11 (f32 (3209115520)) (f32 (1032865507)) (f32 (3220137059))
+  = (61, 1663, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0458 :
+  samSubModePitch_fun (f32 (1073741824)) 27 1 6329 12 (f32 (1065836994)) (f32 (1066361713)) (f32 (3186721451))
+  = (51, 0, 0, [1065836994; 1066361713; 3186721451]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0459 :
+  samSubModePitch_fun (f32 (3222967659)) 18 0 5625 0 (f32 (1058437373)) (f32 (1067679063)) (f32 (1073159338))
+  = (34, 0, 0, [1058437373; 1067679063; 1073159338]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0460 :
+  samSubModePitch_fun (f32 (3221507472)) 58 0 5624 7 (f32 (1065084210)) (f32 (1073448723)) (f32 (3216910584))
+  = (58, 5625, 0, [1065084210; 1073448723; 3216910584]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0461 :
+  samSubModePitch_fun (f32 (1073741824)) 9 2 5181 5 (f32 (3206795734)) (f32 (3212947566)) (f32 (1044972945))
+  = (9, 5182, 0, [3206795734; 3212947566; 1044972945]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0462 :
+  samSubModePitch_fun (f32 (1073741824)) 37 1 5625 12 (f32 (3206244569)) (f32 (3218602083)) (f32 (1069858937))
+  = (51, 0, 0, [3206244569; 3218602083; 1069858937]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0463 :
+  samSubModePitch_fun (f32 (2143289344)) 74 1 487 5 (f32 (1055300410)) (f32 (3208861206)) (f32 (3214749559))
+  = (74, 488, 5, [1055300410; 3208861206; 3214749559]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0464 :
+  samSubModePitch_fun (f32 (4286578688)) 55 1 2942 5 (f32 (1059365269)) (f32 (1073097244)) (f32 (1064158654))
+  = (55, 2943, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0465 :
+  samSubModePitch_fun (f32 (1065699985)) 1 0 4294967295 10 (f32 (1066915775)) (f32 (1045771903)) (f32 (1064694519))
+  = (1, 0, 0, [1066915775; 1045771903; 1064694519]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0466 :
+  samSubModePitch_fun (f32 (1073741824)) 61 1 0 4294967295 (f32 (3217067614)) (f32 (3213231477)) (f32 (1072244006))
+  = (61, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0467 :
+  samSubModePitch_fun (f32 (3212836864)) 20 1 3493 5 (f32 (1072343813)) (f32 (1065092064)) (f32 (1051154394))
+  = (20, 3494, 5, [1072343813; 1065092064; 1051154394]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0468 :
+  samSubModePitch_fun (f32 (3224885086)) 17 1 6291 9 (f32 (3217933837)) (f32 (1054762965)) (f32 (1067811346))
+  = (34, 0, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0469 :
+  samSubModePitch_fun (f32 (1065353216)) 37 1 529 0 (f32 (1065406456)) (f32 (3217121732)) (f32 (3210083900))
+  = (37, 530, 0, [1065406456; 3217121732; 3210083900]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0470 :
+  samSubModePitch_fun (f32 (1073741824)) 64 1 3432 11 (f32 (3220710236)) (f32 (1064166737)) (f32 (1059942152))
+  = (64, 3433, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0471 :
+  samSubModePitch_fun (f32 (1073741824)) 25 1 6635 12 (f32 (3195949385)) (f32 (3220828721)) (f32 (3208828994))
+  = (51, 0, 0, [3195949385; 3220828721; 3208828994]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0472 :
+  samSubModePitch_fun (f32 (1073910872)) 7 0 5625 11 (f32 (3220090653)) (f32 (3213646727)) (f32 (3196314701))
+  = (34, 0, 0, [3220090653; 3213646727; 3196314701]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0473 :
+  samSubModePitch_fun (f32 (3206736293)) 67 0 5624 10 (f32 (3219453550)) (f32 (1069965148)) (f32 (1049292004))
+  = (67, 5625, 0, [3219453550; 1069965148; 1049292004]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0474 :
+  samSubModePitch_fun (f32 (1073741824)) 33 2 4032 5 (f32 (1053940276)) (f32 (3199010191)) (f32 (3213351256))
+  = (33, 4033, 0, [1053940276; 3199010191; 3213351256]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0475 :
+  samSubModePitch_fun (f32 (1073741824)) 43 1 5625 12 (f32 (3215427994)) (f32 (3212873808)) (f32 (1073371777))
+  = (51, 0, 0, [3215427994; 3212873808; 1073371777]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0476 :
+  samSubModePitch_fun (f32 (2143289344)) 46 1 5011 5 (f32 (3219465322)) (f32 (1068565021)) (f32 (1067168695))
+  = (46, 5012, 5, [3219465322; 1068565021; 1067168695]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0477 :
+  samSubModePitch_fun (f32 (4286578688)) 53 1 6221 5 (f32 (1028471293)) (f32 (3219034080)) (f32 (1039921104))
+  = (34, 0, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0478 :
+  samSubModePitch_fun (f32 (1068152501)) 9 0 4294967295 7 (f32 (3198186963)) (f32 (3217924022)) (f32 (3212078937))
+  = (9, 0, 0, [3198186963; 3217924022; 3212078937]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0479 :
+  samSubModePitch_fun (f32 (1073741824)) 49 1 0 4294967295 (f32 (3220561352)) (f32 (1072026147)) (f32 (3221054959))
+  = (49, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0480 :
+  samSubModePitch_fun (f32 (3212836864)) 63 1 4109 5 (f32 (1060916939)) (f32 (3215684179)) (f32 (3218205123))
+  = (63, 4110, 5, [1060916939; 3215684179; 3218205123]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0481 :
+  samSubModePitch_fun (f32 (3217051758)) 4 1 5212 13 (f32 (1060485089)) (f32 (1066010292)) (f32 (1068459969))
+  = (51, 0, 0, [1060485089; 1066010292; 1068459969]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0482 :
+  samSubModePitch_fun (f32 (1065353216)) 24 1 3106 0 (f32 (3188731802)) (f32 (1058123820)) (f32 (3219361992))
+  = (24, 3107, 0, [3188731802; 1058123820; 3219361992]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0483 :
+  samSubModePitch_fun (f32 (1073741824)) 13 1 1892 11 (f32 (3188497025)) (f32 (3189284327)) (f32 (3198569710))
+  = (13, 1893, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0484 :
+  samSubModePitch_fun (f32 (1073741824)) 70 1 5222 12 (f32 (3188401066)) (f32 (1069321933)) (f32 (1072622300))
+  = (51, 0, 0, [3188401066; 1069321933; 1072622300]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0485 :
+  samSubModePitch_fun (f32 (3214637560)) 67 0 5625 9 (f32 (1048913162)) (f32 (3208434490)) (f32 (1059932865))
+  = (34, 0, 0, [1048913162; 3208434490; 1059932865]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0486 :
+  samSubModePitch_fun (f32 (3187773188)) 40 0 5624 9 (f32 (3220287379)) (f32 (3217630533)) (f32 (1070390799))
+  = (40, 5625, 0, [3220287379; 3217630533; 1070390799]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0487 :
+  samSubModePitch_fun (f32 (1073741824)) 52 2 6588 5 (f32 (3220225438)) (f32 (1049566033)) (f32 (3179079207))
+  = (34, 0, 0, [3220225438; 1049566033; 3179079207]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0488 :
+  samSubModePitch_fun (f32 (1073741824)) 58 1 5625 12 (f32 (1073533225)) (f32 (3216169719)) (f32 (3217413634))
+  = (51, 0, 0, [1073533225; 3216169719; 3217413634]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0489 :
+  samSubModePitch_fun (f32 (2143289344)) 23 1 469 5 (f32 (1057086881)) (f32 (1070796229)) (f32 (1049774441))
+  = (23, 470, 5, [1057086881; 1070796229; 1049774441]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0490 :
+  samSubModePitch_fun (f32 (4286578688)) 4 1 3974 5 (f32 (3214151113)) (f32 (3214938681)) (f32 (1069859504))
+  = (4, 3975, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0491 :
+  samSubModePitch_fun (f32 (1062112175)) 13 0 4294967295 18 (f32 (3214957295)) (f32 (3209680319)) (f32 (3207954303))
+  = (13, 0, 0, [3214957295; 3209680319; 3207954303]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0492 :
+  samSubModePitch_fun (f32 (1073741824)) 12 1 0 4294967295 (f32 (3215976398)) (f32 (1059267909)) (f32 (3204033832))
+  = (12, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0493 :
+  samSubModePitch_fun (f32 (3212836864)) 63 1 6478 5 (f32 (3211854046)) (f32 (3208388047)) (f32 (1067654906))
+  = (34, 0, 0, [3211854046; 3208388047; 1067654906]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0494 :
+  samSubModePitch_fun (f32 (3197453158)) 40 1 2269 17 (f32 (3205180450)) (f32 (1053801508)) (f32 (3216171519))
+  = (40, 2270, 17, [3205180450; 1053801508; 3216171519]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0495 :
+  samSubModePitch_fun (f32 (1065353216)) 45 1 5542 4 (f32 (1045647627)) (f32 (3200862690)) (f32 (1072023855))
+  = (45, 5543, 4, [1045647627; 3200862690; 1072023855]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0496 :
+  samSubModePitch_fun (f32 (1073741824)) 61 1 2506 11 (f32 (1067231484)) (f32 (1045775421)) (f32 (1066113975))
+  = (61, 2507, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0497 :
+  samSubModePitch_fun (f32 (1073741824)) 23 1 3450 12 (f32 (3210392046)) (f32 (3214304584)) (f32 (1055547044))
+  = (51, 0, 0, [3210392046; 3214304584; 1055547044]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0498 :
+  samSubModePitch_fun (f32 (1073327977)) 21 0 5625 15 (f32 (1061193599)) (f32 (3208537974)) (f32 (1066770303))
+  = (34, 0, 0, [1061193599; 3208537974; 1066770303]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0499 :
+  samSubModePitch_fun (f32 (1062595684)) 20 0 5624 14 (f32 (1070200922)) (f32 (1067179068)) (f32 (1068350013))
+  = (20, 5625, 0, [1070200922; 1067179068; 1068350013]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0500 :
+  samSubModePitch_fun (f32 (1073741824)) 3 2 4940 5 (f32 (1021360024)) (f32 (3218238503)) (f32 (1061227210))
+  = (3, 4941, 0, [1021360024; 3218238503; 1061227210]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0501 :
+  samSubModePitch_fun (f32 (1073741824)) 15 1 5625 12 (f32 (3194994085)) (f32 (1061805560)) (f32 (3216277472))
+  = (51, 0, 0, [3194994085; 1061805560; 3216277472]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0502 :
+  samSubModePitch_fun (f32 (2143289344)) 41 1 3326 5 (f32 (1071457378)) (f32 (3202606521)) (f32 (1071148113))
+  = (41, 3327, 5, [1071457378; 3202606521; 1071148113]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0503 :
+  samSubModePitch_fun (f32 (4286578688)) 74 1 6420 5 (f32 (3215473450)) (f32 (3202561548)) (f32 (1069081338))
+  = (34, 0, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0504 :
+  samSubModePitch_fun (f32 (1069466061)) 24 0 4294967295 19 (f32 (3214609226)) (f32 (3205284739)) (f32 (3210511752))
+  = (24, 0, 0, [3214609226; 3205284739; 3210511752]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0505 :
+  samSubModePitch_fun (f32 (1073741824)) 9 1 0 4294967295 (f32 (3210002687)) (f32 (1068086129)) (f32 (1068598181))
+  = (9, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0506 :
+  samSubModePitch_fun (f32 (3212836864)) 34 1 3669 5 (f32 (3211829624)) (f32 (1066694753)) (f32 (3209512721))
+  = (34, 3670, 5, [3211829624; 1066694753; 3209512721]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0507 :
+  samSubModePitch_fun (f32 (3186155741)) 49 0 3243 4 (f32 (1072595931)) (f32 (1050004494)) (f32 (3215544155))
+  = (49, 3244, 0, [1072595931; 1050004494; 3215544155]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0508 :
+  samSubModePitch_fun (f32 (1065353216)) 43 1 672 5 (f32 (3215820514)) (f32 (3213440810)) (f32 (3210319048))
+  = (43, 673, 5, [3215820514; 3213440810; 3210319048]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0509 :
+  samSubModePitch_fun (f32 (1073741824)) 36 1 636 11 (f32 (3216493834)) (f32 (3210802546)) (f32 (1072235268))
+  = (36, 637, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0510 :
+  samSubModePitch_fun (f32 (1073741824)) 3 1 4190 12 (f32 (1073391358)) (f32 (3205699997)) (f32 (3172950261))
+  = (51, 0, 0, [1073391358; 3205699997; 3172950261]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0511 :
+  samSubModePitch_fun (f32 (3211478535)) 47 0 5625 6 (f32 (3216922177)) (f32 (3219149912)) (f32 (1053988436))
+  = (34, 0, 0, [3216922177; 3219149912; 1053988436]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0512 :
+  samSubModePitch_fun (f32 (3211285524)) 19 0 5624 0 (f32 (1071456824)) (f32 (3212769523)) (f32 (3214873794))
+  = (19, 5625, 0, [1071456824; 3212769523; 3214873794]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0513 :
+  samSubModePitch_fun (f32 (1073741824)) 20 2 659 5 (f32 (1072697931)) (f32 (3216283334)) (f32 (3204749594))
+  = (20, 660, 0, [1072697931; 3216283334; 3204749594]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0514 :
+  samSubModePitch_fun (f32 (1073741824)) 73 1 5625 12 (f32 (3198742777)) (f32 (3210728203)) (f32 (1071164777))
+  = (51, 0, 0, [3198742777; 3210728203; 1071164777]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0515 :
+  samSubModePitch_fun (f32 (2143289344)) 36 1 1249 5 (f32 (1051159248)) (f32 (3216688848)) (f32 (3215692218))
+  = (36, 1250, 5, [1051159248; 3216688848; 3215692218]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0516 :
+  samSubModePitch_fun (f32 (4286578688)) 52 1 2531 5 (f32 (3215767169)) (f32 (3187459366)) (f32 (1065950525))
+  = (52, 2532, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0517 :
+  samSubModePitch_fun (f32 (1069686508)) 58 0 4294967295 7 (f32 (3204472643)) (f32 (1070395475)) (f32 (3214799672))
+  = (58, 0, 0, [3204472643; 1070395475; 3214799672]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0518 :
+  samSubModePitch_fun (f32 (1073741824)) 13 1 0 4294967295 (f32 (1056098016)) (f32 (1051657694)) (f32 (3218107054))
+  = (13, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0519 :
+  samSubModePitch_fun (f32 (3212836864)) 39 1 3491 5 (f32 (1066655503)) (f32 (3217106602)) (f32 (1071538191))
+  = (39, 3492, 5, [1066655503; 3217106602; 1071538191]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0520 :
+  samSubModePitch_fun (f32 (1075702716)) 18 0 2291 4 (f32 (1072237166)) (f32 (3220780533)) (f32 (3197604497))
+  = (18, 2292, 0, [1072237166; 3220780533; 3197604497]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0521 :
+  samSubModePitch_fun (f32 (1065353216)) 73 1 339 11 (f32 (3201532490)) (f32 (3218830549)) (f32 (3214700500))
+  = (73, 340, 11, [3201532490; 3218830549; 3214700500]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0522 :
+  samSubModePitch_fun (f32 (1073741824)) 24 1 2407 11 (f32 (1072297842)) (f32 (3216266269)) (f32 (3160006767))
+  = (24, 2408, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0523 :
+  samSubModePitch_fun (f32 (1073741824)) 71 1 2697 12 (f32 (1064192094)) (f32 (1066263128)) (f32 (1070042943))
+  = (51, 0, 0, [1064192094; 1066263128; 1070042943]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0524 :
+  samSubModePitch_fun (f32 (1072037711)) 4 0 5625 18 (f32 (3219909319)) (f32 (3209593932)) (f32 (3216167540))
+  = (34, 0, 0, [3219909319; 3209593932; 3216167540]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0525 :
+  samSubModePitch_fun (f32 (3223409643)) 76 0 5624 12 (f32 (1035328986)) (f32 (1043968155)) (f32 (3208722087))
+  = (76, 5625, 0, [1035328986; 1043968155; 3208722087]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0526 :
+  samSubModePitch_fun (f32 (1073741824)) 24 2 1432 5 (f32 (1065417086)) (f32 (3213036723)) (f32 (3217000278))
+  = (24, 1433, 0, [1065417086; 3213036723; 3217000278]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0527 :
+  samSubModePitch_fun (f32 (1073741824)) 38 1 5625 12 (f32 (1068711639)) (f32 (1049355545)) (f32 (3218873727))
+  = (51, 0, 0, [1068711639; 1049355545; 3218873727]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0528 :
+  samSubModePitch_fun (f32 (2143289344)) 36 1 5946 5 (f32 (3212409207)) (f32 (1068393289)) (f32 (1059933687))
+  = (34, 0, 0, [3212409207; 1068393289; 1059933687]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0529 :
+  samSubModePitch_fun (f32 (4286578688)) 2 1 4408 5 (f32 (1068385317)) (f32 (3194607486)) (f32 (1072362078))
+  = (2, 4409, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0530 :
+  samSubModePitch_fun (f32 (1077478578)) 70 0 4294967295 18 (f32 (1070983226)) (f32 (1066211210)) (f32 (3217981919))
+  = (70, 0, 0, [1070983226; 1066211210; 3217981919]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0531 :
+  samSubModePitch_fun (f32 (1073741824)) 1 1 0 4294967295 (f32 (3203203489)) (f32 (3220486006)) (f32 (1067190784))
+  = (1, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0532 :
+  samSubModePitch_fun (f32 (3212836864)) 45 1 5627 5 (f32 (1073510357)) (f32 (1066623830)) (f32 (1047147372))
+  = (34, 0, 0, [1073510357; 1066623830; 1047147372]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0533 :
+  samSubModePitch_fun (f32 (3199070547)) 71 1 4197 0 (f32 (3215439905)) (f32 (3200626771)) (f32 (3191661777))
+  = (71, 4198, 0, [3215439905; 3200626771; 3191661777]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0534 :
+  samSubModePitch_fun (f32 (1065353216)) 63 1 5251 19 (f32 (3213223184)) (f32 (3217317445)) (f32 (3214369821))
+  = (63, 5252, 19, [3213223184; 3217317445; 3214369821]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0535 :
+  samSubModePitch_fun (f32 (1073741824)) 25 1 826 11 (f32 (1069904771)) (f32 (1071389199)) (f32 (1071664479))
+  = (25, 827, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0536 :
+  samSubModePitch_fun (f32 (1073741824)) 36 1 3420 12 (f32 (3217197073)) (f32 (1063647972)) (f32 (1057017874))
+  = (51, 0, 0, [3217197073; 1063647972; 1057017874]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0537 :
+  samSubModePitch_fun (f32 (3215004212)) 62 0 5625 16 (f32 (3216846801)) (f32 (3210376592)) (f32 (3172017000))
+  = (34, 0, 0, [3216846801; 3210376592; 3172017000]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0538 :
+  samSubModePitch_fun (f32 (3209570931)) 72 0 5624 16 (f32 (1071175070)) (f32 (3139631341)) (f32 (1054160844))
+  = (72, 5625, 0, [1071175070; 3139631341; 1054160844]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0539 :
+  samSubModePitch_fun (f32 (1073741824)) 35 2 6068 5 (f32 (1068368638)) (f32 (3215229915)) (f32 (1073059390))
+  = (34, 0, 0, [1068368638; 3215229915; 1073059390]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0540 :
+  samSubModePitch_fun (f32 (1073741824)) 19 1 5625 12 (f32 (3215492151)) (f32 (3217151788)) (f32 (1065767185))
+  = (51, 0, 0, [3215492151; 3217151788; 1065767185]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0541 :
+  samSubModePitch_fun (f32 (2143289344)) 11 1 5753 5 (f32 (1068898050)) (f32 (1058551197)) (f32 (1071547618))
+  = (34, 0, 0, [1068898050; 1058551197; 1071547618]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0542 :
+  samSubModePitch_fun (f32 (4286578688)) 78 1 3059 5 (f32 (1059500388)) (f32 (3215209875)) (f32 (1061321227))
+  = (78, 3060, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0543 :
+  samSubModePitch_fun (f32 (3223770493)) 23 0 4294967295 5 (f32 (3219693968)) (f32 (3200909871)) (f32 (3210808363))
+  = (23, 0, 0, [3219693968; 3200909871; 3210808363]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0544 :
+  samSubModePitch_fun (f32 (1073741824)) 5 1 0 4294967295 (f32 (1068388984)) (f32 (1067280963)) (f32 (3216607317))
+  = (5, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0545 :
+  samSubModePitch_fun (f32 (3212836864)) 32 1 615 5 (f32 (1063553703)) (f32 (3211915067)) (f32 (1060782015))
+  = (32, 616, 5, [1063553703; 3211915067; 1060782015]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0546 :
+  samSubModePitch_fun (f32 (1054100667)) 13 1 2155 20 (f32 (3216043023)) (f32 (3213837559)) (f32 (1070326481))
+  = (13, 2156, 20, [3216043023; 3213837559; 1070326481]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0547 :
+  samSubModePitch_fun (f32 (1065353216)) 26 1 4742 12 (f32 (1060596316)) (f32 (3213762404)) (f32 (1070702472))
+  = (26, 4743, 12, [1060596316; 3213762404; 1070702472]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0548 :
+  samSubModePitch_fun (f32 (1073741824)) 79 1 6534 11 (f32 (3218412729)) (f32 (1072058385)) (f32 (3212915280))
+  = (34, 0, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0549 :
+  samSubModePitch_fun (f32 (1073741824)) 75 1 956 12 (f32 (1069415737)) (f32 (3205702416)) (f32 (1055414552))
+  = (51, 0, 0, [1069415737; 3205702416; 1055414552]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0550 :
+  samSubModePitch_fun (f32 (3221770052)) 61 0 5625 12 (f32 (1062137419)) (f32 (3220856191)) (f32 (1066685440))
+  = (34, 0, 0, [1062137419; 3220856191; 1066685440]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0551 :
+  samSubModePitch_fun (f32 (3215377116)) 22 0 5624 8 (f32 (3205700411)) (f32 (3205814415)) (f32 (3202115492))
+  = (22, 5625, 0, [3205700411; 3205814415; 3202115492]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0552 :
+  samSubModePitch_fun (f32 (1073741824)) 36 2 5737 5 (f32 (3202019628)) (f32 (1042798522)) (f32 (3214172948))
+  = (34, 0, 0, [3202019628; 1042798522; 3214172948]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0553 :
+  samSubModePitch_fun (f32 (1073741824)) 72 1 5625 12 (f32 (1066614880)) (f32 (3207573205)) (f32 (1070897561))
+  = (51, 0, 0, [1066614880; 3207573205; 1070897561]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0554 :
+  samSubModePitch_fun (f32 (2143289344)) 15 1 1645 5 (f32 (3186086320)) (f32 (1070420786)) (f32 (1073179224))
+  = (15, 1646, 5, [3186086320; 1070420786; 1073179224]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0555 :
+  samSubModePitch_fun (f32 (4286578688)) 15 1 4851 5 (f32 (3219937020)) (f32 (3220065372)) (f32 (1070485937))
+  = (15, 4852, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0556 :
+  samSubModePitch_fun (f32 (3216572777)) 48 0 4294967295 20 (f32 (1054404884)) (f32 (3216470518)) (f32 (3188553359))
+  = (48, 0, 0, [1054404884; 3216470518; 3188553359]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0557 :
+  samSubModePitch_fun (f32 (1073741824)) 23 1 0 4294967295 (f32 (3217019606)) (f32 (3199082299)) (f32 (3213949780))
+  = (23, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0558 :
+  samSubModePitch_fun (f32 (3212836864)) 0 1 4265 5 (f32 (1053196400)) (f32 (3187910915)) (f32 (1066106731))
+  = (0, 4266, 5, [1053196400; 3187910915; 1066106731]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0559 :
+  samSubModePitch_fun (f32 (1067472463)) 57 1 6212 20 (f32 (1072205162)) (f32 (3217723529)) (f32 (1061022852))
+  = (51, 0, 0, [1072205162; 3217723529; 1061022852]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0560 :
+  samSubModePitch_fun (f32 (1065353216)) 45 1 1095 12 (f32 (3206784343)) (f32 (1067849805)) (f32 (3217267307))
+  = (45, 1096, 12, [3206784343; 1067849805; 3217267307]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0561 :
+  samSubModePitch_fun (f32 (1073741824)) 67 1 1363 11 (f32 (3216540391)) (f32 (1063931473)) (f32 (1058379447))
+  = (67, 1364, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0562 :
+  samSubModePitch_fun (f32 (1073741824)) 71 1 3010 12 (f32 (3204758800)) (f32 (1067262397)) (f32 (1061852977))
+  = (51, 0, 0, [3204758800; 1067262397; 1061852977]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0563 :
+  samSubModePitch_fun (f32 (3222040582)) 33 0 5625 12 (f32 (3219851293)) (f32 (1064345961)) (f32 (3219577305))
+  = (34, 0, 0, [3219851293; 1064345961; 3219577305]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0564 :
+  samSubModePitch_fun (f32 (1071586211)) 50 0 5624 16 (f32 (3187679484)) (f32 (1068686183)) (f32 (1063968260))
+  = (50, 5625, 0, [3187679484; 1068686183; 1063968260]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0565 :
+  samSubModePitch_fun (f32 (1073741824)) 15 2 4199 5 (f32 (3217620307)) (f32 (3203808029)) (f32 (1066171585))
+  = (15, 4200, 0, [3217620307; 3203808029; 1066171585]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0566 :
+  samSubModePitch_fun (f32 (1073741824)) 35 1 5625 12 (f32 (1071088972)) (f32 (3186136063)) (f32 (3216551879))
+  = (51, 0, 0, [1071088972; 3186136063; 3216551879]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0567 :
+  samSubModePitch_fun (f32 (2143289344)) 24 1 4684 5 (f32 (1068802923)) (f32 (3192754950)) (f32 (1058394524))
+  = (24, 4685, 5, [1068802923; 3192754950; 1058394524]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0568 :
+  samSubModePitch_fun (f32 (4286578688)) 76 1 4345 5 (f32 (3205525461)) (f32 (3198007655)) (f32 (3201842565))
+  = (76, 4346, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0569 :
+  samSubModePitch_fun (f32 (1067734982)) 79 0 4294967295 18 (f32 (1073606373)) (f32 (1070937999)) (f32 (1057467209))
+  = (79, 0, 0, [1073606373; 1070937999; 1057467209]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0570 :
+  samSubModePitch_fun (f32 (1073741824)) 6 1 0 4294967295 (f32 (3197079339)) (f32 (3189212696)) (f32 (3220146543))
+  = (6, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0571 :
+  samSubModePitch_fun (f32 (3212836864)) 79 1 3846 5 (f32 (3215997032)) (f32 (1070365011)) (f32 (3218887713))
+  = (79, 3847, 5, [3215997032; 1070365011; 3218887713]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0572 :
+  samSubModePitch_fun (f32 (3223131370)) 7 1 2882 11 (f32 (1067953262)) (f32 (3199535251)) (f32 (3185897148))
+  = (7, 2883, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0573 :
+  samSubModePitch_fun (f32 (1065353216)) 59 1 6033 15 (f32 (3193735382)) (f32 (1065715643)) (f32 (1014337768))
+  = (34, 0, 0, [3193735382; 1065715643; 1014337768]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0574 :
+  samSubModePitch_fun (f32 (1073741824)) 65 1 1876 11 (f32 (1067717201)) (f32 (3203165916)) (f32 (1069982473))
+  = (65, 1877, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0575 :
+  samSubModePitch_fun (f32 (1073741824)) 36 1 6632 12 (f32 (1044585350)) (f32 (3207896655)) (f32 (3216682862))
+  = (51, 0, 0, [1044585350; 3207896655; 3216682862]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0576 :
+  samSubModePitch_fun (f32 (1061666963)) 6 0 5625 2 (f32 (3215916460)) (f32 (3211421025)) (f32 (1058411569))
+  = (34, 0, 0, [3215916460; 3211421025; 1058411569]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0577 :
+  samSubModePitch_fun (f32 (1057352600)) 73 0 5624 16 (f32 (1063586521)) (f32 (1066085582)) (f32 (1049295536))
+  = (73, 5625, 0, [1063586521; 1066085582; 1049295536]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0578 :
+  samSubModePitch_fun (f32 (1073741824)) 49 2 4076 5 (f32 (1067152155)) (f32 (1064191106)) (f32 (3200355550))
+  = (49, 4077, 0, [1067152155; 1064191106; 3200355550]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0579 :
+  samSubModePitch_fun (f32 (1073741824)) 10 1 5625 12 (f32 (3205122073)) (f32 (3215184150)) (f32 (3207929363))
+  = (51, 0, 0, [3205122073; 3215184150; 3207929363]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0580 :
+  samSubModePitch_fun (f32 (2143289344)) 51 1 4778 5 (f32 (3213589468)) (f32 (3212904313)) (f32 (1063164663))
+  = (51, 4779, 5, [3213589468; 3212904313; 1063164663]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0581 :
+  samSubModePitch_fun (f32 (4286578688)) 6 1 2158 5 (f32 (1071018444)) (f32 (1044861982)) (f32 (1073694220))
+  = (6, 2159, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0582 :
+  samSubModePitch_fun (f32 (1072264952)) 37 0 4294967295 5 (f32 (3219323611)) (f32 (3218702037)) (f32 (1067583693))
+  = (37, 0, 0, [3219323611; 3218702037; 1067583693]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0583 :
+  samSubModePitch_fun (f32 (1073741824)) 18 1 0 4294967295 (f32 (1042655210)) (f32 (3221174050)) (f32 (3220272343))
+  = (18, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0584 :
+  samSubModePitch_fun (f32 (3212836864)) 18 1 1296 5 (f32 (1054654392)) (f32 (1072100631)) (f32 (3187814527))
+  = (18, 1297, 5, [1054654392; 1072100631; 3187814527]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0585 :
+  samSubModePitch_fun (f32 (3216175940)) 24 0 5819 9 (f32 (3209164362)) (f32 (3214203234)) (f32 (3209609409))
+  = (34, 0, 0, [3209164362; 3214203234; 3209609409]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0586 :
+  samSubModePitch_fun (f32 (1065353216)) 20 1 2826 4 (f32 (3214105426)) (f32 (1064905185)) (f32 (1051888916))
+  = (20, 2827, 4, [3214105426; 1064905185; 1051888916]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0587 :
+  samSubModePitch_fun (f32 (1073741824)) 51 1 4011 11 (f32 (3216540230)) (f32 (3200177599)) (f32 (3217948572))
+  = (51, 4012, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0588 :
+  samSubModePitch_fun (f32 (1073741824)) 9 1 161 12 (f32 (1069992763)) (f32 (1034242052)) (f32 (3206431755))
+  = (51, 0, 0, [1069992763; 1034242052; 3206431755]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0589 :
+  samSubModePitch_fun (f32 (1070885081)) 2 0 5625 11 (f32 (3219368881)) (f32 (1073157151)) (f32 (3217022206))
+  = (34, 0, 0, [3219368881; 1073157151; 3217022206]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0590 :
+  samSubModePitch_fun (f32 (3214826311)) 65 0 5624 13 (f32 (3219942861)) (f32 (3219165858)) (f32 (1068534376))
+  = (65, 5625, 0, [3219942861; 3219165858; 1068534376]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0591 :
+  samSubModePitch_fun (f32 (1073741824)) 31 2 6802 5 (f32 (1040316197)) (f32 (3215401012)) (f32 (1045309302))
+  = (34, 0, 0, [1040316197; 3215401012; 1045309302]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0592 :
+  samSubModePitch_fun (f32 (1073741824)) 41 1 5625 12 (f32 (3214031152)) (f32 (3204493193)) (f32 (3216258849))
+  = (51, 0, 0, [3214031152; 3204493193; 3216258849]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0593 :
+  samSubModePitch_fun (f32 (2143289344)) 0 1 1649 5 (f32 (3213771706)) (f32 (3219036917)) (f32 (3158476349))
+  = (0, 1650, 5, [3213771706; 3219036917; 3158476349]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0594 :
+  samSubModePitch_fun (f32 (4286578688)) 58 1 1329 5 (f32 (1072066989)) (f32 (3208466478)) (f32 (3192289904))
+  = (58, 1330, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0595 :
+  samSubModePitch_fun (f32 (1070500183)) 20 0 4294967295 15 (f32 (3180428438)) (f32 (3209904548)) (f32 (1061078561))
+  = (20, 0, 0, [3180428438; 3209904548; 1061078561]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0596 :
+  samSubModePitch_fun (f32 (1073741824)) 7 1 0 4294967295 (f32 (3210576114)) (f32 (3208945069)) (f32 (1072587953))
+  = (7, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0597 :
+  samSubModePitch_fun (f32 (3212836864)) 10 1 3983 5 (f32 (1056582683)) (f32 (1069525026)) (f32 (1057083627))
+  = (10, 3984, 5, [1056582683; 1069525026; 1057083627]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0598 :
+  samSubModePitch_fun (f32 (3210889570)) 47 1 3862 10 (f32 (3208936359)) (f32 (3216358914)) (f32 (3216528434))
+  = (47, 3863, 10, [3208936359; 3216358914; 3216528434]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0599 :
+  samSubModePitch_fun (f32 (1065353216)) 32 1 4785 4 (f32 (3216660456)) (f32 (3220701002)) (f32 (1071294449))
+  = (32, 4786, 4, [3216660456; 3220701002; 1071294449]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0600 :
+  samSubModePitch_fun (f32 (1073741824)) 25 1 3921 11 (f32 (3206058509)) (f32 (1063288735)) (f32 (3215570696))
+  = (25, 3922, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0601 :
+  samSubModePitch_fun (f32 (1073741824)) 61 1 5556 12 (f32 (3200540591)) (f32 (3207805256)) (f32 (1063185724))
+  = (51, 0, 0, [3200540591; 3207805256; 1063185724]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0602 :
+  samSubModePitch_fun (f32 (1050847525)) 49 0 5625 2 (f32 (1069669848)) (f32 (1066645653)) (f32 (3188354194))
+  = (34, 0, 0, [1069669848; 1066645653; 3188354194]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0603 :
+  samSubModePitch_fun (f32 (1070974056)) 52 0 5624 18 (f32 (1063513619)) (f32 (3219649936)) (f32 (3200837536))
+  = (52, 5625, 0, [1063513619; 3219649936; 3200837536]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0604 :
+  samSubModePitch_fun (f32 (1073741824)) 55 2 3171 5 (f32 (3171361799)) (f32 (3218159175)) (f32 (1070400276))
+  = (55, 3172, 0, [3171361799; 3218159175; 1070400276]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0605 :
+  samSubModePitch_fun (f32 (1073741824)) 52 1 5625 12 (f32 (1056778062)) (f32 (3204364407)) (f32 (1060172747))
+  = (51, 0, 0, [1056778062; 3204364407; 1060172747]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0606 :
+  samSubModePitch_fun (f32 (2143289344)) 45 1 6906 5 (f32 (1072336043)) (f32 (3210602394)) (f32 (3191297222))
+  = (34, 0, 0, [1072336043; 3210602394; 3191297222]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0607 :
+  samSubModePitch_fun (f32 (4286578688)) 41 1 2592 5 (f32 (1066133925)) (f32 (1065379299)) (f32 (3215566647))
+  = (41, 2593, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0608 :
+  samSubModePitch_fun (f32 (3218898114)) 6 0 4294967295 19 (f32 (1070049773)) (f32 (3188783746)) (f32 (1043998556))
+  = (6, 0, 0, [1070049773; 3188783746; 1043998556]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0609 :
+  samSubModePitch_fun (f32 (1073741824)) 25 1 0 4294967295 (f32 (3214453112)) (f32 (3191070535)) (f32 (1058405280))
+  = (25, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0610 :
+  samSubModePitch_fun (f32 (3212836864)) 43 1 1023 5 (f32 (3218869325)) (f32 (1062147427)) (f32 (3180352285))
+  = (43, 1024, 5, [3218869325; 1062147427; 3180352285]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0611 :
+  samSubModePitch_fun (f32 (3203389691)) 10 0 1093 12 (f32 (3218966215)) (f32 (3207028359)) (f32 (1060919651))
+  = (10, 1094, 0, [3218966215; 3207028359; 1060919651]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0612 :
+  samSubModePitch_fun (f32 (1065353216)) 42 1 1932 5 (f32 (1053106701)) (f32 (1059154387)) (f32 (1062441707))
+  = (42, 1933, 5, [1053106701; 1059154387; 1062441707]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0613 :
+  samSubModePitch_fun (f32 (1073741824)) 33 1 4745 11 (f32 (3204651467)) (f32 (1070914956)) (f32 (1072252366))
+  = (33, 4746, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0614 :
+  samSubModePitch_fun (f32 (1073741824)) 51 1 4027 12 (f32 (1057080478)) (f32 (1054777336)) (f32 (1066877383))
+  = (51, 0, 0, [1057080478; 1054777336; 1066877383]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0615 :
+  samSubModePitch_fun (f32 (1064374962)) 53 0 5625 18 (f32 (1049748204)) (f32 (3216596136)) (f32 (1061772453))
+  = (34, 0, 0, [1049748204; 3216596136; 1061772453]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0616 :
+  samSubModePitch_fun (f32 (1048995055)) 33 0 5624 18 (f32 (1073224625)) (f32 (3202176113)) (f32 (3205264698))
+  = (33, 5625, 0, [1073224625; 3202176113; 3205264698]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0617 :
+  samSubModePitch_fun (f32 (1073741824)) 7 2 2981 5 (f32 (3213274364)) (f32 (3216919412)) (f32 (3218819576))
+  = (7, 2982, 0, [3213274364; 3216919412; 3218819576]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0618 :
+  samSubModePitch_fun (f32 (1073741824)) 22 1 5625 12 (f32 (1069323618)) (f32 (1066195052)) (f32 (3196699464))
+  = (51, 0, 0, [1069323618; 1066195052; 3196699464]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0619 :
+  samSubModePitch_fun (f32 (2143289344)) 72 1 6155 5 (f32 (3209630430)) (f32 (1054575973)) (f32 (1072934044))
+  = (34, 0, 0, [3209630430; 1054575973; 1072934044]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0620 :
+  samSubModePitch_fun (f32 (4286578688)) 74 1 1199 5 (f32 (1057536181)) (f32 (1062199452)) (f32 (1066034925))
+  = (74, 1200, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0621 :
+  samSubModePitch_fun (f32 (3190556472)) 68 0 4294967295 5 (f32 (1067286751)) (f32 (3197475571)) (f32 (3203551461))
+  = (68, 0, 0, [1067286751; 3197475571; 3203551461]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0622 :
+  samSubModePitch_fun (f32 (1073741824)) 13 1 0 4294967295 (f32 (1071576799)) (f32 (1065704832)) (f32 (1068491209))
+  = (13, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0623 :
+  samSubModePitch_fun (f32 (3212836864)) 76 1 1358 5 (f32 (3210671949)) (f32 (1063513069)) (f32 (3216399436))
+  = (76, 1359, 5, [3210671949; 1063513069; 3216399436]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0624 :
+  samSubModePitch_fun (f32 (1070827276)) 33 1 981 13 (f32 (3208799908)) (f32 (3158466820)) (f32 (3152891861))
+  = (51, 0, 0, [3208799908; 3158466820; 3152891861]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0625 :
+  samSubModePitch_fun (f32 (1065353216)) 11 1 3663 14 (f32 (1066279091)) (f32 (1056921478)) (f32 (3221149434))
+  = (11, 3664, 14, [1066279091; 1056921478; 3221149434]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0626 :
+  samSubModePitch_fun (f32 (1073741824)) 28 1 6743 11 (f32 (3214326731)) (f32 (3207270420)) (f32 (1039748222))
+  = (34, 0, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0627 :
+  samSubModePitch_fun (f32 (1073741824)) 54 1 4801 12 (f32 (1049776157)) (f32 (3188584104)) (f32 (1068789892))
+  = (51, 0, 0, [1049776157; 3188584104; 1068789892]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0628 :
+  samSubModePitch_fun (f32 (3222225550)) 45 0 5625 4 (f32 (3210122999)) (f32 (1060198357)) (f32 (1058797871))
+  = (34, 0, 0, [3210122999; 1060198357; 1058797871]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0629 :
+  samSubModePitch_fun (f32 (1074971432)) 77 0 5624 12 (f32 (3204603235)) (f32 (3178563400)) (f32 (3192973410))
+  = (77, 5625, 0, [3204603235; 3178563400; 3192973410]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0630 :
+  samSubModePitch_fun (f32 (1073741824)) 27 2 1309 5 (f32 (3218613891)) (f32 (1068206708)) (f32 (1057073637))
+  = (27, 1310, 0, [3218613891; 1068206708; 1057073637]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0631 :
+  samSubModePitch_fun (f32 (1073741824)) 47 1 5625 12 (f32 (1062231148)) (f32 (3216151164)) (f32 (3220317125))
+  = (51, 0, 0, [1062231148; 3216151164; 3220317125]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0632 :
+  samSubModePitch_fun (f32 (2143289344)) 48 1 4054 5 (f32 (1071188160)) (f32 (3207503287)) (f32 (1051722276))
+  = (48, 4055, 5, [1071188160; 3207503287; 1051722276]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0633 :
+  samSubModePitch_fun (f32 (4286578688)) 13 1 4313 5 (f32 (3214544001)) (f32 (3209746393)) (f32 (3190731291))
+  = (13, 4314, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0634 :
+  samSubModePitch_fun (f32 (1076117359)) 3 0 4294967295 2 (f32 (1069279291)) (f32 (1065953743)) (f32 (1050018453))
+  = (3, 0, 0, [1069279291; 1065953743; 1050018453]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0635 :
+  samSubModePitch_fun (f32 (1073741824)) 11 1 0 4294967295 (f32 (3208220361)) (f32 (3218923554)) (f32 (1071832595))
+  = (11, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0636 :
+  samSubModePitch_fun (f32 (3212836864)) 25 1 2305 5 (f32 (3173515171)) (f32 (3198436821)) (f32 (1067980860))
+  = (25, 2306, 5, [3173515171; 3198436821; 1067980860]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0637 :
+  samSubModePitch_fun (f32 (3215070822)) 69 1 2763 5 (f32 (3217637118)) (f32 (1061996080)) (f32 (3215550234))
+  = (69, 2764, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0638 :
+  samSubModePitch_fun (f32 (1065353216)) 31 1 5355 14 (f32 (1052434695)) (f32 (3204787225)) (f32 (3193525686))
+  = (31, 5356, 14, [1052434695; 3204787225; 3193525686]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0639 :
+  samSubModePitch_fun (f32 (1073741824)) 11 1 2214 11 (f32 (3214634387)) (f32 (3193894857)) (f32 (1059560467))
+  = (11, 2215, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0640 :
+  samSubModePitch_fun (f32 (1073741824)) 2 1 6236 12 (f32 (1063603849)) (f32 (1062639085)) (f32 (3190500888))
+  = (51, 0, 0, [1063603849; 1062639085; 3190500888]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0641 :
+  samSubModePitch_fun (f32 (3224701944)) 42 0 5625 12 (f32 (3213853402)) (f32 (3215593768)) (f32 (1064402079))
+  = (34, 0, 0, [3213853402; 3215593768; 1064402079]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0642 :
+  samSubModePitch_fun (f32 (1057710597)) 20 0 5624 12 (f32 (1059666127)) (f32 (3196145201)) (f32 (1064634172))
+  = (20, 5625, 0, [1059666127; 3196145201; 1064634172]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0643 :
+  samSubModePitch_fun (f32 (1073741824)) 74 2 3344 5 (f32 (3198358271)) (f32 (1040097527)) (f32 (1050007310))
+  = (74, 3345, 0, [3198358271; 1040097527; 1050007310]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0644 :
+  samSubModePitch_fun (f32 (1073741824)) 57 1 5625 12 (f32 (3209093647)) (f32 (1070857341)) (f32 (3218961713))
+  = (51, 0, 0, [3209093647; 1070857341; 3218961713]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0645 :
+  samSubModePitch_fun (f32 (2143289344)) 5 1 3942 5 (f32 (3220310977)) (f32 (3196436041)) (f32 (3198324215))
+  = (5, 3943, 5, [3220310977; 3196436041; 3198324215]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0646 :
+  samSubModePitch_fun (f32 (4286578688)) 52 1 6958 5 (f32 (3215645387)) (f32 (1065541095)) (f32 (3215655039))
+  = (34, 0, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0647 :
+  samSubModePitch_fun (f32 (1062863390)) 30 0 4294967295 3 (f32 (1052905215)) (f32 (1061649329)) (f32 (1060307603))
+  = (30, 0, 0, [1052905215; 1061649329; 1060307603]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0648 :
+  samSubModePitch_fun (f32 (1073741824)) 75 1 0 4294967295 (f32 (3212229088)) (f32 (3219098243)) (f32 (3184203642))
+  = (75, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0649 :
+  samSubModePitch_fun (f32 (3212836864)) 14 1 1297 5 (f32 (1061288073)) (f32 (1069629386)) (f32 (3204263820))
+  = (14, 1298, 5, [1061288073; 1069629386; 3204263820]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0650 :
+  samSubModePitch_fun (f32 (3223686902)) 28 0 6117 3 (f32 (1058663045)) (f32 (1057621995)) (f32 (3219637863))
+  = (34, 0, 0, [1058663045; 1057621995; 3219637863]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0651 :
+  samSubModePitch_fun (f32 (1065353216)) 73 1 3971 5 (f32 (1071942009)) (f32 (3197784044)) (f32 (1069685226))
+  = (73, 3972, 5, [1071942009; 3197784044; 1069685226]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0652 :
+  samSubModePitch_fun (f32 (1073741824)) 46 1 5385 11 (f32 (3211243347)) (f32 (1045185473)) (f32 (3216279614))
+  = (46, 5386, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0653 :
+  samSubModePitch_fun (f32 (1073741824)) 77 1 1497 12 (f32 (3220836054)) (f32 (1068159525)) (f32 (1066987351))
+  = (51, 0, 0, [3220836054; 1068159525; 1066987351]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0654 :
+  samSubModePitch_fun (f32 (1076000463)) 4 0 5625 16 (f32 (1071291039)) (f32 (3187838728)) (f32 (1057832503))
+  = (34, 0, 0, [1071291039; 3187838728; 1057832503]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0655 :
+  samSubModePitch_fun (f32 (1077427840)) 9 0 5624 19 (f32 (3217600611)) (f32 (1050835486)) (f32 (3211420622))
+  = (9, 5625, 0, [3217600611; 1050835486; 3211420622]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0656 :
+  samSubModePitch_fun (f32 (1073741824)) 20 2 1003 5 (f32 (1067251378)) (f32 (3221077849)) (f32 (1063335267))
+  = (20, 1004, 0, [1067251378; 3221077849; 1063335267]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0657 :
+  samSubModePitch_fun (f32 (1073741824)) 0 1 5625 12 (f32 (1068547952)) (f32 (3219609094)) (f32 (1072326410))
+  = (51, 0, 0, [1068547952; 3219609094; 1072326410]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0658 :
+  samSubModePitch_fun (f32 (2143289344)) 75 1 397 5 (f32 (1070114538)) (f32 (3213551524)) (f32 (3220950364))
+  = (75, 398, 5, [1070114538; 3213551524; 3220950364]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0659 :
+  samSubModePitch_fun (f32 (4286578688)) 51 1 1948 5 (f32 (3220493211)) (f32 (1072833018)) (f32 (1072530036))
+  = (51, 1949, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0660 :
+  samSubModePitch_fun (f32 (3207695716)) 79 0 4294967295 0 (f32 (1035550653)) (f32 (3220725733)) (f32 (3218940198))
+  = (79, 0, 0, [1035550653; 3220725733; 3218940198]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0661 :
+  samSubModePitch_fun (f32 (1073741824)) 37 1 0 4294967295 (f32 (1062224682)) (f32 (3183578917)) (f32 (1067603797))
+  = (37, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0662 :
+  samSubModePitch_fun (f32 (3212836864)) 38 1 4159 5 (f32 (1070527382)) (f32 (1057778739)) (f32 (3219553176))
+  = (38, 4160, 5, [1070527382; 1057778739; 3219553176]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0663 :
+  samSubModePitch_fun (f32 (3220125166)) 46 0 5158 8 (f32 (1062898095)) (f32 (1066687004)) (f32 (3220702944))
+  = (46, 5159, 0, [1062898095; 1066687004; 3220702944]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0664 :
+  samSubModePitch_fun (f32 (1065353216)) 20 1 348 0 (f32 (1065133383)) (f32 (1061422872)) (f32 (3213820091))
+  = (20, 349, 0, [1065133383; 1061422872; 3213820091]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0665 :
+  samSubModePitch_fun (f32 (1073741824)) 50 1 3287 11 (f32 (1066186077)) (f32 (1050749507)) (f32 (1062046404))
+  = (50, 3288, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0666 :
+  samSubModePitch_fun (f32 (1073741824)) 22 1 6971 12 (f32 (3216861929)) (f32 (1072716952)) (f32 (1070154704))
+  = (51, 0, 0, [3216861929; 1072716952; 1070154704]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0667 :
+  samSubModePitch_fun (f32 (3172876607)) 15 0 5625 2 (f32 (3216374306)) (f32 (3207769960)) (f32 (1061879977))
+  = (34, 0, 0, [3216374306; 3207769960; 1061879977]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0668 :
+  samSubModePitch_fun (f32 (1071683073)) 12 0 5624 3 (f32 (3189005770)) (f32 (1070388154)) (f32 (3216102810))
+  = (12, 5625, 0, [3189005770; 1070388154; 3216102810]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0669 :
+  samSubModePitch_fun (f32 (1073741824)) 37 2 4956 5 (f32 (3207190024)) (f32 (3213533884)) (f32 (3209740931))
+  = (37, 4957, 0, [3207190024; 3213533884; 3209740931]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0670 :
+  samSubModePitch_fun (f32 (1073741824)) 33 1 5625 12 (f32 (1002055427)) (f32 (1071635564)) (f32 (3219364660))
+  = (51, 0, 0, [1002055427; 1071635564; 3219364660]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0671 :
+  samSubModePitch_fun (f32 (2143289344)) 17 1 5830 5 (f32 (3219155887)) (f32 (3214083116)) (f32 (1073676326))
+  = (34, 0, 0, [3219155887; 3214083116; 1073676326]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0672 :
+  samSubModePitch_fun (f32 (4286578688)) 43 1 3792 5 (f32 (3220291476)) (f32 (1067712147)) (f32 (1046268425))
+  = (43, 3793, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0673 :
+  samSubModePitch_fun (f32 (3222720936)) 73 0 4294967295 11 (f32 (1065617380)) (f32 (3214045219)) (f32 (1066216395))
+  = (73, 0, 0, [1065617380; 3214045219; 1066216395]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0674 :
+  samSubModePitch_fun (f32 (1073741824)) 23 1 0 4294967295 (f32 (1066719261)) (f32 (1055315772)) (f32 (1073039626))
+  = (23, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0675 :
+  samSubModePitch_fun (f32 (3212836864)) 11 1 2073 5 (f32 (1066958368)) (f32 (1071027033)) (f32 (1068107092))
+  = (11, 2074, 5, [1066958368; 1071027033; 1068107092]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0676 :
+  samSubModePitch_fun (f32 (1071252678)) 59 1 533 3 (f32 (3215661670)) (f32 (3220129654)) (f32 (3198001108))
+  = (59, 534, 4, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0677 :
+  samSubModePitch_fun (f32 (1065353216)) 75 1 3036 2 (f32 (3199090270)) (f32 (1066669505)) (f32 (3213813293))
+  = (75, 3037, 2, [3199090270; 1066669505; 3213813293]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0678 :
+  samSubModePitch_fun (f32 (1073741824)) 20 1 5990 11 (f32 (3207120414)) (f32 (3215334418)) (f32 (1063870473))
+  = (34, 0, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0679 :
+  samSubModePitch_fun (f32 (1073741824)) 50 1 2562 12 (f32 (3209930145)) (f32 (3212067635)) (f32 (1072795640))
+  = (51, 0, 0, [3209930145; 3212067635; 1072795640]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0680 :
+  samSubModePitch_fun (f32 (3215082061)) 59 0 5625 20 (f32 (1065346290)) (f32 (3217806739)) (f32 (3212145874))
+  = (34, 0, 0, [1065346290; 3217806739; 3212145874]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0681 :
+  samSubModePitch_fun (f32 (3214803098)) 19 0 5624 2 (f32 (1071202400)) (f32 (1066342017)) (f32 (3216634971))
+  = (19, 5625, 0, [1071202400; 1066342017; 3216634971]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0682 :
+  samSubModePitch_fun (f32 (1073741824)) 26 2 4812 5 (f32 (3213807298)) (f32 (3207089684)) (f32 (3200252063))
+  = (26, 4813, 0, [3213807298; 3207089684; 3200252063]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0683 :
+  samSubModePitch_fun (f32 (1073741824)) 20 1 5625 12 (f32 (1041915916)) (f32 (1069845084)) (f32 (1072002829))
+  = (51, 0, 0, [1041915916; 1069845084; 1072002829]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0684 :
+  samSubModePitch_fun (f32 (2143289344)) 21 1 162 5 (f32 (3221152724)) (f32 (1050582755)) (f32 (1060074065))
+  = (21, 163, 5, [3221152724; 1050582755; 1060074065]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0685 :
+  samSubModePitch_fun (f32 (4286578688)) 23 1 262 5 (f32 (3217966795)) (f32 (1065787418)) (f32 (3184697556))
+  = (23, 263, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0686 :
+  samSubModePitch_fun (f32 (1077274892)) 67 0 4294967295 14 (f32 (1069510614)) (f32 (1069190945)) (f32 (3219238449))
+  = (67, 0, 0, [1069510614; 1069190945; 3219238449]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0687 :
+  samSubModePitch_fun (f32 (1073741824)) 25 1 0 4294967295 (f32 (1046796952)) (f32 (3211786057)) (f32 (1072084491))
+  = (25, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0688 :
+  samSubModePitch_fun (f32 (3212836864)) 61 1 147 5 (f32 (1068862124)) (f32 (3188749892)) (f32 (3220167127))
+  = (61, 148, 5, [1068862124; 3188749892; 3220167127]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0689 :
+  samSubModePitch_fun (f32 (3210823014)) 14 0 1055 17 (f32 (3206987868)) (f32 (1068839711)) (f32 (3202676842))
+  = (14, 1056, 0, [3206987868; 1068839711; 3202676842]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0690 :
+  samSubModePitch_fun (f32 (1065353216)) 44 1 1597 11 (f32 (1068701552)) (f32 (1070128837)) (f32 (3221178033))
+  = (44, 1598, 11, [1068701552; 1070128837; 3221178033]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0691 :
+  samSubModePitch_fun (f32 (1073741824)) 62 1 3833 11 (f32 (3213362229)) (f32 (1069774997)) (f32 (1070421840))
+  = (62, 3834, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0692 :
+  samSubModePitch_fun (f32 (1073741824)) 76 1 3003 12 (f32 (3198642473)) (f32 (1058060852)) (f32 (1071601657))
+  = (51, 0, 0, [3198642473; 1058060852; 1071601657]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0693 :
+  samSubModePitch_fun (f32 (1047273716)) 12 0 5625 8 (f32 (1073184087)) (f32 (1050127902)) (f32 (3213868245))
+  = (34, 0, 0, [1073184087; 1050127902; 3213868245]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0694 :
+  samSubModePitch_fun (f32 (1077684446)) 22 0 5624 7 (f32 (3219496694)) (f32 (1062822199)) (f32 (1072077392))
+  = (22, 5625, 0, [3219496694; 1062822199; 1072077392]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0695 :
+  samSubModePitch_fun (f32 (1073741824)) 0 2 3175 5 (f32 (3206544077)) (f32 (3217825503)) (f32 (3217645238))
+  = (0, 3176, 0, [3206544077; 3217825503; 3217645238]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0696 :
+  samSubModePitch_fun (f32 (1073741824)) 10 1 5625 12 (f32 (1058602131)) (f32 (3215422870)) (f32 (3215639849))
+  = (51, 0, 0, [1058602131; 3215422870; 3215639849]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0697 :
+  samSubModePitch_fun (f32 (2143289344)) 29 1 4471 5 (f32 (3205160723)) (f32 (1066101504)) (f32 (1072930748))
+  = (29, 4472, 5, [3205160723; 1066101504; 1072930748]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0698 :
+  samSubModePitch_fun (f32 (4286578688)) 58 1 5043 5 (f32 (1039036932)) (f32 (3217536414)) (f32 (3213120167))
+  = (58, 5044, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0699 :
+  samSubModePitch_fun (f32 (1068796315)) 34 0 4294967295 18 (f32 (1055147982)) (f32 (1068881739)) (f32 (1037934680))
+  = (34, 0, 0, [1055147982; 1068881739; 1037934680]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0700 :
+  samSubModePitch_fun (f32 (1073741824)) 36 1 0 4294967295 (f32 (1072196894)) (f32 (1067607420)) (f32 (3219320926))
+  = (36, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0701 :
+  samSubModePitch_fun (f32 (3212836864)) 41 1 3087 5 (f32 (1065482090)) (f32 (3199028035)) (f32 (1024699974))
+  = (41, 3088, 5, [1065482090; 3199028035; 1024699974]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0702 :
+  samSubModePitch_fun (f32 (1073732548)) 59 1 4973 8 (f32 (3215373330)) (f32 (3216528505)) (f32 (3205845391))
+  = (59, 4974, 9, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0703 :
+  samSubModePitch_fun (f32 (1065353216)) 76 1 4833 7 (f32 (1070083347)) (f32 (3214760589)) (f32 (1067044125))
+  = (76, 4834, 7, [1070083347; 3214760589; 1067044125]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0704 :
+  samSubModePitch_fun (f32 (1073741824)) 16 1 4935 11 (f32 (3197895907)) (f32 (3198200584)) (f32 (3220979895))
+  = (16, 4936, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0705 :
+  samSubModePitch_fun (f32 (1073741824)) 73 1 956 12 (f32 (1043750714)) (f32 (1066815317)) (f32 (1069536977))
+  = (51, 0, 0, [1043750714; 1066815317; 1069536977]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0706 :
+  samSubModePitch_fun (f32 (1074230604)) 74 0 5625 6 (f32 (3214654238)) (f32 (1055451717)) (f32 (3219011320))
+  = (34, 0, 0, [3214654238; 1055451717; 3219011320]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0707 :
+  samSubModePitch_fun (f32 (1072528764)) 40 0 5624 5 (f32 (1057206661)) (f32 (1065425308)) (f32 (1035126627))
+  = (40, 5625, 0, [1057206661; 1065425308; 1035126627]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0708 :
+  samSubModePitch_fun (f32 (1073741824)) 11 2 2064 5 (f32 (1070134072)) (f32 (1070508631)) (f32 (1070882805))
+  = (11, 2065, 0, [1070134072; 1070508631; 1070882805]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0709 :
+  samSubModePitch_fun (f32 (1073741824)) 15 1 5625 12 (f32 (1064456551)) (f32 (1069866541)) (f32 (1063297803))
+  = (51, 0, 0, [1064456551; 1069866541; 1063297803]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0710 :
+  samSubModePitch_fun (f32 (2143289344)) 53 1 3021 5 (f32 (1070758000)) (f32 (1059908681)) (f32 (3206799112))
+  = (53, 3022, 5, [1070758000; 1059908681; 3206799112]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0711 :
+  samSubModePitch_fun (f32 (4286578688)) 3 1 1259 5 (f32 (1070820318)) (f32 (3210862452)) (f32 (1057285413))
+  = (3, 1260, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0712 :
+  samSubModePitch_fun (f32 (3213147586)) 36 0 4294967295 17 (f32 (1069865171)) (f32 (1060745337)) (f32 (1045113506))
+  = (36, 0, 0, [1069865171; 1060745337; 1045113506]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0713 :
+  samSubModePitch_fun (f32 (1073741824)) 16 1 0 4294967295 (f32 (1073632067)) (f32 (3218434694)) (f32 (3188688483))
+  = (16, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0714 :
+  samSubModePitch_fun (f32 (3212836864)) 11 1 5390 5 (f32 (1063142892)) (f32 (1067966183)) (f32 (3208599503))
+  = (11, 5391, 5, [1063142892; 1067966183; 3208599503]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0715 :
+  samSubModePitch_fun (f32 (3221671777)) 41 1 1030 7 (f32 (1061115404)) (f32 (1072593658)) (f32 (3214268857))
+  = (41, 1031, 8, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0716 :
+  samSubModePitch_fun (f32 (1065353216)) 24 1 572 18 (f32 (3214330499)) (f32 (3219927822)) (f32 (1066368000))
+  = (24, 573, 18, [3214330499; 3219927822; 1066368000]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0717 :
+  samSubModePitch_fun (f32 (1073741824)) 32 1 2599 11 (f32 (1069096952)) (f32 (3201618196)) (f32 (1072501547))
+  = (32, 2600, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0718 :
+  samSubModePitch_fun (f32 (1073741824)) 69 1 1437 12 (f32 (3206579726)) (f32 (1059118840)) (f32 (1062144883))
+  = (51, 0, 0, [3206579726; 1059118840; 1062144883]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0719 :
+  samSubModePitch_fun (f32 (1047478668)) 57 0 5625 9 (f32 (1061097313)) (f32 (3213017169)) (f32 (1069022943))
+  = (34, 0, 0, [1061097313; 3213017169; 1069022943]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0720 :
+  samSubModePitch_fun (f32 (3171919215)) 18 0 5624 3 (f32 (3215440225)) (f32 (1064119833)) (f32 (3208167593))
+  = (18, 5625, 0, [3215440225; 1064119833; 3208167593]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0721 :
+  samSubModePitch_fun (f32 (1073741824)) 74 2 6694 5 (f32 (1023167784)) (f32 (3180663041)) (f32 (3205180085))
+  = (34, 0, 0, [1023167784; 3180663041; 3205180085]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0722 :
+  samSubModePitch_fun (f32 (1073741824)) 37 1 5625 12 (f32 (1063195737)) (f32 (1069327743)) (f32 (1057810246))
+  = (51, 0, 0, [1063195737; 1069327743; 1057810246]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0723 :
+  samSubModePitch_fun (f32 (2143289344)) 25 1 3243 5 (f32 (3213611811)) (f32 (1048023915)) (f32 (1073113891))
+  = (25, 3244, 5, [3213611811; 1048023915; 1073113891]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0724 :
+  samSubModePitch_fun (f32 (4286578688)) 7 1 4143 5 (f32 (1050124778)) (f32 (3185768884)) (f32 (3216765050))
+  = (7, 4144, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0725 :
+  samSubModePitch_fun (f32 (1059972752)) 17 0 4294967295 1 (f32 (1068202175)) (f32 (3213554520)) (f32 (1071781616))
+  = (17, 0, 0, [1068202175; 3213554520; 1071781616]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0726 :
+  samSubModePitch_fun (f32 (1073741824)) 31 1 0 4294967295 (f32 (1066813899)) (f32 (3204723229)) (f32 (1068591157))
+  = (31, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0727 :
+  samSubModePitch_fun (f32 (3212836864)) 23 1 3252 5 (f32 (1051632906)) (f32 (3212945178)) (f32 (1064974504))
+  = (23, 3253, 5, [1051632906; 3212945178; 1064974504]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0728 :
+  samSubModePitch_fun (f32 (1076035090)) 19 1 772 5 (f32 (3180149249)) (f32 (1063716251)) (f32 (1059462207))
+  = (19, 773, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0729 :
+  samSubModePitch_fun (f32 (1065353216)) 26 1 6821 4 (f32 (3163425068)) (f32 (3193351609)) (f32 (3204401742))
+  = (34, 0, 0, [3163425068; 3193351609; 3204401742]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0730 :
+  samSubModePitch_fun (f32 (1073741824)) 35 1 986 11 (f32 (3163129668)) (f32 (3212957225)) (f32 (1062996016))
+  = (35, 987, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0731 :
+  samSubModePitch_fun (f32 (1073741824)) 67 1 6882 12 (f32 (3221126327)) (f32 (3179913814)) (f32 (3217018332))
+  = (51, 0, 0, [3221126327; 3179913814; 3217018332]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0732 :
+  samSubModePitch_fun (f32 (1068284072)) 69 0 5625 8 (f32 (1065458645)) (f32 (3220368431)) (f32 (1071546060))
+  = (34, 0, 0, [1065458645; 3220368431; 1071546060]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0733 :
+  samSubModePitch_fun (f32 (3212529264)) 73 0 5624 6 (f32 (3218287046)) (f32 (3216053073)) (f32 (3215618099))
+  = (73, 5625, 0, [3218287046; 3216053073; 3215618099]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0734 :
+  samSubModePitch_fun (f32 (1073741824)) 24 2 1895 5 (f32 (1032243263)) (f32 (3199254159)) (f32 (1003365757))
+  = (24, 1896, 0, [1032243263; 3199254159; 1003365757]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0735 :
+  samSubModePitch_fun (f32 (1073741824)) 49 1 5625 12 (f32 (3216611945)) (f32 (3219455737)) (f32 (1033268593))
+  = (51, 0, 0, [3216611945; 3219455737; 1033268593]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0736 :
+  samSubModePitch_fun (f32 (2143289344)) 47 1 4642 5 (f32 (1059003647)) (f32 (3213161926)) (f32 (3218417816))
+  = (47, 4643, 5, [1059003647; 3213161926; 3218417816]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0737 :
+  samSubModePitch_fun (f32 (4286578688)) 33 1 3697 5 (f32 (1068902849)) (f32 (1070711442)) (f32 (1039350331))
+  = (33, 3698, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0738 :
+  samSubModePitch_fun (f32 (1075354269)) 76 0 4294967295 18 (f32 (3219596489)) (f32 (1061015001)) (f32 (1070236119))
+  = (76, 0, 0, [3219596489; 1061015001; 1070236119]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0739 :
+  samSubModePitch_fun (f32 (1073741824)) 52 1 0 4294967295 (f32 (3219968650)) (f32 (3214566231)) (f32 (3208398344))
+  = (52, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0740 :
+  samSubModePitch_fun (f32 (3212836864)) 62 1 3429 5 (f32 (1070203859)) (f32 (1065594150)) (f32 (1073200355))
+  = (62, 3430, 5, [1070203859; 1065594150; 1073200355]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0741 :
+  samSubModePitch_fun (f32 (1070514073)) 1 1 614 20 (f32 (3209685249)) (f32 (3205393175)) (f32 (1068164197))
+  = (51, 0, 0, [3209685249; 3205393175; 1068164197]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0742 :
+  samSubModePitch_fun (f32 (1065353216)) 26 1 2983 17 (f32 (1071081901)) (f32 (1055289354)) (f32 (1061736225))
+  = (26, 2984, 17, [1071081901; 1055289354; 1061736225]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0743 :
+  samSubModePitch_fun (f32 (1073741824)) 67 1 6978 11 (f32 (3208111825)) (f32 (3193828511)) (f32 (1071753838))
+  = (34, 0, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0744 :
+  samSubModePitch_fun (f32 (1073741824)) 15 1 5123 12 (f32 (3220334750)) (f32 (1064141431)) (f32 (3214886438))
+  = (51, 0, 0, [3220334750; 1064141431; 3214886438]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0745 :
+  samSubModePitch_fun (f32 (3209773085)) 35 0 5625 0 (f32 (3211209559)) (f32 (1029334997)) (f32 (1071169249))
+  = (34, 0, 0, [3211209559; 1029334997; 1071169249]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0746 :
+  samSubModePitch_fun (f32 (3199533750)) 46 0 5624 8 (f32 (1068363672)) (f32 (3218462460)) (f32 (3199683163))
+  = (46, 5625, 0, [1068363672; 3218462460; 3199683163]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0747 :
+  samSubModePitch_fun (f32 (1073741824)) 39 2 4893 5 (f32 (3214059657)) (f32 (3201453379)) (f32 (1071040702))
+  = (39, 4894, 0, [3214059657; 3201453379; 1071040702]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0748 :
+  samSubModePitch_fun (f32 (1073741824)) 57 1 5625 12 (f32 (3214743880)) (f32 (1065891948)) (f32 (1022467845))
+  = (51, 0, 0, [3214743880; 1065891948; 1022467845]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0749 :
+  samSubModePitch_fun (f32 (2143289344)) 22 1 827 5 (f32 (1066961400)) (f32 (1065312051)) (f32 (3211577441))
+  = (22, 828, 5, [1066961400; 1065312051; 3211577441]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0750 :
+  samSubModePitch_fun (f32 (4286578688)) 51 1 6961 5 (f32 (3213921707)) (f32 (1066987246)) (f32 (3218461261))
+  = (34, 0, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0751 :
+  samSubModePitch_fun (f32 (1072324974)) 38 0 4294967295 16 (f32 (1067663954)) (f32 (3200472478)) (f32 (3199141767))
+  = (38, 0, 0, [1067663954; 3200472478; 3199141767]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0752 :
+  samSubModePitch_fun (f32 (1073741824)) 41 1 0 4294967295 (f32 (1054778575)) (f32 (3204908287)) (f32 (3211295163))
+  = (41, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0753 :
+  samSubModePitch_fun (f32 (3212836864)) 12 1 2903 5 (f32 (1063919498)) (f32 (3198499101)) (f32 (3206874452))
+  = (12, 2904, 5, [1063919498; 3198499101; 3206874452]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0754 :
+  samSubModePitch_fun (f32 (1074750131)) 31 1 5947 16 (f32 (1056929583)) (f32 (1043751841)) (f32 (3217801364))
+  = (51, 0, 0, [1056929583; 1043751841; 3217801364]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0755 :
+  samSubModePitch_fun (f32 (1065353216)) 21 1 5441 13 (f32 (1061127856)) (f32 (3203117256)) (f32 (1068621916))
+  = (21, 5442, 13, [1061127856; 3203117256; 1068621916]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0756 :
+  samSubModePitch_fun (f32 (1073741824)) 57 1 2745 11 (f32 (3210136966)) (f32 (3210952148)) (f32 (1061293931))
+  = (57, 2746, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0757 :
+  samSubModePitch_fun (f32 (1073741824)) 61 1 1825 12 (f32 (1068663706)) (f32 (3203905192)) (f32 (3213820505))
+  = (51, 0, 0, [1068663706; 3203905192; 3213820505]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0758 :
+  samSubModePitch_fun (f32 (1067359668)) 69 0 5625 17 (f32 (1067832610)) (f32 (1069337249)) (f32 (1047169886))
+  = (34, 0, 0, [1067832610; 1069337249; 1047169886]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0759 :
+  samSubModePitch_fun (f32 (1043806504)) 28 0 5624 17 (f32 (1058734514)) (f32 (3212997357)) (f32 (1036410968))
+  = (28, 5625, 0, [1058734514; 3212997357; 1036410968]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0760 :
+  samSubModePitch_fun (f32 (1073741824)) 53 2 3130 5 (f32 (1067350118)) (f32 (3201317158)) (f32 (1070002582))
+  = (53, 3131, 0, [1067350118; 3201317158; 1070002582]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0761 :
+  samSubModePitch_fun (f32 (1073741824)) 32 1 5625 12 (f32 (3211478529)) (f32 (1062629356)) (f32 (1063306407))
+  = (51, 0, 0, [3211478529; 1062629356; 1063306407]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0762 :
+  samSubModePitch_fun (f32 (2143289344)) 7 1 3983 5 (f32 (3206147009)) (f32 (3218203243)) (f32 (3213611325))
+  = (7, 3984, 5, [3206147009; 3218203243; 3213611325]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0763 :
+  samSubModePitch_fun (f32 (4286578688)) 21 1 270 5 (f32 (3215119660)) (f32 (3198395257)) (f32 (1061787007))
+  = (21, 271, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0764 :
+  samSubModePitch_fun (f32 (3220962301)) 65 0 4294967295 9 (f32 (1061063010)) (f32 (1066259311)) (f32 (3219801845))
+  = (65, 0, 0, [1061063010; 1066259311; 3219801845]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0765 :
+  samSubModePitch_fun (f32 (1073741824)) 79 1 0 4294967295 (f32 (3212191150)) (f32 (1068207930)) (f32 (3217245959))
+  = (79, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0766 :
+  samSubModePitch_fun (f32 (3212836864)) 9 1 5133 5 (f32 (1072395766)) (f32 (1073398470)) (f32 (3196395593))
+  = (9, 5134, 5, [1072395766; 1073398470; 3196395593]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0767 :
+  samSubModePitch_fun (f32 (3191465387)) 46 0 2678 16 (f32 (3206691274)) (f32 (1061222238)) (f32 (1056206677))
+  = (46, 2679, 0, [3206691274; 1061222238; 1056206677]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0768 :
+  samSubModePitch_fun (f32 (1065353216)) 13 1 3442 8 (f32 (1057373371)) (f32 (1063979291)) (f32 (3217740401))
+  = (13, 3443, 8, [1057373371; 1063979291; 3217740401]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0769 :
+  samSubModePitch_fun (f32 (1073741824)) 63 1 1715 11 (f32 (1067938701)) (f32 (3216222392)) (f32 (1049663200))
+  = (63, 1716, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0770 :
+  samSubModePitch_fun (f32 (1073741824)) 9 1 524 12 (f32 (3190421839)) (f32 (1056579279)) (f32 (1058428738))
+  = (51, 0, 0, [3190421839; 1056579279; 1058428738]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0771 :
+  samSubModePitch_fun (f32 (1058709367)) 75 0 5625 11 (f32 (1063257172)) (f32 (1069882948)) (f32 (1072774109))
+  = (34, 0, 0, [1063257172; 1069882948; 1072774109]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0772 :
+  samSubModePitch_fun (f32 (1075999818)) 77 0 5624 5 (f32 (3213727001)) (f32 (1071666803)) (f32 (3218389646))
+  = (77, 5625, 0, [3213727001; 1071666803; 3218389646]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0773 :
+  samSubModePitch_fun (f32 (1073741824)) 47 2 6116 5 (f32 (1070705532)) (f32 (1045115399)) (f32 (1070223003))
+  = (34, 0, 0, [1070705532; 1045115399; 1070223003]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0774 :
+  samSubModePitch_fun (f32 (1073741824)) 62 1 5625 12 (f32 (3216913772)) (f32 (1060361994)) (f32 (3220101667))
+  = (51, 0, 0, [3216913772; 1060361994; 3220101667]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0775 :
+  samSubModePitch_fun (f32 (2143289344)) 69 1 5397 5 (f32 (3176361418)) (f32 (3210125074)) (f32 (3177608426))
+  = (69, 5398, 5, [3176361418; 3210125074; 3177608426]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0776 :
+  samSubModePitch_fun (f32 (4286578688)) 77 1 6675 5 (f32 (3213705136)) (f32 (1070337994)) (f32 (1062993976))
+  = (34, 0, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0777 :
+  samSubModePitch_fun (f32 (1046341225)) 39 0 4294967295 1 (f32 (1073355340)) (f32 (1065478068)) (f32 (3209294961))
+  = (39, 0, 0, [1073355340; 1065478068; 3209294961]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0778 :
+  samSubModePitch_fun (f32 (1073741824)) 11 1 0 4294967295 (f32 (1069403967)) (f32 (3200524171)) (f32 (3220723787))
+  = (11, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0779 :
+  samSubModePitch_fun (f32 (3212836864)) 15 1 4848 5 (f32 (3214260352)) (f32 (3214617805)) (f32 (1069679509))
+  = (15, 4849, 5, [3214260352; 3214617805; 1069679509]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0780 :
+  samSubModePitch_fun (f32 (3144507389)) 31 1 3936 6 (f32 (3216787375)) (f32 (3197645793)) (f32 (3216975776))
+  = (31, 3937, 6, [3216787375; 3197645793; 3216975776]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0781 :
+  samSubModePitch_fun (f32 (1065353216)) 19 1 1664 9 (f32 (3210672174)) (f32 (3167575695)) (f32 (1069131032))
+  = (19, 1665, 9, [3210672174; 3167575695; 1069131032]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0782 :
+  samSubModePitch_fun (f32 (1073741824)) 34 1 250 11 (f32 (1073069355)) (f32 (3215005050)) (f32 (3212925181))
+  = (34, 251, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0783 :
+  samSubModePitch_fun (f32 (1073741824)) 20 1 3823 12 (f32 (3219502081)) (f32 (1054635283)) (f32 (1066828538))
+  = (51, 0, 0, [3219502081; 1054635283; 1066828538]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0784 :
+  samSubModePitch_fun (f32 (1074820516)) 76 0 5625 3 (f32 (3206379887)) (f32 (3213243443)) (f32 (3194746335))
+  = (34, 0, 0, [3206379887; 3213243443; 3194746335]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0785 :
+  samSubModePitch_fun (f32 (1077320017)) 61 0 5624 10 (f32 (1062156737)) (f32 (1054420385)) (f32 (3197698334))
+  = (61, 5625, 0, [1062156737; 1054420385; 3197698334]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0786 :
+  samSubModePitch_fun (f32 (1073741824)) 35 2 822 5 (f32 (1065531014)) (f32 (1037756276)) (f32 (3211211157))
+  = (35, 823, 0, [1065531014; 1037756276; 3211211157]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0787 :
+  samSubModePitch_fun (f32 (1073741824)) 64 1 5625 12 (f32 (1071501456)) (f32 (1070753319)) (f32 (1061538428))
+  = (51, 0, 0, [1071501456; 1070753319; 1061538428]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0788 :
+  samSubModePitch_fun (f32 (2143289344)) 48 1 3393 5 (f32 (1066454655)) (f32 (1066059101)) (f32 (3196902268))
+  = (48, 3394, 5, [1066454655; 1066059101; 3196902268]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0789 :
+  samSubModePitch_fun (f32 (4286578688)) 15 1 4813 5 (f32 (1066130548)) (f32 (3198429593)) (f32 (3207038281))
+  = (15, 4814, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0790 :
+  samSubModePitch_fun (f32 (3222827175)) 34 0 4294967295 14 (f32 (1066375185)) (f32 (3208913433)) (f32 (3213605575))
+  = (34, 0, 0, [1066375185; 3208913433; 3213605575]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0791 :
+  samSubModePitch_fun (f32 (1073741824)) 35 1 0 4294967295 (f32 (1072678248)) (f32 (1057608333)) (f32 (1003609821))
+  = (35, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0792 :
+  samSubModePitch_fun (f32 (3212836864)) 44 1 2200 5 (f32 (3195818793)) (f32 (1059165464)) (f32 (3221194671))
+  = (44, 2201, 5, [3195818793; 1059165464; 3221194671]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0793 :
+  samSubModePitch_fun (f32 (3220923627)) 33 1 597 16 (f32 (3200503601)) (f32 (1062140648)) (f32 (3197375040))
+  = (51, 0, 0, [3200503601; 1062140648; 3197375040]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0794 :
+  samSubModePitch_fun (f32 (1065353216)) 78 1 4481 10 (f32 (3218351140)) (f32 (3219916836)) (f32 (3218229574))
+  = (78, 4482, 10, [3218351140; 3219916836; 3218229574]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0795 :
+  samSubModePitch_fun (f32 (1073741824)) 6 1 6013 11 (f32 (3214594494)) (f32 (3214221332)) (f32 (3215890335))
+  = (34, 0, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0796 :
+  samSubModePitch_fun (f32 (1073741824)) 58 1 5361 12 (f32 (3218920003)) (f32 (1062780013)) (f32 (1069230222))
+  = (51, 0, 0, [3218920003; 1062780013; 1069230222]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0797 :
+  samSubModePitch_fun (f32 (1076156204)) 54 0 5625 19 (f32 (1031499843)) (f32 (3199758834)) (f32 (1056163310))
+  = (34, 0, 0, [1031499843; 3199758834; 1056163310]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0798 :
+  samSubModePitch_fun (f32 (3206319053)) 40 0 5624 15 (f32 (1036548372)) (f32 (1033540107)) (f32 (1072030677))
+  = (40, 5625, 0, [1036548372; 1033540107; 1072030677]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0799 :
+  samSubModePitch_fun (f32 (1073741824)) 67 2 5957 5 (f32 (1068127902)) (f32 (3212849094)) (f32 (1058793919))
+  = (34, 0, 0, [1068127902; 3212849094; 1058793919]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0800 :
+  samSubModePitch_fun (f32 (1073741824)) 53 1 5625 12 (f32 (3219087679)) (f32 (1058321231)) (f32 (1073361806))
+  = (51, 0, 0, [3219087679; 1058321231; 1073361806]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0801 :
+  samSubModePitch_fun (f32 (2143289344)) 32 1 1724 5 (f32 (1072371401)) (f32 (3200958623)) (f32 (3215031006))
+  = (32, 1725, 5, [1072371401; 3200958623; 3215031006]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0802 :
+  samSubModePitch_fun (f32 (4286578688)) 35 1 2612 5 (f32 (3186310668)) (f32 (1057656826)) (f32 (3171161384))
+  = (35, 2613, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0803 :
+  samSubModePitch_fun (f32 (3211335771)) 57 0 4294967295 15 (f32 (3174849078)) (f32 (3205733568)) (f32 (3213914011))
+  = (57, 0, 0, [3174849078; 3205733568; 3213914011]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0804 :
+  samSubModePitch_fun (f32 (1073741824)) 32 1 0 4294967295 (f32 (3210865146)) (f32 (3208671299)) (f32 (1068176347))
+  = (32, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0805 :
+  samSubModePitch_fun (f32 (3212836864)) 28 1 1604 5 (f32 (1063733731)) (f32 (1045802037)) (f32 (1056648214))
+  = (28, 1605, 5, [1063733731; 1045802037; 1056648214]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0806 :
+  samSubModePitch_fun (f32 (3223097236)) 73 0 2266 15 (f32 (1059273389)) (f32 (1072725809)) (f32 (1072380022))
+  = (73, 2267, 0, [1059273389; 1072725809; 1072380022]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0807 :
+  samSubModePitch_fun (f32 (1065353216)) 34 1 5592 11 (f32 (3212431843)) (f32 (3211210407)) (f32 (3191940587))
+  = (34, 5593, 11, [3212431843; 3211210407; 3191940587]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0808 :
+  samSubModePitch_fun (f32 (1073741824)) 10 1 2209 11 (f32 (1065834825)) (f32 (1065818999)) (f32 (1071440309))
+  = (10, 2210, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0809 :
+  samSubModePitch_fun (f32 (1073741824)) 31 1 3273 12 (f32 (3214610853)) (f32 (3200640698)) (f32 (1063195561))
+  = (51, 0, 0, [3214610853; 3200640698; 1063195561]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0810 :
+  samSubModePitch_fun (f32 (3218080842)) 15 0 5625 8 (f32 (3211279812)) (f32 (1059820804)) (f32 (3217767928))
+  = (34, 0, 0, [3211279812; 1059820804; 3217767928]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0811 :
+  samSubModePitch_fun (f32 (3218330182)) 14 0 5624 2 (f32 (1068755822)) (f32 (3218188021)) (f32 (3220127759))
+  = (14, 5625, 0, [1068755822; 3218188021; 3220127759]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0812 :
+  samSubModePitch_fun (f32 (1073741824)) 26 2 1824 5 (f32 (1053709148)) (f32 (1066119616)) (f32 (3215660084))
+  = (26, 1825, 0, [1053709148; 1066119616; 3215660084]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0813 :
+  samSubModePitch_fun (f32 (1073741824)) 49 1 5625 12 (f32 (3216417175)) (f32 (3220817463)) (f32 (3174727989))
+  = (51, 0, 0, [3216417175; 3220817463; 3174727989]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0814 :
+  samSubModePitch_fun (f32 (2143289344)) 19 1 6876 5 (f32 (3213553275)) (f32 (3217060515)) (f32 (1068488838))
+  = (34, 0, 0, [3213553275; 3217060515; 1068488838]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0815 :
+  samSubModePitch_fun (f32 (4286578688)) 69 1 1423 5 (f32 (3217124904)) (f32 (3219150122)) (f32 (1052909319))
+  = (69, 1424, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0816 :
+  samSubModePitch_fun (f32 (1073826458)) 46 0 4294967295 9 (f32 (3182039438)) (f32 (3171663638)) (f32 (1071829201))
+  = (46, 0, 0, [3182039438; 3171663638; 1071829201]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0817 :
+  samSubModePitch_fun (f32 (1073741824)) 14 1 0 4294967295 (f32 (1069843038)) (f32 (3220016613)) (f32 (3207287859))
+  = (14, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0818 :
+  samSubModePitch_fun (f32 (3212836864)) 7 1 1991 5 (f32 (1061990665)) (f32 (3214794335)) (f32 (3215233581))
+  = (7, 1992, 5, [1061990665; 3214794335; 3215233581]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0819 :
+  samSubModePitch_fun (f32 (1066889764)) 46 1 240 18 (f32 (3213211138)) (f32 (1072715529)) (f32 (1065450995))
+  = (51, 0, 0, [3213211138; 1072715529; 1065450995]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0820 :
+  samSubModePitch_fun (f32 (1065353216)) 23 1 6430 12 (f32 (3215966386)) (f32 (1059367871)) (f32 (1066845850))
+  = (34, 0, 0, [3215966386; 1059367871; 1066845850]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0821 :
+  samSubModePitch_fun (f32 (1073741824)) 55 1 1336 11 (f32 (1069294893)) (f32 (3214985520)) (f32 (3214837213))
+  = (55, 1337, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0822 :
+  samSubModePitch_fun (f32 (1073741824)) 15 1 4255 12 (f32 (3211398715)) (f32 (3210159539)) (f32 (1072579512))
+  = (51, 0, 0, [3211398715; 3210159539; 1072579512]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0823 :
+  samSubModePitch_fun (f32 (3215915326)) 9 0 5625 8 (f32 (1064731689)) (f32 (3201171235)) (f32 (3207053420))
+  = (34, 0, 0, [1064731689; 3201171235; 3207053420]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0824 :
+  samSubModePitch_fun (f32 (1074657413)) 39 0 5624 5 (f32 (1066284786)) (f32 (3214600476)) (f32 (3212623010))
+  = (39, 5625, 0, [1066284786; 3214600476; 3212623010]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0825 :
+  samSubModePitch_fun (f32 (1073741824)) 4 2 5291 5 (f32 (1062417659)) (f32 (3216872489)) (f32 (3215070681))
+  = (4, 5292, 0, [1062417659; 3216872489; 3215070681]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0826 :
+  samSubModePitch_fun (f32 (1073741824)) 1 1 5625 12 (f32 (1061955944)) (f32 (1066898693)) (f32 (3184647827))
+  = (51, 0, 0, [1061955944; 1066898693; 3184647827]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0827 :
+  samSubModePitch_fun (f32 (2143289344)) 1 1 6180 5 (f32 (1070546904)) (f32 (1052164978)) (f32 (1066667959))
+  = (34, 0, 0, [1070546904; 1052164978; 1066667959]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0828 :
+  samSubModePitch_fun (f32 (4286578688)) 17 1 6501 5 (f32 (1068858124)) (f32 (3172007226)) (f32 (3197879507))
+  = (34, 0, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0829 :
+  samSubModePitch_fun (f32 (3213295730)) 26 0 4294967295 20 (f32 (1047414705)) (f32 (3206350862)) (f32 (3218206056))
+  = (26, 0, 0, [1047414705; 3206350862; 3218206056]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0830 :
+  samSubModePitch_fun (f32 (1073741824)) 16 1 0 4294967295 (f32 (3217159578)) (f32 (3218277928)) (f32 (3221046986))
+  = (16, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0831 :
+  samSubModePitch_fun (f32 (3212836864)) 32 1 5254 5 (f32 (1058712222)) (f32 (3207706841)) (f32 (1061769584))
+  = (32, 5255, 5, [1058712222; 3207706841; 1061769584]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0832 :
+  samSubModePitch_fun (f32 (3217898298)) 53 0 4694 16 (f32 (3209100147)) (f32 (3213986997)) (f32 (3194537491))
+  = (53, 4695, 0, [3209100147; 3213986997; 3194537491]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0833 :
+  samSubModePitch_fun (f32 (1065353216)) 18 1 2973 20 (f32 (3219940704)) (f32 (3218570853)) (f32 (3213946329))
+  = (18, 2974, 20, [3219940704; 3218570853; 3213946329]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0834 :
+  samSubModePitch_fun (f32 (1073741824)) 60 1 6148 11 (f32 (3219350184)) (f32 (1065924003)) (f32 (3220627089))
+  = (34, 0, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0835 :
+  samSubModePitch_fun (f32 (1073741824)) 59 1 306 12 (f32 (1056089611)) (f32 (1071889052)) (f32 (3201422779))
+  = (51, 0, 0, [1056089611; 1071889052; 3201422779]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0836 :
+  samSubModePitch_fun (f32 (3188436311)) 58 0 5625 20 (f32 (1072864195)) (f32 (3213154300)) (f32 (3217847780))
+  = (34, 0, 0, [1072864195; 3213154300; 3217847780]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0837 :
+  samSubModePitch_fun (f32 (1070374921)) 55 0 5624 2 (f32 (1068545924)) (f32 (1059396521)) (f32 (1067298291))
+  = (55, 5625, 0, [1068545924; 1059396521; 1067298291]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0838 :
+  samSubModePitch_fun (f32 (1073741824)) 71 2 5111 5 (f32 (3213966812)) (f32 (1057585737)) (f32 (3204698035))
+  = (71, 5112, 0, [3213966812; 1057585737; 3204698035]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0839 :
+  samSubModePitch_fun (f32 (1073741824)) 57 1 5625 12 (f32 (1065866399)) (f32 (1051908599)) (f32 (3197723444))
+  = (51, 0, 0, [1065866399; 1051908599; 3197723444]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0840 :
+  samSubModePitch_fun (f32 (2143289344)) 71 1 5694 5 (f32 (1071967816)) (f32 (3198139978)) (f32 (1069980564))
+  = (34, 0, 0, [1071967816; 3198139978; 1069980564]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0841 :
+  samSubModePitch_fun (f32 (4286578688)) 22 1 3754 5 (f32 (1067141480)) (f32 (1067402731)) (f32 (1065779291))
+  = (22, 3755, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0842 :
+  samSubModePitch_fun (f32 (1076748889)) 36 0 4294967295 12 (f32 (1067340864)) (f32 (3211192734)) (f32 (1066948250))
+  = (36, 0, 0, [1067340864; 3211192734; 1066948250]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0843 :
+  samSubModePitch_fun (f32 (1073741824)) 65 1 0 4294967295 (f32 (1071463948)) (f32 (3218153607)) (f32 (1069395616))
+  = (65, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0844 :
+  samSubModePitch_fun (f32 (3212836864)) 56 1 1248 5 (f32 (3189808971)) (f32 (3198756487)) (f32 (1062935678))
+  = (56, 1249, 5, [3189808971; 3198756487; 1062935678]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0845 :
+  samSubModePitch_fun (f32 (3204545309)) 64 0 6031 3 (f32 (3173911534)) (f32 (3205503835)) (f32 (3220448933))
+  = (34, 0, 0, [3173911534; 3205503835; 3220448933]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0846 :
+  samSubModePitch_fun (f32 (1065353216)) 17 1 5848 0 (f32 (3216523427)) (f32 (1071392933)) (f32 (3216828784))
+  = (34, 0, 0, [3216523427; 1071392933; 3216828784]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0847 :
+  samSubModePitch_fun (f32 (1073741824)) 24 1 4556 11 (f32 (1065530272)) (f32 (3210817355)) (f32 (1065443139))
+  = (24, 4557, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0848 :
+  samSubModePitch_fun (f32 (1073741824)) 64 1 5446 12 (f32 (1057056169)) (f32 (3215985950)) (f32 (1072680011))
+  = (51, 0, 0, [1057056169; 3215985950; 1072680011]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0849 :
+  samSubModePitch_fun (f32 (3224942635)) 17 0 5625 0 (f32 (1052258320)) (f32 (1063626888)) (f32 (3176274652))
+  = (34, 0, 0, [1052258320; 1063626888; 3176274652]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0850 :
+  samSubModePitch_fun (f32 (1077619083)) 9 0 5624 1 (f32 (1058930711)) (f32 (1035804469)) (f32 (1060466086))
+  = (9, 5625, 0, [1058930711; 1035804469; 1060466086]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0851 :
+  samSubModePitch_fun (f32 (1073741824)) 62 2 4256 5 (f32 (3220768694)) (f32 (1065876307)) (f32 (3219303142))
+  = (62, 4257, 0, [3220768694; 1065876307; 3219303142]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0852 :
+  samSubModePitch_fun (f32 (1073741824)) 44 1 5625 12 (f32 (3216024996)) (f32 (1066386584)) (f32 (3214814620))
+  = (51, 0, 0, [3216024996; 1066386584; 3214814620]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0853 :
+  samSubModePitch_fun (f32 (2143289344)) 35 1 3936 5 (f32 (3213529130)) (f32 (3205767021)) (f32 (3203512916))
+  = (35, 3937, 5, [3213529130; 3205767021; 3203512916]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0854 :
+  samSubModePitch_fun (f32 (4286578688)) 71 1 3531 5 (f32 (1059389602)) (f32 (3210989229)) (f32 (3206920568))
+  = (71, 3532, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0855 :
+  samSubModePitch_fun (f32 (1076855970)) 60 0 4294967295 16 (f32 (3212145863)) (f32 (1062662696)) (f32 (3218759252))
+  = (60, 0, 0, [3212145863; 1062662696; 3218759252]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0856 :
+  samSubModePitch_fun (f32 (1073741824)) 25 1 0 4294967295 (f32 (3193541493)) (f32 (3211847440)) (f32 (1062644893))
+  = (25, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0857 :
+  samSubModePitch_fun (f32 (3212836864)) 49 1 4047 5 (f32 (1051287335)) (f32 (1065748278)) (f32 (3218629172))
+  = (49, 4048, 5, [1051287335; 1065748278; 3218629172]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0858 :
+  samSubModePitch_fun (f32 (3218733609)) 70 0 1050 12 (f32 (1070833235)) (f32 (3215530977)) (f32 (1066584763))
+  = (70, 1051, 0, [1070833235; 3215530977; 1066584763]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0859 :
+  samSubModePitch_fun (f32 (1065353216)) 42 1 1753 8 (f32 (1070033387)) (f32 (3219928767)) (f32 (1039393779))
+  = (42, 1754, 8, [1070033387; 3219928767; 1039393779]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0860 :
+  samSubModePitch_fun (f32 (1073741824)) 21 1 5000 11 (f32 (1070365847)) (f32 (1062289895)) (f32 (1063067446))
+  = (21, 5001, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0861 :
+  samSubModePitch_fun (f32 (1073741824)) 29 1 521 12 (f32 (1055506057)) (f32 (3221175969)) (f32 (1071035465))
+  = (51, 0, 0, [1055506057; 3221175969; 1071035465]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0862 :
+  samSubModePitch_fun (f32 (3223885811)) 50 0 5625 5 (f32 (1069674127)) (f32 (3214016418)) (f32 (3206530677))
+  = (34, 0, 0, [1069674127; 3214016418; 3206530677]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0863 :
+  samSubModePitch_fun (f32 (1076389250)) 75 0 5624 17 (f32 (3211246044)) (f32 (1059697310)) (f32 (1068435460))
+  = (75, 5625, 0, [3211246044; 1059697310; 1068435460]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0864 :
+  samSubModePitch_fun (f32 (1073741824)) 61 2 1741 5 (f32 (3219844010)) (f32 (1072161703)) (f32 (1049948826))
+  = (61, 1742, 0, [3219844010; 1072161703; 1049948826]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0865 :
+  samSubModePitch_fun (f32 (1073741824)) 1 1 5625 12 (f32 (3218846189)) (f32 (1069509773)) (f32 (1059031346))
+  = (51, 0, 0, [3218846189; 1069509773; 1059031346]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0866 :
+  samSubModePitch_fun (f32 (2143289344)) 20 1 6627 5 (f32 (1073057543)) (f32 (3188257579)) (f32 (1059372098))
+  = (34, 0, 0, [1073057543; 3188257579; 1059372098]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0867 :
+  samSubModePitch_fun (f32 (4286578688)) 25 1 5655 5 (f32 (1062002741)) (f32 (3219712182)) (f32 (3157630766))
+  = (34, 0, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0868 :
+  samSubModePitch_fun (f32 (1074686799)) 48 0 4294967295 5 (f32 (1069619156)) (f32 (1066749296)) (f32 (3221037848))
+  = (48, 0, 0, [1069619156; 1066749296; 3221037848]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0869 :
+  samSubModePitch_fun (f32 (1073741824)) 7 1 0 4294967295 (f32 (1070163148)) (f32 (1047674500)) (f32 (1066477325))
+  = (7, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0870 :
+  samSubModePitch_fun (f32 (3212836864)) 70 1 1051 5 (f32 (1045569192)) (f32 (3197417177)) (f32 (3193522419))
+  = (70, 1052, 5, [1045569192; 3197417177; 3193522419]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0871 :
+  samSubModePitch_fun (f32 (1068067486)) 43 1 6987 7 (f32 (3219354736)) (f32 (1062553121)) (f32 (3196965671))
+  = (34, 0, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0872 :
+  samSubModePitch_fun (f32 (1065353216)) 43 1 3123 17 (f32 (3213587956)) (f32 (1052634727)) (f32 (3207986103))
+  = (43, 3124, 17, [3213587956; 1052634727; 3207986103]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0873 :
+  samSubModePitch_fun (f32 (1073741824)) 51 1 4014 11 (f32 (1038124443)) (f32 (3215112688)) (f32 (3207932792))
+  = (51, 4015, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0874 :
+  samSubModePitch_fun (f32 (1073741824)) 51 1 4415 12 (f32 (1069850637)) (f32 (3215945200)) (f32 (1068120382))
+  = (51, 0, 0, [1069850637; 3215945200; 1068120382]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0875 :
+  samSubModePitch_fun (f32 (3216932001)) 47 0 5625 1 (f32 (3221081823)) (f32 (3217842613)) (f32 (1073333487))
+  = (34, 0, 0, [3221081823; 3217842613; 1073333487]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0876 :
+  samSubModePitch_fun (f32 (1069695217)) 54 0 5624 11 (f32 (3209051404)) (f32 (1070689879)) (f32 (3192529476))
+  = (54, 5625, 0, [3209051404; 1070689879; 3192529476]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0877 :
+  samSubModePitch_fun (f32 (1073741824)) 41 2 1176 5 (f32 (3201456710)) (f32 (3218613537)) (f32 (3210356290))
+  = (41, 1177, 0, [3201456710; 3218613537; 3210356290]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0878 :
+  samSubModePitch_fun (f32 (1073741824)) 4 1 5625 12 (f32 (1066972932)) (f32 (1066312011)) (f32 (1059127814))
+  = (51, 0, 0, [1066972932; 1066312011; 1059127814]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0879 :
+  samSubModePitch_fun (f32 (2143289344)) 38 1 5977 5 (f32 (1071277547)) (f32 (1071458475)) (f32 (3217608659))
+  = (34, 0, 0, [1071277547; 1071458475; 3217608659]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0880 :
+  samSubModePitch_fun (f32 (4286578688)) 11 1 1255 5 (f32 (1068180707)) (f32 (3191472311)) (f32 (3219787963))
+  = (11, 1256, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0881 :
+  samSubModePitch_fun (f32 (3197194381)) 63 0 4294967295 2 (f32 (1062461593)) (f32 (3213713676)) (f32 (3187835433))
+  = (63, 0, 0, [1062461593; 3213713676; 3187835433]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0882 :
+  samSubModePitch_fun (f32 (1073741824)) 43 1 0 4294967295 (f32 (3205379454)) (f32 (1072737272)) (f32 (3217983880))
+  = (43, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0883 :
+  samSubModePitch_fun (f32 (3212836864)) 52 1 489 5 (f32 (1068609569)) (f32 (1060528202)) (f32 (3213280006))
+  = (52, 490, 5, [1068609569; 1060528202; 3213280006]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0884 :
+  samSubModePitch_fun (f32 (1059650685)) 5 1 160 15 (f32 (1056280995)) (f32 (1053288911)) (f32 (3205877467))
+  = (5, 161, 15, [1056280995; 1053288911; 3205877467]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0885 :
+  samSubModePitch_fun (f32 (1065353216)) 20 1 3876 8 (f32 (1061417045)) (f32 (1067982657)) (f32 (1073100373))
+  = (20, 3877, 8, [1061417045; 1067982657; 1073100373]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0886 :
+  samSubModePitch_fun (f32 (1073741824)) 70 1 5078 11 (f32 (3217435971)) (f32 (1059073177)) (f32 (3200824382))
+  = (70, 5079, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0887 :
+  samSubModePitch_fun (f32 (1073741824)) 31 1 5721 12 (f32 (3220200284)) (f32 (3216624113)) (f32 (3203580944))
+  = (51, 0, 0, [3220200284; 3216624113; 3203580944]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0888 :
+  samSubModePitch_fun (f32 (1052876670)) 6 0 5625 9 (f32 (3217579946)) (f32 (3196366368)) (f32 (3213754927))
+  = (34, 0, 0, [3217579946; 3196366368; 3213754927]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0889 :
+  samSubModePitch_fun (f32 (3200652496)) 35 0 5624 13 (f32 (3204571672)) (f32 (1066854829)) (f32 (1056113406))
+  = (35, 5625, 0, [3204571672; 1066854829; 1056113406]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0890 :
+  samSubModePitch_fun (f32 (1073741824)) 60 2 5125 5 (f32 (1054257708)) (f32 (3213425288)) (f32 (3217485191))
+  = (60, 5126, 0, [1054257708; 3213425288; 3217485191]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0891 :
+  samSubModePitch_fun (f32 (1073741824)) 39 1 5625 12 (f32 (1058082045)) (f32 (1064152773)) (f32 (3215263611))
+  = (51, 0, 0, [1058082045; 1064152773; 3215263611]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0892 :
+  samSubModePitch_fun (f32 (2143289344)) 57 1 3203 5 (f32 (3220199949)) (f32 (3204389382)) (f32 (1072092616))
+  = (57, 3204, 5, [3220199949; 3204389382; 1072092616]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0893 :
+  samSubModePitch_fun (f32 (4286578688)) 67 1 599 5 (f32 (3158948721)) (f32 (3187777040)) (f32 (1059623042))
+  = (67, 600, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0894 :
+  samSubModePitch_fun (f32 (1074267290)) 62 0 4294967295 6 (f32 (1067424901)) (f32 (1065091878)) (f32 (3204949947))
+  = (62, 0, 0, [1067424901; 1065091878; 3204949947]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0895 :
+  samSubModePitch_fun (f32 (1073741824)) 62 1 0 4294967295 (f32 (3212312621)) (f32 (3217404451)) (f32 (3217106007))
+  = (62, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0896 :
+  samSubModePitch_fun (f32 (3212836864)) 38 1 4075 5 (f32 (1067663808)) (f32 (1058733099)) (f32 (1071739757))
+  = (38, 4076, 5, [1067663808; 1058733099; 1071739757]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0897 :
+  samSubModePitch_fun (f32 (3222641057)) 71 1 1530 12 (f32 (1048941442)) (f32 (1069725403)) (f32 (3219726459))
+  = (51, 0, 0, [1048941442; 1069725403; 3219726459]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0898 :
+  samSubModePitch_fun (f32 (1065353216)) 74 1 6101 20 (f32 (1063897955)) (f32 (3198210965)) (f32 (3213780995))
+  = (34, 0, 0, [1063897955; 3198210965; 3213780995]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0899 :
+  samSubModePitch_fun (f32 (1073741824)) 52 1 3197 11 (f32 (1072594143)) (f32 (1062727194)) (f32 (3196919409))
+  = (52, 3198, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0900 :
+  samSubModePitch_fun (f32 (1073741824)) 44 1 4095 12 (f32 (3211670875)) (f32 (3207359471)) (f32 (3214797882))
+  = (51, 0, 0, [3211670875; 3207359471; 3214797882]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0901 :
+  samSubModePitch_fun (f32 (1077616574)) 51 0 5625 1 (f32 (3210302861)) (f32 (1067822644)) (f32 (1061256503))
+  = (34, 0, 0, [3210302861; 1067822644; 1061256503]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0902 :
+  samSubModePitch_fun (f32 (3216316429)) 68 0 5624 0 (f32 (3190097418)) (f32 (3220234515)) (f32 (1072416792))
+  = (68, 5625, 0, [3190097418; 3220234515; 1072416792]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0903 :
+  samSubModePitch_fun (f32 (1073741824)) 71 2 5318 5 (f32 (1069710880)) (f32 (3194844173)) (f32 (3213254912))
+  = (71, 5319, 0, [1069710880; 3194844173; 3213254912]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0904 :
+  samSubModePitch_fun (f32 (1073741824)) 37 1 5625 12 (f32 (3208419031)) (f32 (1071219611)) (f32 (3220407687))
+  = (51, 0, 0, [3208419031; 1071219611; 3220407687]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0905 :
+  samSubModePitch_fun (f32 (2143289344)) 8 1 2414 5 (f32 (1069620984)) (f32 (1069377339)) (f32 (3218742981))
+  = (8, 2415, 5, [1069620984; 1069377339; 3218742981]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0906 :
+  samSubModePitch_fun (f32 (4286578688)) 10 1 989 5 (f32 (1073098562)) (f32 (1068349853)) (f32 (1043301354))
+  = (10, 990, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0907 :
+  samSubModePitch_fun (f32 (1058431631)) 54 0 4294967295 13 (f32 (1066176954)) (f32 (1068579282)) (f32 (1073428896))
+  = (54, 0, 0, [1066176954; 1068579282; 1073428896]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0908 :
+  samSubModePitch_fun (f32 (1073741824)) 16 1 0 4294967295 (f32 (1060109895)) (f32 (3217990903)) (f32 (1073365528))
+  = (16, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0909 :
+  samSubModePitch_fun (f32 (3212836864)) 18 1 3730 5 (f32 (1068393250)) (f32 (1054262015)) (f32 (1040449311))
+  = (18, 3731, 5, [1068393250; 1054262015; 1040449311]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0910 :
+  samSubModePitch_fun (f32 (3224829627)) 65 0 1551 4 (f32 (3214146866)) (f32 (1066419614)) (f32 (1073518589))
+  = (65, 1552, 0, [3214146866; 1066419614; 1073518589]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0911 :
+  samSubModePitch_fun (f32 (1065353216)) 60 1 3542 8 (f32 (3219051598)) (f32 (1072931066)) (f32 (3214236314))
+  = (60, 3543, 8, [3219051598; 1072931066; 3214236314]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0912 :
+  samSubModePitch_fun (f32 (1073741824)) 59 1 3818 11 (f32 (3197892463)) (f32 (1073339795)) (f32 (1071894565))
+  = (59, 3819, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0913 :
+  samSubModePitch_fun (f32 (1073741824)) 73 1 5511 12 (f32 (3187647972)) (f32 (1039941185)) (f32 (3191965888))
+  = (51, 0, 0, [3187647972; 1039941185; 3191965888]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0914 :
+  samSubModePitch_fun (f32 (3196872901)) 58 0 5625 8 (f32 (1060861931)) (f32 (3214433923)) (f32 (1070456750))
+  = (34, 0, 0, [1060861931; 3214433923; 1070456750]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0915 :
+  samSubModePitch_fun (f32 (3215363198)) 53 0 5624 8 (f32 (1065314440)) (f32 (1071261344)) (f32 (1044118987))
+  = (53, 5625, 0, [1065314440; 1071261344; 1044118987]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0916 :
+  samSubModePitch_fun (f32 (1073741824)) 65 2 3745 5 (f32 (3205223143)) (f32 (1063366957)) (f32 (3214640163))
+  = (65, 3746, 0, [3205223143; 1063366957; 3214640163]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0917 :
+  samSubModePitch_fun (f32 (1073741824)) 54 1 5625 12 (f32 (1073368923)) (f32 (3204799111)) (f32 (3184186538))
+  = (51, 0, 0, [1073368923; 3204799111; 3184186538]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0918 :
+  samSubModePitch_fun (f32 (2143289344)) 53 1 629 5 (f32 (3216226551)) (f32 (3218147082)) (f32 (1070144658))
+  = (53, 630, 5, [3216226551; 3218147082; 1070144658]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0919 :
+  samSubModePitch_fun (f32 (4286578688)) 52 1 2988 5 (f32 (3207269736)) (f32 (1057675524)) (f32 (3201948243))
+  = (52, 2989, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0920 :
+  samSubModePitch_fun (f32 (1062342708)) 51 0 4294967295 4 (f32 (3182580114)) (f32 (1073227983)) (f32 (1067888263))
+  = (51, 0, 0, [3182580114; 1073227983; 1067888263]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0921 :
+  samSubModePitch_fun (f32 (1073741824)) 63 1 0 4294967295 (f32 (1065761563)) (f32 (1057156190)) (f32 (1051976570))
+  = (63, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0922 :
+  samSubModePitch_fun (f32 (3212836864)) 26 1 6770 5 (f32 (1059121822)) (f32 (3186106708)) (f32 (3207293703))
+  = (34, 0, 0, [1059121822; 3186106708; 3207293703]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0923 :
+  samSubModePitch_fun (f32 (3214531847)) 71 0 1415 5 (f32 (3214727027)) (f32 (1061424861)) (f32 (3217757121))
+  = (71, 1416, 0, [3214727027; 1061424861; 3217757121]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0924 :
+  samSubModePitch_fun (f32 (1065353216)) 62 1 711 12 (f32 (1066047627)) (f32 (3219790166)) (f32 (3214303201))
+  = (62, 712, 12, [1066047627; 3219790166; 3214303201]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0925 :
+  samSubModePitch_fun (f32 (1073741824)) 11 1 5037 11 (f32 (1053676826)) (f32 (3185561097)) (f32 (1072229210))
+  = (11, 5038, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0926 :
+  samSubModePitch_fun (f32 (1073741824)) 54 1 755 12 (f32 (3213463550)) (f32 (1073506818)) (f32 (3171043966))
+  = (51, 0, 0, [3213463550; 1073506818; 3171043966]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0927 :
+  samSubModePitch_fun (f32 (1047292958)) 64 0 5625 0 (f32 (3214887590)) (f32 (1067918149)) (f32 (1068893719))
+  = (34, 0, 0, [3214887590; 1067918149; 1068893719]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0928 :
+  samSubModePitch_fun (f32 (3221097493)) 64 0 5624 12 (f32 (1059676793)) (f32 (1068194740)) (f32 (3220415140))
+  = (64, 5625, 0, [1059676793; 1068194740; 3220415140]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0929 :
+  samSubModePitch_fun (f32 (1073741824)) 75 2 2285 5 (f32 (3210319195)) (f32 (3220832273)) (f32 (3211645797))
+  = (75, 2286, 0, [3210319195; 3220832273; 3211645797]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0930 :
+  samSubModePitch_fun (f32 (1073741824)) 71 1 5625 12 (f32 (1058439812)) (f32 (1060813846)) (f32 (1071401732))
+  = (51, 0, 0, [1058439812; 1060813846; 1071401732]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0931 :
+  samSubModePitch_fun (f32 (2143289344)) 10 1 3405 5 (f32 (3219190131)) (f32 (1055739608)) (f32 (1071623209))
+  = (10, 3406, 5, [3219190131; 1055739608; 1071623209]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0932 :
+  samSubModePitch_fun (f32 (4286578688)) 26 1 2981 5 (f32 (3171845300)) (f32 (1069542586)) (f32 (3215724230))
+  = (26, 2982, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0933 :
+  samSubModePitch_fun (f32 (3222575658)) 76 0 4294967295 17 (f32 (1030267883)) (f32 (1069111547)) (f32 (1058341854))
+  = (76, 0, 0, [1030267883; 1069111547; 1058341854]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0934 :
+  samSubModePitch_fun (f32 (1073741824)) 5 1 0 4294967295 (f32 (1068794644)) (f32 (3213812948)) (f32 (3197931189))
+  = (5, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0935 :
+  samSubModePitch_fun (f32 (3212836864)) 73 1 3699 5 (f32 (3219122632)) (f32 (1073465018)) (f32 (3208665728))
+  = (73, 3700, 5, [3219122632; 1073465018; 3208665728]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0936 :
+  samSubModePitch_fun (f32 (1076760996)) 70 1 2337 18 (f32 (3204037516)) (f32 (1062883683)) (f32 (3218068578))
+  = (51, 0, 0, [3204037516; 1062883683; 3218068578]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0937 :
+  samSubModePitch_fun (f32 (1065353216)) 77 1 6660 15 (f32 (1071888076)) (f32 (1067578939)) (f32 (1066695629))
+  = (34, 0, 0, [1071888076; 1067578939; 1066695629]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0938 :
+  samSubModePitch_fun (f32 (1073741824)) 11 1 2177 11 (f32 (1069149573)) (f32 (1048948043)) (f32 (1068097643))
+  = (11, 2178, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0939 :
+  samSubModePitch_fun (f32 (1073741824)) 2 1 3092 12 (f32 (3214030244)) (f32 (1051574737)) (f32 (3200219752))
+  = (51, 0, 0, [3214030244; 1051574737; 3200219752]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0940 :
+  samSubModePitch_fun (f32 (3220691019)) 29 0 5625 19 (f32 (1057829149)) (f32 (3214069472)) (f32 (3212928652))
+  = (34, 0, 0, [1057829149; 3214069472; 3212928652]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0941 :
+  samSubModePitch_fun (f32 (1055162673)) 31 0 5624 8 (f32 (1069462754)) (f32 (1044286696)) (f32 (3220450889))
+  = (31, 5625, 0, [1069462754; 1044286696; 3220450889]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0942 :
+  samSubModePitch_fun (f32 (1073741824)) 68 2 5960 5 (f32 (3214887387)) (f32 (3220171744)) (f32 (1065399619))
+  = (34, 0, 0, [3214887387; 3220171744; 1065399619]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0943 :
+  samSubModePitch_fun (f32 (1073741824)) 13 1 5625 12 (f32 (3219202195)) (f32 (1054671589)) (f32 (1062266357))
+  = (51, 0, 0, [3219202195; 1054671589; 1062266357]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0944 :
+  samSubModePitch_fun (f32 (2143289344)) 12 1 1434 5 (f32 (3183043579)) (f32 (3154188569)) (f32 (3210764566))
+  = (12, 1435, 5, [3183043579; 3154188569; 3210764566]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0945 :
+  samSubModePitch_fun (f32 (4286578688)) 75 1 3899 5 (f32 (1064346082)) (f32 (3216040736)) (f32 (1068602693))
+  = (75, 3900, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0946 :
+  samSubModePitch_fun (f32 (1073106645)) 14 0 4294967295 15 (f32 (1059372055)) (f32 (1066618400)) (f32 (3215385882))
+  = (14, 0, 0, [1059372055; 1066618400; 3215385882]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0947 :
+  samSubModePitch_fun (f32 (1073741824)) 76 1 0 4294967295 (f32 (1071059797)) (f32 (1069553792)) (f32 (3216290106))
+  = (76, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0948 :
+  samSubModePitch_fun (f32 (3212836864)) 7 1 791 5 (f32 (1061922840)) (f32 (3206414697)) (f32 (3214202179))
+  = (7, 792, 5, [1061922840; 3206414697; 3214202179]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0949 :
+  samSubModePitch_fun (f32 (1066603232)) 52 1 5496 7 (f32 (3217888883)) (f32 (3192318944)) (f32 (3211439778))
+  = (52, 5497, 8, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0950 :
+  samSubModePitch_fun (f32 (1065353216)) 59 1 4082 19 (f32 (1062200610)) (f32 (1065351522)) (f32 (1050944950))
+  = (59, 4083, 19, [1062200610; 1065351522; 1050944950]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0951 :
+  samSubModePitch_fun (f32 (1073741824)) 13 1 2740 11 (f32 (1019745129)) (f32 (1053849679)) (f32 (1055296118))
+  = (13, 2741, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0952 :
+  samSubModePitch_fun (f32 (1073741824)) 42 1 4802 12 (f32 (1062909949)) (f32 (3218826805)) (f32 (1058041985))
+  = (51, 0, 0, [1062909949; 3218826805; 1058041985]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0953 :
+  samSubModePitch_fun (f32 (3217347992)) 66 0 5625 0 (f32 (3198664075)) (f32 (1070486150)) (f32 (1055047991))
+  = (34, 0, 0, [3198664075; 1070486150; 1055047991]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0954 :
+  samSubModePitch_fun (f32 (3225248315)) 28 0 5624 3 (f32 (1070475376)) (f32 (3212966456)) (f32 (1065326115))
+  = (28, 5625, 0, [1070475376; 3212966456; 1065326115]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0955 :
+  samSubModePitch_fun (f32 (1073741824)) 17 2 791 5 (f32 (3219268970)) (f32 (3201397494)) (f32 (3221111753))
+  = (17, 792, 0, [3219268970; 3201397494; 3221111753]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0956 :
+  samSubModePitch_fun (f32 (1073741824)) 76 1 5625 12 (f32 (1069422170)) (f32 (1067520127)) (f32 (3210108215))
+  = (51, 0, 0, [1069422170; 1067520127; 3210108215]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0957 :
+  samSubModePitch_fun (f32 (2143289344)) 27 1 1241 5 (f32 (3215433358)) (f32 (3213652635)) (f32 (3208853630))
+  = (27, 1242, 5, [3215433358; 3213652635; 3208853630]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0958 :
+  samSubModePitch_fun (f32 (4286578688)) 63 1 4324 5 (f32 (1058928285)) (f32 (3218447940)) (f32 (3214982551))
+  = (63, 4325, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0959 :
+  samSubModePitch_fun (f32 (1071555019)) 35 0 4294967295 13 (f32 (3206656366)) (f32 (3218329298)) (f32 (3213779076))
+  = (35, 0, 0, [3206656366; 3218329298; 3213779076]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0960 :
+  samSubModePitch_fun (f32 (1073741824)) 28 1 0 4294967295 (f32 (3214156282)) (f32 (1060525404)) (f32 (3208125729))
+  = (28, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0961 :
+  samSubModePitch_fun (f32 (3212836864)) 28 1 5075 5 (f32 (1069932058)) (f32 (3203352288)) (f32 (3220623184))
+  = (28, 5076, 5, [1069932058; 3203352288; 3220623184]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0962 :
+  samSubModePitch_fun (f32 (1043697231)) 78 0 1297 3 (f32 (1049626868)) (f32 (1073402196)) (f32 (3218708250))
+  = (78, 1298, 0, [1049626868; 1073402196; 3218708250]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0963 :
+  samSubModePitch_fun (f32 (1065353216)) 17 1 1254 11 (f32 (3219910483)) (f32 (3207670323)) (f32 (1055352774))
+  = (17, 1255, 11, [3219910483; 3207670323; 1055352774]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0964 :
+  samSubModePitch_fun (f32 (1073741824)) 43 1 774 11 (f32 (1062915436)) (f32 (1029993341)) (f32 (3198151074))
+  = (43, 775, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0965 :
+  samSubModePitch_fun (f32 (1073741824)) 12 1 3602 12 (f32 (3206854172)) (f32 (1012905197)) (f32 (3214411478))
+  = (51, 0, 0, [3206854172; 1012905197; 3214411478]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0966 :
+  samSubModePitch_fun (f32 (3221493537)) 50 0 5625 15 (f32 (1064206657)) (f32 (3216575847)) (f32 (3219821881))
+  = (34, 0, 0, [1064206657; 3216575847; 3219821881]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0967 :
+  samSubModePitch_fun (f32 (1067273003)) 40 0 5624 9 (f32 (1064114415)) (f32 (1067154241)) (f32 (1057715765))
+  = (40, 5625, 0, [1064114415; 1067154241; 1057715765]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0968 :
+  samSubModePitch_fun (f32 (1073741824)) 1 2 3003 5 (f32 (1028180197)) (f32 (1070783626)) (f32 (1060630623))
+  = (1, 3004, 0, [1028180197; 1070783626; 1060630623]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0969 :
+  samSubModePitch_fun (f32 (1073741824)) 34 1 5625 12 (f32 (3189670660)) (f32 (1064901384)) (f32 (1056102792))
+  = (51, 0, 0, [3189670660; 1064901384; 1056102792]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0970 :
+  samSubModePitch_fun (f32 (2143289344)) 9 1 4851 5 (f32 (1067283572)) (f32 (1022238600)) (f32 (3190858649))
+  = (9, 4852, 5, [1067283572; 1022238600; 3190858649]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0971 :
+  samSubModePitch_fun (f32 (4286578688)) 29 1 5809 5 (f32 (3211373400)) (f32 (1068490781)) (f32 (1059050676))
+  = (34, 0, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0972 :
+  samSubModePitch_fun (f32 (1062197005)) 79 0 4294967295 15 (f32 (3206158564)) (f32 (3185696915)) (f32 (1062945315))
+  = (79, 0, 0, [3206158564; 3185696915; 1062945315]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0973 :
+  samSubModePitch_fun (f32 (1073741824)) 47 1 0 4294967295 (f32 (1064469604)) (f32 (3199651596)) (f32 (3186577440))
+  = (47, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0974 :
+  samSubModePitch_fun (f32 (3212836864)) 48 1 1512 5 (f32 (1058465564)) (f32 (1066631346)) (f32 (3217000436))
+  = (48, 1513, 5, [1058465564; 1066631346; 3217000436]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0975 :
+  samSubModePitch_fun (f32 (3218202099)) 9 1 5827 14 (f32 (1052199827)) (f32 (1065913477)) (f32 (1050505985))
+  = (51, 0, 0, [1052199827; 1065913477; 1050505985]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0976 :
+  samSubModePitch_fun (f32 (1065353216)) 46 1 4834 10 (f32 (3217209720)) (f32 (3220166683)) (f32 (1045435369))
+  = (46, 4835, 10, [3217209720; 3220166683; 1045435369]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0977 :
+  samSubModePitch_fun (f32 (1073741824)) 9 1 3690 11 (f32 (3209135525)) (f32 (1057703404)) (f32 (3164175485))
+  = (9, 3691, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0978 :
+  samSubModePitch_fun (f32 (1073741824)) 56 1 1309 12 (f32 (1060202210)) (f32 (3191446861)) (f32 (1062938670))
+  = (51, 0, 0, [1060202210; 3191446861; 1062938670]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0979 :
+  samSubModePitch_fun (f32 (3213736483)) 55 0 5625 4 (f32 (1034585726)) (f32 (3207709073)) (f32 (3215440858))
+  = (34, 0, 0, [1034585726; 3207709073; 3215440858]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0980 :
+  samSubModePitch_fun (f32 (3218026601)) 54 0 5624 18 (f32 (1071443391)) (f32 (3213729250)) (f32 (3221041939))
+  = (54, 5625, 0, [1071443391; 3213729250; 3221041939]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0981 :
+  samSubModePitch_fun (f32 (1073741824)) 78 2 1800 5 (f32 (1066677060)) (f32 (3206505005)) (f32 (3213483241))
+  = (78, 1801, 0, [1066677060; 3206505005; 3213483241]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0982 :
+  samSubModePitch_fun (f32 (1073741824)) 77 1 5625 12 (f32 (1072366173)) (f32 (3209361762)) (f32 (3183310831))
+  = (51, 0, 0, [1072366173; 3209361762; 3183310831]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0983 :
+  samSubModePitch_fun (f32 (2143289344)) 75 1 514 5 (f32 (3213481621)) (f32 (3197430389)) (f32 (3214020071))
+  = (75, 515, 5, [3213481621; 3197430389; 3214020071]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0984 :
+  samSubModePitch_fun (f32 (4286578688)) 63 1 1769 5 (f32 (3196090606)) (f32 (3205831585)) (f32 (1054002305))
+  = (63, 1770, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0985 :
+  samSubModePitch_fun (f32 (1076424359)) 37 0 4294967295 16 (f32 (1064964362)) (f32 (1065929655)) (f32 (3198606921))
+  = (37, 0, 0, [1064964362; 1065929655; 3198606921]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0986 :
+  samSubModePitch_fun (f32 (1073741824)) 9 1 0 4294967295 (f32 (1063965108)) (f32 (3216022531)) (f32 (1054009159))
+  = (9, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0987 :
+  samSubModePitch_fun (f32 (3212836864)) 23 1 3547 5 (f32 (1054393011)) (f32 (1071704873)) (f32 (1061103936))
+  = (23, 3548, 5, [1054393011; 1071704873; 1061103936]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0988 :
+  samSubModePitch_fun (f32 (1060231976)) 69 1 2576 12 (f32 (1060224786)) (f32 (3217408342)) (f32 (3210406522))
+  = (69, 2577, 12, [1060224786; 3217408342; 3210406522]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0989 :
+  samSubModePitch_fun (f32 (1065353216)) 51 1 4920 1 (f32 (3218091391)) (f32 (3204122641)) (f32 (1059450654))
+  = (51, 4921, 1, [3218091391; 3204122641; 1059450654]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0990 :
+  samSubModePitch_fun (f32 (1073741824)) 79 1 3424 11 (f32 (3219573459)) (f32 (3218956917)) (f32 (3203880259))
+  = (79, 3425, 12, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0991 :
+  samSubModePitch_fun (f32 (1073741824)) 6 1 3395 12 (f32 (1065036247)) (f32 (3199107477)) (f32 (3208259035))
+  = (51, 0, 0, [1065036247; 3199107477; 3208259035]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0992 :
+  samSubModePitch_fun (f32 (1063209890)) 33 0 5625 0 (f32 (1059794214)) (f32 (3197311821)) (f32 (1045425113))
+  = (34, 0, 0, [1059794214; 3197311821; 1045425113]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0993 :
+  samSubModePitch_fun (f32 (1030326243)) 33 0 5624 12 (f32 (1061749254)) (f32 (3212675227)) (f32 (1049249012))
+  = (33, 5625, 0, [1061749254; 3212675227; 1049249012]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0994 :
+  samSubModePitch_fun (f32 (1073741824)) 78 2 375 5 (f32 (3208852578)) (f32 (3209836776)) (f32 (1071901515))
+  = (78, 376, 0, [3208852578; 3209836776; 1071901515]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0995 :
+  samSubModePitch_fun (f32 (1073741824)) 40 1 5625 12 (f32 (3203588229)) (f32 (3211942460)) (f32 (3135474759))
+  = (51, 0, 0, [3203588229; 3211942460; 3135474759]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0996 :
+  samSubModePitch_fun (f32 (2143289344)) 33 1 118 5 (f32 (1058594409)) (f32 (3218744946)) (f32 (1066160196))
+  = (33, 119, 5, [1058594409; 3218744946; 1066160196]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0997 :
+  samSubModePitch_fun (f32 (4286578688)) 57 1 3500 5 (f32 (1060464472)) (f32 (3209171461)) (f32 (3168497155))
+  = (57, 3501, 6, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0998 :
+  samSubModePitch_fun (f32 (3205830994)) 57 0 4294967295 9 (f32 (1015855655)) (f32 (3206783859)) (f32 (3215572808))
+  = (57, 0, 0, [1015855655; 3206783859; 3215572808]).
+Proof. vm_compute. reflexivity. Qed.
+
+
+Example t_0999 :
+  samSubModePitch_fun (f32 (1073741824)) 34 1 0 4294967295 (f32 (3220235410)) (f32 (1061668291)) (f32 (3212499433))
+  = (34, 1, 0, [0; 0; 0]).
+Proof. vm_compute. reflexivity. Qed.

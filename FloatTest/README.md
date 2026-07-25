@@ -150,9 +150,9 @@ symexec → 分离逻辑 VC → Coq 证明的全链路。浮点 IP 走不通，�
 
 ## 8. 试点结果（PseudoRate，2026-07-16）
 
-进度：PseudoRate ✅ · ThreeAxisController ✅ · SAMSubModeRoll ✅ · 其余 6 个
-（SAMSubModePitch/Damp、GyroPick、GyroStateGet、DSSDataGet、GyroAttiDetermine）
-待做，建议按此顺序推进
+进度：PseudoRate ✅ · ThreeAxisController ✅ · SAMSubModeRoll ✅ ·
+SAMSubModePitch ✅ · SAMSubModeDamp ✅ · 其余 4 个
+（GyroPick、GyroStateGet、DSSDataGet、GyroAttiDetermine）待做，建议按此顺序推进
 （难度递增，GyroAttiDetermine 涉及矩阵求逆与跨调用状态，最重）。
 
 试点按 §4 流程完整跑通：
@@ -240,3 +240,39 @@ bash FloatTest/tools/run_tests.sh PseudoRate 1000
    新增 `FUN_NAMES` 显式登记表。
 5. spec/驱动注释里不要出现 `(*` 序列（如 `*flgSP`），Coq 注释嵌套会导致
    词法错误。
+
+---
+
+## 11. 推广结果（SAMSubModePitch，2026-07-24）
+
+> 产物已归档 `OUTPUT/SAMCodeSynthesis/SAMSubModePitch/`（含中文 README）。
+
+与 SAMSubModeRoll 同构（14 列布局，直接复用其发射器），差别：太阳角判断为
+`Fabsx(piyaw) > 1.0f`，超时阈值 5625，超时目标 `SAM_ROLL(0x22)`。
+**1000/1000 通过**，阴性自检正确报错。定向 13 类，新增 Fabsx 负边界
+（`piyaw = -1.0f`）与 -Inf 用例。
+
+转写要点：`Fabsx` 是 `std_basal.h` 宏 `fabs((float64)x)`——对 float32
+输入 double 转换与 double fabs 均精确，结果即"清符号位"，与 1.0 的
+double 比较等价于 fp32 比较；spec 按位实现
+（`b32_of_bits (Z.land (bits_of_b32 x) 0x7FFFFFFF)`），
+`-0.0 → +0.0`、NaN 清符号均与 C 逐位一致。
+
+一键复现：`bash FloatTest/tools/run_tests.sh SAMSubModePitch 1000`
+
+---
+
+## 12. 推广结果（SAMSubModeDamp，2026-07-24）
+
+> 产物已归档 `OUTPUT/SAMCodeSynthesis/SAMSubModeDamp/`（含中文 README）。
+
+`TripleFabsMaxF(pRate[0..2]) < 0.15f` 计数 + 双阈值（`time_D2P` /
+`time_D2P_overtime` 均为结构体输入）转移逻辑，11 列布局。
+**1000/1000 通过**，阴性自检正确报错。
+
+转写要点：`TripleFabsMaxF` 是手工 abs + 两次 max 比较，NaN 被 else 支
+"丢弃"（单 NaN 不影响其余两轴结果；全 NaN 结果才是 NaN），spec 用同一
+`c_lt/c_gt` 比较结构复刻即可；转移判断用的是自增后的计数器值
+（mode 4–7 定向验证"越线即转 / 恰等不转"）。
+
+一键复现：`bash FloatTest/tools/run_tests.sh SAMSubModeDamp 1000`
