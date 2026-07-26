@@ -290,8 +290,8 @@ void    CS_IRES_Modify(void *p)
 
             for(k = 0; k < 2; k++)
             {
-                devangle[i] = t_IresAngle[i] - pIp->csAttCoreData_A_ESG[i] - t_DevIresAngle[i];
-                devangle[i] = LimitDouble(devangle[i], t_FilterParam.lmtDevAngle[i]);
+                devangle[k] = t_IresAngle[k] - pIp->csAttCoreData_A_ESG[k] - t_DevIresAngle[k];
+                devangle[k] = LimitDouble(devangle[k], t_FilterParam.lmtDevAngle[k]);
             }
             /* 姿态角估计值  */
             /* 常漂、随漂估计值  */

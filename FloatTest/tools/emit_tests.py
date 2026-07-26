@@ -156,6 +156,20 @@ def main():
     out = [HEADER]
     for idx, line in enumerate(lines):
         out.append(emit(idx, line.split()))
+    if CASE == 'PseudoRate':
+        first = lines[0].split()
+        pu, r, h1 = first[0:3], first[3:6], first[6:9]
+        yp, yn, rb = first[9:12], first[12:15], first[15:18]
+        args = ' '.join(f(b) for b in (pu + r + h1))
+        wrong_rb = rb.copy()
+        wrong_rb[0] = str(int(wrong_rb[0]) ^ 1)
+        wrong = f'([{"; ".join(yp)}], [{"; ".join(yn)}], [{"; ".join(wrong_rb)}])'
+        out.append(f'''
+Example negative_control_wrong_expected :
+  {FUN} {args}
+  <> {wrong}.
+Proof. vm_compute. discriminate. Qed.
+''')
     open(OUT, 'w', encoding='utf-8', newline='\n').write('\n'.join(out))
     print(f'{OUT}: {len(lines)} tests')
 

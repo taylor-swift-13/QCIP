@@ -23,6 +23,7 @@ from typing import Any, Iterable
 
 FIXED_R_MAPPINGS: tuple[tuple[str, str], ...] = (
     ("QCIPLib", "QCIPLib"),
+    ("QCIPCases", "QCIPCases"),
     ("SeparationLogic/flocq/src", "Flocq"),
     ("SeparationLogic/SeparationLogic", "SimpleC.SL"),
     ("SeparationLogic/unifysl", "Logic"),
@@ -44,6 +45,7 @@ FIXED_R_MAPPINGS: tuple[tuple[str, str], ...] = (
 )
 FIXED_Q_MAPPINGS: tuple[tuple[str, str], ...] = (
     ("SeparationLogic/algorithms", "Algorithms"),
+    ("FloatTest", "FloatTest"),
 )
 FIXED_COQC = "coqc"
 FIXED_COQTOP = "coqtop"
@@ -207,7 +209,10 @@ def mirror_sources(workspace_root: Path, build_workspace: Path, extra_relatives:
     workspace_root = workspace_root.expanduser().resolve()
     build_workspace = build_workspace.expanduser().resolve()
     copied: list[str] = []
-    roots = [Path(physical) for physical, _logical in FIXED_R_MAPPINGS]
+    roots = [
+        Path(physical)
+        for physical, _logical in (*FIXED_R_MAPPINGS, *FIXED_Q_MAPPINGS)
+    ]
     for root in roots:
         (build_workspace / root).mkdir(parents=True, exist_ok=True)
         src_root = workspace_root / root
@@ -268,7 +273,7 @@ def logical_module_to_relative(module: str) -> Path | None:
     if module.startswith(STANDARD_PREFIXES):
         return None
     matches: list[tuple[int, Path, str]] = []
-    for physical, logical in FIXED_R_MAPPINGS:
+    for physical, logical in (*FIXED_R_MAPPINGS, *FIXED_Q_MAPPINGS):
         if module == logical:
             matches.append((len(logical), Path(physical + ".v"), logical))
         elif module.startswith(logical + "."):
@@ -283,7 +288,7 @@ def logical_module_to_relative(module: str) -> Path | None:
 def relative_to_logical_module(rel: Path) -> str | None:
     rel = Path(rel.as_posix())
     matches: list[tuple[int, str]] = []
-    for physical, logical in FIXED_R_MAPPINGS:
+    for physical, logical in (*FIXED_R_MAPPINGS, *FIXED_Q_MAPPINGS):
         physical_path = Path(physical)
         try:
             suffix = rel.relative_to(physical_path)
@@ -306,7 +311,7 @@ def _local_alias_wrapper(build_workspace: Path, current_rel: Path, module: str) 
     sibling = current_rel.parent / f"{module}.v"
     if not (build_workspace / sibling).is_file():
         candidates: list[Path] = []
-        for physical, _logical in FIXED_R_MAPPINGS:
+        for physical, _logical in (*FIXED_R_MAPPINGS, *FIXED_Q_MAPPINGS):
             physical_path = Path(physical)
             try:
                 current_rel.relative_to(physical_path)

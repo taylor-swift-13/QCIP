@@ -35,6 +35,15 @@ Definition c_eq (x y : fp32) : bool := cmp_of_c (Bcompare 24 128 x y) Datatypes.
 Definition c_le (x y : fp32) : bool := c_lt x y || c_eq x y.
 Definition c_ge (x y : fp32) : bool := c_gt x y || c_eq x y.
 
+Definition c64_lt (x y : fp64) : bool :=
+  cmp_of_c (Bcompare 53 1024 x y) Datatypes.Lt.
+Definition c64_gt (x y : fp64) : bool :=
+  cmp_of_c (Bcompare 53 1024 x y) Datatypes.Gt.
+Definition c64_eq (x y : fp64) : bool :=
+  cmp_of_c (Bcompare 53 1024 x y) Datatypes.Eq.
+Definition c64_le (x y : fp64) : bool := c64_lt x y || c64_eq x y.
+Definition c64_ge (x y : fp64) : bool := c64_gt x y || c64_eq x y.
+
 (* ---- NaN / 有限性 ---- *)
 
 Definition is_nan_b (x : fp32) : bool := Binary.is_nan 24 128 x.
@@ -49,6 +58,7 @@ Definition out_eq (x y : fp32) : bool :=
 
 (* 由 C 的 bit pattern 构造 fp32 常量（测试向量与字面量统一用 bits） *)
 Definition f32 (bits : Z) : fp32 := b32_of_bits bits.
+Definition f64 (bits : Z) : fp64 := b64_of_bits bits.
 
 (* 三组列表的逐元素布尔合取 *)
 Fixpoint all3 (f : fp32 -> fp32 -> fp32 -> bool)

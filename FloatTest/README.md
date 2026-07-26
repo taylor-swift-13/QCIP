@@ -1,5 +1,23 @@
 # FloatTest — 浮点 IP 的 Coq 计算测试方案
 
+## cfg_target 当前 Rocq spec 状态
+
+`INPUT/cfg_target` 的 12 道题现在分别在 `FloatTest/cases/<题名>/` 下包含：
+
+- `spec.v`：实际的 binary64 算法/路径 spec；
+- `tests.v`：由当前 C reference vectors 生成的正例定理，以及故意改错期望值的负例定理；
+- `README.md`：说明 spec、通过原因、依赖隔离和覆盖边界；
+- `spec_snapshot.json`：绑定当前 C、spec、driver、vector、emitter 和 runner 的 SHA-256。
+
+当前合计 431 条正例和 12 条负例。统一检查：
+
+```bash
+bash FloatTest/tools/run_all_cfg_target_coq_specs.sh
+```
+
+聚合编译入口为 `FloatTest/cases/CfgTarget_all_tests.v`。这里的“通过”表示 Rocq
+对 `spec.v` 实际求值后与当前 C 输出逐位一致，不是 Python 测试状态的再包装。
+
 > 目标：对 `INPUT/SAMCodeSynthesis/` 下 9 个含浮点的 IP（PseudoRate、
 > ThreeAxisController、SAMSubModeRoll/Pitch/Damp、GyroStateGet、GyroPick、
 > GyroAttiDetermine、DSSDataGet），不走 QCP 分离逻辑全链路，改用
@@ -83,7 +101,7 @@ symexec → 分离逻辑 VC → Coq 证明的全链路。浮点 IP 走不通，�
         （每条向量一条 vm_compute 定理）
                    │
                    ▼
-        tools/run_tests.sh（coqc 编译）
+        tools/run_tests.sh（固定 coq_tooling.py check）
               全过 = 测试通过
 ```
 
@@ -98,12 +116,33 @@ symexec → 分离逻辑 VC → Coq 证明的全链路。浮点 IP 走不通，�
   输出比较 `out_eq` 等公共 helper）。
 - `<case>/source/<X>_main.c`：每个 IP 的 C 驱动（随机输入覆盖：
   均匀分布 + 边界值 + 特殊值），编译运行，把输入/输出的 IEEE bit
-  pattern 落到 `reports/vectors.txt`。
+  pattern 落到 `reports/vectors.txt`；旧布局则落到 `vectors/`。
 - `tools/emit_tests.py`：把向量转成 `tests.v`（按 case 的 EMITTERS 登记
   发射函数，函数名登记在 `FUN_NAMES`）。
-- `tools/run_tests.sh`：从仓库根用根 `_CoqProject` 调 coqc 依次编译
-  公共库、spec、`tests.v`（与之前 case 的编译方式一致，不新增 build 配置；
-  参考程序 exe 落在 `.tmp/floattest/`，不进交付物）。
+- `tools/run_tests.sh`：`OUTPUT` 布局沿用根 `_CoqProject`，旧 `FloatTest`
+  布局通过固定 `coq_tooling.py check` 在隔离 build workspace 编译；
+  参考程序 exe 落在 `.tmp/floattest/`。
+
+### ThreeAxisController 实测
+
+`ThreeAxisController` 已按上述 spec 测试流程接入：
+
+- spec：`cases/ThreeAxisController/spec.v`
+- C 参考驱动：`ref/ThreeAxisController_main.c`
+- 向量与 Coq 定理：`vectors/ThreeAxisController.txt`、`cases/ThreeAxisController/tests.v`
+- 复现命令：`bash FloatTest/tools/run_three_axis_tests.sh 30`
+- 结果：30 条 bit-pattern 正例定理及 1 条错误期望负例定理全部通过。
+
+参考驱动显式初始化 `CTRL_PARAM_SAM[].Kp/Kd`，以确保输入参数确实进入原始 C 函数。
+
+两个 Flocq case 现在都有逐例说明：
+
+- `cases/PseudoRate/README.md`：1000 条正例 + 1 条错误期望负例；
+- `cases/ThreeAxisController/README.md`：30 条正例 + 1 条错误期望负例。
+
+`INPUT/cfg_target` 的当前交付只以 `cases/<题名>/spec.v` 和
+`cases/<题名>/tests.v` 为准；完整索引见 `cases/README.md`。旧的 C/Python
+harness 运行结果不计作 Rocq spec 通过。
 
 ## 5. 工作量估计
 
@@ -159,11 +198,11 @@ GyroStateGet ✅ · 仅剩 GyroAttiDetermine（矩阵求逆、fp64 floor、
 
 | 步骤 | 产物 | 结果 |
 |---|---|---|
-| spec 转写 | `FloatTest/cases/PseudoRate/spec.v`（9 个 fp32 输入 → Yp/Yn/r′，常量为 bits 注入） | coqc 通过 |
+| spec 转写 | `FloatTest/cases/PseudoRate/spec.v`（9 个 fp32 输入 → Yp/Yn/r′，常量为 bits 注入） | 固定 Coq 检查通过 |
 | 参考程序 | `FloatTest/ref/PseudoRate_main.c`（gcc `-std=c11 -O0` 编译原始 `IP_PseudoRate.c`） | 构建通过 |
 | 向量 | `FloatTest/vectors/PseudoRate.txt`（1000 条：随机均匀 + 7 类定向边界） | 生成 |
 | 差分测试 | `FloatTest/cases/PseudoRate/tests.v`（1000 条 vm_compute 定理） | **1000/1000 通过，6.6s** |
-| 阴性自检 | 故意改错一条期望值 | coqc 正确报错（工具链确实在测东西） |
+| 阴性自检 | 故意改错一条期望值 | 证明真实结果不等于错误期望（工具链确实在测东西） |
 
 一键复现：
 
@@ -335,3 +374,141 @@ mode 8 验证 `255+1=0 < pickThr` 回绕语义；`< pickThr` 比较的是自增�
 行为范围内，按 NumGyro ∈ [0,9] 建模并声明。
 
 一键复现：`bash FloatTest/tools/run_tests.sh GyroStateGet 1000`
+
+## 16. 历史 cfg_target C/Python 探索（非当前 spec 交付）
+
+> 本节仅保留早期路径探索记录。下面的向量数和 mutation harness 结果不是
+> `spec.v` 的证明证据，也不计入当前测试统计；旧临时 `cfg_target/` harness
+> 不属于当前交付。当前权威入口只有 `cases/<题名>/spec.v`、
+> `cases/<题名>/tests.v` 和 `tools/run_all_cfg_target_coq_specs.sh`。
+
+`INPUT/cfg_target` 主要使用 `float64`，且若干顶层函数依赖未随目录提供的
+姿态/矩阵公共实现。因此首批先测试两个可以独立链接的浮点辅助函数，使用原 C
+实现和独立 Python oracle：
+
+```bash
+python3 FloatTest/cfg_target/run_cfg_target_tests.py
+```
+
+当前包含 120 条向量：`CS_ThrParamCfgX` 60 条（时间阈值及模式分支）和
+`CS_FindMinMaxPos` 60 条（零值、负值、重复最大值、不同长度）。两项均通过。
+这批是 cfg_target 的 C 差分测试，不冒充 `FloatLib` 的 fp32 Coq 位级证明；待
+公共 double/姿态库可用后，再把可独立驱动的顶层 IP 纳入 Coq spec + reference
+vector 流程。
+
+随后增加了 `CS_Track_Atti/w2dEuler_temp1` 的 48 条向量，覆盖 123、132、213、
+231、312、321 六种旋转序列。完整复现命令为：
+
+```bash
+bash FloatTest/cfg_target/run_all_cfg_target_tests.sh
+```
+
+前述 204 条 cfg_target 向量已包含 `CS_GyroData_Disposal` 历史值分支的 36 条，
+覆盖停控条件与有效数据不足条件；该项明确只覆盖不进入矩阵求逆的历史值路径。
+
+本轮又加入 `CS_AttCtrl_Propel/PhasePlaneJetControl` 的 60 条向量，覆盖 6 个
+相平面区域（R11、R12、R13、R14、R15 以及零区），并检查喷气状态、脉冲时间和
+姿态历史值。随后加入 `CS_OrbitComputation/SunEphemerisCalculate` 的 40 条
+向量，按真实 `float32 ModPNHP` 调用边界建模太阳平近点角和方向向量。当前
+cfg_target 总计 304 条向量。
+随后加入 `CS_IRES_Attitude/IRES_DataProcess` 的 45 条向量，覆盖 0、1、2 个
+有效传感器、角度融合、误差向量和速率限幅。当前 cfg_target 总计 349 条向量。
+
+最后加入 `CS_PrecessionNutationCal` 的异常四元数分支 36 条向量，检查最大分量
+阈值、单位矩阵回退和错误标志。当时完整 CPNCalc 天文计算路径尚未纳入；后续已
+用独立角秒到弧度、多项式、旋转矩阵和矩阵乘法实现补测。
+另加入 `CS_AttCtrl_Propel/CS_AttCtrl_JetCrossSub` 的 54 条向量，覆盖浮点乘积
+阈值、喷嘴优先级和等值竞争分支。当前 cfg_target 总计 439 条向量。
+另加入 `CS_Gyro_Att_Predict` 非法姿态序列分支 36 条向量，检查角速度限幅、
+单精度角度归一化和非法序列速率清零。当前 cfg_target 总计 475 条向量；姿态
+转换库驱动的六种合法序列在当时尚未纳入本批统计，后续已用独立标准旋转和角速度
+转换实现补测。
+另加入 `CS_Ctrl_Att_Rate/FS_ModeProc2` 的 30 条向量，覆盖传感器姿态、角速度
+和控制偏置数据的浮点选择/复制路径。当前 cfg_target 总计 505 条向量。
+另加入 `CS_TrgtAtt_EIM/zero-target-matrix` 的 36 条向量，覆盖六种序列选择下的
+矩阵-向量计算、目标系角速度和零差值结果。当前 cfg_target 总计 541 条向量；
+四元数转换仍由桩隔离，未计入断言。
+另加入 `CS_TrgtAtt_NWM_USU/zero-drift-matrix` 的 30 条向量，覆盖六种序列选择
+下的矩阵组合、漂移角速度传播和相对角速度计算。当前 cfg_target 总计 571 条
+向量；四元数和角度反解仍未计入断言。
+另加入 `CS_GyroData_Disposal/valid-3sensor` 的 30 条向量，覆盖三路有效数据、
+单位标定矩阵路径、deltag 求解和 `wbi` 限幅。当前 cfg_target 总计 601 条向量；
+本项使用单位标定矩阵，非单位矩阵求逆仍未覆盖。
+另加入 `ModeConvert_EIM` 和 `ModeConvert_SBM` 各 30 条向量，覆盖模式切换浮点
+阈值的小于、等于和大于边界。当前 cfg_target 总计 661 条向量。
+另加入 `CS_IRES_Attitude/StaticIresConvert` 的 36 条向量，覆盖静态误差向量的
+平方根补 z 分量、三种置换标定矩阵、`atan2`/`asin` 补偿和连续误差计数。当前
+cfg_target 总计 697 条向量。
+另加入 `CS_AttCtrl_Propel/CS_AttCtrl_Jet12Dis` 的 30 条向量，覆盖两路喷气分配、
+剩余时间截断、选择索引切换、轴向加速度和力矩累积。当前 cfg_target 总计 727 条
+向量。
+另加入 `CS_OrbitComputation/OrbitCalculate` 的 24 条向量，覆盖平根数更新、偏心
+迭代、摄动修正、角速度异常回退、坐标矩阵、位置和速度计算。当前 cfg_target 总计
+751 条向量。
+另加入 `CS_PrecessionNutationCal/CPNCalc` 的 20 条向量，覆盖岁差矩阵、章动
+多项式、旋转矩阵转置和最终 CPN 矩阵计算。当前 cfg_target 总计 771 条向量。
+另加入 `CS_Ctrl_Att_Rate/CS_Angle2CX_temp2` 的 35 条向量，覆盖 123、132、213、
+231、312、321 及默认序列的角度到 DCM 分派和浮点矩阵乘法。当前 cfg_target 总计
+806 条向量；旋转函数由 harness 提供标准轴旋转实现。
+另加入 `CS_Gyro_Att_Predict/legal-sequence` 的 36 条向量，覆盖六种合法姿态序列的
+角速度限幅、姿态预测、`w2dAngle` 转换、单精度角度归一化和 DCM 输出。当前
+cfg_target 总计 842 条向量；角度转换使用标准轴旋转实现，公共姿态库本身仍不在
+测试范围内。
+另加入 `CS_TrgtAtt_EIM/nonzero-angle-matrix` 的 36 条向量，覆盖六种序列的非零
+目标角度、偏置矩阵与轨道矩阵组合、角速度传播和相对角速度计算。当前 cfg_target
+总计 878 条向量；四元数转换仍由桩隔离。
+另加入 `CS_TrgtAtt_NWM_USU/nonzero-drift-matrix` 的 36 条向量，覆盖六种序列的
+非零漂移角、漂移角速度、姿态矩阵组合和相对角速度传播。当前 cfg_target 总计
+914 条向量；四元数和角度反解仍由桩隔离。
+另加入 `CS_Track_Atti/full-state-torque` 的 36 条向量，覆盖姿态角速度差分、惯量
+矩阵乘法、力矩缩放、力矩范数限幅和历史状态回写。当前 cfg_target 总计 950 条
+向量；本项使用单位姿态矩阵隔离外部 DCM 反解。
+另加入 `CS_AttCtrl_Propel/CS_AttCtrl_JetCrossCtrl` 的 36 条向量，覆盖 XY、XZ、
+YZ 三种轴对冲突选择及默认不动作分支。当前 cfg_target 总计 986 条向量。
+另加入 `CS_IRES_Attitude/CS_IRES_Modify` 的 30 条向量，覆盖 IRES 角度偏差限幅、
+偏航余弦增益修正、陀螺常值/漂移偏置更新和最终限幅。并修正该函数循环中误用
+未初始化索引的明确笔误。当前 cfg_target 总计 1016 条向量。
+另加入 `CS_Ctrl_Att_Rate/FS_AttD-modes` 的 35 条向量，覆盖 `FS_AttD=0..4` 的
+姿态源、速率源、偏置源选择和 BMC 模式下的 z 轴清零。当前 cfg_target 总计 1051
+条向量。
+另加入 `CS_IRES_Attitude/CS_IRES_ValidCheck_Convert` 的 30 条向量，覆盖周期触发、
+有效/无效传感器、静态误差转换、姿态融合、速率滤波和输出限幅。当前 cfg_target
+总计 1081 条向量。
+另加入 `CS_AttCtrl_Propel/CS_Chose_Switching_Line` 的 30 条向量，覆盖 R0 与正/负
+R11 的角度单位换算、死区阈值、符号处理、喷气标志和时间后处理。当前 cfg_target
+总计 1111 条向量。
+另加入 `CS_AttCtrl_Propel/CS_AttCtrl_PropelFun-stop` 的 30 条向量，覆盖完整停控
+入口、喷气参数 DEG2RAD 换算、模式/相平面调用和喷气时间状态清零。当前 cfg_target
+总计 1141 条向量。
+另加入 `CS_OrbitComputation/CS_OrbitComputationFun-control` 的 30 条向量，覆盖
+轨道有效性阈值、无轨道计数、太阳区回退、AAM 转向标志、`w0` 和地固系角度更新。
+核心 `OrbitCalculate` / `SunEphemerisCalculate` 在本项由桩隔离，当前 cfg_target 总计
+1171 条向量。
+另加入 `CS_AttCtrl_Propel/CS_AttCtrl_JetPulseCalc` 的 30 条向量，覆盖喷气脉冲入口的
+工作模式选择、地球/偏航捕获条件、卸载条件、切换线浮点换算和相平面结果后处理。
+相平面输出由固定桩提供，当前 cfg_target 总计 1201 条向量。
+另加入 `CS_AttCtrl_Propel/CS_AttCtrl_PropelFun-normal` 的 30 条向量，覆盖非停控入口
+的 `DEG2RAD` 转换、喷气脉冲/交叉/分配调用链和 `t_AC` 回写。三个下游控制函数由固定
+桩隔离，当前 cfg_target 总计 1231 条向量。
+另加入 `CS_IRES_Attitude/CS_IRES_AttitudeFun-dispatch` 的 36 条向量，覆盖无传感器
+失效回退、EIM 时间门限、`FS_AttD=3/4`、AHM 和太阳模式条件下的顶层调用分支及
+浮点状态回写。IRES 子函数由调用标记桩隔离，当前 cfg_target 总计 1267 条向量。
+另加入 `CS_GyroData_Disposal/valid-4sensor` 的 30 条向量，覆盖四传感器非单位标定
+矩阵的最小二乘融合、角速度除法和限幅。矩阵运算由 harness 独立实现，当前 cfg_target
+总计 1297 条向量。
+另加入 `CS_Ctrl_Att_Rate/non-BMC-path` 的 35 条向量，覆盖非 BMC 模式下不同
+`FS_AttD` 的姿态/速率源选择、`ModPNHP` 单精度角度归一化和速率差分。当前 cfg_target
+总计 1332 条向量。
+另加入 `CS_Ctrl_Att_Rate/antenna-history` 的 30 条向量，覆盖天线历史速率缓存
+`0..20` 长度边界、倒序搬移和当前样本写回。当前 cfg_target 总计 1362 条向量。
+另加入 `CS_AttCtrl_Propel/CS_AttCtrl_PropelFun-FU0` 的 30 条向量，覆盖 `FU==0`
+回退分支、喷气参数 `DEG2RAD` 转换以及相位时间清零。当前 cfg_target 总计 1392 条向量。
+另加入 `CS_Track_Atti/nonzero-C2Angle` 的 30 条向量，覆盖非零角度转换桩与六种
+`w2dEuler` 序列、角加速度和力矩限幅的联动。当前 cfg_target 总计 1422 条向量。
+另加入 `CS_Track_Atti/C2AngleX-dispatch` 的 36 条向量，覆盖 123、132、213、231、
+312、321 及默认角度序列分派和浮点结果传递。角度反解由桩隔离，当前 cfg_target
+总计 1458 条向量。
+另加入 `CS_TrgtAtt_EIM/default-sequence` 的 30 条向量，覆盖非法姿态序列回退到 321
+以及目标矩阵、轨道角速度传播。当前 cfg_target 总计 1488 条向量。
+另加入 `CS_TrgtAtt_NWM_USU/default-sequence` 的 30 条向量，覆盖非法姿态序列回退到
+321、漂移角矩阵和漂移/相对角速度传播。当前 cfg_target 总计 1518 条向量。
