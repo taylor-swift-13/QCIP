@@ -22,6 +22,7 @@ FUN_NAMES = {
     'SAMSubModeRoll': 'samSubModeRoll_fun',
     'SAMSubModePitch': 'samSubModePitch_fun',
     'SAMSubModeDamp': 'samSubModeDamp_fun',
+    'DSSDataGet': 'dssDataGet_fun',
 }
 FUN = FUN_NAMES.get(CASE, CASE[0].lower() + CASE[1:] + '_fun')
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -103,6 +104,40 @@ def emit_samsubmodedamp(idx, cols):
     expected = f'({cols[8]}, {cols[9]}, {cols[10]})'
     return lemma(idx, f'{FUN} {args}\n  = {expected}')
 
+# ---- GyroPick：56 列 = 29 输入 + 27 输出 ----
+
+def emit_gyropick(idx, cols):
+    assert len(cols) == 56, f'line {idx}: {len(cols)} cols'
+    def lst(xs, wrap=lambda x: x):
+        return '[' + '; '.join(wrap(x) for x in xs) + ']'
+    args = (f'{lst(cols[0:9], f)} {lst(cols[9:18], f)} {f(cols[18])} '
+            f'{cols[19]} {lst(cols[20:29])}')
+    expected = (f'({lst(cols[29:38])}, {lst(cols[38:47])}, '
+                f'{lst(cols[47:56])})')
+    return lemma(idx, f'{FUN} {args}\n  = {expected}')
+
+# ---- DSSDataGet：18 列 = 13 输入 + 5 输出 ----
+
+def emit_dssdataget(idx, cols):
+    assert len(cols) == 18, f'line {idx}: {len(cols)} cols'
+    bs = '[' + '; '.join(cols[1:12]) + ']'
+    args = f'{cols[0]} {bs} {cols[12]}'
+    expected = (f'({cols[13]}, {cols[14]}, {cols[15]}, '
+                f'{cols[16]}, {cols[17]})')
+    return lemma(idx, f'{FUN} {args}\n  = {expected}')
+
+# ---- GyroStateGet：89 列 = 69 输入 + 20 输出 ----
+
+def emit_gyrostateget(idx, cols):
+    assert len(cols) == 89, f'line {idx}: {len(cols)} cols'
+    def lst(xs):
+        return '[' + '; '.join(xs) + ']'
+    args = (f'{cols[0]} {lst(cols[1:49])} {cols[49]} '
+            f'{lst(cols[50:59])} {lst(cols[59:68])} {cols[68]}')
+    expected = (f'({lst(cols[69:78])}, {lst(cols[78:87])}, '
+                f'{cols[87]}, {cols[88]})')
+    return lemma(idx, f'{FUN} {args}\n  = {expected}')
+
 EMITTERS = {
     'PseudoRate': emit_pseudorate,
     'ThreeAxisController': emit_threeaxiscontroller,
@@ -110,6 +145,9 @@ EMITTERS = {
     # SAMSubModePitch 与 Roll 列布局相同（14 列），复用同一发射器
     'SAMSubModePitch': emit_samsubmoderoll,
     'SAMSubModeDamp': emit_samsubmodedamp,
+    'GyroPick': emit_gyropick,
+    'DSSDataGet': emit_dssdataget,
+    'GyroStateGet': emit_gyrostateget,
 }
 
 def main():

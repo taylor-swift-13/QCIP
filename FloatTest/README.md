@@ -151,9 +151,9 @@ symexec → 分离逻辑 VC → Coq 证明的全链路。浮点 IP 走不通，�
 ## 8. 试点结果（PseudoRate，2026-07-16）
 
 进度：PseudoRate ✅ · ThreeAxisController ✅ · SAMSubModeRoll ✅ ·
-SAMSubModePitch ✅ · SAMSubModeDamp ✅ · 其余 4 个
-（GyroPick、GyroStateGet、DSSDataGet、GyroAttiDetermine）待做，建议按此顺序推进
-（难度递增，GyroAttiDetermine 涉及矩阵求逆与跨调用状态，最重）。
+SAMSubModePitch ✅ · SAMSubModeDamp ✅ · GyroPick ✅ · DSSDataGet ✅ ·
+GyroStateGet ✅ · 仅剩 GyroAttiDetermine（矩阵求逆、fp64 floor、
+跨调用状态，最重）待做。
 
 试点按 §4 流程完整跑通：
 
@@ -276,3 +276,62 @@ double 比较等价于 fp32 比较；spec 按位实现
 （mode 4–7 定向验证"越线即转 / 恰等不转"）。
 
 一键复现：`bash FloatTest/tools/run_tests.sh SAMSubModeDamp 1000`
+
+---
+
+## 13. 推广结果（GyroPick，2026-07-24）
+
+> 产物已归档 `OUTPUT/SAMCodeSynthesis/GyroPick/`（含中文 README）。
+
+9 路独立剔野：`ABS(wa-wal) > waThr` 判野值，`countPick`（unint08）连记
+`< pickThr` 次沿用旧值、否则采纳新值，56 列布局。**1000/1000 通过**
+（9000 个元素级判定：沿用旧值 1332、采纳新值 6768），阴性自检正确报错。
+
+转写要点：`ABS` 宏遇 NaN 取 `-(a)` 支（仍 NaN）→ 比较 false →
+**NaN 被当作正常新值采纳**；`countPick` 是 unint08（`u8_inc` 模 256），
+mode 8 验证 `255+1=0 < pickThr` 回绕语义；`< pickThr` 比较的是自增后的值。
+驱动 printf 格式串曾多 2 个 `%u`（UB 垃圾列），被发射器列数断言当场
+拦住——格式串列数 = 实参数 = 发射器断言数是必查点。
+
+一键复现：`bash FloatTest/tools/run_tests.sh GyroPick 1000`
+
+---
+
+## 14. 推广结果（DSSDataGet，2026-07-24）
+
+> 产物已归档 `OUTPUT/SAMCodeSynthesis/DSSDataGet/`（含中文 README）。
+
+首个 UART case：stub `UartSend/UartRecv/SYS_Delay`，注入 11 字节帧；
+校验和 + 错误计数 + 字节重组出 royaw/piyaw + flgSP，18 列布局。
+**1000/1000 通过**，阴性自检正确报错。
+
+转写要点：
+
+1. **字节重组端序必须实测**：`USED_WORD.Byte` 位域在 gcc x86-64 上
+   从 LSB 起分配，`Low_l` 落字最高字节 → 大端组装
+   （`word = b0<<24|b1<<16|b2<<8|b3`）。endian spike 实测 + 向量独立复核。
+2. 重组与错误记录**与通讯成败无关**（`bSucc=1` 时也重组），stub 建模为
+   "总是填入向量字节"。
+3. `debugDss` 是全局状态：`ErrCnt` 跨调用累计，spec 作为显式输入/输出
+   参数（`u32_inc`）。
+4. IP 源对 UART 函数是隐式声明调用，链接驱动内 stub；
+   `-Wimplicit-function-declaration` 警告属预期。
+
+一键复现：`bash FloatTest/tools/run_tests.sh DSSDataGet 1000`
+
+---
+
+## 15. 推广结果（GyroStateGet，2026-07-24）
+
+> 产物已归档 `OUTPUT/SAMCodeSynthesis/GyroStateGet/`（含中文 README）。
+
+48 字节帧 + `NumGyro` 变长循环：`wa[i] = float(b[2+4i..5+4i])`（大端
+重组）、`stateFlag[i] = b[38+i]`，`i >= NumGyro` 的元素保持原值，
+89 列布局。spec 全程在 bits 域（字节重组不含浮点运算）。
+**1000/1000 通过**，阴性自检正确报错。
+
+覆盖：numGyro 0–9 全覆盖；元素级更新 4852、透传 4148；重组与透传
+独立复核 0 失配。**已知边界**：NumGyro > 9 会越界写（UB），不在被测
+行为范围内，按 NumGyro ∈ [0,9] 建模并声明。
+
+一键复现：`bash FloatTest/tools/run_tests.sh GyroStateGet 1000`
