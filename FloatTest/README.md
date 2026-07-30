@@ -106,11 +106,13 @@ symexec → 分离逻辑 VC → Coq 证明的全链路。浮点 IP 走不通，�
 ```
 
 **产物位置（2026-07-24 起）**：每个 case 的最终产物归档在
-`OUTPUT/SAMCodeSynthesis/<X>/`（`source/` 参考驱动、`rocq/` spec+tests、
-`reports/` 向量+检查单、根目录中文 README），与整数 IP 的交付惯例一致。
+`OUTPUT/<批次>/<X>/`（`source/` 参考驱动、`rocq/` spec+tests、
+`reports/` 向量+检查单、根目录中文 README），与整数 IP 的交付惯例一致；
+批次目录为 `SAMCodeSynthesis` 或 `iplib`（对应 `INPUT/<批次>/`）。
 唯一的例外是 PseudoRate 试点，保留旧布局 `FloatTest/{ref,cases,vectors}/`。
-`run_tests.sh` 与 `emit_tests.py` 按 `OUTPUT/SAMCodeSynthesis/<X>/`
-是否存在自动识别两种布局，一键命令不变。
+`run_tests.sh` 与 `emit_tests.py` 自动识别三种布局，一键命令不变。
+iplib 源码在 `INPUT/iplib/<X>/source/`（无 std_utils.c，部分 case 需要
+`source/<X>_cflags.txt` 注入原项目缺失的宏，如 `-DWKMD_EIM=0x11`）。
 
 - `lib/FloatTestCommon.v`：公共包装（bits 注入/读出、布尔化比较、
   输出比较 `out_eq` 等公共 helper）。
@@ -512,3 +514,46 @@ R11 的角度单位换算、死区阈值、符号处理、喷气标志和时间�
 以及目标矩阵、轨道角速度传播。当前 cfg_target 总计 1488 条向量。
 另加入 `CS_TrgtAtt_NWM_USU/default-sequence` 的 30 条向量，覆盖非法姿态序列回退到
 321、漂移角矩阵和漂移/相对角速度传播。当前 cfg_target 总计 1518 条向量。
+
+---
+
+## 16. iplib 批次（2026-07-24 起）
+
+`INPUT/iplib/` 新增 24 题（CS_* 与 ModeConvert_*），特点：**无 QCP
+annotation**、多数为 **float64**、CS_* 调用的工具函数实现不在仓库
+（`MixedTrack`、`CS_Angle2C` 等，仅头文件）、`WKMD_*` 模式常量无定义。
+与 TeSpec（`.tmp/TeSpec`，学长工具，WSL 可用）评估对比后确认：对这批题
+走本链路（gcc 真值 + Coq spec + vm_compute）成本更低、结果更强；
+TeSpec 的甜区是已有 QCP spec 的整数/堆结构题，其浮点 case 按设计
+就是 UNKNOWN + 人工 residual 证明（见 `tests/test_spectest.py`）。
+
+批次基础（一次性）：`FloatTestCommon.v` 新增 fp64 helper（`f64`、
+`c_lt64/c_gt64/c_eq64/c_le64/c_ge64`、`out_eq64`）；`run_tests.sh` /
+`emit_tests.py` 支持 `INPUT/iplib/<X>/source` 源码布局、
+`OUTPUT/iplib/<X>/` 产物布局和 per-case `source/<X>_cflags.txt`。
+
+### ModeConvert 系列 6 题（2026-07-24 全部完成）
+
+> 产物已归档 `OUTPUT/iplib/ModeConvert_{SBM,OCM,EIM,AHM,AMM,NWM}/`
+> （各含中文 README）。
+
+6 题全部 **1000/1000 通过**、阴性自检均正确报错，一键复现
+`bash FloatTest/tools/run_tests.sh ModeConvert_<X> 1000`：
+
+| case | 形状 | 要点 |
+|---|---|---|
+| SBM | `starTime - t0 >= dt` → 1 个目标 | fp64 首题；`WKMD_EIM=0x11` 替身 |
+| OCM | `starTime > tpi + dtp` | 严格 `>` 恰等不触发；`WKMD_NWM=0x22` 替身 |
+| EIM | `arr[wm] > dt`（fp64[14] 下标读） | 下标 [0,13] 全覆盖；越界 UB 声明 |
+| AHM | 同 EIM，目标字面量 0x04 | 无宏替身；注释掉的旧字段不读 |
+| AMM | 3 个顺序 if（目标 1/5/2） | mode 4 验证"后者覆盖前者" |
+| NWM | 2 个顺序 if，开区间时间窗 | 活跃 21 行；后 190 行注释旧版不测；`WKMD_OCM/AMM=0x33/0x44` 替身 |
+
+发射器复用率高：OCM 复用 SBM 的（5 列），EIM/AHM 共用（17 列），
+新增仅 AMM（8 列）/NWM（7 列）两个。
+
+iplib 后续建议顺序（由易到难）：CS_TrgtAtt_EIM（65 行）、CS_Track_Plan
+（多分支 dispatch，需 stub callee）、CS_TrgtP2P_Ini / CS_TrgtP2P_Tar_Init
+（无浮点）、CS_Gyro_Att_Predict（190 行）、CS_GyroData_Disposal；其余
+CS_* 缺 callee 实现 + fp64 矩阵/三角函数，最重的是 CS_OrbitComputation、
+CS_AttCtrl_Propel。

@@ -27,12 +27,18 @@ FUN_NAMES = {
 FUN = FUN_NAMES.get(CASE, CASE[0].lower() + CASE[1:] + '_fun')
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 REPO = os.path.dirname(ROOT)
-CASE_DIR = os.path.join(REPO, 'OUTPUT', 'SAMCodeSynthesis', CASE)
-if os.path.isdir(CASE_DIR):
-    # 新布局：case 产物在 OUTPUT/SAMCodeSynthesis/<case>/{rocq,reports}
+CASE_DIR = None
+SPEC_REQ = None
+for base in ('iplib', 'SAMCodeSynthesis'):
+    cand = os.path.join(REPO, 'OUTPUT', base, CASE)
+    if os.path.isdir(cand):
+        # 新布局：case 产物在 OUTPUT/{iplib,SAMCodeSynthesis}/<case>/{rocq,reports}
+        CASE_DIR = cand
+        SPEC_REQ = f'OUTPUT.{base}.{CASE}.rocq.spec'
+        break
+if CASE_DIR is not None:
     VEC = os.path.join(CASE_DIR, 'reports', 'vectors.txt')
     OUT = os.path.join(CASE_DIR, 'rocq', 'tests.v')
-    SPEC_REQ = f'OUTPUT.SAMCodeSynthesis.{CASE}.rocq.spec'
 else:
     # 旧布局（PseudoRate 试点）：FloatTest/{vectors,cases}/
     VEC = os.path.join(ROOT, 'vectors', CASE + '.txt')
@@ -138,6 +144,37 @@ def emit_gyrostateget(idx, cols):
                 f'{cols[87]}, {cols[88]})')
     return lemma(idx, f'{FUN} {args}\n  = {expected}')
 
+# ---- ModeConvert_SBM：5 列 = 3 输入 bits64 + workMode 输入 + workMode' ----
+
+def emit_modeconvert_sbm(idx, cols):
+    assert len(cols) == 5, f'line {idx}: {len(cols)} cols'
+    args = ' '.join(f'(f64 ({b}))' for b in cols[0:3]) + f' {cols[3]}'
+    return lemma(idx, f'{FUN} {args}\n  = {cols[4]}')
+
+# ---- ModeConvert_EIM/AHM：17 列 = 14 元素 bits64 + 阈值 bits64 + wm → wm' ----
+
+def emit_modeconvert_eim(idx, cols):
+    assert len(cols) == 17, f'line {idx}: {len(cols)} cols'
+    arr = '[' + '; '.join(f'(f64 ({b}))' for b in cols[0:14]) + ']'
+    args = f'{arr} (f64 ({cols[14]})) {cols[15]}'
+    return lemma(idx, f'{FUN} {args}\n  = {cols[16]}')
+
+# ---- ModeConvert_AMM：8 列 = 5 输入 bits64 + F + wm → wm' ----
+
+def emit_modeconvert_amm(idx, cols):
+    assert len(cols) == 8, f'line {idx}: {len(cols)} cols'
+    args = (' '.join(f'(f64 ({b}))' for b in cols[0:5])
+            + f' {cols[5]} {cols[6]}')
+    return lemma(idx, f'{FUN} {args}\n  = {cols[7]}')
+
+# ---- ModeConvert_NWM：7 列 = 4 输入 bits64 + F + wm → wm' ----
+
+def emit_modeconvert_nwm(idx, cols):
+    assert len(cols) == 7, f'line {idx}: {len(cols)} cols'
+    args = (' '.join(f'(f64 ({b}))' for b in cols[0:4])
+            + f' {cols[4]} {cols[5]}')
+    return lemma(idx, f'{FUN} {args}\n  = {cols[6]}')
+
 EMITTERS = {
     'PseudoRate': emit_pseudorate,
     'ThreeAxisController': emit_threeaxiscontroller,
@@ -148,6 +185,14 @@ EMITTERS = {
     'GyroPick': emit_gyropick,
     'DSSDataGet': emit_dssdataget,
     'GyroStateGet': emit_gyrostateget,
+    'ModeConvert_SBM': emit_modeconvert_sbm,
+    # ModeConvert_OCM 与 SBM 列布局相同（5 列），复用同一发射器
+    'ModeConvert_OCM': emit_modeconvert_sbm,
+    # ModeConvert_EIM/AHM 列布局相同（17 列），共用同一发射器
+    'ModeConvert_EIM': emit_modeconvert_eim,
+    'ModeConvert_AHM': emit_modeconvert_eim,
+    'ModeConvert_AMM': emit_modeconvert_amm,
+    'ModeConvert_NWM': emit_modeconvert_nwm,
 }
 
 def main():

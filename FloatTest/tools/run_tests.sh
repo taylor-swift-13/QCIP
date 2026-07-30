@@ -11,10 +11,24 @@ N="${2:-1000}"
 SEED="${3:-0x9E3779B97F4A7C15}"
 
 COQ="${COQ:-E:/installs/Coq-Platform~8.20~2025.01/bin/coqc.exe}"
-SRC="INPUT/SAMCodeSynthesis/${CASE}"
 
-CASE_DIR="OUTPUT/SAMCodeSynthesis/${CASE}"
-if [ -d "${CASE_DIR}" ]; then
+# 本仓库 Windows 环境只有 python（无 python3）；优先 python3，自动回退
+PYTHON="${PYTHON:-python3}"
+command -v "${PYTHON}" >/dev/null 2>&1 || PYTHON=python
+
+# 源码目录：iplib（source/ 子目录）或 SAMCodeSynthesis
+if [ -d "INPUT/iplib/${CASE}/source" ]; then
+  SRC="INPUT/iplib/${CASE}/source"
+else
+  SRC="INPUT/SAMCodeSynthesis/${CASE}"
+fi
+
+# 产物目录：OUTPUT/iplib 或 OUTPUT/SAMCodeSynthesis；否则旧布局（PseudoRate）
+CASE_DIR=""
+for base in OUTPUT/iplib OUTPUT/SAMCodeSynthesis; do
+  if [ -d "${base}/${CASE}" ]; then CASE_DIR="${base}/${CASE}"; break; fi
+done
+if [ -n "${CASE_DIR}" ]; then
   DRIVER="${CASE_DIR}/source/${CASE}_main.c"
   VEC="${CASE_DIR}/reports/vectors.txt"
   SPEC="${CASE_DIR}/rocq/spec.v"
@@ -26,6 +40,12 @@ else
   TESTS="FloatTest/cases/${CASE}/tests.v"
 fi
 
+# 每个 case 可选的额外编译参数（如 -DWKMD_EIM=0x11）
+EXTRA_CFLAGS=()
+if [ -n "${CASE_DIR}" ] && [ -f "${CASE_DIR}/source/${CASE}_cflags.txt" ]; then
+  read -r -a EXTRA_CFLAGS < "${CASE_DIR}/source/${CASE}_cflags.txt"
+fi
+
 mkdir -p .tmp/floattest
 EXE=".tmp/floattest/${CASE}_main.exe"
 
@@ -34,7 +54,7 @@ EXTRA_SRCS=()
 if [ -f "${SRC}/std_utils.c" ]; then
   EXTRA_SRCS+=("${SRC}/std_utils.c")
 fi
-gcc -std=c11 -O0 -Wall -I "${SRC}" \
+gcc -std=c11 -O0 -Wall -I "${SRC}" "${EXTRA_CFLAGS[@]}" \
     "${DRIVER}" "${SRC}/IP_${CASE}.c" "${EXTRA_SRCS[@]}" \
     -lm -o "${EXE}"
 
@@ -43,7 +63,7 @@ echo "== [2/5] 生成 ${N} 条测试向量"
 wc -l "${VEC}"
 
 echo "== [3/5] 生成 tests.v"
-python3 -X utf8 FloatTest/tools/emit_tests.py "${CASE}"
+"${PYTHON}" -X utf8 FloatTest/tools/emit_tests.py "${CASE}"
 
 if [ -d "${CASE_DIR}" ]; then
   echo "== [4/5] 编译公共库与 spec"
@@ -57,7 +77,10 @@ else
   BUILD_WORKSPACE="$(mktemp -d "/tmp/floattest-${CASE}-XXXXXX")"
   trap 'find "$BUILD_WORKSPACE" -depth -type f -delete; find "$BUILD_WORKSPACE" -depth -type d -empty -delete' EXIT
   SOURCE_GOAL_VERSION="floattest-${CASE}-$(sha256sum "${TESTS}" | cut -c1-16)"
-  python3 .agents/skills/vc-proving/scripts/coq_tooling.py check \
+  # coq_tooling.py 以裸名 coqc 调起进程：把 $COQ 所在目录补进 PATH
+  # （Git Bash 的 PATH 转换只认 /e/... 形式，E:/... 形式会被拆坏，故先 cygpath -u）
+  COQ_DIR="$(dirname "$(cygpath -u "${COQ}")")"
+  PATH="${COQ_DIR}:$PATH" "${PYTHON}" .agents/skills/vc-proving/scripts/coq_tooling.py check \
       --workspace-root "$PWD" \
       --build-workspace "$BUILD_WORKSPACE" \
       --target-file "${TESTS}" \

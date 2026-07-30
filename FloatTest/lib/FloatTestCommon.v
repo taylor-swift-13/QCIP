@@ -58,6 +58,21 @@ Definition out_eq (x y : fp32) : bool :=
 
 (* 由 C 的 bit pattern 构造 fp32 常量（测试向量与字面量统一用 bits） *)
 Definition f32 (bits : Z) : fp32 := b32_of_bits bits.
+
+(* ---- fp64（binary64）对应物 ---- *)
+
+Definition c_lt64 (x y : fp64) : bool := cmp_of_c (Bcompare 53 1024 x y) Datatypes.Lt.
+Definition c_gt64 (x y : fp64) : bool := cmp_of_c (Bcompare 53 1024 x y) Datatypes.Gt.
+Definition c_eq64 (x y : fp64) : bool := cmp_of_c (Bcompare 53 1024 x y) Datatypes.Eq.
+Definition c_le64 (x y : fp64) : bool := c_lt64 x y || c_eq64 x y.
+Definition c_ge64 (x y : fp64) : bool := c_gt64 x y || c_eq64 x y.
+
+Definition is_nan64_b (x : fp64) : bool := Binary.is_nan 53 1024 x.
+
+Definition out_eq64 (x y : fp64) : bool :=
+  (is_nan64_b x && is_nan64_b y) || (bits_of_b64 x =? bits_of_b64 y).
+
+(* 由 C 的 bit pattern 构造 fp64 常量 *)
 Definition f64 (bits : Z) : fp64 := b64_of_bits bits.
 
 (* 三组列表的逐元素布尔合取 *)
