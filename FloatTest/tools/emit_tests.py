@@ -23,6 +23,8 @@ FUN_NAMES = {
     'SAMSubModePitch': 'samSubModePitch_fun',
     'SAMSubModeDamp': 'samSubModeDamp_fun',
     'DSSDataGet': 'dssDataGet_fun',
+    'CS_ObtCtrl_OrbJetOut': 'cs_ObtCtrl_OrbJetOut_fun',
+    'CS_GyroData_Disposal': 'cs_GyroData_Disposal_fun',
 }
 FUN = FUN_NAMES.get(CASE, CASE[0].lower() + CASE[1:] + '_fun')
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -175,6 +177,30 @@ def emit_modeconvert_nwm(idx, cols):
             + f' {cols[4]} {cols[5]}')
     return lemma(idx, f'{FUN} {args}\n  = {cols[6]}')
 
+# ---- CS_ObtCtrl_OrbJetOut：17 列 = 12 输入 bits64 + 5 输出 bits64 ----
+
+def emit_cs_obtctrl_orbjetout(idx, cols):
+    assert len(cols) == 17, f'line {idx}: {len(cols)} cols'
+    scalars = ' '.join(f'(f64 ({b}))' for b in cols[0:4])
+    fs = '[' + '; '.join(f'(f64 ({b}))' for b in cols[4:8]) + ']'
+    tin = '[' + '; '.join(f'(f64 ({b}))' for b in cols[8:12]) + ']'
+    tout = '[' + '; '.join(cols[12:16]) + ']'
+    args = f'{scalars} {fs} {tin}'
+    return lemma(idx, f'{FUN} {args}\n  = ({tout}, {cols[16]})')
+
+# ---- CS_GyroData_Disposal：80 列 = 70 输入 + 10 输出 ----
+
+def emit_cs_gyrodata_disposal(idx, cols):
+    assert len(cols) == 80, f'line {idx}: {len(cols)} cols'
+    zl = lambda xs: '[' + '; '.join(xs) + ']'
+    fl = lambda xs: '[' + '; '.join(f'(f64 ({b}))' for b in xs) + ']'
+    args = (f'{cols[0]} {cols[1]} {cols[2]} {zl(cols[3:17])} {zl(cols[17:26])} '
+            f'{fl(cols[26:35])} {fl(cols[35:62])} {fl(cols[62:65])} {fl(cols[65:68])} '
+            f'(f64 ({cols[68]})) (f64 ({cols[69]}))')
+    expected = (f'({cols[70]}, {zl(cols[71:74])}, '
+                f'{zl(cols[74:77])}, {zl(cols[77:80])})')
+    return lemma(idx, f'{FUN} {args}\n  = {expected}')
+
 EMITTERS = {
     'PseudoRate': emit_pseudorate,
     'ThreeAxisController': emit_threeaxiscontroller,
@@ -193,6 +219,8 @@ EMITTERS = {
     'ModeConvert_AHM': emit_modeconvert_eim,
     'ModeConvert_AMM': emit_modeconvert_amm,
     'ModeConvert_NWM': emit_modeconvert_nwm,
+    'CS_ObtCtrl_OrbJetOut': emit_cs_obtctrl_orbjetout,
+    'CS_GyroData_Disposal': emit_cs_gyrodata_disposal,
 }
 
 def main():

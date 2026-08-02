@@ -552,8 +552,56 @@ TeSpec 的甜区是已有 QCP spec 的整数/堆结构题，其浮点 case 按�
 发射器复用率高：OCM 复用 SBM 的（5 列），EIM/AHM 共用（17 列），
 新增仅 AMM（8 列）/NWM（7 列）两个。
 
-iplib 后续建议顺序（由易到难）：CS_TrgtAtt_EIM（65 行）、CS_Track_Plan
-（多分支 dispatch，需 stub callee）、CS_TrgtP2P_Ini / CS_TrgtP2P_Tar_Init
-（无浮点）、CS_Gyro_Att_Predict（190 行）、CS_GyroData_Disposal；其余
-CS_* 缺 callee 实现 + fp64 矩阵/三角函数，最重的是 CS_OrbitComputation、
-CS_AttCtrl_Propel。
+### CS 系列难度重估与顺序（2026-07-24，按三角函数依赖分类）
+
+对 18 个剩余 CS_* 逐题核查 callee 后，决定性因素不是行数而是
+**是否依赖 libm 三角/反三角/exp**：`Sinx/Cosx/Tanx/Asinx/Acosx/Atanx/
+Atan2x/Expx`（std_basal.h/std_utils.h 宏，包装 double 版 libm）以及
+`Angle2C*`/`C2Angle*`/`CS_Angle2C` 等 callee 内部都是三角运算。
+Flocq 只能计算 IEEE 四则运算与 sqrt（`Bsqrt`），**算不了三角函数**，
+凡 trig 依赖题在 bit 级差分路线上当前做不了（此前按行数的建议顺序
+作废，如 CS_TrgtAtt_EIM 虽只 65 行但走 Angle2C* → trig，归入不可做）。
+
+- **可做（无 trig，按难度）**：
+  1. CS_ObtCtrl_OrbJetOut ✅（2026-07-24，见下）
+  2. CS_GyroData_Disposal ✅（2026-07-24，见下）
+  3. CS_AttCtrl_Propel（614 行 + 多个缺失的 CS_AttCtrl_* callee 要补
+     实现，纯算术，最重但非不可能）
+- **做不了（trig/exp 依赖，15 题）**：CS_TrgtAtt_EIM/NWM_USU/OCM、
+  CS_TrgtP2P_Ini/Tar_Init、CS_Track_Plan/Atti、CS_TrgtAtt_AMM_Exp/
+  2NoSAR/AHM_USU、CS_Gyro_Att_Predict、CS_Ctrl_Att_Rate、
+  CS_PrecessionNutationCal、CS_IRES_Attitude、CS_OrbitComputation。
+  潜在绕行：把 libm 调用结果作为 oracle 输入注入（驱动打印实际
+  sin/cos 值，spec 当输入），只测 libm 之外的算术；工程量大，暂未做。
+
+### CS_ObtCtrl_OrbJetOut（2026-07-24）
+
+> 产物归档 `OUTPUT/iplib/CS_ObtCtrl_OrbJetOut/`（含中文 README）。
+
+CS 系列第一题，**1000/1000 通过**，阴性自检正确报错。语义：到达轨控
+开机时刻则 `t_OC[i] = FS_OC[i] * ΔT`（4 路），否则 `dto_OC = 0.0`；
+未执行分支的字段透传（spec 建模为输入）。`NUM_THRGR_OC` 替身值 4
+（`-D` 注入，结构体数组定长）。定向覆盖 NaN 比较、NaN/±Inf 透传、
+`±0/±Inf × 正常数`、`有限 × ±0` 等 IEEE 精确边界；乘法路径刻意
+不造 NaN（payload 传播与 Flocq 规范 NaN 不同，README 备注已声明）。
+
+### CS_GyroData_Disposal（2026-07-24）
+
+> 产物归档 `OUTPUT/iplib/CS_GyroData_Disposal/`（含中文 README）。
+
+CS 系列第二题，**1000/1000 通过**，阴性自检正确报错。语义：停控或
+可用陀螺数不足时用历史值，否则按有效陀螺数走 4 陀螺最小二乘
+`(RᵀR)⁻¹Rᵀdg` 或 3 陀螺直接求逆，再 `wbi = LimitDouble(deltag/ΔT)`。
+路径覆盖：历史 250 / n=3 主路径 250（含 det=0 奇异回退）/
+n=4 主路径 500（含强限幅、±0、fsAttD=2 等定向）。
+
+本题为 iplib 批次补了两个一次性先例（README 备注有完整声明）：
+
+1. **组件库 helper 重建**：`MatrixTran/MatrixMulti/MatrixInv33/
+   LimitDouble` 仓库无实现，驱动与 spec 双侧按 SAM fp32 同名函数
+   算法重建为 fp64（运算顺序逐式对应）。测试覆盖 IP 层逻辑转写与
+   两侧重建的一致性；helper 与原始实现的等价性不在范围内。
+2. **`-include` 原型注入**：4 个 helper 连声明都没有（隐式 int 声明
+   会使 fp64 返回值语义错误），以既有 `*_cflags.txt` 机制注入
+   `source/*_decls.h`；`m_DeltaT` 全局量由驱动定义（std_utils.h
+   只有 extern 声明）。
