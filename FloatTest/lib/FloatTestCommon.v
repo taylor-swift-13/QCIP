@@ -75,6 +75,11 @@ Definition out_eq64 (x y : fp64) : bool :=
 (* 由 C 的 bit pattern 构造 fp64 常量 *)
 Definition f64 (bits : Z) : fp64 := b64_of_bits bits.
 
+(* fp64 平方根：Bsqrt 53 1024 mode_NE。IEEE-754 强制 sqrt 正确舍入，
+ * 与硬件 sqrtsd / 正确实现的 libm sqrt 逐比特一致。 *)
+Definition fp64_sqrt : fp64 -> fp64 :=
+  Bsqrt 53 1024 eq_refl eq_refl fp64_unary_nan mode_NE.
+
 (* 三组列表的逐元素布尔合取 *)
 Fixpoint all3 (f : fp32 -> fp32 -> fp32 -> bool)
               (xs ys zs : list fp32) : bool :=

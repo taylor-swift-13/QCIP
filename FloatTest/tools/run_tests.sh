@@ -54,6 +54,13 @@ EXTRA_SRCS=()
 if [ -f "${SRC}/std_utils.c" ]; then
   EXTRA_SRCS+=("${SRC}/std_utils.c")
 fi
+# 每个 case 可选的额外源文件清单（如三角 case 用 FloatTest/ref/ported_trig.c），
+# 每行一个仓库根目录相对路径
+if [ -n "${CASE_DIR}" ] && [ -f "${CASE_DIR}/source/${CASE}_extra_srcs.txt" ]; then
+  while IFS= read -r src_line; do
+    [ -n "${src_line}" ] && EXTRA_SRCS+=("${src_line}")
+  done < "${CASE_DIR}/source/${CASE}_extra_srcs.txt"
+fi
 gcc -std=c11 -O0 -Wall -I "${SRC}" "${EXTRA_CFLAGS[@]}" \
     "${DRIVER}" "${SRC}/IP_${CASE}.c" "${EXTRA_SRCS[@]}" \
     -lm -o "${EXE}"
@@ -68,6 +75,8 @@ echo "== [3/5] 生成 tests.v"
 if [ -d "${CASE_DIR}" ]; then
   echo "== [4/5] 编译公共库与 spec"
   "$COQ" $(cat _CoqProject) "FloatTest/lib/FloatTestCommon.v"
+  # FloatTrig.vo 依赖 FloatTestCommon.vo，必须在其后重编译以保持摘要一致
+  "$COQ" $(cat _CoqProject) "FloatTest/lib/FloatTrig.v"
   "$COQ" $(cat _CoqProject) "${SPEC}"
 
   echo "== [5/5] coqc 编译（差分测试）"

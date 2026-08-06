@@ -567,12 +567,13 @@ Flocq 只能计算 IEEE 四则运算与 sqrt（`Bsqrt`），**算不了三角函
   2. CS_GyroData_Disposal ✅（2026-07-24，见下）
   3. CS_AttCtrl_Propel（614 行 + 多个缺失的 CS_AttCtrl_* callee 要补
      实现，纯算术，最重但非不可能）
-- **做不了（trig/exp 依赖，15 题）**：CS_TrgtAtt_EIM/NWM_USU/OCM、
-  CS_TrgtP2P_Ini/Tar_Init、CS_Track_Plan/Atti、CS_TrgtAtt_AMM_Exp/
-  2NoSAR/AHM_USU、CS_Gyro_Att_Predict、CS_Ctrl_Att_Rate、
-  CS_PrecessionNutationCal、CS_IRES_Attitude、CS_OrbitComputation。
-  潜在绕行：把 libm 调用结果作为 oracle 输入注入（驱动打印实际
-  sin/cos 值，spec 当输入），只测 libm 之外的算术；工程量大，暂未做。
+- ~~做不了（trig/exp 依赖，15 题）~~ **三角题已破题（2026-08-05，
+  见 §17）**：sin/cos 已用 musl 确定化移植解决，CS_TrgtAtt_AMM_Exp /
+  EIM / AHM_USU 三题完成；asin/atan2/exp 仍未移植，依赖它们的输出
+  打桩规避。剩余 12 题：CS_TrgtAtt_NWM_USU/OCM、CS_TrgtP2P_Ini/
+  Tar_Init、CS_Track_Plan/Atti、CS_TrgtAtt_AMM_2NoSAR、
+  CS_Gyro_Att_Predict、CS_Ctrl_Att_Rate、CS_PrecessionNutationCal、
+  CS_IRES_Attitude、CS_OrbitComputation。
 
 ### CS_ObtCtrl_OrbJetOut（2026-07-24）
 
@@ -605,3 +606,68 @@ n=4 主路径 500（含强限幅、±0、fsAttD=2 等定向）。
    会使 fp64 返回值语义错误），以既有 `*_cflags.txt` 机制注入
    `source/*_decls.h`；`m_DeltaT` 全局量由驱动定义（std_utils.h
    只有 extern 声明）。
+
+## 17. 三角题破题：musl sin/cos 确定化移植（2026-08-05）
+
+§16 判定"做不了"的 15 道 trig 依赖题，破题方案是**把三角函数本身
+变成确定性的**：将 musl libc 的 sin/cos（含 `__rem_pio2` 参数约减）
+逐行移植到两侧——
+
+- C 侧 `FloatTest/ref/ported_trig.c`：musl sin.c/cos.c/__sin.c/__cos.c/
+  __rem_pio2.c 逐行移植（保留 Sun 版权头），参考程序链接时 shadow
+  平台 libm 同名符号，全部 TU 加 `-fno-builtin-sin -fno-builtin-cos`；
+  移植输入域 |x| < 2²⁰·(π/2)（small+medium 约减，砍掉 Payne-Hanek；
+  越域有限输入返回 canonical NaN；Inf/NaN 不注入）。
+- Coq 侧 `FloatTest/lib/FloatTrig.v`：同算法逐比特复刻
+  （`ported_sin/ported_cos`，常数全部用 hex bits）。
+- `FloatTest/lib/FloatTestCommon.v` 新增 `fp64_sqrt`（Flocq `Bsqrt`
+  mode_NE，IEEE 正确舍入，与 libm sqrt 一致）。
+- `run_tests.sh` 新增 `source/<X>_extra_srcs.txt` 机制（每行一个
+  仓库相对路径的额外源文件）；[4/5] 步重编译 FloatTrig.v 保持
+  .vo 摘要一致。
+
+移植自身的独立自测：`bash FloatTest/tools/trig_selftest/run.sh 3000`
+（176 定向 + 3000 随机 = 3176 向量，C 移植 vs Coq 复刻逐比特一致，
+阴性自检通过）。与 msvcrt libm 对比：常规值 0 ulp 差，大参数差
+~21 ulp（musl 更准）。**真值口径因此是"原始 IP + musl 移植三角"**，
+复现命令固定使用同一移植，结论可复现。
+
+反三角/指数仍未移植；依赖它们的 callee 用**打桩 + 输入注入**规避
+（打桩函数的输出变为直接输入，下游真实计算保持逐比特比对）。
+
+### CS_TrgtAtt_AMM_Exp（2026-08-05）
+
+> 产物归档 `OUTPUT/iplib/CS_TrgtAtt_AMM_Exp/`（含中文 README）。
+
+三角题第一题、移植方案首次实战。**1049/1049 通过**（49 定向 +
+1000 随机），阴性自检正确报错。语义：点对点机动期望轨迹，
+`qrb0 = [e_xyz*sin(χ/2); cos(χ/2)]`、`wrb0 = e_xyz*dχ`，外加
+F_Init 相对/绝对星时转换。`Track_Plan_hook` 为应用层钩子（仓库
+无定义），打空操作桩并把 Chi_Ref/dChi_Ref 作为直接输入。
+`tmpF=χ/2` 覆盖 kernel 143 / small-rem 906，定向网格命中
+small-rem 各分支与 goto-medium 相消点 ±1ulp 邻域。
+
+### CS_TrgtAtt_EIM（2026-08-05）
+
+> 产物归档 `OUTPUT/iplib/CS_TrgtAtt_EIM/`（含中文 README）。
+
+**1042/1042 通过**（42 定向 + 1000 随机），阴性自检正确报错。
+语义：目标姿态解算（`Cro = Cbiasp*Angle2C<sv>(A_Trgt)`、`qri =
+C2Q(Cro*coi)`、`wro = wri - Cro*w0i` 恒 +0.0）。组件库
+Angle2C×6/MatrixMulti333/331/C2Q 仓库无实现，按教科书约定重建
+（README 专节声明约定与真值口径）。6 转序全命中、非法转序
+default 17 条、C2Q 四分支全命中。
+
+### CS_TrgtAtt_AHM_USU（2026-08-05）
+
+> 产物归档 `OUTPUT/iplib/CS_TrgtAtt_AHM_USU/`（含中文 README）。
+
+**1023/1023 通过**（23 定向 + 1000 随机），阴性自检正确报错。
+本批最重一题：5 个函数（主函数 + XX_Track_Atti + XX_RateForeDiff
++ XX_RateForeHybridTrace 9 段轨迹规划 + w2dEuler 6 转序），104 输入
+→ 44 输出 bits。首次采用**打桩 + 输入注入**：CS_C2Angle/C2Angle123
+内部是 asin/atan2（未移植），前者打桩为拷贝注入的 a_ref_in（下游
+w2dEuler/ddA_Ref/TorqRef 全真实计算），后者空操作移出比较集。
+裸全局 m_WorkMode/m_DeltaT/csCtrlerData.Js_Use/csMnvData.e_xyz
+驱动定义为输入；WKMD_AMM=3 替身（<14 防 Seq_AttD 越界）。
+9 个轨迹分段、6 转序、外层/FS/TorqRef 清零分支全部命中。

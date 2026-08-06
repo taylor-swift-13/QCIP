@@ -25,6 +25,9 @@ FUN_NAMES = {
     'DSSDataGet': 'dssDataGet_fun',
     'CS_ObtCtrl_OrbJetOut': 'cs_ObtCtrl_OrbJetOut_fun',
     'CS_GyroData_Disposal': 'cs_GyroData_Disposal_fun',
+    'CS_TrgtAtt_AMM_Exp': 'cs_TrgtAtt_AMM_Exp_fun',
+    'CS_TrgtAtt_EIM': 'cs_TrgtAtt_EIM_fun',
+    'CS_TrgtAtt_AHM_USU': 'cs_TrgtAtt_AHM_USU_fun',
 }
 FUN = FUN_NAMES.get(CASE, CASE[0].lower() + CASE[1:] + '_fun')
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -201,6 +204,45 @@ def emit_cs_gyrodata_disposal(idx, cols):
                 f'{zl(cols[74:77])}, {zl(cols[77:80])})')
     return lemma(idx, f'{FUN} {args}\n  = {expected}')
 
+# ---- CS_TrgtAtt_AMM_Exp：25 列 = 1 整数 + 13 输入 bits64 + 11 输出 bits64 ----
+
+def emit_cs_trgtatt_amm_exp(idx, cols):
+    assert len(cols) == 25, f'line {idx}: {len(cols)} cols'
+    zl = lambda xs: '[' + '; '.join(xs) + ']'
+    args = (f'{cols[0]} ' + ' '.join(f'(f64 ({b}))' for b in cols[1:14]))
+    expected = (f'({zl(cols[14:18])}, {zl(cols[18:21])}, '
+                f'{cols[21]}, {cols[22]}, {cols[23]}, {cols[24]})')
+    return lemma(idx, f'{FUN} {args}\n  = {expected}')
+
+# ---- CS_TrgtAtt_EIM：58 列 = wm(1) + seq(14) + 24 输入 bits64 + 19 输出 bits64 ----
+
+def emit_cs_trgtatt_eim(idx, cols):
+    assert len(cols) == 58, f'line {idx}: {len(cols)} cols'
+    zl = lambda xs: '[' + '; '.join(xs) + ']'
+    fl = lambda xs: '[' + '; '.join(f'(f64 ({b}))' for b in xs) + ']'
+    args = (f'{cols[0]} {zl(cols[1:15])} {fl(cols[15:18])} {fl(cols[18:27])} '
+            f'{fl(cols[27:36])} {fl(cols[36:39])}')
+    expected = (f'({zl(cols[39:48])}, {zl(cols[48:51])}, '
+                f'{zl(cols[51:55])}, {zl(cols[55:58])})')
+    return lemma(idx, f'{FUN} {args}\n  = {expected}')
+
+# ---- CS_TrgtAtt_AHM_USU：148 列 = wm + seq(14) + fmn fs（17 整数列）
+#      + 87 输入 bits64 + 44 输出 bits64（输出为扁平 list Z） ----
+
+def emit_cs_trgtatt_ahm_usu(idx, cols):
+    assert len(cols) == 148, f'line {idx}: {len(cols)} cols'
+    zl = lambda xs: '[' + '; '.join(xs) + ']'
+    fl = lambda xs: '[' + '; '.join(f'(f64 ({b}))' for b in xs) + ']'
+    args = (f'{cols[0]} {zl(cols[1:15])} {cols[15]} {cols[16]} '
+            f'(f64 ({cols[17]})) (f64 ({cols[18]})) '
+            f'{fl(cols[19:22])} {fl(cols[22:31])} {fl(cols[31:40])} '
+            f'{fl(cols[40:49])} {fl(cols[49:58])} {fl(cols[58:61])} '
+            f'{fl(cols[61:64])} {fl(cols[64:67])} {fl(cols[67:70])} '
+            f'{fl(cols[70:73])} (f64 ({cols[73]})) {fl(cols[74:77])} '
+            f'(f64 ({cols[77]})) {fl(cols[78:90])} {fl(cols[90:93])} '
+            f'{fl(cols[93:102])} (f64 ({cols[102]})) (f64 ({cols[103]}))')
+    return lemma(idx, f'{FUN} {args}\n  = {zl(cols[104:148])}')
+
 EMITTERS = {
     'PseudoRate': emit_pseudorate,
     'ThreeAxisController': emit_threeaxiscontroller,
@@ -221,6 +263,9 @@ EMITTERS = {
     'ModeConvert_NWM': emit_modeconvert_nwm,
     'CS_ObtCtrl_OrbJetOut': emit_cs_obtctrl_orbjetout,
     'CS_GyroData_Disposal': emit_cs_gyrodata_disposal,
+    'CS_TrgtAtt_AMM_Exp': emit_cs_trgtatt_amm_exp,
+    'CS_TrgtAtt_EIM': emit_cs_trgtatt_eim,
+    'CS_TrgtAtt_AHM_USU': emit_cs_trgtatt_ahm_usu,
 }
 
 def main():
