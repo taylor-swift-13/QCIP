@@ -569,9 +569,9 @@ Flocq 只能计算 IEEE 四则运算与 sqrt（`Bsqrt`），**算不了三角函
      实现，纯算术，最重但非不可能）
 - ~~做不了（trig/exp 依赖，15 题）~~ **三角题已破题（2026-08-05，
   见 §17）**：sin/cos 已用 musl 确定化移植解决，CS_TrgtAtt_AMM_Exp /
-  EIM / AHM_USU 三题完成；asin/atan2/exp 仍未移植，依赖它们的输出
-  打桩规避。剩余 12 题：CS_TrgtAtt_NWM_USU/OCM、CS_TrgtP2P_Ini/
-  Tar_Init、CS_Track_Plan/Atti、CS_TrgtAtt_AMM_2NoSAR、
+  EIM / AHM_USU / OCM / CS_TrgtP2P_Tar_Init / CS_Track_Atti 六题完成；
+  asin/atan2/exp 仍未移植，依赖它们的输出打桩规避。剩余 9 题：
+  CS_TrgtAtt_NWM_USU、CS_TrgtP2P_Ini、CS_Track_Plan、CS_TrgtAtt_AMM_2NoSAR、
   CS_Gyro_Att_Predict、CS_Ctrl_Att_Rate、CS_PrecessionNutationCal、
   CS_IRES_Attitude、CS_OrbitComputation。
 
@@ -632,6 +632,13 @@ n=4 主路径 500（含强限幅、±0、fsAttD=2 等定向）。
 ~21 ulp（musl 更准）。**真值口径因此是"原始 IP + musl 移植三角"**，
 复现命令固定使用同一移植，结论可复现。
 
+姿态 helper 另有独立数学自测：
+`bash FloatTest/tools/attitude_selftest/run.sh 10000`。它不复用展开式，
+而是从基础 A1/A2/A3 矩阵相乘检查六个 Angle2C（6×10000 随机），并
+用 I/Rx(pi)/Ry(pi)/Rz(pi) 检查 C2Q 四个精确锚点。2026-08-10 该检查
+发现并促成修正四个 Angle2C 第一轴符号及两个 C2Q 对称项下标；EIM、
+AHM_USU、P2P、OCM 随后全部重新生成并通过。
+
 反三角/指数仍未移植；依赖它们的 callee 用**打桩 + 输入注入**规避
 （打桩函数的输出变为直接输入，下游真实计算保持逐比特比对）。
 
@@ -671,3 +678,28 @@ w2dEuler/ddA_Ref/TorqRef 全真实计算），后者空操作移出比较集。
 裸全局 m_WorkMode/m_DeltaT/csCtrlerData.Js_Use/csMnvData.e_xyz
 驱动定义为输入；WKMD_AMM=3 替身（<14 防 Seq_AttD 越界）。
 9 个轨迹分段、6 转序、外层/FS/TorqRef 清零分支全部命中。
+
+### CS_TrgtP2P_Tar_Init（2026-08-10）
+
+> 产物归档 `OUTPUT/iplib/CS_TrgtP2P_Tar_Init/`。
+
+**5011/5011 通过**（11 定向 + 5000 随机），阴性自检正确报错。
+覆盖四个顶层模式、六种 Angle2C 转序和非法转序；两个仓库缺失的无参
+下游函数用可观察计数桩，调用次数进入输出。
+
+### CS_TrgtAtt_OCM（2026-08-10）
+
+> 产物归档 `OUTPUT/iplib/CS_TrgtAtt_OCM/`。
+
+**5011/5011 通过**（11 定向 + 5000 随机），阴性自检正确报错。
+复用 EIM 的 Angle2C/矩阵/C2Q 语义，六转序及非法转序全覆盖；缺失的
+`CS_Track_Atti` 仅作调用计数桩。
+
+### CS_Track_Atti（2026-08-10）
+
+> 产物归档 `OUTPUT/iplib/CS_Track_Atti/`。
+
+**5013/5013 通过**（13 定向 + 5000 随机），阴性自检正确报错。
+缺失且依赖 asin/atan2 的 C2Angle 用角度注入桩；其后的六种 w2dEuler
+sin/cos、差分、矩阵力矩、模限幅及状态更新均执行原始 C。力矩清零/
+保留分别命中 2545/2468 条。
