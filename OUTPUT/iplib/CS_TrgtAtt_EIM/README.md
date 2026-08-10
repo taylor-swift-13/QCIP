@@ -35,8 +35,10 @@ wro  = wri - cw;             // 恒为 +0.0
 - `MatrixMulti333/331`：`C[i][j] = Σ_k A[i][k]·B[k][j]`，从 0.0 起、
   k 升序累加（与 FloatTest 既往 ref harness 版本一致）。
 - `C2Q`：Shepperd 法四分支（tr>0 / m0 主导 / m4>m8 / else），
-  `q[3]` 为标量部；sqrt 在 C 侧用 libm sqrt（IEEE 正确舍入），
-  Coq 侧用 `fp64_sqrt`（Flocq `Bsqrt` mode_NE，同样正确舍入），
+  `q[3]` 为标量部；sqrt 在 C 侧用 musl 移植（ported_sqrt.c，纯
+  整数 Goldschmidt 算法，正确舍入；因 MSVCRT sqrt 存在罕见
+  1-ulp 误舍入而统一替换，见 FloatTest/README.md §17），Coq 侧
+  用 `fp64_sqrt`（Flocq `Bsqrt` mode_NE，同样正确舍入），
   两侧逐比特一致。
 
 **因此本题的测试真值是“原始 IP + musl 移植三角 + 上述重建组件库”**；

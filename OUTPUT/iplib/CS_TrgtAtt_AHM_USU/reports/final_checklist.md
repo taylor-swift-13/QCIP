@@ -24,7 +24,8 @@
 - [x] sin/cos 使用 musl 移植（ported_trig.c shadow libm +
       `-fno-builtin-sin/-cos`），与 FloatTrig.v 同算法；移植自身自测
       `bash FloatTest/tools/trig_selftest/run.sh 3000` 通过（3176 向量）
-- [x] sqrt：C 侧 libm ↔ Coq 侧 fp64_sqrt（Bsqrt mode_NE），均正确舍入
+- [x] sqrt：C 侧 musl 移植 ported_sqrt.c（正确舍入）↔ Coq 侧
+      fp64_sqrt（Bsqrt mode_NE），逐比特一致；自测 2073 向量通过
 - [x] 组件库重建约定（Angle2C/CS_Angle2C 主动右手+default→321、Q2C
       同号标准展开、C2Q Shepperd、MatrixMulti/VectorNorm3 行主序）与
       打桩（CS_C2Angle→注入 a_ref_in、C2Angle123→空操作移出比较集）

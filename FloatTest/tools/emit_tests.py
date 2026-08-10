@@ -28,6 +28,8 @@ FUN_NAMES = {
     'CS_TrgtAtt_AMM_Exp': 'cs_TrgtAtt_AMM_Exp_fun',
     'CS_TrgtAtt_EIM': 'cs_TrgtAtt_EIM_fun',
     'CS_TrgtAtt_AHM_USU': 'cs_TrgtAtt_AHM_USU_fun',
+    'CS_TrgtAtt_OCM': 'cs_TrgtAtt_OCM_fun',
+    'CS_TrgtAtt_NWM_USU': 'cs_TrgtAtt_NWM_USU_fun',
 }
 FUN = FUN_NAMES.get(CASE, CASE[0].lower() + CASE[1:] + '_fun')
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -243,6 +245,19 @@ def emit_cs_trgtatt_ahm_usu(idx, cols):
             f'{fl(cols[93:102])} (f64 ({cols[102]})) (f64 ({cols[103]}))')
     return lemma(idx, f'{FUN} {args}\n  = {zl(cols[104:148])}')
 
+# ---- CS_TrgtAtt_NWM_USU：87 列 = wm + seq(14)（15 整数列）
+#      + 41 输入 bits64 + 31 输出 bits64（输出为扁平 list Z） ----
+
+def emit_cs_trgtatt_nwm_usu(idx, cols):
+    assert len(cols) == 87, f'line {idx}: {len(cols)} cols'
+    zl = lambda xs: '[' + '; '.join(xs) + ']'
+    fl = lambda xs: '[' + '; '.join(f'(f64 ({b}))' for b in xs) + ']'
+    args = (f'{cols[0]} {zl(cols[1:15])} '
+            f'(f64 ({cols[15]})) (f64 ({cols[16]})) '
+            f'{fl(cols[17:26])} {fl(cols[26:35])} {fl(cols[35:44])} '
+            f'{fl(cols[44:53])} {fl(cols[53:56])}')
+    return lemma(idx, f'{FUN} {args}\n  = {zl(cols[56:87])}')
+
 EMITTERS = {
     'PseudoRate': emit_pseudorate,
     'ThreeAxisController': emit_threeaxiscontroller,
@@ -266,6 +281,9 @@ EMITTERS = {
     'CS_TrgtAtt_AMM_Exp': emit_cs_trgtatt_amm_exp,
     'CS_TrgtAtt_EIM': emit_cs_trgtatt_eim,
     'CS_TrgtAtt_AHM_USU': emit_cs_trgtatt_ahm_usu,
+    # CS_TrgtAtt_OCM 与 EIM 列布局相同（58 列），复用同一发射器
+    'CS_TrgtAtt_OCM': emit_cs_trgtatt_eim,
+    'CS_TrgtAtt_NWM_USU': emit_cs_trgtatt_nwm_usu,
 }
 
 def main():

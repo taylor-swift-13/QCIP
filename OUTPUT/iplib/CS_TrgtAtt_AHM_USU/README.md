@@ -53,8 +53,9 @@ if (VectorNorm3(TorqRef) > Mlf) TorqRef = 0;
   真实代码）。sin/cos 用 musl 移植。
 - `Q2C`：四元数→DCM，`q[3]` 标量部，与 C2Q/Angle2C 同号约定的
   标准展开式（`C = [1-2(q2²+q3²), 2(q1q2-q3q4), ...]`）。
-- `C2Q`：Shepperd 法四分支；sqrt 在 C 侧用 libm（IEEE 正确舍入），
-  Coq 侧用 `fp64_sqrt`（Flocq `Bsqrt` mode_NE），两侧逐比特一致。
+- `C2Q`：Shepperd 法四分支；sqrt 在 C 侧用 musl 移植（ported_sqrt.c，
+  正确舍入；替换原因见 FloatTest/README.md §17），Coq 侧用
+  `fp64_sqrt`（Flocq `Bsqrt` mode_NE），两侧逐比特一致。
 - `MatrixMulti333/331`、`VectorNorm3`：行主序累加，0.0 起、k 升序。
 
 **打桩**（`CS_C2Angle`、`C2Angle123` 内部是 asin/atan2，musl 反三角

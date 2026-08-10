@@ -569,9 +569,10 @@ Flocq 只能计算 IEEE 四则运算与 sqrt（`Bsqrt`），**算不了三角函
      实现，纯算术，最重但非不可能）
 - ~~做不了（trig/exp 依赖，15 题）~~ **三角题已破题（2026-08-05，
   见 §17）**：sin/cos 已用 musl 确定化移植解决，CS_TrgtAtt_AMM_Exp /
-  EIM / AHM_USU 三题完成；asin/atan2/exp 仍未移植，依赖它们的输出
-  打桩规避。剩余 12 题：CS_TrgtAtt_NWM_USU/OCM、CS_TrgtP2P_Ini/
-  Tar_Init、CS_Track_Plan/Atti、CS_TrgtAtt_AMM_2NoSAR、
+  EIM / AHM_USU / OCM / NWM_USU 五题完成（后两题 2026-08-09）；
+  asin/atan2/exp 仍未移植，依赖它们的输出
+  打桩规避。剩余 10 题：CS_TrgtP2P_Ini/Tar_Init、
+  CS_Track_Plan/Atti、CS_TrgtAtt_AMM_2NoSAR、
   CS_Gyro_Att_Predict、CS_Ctrl_Att_Rate、CS_PrecessionNutationCal、
   CS_IRES_Attitude、CS_OrbitComputation。
 
@@ -671,3 +672,51 @@ w2dEuler/ddA_Ref/TorqRef 全真实计算），后者空操作移出比较集。
 裸全局 m_WorkMode/m_DeltaT/csCtrlerData.Js_Use/csMnvData.e_xyz
 驱动定义为输入；WKMD_AMM=3 替身（<14 防 Seq_AttD 越界）。
 9 个轨迹分段、6 转序、外层/FS/TorqRef 清零分支全部命中。
+
+### musl sqrt 确定化移植（2026-08-09）
+
+CS_TrgtAtt_NWM_USU 首轮跑出 **t_0861 一条** qri[0..3] 各差 ±1 ulp，
+定位到本机 MinGW gcc 链接的老 MSVCRT 的 sqrt 存在罕见 1-ulp 误舍入
+（x87 FSQRT 双舍入残留）。实例：x = 0x1.de63fa81fe9bcp+0
+（bits 4611094754575247804），MSVCRT 给出 bits 4608835279482202034，
+正确舍入为 4608835279482202033；Coq 侧 fp64_sqrt（Flocq Bsqrt）
+是正确舍入，故不一致。此前三题约 3000 条向量未踩到纯属侥幸。
+
+处理方案与三角同构：**把 sqrt 也变成确定性的**——将 musl
+src/math/sqrt.c（纯整数 Goldschmidt 迭代 + 精确收尾判定，可证正确
+舍入）逐行移植到 `FloatTest/ref/ported_sqrt.c`（含 sqrt_data.c 的
+__rsqrt_tab 表；差异仅：去 predict_false/eval_as_double/FENV tiny
+加法、__math_invalid 改为返回 canonical NaN 以对齐 fp64_unary_nan，
+均不影响输出比特），链接时 shadow libm sqrt，全部 TU 加
+`-fno-builtin-sqrt`；Coq 侧不动（fp64_sqrt 本就是正确舍入）。
+EIM/AHM_USU/OCM/NWM_USU 四题统一接入后重跑全部 PASS；原三题向量
+与 tests.v 逐字节未变（旧向量未踩到误舍入点）。
+
+移植自身独立自测：`bash FloatTest/tools/sqrt_selftest/run.sh 2000`
+（73 定向 + 2000 随机 = 2073 向量，含上述误舍入实例、次正规、
+2^k/精确平方、特殊值，C 移植 vs Coq fp64_sqrt 逐比特一致——NaN 按
+out_eq64 口径两侧均视为相等）。
+
+### CS_TrgtAtt_OCM（2026-08-09）
+
+> 产物归档 `OUTPUT/iplib/CS_TrgtAtt_OCM/`（含中文 README）。
+
+**1042/1042 通过**（42 定向 + 1000 随机），阴性自检正确报错。
+语义是 EIM 主函数的严格子集（Cro/qri/wri/wro，无 A_Ref_si），
+列布局与 EIM 完全相同，发射器直接复用。与 EIM 同 seed 同发生器，
+向量逐行一致，构成跨 case 交叉验证。`CS_Track_Atti()` 为应用层
+装配调用（无参、输出不依赖它），打空操作桩，track_calls=1042
+确认逐次触发。6 转序全命中、非法 default 17 条、C2Q 四分支全命中。
+
+### CS_TrgtAtt_NWM_USU（2026-08-09）
+
+> 产物归档 `OUTPUT/iplib/CS_TrgtAtt_NWM_USU/`（含中文 README）。
+
+**1025/1025 通过**（25 定向 + 1000 随机），阴性自检正确报错。
+语义：姿态漂移角直接进旋转（`tmpCp = Angle2C<sv>(0,0,Psi_DA)`，
+`Cro_si = tmpCp*(Csib*Cbias)`，`wri_si[2] += dPsi_DA`，
+`qri = C2Q(Cro*coi)`），56 输入 → 31 输出 bits。三个先例之外的
+新声明：default→321 是本 case 内嵌包装器 CS_Angle2CX_temp1 的
+真实代码而非重建假设；m_WorkMode 是结构体字段真实使用（非裸全局）；
+C2Angle123（asin/atan2 未移植）打空操作桩、A_Ref_si 移出比较集。
+本题是 MSVCRT sqrt 误舍入的发现现场（见上节）。
