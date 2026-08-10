@@ -77,6 +77,12 @@ if [ -d "${CASE_DIR}" ]; then
   "$COQ" $(cat _CoqProject) "FloatTest/lib/FloatTestCommon.v"
   # FloatTrig.vo 依赖 FloatTestCommon.vo，必须在其后重编译以保持摘要一致
   "$COQ" $(cat _CoqProject) "FloatTest/lib/FloatTrig.v"
+  # case 可声明额外 Rocq spec 依赖，每行一个仓库相对路径，按顺序编译。
+  if [ -f "${CASE_DIR}/source/${CASE}_coq_deps.txt" ]; then
+    while IFS= read -r coq_dep; do
+      [ -n "${coq_dep}" ] && "$COQ" $(cat _CoqProject) "${coq_dep}"
+    done < "${CASE_DIR}/source/${CASE}_coq_deps.txt"
+  fi
   "$COQ" $(cat _CoqProject) "${SPEC}"
 
   echo "== [5/5] coqc 编译（差分测试）"

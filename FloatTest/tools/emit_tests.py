@@ -28,8 +28,10 @@ FUN_NAMES = {
     'CS_TrgtAtt_AMM_Exp': 'cs_TrgtAtt_AMM_Exp_fun',
     'CS_TrgtAtt_EIM': 'cs_TrgtAtt_EIM_fun',
     'CS_TrgtAtt_AHM_USU': 'cs_TrgtAtt_AHM_USU_fun',
-    'CS_TrgtAtt_OCM': 'cs_TrgtAtt_OCM_fun',
     'CS_TrgtAtt_NWM_USU': 'cs_TrgtAtt_NWM_USU_fun',
+    'CS_TrgtP2P_Tar_Init': 'cs_TrgtP2P_Tar_Init_fun',
+    'CS_TrgtAtt_OCM': 'cs_TrgtAtt_OCM_fun',
+    'CS_Track_Atti': 'cs_Track_Atti_fun',
 }
 FUN = FUN_NAMES.get(CASE, CASE[0].lower() + CASE[1:] + '_fun')
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -258,6 +260,46 @@ def emit_cs_trgtatt_nwm_usu(idx, cols):
             f'{fl(cols[44:53])} {fl(cols[53:56])}')
     return lemma(idx, f'{FUN} {args}\n  = {zl(cols[56:87])}')
 
+# ---- CS_TrgtP2P_Tar_Init：48 列 = mode+wm+seq14 + 21 输入 bits64
+#      + Cro[9] bits64 + sub/null 调用次数 ----
+
+def emit_cs_trgtp2p_tar_init(idx, cols):
+    assert len(cols) == 48, f'line {idx}: {len(cols)} cols'
+    zl = lambda xs: '[' + '; '.join(xs) + ']'
+    fl = lambda xs: '[' + '; '.join(f'(f64 ({b}))' for b in xs) + ']'
+    args = (f'{cols[0]} {cols[1]} {zl(cols[2:16])} {fl(cols[16:19])} '
+            f'{fl(cols[19:28])} {fl(cols[28:37])}')
+    expected = f'({zl(cols[37:46])}, {cols[46]}, {cols[47]})'
+    return lemma(idx, f'{FUN} {args}\n  = {expected}')
+
+# ---- CS_TrgtAtt_OCM：59 列 = EIM 的 58 列 + Track_Atti 调用次数 ----
+
+def emit_cs_trgtatt_ocm(idx, cols):
+    assert len(cols) == 59, f'line {idx}: {len(cols)} cols'
+    zl = lambda xs: '[' + '; '.join(xs) + ']'
+    fl = lambda xs: '[' + '; '.join(f'(f64 ({b}))' for b in xs) + ']'
+    args = (f'{cols[0]} {zl(cols[1:15])} {fl(cols[15:18])} {fl(cols[18:27])} '
+            f'{fl(cols[27:36])} {fl(cols[36:39])}')
+    expected = (f'({zl(cols[39:48])}, {zl(cols[48:51])}, '
+                f'{zl(cols[51:55])}, {zl(cols[55:58])}, {cols[58]})')
+    return lemma(idx, f'{FUN} {args}\n  = {expected}')
+
+# ---- CS_Track_Atti：64 列 = wm+seq14 + 30 输入 bits64
+#      + 六组 3 元 bits64 输出 + C2Angle dispatch tag ----
+
+def emit_cs_track_atti(idx, cols):
+    assert len(cols) == 64, f'line {idx}: {len(cols)} cols'
+    zl = lambda xs: '[' + '; '.join(xs) + ']'
+    fl = lambda xs: '[' + '; '.join(f'(f64 ({b}))' for b in xs) + ']'
+    args = (f'{cols[0]} {zl(cols[1:15])} {fl(cols[15:18])} '
+            f'{fl(cols[18:21])} {fl(cols[21:24])} {fl(cols[24:27])} '
+            f'{fl(cols[27:30])} {fl(cols[30:33])} (f64 ({cols[33]})) '
+            f'{fl(cols[34:43])} (f64 ({cols[43]})) (f64 ({cols[44]}))')
+    expected = (f'({zl(cols[45:48])}, {zl(cols[48:51])}, '
+                f'{zl(cols[51:54])}, {zl(cols[54:57])}, '
+                f'{zl(cols[57:60])}, {zl(cols[60:63])}, {cols[63]})')
+    return lemma(idx, f'{FUN} {args}\n  = {expected}')
+
 EMITTERS = {
     'PseudoRate': emit_pseudorate,
     'ThreeAxisController': emit_threeaxiscontroller,
@@ -281,9 +323,10 @@ EMITTERS = {
     'CS_TrgtAtt_AMM_Exp': emit_cs_trgtatt_amm_exp,
     'CS_TrgtAtt_EIM': emit_cs_trgtatt_eim,
     'CS_TrgtAtt_AHM_USU': emit_cs_trgtatt_ahm_usu,
-    # CS_TrgtAtt_OCM 与 EIM 列布局相同（58 列），复用同一发射器
-    'CS_TrgtAtt_OCM': emit_cs_trgtatt_eim,
     'CS_TrgtAtt_NWM_USU': emit_cs_trgtatt_nwm_usu,
+    'CS_TrgtP2P_Tar_Init': emit_cs_trgtp2p_tar_init,
+    'CS_TrgtAtt_OCM': emit_cs_trgtatt_ocm,
+    'CS_Track_Atti': emit_cs_track_atti,
 }
 
 def main():
