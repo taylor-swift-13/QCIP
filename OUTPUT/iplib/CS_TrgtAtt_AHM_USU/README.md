@@ -70,6 +70,10 @@ if (VectorNorm3(TorqRef) > Mlf) TorqRef = 0;
 **因此本题的测试真值是"原始 IP + musl 移植三角 + 上述重建组件库 +
 两个打桩"**；asin/atan2 移植完成后可取消打桩按同一流程复测。
 
+2026-08-10 同步修正共享重建语义：123/132/213/312 四个 Angle2C 的
+第一轴符号，以及 C2Q x/y 主导分支的 `m01+m10` 下标。固定 seed
+重新生成 1023 条向量并全部通过，且共享独立姿态 oracle 通过。
+
 **裸全局与替身值**（仓库源码无定义，README 即声明）：
 `m_WorkMode`、`m_DeltaT`、`csCtrlerData.Js_Use`、`csMnvData.e_xyz`
 由驱动定义为全局并作为输入注入；`WKMD_AMM = 3` 为替身值（真实值

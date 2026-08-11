@@ -61,8 +61,8 @@ void Angle2C123(double *o, double a1, double a2, double a3)
 	double s2 = sin(a2), c2 = cos(a2);
 	double s3 = sin(a3), c3 = cos(a3);
 	o[0] = c2 * c3;               o[1] = -c2 * s3;              o[2] = s2;
-	o[3] = c1 * s3 - s1 * s2 * c3; o[4] = c1 * c3 + s1 * s2 * s3; o[5] = s1 * c2;
-	o[6] = -s1 * s3 - c1 * s2 * c3; o[7] = c1 * s2 * s3 - s1 * c3; o[8] = c1 * c2;
+	o[3] = c1 * s3 + s1 * s2 * c3; o[4] = c1 * c3 - s1 * s2 * s3; o[5] = -s1 * c2;
+	o[6] = s1 * s3 - c1 * s2 * c3; o[7] = c1 * s2 * s3 + s1 * c3; o[8] = c1 * c2;
 }
 
 void Angle2C132(double *o, double a1, double a2, double a3)
@@ -71,8 +71,8 @@ void Angle2C132(double *o, double a1, double a2, double a3)
 	double s2 = sin(a2), c2 = cos(a2);
 	double s3 = sin(a3), c3 = cos(a3);
 	o[0] = c2 * c3;               o[1] = -s3;                   o[2] = s2 * c3;
-	o[3] = c1 * s3 * c2 - s1 * s2; o[4] = c1 * c3;              o[5] = c1 * s2 * s3 + s1 * c2;
-	o[6] = -s1 * s3 * c2 - c1 * s2; o[7] = -s1 * c3;            o[8] = c1 * c2 - s1 * s2 * s3;
+	o[3] = c1 * s3 * c2 + s1 * s2; o[4] = c1 * c3;              o[5] = c1 * s2 * s3 - s1 * c2;
+	o[6] = s1 * s3 * c2 - c1 * s2; o[7] = s1 * c3;              o[8] = c1 * c2 + s1 * s2 * s3;
 }
 
 void Angle2C213(double *o, double a1, double a2, double a3)
@@ -80,9 +80,9 @@ void Angle2C213(double *o, double a1, double a2, double a3)
 	double s1 = sin(a1), c1 = cos(a1);
 	double s2 = sin(a2), c2 = cos(a2);
 	double s3 = sin(a3), c3 = cos(a3);
-	o[0] = c2 * c3 - s1 * s2 * s3; o[1] = -c2 * s3 - s1 * s2 * c3; o[2] = s2 * c1;
-	o[3] = c1 * s3;               o[4] = c1 * c3;               o[5] = s1;
-	o[6] = -s2 * c3 - c2 * s1 * s3; o[7] = s2 * s3 - c2 * s1 * c3; o[8] = c2 * c1;
+	o[0] = c2 * c3 + s1 * s2 * s3; o[1] = -c2 * s3 + s1 * s2 * c3; o[2] = s2 * c1;
+	o[3] = c1 * s3;               o[4] = c1 * c3;               o[5] = -s1;
+	o[6] = c2 * s1 * s3 - s2 * c3; o[7] = s2 * s3 + c2 * s1 * c3; o[8] = c2 * c1;
 }
 
 void Angle2C231(double *o, double a1, double a2, double a3)
@@ -100,9 +100,9 @@ void Angle2C312(double *o, double a1, double a2, double a3)
 	double s1 = sin(a1), c1 = cos(a1);
 	double s2 = sin(a2), c2 = cos(a2);
 	double s3 = sin(a3), c3 = cos(a3);
-	o[0] = c2 * c3 + s1 * s2 * s3; o[1] = -c1 * s3;             o[2] = s2 * c3 - s1 * c2 * s3;
-	o[3] = c2 * s3 - s1 * s2 * c3; o[4] = c1 * c3;              o[5] = s2 * s3 + s1 * c2 * c3;
-	o[6] = -c1 * s2;              o[7] = -s1;                   o[8] = c1 * c2;
+	o[0] = c2 * c3 - s1 * s2 * s3; o[1] = -c1 * s3;             o[2] = s2 * c3 + s1 * c2 * s3;
+	o[3] = c2 * s3 + s1 * s2 * c3; o[4] = c1 * c3;              o[5] = s2 * s3 - s1 * c2 * c3;
+	o[6] = -c1 * s2;              o[7] = s1;                    o[8] = c1 * c2;
 }
 
 void Angle2C321(double *o, double a1, double a2, double a3)
@@ -129,13 +129,13 @@ void C2Q(double *out, const double *m)
 	} else if (m[0] > m[4] && m[0] > m[8]) {
 		s = sqrt(1.0 + m[0] - m[4] - m[8]) * 2.0;
 		out[0] = 0.25 * s;
-		out[1] = (m[1] + m[4]) / s;
+		out[1] = (m[1] + m[3]) / s;
 		out[2] = (m[2] + m[6]) / s;
 		out[3] = (m[7] - m[5]) / s;
 	} else if (m[4] > m[8]) {
 		s = sqrt(1.0 + m[4] - m[0] - m[8]) * 2.0;
 		out[1] = 0.25 * s;
-		out[0] = (m[1] + m[4]) / s;
+		out[0] = (m[1] + m[3]) / s;
 		out[2] = (m[5] + m[7]) / s;
 		out[3] = (m[2] - m[6]) / s;
 	} else {

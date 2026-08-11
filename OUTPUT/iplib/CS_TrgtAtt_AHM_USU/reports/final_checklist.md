@@ -4,8 +4,8 @@
 
 - [x] `rocq/spec.v`、`rocq/tests.v` 用仓库根 `_CoqProject` 编译通过
 - [x] 1023/1023 向量逐位一致（`vm_compute; reflexivity`）
-- [x] 阴性自检：t_0500 期望 dChi_Ref2 `4592766894845802428 → …429`
-      （最低位翻转），coqc 报错（Unable to unify）；恢复后全量重新通过
+- [x] 修正后阴性自检：针对扁平列表输出临时翻转第一条期望输出最低位，
+      coqc 报错 `Unable to unify`；正式文件未改且全量重新通过
 - [x] spec 纯定义、tests 全部 `Qed`，无 `Admitted` / 自定义 `Axiom`
 - [x] 定向设计：①6 转序各 1 条；②非法转序 1 条（w2dEuler 原样透传
       dA_Ref_init=0.11/-0.22/0.33 可观察）；③HybridTrace 9 段各 1 条
@@ -30,6 +30,8 @@
       同号标准展开、C2Q Shepperd、MatrixMulti/VectorNorm3 行主序）与
       打桩（CS_C2Angle→注入 a_ref_in、C2Angle123→空操作移出比较集）
       已在 README 专节声明；WKMD_AMM=3 替身值与裸全局注入同样已声明
+- [x] 2026-08-10 修正四个 Angle2C 第一轴符号和两个 C2Q 对称项下标；
+      固定 seed 全量回归 1023/1023，通过共享独立姿态 oracle
 
 边界声明：采样验证非全称证明；不覆盖内存安全；sin/cos 真值是 musl
 移植而非平台 libm；组件库为重建约定而非原件；CS_C2Angle/C2Angle123

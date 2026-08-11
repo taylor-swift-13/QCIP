@@ -570,12 +570,13 @@ Flocq 只能计算 IEEE 四则运算与 sqrt（`Bsqrt`），**算不了三角函
 - ~~做不了（trig/exp 依赖，15 题）~~ **三角题已破题（2026-08-05，
   见 §17）**：sin/cos 已用 musl 确定化移植解决，CS_TrgtAtt_AMM_Exp /
   EIM / AHM_USU / OCM / NWM_USU / CS_PrecessionNutationCal /
-  CS_TrgtP2P_Ini 七题完成（OCM/NWM_USU 2026-08-09，
-  PrecessionNutationCal/TrgtP2P_Ini 2026-08-11）；
-  asin/atan2/exp 仍未移植，依赖它们的输出
-  打桩规避。剩余 8 题：CS_TrgtP2P_Tar_Init、CS_Track_Plan/Atti、
-  CS_TrgtAtt_AMM_2NoSAR、CS_Gyro_Att_Predict、CS_Ctrl_Att_Rate、
-  CS_IRES_Attitude、CS_OrbitComputation。
+  CS_TrgtP2P_Ini / CS_TrgtP2P_Tar_Init / CS_TrgtAtt_OCM /
+  CS_Track_Atti 十题完成（OCM/NWM_USU/TrgtP2P_Tar_Init/TrgtAtt_OCM/
+  Track_Atti 2026-08-09/10，PrecessionNutationCal/TrgtP2P_Ini
+  2026-08-11）；asin/atan2/exp 仍未移植，依赖它们的输出
+  打桩规避。剩余 6 题：CS_TrgtAtt_AMM_2NoSAR、CS_Gyro_Att_Predict、
+  CS_Ctrl_Att_Rate、CS_IRES_Attitude、CS_OrbitComputation、
+  CS_Track_Plan。
 
 ### CS_ObtCtrl_OrbJetOut（2026-07-24）
 
@@ -633,6 +634,13 @@ n=4 主路径 500（含强限幅、±0、fsAttD=2 等定向）。
 阴性自检通过）。与 msvcrt libm 对比：常规值 0 ulp 差，大参数差
 ~21 ulp（musl 更准）。**真值口径因此是"原始 IP + musl 移植三角"**，
 复现命令固定使用同一移植，结论可复现。
+
+姿态 helper 另有独立数学自测：
+`bash FloatTest/tools/attitude_selftest/run.sh 10000`。它不复用展开式，
+而是从基础 A1/A2/A3 矩阵相乘检查六个 Angle2C（6×10000 随机），并
+用 I/Rx(pi)/Ry(pi)/Rz(pi) 检查 C2Q 四个精确锚点。2026-08-10 该检查
+发现并促成修正四个 Angle2C 第一轴符号及两个 C2Q 对称项下标；EIM、
+AHM_USU、P2P、OCM 随后全部重新生成并通过。
 
 反三角/指数仍未移植；依赖它们的 callee 用**打桩 + 输入注入**规避
 （打桩函数的输出变为直接输入，下游真实计算保持逐比特比对）。
@@ -698,17 +706,6 @@ EIM/AHM_USU/OCM/NWM_USU 四题统一接入后重跑全部 PASS；原三题向量
 2^k/精确平方、特殊值，C 移植 vs Coq fp64_sqrt 逐比特一致——NaN 按
 out_eq64 口径两侧均视为相等）。
 
-### CS_TrgtAtt_OCM（2026-08-09）
-
-> 产物归档 `OUTPUT/iplib/CS_TrgtAtt_OCM/`（含中文 README）。
-
-**1042/1042 通过**（42 定向 + 1000 随机），阴性自检正确报错。
-语义是 EIM 主函数的严格子集（Cro/qri/wri/wro，无 A_Ref_si），
-列布局与 EIM 完全相同，发射器直接复用。与 EIM 同 seed 同发生器，
-向量逐行一致，构成跨 case 交叉验证。`CS_Track_Atti()` 为应用层
-装配调用（无参、输出不依赖它），打空操作桩，track_calls=1042
-确认逐次触发。6 转序全命中、非法 default 17 条、C2Q 四分支全命中。
-
 ### CS_TrgtAtt_NWM_USU（2026-08-09）
 
 > 产物归档 `OUTPUT/iplib/CS_TrgtAtt_NWM_USU/`（含中文 README）。
@@ -721,6 +718,31 @@ out_eq64 口径两侧均视为相等）。
 真实代码而非重建假设；m_WorkMode 是结构体字段真实使用（非裸全局）；
 C2Angle123（asin/atan2 未移植）打空操作桩、A_Ref_si 移出比较集。
 本题是 MSVCRT sqrt 误舍入的发现现场（见上节）。
+
+### CS_TrgtP2P_Tar_Init（2026-08-10）
+
+> 产物归档 `OUTPUT/iplib/CS_TrgtP2P_Tar_Init/`。
+
+**5011/5011 通过**（11 定向 + 5000 随机），阴性自检正确报错。
+覆盖四个顶层模式、六种 Angle2C 转序和非法转序；两个仓库缺失的无参
+下游函数用可观察计数桩，调用次数进入输出。
+
+### CS_TrgtAtt_OCM（2026-08-10）
+
+> 产物归档 `OUTPUT/iplib/CS_TrgtAtt_OCM/`。
+
+**5011/5011 通过**（11 定向 + 5000 随机），阴性自检正确报错。
+复用 EIM 的 Angle2C/矩阵/C2Q 语义，六转序及非法转序全覆盖；缺失的
+`CS_Track_Atti` 仅作调用计数桩。
+
+### CS_Track_Atti（2026-08-10）
+
+> 产物归档 `OUTPUT/iplib/CS_Track_Atti/`。
+
+**5013/5013 通过**（13 定向 + 5000 随机），阴性自检正确报错。
+缺失且依赖 asin/atan2 的 C2Angle 用角度注入桩；其后的六种 w2dEuler
+sin/cos、差分、矩阵力矩、模限幅及状态更新均执行原始 C。力矩清零/
+保留分别命中 2545/2468 条。
 
 ### CS_PrecessionNutationCal（2026-08-11）
 

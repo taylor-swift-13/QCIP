@@ -69,11 +69,11 @@ Definition angle2c123 (a1 a2 a3 : fp64) : list fp64 :=
   [fp64_mul c2 c3;
    fp64_mul (fp64_neg c2) s3;
    s2;
-   fp64_sub (fp64_mul c1 s3) (fp64_mul (fp64_mul s1 s2) c3);
-   fp64_add (fp64_mul c1 c3) (fp64_mul (fp64_mul s1 s2) s3);
-   fp64_mul s1 c2;
-   fp64_sub (fp64_mul (fp64_neg s1) s3) (fp64_mul (fp64_mul c1 s2) c3);
-   fp64_sub (fp64_mul (fp64_mul c1 s2) s3) (fp64_mul s1 c3);
+   fp64_add (fp64_mul c1 s3) (fp64_mul (fp64_mul s1 s2) c3);
+   fp64_sub (fp64_mul c1 c3) (fp64_mul (fp64_mul s1 s2) s3);
+   fp64_mul (fp64_neg s1) c2;
+   fp64_sub (fp64_mul s1 s3) (fp64_mul (fp64_mul c1 s2) c3);
+   fp64_add (fp64_mul (fp64_mul c1 s2) s3) (fp64_mul s1 c3);
    fp64_mul c1 c2].
 
 Definition angle2c132 (a1 a2 a3 : fp64) : list fp64 :=
@@ -83,25 +83,25 @@ Definition angle2c132 (a1 a2 a3 : fp64) : list fp64 :=
   [fp64_mul c2 c3;
    fp64_neg s3;
    fp64_mul s2 c3;
-   fp64_sub (fp64_mul (fp64_mul c1 s3) c2) (fp64_mul s1 s2);
+   fp64_add (fp64_mul (fp64_mul c1 s3) c2) (fp64_mul s1 s2);
    fp64_mul c1 c3;
-   fp64_add (fp64_mul (fp64_mul c1 s2) s3) (fp64_mul s1 c2);
-   fp64_sub (fp64_mul (fp64_mul (fp64_neg s1) s3) c2) (fp64_mul c1 s2);
-   fp64_mul (fp64_neg s1) c3;
-   fp64_sub (fp64_mul c1 c2) (fp64_mul (fp64_mul s1 s2) s3)].
+   fp64_sub (fp64_mul (fp64_mul c1 s2) s3) (fp64_mul s1 c2);
+   fp64_sub (fp64_mul (fp64_mul s1 s3) c2) (fp64_mul c1 s2);
+   fp64_mul s1 c3;
+   fp64_add (fp64_mul c1 c2) (fp64_mul (fp64_mul s1 s2) s3)].
 
 Definition angle2c213 (a1 a2 a3 : fp64) : list fp64 :=
   let s1 := ported_sin a1 in let c1 := ported_cos a1 in
   let s2 := ported_sin a2 in let c2 := ported_cos a2 in
   let s3 := ported_sin a3 in let c3 := ported_cos a3 in
-  [fp64_sub (fp64_mul c2 c3) (fp64_mul (fp64_mul s1 s2) s3);
-   fp64_sub (fp64_mul (fp64_neg c2) s3) (fp64_mul (fp64_mul s1 s2) c3);
+  [fp64_add (fp64_mul c2 c3) (fp64_mul (fp64_mul s1 s2) s3);
+   fp64_add (fp64_mul (fp64_neg c2) s3) (fp64_mul (fp64_mul s1 s2) c3);
    fp64_mul s2 c1;
    fp64_mul c1 s3;
    fp64_mul c1 c3;
-   s1;
-   fp64_sub (fp64_mul (fp64_neg s2) c3) (fp64_mul (fp64_mul c2 s1) s3);
-   fp64_sub (fp64_mul s2 s3) (fp64_mul (fp64_mul c2 s1) c3);
+   fp64_neg s1;
+   fp64_sub (fp64_mul (fp64_mul c2 s1) s3) (fp64_mul s2 c3);
+   fp64_add (fp64_mul s2 s3) (fp64_mul (fp64_mul c2 s1) c3);
    fp64_mul c2 c1].
 
 Definition angle2c231 (a1 a2 a3 : fp64) : list fp64 :=
@@ -122,14 +122,14 @@ Definition angle2c312 (a1 a2 a3 : fp64) : list fp64 :=
   let s1 := ported_sin a1 in let c1 := ported_cos a1 in
   let s2 := ported_sin a2 in let c2 := ported_cos a2 in
   let s3 := ported_sin a3 in let c3 := ported_cos a3 in
-  [fp64_add (fp64_mul c2 c3) (fp64_mul (fp64_mul s1 s2) s3);
+  [fp64_sub (fp64_mul c2 c3) (fp64_mul (fp64_mul s1 s2) s3);
    fp64_mul (fp64_neg c1) s3;
-   fp64_sub (fp64_mul s2 c3) (fp64_mul (fp64_mul s1 c2) s3);
-   fp64_sub (fp64_mul c2 s3) (fp64_mul (fp64_mul s1 s2) c3);
+   fp64_add (fp64_mul s2 c3) (fp64_mul (fp64_mul s1 c2) s3);
+   fp64_add (fp64_mul c2 s3) (fp64_mul (fp64_mul s1 s2) c3);
    fp64_mul c1 c3;
-   fp64_add (fp64_mul s2 s3) (fp64_mul (fp64_mul s1 c2) c3);
+   fp64_sub (fp64_mul s2 s3) (fp64_mul (fp64_mul s1 c2) c3);
    fp64_mul (fp64_neg c1) s2;
-   fp64_neg s1;
+   s1;
    fp64_mul c1 c2].
 
 Definition angle2c321 (a1 a2 a3 : fp64) : list fp64 :=
@@ -161,12 +161,12 @@ Definition c2q (m : list fp64) : list fp64 :=
     else if c_gt64 m0 m4 && c_gt64 m0 m8 then
       let s := fp64_mul (fp64_sqrt (fp64_sub (fp64_sub (fp64_add ONE64 m0) m4) m8)) TWO64 in
       [fp64_mul (f64 0x3FD0000000000000) s;
-       fp64_div (fp64_add m1 m4) s;
+       fp64_div (fp64_add m1 m3) s;
        fp64_div (fp64_add m2 m6) s;
        fp64_div (fp64_sub m7 m5) s]
     else if c_gt64 m4 m8 then
       let s := fp64_mul (fp64_sqrt (fp64_sub (fp64_sub (fp64_add ONE64 m4) m0) m8)) TWO64 in
-      [fp64_div (fp64_add m1 m4) s;
+      [fp64_div (fp64_add m1 m3) s;
        fp64_mul (f64 0x3FD0000000000000) s;
        fp64_div (fp64_add m5 m7) s;
        fp64_div (fp64_sub m2 m6) s]
