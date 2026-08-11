@@ -30,6 +30,8 @@ FUN_NAMES = {
     'CS_TrgtAtt_AHM_USU': 'cs_TrgtAtt_AHM_USU_fun',
     'CS_TrgtAtt_OCM': 'cs_TrgtAtt_OCM_fun',
     'CS_TrgtAtt_NWM_USU': 'cs_TrgtAtt_NWM_USU_fun',
+    'CS_PrecessionNutationCal': 'cs_PrecessionNutationCal_fun',
+    'CS_TrgtP2P_Ini': 'cs_TrgtP2P_Ini_fun',
 }
 FUN = FUN_NAMES.get(CASE, CASE[0].lower() + CASE[1:] + '_fun')
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -258,6 +260,28 @@ def emit_cs_trgtatt_nwm_usu(idx, cols):
             f'{fl(cols[44:53])} {fl(cols[53:56])}')
     return lemma(idx, f'{FUN} {args}\n  = {zl(cols[56:87])}')
 
+# ---- CS_PrecessionNutationCal：20 列 = FS（整数）
+#      + 8 输入 bits64 + F_qJDerr（整数）+ 10 输出 bits64（输出为扁平 list Z） ----
+
+def emit_cs_precessionnutationcal(idx, cols):
+    assert len(cols) == 20, f'line {idx}: {len(cols)} cols'
+    zl = lambda xs: '[' + '; '.join(xs) + ']'
+    fl = lambda xs: '[' + '; '.join(f'(f64 ({b}))' for b in xs) + ']'
+    args = (f'{cols[0]} (f64 ({cols[1]})) {fl(cols[2:6])} '
+            f'(f64 ({cols[6]})) (f64 ({cols[7]})) (f64 ({cols[8]}))')
+    return lemma(idx, f'{FUN} {args}\n  = {zl(cols[9:20])}')
+
+# ---- CS_TrgtP2P_Ini：61 列 = wm F_P2PType（2 整数）
+#      + 45 输入 bits64 + 14 输出 bits64（输出为扁平 list Z） ----
+
+def emit_cs_trgtp2p_ini(idx, cols):
+    assert len(cols) == 61, f'line {idx}: {len(cols)} cols'
+    zl = lambda xs: '[' + '; '.join(xs) + ']'
+    fl = lambda xs: '[' + '; '.join(f'(f64 ({b}))' for b in xs) + ']'
+    args = (f'{cols[0]} {cols[1]} {fl(cols[2:20])} {fl(cols[20:38])} '
+            f'{fl(cols[38:47])}')
+    return lemma(idx, f'{FUN} {args}\n  = {zl(cols[47:61])}')
+
 EMITTERS = {
     'PseudoRate': emit_pseudorate,
     'ThreeAxisController': emit_threeaxiscontroller,
@@ -284,6 +308,8 @@ EMITTERS = {
     # CS_TrgtAtt_OCM 与 EIM 列布局相同（58 列），复用同一发射器
     'CS_TrgtAtt_OCM': emit_cs_trgtatt_eim,
     'CS_TrgtAtt_NWM_USU': emit_cs_trgtatt_nwm_usu,
+    'CS_PrecessionNutationCal': emit_cs_precessionnutationcal,
+    'CS_TrgtP2P_Ini': emit_cs_trgtp2p_ini,
 }
 
 def main():

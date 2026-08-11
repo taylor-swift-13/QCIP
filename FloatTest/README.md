@@ -569,11 +569,12 @@ Flocq 只能计算 IEEE 四则运算与 sqrt（`Bsqrt`），**算不了三角函
      实现，纯算术，最重但非不可能）
 - ~~做不了（trig/exp 依赖，15 题）~~ **三角题已破题（2026-08-05，
   见 §17）**：sin/cos 已用 musl 确定化移植解决，CS_TrgtAtt_AMM_Exp /
-  EIM / AHM_USU / OCM / NWM_USU 五题完成（后两题 2026-08-09）；
+  EIM / AHM_USU / OCM / NWM_USU / CS_PrecessionNutationCal /
+  CS_TrgtP2P_Ini 七题完成（OCM/NWM_USU 2026-08-09，
+  PrecessionNutationCal/TrgtP2P_Ini 2026-08-11）；
   asin/atan2/exp 仍未移植，依赖它们的输出
-  打桩规避。剩余 10 题：CS_TrgtP2P_Ini/Tar_Init、
-  CS_Track_Plan/Atti、CS_TrgtAtt_AMM_2NoSAR、
-  CS_Gyro_Att_Predict、CS_Ctrl_Att_Rate、CS_PrecessionNutationCal、
+  打桩规避。剩余 8 题：CS_TrgtP2P_Tar_Init、CS_Track_Plan/Atti、
+  CS_TrgtAtt_AMM_2NoSAR、CS_Gyro_Att_Predict、CS_Ctrl_Att_Rate、
   CS_IRES_Attitude、CS_OrbitComputation。
 
 ### CS_ObtCtrl_OrbJetOut（2026-07-24）
@@ -720,3 +721,29 @@ out_eq64 口径两侧均视为相等）。
 真实代码而非重建假设；m_WorkMode 是结构体字段真实使用（非裸全局）；
 C2Angle123（asin/atan2 未移植）打空操作桩、A_Ref_si 移出比较集。
 本题是 MSVCRT sqrt 误舍入的发现现场（见上节）。
+
+### CS_PrecessionNutationCal（2026-08-11）
+
+> 产物归档 `OUTPUT/iplib/CS_PrecessionNutationCal/`（含中文 README）。
+
+**1016/1016 通过**（16 定向 + 1000 随机），阴性自检正确报错。
+语义：岁差章动矩阵（FS==1 时 IAU1976 岁差 + 1980 章动全链路，
+否则四元数→Q2C 或单位阵+F_qJDerr=1 三分支）。本题重建假设是
+iplib 批次迄今最重的：**CPN_POLY 宏全库无定义**，按"朴素逐项
+多项式 + ARC2RAD 角秒→弧度"重建（IAU 系数角秒、下游弧度域，
+转换只可能在被裁掉的宏里，README 置顶声明）；Rx/Ry/Rz 取
+Vallado/IAU 被动元旋转（与 EIM 的 1 轴元旋转一致）。sin/cos/sqrt
+均为 musl 移植，章动角参数 ~10⁴ rad 远在移植域内。三分支覆盖
+549/146/321。
+
+### CS_TrgtP2P_Ini（2026-08-11）
+
+> 产物归档 `OUTPUT/iplib/CS_TrgtP2P_Ini/`（含中文 README）。
+
+**1013/1013 通过**（13 定向 + 1000 随机），阴性自检正确报错。
+语义：双表查表（dChimax/amax 按 F_P2PType）+ wm 三分支 +
+C2Q(Cro) + qro0 透传。两个 mode callee 打桩（OrbCtl_Ini 全库无
+实现、Tar_Init 为兄弟 case 待单独测试），打桩后 **wm 不影响输出**，
+spec 如实建模（wm 进签名不参与计算），该性质本身被全向量验证。
+wm 覆盖 187/391/435（与打桩计数一致）、F_P2PType 0..5 全覆盖、
+C2Q 四分支全命中。WKMD_OAM=0x55 新替身，WKMD_AMM=0x44 沿用。
