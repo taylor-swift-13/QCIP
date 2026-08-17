@@ -34,6 +34,13 @@ FUN_NAMES = {
     'CS_TrgtP2P_Tar_Init': 'cs_TrgtP2P_Tar_Init_fun',
     'CS_TrgtAtt_OCM': 'cs_TrgtAtt_OCM_fun',
     'CS_Track_Atti': 'cs_Track_Atti_fun',
+    'CS_Gyro_Att_Predict': 'cs_Gyro_Att_Predict_fun',
+    'CS_TrgtAtt_AMM_2NoSAR': 'cs_TrgtAtt_AMM_2NoSAR_fun',
+    'CS_Track_Plan': 'cs_Track_Plan_fun',
+    'CS_Ctrl_Att_Rate': 'cs_Ctrl_Att_Rate_fun',
+    'CS_OrbitComputation': 'cs_OrbitComputation_fun',
+    'CS_IRES_Attitude': 'cs_IRES_Attitude_fun',
+    'CS_AttCtrl_Propel': 'cs_AttCtrl_Propel_fun',
 }
 FUN = FUN_NAMES.get(CASE, CASE[0].lower() + CASE[1:] + '_fun')
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -324,6 +331,88 @@ def emit_cs_track_atti(idx, cols):
                 f'{zl(cols[57:60])}, {zl(cols[60:63])}, {cols[63]})')
     return lemma(idx, f'{FUN} {args}\n  = {expected}')
 
+# ---- CS_Gyro_Att_Predict：56 列 = wm+seq14 + 20 输入 bits64
+#      + 21 输出 bits64（w/wbo/rate/A/Cbo） ----
+
+def emit_cs_gyro_att_predict(idx, cols):
+    assert len(cols) == 56, f'line {idx}: {len(cols)} cols'
+    zl = lambda xs: '[' + '; '.join(xs) + ']'
+    fl = lambda xs: '[' + '; '.join(f'(f64 ({b}))' for b in xs) + ']'
+    args = (f'{cols[0]} {zl(cols[1:15])} {fl(cols[15:18])} '
+            f'{fl(cols[18:21])} {fl(cols[21:24])} {fl(cols[24:27])} '
+            f'{fl(cols[27:30])} {fl(cols[30:33])} '
+            f'(f64 ({cols[33]})) (f64 ({cols[34]}))')
+    return lemma(idx, f'{FUN} {args}\n  = {zl(cols[35:56])}')
+
+# ---- CS_TrgtAtt_AMM_2NoSAR：87 列 = 46 输入 bits64 + 38 输出 bits64/3 tags ----
+
+def emit_cs_trgtatt_amm_2nosar(idx, cols):
+    assert len(cols) == 87, f'line {idx}: {len(cols)} cols'
+    zl = lambda xs: '[' + '; '.join(xs) + ']'
+    fl = lambda xs: '[' + '; '.join(f'(f64 ({b}))' for b in xs) + ']'
+    args = (f'{fl(cols[0:4])} {fl(cols[4:8])} '
+            f'(f64 ({cols[8]})) (f64 ({cols[9]})) '
+            f'{fl(cols[10:19])} {fl(cols[19:28])} {fl(cols[28:37])} '
+            f'{fl(cols[37:40])} {fl(cols[40:43])} {fl(cols[43:46])}')
+    return lemma(idx, f'{FUN} {args}\n  = {zl(cols[46:87])}')
+
+# ---- CS_Track_Plan：9 列 = style + 3 输入 bits64
+#      + call tag/pointer check + 3 个实际转发参数 bits64 ----
+
+def emit_cs_track_plan(idx, cols):
+    assert len(cols) == 9, f'line {idx}: {len(cols)} cols'
+    zl = lambda xs: '[' + '; '.join(xs) + ']'
+    args = (f'{cols[0]} (f64 ({cols[1]})) (f64 ({cols[2]})) '
+            f'(f64 ({cols[3]}))')
+    return lemma(idx, f'{FUN} {args}\n  = {zl(cols[4:9])}')
+
+# ---- CS_Ctrl_Att_Rate：65 列 = 4 个控制整数 + 34 输入 bits64
+#      + 27 输出 bits64 ----
+
+def emit_cs_ctrl_att_rate(idx, cols):
+    assert len(cols) == 65, f'line {idx}: {len(cols)} cols'
+    fl = lambda xs: '[' + '; '.join(f'(f64 ({b}))' for b in xs) + ']'
+    zl = lambda xs: '[' + '; '.join(xs) + ']'
+    args = (f'{cols[0]} {cols[1]} {cols[2]} {cols[3]} '
+            f'{fl(cols[4:7])} {fl(cols[7:10])} {fl(cols[10:13])} '
+            f'{fl(cols[13:16])} {fl(cols[16:25])} {fl(cols[25:29])} '
+            f'{fl(cols[29:32])} {fl(cols[32:35])} {fl(cols[35:38])}')
+    return lemma(idx, f'{FUN} {args}\n  = {zl(cols[38:65])}')
+
+# ---- CS_OrbitComputation：20 列 = 6 输入 bits64 + 3 整数输入
+#      + 11 个控制输出/调用观察 ----
+
+def emit_cs_orbit_computation(idx, cols):
+    assert len(cols) == 20, f'line {idx}: {len(cols)} cols'
+    zl = lambda xs: '[' + '; '.join(xs) + ']'
+    args = (' '.join(f'(f64 ({b}))' for b in cols[0:6])
+            + ' ' + ' '.join(cols[6:9]))
+    return lemma(idx, f'{FUN} {args}\n  = {zl(cols[9:20])}')
+
+# ---- CS_IRES_Attitude：40 列 = 7 个整数 + 18 输入 bits64
+#      + 4 个整数和 11 个 bits64 输出 ----
+
+def emit_cs_ires_attitude(idx, cols):
+    assert len(cols) == 40, f'line {idx}: {len(cols)} cols'
+    zl = lambda xs: '[' + '; '.join(xs) + ']'
+    fl = lambda xs: '[' + '; '.join(f'(f64 ({b}))' for b in xs) + ']'
+    args = (f'{cols[0]} {cols[1]} {cols[2]} {zl(cols[3:5])} {zl(cols[5:7])} '
+            f'{fl(cols[7:9])} {fl(cols[9:11])} {fl(cols[11:15])} '
+            f'{fl(cols[15:19])} {fl(cols[19:21])} {fl(cols[21:25])}')
+    return lemma(idx, f'{FUN} {args}\n  = {zl(cols[25:40])}')
+
+# ---- CS_AttCtrl_Propel：38 列 = kind/selector + 2 输入 bits64 + 7 flags
+#      + 3 times bits64 + 6 jet/state integers + 6 values bits64 + 12 输出 ----
+
+def emit_cs_attctrl_propel(idx, cols):
+    assert len(cols) == 38, f'line {idx}: {len(cols)} cols'
+    zl = lambda xs: '[' + '; '.join(xs) + ']'
+    fl = lambda xs: '[' + '; '.join(f'(f64 ({b}))' for b in xs) + ']'
+    args = (f'{cols[0]} {cols[1]} (f64 ({cols[2]})) (f64 ({cols[3]})) '
+            f'{zl(cols[4:11])} {fl(cols[11:14])} {zl(cols[14:17])} '
+            f'{zl(cols[17:20])} {fl(cols[20:26])}')
+    return lemma(idx, f'{FUN} {args}\n  = {zl(cols[26:38])}')
+
 EMITTERS = {
     'PseudoRate': emit_pseudorate,
     'ThreeAxisController': emit_threeaxiscontroller,
@@ -353,6 +442,13 @@ EMITTERS = {
     'CS_TrgtP2P_Tar_Init': emit_cs_trgtp2p_tar_init,
     'CS_TrgtAtt_OCM': emit_cs_trgtatt_ocm,
     'CS_Track_Atti': emit_cs_track_atti,
+    'CS_Gyro_Att_Predict': emit_cs_gyro_att_predict,
+    'CS_TrgtAtt_AMM_2NoSAR': emit_cs_trgtatt_amm_2nosar,
+    'CS_Track_Plan': emit_cs_track_plan,
+    'CS_Ctrl_Att_Rate': emit_cs_ctrl_att_rate,
+    'CS_OrbitComputation': emit_cs_orbit_computation,
+    'CS_IRES_Attitude': emit_cs_ires_attitude,
+    'CS_AttCtrl_Propel': emit_cs_attctrl_propel,
 }
 
 def main():
@@ -361,6 +457,76 @@ def main():
     out = [HEADER]
     for idx, line in enumerate(lines):
         out.append(emit(idx, line.split()))
+    if CASE == 'CS_Gyro_Att_Predict':
+        first = lines[0].split()
+        args = emit(0, first).split(' :\n  ', 1)[1].split('\n  = ', 1)[0]
+        wrong = first[35:56].copy()
+        wrong[0] = str(int(wrong[0]) ^ 1)
+        out.append(f'''\nExample negative_control_wrong_expected :
+  {args}
+  <> [{"; ".join(wrong)}].
+Proof. vm_compute. discriminate. Qed.
+''')
+    if CASE == 'CS_TrgtAtt_AMM_2NoSAR':
+        first = lines[0].split()
+        args = emit(0, first).split(' :\n  ', 1)[1].split('\n  = ', 1)[0]
+        wrong = first[46:87].copy()
+        wrong[0] = str(int(wrong[0]) ^ 1)
+        out.append(f'''\nExample negative_control_wrong_expected :
+  {args}
+  <> [{"; ".join(wrong)}].
+Proof. vm_compute. discriminate. Qed.
+''')
+    if CASE == 'CS_Track_Plan':
+        first = lines[0].split()
+        args = emit(0, first).split(' :\n  ', 1)[1].split('\n  = ', 1)[0]
+        wrong = first[4:9].copy()
+        wrong[0] = str(int(wrong[0]) ^ 1)
+        out.append(f'''\nExample negative_control_wrong_expected :
+  {args}
+  <> [{"; ".join(wrong)}].
+Proof. vm_compute. discriminate. Qed.
+''')
+    if CASE == 'CS_Ctrl_Att_Rate':
+        first = lines[0].split()
+        args = emit(0, first).split(' :\n  ', 1)[1].split('\n  = ', 1)[0]
+        wrong = first[38:65].copy()
+        wrong[0] = str(int(wrong[0]) ^ 1)
+        out.append(f'''\nExample negative_control_wrong_expected :
+  {args}
+  <> [{"; ".join(wrong)}].
+Proof. vm_compute. discriminate. Qed.
+''')
+    if CASE == 'CS_OrbitComputation':
+        first = lines[0].split()
+        args = emit(0, first).split(' :\n  ', 1)[1].split('\n  = ', 1)[0]
+        wrong = first[9:20].copy()
+        wrong[0] = str(int(wrong[0]) ^ 1)
+        out.append(f'''\nExample negative_control_wrong_expected :
+  {args}
+  <> [{"; ".join(wrong)}].
+Proof. vm_compute. discriminate. Qed.
+''')
+    if CASE == 'CS_IRES_Attitude':
+        first = lines[0].split()
+        args = emit(0, first).split(' :\n  ', 1)[1].split('\n  = ', 1)[0]
+        wrong = first[25:40].copy()
+        wrong[0] = str(int(wrong[0]) ^ 1)
+        out.append(f'''\nExample negative_control_wrong_expected :
+  {args}
+  <> [{"; ".join(wrong)}].
+Proof. vm_compute. discriminate. Qed.
+''')
+    if CASE == 'CS_AttCtrl_Propel':
+        first = lines[0].split()
+        args = emit(0, first).split(' :\n  ', 1)[1].split('\n  = ', 1)[0]
+        wrong = first[26:38].copy()
+        wrong[0] = str(int(wrong[0]) ^ 1)
+        out.append(f'''\nExample negative_control_wrong_expected :
+  {args}
+  <> [{"; ".join(wrong)}].
+Proof. vm_compute. discriminate. Qed.
+''')
     if CASE == 'PseudoRate':
         first = lines[0].split()
         pu, r, h1 = first[0:3], first[3:6], first[6:9]

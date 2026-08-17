@@ -6,6 +6,8 @@
 
 # Skill Routing
 
+- `floattest-iplib-testing`
+  由主 agent 用于盘点 `INPUT/iplib` / `OUTPUT/iplib`、新增或复现 FloatTest 位级差分测试、运行固定 Rocq 检查并归档测试证据；该流程不进入 annotation / symbolic execution 验证状态机。
 - `verification-orchestrator`
   固定由主agent使用，定义单个 run 的 controller 状态机、round worktree chain、JSON handoff files、`case_lib` contract、group-worker 调度和 stale 传播规则。
 - `annotation-filling`

@@ -46,6 +46,7 @@ FIXED_R_MAPPINGS: tuple[tuple[str, str], ...] = (
 FIXED_Q_MAPPINGS: tuple[tuple[str, str], ...] = (
     ("SeparationLogic/algorithms", "Algorithms"),
     ("FloatTest", "FloatTest"),
+    ("OUTPUT/iplib", "OUTPUT.iplib"),
 )
 FIXED_COQC = "coqc"
 FIXED_COQTOP = "coqtop"

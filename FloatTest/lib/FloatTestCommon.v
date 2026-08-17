@@ -75,6 +75,32 @@ Definition out_eq64 (x y : fp64) : bool :=
 (* 由 C 的 bit pattern 构造 fp64 常量 *)
 Definition f64 (bits : Z) : fp64 := b64_of_bits bits.
 
+(* C 的 double -> float 与 float -> double 转换。有限值按最近偶数舍入；
+ * widening 对 binary32 是精确的。NaN 统一使用本仓库 canonical NaN，
+ * 与 out_eq/out_eq64 的 NaN 比较口径一致。 *)
+Definition fp64_to_fp32_ne (x : fp64) : fp32 :=
+  match x with
+  | @Binary.B754_zero _ _ s => @Binary.B754_zero 24 128 s
+  | @Binary.B754_infinity _ _ s => @Binary.B754_infinity 24 128 s
+  | @Binary.B754_nan _ _ _ _ _ => fp32_nan
+  | @Binary.B754_finite _ _ s m e _ =>
+      Binary.binary_normalize 24 128 eq_refl eq_refl mode_NE
+        (if s then Zneg m else Zpos m) e s
+  end.
+
+Definition fp32_to_fp64_exact (x : fp32) : fp64 :=
+  match x with
+  | @Binary.B754_zero _ _ s => @Binary.B754_zero 53 1024 s
+  | @Binary.B754_infinity _ _ s => @Binary.B754_infinity 53 1024 s
+  | @Binary.B754_nan _ _ _ _ _ => fp64_nan
+  | @Binary.B754_finite _ _ s m e _ =>
+      Binary.binary_normalize 53 1024 eq_refl eq_refl mode_NE
+        (if s then Zneg m else Zpos m) e s
+  end.
+
+Definition fp64_via_fp32 (x : fp64) : fp64 :=
+  fp32_to_fp64_exact (fp64_to_fp32_ne x).
+
 (* fp64 平方根：Bsqrt 53 1024 mode_NE。IEEE-754 强制 sqrt 正确舍入，
  * 与硬件 sqrtsd / 正确实现的 libm sqrt 逐比特一致。 *)
 Definition fp64_sqrt : fp64 -> fp64 :=

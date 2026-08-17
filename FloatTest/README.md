@@ -573,10 +573,12 @@ Flocq 只能计算 IEEE 四则运算与 sqrt（`Bsqrt`），**算不了三角函
   CS_TrgtP2P_Ini / CS_TrgtP2P_Tar_Init / CS_TrgtAtt_OCM /
   CS_Track_Atti 十题完成（OCM/NWM_USU/TrgtP2P_Tar_Init/TrgtAtt_OCM/
   Track_Atti 2026-08-09/10，PrecessionNutationCal/TrgtP2P_Ini
-  2026-08-11）；asin/atan2/exp 仍未移植，依赖它们的输出
-  打桩规避。剩余 6 题：CS_TrgtAtt_AMM_2NoSAR、CS_Gyro_Att_Predict、
-  CS_Ctrl_Att_Rate、CS_IRES_Attitude、CS_OrbitComputation、
-  CS_Track_Plan。
+  2026-08-11，Gyro_Att_Predict/TrgtAtt_AMM_2NoSAR 2026-08-13）；
+  asin/atan2/exp 仍未移植，依赖它们的输出打桩规避。CS_Track_Plan 于
+  2026-08-17 完成；CS_Ctrl_Att_Rate 同日完成。按 `OUTPUT/iplib` 实际
+  交付目录统计；CS_OrbitComputation、CS_IRES_Attitude 和
+  CS_AttCtrl_Propel 也于同日完成。至此 `INPUT/iplib` 的 24 个 case 均有
+  对应 `OUTPUT/iplib` 测试交付；各 case 的未覆盖组件仍以其 README 为准。
 
 ### CS_ObtCtrl_OrbJetOut（2026-07-24）
 
@@ -769,3 +771,74 @@ C2Q(Cro) + qro0 透传。两个 mode callee 打桩（OrbCtl_Ini 全库无
 spec 如实建模（wm 进签名不参与计算），该性质本身被全向量验证。
 wm 覆盖 187/391/435（与打桩计数一致）、F_P2PType 0..5 全覆盖、
 C2Q 四分支全命中。WKMD_OAM=0x55 新替身，WKMD_AMM=0x44 沿用。
+
+### CS_Gyro_Att_Predict（2026-08-13）
+
+> 产物归档 `OUTPUT/iplib/CS_Gyro_Att_Predict/`（含中文 README）。
+
+**1013/1013 通过**（13 定向 + 1000 随机），阴性自检正确报错。
+覆盖六种 `Angle2C/w2dEuler` 转序、非法转序、六个近奇异角保护、角速度
+和最终姿态角限幅。`ModPNHP` 按真实 `float` 签名建模 binary64→binary32
+→binary64 转换；向量限制在不发生周期回绕的域。共享姿态公式已提取到
+`FloatTest/lib/FloatAttitude.v`，与 C 侧 `iplib_attitude_helpers.c` 对齐。
+
+### CS_TrgtAtt_AMM_2NoSAR（2026-08-13）
+
+> 产物归档 `OUTPUT/iplib/CS_TrgtAtt_AMM_2NoSAR/`（含中文 README）。
+
+**1005/1005 通过**（5 定向 + 1000 随机），阴性自检正确报错。
+真实覆盖 QMulti、Q2C、矩阵组合、漂移 sin/cos、C2Q 四分支以及
+`wri/wro` 传播。应用钩子和依赖 asin/atan2 的 C2Angle123 显式打桩，
+并将调用计数纳入输出。上游头文件含重复结构体成员，故以只声明活跃字段的
+clean wrapper 编译原始函数体，未修改输入源码。
+
+### CS_Track_Plan（2026-08-17）
+
+> 产物归档 `OUTPUT/iplib/CS_Track_Plan/`（含中文 README）。
+
+**1005/1005 通过**（5 条定向 + 1000 条随机），阴性自检正确报错。
+真实覆盖 `FS_MnvTraceStyle` 0/1/2/3/其他值的顶层分派、`mTrack` 指针身份
+和 binary64 参数转发。仓库缺失 `SMnvrData` 定义以及三个轨迹算法和扩展
+hook，实现侧使用 clean type wrapper 与可观察桩；结论明确只覆盖原始顶层
+函数体，不宣称三个缺失轨迹算法的内部行为。
+
+### CS_Ctrl_Att_Rate（2026-08-17）
+
+> 产物归档 `OUTPUT/iplib/CS_Ctrl_Att_Rate/`（含中文 README）。
+
+**1018/1018 通过**（18 条定向 + 1000 条随机），阴性自检正确报错。
+覆盖 `FS_ModeProc=2`、`FS_AttD=0..4`、BMC/非 BMC、六种 Angle2C 转序和
+非法转序，逐位比较 27 个闭环/控制输出。相较历史 cfg_target 的 35 条
+ModeProc=2 直接复制样本，本交付补齐了普通选择和误差计算主路径。
+`FP_Qctrl=1` 依赖未移植 asin，显式排除；非 BMC 的 ModPNHP 输入限制在
+无需周期回绕的域。
+
+### CS_OrbitComputation（2026-08-17）
+
+> 产物归档 `OUTPUT/iplib/CS_OrbitComputation/`（含中文 README）。
+
+**1007/1007 通过**（7 条定向 + 1000 条随机），阴性自检正确报错。
+确定性抽取原始顶层函数，覆盖轨道时间有效性、0.7 未注入阈值、异常标志、
+无轨道计数、`w0i` 和地固系经度更新；四个下游调用次数也纳入输出。
+OrbitCalculate/SunEphemerisCalculate 内部算法、轨道参数更新、保护回退和岁差
+路径在本交付中显式隔离，不冒充已验证。
+
+### CS_IRES_Attitude（2026-08-17）
+
+> 产物归档 `OUTPUT/iplib/CS_IRES_Attitude/`（含中文 README）。
+
+**1006/1006 通过**（6 条定向 + 1000 条随机），阴性自检正确报错。
+覆盖顶层无传感器清标志路径，以及 `IRES_DataProcess` 的 0/1/2 个有效
+传感器、融合、误差向量、历史推进、滤波和限幅。StaticIresConvert/Modify
+未覆盖；原始 Modify 中 `devangle[i]` 使用可能未初始化的 `i`，gcc 警告和
+测试边界均已记录，未修改输入源码。
+
+### CS_AttCtrl_Propel（2026-08-17）
+
+> 产物归档 `OUTPUT/iplib/CS_AttCtrl_Propel/`（含中文 README）。
+
+**1014/1014 通过**（14 条定向 + 1000 条随机），阴性自检正确报错。
+直接执行原始 C 的 `CS_ThrParamCfgX`、`CS_AttCtrl_JetCrossCtrl/Sub` 和
+`CS_FindMinMaxPos`，覆盖五种配置结果、三种交叉轴对/无操作、乘积阈值、
+顺序状态更新，以及长度 0..6 的非零极值搜索。相平面、脉冲计算和 12
+喷管分配未纳入本批测试结论。

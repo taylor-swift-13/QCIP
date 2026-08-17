@@ -120,6 +120,30 @@ void C2Q(double *out, const double *m)
 	}
 }
 
+void Q2C(double *o, const double *q)
+{
+	double q1 = q[0], q2 = q[1], q3 = q[2], q4 = q[3];
+	o[0] = 1.0 - 2.0 * (q2*q2 + q3*q3);
+	o[1] = 2.0 * (q1*q2 - q3*q4);
+	o[2] = 2.0 * (q1*q3 + q2*q4);
+	o[3] = 2.0 * (q1*q2 + q3*q4);
+	o[4] = 1.0 - 2.0 * (q1*q1 + q3*q3);
+	o[5] = 2.0 * (q2*q3 - q1*q4);
+	o[6] = 2.0 * (q1*q3 - q2*q4);
+	o[7] = 2.0 * (q2*q3 + q1*q4);
+	o[8] = 1.0 - 2.0 * (q1*q1 + q2*q2);
+}
+
+void QMulti(double *o, const double *p, const double *q)
+{
+	double t[4];
+	t[0] = p[3]*q[0] + q[3]*p[0] + (p[1]*q[2] - p[2]*q[1]);
+	t[1] = p[3]*q[1] + q[3]*p[1] + (p[2]*q[0] - p[0]*q[2]);
+	t[2] = p[3]*q[2] + q[3]*p[2] + (p[0]*q[1] - p[1]*q[0]);
+	t[3] = p[3]*q[3] - ((p[0]*q[0] + p[1]*q[1]) + p[2]*q[2]);
+	memcpy(o, t, sizeof t);
+}
+
 void MatrixIdentity33(double *out)
 {
 	unsigned i;
