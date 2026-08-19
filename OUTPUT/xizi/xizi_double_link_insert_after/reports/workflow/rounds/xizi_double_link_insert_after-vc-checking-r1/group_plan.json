@@ -1,0 +1,63 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "e2e9be8a2fca9b41961acf47b5ae65d910e67ce0b050c9a5eb5644b5936937a2",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_insert_after_entail_wit_1",
+    "proof_of_xizi_double_link_insert_after_return_wit_1",
+    "proof_of_xizi_double_link_insert_after_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "insert_after_cut_join",
+      "witness_names": [
+        "proof_of_xizi_double_link_insert_after_entail_wit_1",
+        "proof_of_xizi_double_link_insert_after_return_wit_1",
+        "proof_of_xizi_double_link_insert_after_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_insert_after_entail_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "Process the current witnesses in manual order as one cut/join family. For entail_wit_1, preserve or reconstruct the current local first_occurrence, insert_first, links_neq, and split_at_anchor arguments; open xizi_dll, split at the first anchor occurrence, and select the nil/nonempty suffix disjunct. For return_wit_1, rewrite nodes_after and the abstract result, normalize field stores into xizi_dll_links, prepend old_next to rest, join prefix with anchor and inserted, and close the circular DLL. For return_wit_2, use the same join family with an empty suffix and sentinel last=inserted. The current complete proof bodies are statement-matched proof candidates; validate them with group-check and adapt locally if fixed compilation feedback requires it. No case_lib helper is expected.",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_insert_after_entail_wit_1": "derive first occurrence from In; open xizi_dll; recursively split xizi_dllseg at the anchor; case nodes_after; instantiate the appropriate disjunct; rewrite xizi_double_link_insert_after_nodes with insert_first; cancel fields and preserve xizi_dll_node",
+        "proof_of_xizi_double_link_insert_after_return_wit_1": "subst nodes_after; rewrite PreH4; normalize links; prepend old_next to rest; join anchor+inserted+suffix after the prefix; apply xizi_dll_close",
+        "proof_of_xizi_double_link_insert_after_return_wit_2": "subst empty suffix; rewrite PreH4; normalize links; add the empty tail segment at head; join anchor+inserted after the prefix; apply xizi_dll_close with last=inserted"
+      },
+      "premise_discharge": {
+        "membership_and_first_occurrence": "entail PreH1 plus structural list induction",
+        "abstract_insert_equality": "structural induction over the first-occurrence prefix for entail, and generated PreH4 for both returns",
+        "nonnullness": "xizi_dll/xizi_dllseg/xizi_dll_node ownership for entail; explicit generated PreH6-PreH9 or PreH6-PreH8 for returns",
+        "segment_disequalities": "separated xizi_dll_links resources, contradicted on equality via imported dup_store_ptr",
+        "spatial_resources": "all sentinel, prefix, anchor, inserted, suffix-head and tail resources occur in the current P assertions"
+      },
+      "grouping_reason": "The targets are the open/cut and two close branches of one insert-after proof pattern. They use the same circular-DLL segment definitions and local join family, have no dependency cycle, and the single group size 3 is within max_witnesses_per_group=12.",
+      "difficulty": "medium",
+      "confidence": "high"
+    }
+  ],
+  "dependencies": [],
+  "likely_helper_declarations": [],
+  "blockers": [],
+  "grouping_reason": "One cohesive proof group minimizes worker count while respecting semantic boundaries: all three targets share the same function, abstract list transformation, prefix/anchor/suffix cut, and DLL join/close helper pattern.",
+  "grouping_policy_evidence": {
+    "controller_policy": "bounded-witness-groups/v1",
+    "target_witness_count": 3,
+    "proof_group_count": 1,
+    "max_witnesses_per_group": 12,
+    "largest_group_size": 3,
+    "balanced_grouping_required": "yes",
+    "policy_satisfied": true
+  },
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

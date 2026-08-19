@@ -1,17 +1,15 @@
 #include "verification_stdlib.h"
 #include "verification_list.h"
-#include "xizi_single_link_def.h"
+#include "../../xizi_single_link_common/source/xizi_single_link_def.h"
 
 SysSingleLinklistType *xizi_single_link_next(SysSingleLinklistType *linklist_node)
-/*@ With next l
+/*@ With l
     Require
-      linklist_node != 0 &&
-      (linklist_node -> node_next == next) *
-      xizi_sll(next, l)
+      In(linklist_node, l) &&
+      xizi_sll(xizi_sll_first_value(l), l)
     Ensure
-      __return == next &&
-      (linklist_node -> node_next == next) *
-      xizi_sll(next, l)
+      __return == xizi_sll_next_value(l, linklist_node) &&
+      xizi_sll(xizi_sll_first_value(l), l)
 */
 {
     return linklist_node->node_next;

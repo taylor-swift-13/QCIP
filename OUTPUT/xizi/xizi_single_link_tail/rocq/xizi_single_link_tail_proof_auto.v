@@ -10,7 +10,7 @@ Require Import Coq.Sorting.Permutation.
 From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
 Require Import SetsClass.SetsClass. Import SetsNotation.
 From SimpleC.SL Require Import Mem SeparationLogic.
-From QCIPCases.xizi.xizi_single_link_tail Require Import xizi_single_link_tail_goal.
+From SimpleC.EE.OUTPUT.xizi.xizi_single_link_tail.rocq Require Import xizi_single_link_tail_goal.
 Require Import Logic.LogicGenerator.demo932.Interface.
 Local Open Scope Z_scope.
 Local Open Scope sets.
@@ -19,4 +19,10 @@ Local Open Scope list.
 Import naive_C_Rules.
 From QCIPLib.xizi.xizi_single_link_common Require Import xizi_single_link_lib.
 Local Open Scope sac.
+
+Lemma proof_of_xizi_single_link_tail_safety_wit_1 : xizi_single_link_tail_safety_wit_1.
+Proof. Admitted. 
+
+Lemma proof_of_xizi_single_link_tail_partial_solve_wit_1 : xizi_single_link_tail_partial_solve_wit_1.
+Proof. Admitted. 
 

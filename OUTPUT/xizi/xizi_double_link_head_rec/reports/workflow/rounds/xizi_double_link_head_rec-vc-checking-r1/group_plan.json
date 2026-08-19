@@ -1,0 +1,54 @@
+{
+  "schema_version": "qcp-group-plan/v1",
+  "source_goal_version": "9588c9ac37d5999533c4248e84d2b2d894aa8a5403d22e5affd55220e0fdf040",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_head_rec_return_wit_1",
+    "proof_of_xizi_double_link_head_rec_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "dll_head_rec_empty_nonempty_observation",
+      "witness_names": [
+        "proof_of_xizi_double_link_head_rec_return_wit_1",
+        "proof_of_xizi_double_link_head_rec_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_head_rec_return_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "Use the first generated disjunct in both witnesses. For return_wit_1, first = sentinel rules out every cons dllseg branch, so nodes=nil and first_value=0; combine the sentinel stores and unchanged segment using xizi_dll_close. Replace the obsolete `simpl xizi_double_link_head_rec_value` with direct simplification of xizi_double_link_first_value. For return_wit_2, first <> sentinel rules out nil; the nonempty dllseg expected-node equality makes first the abstract list head, and the same xizi_dll_close route preserves ownership. No case_lib helper is needed.",
+      "natural_language_proof_strategy": "The recursive implementation has the same public mathematics as the non-recursive head query. Use only the sentinel-headed segment invariant: equal start/stop means empty; distinct start/stop means the start is the first abstract node. Do not introduce a recursive-value interface or mirror the C branch.",
+      "grouping_reason": "Same function, complementary sentinel equality cases, identical first_value semantics and xizi_dll_close ownership route, no dependencies, and only two witnesses within max_witnesses_per_group = 12.",
+      "confidence": "high",
+      "difficulty": "low",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_head_rec_return_wit_1": {
+          "judgment": "proofable",
+          "route": "first = sentinel forces nil; first_value=0; xizi_dll_close"
+        },
+        "proof_of_xizi_double_link_head_rec_return_wit_2": {
+          "judgment": "proofable",
+          "route": "first <> sentinel forces cons headed by first; first_value=first; xizi_dll_close"
+        }
+      },
+      "premise_discharge": {
+        "empty_sequence": "nonempty dllseg guard contradicts first = linklist_pre",
+        "nonempty_sequence": "nil dllseg equality contradicts first <> linklist_pre",
+        "head_value": "nonempty dllseg expected-node equality plus xizi_double_link_first_value definition",
+        "sentinel_nonnull": "generated PreH2",
+        "ownership_preservation": "xizi_dll_close over existing sentinel stores and unchanged segment"
+      }
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 2,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

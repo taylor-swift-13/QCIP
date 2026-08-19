@@ -1,0 +1,77 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "994d2a96258574f994ceefbcece3a4217e0aff418d79b4d8f268d2ece3816455",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_init_then_insert_before_return_wit_1",
+    "proof_of_xizi_double_link_insert_before_derive_sentinel_case_by_dispatch_case",
+    "proof_of_xizi_double_link_insert_before_derive_member_case_by_dispatch_case"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "return_normalization",
+      "witness_names": [
+        "proof_of_xizi_double_link_init_then_insert_before_return_wit_1"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_init_then_insert_before_return_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "Select the first disjunct, introduce its universally quantified variables, substitute nodes = nil from PreH3, simplify nil ++ [linklist_node_pre], and close the resulting identity separation entailment.",
+      "grouping_reason": "Independent return/list-normalization proof pattern; separated from dispatch existential and wand obligations.",
+      "difficulty": "low",
+      "confidence": "high"
+    },
+    {
+      "group_id": "dispatch_case_derivations",
+      "witness_names": [
+        "proof_of_xizi_double_link_insert_before_derive_sentinel_case_by_dispatch_case",
+        "proof_of_xizi_double_link_insert_before_derive_member_case_by_dispatch_case"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_insert_before_derive_sentinel_case_by_dispatch_case",
+      "dependencies": [],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "xizi_dllseg_stop_not_in",
+          "statement_shape": "forall node prev stop last nodes, xizi_dllseg node prev stop last nodes |-- \u201c ~ In stop nodes \u201d",
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "xizi_dll_head_not_in",
+          "statement_shape": "forall head nodes, xizi_dll head nodes |-- \u201c ~ In head nodes \u201d",
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "xizi_insert_before_absent_append",
+          "statement_shape": "forall nodes anchor inserted, ~ In anchor nodes -> xizi_double_link_insert_before_nodes nodes anchor inserted = nodes ++ inserted :: nil",
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        }
+      ],
+      "expected_helpers": [
+        "xizi_dllseg_stop_not_in__dispatch_case_derivations",
+        "xizi_dll_head_not_in__dispatch_case_derivations",
+        "xizi_insert_before_absent_append__dispatch_case_derivations"
+      ],
+      "proof_strategy": "Prove the three suffixed sentinel helper declarations in the group-local case_lib. For sentinel_case, derive head absence from xizi_dll, instantiate dispatch head/nodes with the sentinel source view, rewrite insert_before_nodes to append, and close the identity wand. For member_case, instantiate with head_member_case/nodes_member_case, use the In premise for anchor admissibility, and directly close the identical wand.",
+      "premise_discharge": {
+        "sentinel_absence": "xizi_dll_open plus induction on xizi_dllseg; every nonempty cell provides node <> stop",
+        "absent_anchor_append": "the derived ~ In sentinel nodes discharges the pure list helper premise",
+        "member_anchor": "the witness In hypothesis discharges the left anchor branch",
+        "wand_posts": "become identity entailments after same-view instantiation and, for sentinel, list rewrite"
+      },
+      "grouping_reason": "Both witnesses are dispatch_case derivations with the same existential/resource/wand skeleton and fit comfortably under the 12-witness limit; keeping them together localizes the sentinel helper family without creating a dependency edge.",
+      "difficulty": "medium",
+      "confidence": "high"
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

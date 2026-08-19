@@ -25,28 +25,40 @@ From QCIPLib.xizi.xizi_single_link_common Require Import xizi_single_link_strate
 
 Definition xizi_single_link_insert_after_return_wit_1 := 
 (
-forall (linklist_node_pre: Z) (linklist_pre: Z) (l: (@list Z)) (first: Z) (PreH1 : (linklist_pre <> 0)) (PreH2 : (linklist_node_pre <> 0)) ,
+forall (linklist_node_pre: Z) (linklist_pre: Z) (l: (@list Z)) (q: Z) (PreH1 : (linklist_node_pre <> 0)) (PreH2 : (linklist_pre <> 0)) ,
   ((&((linklist_pre)  # "SingleLinklistNode" ->ₛ "node_next")) # Ptr  |-> linklist_node_pre)
-  **  (xizi_sll first l )
-  **  ((&((linklist_node_pre)  # "SingleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
+  **  ((&((linklist_node_pre)  # "SingleLinklistNode" ->ₛ "node_next")) # Ptr  |-> q)
+  **  (xizi_sll q l )
 |--
-  ((&((linklist_pre)  # "SingleLinklistNode" ->ₛ "node_next")) # Ptr  |-> linklist_node_pre)
-  **  (xizi_sll linklist_node_pre (cons (linklist_node_pre) (l)) )
+  (xizi_sll_head linklist_pre (cons (linklist_node_pre) (l)) )
 ) \/
 (
-forall (linklist_node_pre: Z) (linklist_pre: Z) (l: (@list Z)) (first: Z) (PreH1 : (linklist_pre <> 0)) (PreH2 : (linklist_node_pre <> 0)) ,
-  (xizi_sll first l )
-  **  ((&((linklist_node_pre)  # "SingleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
+forall (linklist_node_pre: Z) (linklist_pre: Z) (l: (@list Z)) (q: Z) (PreH1 : (linklist_node_pre <> 0)) (PreH2 : (linklist_pre <> 0)) ,
+  ((&((linklist_node_pre)  # "SingleLinklistNode" ->ₛ "node_next")) # Ptr  |-> q)
+  **  (xizi_sll q l )
 |--
   (xizi_sll linklist_node_pre (cons (linklist_node_pre) (l)) )
 ).
 
 Definition xizi_single_link_insert_after_return_wit_1_split_goal_spatial := 
-forall (linklist_node_pre: Z) (linklist_pre: Z) (l: (@list Z)) (first: Z) (PreH1 : (linklist_pre <> 0)) (PreH2 : (linklist_node_pre <> 0)) ,
-  (xizi_sll first l )
-  **  ((&((linklist_node_pre)  # "SingleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
+forall (linklist_node_pre: Z) (linklist_pre: Z) (l: (@list Z)) (q: Z) (PreH1 : (linklist_node_pre <> 0)) (PreH2 : (linklist_pre <> 0)) ,
+  ((&((linklist_node_pre)  # "SingleLinklistNode" ->ₛ "node_next")) # Ptr  |-> q)
+  **  (xizi_sll q l )
 |--
   (xizi_sll linklist_node_pre (cons (linklist_node_pre) (l)) )
+.
+
+Definition xizi_single_link_insert_after_partial_solve_wit_1 := 
+forall (linklist_node_pre: Z) (linklist_pre: Z) (l: (@list Z)) ,
+  (xizi_sll_head linklist_pre l )
+  **  (xizi_sll_node linklist_node_pre )
+|--
+  EX (q: Z) ,
+  “ (linklist_node_pre <> 0) ” 
+  &&  “ (linklist_pre <> 0) ”
+  &&  ((&((linklist_pre)  # "SingleLinklistNode" ->ₛ "node_next")) # Ptr  |-> q)
+  **  ((&((linklist_node_pre)  # "SingleLinklistNode" ->ₛ "node_next")) # Ptr  |->_)
+  **  (xizi_sll q l )
 .
 
 Module Type VC_Correct.
@@ -54,5 +66,6 @@ Module Type VC_Correct.
 Include xizi_single_link_Strategy_Correct.
 
 Axiom proof_of_xizi_single_link_insert_after_return_wit_1 : xizi_single_link_insert_after_return_wit_1.
+Axiom proof_of_xizi_single_link_insert_after_partial_solve_wit_1 : xizi_single_link_insert_after_partial_solve_wit_1.
 
 End VC_Correct.

@@ -1,0 +1,570 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "vc_checking": {
+      "schema_version": "qcp-vc-checking-result/v1",
+      "status": "completed",
+      "terminal": "yes",
+      "phase": "vc-checking",
+      "round": "xizi_double_link_insert_before-vc-checking-r1",
+      "attempt_id": "xizi_double_link_insert_before-vc-checking-r1-attempt-1",
+      "source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "639d740481d04f662ef559c6a7f5c581b41b30b7684ca68d3beee95df51e3fd2",
+        "verified_current": true
+      },
+      "source_goal_version": {
+        "schema_version": "qcp-source-goal-version/v1",
+        "digest": "643708a510cf6c105bc926a4a5b3fe421dfc02ed5c6390a55459d733478e20dd",
+        "verified_current": true
+      },
+      "summary": "All three current manual targets are semantically provable. The dispatcher entailment must handle both member and sentinel anchors: the member case cuts at the first anchor occurrence, while the sentinel case classifies the abstract list as empty or snoc and uses the dllseg stop guard to justify append-at-end semantics. The two return targets rebuild the singleton and nonempty sentinel cases. The checked-in proof bodies have the right theorem names but still follow the older member-only target shapes, so group-worker must rewrite them for the current expanded definitions; this is a proof-work issue, not an annotation/specification blocker.",
+      "target_witnesses": [
+        "proof_of_xizi_double_link_insert_before_entail_wit_1",
+        "proof_of_xizi_double_link_insert_before_return_wit_1",
+        "proof_of_xizi_double_link_insert_before_return_wit_2"
+      ],
+      "version_validation": {
+        "status": "passed",
+        "source_file_hashes_match_handoff": true,
+        "generated_file_hashes_match_handoff": true,
+        "manual_witness_set_matches_handoff": true,
+        "manual_witness_order_matches_handoff": true,
+        "witness_statement_hashes_match_handoff": true,
+        "manual_witness_count": 3,
+        "diagnostic_count": 0,
+        "diagnostics_role": "hint-only; diagnostics_snapshot.json contains no split goals",
+        "manual_admitted_or_axiom_hits": [],
+        "case_lib_admitted_or_axiom_hits": [],
+        "forbidden_lemma_hits_in_manual_or_case_lib": [],
+        "proof_body_alignment": {
+          "status": "requires-rewrite",
+          "evidence": [
+            "The current entail target premise is xizi_double_link_insert_before_anchor, i.e. In anchor nodes or anchor=head, and its postcondition has four disjuncts; the existing body directly passes that premise to a membership-only first_occurrence construction and has no sentinel branch.",
+            "The current return_wit_1 and return_wit_2 definitions are the sentinel empty/nonempty obligations, whereas their existing bodies introduce and use the older member-return variable sets."
+          ],
+          "effect": "Do not direct-reuse the current bodies as completed proofs; rewrite them in the assigned group worktree against the current target definitions."
+        },
+        "observed_hashes": {
+          "OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before.c": "caa5a54df2e7f3556b6e5a32482cecd1c4b8e4c6ebaa84b2f5a278c56cb9b118",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_lib.v": "82b6973ed3a2ca3ccd91c3729826c2dc0f223ecf68d32a5e794cf77eea8af27f",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_goal.v": "d5c8e5ce6b256d92661f7d922485e678cd5e53e039f3be054cb09bb5fa5774db",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_proof_auto.v": "a6bc283ca401ec7f8f142af87d960a07e6b60d0da290829717ba28584856668b",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_proof_manual.v": "b7520f4f8f120a0e368793c53bb6dedb008f6d921f9cb4a17cef62b7fd21ab75",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_goal_check.v": "e2336fe02b87005ddbf0edc260360ded3999fc3412544643ad07a033e52b18e2",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_proof_diagnostics.v": "8d40e95b6fc55d1000e793c6b3982a4f89a8f5575396931e0dc397287a29184d",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/diagnostics_snapshot.json": "ddb545da11fa23121fbbeeb759a0cb652cc5b33fa7b0f8d063e84fb906d39d7f"
+        },
+        "manual_witness_statement_hashes": {
+          "proof_of_xizi_double_link_insert_before_entail_wit_1": "616cb374386c6cefe042f97c113bc0b0fa7a328200f2aa081308668c46e9f99e",
+          "proof_of_xizi_double_link_insert_before_return_wit_1": "3233d0565f5d1d382bc2ece64af54ab0176de7c8b325843c5ba7f90ca0506bce",
+          "proof_of_xizi_double_link_insert_before_return_wit_2": "cf41b23dccf871fd3bfad219ea614d59b8f6321089d37c543ecf46b9c27f0077"
+        }
+      },
+      "natural_language_analysis": {
+        "schema_version": "qcp-vc-natural-language-analysis/v1",
+        "overall_judgment": "proofable-with-group-local-helpers",
+        "summary": "The three targets form one dispatcher/sentinel cut-and-rebuild family. No postcondition requests ownership absent from the precondition. The only nontrivial pure bridge is that a valid dllseg ending at the sentinel contains no sentinel address, hence insert_before_nodes with anchor=head reaches the nil case and appends the fresh node.",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_xizi_double_link_insert_before_entail_wit_1",
+            "statement_hash": "616cb374386c6cefe042f97c113bc0b0fa7a328200f2aa081308668c46e9f99e",
+            "judgment": "needs-helper",
+            "vc_shape": {
+              "pre_spatial": "The linklist variable points to the public anchor; xizi_dll head nodes owns the sentinel links and full circular segment; xizi_dll_node inserted owns a fresh standalone node.",
+              "pre_pure": "xizi_double_link_insert_before_anchor head nodes anchor, which unfolds to In anchor nodes or anchor=head.",
+              "pre_exists": "Opening xizi_dll yields first and last; member splitting yields anchor predecessor/successor; sentinel snoc splitting yields the final node predecessor boundary.",
+              "post_spatial": "One of four branch assertions: member with head predecessor, member with interior predecessor, sentinel with nonempty last-node cut, or sentinel empty ring; standalone inserted-node ownership is framed in every branch.",
+              "post_pure": "Member branches require first-occurrence decomposition and insert-before equality. Sentinel branches require anchor=head and insert_before_nodes nodes head inserted = nodes++[inserted], plus either nodes=nil or nodes=prefix0++[prev].",
+              "post_exists": "Instantiate prefix/suffix and predecessor boundaries from the segment cut; for sentinel nonempty use the snoc decomposition, and for sentinel empty use first=prev=before_prev=head."
+            },
+            "witness_instantiation": "Unfold the anchor proposition and split cases. For In anchor nodes, choose its first occurrence, split the DLL segment at that occurrence, then classify the preceding prefix as nil or prefix0++[prev]. For anchor=head, substitute anchor, open xizi_dll, derive that head is absent from nodes, prove append-at-end semantics, and classify nodes as nil or prefix0++[prev]. In the nil branch simplify the empty segment equalities; in the snoc branch split at the last node so its next is head and it is the sentinel last.",
+            "space_plan": "Member: open xizi_dll and use a segment-at-anchor cut, preserving sentinel links, prefix segment, anchor links, suffix segment, and xizi_dll_node. Sentinel empty: simplify xizi_dllseg first head head last nil to first=head and last=head. Sentinel nonempty: split xizi_dllseg at the snoc last node, simplify the nil tail, and expose prefix segment plus last-node links and sentinel links.",
+            "pure_plan": "First-occurrence and structural insert-before lemmas discharge the member list facts. A dllseg stop-not-in entailment discharges ~In head nodes in the sentinel case; structural recursion on nodes then gives insert_before_nodes nodes head inserted = nodes++[inserted]. Non-nullness is carried by xizi_dll/xizi_dll_node/dllseg. Required address inequalities are explicit segment guards or follow from separated next-field stores through store_4byte_valid.",
+            "refinement_plan": "Not applicable; this is a direct separation-logic decomposition.",
+            "used_existing_lemmas": [
+              {
+                "lemma_name": "list_snoc_destruct",
+                "source": "AUXLib.ListLib",
+                "premises": "the chosen logical list or prefix",
+                "purpose": "classify it as nil or prefix++[last]"
+              },
+              {
+                "lemma_name": "store_4byte_valid",
+                "source": "imported SimpleC memory library",
+                "premises": "two separated field stores from the current spatial precondition",
+                "purpose": "derive distinct base addresses when folding nonempty dllseg cells"
+              }
+            ],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "xizi_dllseg_split_at_anchor",
+                "statement_shape": "xizi_dllseg node prev stop last (prefix++anchor::suffix) entails an existential prefix segment, anchor links, and suffix segment with anchor<>NULL and anchor<>stop",
+                "used_by_witnesses": [
+                  "proof_of_xizi_double_link_insert_before_entail_wit_1"
+                ],
+                "premises": [
+                  {
+                    "premise": "the current full segment has sequence prefix++anchor::suffix",
+                    "discharged_by": "first-occurrence decomposition and the opened xizi_dll resource"
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              },
+              {
+                "name_hint": "xizi_dllseg_stop_not_in",
+                "statement_shape": "xizi_dllseg node prev stop last nodes |-- pure (~ In stop nodes)",
+                "used_by_witnesses": [
+                  "proof_of_xizi_double_link_insert_before_entail_wit_1"
+                ],
+                "premises": [
+                  {
+                    "premise": "xizi_dllseg node prev stop last nodes",
+                    "discharged_by": "opened xizi_dll resource; induction uses each nonempty branch's node<>stop guard"
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              },
+              {
+                "name_hint": "xizi_double_link_insert_before_nodes_absent_app",
+                "statement_shape": "~ In anchor nodes -> xizi_double_link_insert_before_nodes nodes anchor inserted = nodes ++ inserted::nil",
+                "used_by_witnesses": [
+                  "proof_of_xizi_double_link_insert_before_entail_wit_1"
+                ],
+                "premises": [
+                  {
+                    "premise": "~ In head nodes",
+                    "discharged_by": "xizi_dllseg_stop_not_in after opening the sentinel DLL"
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              },
+              {
+                "name_hint": "xizi_dllseg_split_at_last",
+                "statement_shape": "xizi_dllseg first head head last (prefix++prev::nil) entails last=prev, a prefix segment ending before prev, and links prev head before_prev",
+                "used_by_witnesses": [
+                  "proof_of_xizi_double_link_insert_before_entail_wit_1"
+                ],
+                "premises": [
+                  {
+                    "premise": "nodes=prefix++prev::nil",
+                    "discharged_by": "list_snoc_destruct in the nonempty sentinel branch"
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "premise_discharge": [
+              "The member/sentinel case split is exactly the definition of PreH1.",
+              "The complete xizi_dll resource supplies sentinel links and the full segment for every cut.",
+              "The standalone-node predicate supplies inserted-node non-nullness and both fresh field cells.",
+              "Every node in dllseg is unequal to the stop sentinel, which supplies the missing pure fact for append-at-end semantics."
+            ],
+            "failure_signal": "none; the current body is shape-obsolete but the current P semantically supplies all four Q branches",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "dispatch_member_sentinel_cut_rebuild",
+            "grouping_reason": "It opens exactly the member and sentinel shapes that the two return targets subsequently close."
+          },
+          {
+            "witness_name": "proof_of_xizi_double_link_insert_before_return_wit_1",
+            "statement_hash": "3233d0565f5d1d382bc2ece64af54ab0176de7c8b325843c5ba7f90ca0506bce",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "For the empty original ring after stores, inserted owns prev=head and next=head, while head owns next=inserted and prev=inserted.",
+              "pre_pure": "anchor=head, nodes=nil, transformed sequence equals nodes++[inserted], and both head and inserted are non-null.",
+              "pre_exists": "The target DLL may choose inserted as both first and last.",
+              "post_spatial": "Either full xizi_dll head [inserted] or its segment component; choose the full-DLL disjunct.",
+              "post_pure": "No new external pure fact; folding the singleton segment additionally needs inserted<>head.",
+              "post_exists": "Choose first=inserted and last=inserted in xizi_dll."
+            },
+            "witness_instantiation": "Substitute anchor=head and nodes=nil, rewrite the generated transformed-list equality, and instantiate xizi_dll's first/last witnesses with inserted.",
+            "space_plan": "Fold the head fields into xizi_dll_links head inserted inserted. Fold the inserted fields plus the definitionally empty tail segment into xizi_dllseg inserted head head inserted [inserted], then close xizi_dll.",
+            "pure_plan": "Explicit PreH facts give head<>NULL and inserted<>NULL. The separated head.next and inserted.next cells imply inserted<>head via store_4byte_valid, supplying the nonempty dllseg guard.",
+            "refinement_plan": "Not applicable; direct singleton-ring reconstruction.",
+            "used_existing_lemmas": [
+              {
+                "lemma_name": "store_4byte_valid",
+                "source": "imported SimpleC memory library",
+                "premises": "separated head.next and inserted.next stores in P",
+                "purpose": "derive inserted<>head"
+              }
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "PreH2 and PreH6 identify the sentinel anchor and empty input sequence.",
+              "PreH5 identifies the abstract result with [inserted].",
+              "All four pointer cells required by the singleton circular DLL occur literally in P."
+            ],
+            "failure_signal": "none",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "dispatch_member_sentinel_cut_rebuild",
+            "grouping_reason": "Empty sentinel specialization of the same append-and-close pattern."
+          },
+          {
+            "witness_name": "proof_of_xizi_double_link_insert_before_return_wit_2",
+            "statement_hash": "cf41b23dccf871fd3bfad219ea614d59b8f6321089d37c543ecf46b9c27f0077",
+            "judgment": "needs-helper",
+            "vc_shape": {
+              "pre_spatial": "For nodes=prefix0++[prev] after stores, P owns the old prefix segment up to prev, prev links to inserted/before_prev, inserted links to head/prev, and head links to first/inserted.",
+              "pre_pure": "anchor=head, exact append result equality, nodes=prefix0++[prev], head/inserted/prev non-null, and prev<>head.",
+              "pre_exists": "The target DLL keeps first and chooses inserted as the new last.",
+              "post_spatial": "Either full xizi_dll head (nodes++[inserted]) or the corresponding complete segment; choose the full-DLL disjunct.",
+              "post_pure": "Folding the inserted segment cell additionally needs inserted<>head.",
+              "post_exists": "Choose current first and inserted as xizi_dll first/last."
+            },
+            "witness_instantiation": "Rewrite nodes with prefix0++[prev] and the result with PreH5; choose first and inserted as the sentinel's final first/last boundaries.",
+            "space_plan": "Normalize the raw fields to links. Append the prev and inserted cells after the existing prefix segment, terminate with the empty segment at head, and close with the sentinel head links. A segment join helper avoids changing the seed definitions.",
+            "pure_plan": "PreH6-PreH8 provide prev non-null and prev<>head; PreH3/PreH4 provide head and inserted non-null. Separation of inserted.next and head.next supplies inserted<>head through store_4byte_valid. PreH5/PreH6 provide the exact target list equality.",
+            "refinement_plan": "Not applicable; direct nonempty sentinel-ring reconstruction.",
+            "used_existing_lemmas": [
+              {
+                "lemma_name": "store_4byte_valid",
+                "source": "imported SimpleC memory library",
+                "premises": "separated head.next and inserted.next stores in P",
+                "purpose": "derive inserted<>head"
+              }
+            ],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "xizi_dllseg_join_inserted_tail",
+                "statement_shape": "prefix segment to prev ** links prev inserted before_prev ** links inserted head prev entails a segment for prefix++prev::inserted::nil ending at head with last=inserted",
+                "used_by_witnesses": [
+                  "proof_of_xizi_double_link_insert_before_return_wit_2"
+                ],
+                "premises": [
+                  {
+                    "premise": "prev<>NULL and prev<>head",
+                    "discharged_by": "PreH7 and PreH8"
+                  },
+                  {
+                    "premise": "inserted<>NULL",
+                    "discharged_by": "PreH4"
+                  },
+                  {
+                    "premise": "inserted<>head",
+                    "discharged_by": "separated next-field ownership via store_4byte_valid"
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "premise_discharge": [
+              "PreH6 supplies the snoc decomposition of the old abstract nodes.",
+              "PreH5 supplies the exact appended target sequence.",
+              "The prefix segment, prev links, inserted links, and sentinel links needed for reconstruction all occur in P."
+            ],
+            "failure_signal": "none",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "dispatch_member_sentinel_cut_rebuild",
+            "grouping_reason": "Nonempty sentinel close branch shares the snoc boundary and append facts used by entail_wit_1."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "dispatch_member_sentinel_cut_rebuild",
+            "witness_names": [
+              "proof_of_xizi_double_link_insert_before_entail_wit_1",
+              "proof_of_xizi_double_link_insert_before_return_wit_1",
+              "proof_of_xizi_double_link_insert_before_return_wit_2"
+            ],
+            "representative_witness": "proof_of_xizi_double_link_insert_before_entail_wit_1",
+            "shared_proof_pattern": "Case-split the public anchor into member versus sentinel; cut the circular DLL at the first member or last sentinel predecessor; use the same segment boundary facts to rebuild the post-update ring.",
+            "shared_space_plan": "Open xizi_dll, split or join xizi_dllseg at a distinguished node, normalize links, and close xizi_dll.",
+            "shared_pure_plan": "Use first-occurrence decomposition for members, stop-not-in plus append-at-end for the sentinel, snoc decomposition for nonempty predecessor cases, and separation-derived address disequalities.",
+            "shared_refinement_plan": "none",
+            "candidate_helper_declarations": [
+              "xizi_dllseg_split_at_anchor",
+              "xizi_dllseg_stop_not_in",
+              "xizi_double_link_insert_before_nodes_absent_app",
+              "xizi_dllseg_split_at_last",
+              "xizi_dllseg_join_inserted_tail"
+            ],
+            "dependencies": [],
+            "grouping_reason": "All three witnesses are branches of one function and share the sentinel append/snoc and dllseg cut/join helper family. One group keeps those helpers local, avoids cross-group dependency, and has size 3 <= 12.",
+            "proof_group_ready": true
+          }
+        ],
+        "blocked_witnesses": []
+      },
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "643708a510cf6c105bc926a4a5b3fe421dfc02ed5c6390a55459d733478e20dd",
+        "target_witnesses": [
+          "proof_of_xizi_double_link_insert_before_entail_wit_1",
+          "proof_of_xizi_double_link_insert_before_return_wit_1",
+          "proof_of_xizi_double_link_insert_before_return_wit_2"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "dispatch_member_sentinel_cut_rebuild",
+            "witness_names": [
+              "proof_of_xizi_double_link_insert_before_entail_wit_1",
+              "proof_of_xizi_double_link_insert_before_return_wit_1",
+              "proof_of_xizi_double_link_insert_before_return_wit_2"
+            ],
+            "representative_witness": "proof_of_xizi_double_link_insert_before_entail_wit_1",
+            "dependencies": [],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "xizi_dllseg_split_at_anchor",
+                "statement_shape": "cut a dllseg whose list is prefix++anchor::suffix into prefix segment, anchor links, and suffix segment",
+                "used_by_witnesses": [
+                  "proof_of_xizi_double_link_insert_before_entail_wit_1"
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              },
+              {
+                "name_hint": "xizi_dllseg_stop_not_in",
+                "statement_shape": "a dllseg entails that its stop address is absent from its abstract nodes",
+                "used_by_witnesses": [
+                  "proof_of_xizi_double_link_insert_before_entail_wit_1"
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              },
+              {
+                "name_hint": "xizi_double_link_insert_before_nodes_absent_app",
+                "statement_shape": "if anchor is absent, insert_before_nodes appends inserted",
+                "used_by_witnesses": [
+                  "proof_of_xizi_double_link_insert_before_entail_wit_1"
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              },
+              {
+                "name_hint": "xizi_dllseg_split_at_last",
+                "statement_shape": "split a snoc-shaped dllseg into its prefix segment and last-node links to the sentinel",
+                "used_by_witnesses": [
+                  "proof_of_xizi_double_link_insert_before_entail_wit_1"
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              },
+              {
+                "name_hint": "xizi_dllseg_join_inserted_tail",
+                "statement_shape": "join prefix segment, old-last links, and inserted-last links into prefix++old_last::inserted::nil",
+                "used_by_witnesses": [
+                  "proof_of_xizi_double_link_insert_before_return_wit_2"
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "likely_helper_declarations": [
+              "xizi_dllseg_split_at_anchor__dispatch_member_sentinel_cut_rebuild",
+              "xizi_dllseg_stop_not_in__dispatch_member_sentinel_cut_rebuild",
+              "xizi_double_link_insert_before_nodes_absent_app__dispatch_member_sentinel_cut_rebuild",
+              "xizi_dllseg_split_at_last__dispatch_member_sentinel_cut_rebuild",
+              "xizi_dllseg_join_inserted_tail__dispatch_member_sentinel_cut_rebuild"
+            ],
+            "expected_helpers": [
+              "All added helper declaration names must use the controller-provided group suffix; helpers may instead remain witness-local if group-check succeeds without case_lib additions."
+            ],
+            "proof_strategy": "Rewrite all three proof bodies against the current expanded target definitions. For entail_wit_1, unfold xizi_double_link_insert_before_anchor. In the member branch, derive the first occurrence, split at the anchor, and distinguish empty versus snoc predecessor prefix. In the sentinel branch, substitute anchor=head, open xizi_dll, derive ~In head nodes from dllseg, rewrite insert_before_nodes as nodes++[inserted], and distinguish empty versus snoc nodes; instantiate the fourth or third disjunct respectively. For return_wit_1, substitute the empty-case equalities, derive inserted<>head from separated fields, construct the singleton segment, and close xizi_dll. For return_wit_2, rewrite the snoc nodes and append result, derive inserted<>head, join the prefix/old-last/inserted cells into the final segment, and close xizi_dll. Validate the rewritten bodies with group-check; do not direct-reuse the existing shape-obsolete bodies.",
+            "per_witness_plan": {
+              "proof_of_xizi_double_link_insert_before_entail_wit_1": "member: first-occurrence cut and predecessor nil/snoc split; sentinel: stop-not-in, append rewrite, and nodes nil/snoc split into the two sentinel disjuncts",
+              "proof_of_xizi_double_link_insert_before_return_wit_1": "substitute empty input and sentinel equalities; choose inserted as first and last; fold singleton segment and close the ring",
+              "proof_of_xizi_double_link_insert_before_return_wit_2": "rewrite nodes=prefix0++[prev] and result=nodes++[inserted]; join prefix, prev, and inserted cells; choose inserted as last and close the ring"
+            },
+            "premise_discharge": {
+              "member_first_occurrence": "the In disjunct of the unfolded anchor predicate",
+              "sentinel_anchor": "the anchor=head disjunct of the unfolded anchor predicate",
+              "sentinel_absence": "induction over the opened dllseg using each nonempty cell's node<>stop guard",
+              "append_semantics": "structural induction over nodes under ~In head nodes",
+              "snoc_shape": "list_snoc_destruct on a nonempty logical list or predecessor prefix",
+              "nonnullness": "xizi_dll, xizi_dll_node, dllseg guards, and explicit return PreH facts",
+              "address_disequalities": "explicit dllseg guards or contradiction from separated next-field stores using store_4byte_valid",
+              "spatial_resources": "all sentinel, prefix, predecessor, anchor, inserted, and suffix field/segment resources are present in the corresponding P assertions"
+            },
+            "vc_shape": {
+              "family": "dispatcher opening plus sentinel empty/nonempty closing",
+              "member_branch": "prefix++anchor::suffix with first-occurrence cut",
+              "sentinel_branch": "nodes++[inserted] with empty or snoc last-node cut"
+            },
+            "witness_instantiation": {
+              "entail": "instantiate the generated branch existentials from the opened DLL and cut boundaries",
+              "return_empty": "first=last=inserted",
+              "return_nonempty": "first=current first, last=inserted"
+            },
+            "space_plan": {
+              "entail": "split the existing DLL segment without losing the standalone node",
+              "returns": "fold raw updated fields to links, join segments, and close xizi_dll"
+            },
+            "pure_plan": {
+              "member": "first occurrence and list insertion rewrite",
+              "sentinel": "stop-not-in, append rewrite, snoc decomposition, and ownership-derived disequalities"
+            },
+            "refinement_plan": "none",
+            "grouping_reason": "The targets are the open and two sentinel-close obligations of one dispatcher. They share the same dllseg cut/join and append-at-sentinel facts, have no ordering dependency, and group size 3 is within the controller maximum 12.",
+            "difficulty": "high",
+            "confidence": "high"
+          }
+        ],
+        "dependencies": [],
+        "likely_helper_declarations": [
+          "group-id-suffixed dllseg cut, stop-not-in, absent-anchor append, last-node split, and inserted-tail join helpers"
+        ],
+        "blockers": [],
+        "grouping_reason": "A single cohesive group minimizes worker count while keeping the shared helper family local. All three witnesses belong to the same function and current dispatcher/sentinel proof shape, and 3 <= max_witnesses_per_group 12.",
+        "grouping_policy_evidence": {
+          "controller_policy": "bounded-witness-groups/v1",
+          "target_witness_count": 3,
+          "proof_group_count": 1,
+          "max_witnesses_per_group": 12,
+          "largest_group_size": 3,
+          "single_group_allowed": true,
+          "policy_satisfied": true
+        }
+      },
+      "group_plan_ready": true,
+      "ready_for_vc_proving": true,
+      "changed_files": [],
+      "formal_files_modified": false,
+      "report_artifacts": [
+        "agent_report.json",
+        "agent_output.txt"
+      ],
+      "blockers": [],
+      "errors": [],
+      "recommended_next_phase": "vc-proving-preparing",
+      "controller_acceptance": "not-claimed",
+      "coq_tooling_invoked": "no; vc-checking is read-only semantic planning, and formal group-check belongs to downstream group-worker/controller verification",
+      "timing": {
+        "timing_source": "command wall-clock plus unmeasured semantic analysis",
+        "major_time_sinks": [
+          "mandatory handoff and routed rule-document reading",
+          "expanded dispatcher/sentinel goal audit",
+          "proof-body/target-shape mismatch analysis and helper premise audit"
+        ],
+        "timing_gaps": [
+          "The handoff did not provide an activity-ledger path and non-command analysis segments were not separately timestamped; no elapsed duration is guessed."
+        ]
+      }
+    }
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-08-17T11:22:06Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_double_link_insert_before-20260817190000/rounds/xizi_double_link_insert_before-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    },
+    "controller_simple_repairs": [
+      {
+        "kind": "materialized-inline-group-plan",
+        "source": "/home/yangfp/QCIP/reports/xizi_double_link_insert_before-20260817190000/rounds/xizi_double_link_insert_before-vc-checking-r1/agent_report.json",
+        "target": "/home/yangfp/QCIP/reports/xizi_double_link_insert_before-20260817190000/rounds/xizi_double_link_insert_before-vc-checking-r1/group_plan.json",
+        "reason": "vc-checking report included an inline group_plan but the default group_plan.json artifact was missing"
+      }
+    ],
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-08-17T11:22:12Z",
+      "source_version": {
+        "digest": "639d740481d04f662ef559c6a7f5c581b41b30b7684ca68d3beee95df51e3fd2",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_insert_before-20260817190000/xizi_double_link_insert_before-annotation-r1/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before.c",
+            "relative_path": "OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before.c",
+            "role": "target-c-annotated",
+            "sha256": "caa5a54df2e7f3556b6e5a32482cecd1c4b8e4c6ebaa84b2f5a278c56cb9b118",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_insert_before-20260817190000/xizi_double_link_insert_before-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "82b6973ed3a2ca3ccd91c3729826c2dc0f223ecf68d32a5e794cf77eea8af27f",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "643708a510cf6c105bc926a4a5b3fe421dfc02ed5c6390a55459d733478e20dd",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_goal.v",
+            "role": "generated-goal",
+            "sha256": "d5c8e5ce6b256d92661f7d922485e678cd5e53e039f3be054cb09bb5fa5774db",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "a6bc283ca401ec7f8f142af87d960a07e6b60d0da290829717ba28584856668b",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "b7520f4f8f120a0e368793c53bb6dedb008f6d921f9cb4a17cef62b7fd21ab75",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "e2336fe02b87005ddbf0edc260360ded3999fc3412544643ad07a033e52b18e2",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "8d40e95b6fc55d1000e793c6b3982a4f89a8f5575396931e0dc397287a29184d",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "ddb545da11fa23121fbbeeb759a0cb652cc5b33fa7b0f8d063e84fb906d39d7f",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_xizi_double_link_insert_before_entail_wit_1",
+          "proof_of_xizi_double_link_insert_before_return_wit_1",
+          "proof_of_xizi_double_link_insert_before_return_wit_2"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_xizi_double_link_insert_before_entail_wit_1": "616cb374386c6cefe042f97c113bc0b0fa7a328200f2aa081308668c46e9f99e",
+          "proof_of_xizi_double_link_insert_before_return_wit_1": "3233d0565f5d1d382bc2ece64af54ab0176de7c8b325843c5ba7f90ca0506bce",
+          "proof_of_xizi_double_link_insert_before_return_wit_2": "cf41b23dccf871fd3bfad219ea614d59b8f6321089d37c543ecf46b9c27f0077"
+        },
+        "witnesses": [
+          {
+            "end_line": 249,
+            "name": "proof_of_xizi_double_link_insert_before_entail_wit_1",
+            "start_line": 25,
+            "statement_hash": "616cb374386c6cefe042f97c113bc0b0fa7a328200f2aa081308668c46e9f99e",
+            "target_symbol": "xizi_double_link_insert_before_entail_wit_1"
+          },
+          {
+            "end_line": 391,
+            "name": "proof_of_xizi_double_link_insert_before_return_wit_1",
+            "start_line": 250,
+            "statement_hash": "3233d0565f5d1d382bc2ece64af54ab0176de7c8b325843c5ba7f90ca0506bce",
+            "target_symbol": "xizi_double_link_insert_before_return_wit_1"
+          },
+          {
+            "end_line": 464,
+            "name": "proof_of_xizi_double_link_insert_before_return_wit_2",
+            "start_line": 392,
+            "statement_hash": "cf41b23dccf871fd3bfad219ea614d59b8f6321089d37c543ecf46b9c27f0077",
+            "target_symbol": "xizi_double_link_insert_before_return_wit_2"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_double_link_insert_before-20260817190000/rounds/xizi_double_link_insert_before-vc-checking-r1/group_plan.json",
+      "target_witnesses": [
+        "proof_of_xizi_double_link_insert_before_entail_wit_1",
+        "proof_of_xizi_double_link_insert_before_return_wit_1",
+        "proof_of_xizi_double_link_insert_before_return_wit_2"
+      ]
+    }
+  },
+  "blockers": []
+}

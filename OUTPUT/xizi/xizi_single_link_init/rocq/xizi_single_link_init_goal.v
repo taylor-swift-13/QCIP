@@ -24,9 +24,9 @@ From QCIPLib.xizi.xizi_single_link_common Require Import xizi_single_link_strate
 (*----- Function xizi_single_link_init -----*)
 
 Definition xizi_single_link_init_safety_wit_1 := 
-forall (linklist_pre: Z) (first: Z) (PreH1 : (linklist_pre <> 0)) ,
+forall (linklist_pre: Z) ,
   ((( &( "linklist" ) )) # Ptr  |-> linklist_pre)
-  **  ((&((linklist_pre)  # "SingleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
+  **  (xizi_sll_node linklist_pre )
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -36,10 +36,15 @@ Definition xizi_single_link_init_return_wit_1 :=
 forall (linklist_pre: Z) (PreH1 : (linklist_pre <> 0)) ,
   ((&((linklist_pre)  # "SingleLinklistNode" ->ₛ "node_next")) # Ptr  |-> 0)
 |--
-  EX (linklist_pre_node_next: Z) ,
-  “ (linklist_pre_node_next = 0) ”
-  &&  ((&((linklist_pre)  # "SingleLinklistNode" ->ₛ "node_next")) # Ptr  |-> linklist_pre_node_next)
-  **  (xizi_sll 0 (@nil Z) )
+  (xizi_sll_head linklist_pre (@nil Z) )
+.
+
+Definition xizi_single_link_init_partial_solve_wit_1 := 
+forall (linklist_pre: Z) ,
+  (xizi_sll_node linklist_pre )
+|--
+  “ (linklist_pre <> 0) ”
+  &&  ((&((linklist_pre)  # "SingleLinklistNode" ->ₛ "node_next")) # Ptr  |->_)
 .
 
 Module Type VC_Correct.
@@ -48,5 +53,6 @@ Include xizi_single_link_Strategy_Correct.
 
 Axiom proof_of_xizi_single_link_init_safety_wit_1 : xizi_single_link_init_safety_wit_1.
 Axiom proof_of_xizi_single_link_init_return_wit_1 : xizi_single_link_init_return_wit_1.
+Axiom proof_of_xizi_single_link_init_partial_solve_wit_1 : xizi_single_link_init_partial_solve_wit_1.
 
 End VC_Correct.

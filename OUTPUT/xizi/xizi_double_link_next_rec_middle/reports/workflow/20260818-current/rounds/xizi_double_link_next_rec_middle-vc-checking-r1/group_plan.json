@@ -1,0 +1,127 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "3ba8de191dcfd4c71b547981fedd3435b793bd45ad24b58455b1b1ac3e9d72d1",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_next_rec_middle_entail_wit_1",
+    "proof_of_xizi_double_link_next_rec_middle_return_wit_1",
+    "proof_of_xizi_double_link_next_rec_middle_return_wit_2",
+    "proof_of_xizi_double_link_next_rec_middle_return_wit_3",
+    "proof_of_xizi_double_link_next_rec_middle_return_wit_4",
+    "proof_of_xizi_double_link_next_rec_middle_derive_sentinel_case_by_dispatch_case",
+    "proof_of_xizi_double_link_next_rec_middle_derive_member_case_by_dispatch_case"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "dll_dispatch_decompose_reclose",
+      "witness_names": [
+        "proof_of_xizi_double_link_next_rec_middle_entail_wit_1",
+        "proof_of_xizi_double_link_next_rec_middle_return_wit_1",
+        "proof_of_xizi_double_link_next_rec_middle_return_wit_2",
+        "proof_of_xizi_double_link_next_rec_middle_return_wit_3",
+        "proof_of_xizi_double_link_next_rec_middle_return_wit_4"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_next_rec_middle_entail_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "xizi_double_link_in_first_occurrence",
+          "statement_shape": "forall (nodes:list Z) node, In node nodes -> exists before after, nodes = before ++ node :: after /\\ ~ In node before",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_next_rec_middle_entail_wit_1"
+          ],
+          "premises": [
+            {
+              "premise": "In node nodes",
+              "discharged_by": "member side of xizi_double_link_next_anchor"
+            }
+          ],
+          "destination": "group-local case_lib; declaration name must end with this group's helper_namespace suffix"
+        },
+        {
+          "name_hint": "xizi_double_link_next_value_at_first_occurrence",
+          "statement_shape": "forall head node nodes before after, node <> head -> nodes = before ++ node :: after -> ~ In node before -> xizi_double_link_next_dispatch_value head nodes node = xizi_double_link_first_value after",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_next_rec_middle_entail_wit_1"
+          ],
+          "premises": [
+            {
+              "premise": "node <> head",
+              "discharged_by": "the represented member occurrence is distinct from the sentinel"
+            },
+            {
+              "premise": "nodes = before ++ node :: after",
+              "discharged_by": "first-occurrence helper"
+            },
+            {
+              "premise": "~ In node before",
+              "discharged_by": "first-occurrence helper"
+            }
+          ],
+          "destination": "group-local case_lib; declaration name must end with this group's helper_namespace suffix"
+        }
+      ],
+      "likely_helper_declarations": [
+        "xizi_double_link_in_first_occurrence with group suffix",
+        "xizi_double_link_next_value_at_first_occurrence with group suffix"
+      ],
+      "expected_helpers": [
+        "two proved pure list/dispatch helpers carrying helper_namespace.suffix; spatial split/join facts may remain local assertions in witness proofs"
+      ],
+      "difficulty": "high",
+      "confidence": "high",
+      "grouping_reason": "Five witnesses share one first-occurrence cut and inverse DLL-segment reclosure family. Keeping them together lets one worker reuse local split/join proof patterns; size 5 is within max_witnesses_per_group=12.",
+      "proof_strategy": "For entail_wit_1 split the anchor, open xizi_dll, choose a first occurrence in the member branch, inductively split xizi_dllseg, and use the two suffixed pure helpers for the dispatch equation. For return_wit_1 classify the complete start=stop segment as nil and close. For return_wit_2 classify the member suffix as nil, locally rejoin prefix/node/suffix, and close. For return_wit_3 expose the nonempty suffix head, use the same local rejoin, and close. For return_wit_4 expose the nonempty complete-list head and close. Keep spatial Hsplit/Hjoin/Hstopnil/Hstartcons and address-distinctness arguments local unless the worker deliberately proves suffixed case_lib helpers. Do not use any forbidden lemma.",
+      "natural_language_proof_strategy": "Treat the heap as one circular DLL cut at either the sentinel or the queried member. The returned value is the first abstract address of the suffix: nil gives NULL and cons gives the stored successor. Rejoining the same cut preserves all ownership.",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_next_rec_middle_entail_wit_1": "anchor split; sentinel direct open or member first-occurrence list/segment split",
+        "proof_of_xizi_double_link_next_rec_middle_return_wit_1": "select full-resource disjunct; start=stop implies nil; close DLL",
+        "proof_of_xizi_double_link_next_rec_middle_return_wit_2": "select full-resource disjunct; empty member suffix; local join and close",
+        "proof_of_xizi_double_link_next_rec_middle_return_wit_3": "select full-resource disjunct; expose nonempty suffix; local join and close",
+        "proof_of_xizi_double_link_next_rec_middle_return_wit_4": "select full-resource disjunct; expose nonempty complete segment; close DLL"
+      },
+      "premise_discharge": {
+        "first_occurrence": "constructive induction from the anchor's In branch",
+        "dispatch_equations": "definition unfolding after sentinel/member selection and suffix nil/cons classification",
+        "segment_guards": "generated non-null/disequality hypotheses or facts exposed by xizi_dllseg",
+        "spatial_resources": "exactly the sentinel links, prefix segment, queried-node links and suffix segment in each antecedent"
+      }
+    },
+    {
+      "group_id": "dispatch_public_contract_derivation",
+      "witness_names": [
+        "proof_of_xizi_double_link_next_rec_middle_derive_sentinel_case_by_dispatch_case",
+        "proof_of_xizi_double_link_next_rec_middle_derive_member_case_by_dispatch_case"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_next_rec_middle_derive_member_case_by_dispatch_case",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "expected_helpers": [],
+      "difficulty": "medium",
+      "confidence": "high",
+      "grouping_reason": "Both targets are public-contract derivations with identical existential specialization and wand-adjunction structure. This strategy is distinct from direct segment reconstruction; size 2 is within max_witnesses_per_group=12.",
+      "proof_strategy": "Choose the unchanged abstract list as nodes_dispatch_case and establish anchor right for sentinel or anchor left for member. Apply separating-implication adjunction so the input DLL establishes dispatch's precondition and the wand argument's DLL is forwarded to the derived postcondition. Sentinel reduces dispatch_value directly after node=head substitution. Member proves locally, by induction over the represented segment, that an abstract member differs from the sentinel; then dispatch_value reduces to next_value. Choose retval=retval_2 in both consequents.",
+      "natural_language_proof_strategy": "dispatch_case already uses the same list and heap as each derived contract; the proof only specializes the pure result selector while preserving the DLL resource.",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_next_rec_middle_derive_sentinel_case_by_dispatch_case": "nodes_dispatch_case=nodes_sentinel_case; anchor right; wand forwarding; sentinel dispatch reduction",
+        "proof_of_xizi_double_link_next_rec_middle_derive_member_case_by_dispatch_case": "nodes_dispatch_case=nodes_member_case; anchor left; local sentinel-exclusion proof; wand forwarding; member dispatch reduction"
+      },
+      "premise_discharge": {
+        "sentinel_branch": "input node=head equality",
+        "member_branch": "input In fact plus the represented-DLL fact that the sentinel is outside the abstract list",
+        "wand_resources": "the dispatch-result antecedent owns the unchanged xizi_dll required by the derived postcondition"
+      }
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 7,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

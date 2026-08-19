@@ -18,17 +18,17 @@ void CS_IRES_AttitudeFun(void *p)
         sum = sum + pIp->csIresPara_FS[j];
     }
 
-    /**** start of ¹æ·¶»¯Ëã·¨¡¶ºìÍâÃô¸ÐÆ÷ÓÐÐ§ÐÔÅÐ¶Ï¼°Êý¾Ý´¦Àí¡·²úÆ·¹æ·¶ ****/
+    /**** start of ï¿½æ·¶ï¿½ï¿½ï¿½ã·¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½ï¿½Ð¶Ï¼ï¿½ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½æ·¶ ****/
     if (sum != 0)
     {
         if ( pIp->m_WorkMode == 0x01u )
         {
-            /* ºìÍâµØÇòÃô¸ÐÆ÷Êý¾ÝÓÐÐ§ÐÔÅÐ¶ÏºÍÊý¾Ý´¦Àí */
+            /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½ï¿½Ð¶Ïºï¿½ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ï¿½ */
             CS_IRES_ValidCheck_Convert(pIp);
             
             if ( pIp->ModeObjectTimer_Mode[pIp->m_WorkMode] > pIp->csModePara_dt_ESUsed_EIM )
             {
-                /* 5.2.2.2 »ùÓÚºìÍâÂË²¨µÄ×ËÌ¬ÐÞÕý */
+                /* 5.2.2.2 ï¿½ï¿½ï¿½Úºï¿½ï¿½ï¿½ï¿½Ë²ï¿½ï¿½ï¿½ï¿½ï¿½Ì¬ï¿½ï¿½ï¿½ï¿½ */
                 CS_IRES_Modify(pIp);
                 
             }
@@ -45,31 +45,31 @@ void CS_IRES_AttitudeFun(void *p)
                 ((pIp->m_WorkMode == 0x05u) && (pIp->csIresCorrPara_FP_IRESUse_AHM == 1)) ||
                 ((pIp->m_WorkMode == 0x03u) && (pIp->csPointSunPara_gfhSPAttCalcMode == 2)))
         {
-            /* ºìÍâµØÇòÃô¸ÐÆ÷Êý¾ÝÓÐÐ§ÐÔÅÐ¶ÏºÍÊý¾Ý´¦Àí */
+            /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½ï¿½Ð¶Ïºï¿½ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ï¿½ */
             CS_IRES_ValidCheck_Convert(pIp);
             
             if (( pIp->csAttPara_FS_AttD != 3 ) && ( pIp->csAttPara_FS_AttD != 4 ))
             {
-                /* 5.2.2.2 »ùÓÚºìÍâÂË²¨µÄ×ËÌ¬ÐÞÕý */
+                /* 5.2.2.2 ï¿½ï¿½ï¿½Úºï¿½ï¿½ï¿½ï¿½Ë²ï¿½ï¿½ï¿½ï¿½ï¿½Ì¬ï¿½ï¿½ï¿½ï¿½ */
                 CS_IRES_Modify(pIp);
             }
         }
         else
         {
-            /* ºìÍâµØÇòÃô¸ÐÆ÷Êý¾ÝÓÐÐ§ÐÔÅÐ¶ÏºÍÊý¾Ý´¦Àí */
+            /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½ï¿½Ð¶Ïºï¿½ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ï¿½ */
             CS_IRES_ValidCheck_Convert(pIp);
         }
     }
     else
     {
-        /* ÖÃºìÍâÎÞÐ§ */
+        /* ï¿½Ãºï¿½ï¿½ï¿½ï¿½ï¿½Ð§ */
         for (i=0; i<2; i++)
         {
             pIp->csIresDiagData_FV[i] = 0u;
             pIp->csIresDiagData_FU[i] = 0u;
         }
     }
-    /**** end of ¹æ·¶»¯Ëã·¨¡¶ºìÍâÃô¸ÐÆ÷ÓÐÐ§ÐÔÅÐ¶Ï¼°Êý¾Ý´¦Àí¡·²úÆ·¹æ·¶ ****/
+    /**** end of ï¿½æ·¶ï¿½ï¿½ï¿½ã·¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½ï¿½Ð¶Ï¼ï¿½ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½æ·¶ ****/
 
     return;
 }
@@ -84,19 +84,19 @@ void CS_IRES_ValidCheck_Convert( void *p )
 
     if((pIp->csModeData_CycleNum % ((unint32)(pIp->csIresPara_Ts / pIp->m_DeltaT))) == 2)
     {
-    	/* Ã¿ESGr.TsÃë£¬½ö¿¼ÂÇÐÍºÅ×î¶àÅäÖÃÁ½¸öºìÍâµÄÇé¿ö */
-        /* ¸ù¾ÝºìÍâµØÇòÃô¸ÐÆ÷ÀàÐÍ£¬µ÷ÓÃÏàÓ¦µÄÊý¾ÝÓÐÐ§ÐÔÅÐ¶Ï³ÌÐò */
+    	/* Ã¿ESGr.Tsï¿½ë£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+        /* ï¿½ï¿½ï¿½Ýºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½ï¿½Ð¶Ï³ï¿½ï¿½ï¿½ */
         MatrixTran(pIp->csIresData_Cbs[0][0], pIp->csIresPara_CbsT[0][0], 3, 3 );
 
-    	/* ¾²Ì¬ºìÍâµØÇòÃô¸ÐÆ÷Êý¾Ý´¦Àí */
+    	/* ï¿½ï¿½Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ï¿½ */
         StaticIresConvert(pIp);
         
-        /* ºìÍâÊä³öµÄÊý¾Ý´¦Àí */
+        /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ï¿½ */
         IRES_DataProcess(pIp);
         
     }
 
-    /**** end of ¹æ·¶»¯Ëã·¨¡¶ºìÍâÃô¸ÐÆ÷ÓÐÐ§ÐÔÅÐ¶Ï¼°Êý¾Ý´¦Àí¡·²úÆ·¹æ·¶ ****/
+    /**** end of ï¿½æ·¶ï¿½ï¿½ï¿½ã·¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½ï¿½Ð¶Ï¼ï¿½ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½æ·¶ ****/
 
     return;
 }
@@ -115,7 +115,7 @@ void StaticIresConvert(void *p)
         pIp->csIresDiagData_theta_i[0] = - Asinx( pIp->csIresDiagData_Eb_i[0][0] ) + pIp->csIresPara_dthetab_Comps[0];
     }
 
-    /* (2)¸ù¾ÝºìÍâµ¥»ú×´Ì¬±êÖ¾½øÐÐÓÐÐ§ÐÔÅÐ¶Ï */
+    /* (2)ï¿½ï¿½ï¿½Ýºï¿½ï¿½âµ¥ï¿½ï¿½×´Ì¬ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½ï¿½Ð¶ï¿½ */
     pIp->csIresDiagData_FV[0] = pIp->csIresData_FHV[0];
 
     if ( pIp->csIresPara_FS[0] == 0 )
@@ -123,7 +123,7 @@ void StaticIresConvert(void *p)
         pIp->csIresDiagData_FV[0] = 0;
     }
 
-    /* (3)½øÐÐºìÍâÊý¾Ý³£Öµ¹ÊÕÏµÄÓÐÐ§ÐÔÅÐ¶Ï */
+    /* (3)ï¿½ï¿½ï¿½Ðºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý³ï¿½Öµï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½Ð§ï¿½ï¿½ï¿½Ð¶ï¿½ */
     if ((pIp->csIresDiagPara_FP_ESProc[pIp->m_WorkMode] == 1) && (pIp->csIresDiagData_FV[0] == 1))
     {
         if (Fabsx(pIp->csIresDiagData_Em[0][0] - pIp->csIresDiagData_Em_Lst[0][0]) < pIp->csIresDiagPara_LmtEm_ConstErr)
@@ -156,7 +156,7 @@ void StaticIresConvert(void *p)
         pIp->csIresDiagData_CntEmy_ConstErr[0] = 0;
     }	
 
-    /* (4) ÀúÊ·Öµ¸³Öµ */
+    /* (4) ï¿½ï¿½Ê·Öµï¿½ï¿½Öµ */
     pIp->csIresDiagData_Em_Lst[0][0] = pIp->csIresDiagData_Em[0][0];
     pIp->csIresDiagData_Em_Lst[0][1] = pIp->csIresDiagData_Em[0][1];
 
@@ -170,20 +170,20 @@ void IRES_DataProcess( void *p)
     unint32 cntValid;
     unint32 idxValid[2];
 
-    /* ÓÐÐ§ºìÍâ¸öÊý³õÖµÖÃÁã */
+    /* ï¿½ï¿½Ð§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ */
     cntValid = 0;
 
-    /* °´Ë³ÐòÌôÑ¡³öÓÐÐ§ºìÍâ£¬½«ÆäË÷ÒýºÅÔÝ´æÓÚidxValidÖÐ£¬×î¶àÌôÁ½¸ö */
+    /* ï¿½ï¿½Ë³ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½ï¿½â£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ï¿½idxValidï¿½Ð£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
     for (i = 0; i < 2; i++)
     {
-        if (pIp->csIresDiagData_FV[i] == 1)  /* ¸ÃºìÍâÓÐÐ§ */
+        if (pIp->csIresDiagData_FV[i] == 1)  /* ï¿½Ãºï¿½ï¿½ï¿½ï¿½ï¿½Ð§ */
         {
             idxValid[cntValid] = i;
 
             cntValid++;
         }
 
-        if (cntValid >= 2)  /* ×î¶àÌôÁ½¸ö */
+        if (cntValid >= 2)  /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
         {
             break;
         }
@@ -197,15 +197,15 @@ void IRES_DataProcess( void *p)
     pIp->csIresData_theta_Lst = pIp->csIresData_theta;
 
     /* (2) */
-    if (cntValid >= 2)  /* ÓÐÐ§ºìÍâ¸öÊýÎªÁ½¸ö»òÒÔÉÏ */
+    if (cntValid >= 2)  /* ï¿½ï¿½Ð§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
     {
-        /* Ñ¡ÓÃÇ°Á½¸öÓÐÐ§ºìÍâÊý¾Ý */
+        /* Ñ¡ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
         pIp->csIresData_phi   = 0.5 * (pIp->csIresDiagData_phi_i[idxValid[0]] + pIp->csIresDiagData_phi_i[idxValid[1]]);
         pIp->csIresData_theta = 0.5 * (pIp->csIresDiagData_theta_i[idxValid[0]] + pIp->csIresDiagData_theta_i[idxValid[1]]);
     }
     else
     {
-        if (cntValid == 1)  /* Ö»ÓÐÒ»¸öºìÍâÓÐÐ§ */
+        if (cntValid == 1)  /* Ö»ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ */
         {
             pIp->csIresData_phi = pIp->csIresDiagData_phi_i[idxValid[0]];
             pIp->csIresData_theta = pIp->csIresDiagData_theta_i[idxValid[0]];
@@ -217,7 +217,7 @@ void IRES_DataProcess( void *p)
     pIp->csIresDiagData_Eb[2] =   Cosx(pIp->csIresData_phi - pIp->csIresPara_dphi_Comps) * Cosx(pIp->csIresData_theta - pIp->csIresPara_dtheta_Comps);
 
     /* (3) */
-    if (cntValid > 0)  /* ÖÁÉÙÓÐÒ»¸öºìÍâÓÐÐ§ */
+    if (cntValid > 0)  /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ */
     {
         pIp->csIresData_dPhi = pIp->csIresCorrPara_Mdf_f_dphi * pIp->csIresData_dPhi +
                           (1.0 - pIp->csIresCorrPara_Mdf_f_dphi) * (pIp->csIresData_phi - pIp->csIresData_phi_Lst2) /
@@ -231,7 +231,7 @@ void IRES_DataProcess( void *p)
 
         pIp->csIresData_dTheta = LimitDouble(pIp->csIresData_dTheta, pIp->csIresCorrPara_Mlf_dtheta);
     }
-    else   /* ËùÓÐºìÍâ¶¼ÎÞÐ§ */
+    else   /* ï¿½ï¿½ï¿½Ðºï¿½ï¿½â¶¼ï¿½ï¿½Ð§ */
     {
         pIp->csIresData_dPhi = 0.0;
         pIp->csIresData_dTheta = 0.0;
@@ -240,7 +240,7 @@ void IRES_DataProcess( void *p)
     return;
 }
 
-void    CS_IRES_Modify(void *p)
+void  CS_IRES_Modify(void *p)
 {
     CS_IRES_Attitude *pIp = (CS_IRES_Attitude*)p;
 
@@ -258,11 +258,11 @@ void    CS_IRES_Modify(void *p)
     }
 
     if ((pIp->csModeData_CycleNum % ((unint32)(pIp->csIresPara_Ts / pIp->m_DeltaT))) == 2)
-    {   /* ºìÍâ¸üÐÂÖÜÆÚ  */
+    {   /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  */
 
         if ( sum > 0 )
         {
-            /* @µ÷ÓÃ¡¶»ùÓÚºìÍâ²âÁ¿µÄºìÍâÂË²¨ÐÞÕýËã·¨²úÆ·¹æ·¶¡· */
+            /* @ï¿½ï¿½ï¿½Ã¡ï¿½ï¿½ï¿½ï¿½Úºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äºï¿½ï¿½ï¿½ï¿½Ë²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ã·¨ï¿½ï¿½Æ·ï¿½æ·¶ï¿½ï¿½ */
             /* extern void IresModify(float64 *Angle, float64 *Gyrob, float64 *Gyrod, const float64 *IresAngle,
             const float64 *DevIresAngle, SIresFilterParam FilterParam); */
             t_IresAngle[0]    = pIp->csIresData_phi;
@@ -293,8 +293,8 @@ void    CS_IRES_Modify(void *p)
                 devangle[i] = t_IresAngle[i] - pIp->csAttCoreData_A_ESG[i] - t_DevIresAngle[i];
                 devangle[i] = LimitDouble(devangle[i], t_FilterParam.lmtDevAngle[i]);
             }
-            /* ×ËÌ¬½Ç¹À¼ÆÖµ  */
-            /* ³£Æ¯¡¢ËæÆ¯¹À¼ÆÖµ  */
+            /* ï¿½ï¿½Ì¬ï¿½Ç¹ï¿½ï¿½ï¿½Öµ  */
+            /* ï¿½ï¿½Æ¯ï¿½ï¿½ï¿½ï¿½Æ¯ï¿½ï¿½ï¿½ï¿½Öµ  */
             pIp->csAttCoreData_A_ESG[0] = pIp->csAttCoreData_A_ESG[0] + t_FilterParam.KH1[0] * devangle[0];
             pIp->csAttCoreData_A_ESG[2] = pIp->csAttCoreData_A_ESG[2] + t_FilterParam.KH1[1] * devangle[0];
             pIp->csGyroData_De_ESCorr[0] = t_FilterParam.Kg[0] * pIp->csGyroData_De_ESCorr[0] + t_FilterParam.KH1[2] * devangle[0];
@@ -306,7 +306,7 @@ void    CS_IRES_Modify(void *p)
             pIp->csGyroData_De_ESCorr[1] = t_FilterParam.Kg[1] * pIp->csGyroData_De_ESCorr[1] + t_FilterParam.KH2[1] * devangle[1];
             pIp->csGyroData_D0_ESCorr[1] = pIp->csGyroData_D0_ESCorr[1] + t_FilterParam.KH2[2] * devangle[1];
 
-            /* ÍÓÂÝÆ¯ÒÆÏÞ·ù */
+            /* ï¿½ï¿½ï¿½ï¿½Æ¯ï¿½ï¿½ï¿½Þ·ï¿½ */
             for (i=0; i<3; i++)
             {
                 pIp->csGyroData_D0_ESCorr[i] = LimitDouble(pIp->csGyroData_D0_ESCorr[i], pIp->csGyroPara_Mlf_D0);

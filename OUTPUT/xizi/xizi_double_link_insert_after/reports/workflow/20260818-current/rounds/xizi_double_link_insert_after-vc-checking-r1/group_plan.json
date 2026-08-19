@@ -1,0 +1,109 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "aed62eb4352aeac5871ea90cc729e767b5da79d68b814095b50ed8a2a594feae",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_insert_after_entail_wit_1",
+    "proof_of_xizi_double_link_insert_after_return_wit_1",
+    "proof_of_xizi_double_link_insert_after_return_wit_2",
+    "proof_of_xizi_double_link_insert_after_return_wit_3",
+    "proof_of_xizi_double_link_insert_after_return_wit_4",
+    "proof_of_xizi_double_link_insert_after_derive_sentinel_case_by_dispatch_case",
+    "proof_of_xizi_double_link_insert_after_derive_member_case_by_dispatch_case"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "implementation_dll_split_reassembly",
+      "witness_names": [
+        "proof_of_xizi_double_link_insert_after_entail_wit_1",
+        "proof_of_xizi_double_link_insert_after_return_wit_1",
+        "proof_of_xizi_double_link_insert_after_return_wit_2",
+        "proof_of_xizi_double_link_insert_after_return_wit_3",
+        "proof_of_xizi_double_link_insert_after_return_wit_4"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_insert_after_entail_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "xizi_in_first_split__insert_after_impl",
+          "statement_shape": "forall nodes anchor, In anchor nodes -> exists prefix suffix, nodes = prefix ++ anchor :: suffix /\\ ~ In anchor prefix",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_insert_after_entail_wit_1"
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "xizi_insert_after_first_occurrence__insert_after_impl",
+          "statement_shape": "forall prefix suffix anchor inserted, ~ In anchor prefix -> xizi_double_link_insert_after_nodes (prefix ++ anchor :: suffix) anchor inserted = prefix ++ anchor :: inserted :: suffix",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_insert_after_entail_wit_1"
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        }
+      ],
+      "likely_helper_declarations": [
+        "xizi_in_first_split__insert_after_impl with the required group-id suffix",
+        "xizi_insert_after_first_occurrence__insert_after_impl with the required group-id suffix"
+      ],
+      "expected_helpers": [
+        "xizi_in_first_split__insert_after_impl",
+        "xizi_insert_after_first_occurrence__insert_after_impl"
+      ],
+      "difficulty": "high",
+      "confidence": "high",
+      "grouping_reason": "The entailment and four return VCs are one DLL decomposition/reassembly family; their five-witness group is below the controller maximum of 12.",
+      "proof_strategy": "For entail_wit_1, split anchor membership versus sentinel equality, open the DLL, derive a first-occurrence member split when needed, and choose among the four generated disjuncts by suffix/nodes nil-versus-cons. Prove the two pure list lemmas in the suffixed group-local case_lib. For return_wit_1 through return_wit_4, select each theorem's full-DLL Coq disjunct, derive necessary address inequalities from separated link-field ownership, fold the updated node links into xizi_dllseg, and close xizi_dll. The member cases induct over the prefix segment; the sentinel cases are the singleton/nonempty base folds.",
+      "natural_language_proof_strategy": "Expose the circular list at exactly the insertion cut, execute the four logical branch shapes, then reassemble the unchanged prefix/suffix with the newly linked node.",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_insert_after_entail_wit_1": "Split member/sentinel and empty/nonempty suffix, instantiate the matching one of four disjuncts, and prove dispatch sequence equalities with the two pure list helpers.",
+        "proof_of_xizi_double_link_insert_after_return_wit_1": "Choose the full-DLL branch and fold head <-> inserted into the singleton DLL.",
+        "proof_of_xizi_double_link_insert_after_return_wit_2": "Choose the full-DLL branch, fold old_first :: rest behind inserted, and close at head.",
+        "proof_of_xizi_double_link_insert_after_return_wit_3": "Choose the full-DLL branch, inductively reassemble prefix ++ anchor :: inserted :: nil, and close at head.",
+        "proof_of_xizi_double_link_insert_after_return_wit_4": "Choose the full-DLL branch, reassemble prefix ++ anchor :: inserted :: old_next :: rest, and close at head."
+      },
+      "premise_discharge": {
+        "first_occurrence": "In anchor nodes plus xizi_in_first_split__insert_after_impl",
+        "dispatch_equation": "anchor = head or anchor <> head, then unfold dispatch_nodes and use xizi_insert_after_first_occurrence__insert_after_impl",
+        "nonnull_and_nonalias": "xizi_dll/xizi_dllseg pure guards plus disjoint ownership of node link fields",
+        "spatial_resources": "xizi_dll_open, xizi_dllseg unfolding/induction, and xizi_dll_close/nonempty_rev"
+      }
+    },
+    {
+      "group_id": "public_contract_derivations",
+      "witness_names": [
+        "proof_of_xizi_double_link_insert_after_derive_sentinel_case_by_dispatch_case",
+        "proof_of_xizi_double_link_insert_after_derive_member_case_by_dispatch_case"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_insert_after_derive_sentinel_case_by_dispatch_case",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "expected_helpers": [],
+      "difficulty": "medium",
+      "confidence": "high",
+      "grouping_reason": "Both witnesses specialize the dispatch contract through the same existential-plus-wand identity pattern; they are kept separate from pointer-level implementation VCs because the proof strategy is substantially different.",
+      "proof_strategy": "Choose the specialized contract's head and nodes as dispatch witnesses. For sentinel, anchor admissibility is the equality branch and dispatch_nodes simplifies to cons. For member, derive ~In head nodes from xizi_dll by segment induction, combine it with In anchor nodes to prove anchor <> head, and simplify dispatch_nodes to insert_after_nodes. In both cases use wand adjunction and forward the dispatch post unchanged to the specialized post.",
+      "natural_language_proof_strategy": "Show that the strong dispatch contract is exactly the sentinel/member contract after choosing the obvious abstract inputs and reducing the pure dispatch function.",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_insert_after_derive_sentinel_case_by_dispatch_case": "Instantiate dispatch with the sentinel and original nodes; unfold the equal branch and prove the wand by identity.",
+        "proof_of_xizi_double_link_insert_after_derive_member_case_by_dispatch_case": "Instantiate dispatch with the member contract inputs, derive anchor <> head from DLL well-formedness and membership, unfold the unequal branch, and prove the wand by identity."
+      },
+      "premise_discharge": {
+        "sentinel_anchor": "right side of xizi_double_link_insert_after_anchor",
+        "member_anchor": "the given In anchor nodes premise",
+        "member_anchor_not_head": "xizi_dll head nodes entails ~ In head nodes",
+        "wand_consequence": "dispatch post and specialized post become syntactically equal after dispatch_nodes simplification"
+      }
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 7,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

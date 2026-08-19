@@ -1,0 +1,5 @@
+From QCIPLib.xizi.xizi_double_link_common Require Import xizi_double_link_strategy_goal xizi_double_link_strategy_proof.
+
+Module xizi_double_link_Strategy_Correctness : xizi_double_link_Strategy_Correct.
+  Include xizi_double_link_strategy_proof.
+End xizi_double_link_Strategy_Correctness.

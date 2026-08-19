@@ -1,0 +1,60 @@
+{
+  "schema_version": "qcp-group-plan/v1",
+  "source_goal_version": "b10e15c5c16d584c466e004c2090ba8492d321592cf919f12a695f7e3148f3a5",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_next_rec_middle_entail_wit_1",
+    "proof_of_xizi_double_link_next_rec_middle_return_wit_1",
+    "proof_of_xizi_double_link_next_rec_middle_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "dll_next_rec_middle_split_suffix_and_reclose",
+      "witness_names": [
+        "proof_of_xizi_double_link_next_rec_middle_entail_wit_1",
+        "proof_of_xizi_double_link_next_rec_middle_return_wit_1",
+        "proof_of_xizi_double_link_next_rec_middle_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_next_rec_middle_entail_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "For entail_wit_1, open xizi_dll, choose the query's first occurrence, inductively split xizi_dllseg around it, and derive the next_value/first_value bridge by recursion over the no-occurrence prefix. For return_wit_1, node_next=sentinel forces nodes_after=nil and result 0; rejoin the cut and close the DLL. For return_wit_2, node_next<>sentinel forces a nonempty suffix headed by node_next; use PreH4 for the complete result, refold the suffix if already exposed, and perform the same join/close. Repair Hhead_value to state xizi_double_link_first_value of the suffix, not the partial application xizi_double_link_next_value nodes. Keep all split/join facts local; no case_lib helper is needed.",
+      "natural_language_proof_strategy": "Use the complete-sequence first-occurrence cut as the sole bridge between the public successor semantics and circular DLL ownership. Tail and middle/non-tail behavior are respectively the empty and nonempty suffix cases; the public spec remains general and the heap is reclosed unchanged.",
+      "grouping_reason": "Same function, same first-occurrence cut, same segment split/join and address-distinctness family, same suffix-head bridge, no dependencies, and three witnesses within max_witnesses_per_group=12.",
+      "confidence": "high",
+      "difficulty": "medium",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_next_rec_middle_entail_wit_1": {
+          "judgment": "proofable",
+          "route": "first-occurrence decomposition and inductive dllseg split"
+        },
+        "proof_of_xizi_double_link_next_rec_middle_return_wit_1": {
+          "judgment": "proofable",
+          "route": "equal-boundary suffix is nil; derive 0 and rejoin/close"
+        },
+        "proof_of_xizi_double_link_next_rec_middle_return_wit_2": {
+          "judgment": "proofable",
+          "route": "nonempty suffix head is node_next; refold if needed, then rejoin/close"
+        }
+      },
+      "premise_discharge": {
+        "first_occurrence": "constructive list decomposition from In, selecting a prefix without the query",
+        "successor_bridge": "unfold xizi_double_link_next_value across the prefix and at the query",
+        "tail_value": "equal-boundary suffix segment is nil, hence xizi_double_link_first_value=0",
+        "non_tail_value": "distinct suffix start/stop forces a cons headed by node_next",
+        "ownership_preservation": "refold any exposed suffix node, then inductively rejoin the cut and close xizi_dll"
+      }
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

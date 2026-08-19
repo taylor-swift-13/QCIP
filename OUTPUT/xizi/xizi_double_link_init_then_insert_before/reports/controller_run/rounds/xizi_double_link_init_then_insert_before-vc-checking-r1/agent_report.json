@@ -1,0 +1,473 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "phase": "vc-checking",
+  "round": "xizi_double_link_init_then_insert_before-vc-checking-r1",
+  "attempt_id": "xizi_double_link_init_then_insert_before-vc-checking-r1-attempt-1",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "vc_checking": {
+      "status": "completed",
+      "terminal": "yes",
+      "ready_for_vc_checking_check_round": true,
+      "source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "8f41ed3b64c1d35d81be290bb20b66c1733f6fe6b9d8b6544891e573ed98718e"
+      },
+      "source_goal_version": {
+        "schema_version": "qcp-source-goal-version/v1",
+        "digest": "994d2a96258574f994ceefbcece3a4217e0aff418d79b4d8f268d2ece3816455"
+      },
+      "version_evidence": {
+        "status": "passed",
+        "source_file_hashes_match_handoff": true,
+        "generated_file_hashes_match_handoff": true,
+        "manual_target_witnesses_match_handoff_exactly": true,
+        "manual_target_witness_order": [
+          "proof_of_xizi_double_link_init_then_insert_before_return_wit_1",
+          "proof_of_xizi_double_link_insert_before_derive_sentinel_case_by_dispatch_case",
+          "proof_of_xizi_double_link_insert_before_derive_member_case_by_dispatch_case"
+        ],
+        "diagnostics_used_as_hint_only": true
+      },
+      "natural_language_analysis": {
+        "schema_version": "qcp-vc-natural-language-analysis/v1",
+        "summary": "All three current manual obligations are semantically entailed by the accepted annotations and case-lib seed. The return obligation is list normalization; the member derivation is direct dispatch instantiation; the sentinel derivation additionally needs proved local facts that a DLL sentinel is absent from its abstract node list and that insertion before an absent anchor appends.",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_xizi_double_link_init_then_insert_before_return_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "Either branch supplies xizi_dll linklist_head_pre (nodes ++ [linklist_node_pre]); proving the left disjunct is sufficient.",
+              "pre_pure": "PreH3 states nodes = nil; non-null premises are present but not needed for normalization.",
+              "pre_exists": "none",
+              "post_spatial": "xizi_dll linklist_head_pre [linklist_node_pre]",
+              "post_pure": "none",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "Choose the first disjunct of the generated return VC; no existential witness is required.",
+            "space_plan": "Substitute nodes = nil and simplify nil ++ [linklist_node_pre]; the pre- and post-spatial assertions then coincide and close by entailment normalization.",
+            "pure_plan": "Use only PreH3: nodes = nil; list simplification rewrites app nil (cons node nil) to cons node nil.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [
+              "Coq.Lists.List app_nil_l simplification"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "nodes = nil",
+                "discharged_by": "generated hypothesis PreH3"
+              }
+            ],
+            "failure_signal": "none",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "return_normalization",
+            "grouping_reason": "This witness is a disjunct selection plus pure list normalization and shares no dispatch/wand helper family with the other two obligations."
+          },
+          {
+            "witness_name": "proof_of_xizi_double_link_insert_before_derive_sentinel_case_by_dispatch_case",
+            "judgment": "needs-helper",
+            "vc_shape": {
+              "pre_spatial": "xizi_dll linklist_pre nodes_sentinel_case ** xizi_dll_node linklist_node_pre",
+              "pre_pure": "No explicit In premise; the DLL representation entails that its sentinel linklist_pre is absent from nodes_sentinel_case.",
+              "pre_exists": "none at the theorem boundary; xizi_dll_open exposes first and last internally.",
+              "post_spatial": "Choose head_dispatch_case = linklist_pre and nodes_dispatch_case = nodes_sentinel_case, retain the same DLL and standalone-node resources, and construct a wand from the dispatch post to xizi_dll linklist_pre (nodes_sentinel_case ++ [linklist_node_pre]).",
+              "post_pure": "xizi_double_link_insert_before_anchor linklist_pre nodes_sentinel_case linklist_pre",
+              "post_exists": "head_dispatch_case := linklist_pre; nodes_dispatch_case := nodes_sentinel_case"
+            },
+            "witness_instantiation": "Instantiate the dispatch existential pair with the sentinel head and the unchanged abstract node list.",
+            "space_plan": "Derive sentinel absence by opening xizi_dll and inducting over xizi_dllseg, whose nonempty case contains node <> stop. Preserve the original DLL/node resources for the dispatch precondition. After rewriting the pure list transformation to append, close the wand as A -* A via sepcon adjunction and identity entailment.",
+            "pure_plan": "Unfold xizi_double_link_insert_before_anchor and select the sentinel equality branch by reflexivity. From xizi_dll obtain ~ In linklist_pre nodes_sentinel_case. Apply the pure induction lemma for xizi_double_link_insert_before_nodes under that absence premise to rewrite its result to nodes_sentinel_case ++ [linklist_node_pre].",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [
+              "xizi_dll_open",
+              "generated definition xizi_double_link_insert_before_anchor",
+              "generated definition xizi_double_link_insert_before_nodes"
+            ],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "xizi_dllseg_stop_not_in",
+                "statement_shape": "forall node prev stop last nodes, xizi_dllseg node prev stop last nodes |-- \u201c ~ In stop nodes \u201d",
+                "used_by_witnesses": [
+                  "proof_of_xizi_double_link_insert_before_derive_sentinel_case_by_dispatch_case"
+                ],
+                "premises": [],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              },
+              {
+                "name_hint": "xizi_dll_head_not_in",
+                "statement_shape": "forall head nodes, xizi_dll head nodes |-- \u201c ~ In head nodes \u201d",
+                "used_by_witnesses": [
+                  "proof_of_xizi_double_link_insert_before_derive_sentinel_case_by_dispatch_case"
+                ],
+                "premises": [
+                  {
+                    "premise": "xizi_dll head nodes",
+                    "discharged_by": "the witness pre-spatial resource; xizi_dll_open exposes the segment ending at head",
+                    "needs_unfold": [
+                      "xizi_dll through xizi_dll_open"
+                    ],
+                    "arithmetic": "none",
+                    "spatial_resource": "xizi_dll head nodes"
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              },
+              {
+                "name_hint": "xizi_insert_before_absent_append",
+                "statement_shape": "forall nodes anchor inserted, ~ In anchor nodes -> xizi_double_link_insert_before_nodes nodes anchor inserted = nodes ++ inserted :: nil",
+                "used_by_witnesses": [
+                  "proof_of_xizi_double_link_insert_before_derive_sentinel_case_by_dispatch_case"
+                ],
+                "premises": [
+                  {
+                    "premise": "~ In anchor nodes",
+                    "discharged_by": "instantiate xizi_dll_head_not_in with anchor = head = linklist_pre and nodes = nodes_sentinel_case",
+                    "needs_unfold": [],
+                    "arithmetic": "none",
+                    "spatial_resource": "derived pure fact from xizi_dll linklist_pre nodes_sentinel_case"
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "premise_discharge": [
+              {
+                "premise": "anchor admissibility",
+                "discharged_by": "right branch linklist_pre = linklist_pre"
+              },
+              {
+                "premise": "~ In linklist_pre nodes_sentinel_case",
+                "discharged_by": "xizi_dll head nodes plus the node <> stop guard in every nonempty xizi_dllseg cell"
+              },
+              {
+                "premise": "dispatch post entails sentinel post",
+                "discharged_by": "rewrite insert_before_nodes using absence/append equality, leaving an identity wand"
+              }
+            ],
+            "failure_signal": "none; every helper premise is derivable from the current witness precondition",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "dispatch_case_derivations",
+            "grouping_reason": "Shares existential dispatch instantiation, anchor unfolding, resource framing, and wand closure with the member derivation; this witness owns the additional sentinel/append helper family."
+          },
+          {
+            "witness_name": "proof_of_xizi_double_link_insert_before_derive_member_case_by_dispatch_case",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "xizi_dll head_member_case nodes_member_case ** xizi_dll_node linklist_node_pre",
+              "pre_pure": "In linklist_pre nodes_member_case",
+              "pre_exists": "none",
+              "post_spatial": "Choose the same head and node list for dispatch; retain the DLL/node resources and construct an identity wand between identical transformed DLL assertions.",
+              "post_pure": "xizi_double_link_insert_before_anchor head_member_case nodes_member_case linklist_pre",
+              "post_exists": "head_dispatch_case := head_member_case; nodes_dispatch_case := nodes_member_case"
+            },
+            "witness_instantiation": "Instantiate the dispatch existential pair with head_member_case and nodes_member_case.",
+            "space_plan": "Frame the unchanged DLL and standalone-node resources into the dispatch precondition. Both sides of the wand are syntactically the same xizi_dll assertion after existential instantiation, so close by sepcon adjunction and identity entailment.",
+            "pure_plan": "Unfold xizi_double_link_insert_before_anchor and select its membership branch using the generated In hypothesis.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [
+              "generated definition xizi_double_link_insert_before_anchor"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "In linklist_pre nodes_member_case",
+                "discharged_by": "the witness pure precondition"
+              },
+              {
+                "premise": "dispatch post entails member post",
+                "discharged_by": "identical transformed DLL assertions after existential instantiation"
+              }
+            ],
+            "failure_signal": "none",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "dispatch_case_derivations",
+            "grouping_reason": "Same public dispatch derivation shape and wand-closing pattern as the sentinel witness."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "return_normalization",
+            "witness_names": [
+              "proof_of_xizi_double_link_init_then_insert_before_return_wit_1"
+            ],
+            "representative_witness": "proof_of_xizi_double_link_init_then_insert_before_return_wit_1",
+            "shared_proof_pattern": "select the easy disjunct, substitute nodes = nil, and normalize list append",
+            "shared_space_plan": "identity entailment after list normalization",
+            "shared_pure_plan": "use PreH3 only",
+            "shared_refinement_plan": "not applicable",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "Pure return normalization is independent from the dispatch derivation family.",
+            "proof_group_ready": true
+          },
+          {
+            "group_id": "dispatch_case_derivations",
+            "witness_names": [
+              "proof_of_xizi_double_link_insert_before_derive_sentinel_case_by_dispatch_case",
+              "proof_of_xizi_double_link_insert_before_derive_member_case_by_dispatch_case"
+            ],
+            "representative_witness": "proof_of_xizi_double_link_insert_before_derive_sentinel_case_by_dispatch_case",
+            "shared_proof_pattern": "instantiate dispatch existentials with the source public view, unfold anchor admissibility, frame unchanged resources, and close the postcondition wand",
+            "shared_space_plan": "reuse the incoming xizi_dll and xizi_dll_node resources; sentinel additionally derives a pure absence fact from DLL shape",
+            "shared_pure_plan": "member chooses the In branch; sentinel chooses head equality and rewrites absent-anchor insertion to append",
+            "shared_refinement_plan": "not applicable",
+            "candidate_helper_declarations": [
+              "xizi_dllseg_stop_not_in",
+              "xizi_dll_head_not_in",
+              "xizi_insert_before_absent_append"
+            ],
+            "dependencies": [],
+            "grouping_reason": "Both obligations derive specialized public contracts from dispatch_case and can be proved consecutively by one worker; only the sentinel member of this group needs the local absence/append helper chain.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "994d2a96258574f994ceefbcece3a4217e0aff418d79b4d8f268d2ece3816455",
+        "target_witnesses": [
+          "proof_of_xizi_double_link_init_then_insert_before_return_wit_1",
+          "proof_of_xizi_double_link_insert_before_derive_sentinel_case_by_dispatch_case",
+          "proof_of_xizi_double_link_insert_before_derive_member_case_by_dispatch_case"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "return_normalization",
+            "witness_names": [
+              "proof_of_xizi_double_link_init_then_insert_before_return_wit_1"
+            ],
+            "representative_witness": "proof_of_xizi_double_link_init_then_insert_before_return_wit_1",
+            "dependencies": [],
+            "candidate_helper_declarations": [],
+            "expected_helpers": [],
+            "proof_strategy": "Select the first disjunct, introduce its universally quantified variables, substitute nodes = nil from PreH3, simplify nil ++ [linklist_node_pre], and close the resulting identity separation entailment.",
+            "grouping_reason": "Independent return/list-normalization proof pattern; separated from dispatch existential and wand obligations.",
+            "difficulty": "low",
+            "confidence": "high"
+          },
+          {
+            "group_id": "dispatch_case_derivations",
+            "witness_names": [
+              "proof_of_xizi_double_link_insert_before_derive_sentinel_case_by_dispatch_case",
+              "proof_of_xizi_double_link_insert_before_derive_member_case_by_dispatch_case"
+            ],
+            "representative_witness": "proof_of_xizi_double_link_insert_before_derive_sentinel_case_by_dispatch_case",
+            "dependencies": [],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "xizi_dllseg_stop_not_in",
+                "statement_shape": "forall node prev stop last nodes, xizi_dllseg node prev stop last nodes |-- \u201c ~ In stop nodes \u201d",
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              },
+              {
+                "name_hint": "xizi_dll_head_not_in",
+                "statement_shape": "forall head nodes, xizi_dll head nodes |-- \u201c ~ In head nodes \u201d",
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              },
+              {
+                "name_hint": "xizi_insert_before_absent_append",
+                "statement_shape": "forall nodes anchor inserted, ~ In anchor nodes -> xizi_double_link_insert_before_nodes nodes anchor inserted = nodes ++ inserted :: nil",
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "expected_helpers": [
+              "xizi_dllseg_stop_not_in__dispatch_case_derivations",
+              "xizi_dll_head_not_in__dispatch_case_derivations",
+              "xizi_insert_before_absent_append__dispatch_case_derivations"
+            ],
+            "proof_strategy": "Prove the three suffixed sentinel helper declarations in the group-local case_lib. For sentinel_case, derive head absence from xizi_dll, instantiate dispatch head/nodes with the sentinel source view, rewrite insert_before_nodes to append, and close the identity wand. For member_case, instantiate with head_member_case/nodes_member_case, use the In premise for anchor admissibility, and directly close the identical wand.",
+            "premise_discharge": {
+              "sentinel_absence": "xizi_dll_open plus induction on xizi_dllseg; every nonempty cell provides node <> stop",
+              "absent_anchor_append": "the derived ~ In sentinel nodes discharges the pure list helper premise",
+              "member_anchor": "the witness In hypothesis discharges the left anchor branch",
+              "wand_posts": "become identity entailments after same-view instantiation and, for sentinel, list rewrite"
+            },
+            "grouping_reason": "Both witnesses are dispatch_case derivations with the same existential/resource/wand skeleton and fit comfortably under the 12-witness limit; keeping them together localizes the sentinel helper family without creating a dependency edge.",
+            "difficulty": "medium",
+            "confidence": "high"
+          }
+        ],
+        "blockers": []
+      },
+      "changed_files": [],
+      "formal_files_modified": false,
+      "file_access_summary": {
+        "read_categories": {
+          "handoff_and_rules": [
+            "reports/xizi_double_link_init_then_insert_before-20260817232144/rounds/xizi_double_link_init_then_insert_before-vc-checking-r1/agent_input.json",
+            ".agents/skills/verification-orchestrator/SKILL.md",
+            ".agents/skills/vc-checking/SKILL.md",
+            ".agents/skills/vc-checking/docs/vc-checking-guide.md",
+            ".agents/skills/vc-checking/docs/natural-language-analysis.md"
+          ],
+          "current_case": [
+            "OUTPUT/xizi/xizi_double_link_init_then_insert_before/source/xizi_double_link_init_then_insert_before.c",
+            "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_init_then_insert_before/source/xizi_double_link_init_then_insert_before_goal.v",
+            "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_init_then_insert_before/source/xizi_double_link_init_then_insert_before_proof_auto.v",
+            "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_init_then_insert_before/source/xizi_double_link_init_then_insert_before_proof_manual.v",
+            "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_init_then_insert_before/source/xizi_double_link_init_then_insert_before_goal_check.v",
+            "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_init_then_insert_before/source/xizi_double_link_init_then_insert_before_lib.v",
+            "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_init_then_insert_before/source/xizi_double_link_init_then_insert_before_proof_diagnostics.v",
+            "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_init_then_insert_before/source/diagnostics_snapshot.json",
+            "QCIPLib/xizi/xizi_double_link_common/xizi_double_link_lib.v"
+          ],
+          "declared_reference_case": [
+            "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_lib.v",
+            "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_proof_manual.v"
+          ]
+        },
+        "denied_globs_touched": []
+      },
+      "timing": {
+        "phase_finished_at": "2026-08-17T15:35:11Z",
+        "major_time_sinks": [
+          "complete handoff and rule reading",
+          "source/source-goal hash verification",
+          "sentinel absence and append-helper semantic audit"
+        ]
+      },
+      "errors": [],
+      "blockers": []
+    }
+  },
+  "verification_result": {
+    "vc_checking_subagent_checks": {
+      "status": "passed",
+      "source_version_matches_input": true,
+      "source_goal_version_matches_input": true,
+      "manual_target_set_matches_input": true,
+      "all_target_witnesses_semantically_proofable": true,
+      "proof_group_coverage_exact": true,
+      "proof_group_dependencies_acyclic": true,
+      "max_witnesses_per_group_respected": true,
+      "formal_files_unchanged": true
+    },
+    "controller_acceptance": "pending",
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-08-17T15:37:54Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_double_link_init_then_insert_before-20260817232144/rounds/xizi_double_link_init_then_insert_before-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    },
+    "controller_simple_repairs": [
+      {
+        "kind": "materialized-inline-group-plan",
+        "source": "/home/yangfp/QCIP/reports/xizi_double_link_init_then_insert_before-20260817232144/rounds/xizi_double_link_init_then_insert_before-vc-checking-r1/agent_report.json",
+        "target": "/home/yangfp/QCIP/reports/xizi_double_link_init_then_insert_before-20260817232144/rounds/xizi_double_link_init_then_insert_before-vc-checking-r1/group_plan.json",
+        "reason": "vc-checking report included an inline group_plan but the default group_plan.json artifact was missing"
+      }
+    ],
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-08-17T15:38:00Z",
+      "source_version": {
+        "digest": "8f41ed3b64c1d35d81be290bb20b66c1733f6fe6b9d8b6544891e573ed98718e",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_init_then_insert_before-20260817232144/xizi_double_link_init_then_insert_before-annotation-r1/OUTPUT/xizi/xizi_double_link_init_then_insert_before/source/xizi_double_link_init_then_insert_before.c",
+            "relative_path": "OUTPUT/xizi/xizi_double_link_init_then_insert_before/source/xizi_double_link_init_then_insert_before.c",
+            "role": "target-c-annotated",
+            "sha256": "2bd8dc50a6e4afdab159989e0fc054ff2838d1f4f9aaaf546817b6588be067dd",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_init_then_insert_before-20260817232144/xizi_double_link_init_then_insert_before-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_init_then_insert_before/source/xizi_double_link_init_then_insert_before_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_init_then_insert_before/source/xizi_double_link_init_then_insert_before_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "527ae084f9dcd378804e327d2caec2d3ce8c7bd149c9c981ea81ba7dc863b659",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "994d2a96258574f994ceefbcece3a4217e0aff418d79b4d8f268d2ece3816455",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_init_then_insert_before/source/xizi_double_link_init_then_insert_before_goal.v",
+            "role": "generated-goal",
+            "sha256": "1d93587c3fca418dafb9a8bc3db7e27880566b34223ef2cb9b1f455769116845",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_init_then_insert_before/source/xizi_double_link_init_then_insert_before_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "d6ef2b3d7563da27871b17a3ed5748ce51e24ab8e57a11eabe11be6990d3fd80",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_init_then_insert_before/source/xizi_double_link_init_then_insert_before_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "b952a53e87776784af7f153952e23eff108899d7f252b69a68dfac5c56993222",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_init_then_insert_before/source/xizi_double_link_init_then_insert_before_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "789abf99b34bda844b2752813ab38af4c847a88da980feb73c2548051c3b69ca",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_init_then_insert_before/source/xizi_double_link_init_then_insert_before_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "94aa83f42aa70c00c2e18a0d6aa22bfaa9b7d53112c872744df3e8baa14f5746",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_init_then_insert_before/source/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "63d1891f444cd00628b089984a4319693f2e3b98e558a52cf9a4adf021f9e6be",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_xizi_double_link_init_then_insert_before_return_wit_1",
+          "proof_of_xizi_double_link_insert_before_derive_sentinel_case_by_dispatch_case",
+          "proof_of_xizi_double_link_insert_before_derive_member_case_by_dispatch_case"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_xizi_double_link_init_then_insert_before_return_wit_1": "e843491c04fdccc9884659f3a09cffd2d41a7354b797b90cab23b70a02ef115a",
+          "proof_of_xizi_double_link_insert_before_derive_member_case_by_dispatch_case": "dc3e7dd76c1e8d56826c3c606998a09d04a085e6e970bef8370926d195ee8772",
+          "proof_of_xizi_double_link_insert_before_derive_sentinel_case_by_dispatch_case": "e5687f5f60ab312cf3313908b57641d886525b318715503b4537b3c6431ab44e"
+        },
+        "witnesses": [
+          {
+            "end_line": 27,
+            "name": "proof_of_xizi_double_link_init_then_insert_before_return_wit_1",
+            "start_line": 25,
+            "statement_hash": "e843491c04fdccc9884659f3a09cffd2d41a7354b797b90cab23b70a02ef115a",
+            "target_symbol": "xizi_double_link_init_then_insert_before_return_wit_1"
+          },
+          {
+            "end_line": 30,
+            "name": "proof_of_xizi_double_link_insert_before_derive_sentinel_case_by_dispatch_case",
+            "start_line": 28,
+            "statement_hash": "e5687f5f60ab312cf3313908b57641d886525b318715503b4537b3c6431ab44e",
+            "target_symbol": "xizi_double_link_insert_before_derive_sentinel_case_by_dispatch_case"
+          },
+          {
+            "end_line": 33,
+            "name": "proof_of_xizi_double_link_insert_before_derive_member_case_by_dispatch_case",
+            "start_line": 31,
+            "statement_hash": "dc3e7dd76c1e8d56826c3c606998a09d04a085e6e970bef8370926d195ee8772",
+            "target_symbol": "xizi_double_link_insert_before_derive_member_case_by_dispatch_case"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_double_link_init_then_insert_before-20260817232144/rounds/xizi_double_link_init_then_insert_before-vc-checking-r1/group_plan.json",
+      "target_witnesses": [
+        "proof_of_xizi_double_link_init_then_insert_before_return_wit_1",
+        "proof_of_xizi_double_link_insert_before_derive_sentinel_case_by_dispatch_case",
+        "proof_of_xizi_double_link_insert_before_derive_member_case_by_dispatch_case"
+      ]
+    }
+  },
+  "blockers": []
+}

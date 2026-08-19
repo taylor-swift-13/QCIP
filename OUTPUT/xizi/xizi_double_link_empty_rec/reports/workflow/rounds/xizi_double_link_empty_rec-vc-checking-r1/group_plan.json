@@ -1,0 +1,54 @@
+{
+  "schema_version": "qcp-group-plan/v1",
+  "source_goal_version": "2d2c42bef36452ba0202118c82ff7a2b98187a8fd8d7b6cfdf9ab685db270c9c",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_empty_rec_return_wit_1",
+    "proof_of_xizi_double_link_empty_rec_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "dll_empty_rec_sentinel_discrimination",
+      "witness_names": [
+        "proof_of_xizi_double_link_empty_rec_return_wit_1",
+        "proof_of_xizi_double_link_empty_rec_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_empty_rec_return_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "Use the first generated disjunct for each witness. For return_wit_1, first <> sentinel contradicts the nil dllseg branch, establishing nodes <> nil; prove 0 = 0 directly, then combine sentinel fields and the unchanged segment with xizi_dll_close. For return_wit_2, first = sentinel contradicts every cons dllseg branch, establishing nodes = nil; prove 1 = 1 directly, then use the same close step. Remove the obsolete `unfold xizi_double_link_empty_rec_result` commands rather than recreating the removed wrapper. No case_lib helper is needed.",
+      "natural_language_proof_strategy": "Treat emptiness as a property already encoded by xizi_dllseg: an empty segment equates its start with the sentinel stop, while a nonempty segment requires them to differ. This yields the direct nil/non-nil postcondition and preserves ownership without mirroring the C comparison.",
+      "grouping_reason": "Same function, complementary sentinel equality cases, identical xizi_dll_close ownership route, identical obsolete-wrapper cleanup, no dependencies, and only two witnesses within max_witnesses_per_group = 12.",
+      "confidence": "high",
+      "difficulty": "low",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_empty_rec_return_wit_1": {
+          "judgment": "proofable",
+          "route": "first <> sentinel rules out nil; direct 0=0; xizi_dll_close"
+        },
+        "proof_of_xizi_double_link_empty_rec_return_wit_2": {
+          "judgment": "proofable",
+          "route": "first = sentinel rules out cons; direct 1=1; xizi_dll_close"
+        }
+      },
+      "premise_discharge": {
+        "nodes_nonempty": "nil dllseg equality contradicts first <> linklist_pre",
+        "nodes_empty": "nonempty dllseg inequality contradicts first = linklist_pre",
+        "return_values": "generated goals are the reflexive equalities 0=0 and 1=1",
+        "sentinel_nonnull": "generated PreH2",
+        "ownership_preservation": "xizi_dll_close over the existing sentinel stores and unchanged segment"
+      }
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 2,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

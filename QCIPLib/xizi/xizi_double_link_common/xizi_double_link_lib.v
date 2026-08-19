@@ -1,243 +1,206 @@
 Require Import Coq.ZArith.ZArith.
 Require Import Coq.Lists.List.
 Require Import Coq.Strings.String.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
-Require Import SetsClass.SetsClass. Import SetsNotation.
 From SimpleC.SL Require Import Mem SeparationLogic.
 Require Import Logic.LogicGenerator.demo932.Interface.
-From QCIPLib.xizi.xizi_double_link_common Require Export xizi_double_link_lib_core.
 
-Local Open Scope Z_scope.
-Local Open Scope sets.
 Import ListNotations.
+Import naive_C_Rules.
+Local Open Scope Z_scope.
 Local Open Scope list.
 Local Open Scope string_scope.
-
-Import naive_C_Rules.
 Local Open Scope sac.
 
-Definition xizi_double_struct_name : string := "SysDoubleLinklistNode".
-Definition xizi_double_next_field : string := "node_next".
-Definition xizi_double_prev_field : string := "node_prev".
+(** QCIP-side address model adapted from [crtosverify/lib/dll.v].
 
-Definition xizi_double_addr_node_store : addr -> addr -> addr -> addr -> Assertion :=
-  dll_addr_store
-    xizi_double_struct_name xizi_double_next_field xizi_double_prev_field.
+    The sentinel owns its two links.  [dllseg node prev stop last nodes]
+    describes the finite chain from [node] up to (but excluding) [stop], while
+    remembering the predecessor on both ends.  The explicit [node <> stop]
+    guard in the nonempty branch fixes the ambiguous cyclic segment admitted
+    by the older definition. *)
+Module Type DLL_LAYOUT.
+  Parameter Inline struct_name : string.
+  Parameter Inline next_field : string.
+  Parameter Inline prev_field : string.
+End DLL_LAYOUT.
 
-Definition xizi_double_head_store : addr -> addr -> addr -> Assertion :=
-  dll_head_store
-    xizi_double_struct_name xizi_double_next_field xizi_double_prev_field.
+Module AddrDLL (Layout : DLL_LAYOUT).
 
-Definition xizi_dllseg :
-  addr -> addr -> addr -> addr -> list addr -> Assertion :=
-  generic_dllseg xizi_double_addr_node_store.
+Import Layout.
 
-Definition xizi_dll : addr -> list addr -> Assertion :=
-  generic_dll_head xizi_double_addr_node_store xizi_double_head_store.
+Definition links (node next prev : addr) : Assertion :=
+  &(node # struct_name ->ₛ next_field) # Ptr |-> next **
+  &(node # struct_name ->ₛ prev_field) # Ptr |-> prev.
 
-Lemma xizi_dll_nil: forall head,
-  xizi_dll head nil |--
-    &(head # xizi_double_struct_name ->ₛ xizi_double_next_field) # Ptr |-> head **
-    &(head # xizi_double_struct_name ->ₛ xizi_double_prev_field) # Ptr |-> head.
+Fixpoint dllseg
+  (node prev stop last : addr) (nodes : list addr) : Assertion :=
+  match nodes with
+  | nil => “ node = stop /\ prev = last ” && emp
+  | expected :: rest =>
+      “ node = expected ” &&
+      “ node <> NULL ” &&
+      “ node <> stop ” &&
+      EX next : addr,
+        links node next prev **
+        dllseg next node stop last rest
+  end.
+
+Definition dll (head : addr) (nodes : list addr) : Assertion :=
+  “ head <> NULL ” &&
+  EX first last : addr,
+    links head first last **
+    dllseg first head head last nodes.
+
+Lemma dll_empty : forall head,
+  dll head nil |-- links head head head.
 Proof.
-  intros.
-  unfold xizi_dll, generic_dll_head, xizi_double_head_store,
-    dll_head_store, dll_links, dll_next_link, dll_prev_link,
-    xizi_double_struct_name, xizi_double_next_field, xizi_double_prev_field.
-  unfold xizi_dllseg, generic_dllseg.
-  Intros first last.
-  Intros.
-  subst first last.
-  entailer!.
+  intros; unfold dll; Intros first last; simpl; Intros.
+  destruct H0 as [Hfirst Hlast].
+  subst first; subst last; entailer!.
 Qed.
 
-Lemma xizi_dll_nil_rev: forall head,
-  &(head # xizi_double_struct_name ->ₛ xizi_double_next_field) # Ptr |-> head **
-  &(head # xizi_double_struct_name ->ₛ xizi_double_prev_field) # Ptr |-> head |--
-  xizi_dll head nil.
+Lemma dll_empty_rev : forall head,
+  head <> NULL ->
+  links head head head |-- dll head nil.
 Proof.
-  intros.
-  unfold xizi_dll, generic_dll_head, xizi_double_head_store,
-    dll_head_store, dll_links, dll_next_link, dll_prev_link,
-    xizi_double_struct_name, xizi_double_next_field, xizi_double_prev_field.
-  unfold xizi_dllseg, generic_dllseg.
-  Exists head head.
-  entailer!.
+  intros; unfold dll, links; Exists head head; simpl; entailer!.
 Qed.
 
-Lemma xizi_dll_cons: forall head l,
-  xizi_dll head l |--
-    EX first last,
-      &(head # xizi_double_struct_name ->ₛ xizi_double_next_field) # Ptr |-> first **
-      &(head # xizi_double_struct_name ->ₛ xizi_double_prev_field) # Ptr |-> last **
-      xizi_dllseg first head head last l.
+Lemma dll_open : forall head nodes,
+  dll head nodes |--
+  EX first last,
+    links head first last **
+    dllseg first head head last nodes.
 Proof.
-  intros.
-  unfold xizi_dll, generic_dll_head, xizi_double_head_store,
-    dll_head_store, dll_links, dll_next_link, dll_prev_link,
-    xizi_double_struct_name, xizi_double_next_field, xizi_double_prev_field.
-  Intros first last.
-  Exists first last.
-  entailer!.
+  intros; unfold dll; Intros first last; Exists first last; entailer!.
 Qed.
 
-Lemma xizi_dll_cons_rev: forall head first last l,
-  &(head # xizi_double_struct_name ->ₛ xizi_double_next_field) # Ptr |-> first **
-  &(head # xizi_double_struct_name ->ₛ xizi_double_prev_field) # Ptr |-> last **
-  xizi_dllseg first head head last l |--
-  xizi_dll head l.
+Lemma dll_close : forall head first last nodes,
+  head <> NULL ->
+  links head first last ** dllseg first head head last nodes |--
+  dll head nodes.
 Proof.
-  intros.
-  unfold xizi_dll, generic_dll_head, xizi_double_head_store,
-    dll_head_store, dll_links, dll_next_link, dll_prev_link,
-    xizi_double_struct_name, xizi_double_next_field, xizi_double_prev_field.
-  Exists first last.
-  entailer!.
+  intros; unfold dll, links; Exists first last; entailer!.
 Qed.
 
-Lemma xizi_dllseg_same: forall x prev l,
-  xizi_dllseg x prev x prev l |-- “ l = nil ” && emp.
+Lemma dll_nonempty : forall head first rest,
+  dll head (first :: rest) |--
+  EX next last,
+    “ first <> NULL ” &&
+    “ first <> head ” &&
+    links head first last **
+    links first next head **
+    dllseg next first head last rest.
 Proof.
-  intros.
-  destruct l as [| d l0].
-  - unfold xizi_dllseg.
-    simpl.
-    Intros.
-    entailer!.
-  - unfold xizi_dllseg.
-    simpl.
-    Intros y.
-    entailer!.
-Qed.
-
-Lemma xizi_dllseg_same_rev: forall x prev,
-  emp |-- xizi_dllseg x prev x prev nil.
-Proof.
-  intros.
-  unfold xizi_dllseg.
-  simpl.
-  entailer!.
-Qed.
-
-Lemma xizi_dllseg_not_same: forall x prev tail last l,
-  x <> tail ->
-  xizi_dllseg x prev tail last l |--
-    EX next l0,
-      “ l = x :: l0 ” &&
-      &(x # xizi_double_struct_name ->ₛ xizi_double_next_field) # Ptr |-> next **
-      &(x # xizi_double_struct_name ->ₛ xizi_double_prev_field) # Ptr |-> prev **
-      xizi_dllseg next x tail last l0.
-Proof.
-  intros.
-  destruct l as [| d l0].
-  - unfold xizi_dllseg.
-    simpl.
-    Intros.
-    subst.
-    tauto.
-  - unfold xizi_dllseg.
-    simpl.
-    unfold xizi_double_addr_node_store, dll_addr_store, dll_links,
-      dll_next_link, dll_prev_link,
-      xizi_double_struct_name, xizi_double_next_field, xizi_double_prev_field.
-    Intros next.
-    Intros.
-    subst d.
-    Exists next l0.
-    entailer!.
-Qed.
-
-Lemma xizi_dllseg_len1: forall x prev tail,
-  x <> NULL ->
-  x <> tail ->
-  &(x # xizi_double_struct_name ->ₛ xizi_double_next_field) # Ptr |-> tail **
-  &(x # xizi_double_struct_name ->ₛ xizi_double_prev_field) # Ptr |-> prev |--
-  xizi_dllseg x prev tail x [x].
-Proof.
-  intros.
-  unfold xizi_dllseg, generic_dllseg,
-    xizi_double_addr_node_store, dll_addr_store,
-    dll_links, dll_next_link, dll_prev_link.
-  Exists tail.
-  entailer!.
-Qed.
-
-Lemma xizi_dllseg_dllseg: forall x prev middle before_middle tail last l1 l2,
-  Forall (fun p => p <> tail) l1 ->
-  xizi_dllseg x prev middle before_middle l1 **
-  xizi_dllseg middle before_middle tail last l2 |--
-  xizi_dllseg x prev tail last (l1 ++ l2).
-Proof.
-  intros x prev middle before_middle tail last l1.
-  revert x prev.
-  induction l1 as [| a l1 IH]; intros x prev l2 Haway.
-  - unfold xizi_dllseg at 1.
-    simpl.
-    Intros.
-    subst x prev.
-    entailer!.
-  - inversion Haway as [| ? ? Ha Hrest]; subst.
-    unfold xizi_dllseg at 1.
-    simpl.
-    fold (generic_dllseg xizi_double_addr_node_store).
-    unfold xizi_double_addr_node_store, dll_addr_store at 1.
-    Intros next.
-    Intros.
-    subst a.
-    unfold xizi_dllseg.
-    simpl.
-    fold (generic_dllseg xizi_double_addr_node_store).
-    Exists next.
-    specialize (IH next x l2 Hrest).
-    unfold xizi_dllseg, xizi_double_addr_node_store in IH.
-    unfold xizi_double_addr_node_store at 1.
-    sep_apply IH.
-    unfold xizi_double_addr_node_store, dll_addr_store.
-    entailer!.
-Qed.
-
-Lemma xizi_dll_nonempty: forall head first l,
-  xizi_dll head (first :: l) |--
-    EX next last,
-      “ first <> NULL ” &&
-      “ first <> head ” &&
-      &(head # xizi_double_struct_name ->ₛ xizi_double_next_field) # Ptr |-> first **
-      &(head # xizi_double_struct_name ->ₛ xizi_double_prev_field) # Ptr |-> last **
-      &(first # xizi_double_struct_name ->ₛ xizi_double_next_field) # Ptr |-> next **
-      &(first # xizi_double_struct_name ->ₛ xizi_double_prev_field) # Ptr |-> head **
-      xizi_dllseg next first head last l.
-Proof.
-  intros.
-  unfold xizi_dll, generic_dll_head, xizi_double_head_store,
-    dll_head_store, dll_links, dll_next_link, dll_prev_link.
-  Intros actual_first last.
-  unfold xizi_dllseg, generic_dllseg.
-  unfold xizi_double_addr_node_store, dll_addr_store,
-    dll_links, dll_next_link, dll_prev_link.
-  Intros next.
-  Intros.
+  intros; unfold dll; Intros actual_first last; simpl; Intros next; Intros.
   subst actual_first.
-  Exists next last.
-  entailer!.
+  Exists next last; entailer!.
 Qed.
 
-Lemma xizi_dll_nonempty_rev: forall head first next last l,
+Lemma dll_nonempty_rev : forall head first next last rest,
+  head <> NULL ->
   first <> NULL ->
   first <> head ->
-  &(head # xizi_double_struct_name ->ₛ xizi_double_next_field) # Ptr |-> first **
-  &(head # xizi_double_struct_name ->ₛ xizi_double_prev_field) # Ptr |-> last **
-  &(first # xizi_double_struct_name ->ₛ xizi_double_next_field) # Ptr |-> next **
-  &(first # xizi_double_struct_name ->ₛ xizi_double_prev_field) # Ptr |-> head **
-  xizi_dllseg next first head last l |--
-  xizi_dll head (first :: l).
+  links head first last **
+  links first next head **
+  dllseg next first head last rest |--
+  dll head (first :: rest).
 Proof.
-  intros.
-  unfold xizi_dll, generic_dll_head, xizi_double_head_store,
-    dll_head_store, dll_links, dll_next_link, dll_prev_link.
-  Exists first last.
-  unfold xizi_dllseg, generic_dllseg.
-  unfold xizi_double_addr_node_store, dll_addr_store,
-    dll_links, dll_next_link, dll_prev_link.
-  Exists next.
-  entailer!.
+  intros; unfold dll, links; Exists first last; simpl; Exists next; entailer!.
+Qed.
+
+End AddrDLL.
+
+Module XiziDoubleLinkLayout <: DLL_LAYOUT.
+  Definition struct_name : string := "SysDoubleLinklistNode".
+  Definition next_field : string := "node_next".
+  Definition prev_field : string := "node_prev".
+End XiziDoubleLinkLayout.
+
+Module XiziDLL := AddrDLL XiziDoubleLinkLayout.
+
+Definition xizi_dllseg :
+  addr -> addr -> addr -> addr -> list addr -> Assertion := XiziDLL.dllseg.
+
+Definition xizi_dll : addr -> list addr -> Assertion := XiziDLL.dll.
+
+Definition xizi_dll_links : addr -> addr -> addr -> Assertion := XiziDLL.links.
+
+(** Public ownership view for a standalone Xizi DLL node.  This follows
+    [DLL.occupy_dll_node] from [crtosverify/lib/dll.v], while using the real
+    Xizi C structure tag and retaining the non-null requirement expected by
+    the API. *)
+Definition xizi_dll_node (node : addr) : Assertion :=
+  “ node <> NULL ” &&
+  &(node # XiziDoubleLinkLayout.struct_name ->ₛ
+      XiziDoubleLinkLayout.next_field) # Ptr |->_ **
+  &(node # XiziDoubleLinkLayout.struct_name ->ₛ
+      XiziDoubleLinkLayout.prev_field) # Ptr |->_.
+
+Lemma xizi_dll_empty : forall head,
+  xizi_dll head nil |-- xizi_dll_links head head head.
+Proof. exact XiziDLL.dll_empty. Qed.
+
+Lemma xizi_dll_empty_rev : forall head,
+  head <> NULL ->
+  xizi_dll_links head head head |-- xizi_dll head nil.
+Proof. exact XiziDLL.dll_empty_rev. Qed.
+
+Lemma xizi_dll_open : forall head nodes,
+  xizi_dll head nodes |--
+  EX first last,
+    xizi_dll_links head first last **
+    xizi_dllseg first head head last nodes.
+Proof. exact XiziDLL.dll_open. Qed.
+
+Lemma xizi_dll_close : forall head first last nodes,
+  head <> NULL ->
+  xizi_dll_links head first last **
+  xizi_dllseg first head head last nodes |--
+  xizi_dll head nodes.
+Proof. exact XiziDLL.dll_close. Qed.
+
+Lemma xizi_dll_nonempty : forall head first rest,
+  xizi_dll head (first :: rest) |--
+  EX next last,
+    “ first <> NULL ” &&
+    “ first <> head ” &&
+    xizi_dll_links head first last **
+    xizi_dll_links first next head **
+    xizi_dllseg next first head last rest.
+Proof. exact XiziDLL.dll_nonempty. Qed.
+
+Lemma xizi_dll_nonempty_rev : forall head first next last rest,
+  head <> NULL ->
+  first <> NULL ->
+  first <> head ->
+  xizi_dll_links head first last **
+  xizi_dll_links first next head **
+  xizi_dllseg next first head last rest |--
+  xizi_dll head (first :: rest).
+Proof. exact XiziDLL.dll_nonempty_rev. Qed.
+
+Lemma xizi_dllseg_unfold : forall node prev stop last nodes,
+  node <> stop ->
+  xizi_dllseg node prev stop last nodes |--
+  EX next rest,
+    “ nodes = node :: rest ” &&
+    xizi_dll_links node next prev **
+    xizi_dllseg next node stop last rest.
+Proof.
+  intros node prev stop last nodes Hneq.
+  destruct nodes as [| expected rest].
+  - unfold xizi_dllseg, XiziDLL.dllseg.
+    simpl.
+    Intros.
+    destruct H as [Hsame _].
+    contradiction.
+  - unfold xizi_dllseg, XiziDLL.dllseg.
+    simpl.
+    Intros next.
+    Intros.
+    subst expected.
+    Exists next rest.
+    unfold xizi_dll_links.
+    entailer!.
 Qed.

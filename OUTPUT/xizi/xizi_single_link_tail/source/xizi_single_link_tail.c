@@ -1,31 +1,36 @@
 #include "verification_stdlib.h"
 #include "verification_list.h"
-#include "xizi_single_link_def.h"
+#include "../../xizi_single_link_common/source/xizi_single_link_def.h"
 
 SysSingleLinklistType *xizi_single_link_tail(SysSingleLinklistType *linklist)
 /*@ With l
     Require
-      linklist != 0 &&
-      xizi_sll(linklist, l)
+      xizi_sll_head(linklist, l)
     Ensure
-      exists l1,
-        l == app(l1, cons(__return, nil)) &&
-        __return != 0 &&
-        xizi_sllseg(linklist@pre, __return, l1) *
-        (__return -> node_next == 0)
+      __return ==
+        xizi_sll_tail_value(l, linklist) &&
+      xizi_sll_head(linklist, l)
 */
 {
-    /*@ Inv
-          exists l1 l2 next,
-            l == app(l1, cons(linklist, l2)) &&
-            linklist != 0 &&
-            linklist -> node_next == next &&
-            xizi_sllseg(linklist@pre, linklist, l1) *
-            xizi_sll(next, l2)
-    */
-    while (linklist->node_next) {
-        linklist = linklist->node_next;
+    SysSingleLinklistType *current = linklist->node_next;
+
+    if (current == (void *)0) {
+        return linklist;
     }
 
-    return linklist;
+    /*@ Inv Assert
+          exists first l1 l2 next,
+            l == app(l1, cons(current, l2)) &&
+            current != 0 &&
+            linklist != 0 &&
+            (linklist -> node_next == first) *
+            xizi_sllseg(first, current, l1) *
+            (current -> node_next == next) *
+            xizi_sll(next, l2)
+    */
+    while (current->node_next) {
+        current = current->node_next;
+    }
+
+    return current;
 }

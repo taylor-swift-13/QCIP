@@ -20,37 +20,68 @@ Import naive_C_Rules.
 From QCIPLib.xizi.xizi_single_link_common Require Import xizi_single_link_lib.
 Local Open Scope sac.
 
-Lemma proof_of_xizi_single_link_remove_node_entail_wit_1 : xizi_single_link_remove_node_entail_wit_1.
+Lemma proof_of_xizi_single_link_remove_node_safety_wit_1 :
+  xizi_single_link_remove_node_safety_wit_1.
 Proof.
   pre_process.
-  sep_apply xizi_sll_to_target_not_same; [ | tauto ].
-  Intros next l0.
-  Exists next (@nil Z).
-  Exists l0 l0.
-  unfold xizi_sllseg.
-  simpl.
-  simpl app.
   entailer!.
 Qed.
 
-Lemma proof_of_xizi_single_link_remove_node_entail_wit_2 : xizi_single_link_remove_node_entail_wit_2.
+Lemma proof_of_xizi_single_link_remove_node_safety_wit_2 :
+  xizi_single_link_remove_node_safety_wit_2.
+Proof.
+  pre_process.
+  entailer!.
+Qed.
+
+Lemma proof_of_xizi_single_link_remove_node_safety_wit_3 :
+  xizi_single_link_remove_node_safety_wit_3.
+Proof.
+  pre_process.
+  entailer!.
+Qed.
+
+Lemma proof_of_xizi_single_link_remove_node_safety_wit_4 :
+  xizi_single_link_remove_node_safety_wit_4.
+Proof.
+  pre_process.
+  entailer!.
+Qed.
+
+Lemma proof_of_xizi_single_link_remove_node_entail_wit_1 :
+  xizi_single_link_remove_node_entail_wit_1.
 Proof.
   pre_process.
   sep_apply xizi_sll_to_target_not_same; [ | tauto ].
-  Intros next l0.
-  pose (l1_new := l1_2 ++ (node :: nil)).
-  Exists next l1_new.
-  Exists l0 l0_2.
+  Intros next rest.
+  Exists (xizi_sll_first_value l2) next (@nil Z) l1 l1.
+  unfold xizi_sllseg.
+  simpl.
+  entailer!.
+Qed.
+
+Lemma proof_of_xizi_single_link_remove_node_entail_wit_2 :
+  xizi_single_link_remove_node_entail_wit_2.
+Proof.
+  pre_process.
+  sep_apply xizi_sll_to_target_not_same; [ | tauto ].
+  Intros next rest.
+  pose (l1a_new := l1a_2 ++ (node :: nil)).
+  Exists (xizi_sll_first_value l2) next l1a_new rest l1.
   entailer!.
   - fold xizi_struct_name.
     fold xizi_next_field.
     sep_apply (xizi_sllseg_len1 node next_2); [ | tauto ].
-    sep_apply (xizi_sllseg_sllseg linklist_pre node next_2 l1_2 (node :: nil)).
+    sep_apply
+      (xizi_sllseg_sllseg
+        linklist_pre node next_2 l1a_2 (node :: nil)).
     entailer!.
-  - subst l1_new.
+  - subst l1a_new.
     match goal with
-    | Hsplit : l_before = app l1_2 (node :: l2_2),
-      Htail : l2_2 = next_2 :: l0 |- _ =>
+    | Hsplit :
+        cons linklist_pre l1 =
+          app l1a_2 (node :: l1b_2),
+      Htail : l1b_2 = next_2 :: rest |- _ =>
         rewrite Hsplit; rewrite Htail
     end.
     rewrite <- app_assoc.
@@ -58,18 +89,38 @@ Proof.
     reflexivity.
 Qed.
 
-Lemma proof_of_xizi_single_link_remove_node_entail_wit_3_1 : xizi_single_link_remove_node_entail_wit_3_1.
+Lemma proof_of_xizi_single_link_remove_node_return_wit_1 :
+  xizi_single_link_remove_node_return_wit_1.
 Proof.
   pre_process.
-  subst next.
-  sep_apply xizi_sll_to_target_same.
-  Intros.
-  subst l2.
-  Exists linklist_node_pre l1_2.
-  entailer!.
+  subst node_node_next.
+  fold xizi_struct_name.
+  fold xizi_next_field.
+  sep_apply
+    (xizi_sll_cons
+      node (xizi_sll_first_value l2) l2 PreH4).
+  sep_apply
+    (xizi_sllseg_sll
+      linklist_pre node l1a (node :: l2)).
+  replace (l1a ++ node :: l2)
+    with (linklist_pre :: (l1 ++ l2)).
+  - sep_apply
+      (xizi_sll_head_from_cons linklist_pre (l1 ++ l2)).
+    Exists (xizi_sll_first_value l2).
+    entailer!.
+  - match goal with
+    | Hsplit :
+        cons linklist_pre l1 =
+          app l1a (node :: nil) |- _ =>
+        rewrite Hsplit
+    end.
+    rewrite <- app_assoc.
+    simpl.
+    reflexivity.
 Qed.
 
-Lemma proof_of_xizi_single_link_remove_node_entail_wit_3_2 : xizi_single_link_remove_node_entail_wit_3_2.
+Lemma proof_of_xizi_single_link_remove_node_return_wit_2 :
+  xizi_single_link_remove_node_return_wit_2.
 Proof.
   pre_process.
   subst next.
@@ -77,21 +128,38 @@ Proof.
   entailer!.
 Qed.
 
-Lemma proof_of_xizi_single_link_remove_node_return_wit_1 : xizi_single_link_remove_node_return_wit_1.
+Lemma proof_of_xizi_single_link_remove_node_partial_solve_wit_1_pure :
+  xizi_single_link_remove_node_partial_solve_wit_1_pure.
 Proof.
   pre_process.
-  subst node_node_next.
-  replace (app l_before l_after) with (l1 ++ node :: l_after).
-  - fold xizi_struct_name.
-    fold xizi_next_field.
-    sep_apply (xizi_sll_cons node target_next l_after); [ | tauto ].
-    sep_apply (xizi_sllseg_sll linklist_pre node l1 (node :: l_after)).
-    entailer!.
-  - match goal with
-    | Hsplit : l_before = app l1 (node :: nil) |- _ =>
-        rewrite Hsplit
-    end.
-    rewrite <- app_assoc.
-    simpl.
-    reflexivity.
+  entailer!.
+Qed.
+
+Lemma proof_of_xizi_single_link_remove_node_partial_solve_wit_1 :
+  xizi_single_link_remove_node_partial_solve_wit_1.
+Proof.
+  intros.
+  pre_process.
+  entailer!.
+Qed.
+
+Lemma proof_of_xizi_single_link_remove_node_partial_solve_wit_2 :
+  xizi_single_link_remove_node_partial_solve_wit_2.
+Proof.
+  pre_process.
+  subst next.
+  entailer!.
+Qed.
+
+Lemma proof_of_xizi_single_link_remove_node_which_implies_wit_1 :
+  xizi_single_link_remove_node_which_implies_wit_1.
+Proof.
+  right.
+  intros l2 l1 l linklist_node linklist first
+    Hhead Hlist.
+  subst l.
+  sep_apply
+    (xizi_sll_head_split_target
+      linklist first l1 linklist_node l2 Hhead).
+  entailer!.
 Qed.

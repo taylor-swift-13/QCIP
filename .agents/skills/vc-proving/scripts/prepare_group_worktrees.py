@@ -53,6 +53,17 @@ def _formal_file_candidates(manual_rel: Path) -> list[Path]:
 
 
 def _sync_round_files(round_worktree: Path, group_worktree: Path, manifest: dict[str, Any]) -> None:
+    # A round worktree may contain controller-approved, uncommitted shared
+    # libraries.  A Git worktree created from its HEAD alone would silently
+    # fall back to stale library definitions, so mirror the active QCIPLib
+    # snapshot before copying the case-local formal files.
+    round_qciplib = round_worktree / "QCIPLib"
+    group_qciplib = group_worktree / "QCIPLib"
+    if round_qciplib.is_dir():
+        if group_qciplib.exists():
+            shutil.rmtree(group_qciplib)
+        shutil.copytree(round_qciplib, group_qciplib)
+
     rels = set(_formal_file_candidates(Path(str(manifest["proof_manual_file"]))))
     rels.add(Path(str(manifest["case_lib"])))
     for rel in rels:

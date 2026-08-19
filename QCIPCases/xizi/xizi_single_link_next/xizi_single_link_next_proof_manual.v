@@ -21,3 +21,28 @@ Import naive_C_Rules.
 From QCIPLib.xizi.xizi_single_link_common Require Import xizi_single_link_lib.
 Local Open Scope sac.
 
+Lemma proof_of_xizi_single_link_next_return_wit_1 : xizi_single_link_next_return_wit_1.
+Proof.
+  left.
+  intros linklist_node_pre l prefix suffix next
+    PreH1 PreH2 PreH3.
+  apply _derivable1_andp_intros.
+  - rewrite PreH3.
+    rewrite xizi_sll_next_value_app by exact PreH2.
+    prop_apply (xizi_sll_first_value_eq next suffix).
+    entailer!.
+  - fold xizi_struct_name.
+    fold xizi_next_field.
+    sep_apply
+      (xizi_sll_cons linklist_node_pre next suffix);
+      [ | exact PreH1 ].
+    sep_apply
+      (xizi_sllseg_sll
+        (xizi_sll_first_value l)
+        linklist_node_pre
+        prefix
+        (linklist_node_pre :: suffix)).
+    entailer!.
+    rewrite PreH3.
+    entailer!.
+Qed.

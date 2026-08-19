@@ -20,15 +20,20 @@ Import naive_C_Rules.
 From QCIPLib.xizi.xizi_single_link_common Require Import xizi_single_link_lib.
 Local Open Scope sac.
 
+Lemma proof_of_xizi_single_link_append_safety_wit_1 : xizi_single_link_append_safety_wit_1.
+Proof.
+  pre_process.
+  entailer!.
+Qed.
+
 Lemma proof_of_xizi_single_link_append_entail_wit_1 : xizi_single_link_append_entail_wit_1.
 Proof.
   pre_process.
-  sep_apply xizi_sll_not_zero; [ | tauto ].
-  Intros next l0.
-  Exists next.
-  Exists (@nil Z).
-  Exists l0.
-  Exists l0.
+  unfold xizi_sll_node,
+    xizi_sll_head, generic_sll_head, xizi_head_store,
+    sll_head_store, sll_link, xizi_struct_name, xizi_next_field.
+  Intros next.
+  Exists next (@nil Z) l.
   unfold xizi_sllseg.
   simpl.
   entailer!.
@@ -39,10 +44,7 @@ Proof.
   pre_process.
   sep_apply xizi_sll_not_zero; [ | tauto ].
   Intros next lnext.
-  Exists next.
-  Exists (l1a_2 ++ (node :: nil)).
-  Exists lnext.
-  Exists l0_2.
+  Exists next (l1a_2 ++ (node :: nil)) lnext.
   entailer!.
   - fold xizi_struct_name.
     fold xizi_next_field.
@@ -62,16 +64,37 @@ Proof.
   sep_apply (xizi_sll_zero 0 l1b); [ | reflexivity ].
   Intros.
   subst l1b.
-  subst l.
-  assert (Hln : linklist_node_pre <> NULL) by tauto.
-  assert (Hz : 0 = NULL) by reflexivity.
+  assert (Hnew : linklist_node_pre <> NULL) by tauto.
   assert (Hnode : node <> NULL) by tauto.
+  prop_apply (xizi_sllseg_start_not_zero linklist_pre node l1a Hnode).
+  Intros.
+  assert (Hhead : linklist_pre <> NULL) by tauto.
   fold xizi_struct_name.
   fold xizi_next_field.
   sep_apply (xizi_sll_len1 linklist_node_pre 0); [ | reflexivity | tauto ].
   sep_apply (xizi_sll_cons node linklist_node_pre (linklist_node_pre :: nil)); [ | tauto ].
   sep_apply (xizi_sllseg_sll linklist_pre node l1a (node :: linklist_node_pre :: nil)).
-  rewrite <- app_assoc.
-  simpl.
+  sep_apply xizi_sll_not_zero; [ | exact Hhead ].
+  Intros q l0.
+  unfold xizi_sll_head, generic_sll_head, xizi_head_store,
+    sll_head_store, sll_link, xizi_struct_name, xizi_next_field.
+  Exists q.
+  simpl in *.
+  entailer!.
+  assert (Hwhole:
+    linklist_pre :: l0 =
+    linklist_pre :: (l ++ linklist_node_pre :: nil)).
+  {
+    rewrite <- H5.
+    change (
+      l1a ++ node :: linklist_node_pre :: nil =
+      (linklist_pre :: l) ++ linklist_node_pre :: nil).
+    rewrite PreH1.
+    rewrite <- app_assoc.
+    reflexivity.
+  }
+  injection Hwhole.
+  intros.
+  subst l0.
   entailer!.
 Qed.

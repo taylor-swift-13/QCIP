@@ -18,19 +18,60 @@ Local Open Scope list.
 Import naive_C_Rules.
 From QCIPLib.xizi.xizi_single_link_common Require Import xizi_single_link_lib.
 Local Open Scope sac.
-From QCIPLib.xizi.xizi_single_link_common Require Import xizi_single_link_strategy_goal.
-From QCIPLib.xizi.xizi_single_link_common Require Import xizi_single_link_strategy_proof.
+Require Import xizi_single_link_strategy_goal.
+Require Import xizi_single_link_strategy_proof.
 
 (*----- Function xizi_single_link_next -----*)
 
 Definition xizi_single_link_next_return_wit_1 := 
-forall (linklist_node_pre: Z) (l: (@list Z)) (next: Z) (PreH1 : (linklist_node_pre <> 0)) ,
+(
+forall (linklist_node_pre: Z) (l: (@list Z)) (prefix: (@list Z)) (suffix: (@list Z)) (next: Z) (PreH1 : (linklist_node_pre <> 0)) (PreH2 : (not (In (linklist_node_pre) (prefix)) )) (PreH3 : (l = (app (prefix) ((cons (linklist_node_pre) (suffix)))))) ,
   ((&((linklist_node_pre)  # "SingleLinklistNode" ->ₛ "node_next")) # Ptr  |-> next)
-  **  (xizi_sll next l )
+  **  (xizi_sll next suffix )
+  **  (xizi_sllseg (xizi_sll_first_value (l)) linklist_node_pre prefix )
 |--
-  “ (next = next) ”
+  “ (next = (xizi_sll_next_value (l) (linklist_node_pre))) ”
+  &&  (xizi_sll (xizi_sll_first_value (l)) l )
+) \/
+(
+forall (linklist_node_pre: Z) (l: (@list Z)) (prefix: (@list Z)) (suffix: (@list Z)) (next: Z) (PreH1 : (linklist_node_pre <> 0)) (PreH2 : (not (In (linklist_node_pre) (prefix)) )) (PreH3 : (l = (app (prefix) ((cons (linklist_node_pre) (suffix)))))) ,
+  ((&((linklist_node_pre)  # "SingleLinklistNode" ->ₛ "node_next")) # Ptr  |-> next)
+  **  (xizi_sll next suffix )
+  **  (xizi_sllseg (xizi_sll_first_value (l)) linklist_node_pre prefix )
+|--
+  “ (next = (xizi_sll_next_value (l) (linklist_node_pre))) ”
+  &&  (xizi_sll (xizi_sll_first_value (l)) l )
+).
+
+Definition xizi_single_link_next_return_wit_1_split_goal_1 := 
+forall (linklist_node_pre: Z) (l: (@list Z)) (prefix: (@list Z)) (suffix: (@list Z)) (next: Z) (PreH1 : (linklist_node_pre <> 0)) (PreH2 : (not (In (linklist_node_pre) (prefix)) )) (PreH3 : (l = (app (prefix) ((cons (linklist_node_pre) (suffix)))))) ,
+  ((&((linklist_node_pre)  # "SingleLinklistNode" ->ₛ "node_next")) # Ptr  |-> next)
+  **  (xizi_sll next suffix )
+  **  (xizi_sllseg (xizi_sll_first_value (l)) linklist_node_pre prefix )
+|--
+  “ (next = (xizi_sll_next_value (l) (linklist_node_pre))) ”
+.
+
+Definition xizi_single_link_next_return_wit_1_split_goal_spatial := 
+forall (linklist_node_pre: Z) (l: (@list Z)) (prefix: (@list Z)) (suffix: (@list Z)) (next: Z) (PreH1 : (linklist_node_pre <> 0)) (PreH2 : (not (In (linklist_node_pre) (prefix)) )) (PreH3 : (l = (app (prefix) ((cons (linklist_node_pre) (suffix)))))) ,
+  ((&((linklist_node_pre)  # "SingleLinklistNode" ->ₛ "node_next")) # Ptr  |-> next)
+  **  (xizi_sll next suffix )
+  **  (xizi_sllseg (xizi_sll_first_value (l)) linklist_node_pre prefix )
+|--
+  (xizi_sll (xizi_sll_first_value (l)) l )
+.
+
+Definition xizi_single_link_next_partial_solve_wit_1 := 
+forall (linklist_node_pre: Z) (l: (@list Z)) (PreH1 : (In linklist_node_pre l )) ,
+  (xizi_sll (xizi_sll_first_value (l)) l )
+|--
+  EX (next: Z)  (suffix: (@list Z))  (prefix: (@list Z)) ,
+  “ (linklist_node_pre <> 0) ” 
+  &&  “ (not (In (linklist_node_pre) (prefix)) ) ” 
+  &&  “ (l = (app (prefix) ((cons (linklist_node_pre) (suffix))))) ”
   &&  ((&((linklist_node_pre)  # "SingleLinklistNode" ->ₛ "node_next")) # Ptr  |-> next)
-  **  (xizi_sll next l )
+  **  (xizi_sll next suffix )
+  **  (xizi_sllseg (xizi_sll_first_value (l)) linklist_node_pre prefix )
 .
 
 Module Type VC_Correct.
@@ -38,5 +79,6 @@ Module Type VC_Correct.
 Include xizi_single_link_Strategy_Correct.
 
 Axiom proof_of_xizi_single_link_next_return_wit_1 : xizi_single_link_next_return_wit_1.
+Axiom proof_of_xizi_single_link_next_partial_solve_wit_1 : xizi_single_link_next_partial_solve_wit_1.
 
 End VC_Correct.

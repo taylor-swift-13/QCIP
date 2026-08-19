@@ -1,0 +1,149 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "47fb665b00a73747a58e4148331d2cea33bd0f8ca0b627c4231a85df43c08175",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_next_entail_wit_1",
+    "proof_of_xizi_double_link_next_return_wit_1",
+    "proof_of_xizi_double_link_next_return_wit_2",
+    "proof_of_xizi_double_link_next_return_wit_3",
+    "proof_of_xizi_double_link_next_return_wit_4",
+    "proof_of_xizi_double_link_next_derive_sentinel_case_by_dispatch_case",
+    "proof_of_xizi_double_link_next_derive_member_case_by_dispatch_case"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "next_dispatch_split_reassemble_and_derive",
+      "witness_names": [
+        "proof_of_xizi_double_link_next_entail_wit_1",
+        "proof_of_xizi_double_link_next_return_wit_1",
+        "proof_of_xizi_double_link_next_return_wit_2",
+        "proof_of_xizi_double_link_next_return_wit_3",
+        "proof_of_xizi_double_link_next_return_wit_4",
+        "proof_of_xizi_double_link_next_derive_sentinel_case_by_dispatch_case",
+        "proof_of_xizi_double_link_next_derive_member_case_by_dispatch_case"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_next_entail_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "xizi_dll_split_at_first_occurrence",
+          "statement_shape": "If nodes = before ++ node :: after, node is absent from before, and xizi_dll head nodes holds, expose sentinel links, the prefix segment ending at node, node links, and the suffix segment ending at head, together with head/node/node_next non-null and node <> head facts.",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_next_entail_wit_1"
+          ],
+          "premises": [
+            {
+              "premise": "nodes = before ++ node :: after and ~ In node before",
+              "discharged_by": "the standard first-occurrence decomposition of the In node nodes anchor branch"
+            },
+            {
+              "premise": "xizi_dll head nodes",
+              "discharged_by": "the witness spatial precondition"
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "xizi_dll_reassemble_at",
+          "statement_shape": "Reassemble sentinel links, a prefix segment ending at node, node links, and a suffix segment ending at the sentinel into xizi_dll head (before ++ node :: after).",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_next_return_wit_2",
+            "proof_of_xizi_double_link_next_return_wit_3"
+          ],
+          "premises": [
+            {
+              "premise": "head <> 0",
+              "discharged_by": "PreH2 in return_wit_2 and PreH2 in return_wit_3"
+            },
+            {
+              "premise": "node <> 0 and node <> head",
+              "discharged_by": "PreH7/PreH8 in return_wit_2 and PreH7/PreH8 in return_wit_3"
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "xizi_dllseg_endpoint_and_first",
+          "statement_shape": "The guarded segment supplies two reusable consequences: a segment starting at its stop has an empty logical list; a segment whose start differs from the stop has nodes = start :: rest, hence first_value nodes = start. With a non-null stop, its start is non-null in either case.",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_next_entail_wit_1",
+            "proof_of_xizi_double_link_next_return_wit_1",
+            "proof_of_xizi_double_link_next_return_wit_2",
+            "proof_of_xizi_double_link_next_return_wit_3",
+            "proof_of_xizi_double_link_next_return_wit_4"
+          ],
+          "premises": [
+            {
+              "premise": "start = stop or start <> stop, as applicable",
+              "discharged_by": "the explicit return branch guards, or a case split for the entail witness"
+            },
+            {
+              "premise": "stop <> 0 for the general start-non-null consequence",
+              "discharged_by": "the xizi_dll head non-null conjunct or the explicit PreH head non-null fact"
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "xizi_dll_member_not_head",
+          "statement_shape": "In node nodes -> xizi_dll head nodes |-- pure(node <> head), derived from the guarded segment representation and disjoint sentinel/node link ownership.",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_next_entail_wit_1",
+            "proof_of_xizi_double_link_next_derive_member_case_by_dispatch_case"
+          ],
+          "premises": [
+            {
+              "premise": "In node nodes",
+              "discharged_by": "the anchor member branch or the member_case precondition"
+            },
+            {
+              "premise": "xizi_dll head nodes",
+              "discharged_by": "the current witness spatial precondition"
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        }
+      ],
+      "likely_helper_declarations": [
+        "xizi_dll_split_at_first_occurrence__next_dispatch_split_reassemble_and_derive",
+        "xizi_dll_reassemble_at__next_dispatch_split_reassemble_and_derive",
+        "xizi_dllseg_endpoint_and_first__next_dispatch_split_reassemble_and_derive",
+        "xizi_dll_member_not_head__next_dispatch_split_reassemble_and_derive"
+      ],
+      "expected_helpers": [
+        "Group-suffixed split/reassembly lemmas proved by induction over the logical prefix.",
+        "Group-suffixed guarded-segment endpoint/nonempty consequences.",
+        "A group-suffixed member-versus-sentinel disequality lemma; the dispatch equations themselves may be proved inline by unfolding the case_lib definitions."
+      ],
+      "proof_strategy": "Open or split xizi_dll once around the queried member, preserve all fields, and fold the unchanged representation on returns. Select the full-resource left disjunct for each return witness. For node_next=head derive an empty suffix and return 0; for node_next<>head expose a cons suffix and return node_next; for the sentinel cases use the analogous whole-segment endpoint/nonempty split. For the two derived specs instantiate nodes_dispatch_case with the original logical list, establish anchor and dispatch equality by node=head or member-not-head, and prove the ownership-preserving wand using the same xizi_dll resource shape.",
+      "natural_language_proof_pattern": "One coherent family: decompose/reassemble the same guarded circular DLL representation, then normalize the member-or-sentinel dispatch observation; the derived contracts reuse the same member-not-sentinel fact and preserve identical ownership through a wand.",
+      "shared_helper_candidates": [
+        "xizi_dll_split_at_first_occurrence",
+        "xizi_dll_reassemble_at",
+        "xizi_dllseg_endpoint_and_first",
+        "xizi_dll_member_not_head"
+      ],
+      "proving_hints": [
+        "Each return witness is a Coq-level disjunction; choose its full-list left disjunct, which retains the sentinel fields needed by xizi_dll_close.",
+        "Use the existing xizi_dll_open, xizi_dll_close, and xizi_dllseg_unfold lemmas; put any reusable induction lemma only in the group-local case_lib with the required group suffix.",
+        "For dispatch, unfold xizi_double_link_next_dispatch_value only after proving node=head or node<>head; use the first-occurrence equation for xizi_double_link_next_value.",
+        "Treat the four diagnostic _split_goal_ declarations only as hints for return_wit_2 and return_wit_3, never as assigned witnesses."
+      ],
+      "grouping_reason": "All seven obligations belong to one function and share the same guarded DLL decomposition plus dispatch helper family. The two derived-contract proofs add only a short wand step and reuse member-not-head/dispatch normalization, so a separate group would duplicate helpers without a real dependency or context boundary. Seven witnesses are within the controller maximum of 12.",
+      "difficulty": "medium-high",
+      "confidence": "high",
+      "grouping_confidence": "high"
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 7,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

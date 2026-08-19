@@ -23,6 +23,6 @@ Local Open Scope sac.
 Lemma proof_of_xizi_single_link_empty_safety_wit_1 : xizi_single_link_empty_safety_wit_1.
 Proof. Admitted. 
 
-Lemma proof_of_xizi_single_link_empty_return_wit_2 : xizi_single_link_empty_return_wit_2.
+Lemma proof_of_xizi_single_link_empty_partial_solve_wit_1 : xizi_single_link_empty_partial_solve_wit_1.
 Proof. Admitted. 
 

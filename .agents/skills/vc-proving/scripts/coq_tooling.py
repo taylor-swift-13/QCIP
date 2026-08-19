@@ -170,6 +170,10 @@ def infer_case_config(workspace_root: Path, case_dir: Path) -> dict[str, str]:
     else:
         theory_parts = (case_dir.name,)
     case_name = theory_parts[-1]
+    manual_candidates = sorted(case_dir.glob("*_proof_manual.v"))
+    if len(manual_candidates) == 1:
+        manual_name = manual_candidates[0].name
+        case_name = manual_name[: -len("_proof_manual.v")]
     rel_posix = rel.as_posix()
     return {
         "case_name": case_name,
@@ -314,15 +318,14 @@ def _local_alias_wrapper(build_workspace: Path, current_rel: Path, module: str) 
         candidates: list[Path] = []
         for physical, _logical in (*FIXED_R_MAPPINGS, *FIXED_Q_MAPPINGS):
             physical_path = Path(physical)
-            try:
-                current_rel.relative_to(physical_path)
-            except ValueError:
+            source_root = build_workspace / physical_path
+            if not source_root.is_dir():
                 continue
-            candidates = [
+            candidates.extend(
                 path.relative_to(build_workspace)
-                for path in (build_workspace / physical_path).rglob(f"{module}.v")
-            ]
-            break
+                for path in source_root.rglob(f"{module}.v")
+            )
+        candidates = sorted(set(candidates))
         if len(candidates) != 1:
             return None
         sibling = candidates[0]
@@ -331,7 +334,10 @@ def _local_alias_wrapper(build_workspace: Path, current_rel: Path, module: str) 
         return None
     wrapper = Path(f"{module}.v")
     wrapper_path = build_workspace / wrapper
-    wrapper_text = f"Require Export {logical}.\n"
+    if module.endswith(("_strategy_goal", "_strategy_proof")):
+        wrapper_text = (build_workspace / sibling).read_text(encoding="utf-8")
+    else:
+        wrapper_text = f"Require Export {logical}.\n"
     if not wrapper_path.exists() or wrapper_path.read_text(encoding="utf-8") != wrapper_text:
         wrapper_path.write_text(wrapper_text, encoding="utf-8")
     return wrapper

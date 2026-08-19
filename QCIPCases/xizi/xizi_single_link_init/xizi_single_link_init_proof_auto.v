@@ -21,8 +21,11 @@ From QCIPLib.xizi.xizi_single_link_common Require Import xizi_single_link_lib.
 Local Open Scope sac.
 
 Lemma proof_of_xizi_single_link_init_safety_wit_1 : xizi_single_link_init_safety_wit_1.
-Proof. Admitted. 
+Proof. Admitted.
 
 Lemma proof_of_xizi_single_link_init_return_wit_1 : xizi_single_link_init_return_wit_1.
-Proof. Admitted. 
+Proof. Admitted.
 
+Lemma proof_of_xizi_single_link_init_partial_solve_wit_1 :
+  xizi_single_link_init_partial_solve_wit_1.
+Proof. Admitted.

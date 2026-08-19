@@ -465,6 +465,8 @@ def _run_canonical_symexec(state: dict[str, Any], workspace_root: Path, target_f
     payload = _qcp_driver_payload(state, workspace_root, target_files)
     argv = [str(item) for item in payload["canonical_argv_template"]]
     driver = Path(argv[0])
+    manual_path = workspace_root / target_files["proof_manual_file"]
+    previous_manual_digest = _file_digest(manual_path) if manual_path.is_file() else None
     evidence = {
         "schema_version": "qcp-canonical-symexec-evidence/v1",
         "driver": str(driver),
@@ -472,6 +474,11 @@ def _run_canonical_symexec(state: dict[str, Any], workspace_root: Path, target_f
         "argv": argv,
         "include_args": payload["include_args"],
         "slp_args": payload["slp_args"],
+        "manual_refresh": {
+            "policy": "fresh-symbolic-execution-skeleton",
+            "path": target_files["proof_manual_file"],
+            "previous_sha256": previous_manual_digest,
+        },
     }
     if not driver.is_file():
         return {
@@ -491,20 +498,49 @@ def _run_canonical_symexec(state: dict[str, Any], workspace_root: Path, target_f
             "stdout_tail": "",
             "stderr_tail": "",
         }
-    proc = subprocess.run(
-        argv,
-        cwd=workspace_root,
-        text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        check=False,
-    )
+    backup_path: Path | None = None
+    if manual_path.is_file():
+        timestamp = datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S%f")
+        backup_path = manual_path.with_name(f".{manual_path.name}.controller-backup-{timestamp}")
+        manual_path.replace(backup_path)
+    try:
+        proc = subprocess.run(
+            argv,
+            cwd=workspace_root,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+        )
+        manual_generated = manual_path.is_file()
+        passed = proc.returncode == 0 and manual_generated
+        if passed:
+            if backup_path is not None:
+                backup_path.unlink()
+        elif backup_path is not None:
+            if manual_path.exists():
+                manual_path.unlink()
+            backup_path.replace(manual_path)
+    except BaseException:
+        if backup_path is not None and backup_path.exists():
+            if manual_path.exists():
+                manual_path.unlink()
+            backup_path.replace(manual_path)
+        raise
     return {
         **evidence,
-        "status": "passed" if proc.returncode == 0 else "failed",
+        "status": "passed" if passed else "failed",
         "returncode": proc.returncode,
         "stdout_tail": proc.stdout[-4000:],
-        "stderr_tail": proc.stderr[-4000:],
+        "stderr_tail": proc.stderr[-4000:]
+        if manual_generated
+        else (proc.stderr[-4000:] + "\ncanonical symexec did not generate a fresh proof_manual file").strip(),
+        "manual_refresh": {
+            **evidence["manual_refresh"],
+            "generated": manual_generated,
+            "generated_sha256": _file_digest(manual_path) if passed else None,
+            "previous_restored_on_failure": bool(not passed and backup_path is not None),
+        },
     }
 
 
@@ -4424,7 +4460,7 @@ def _case_lib_findings(case_lib_path: Path, active_case_theory: str) -> list[dic
 
 
 def _forbidden_names(main_root: Path) -> list[str]:
-    path = main_root / ".agents" / "skills" / "verification-orchestrator" / "docs" / "forbidden-lemma.md"
+    path = main_root / ".agents" / "skills" / "verification-orchestrator" / "docs" / "forbidden_lemma.md"
     if not path.is_file():
         return [
             "functional_extensionality",

@@ -1,0 +1,89 @@
+Require Import Coq.ZArith.ZArith.
+Require Import Coq.Bool.Bool.
+Require Import Coq.Strings.String.
+Require Import Coq.Strings.Ascii.
+Require Import Coq.Lists.List.
+Require Import Coq.Classes.RelationClasses.
+Require Import Coq.Classes.Morphisms.
+Require Import Coq.micromega.Psatz.
+Require Import Coq.Sorting.Permutation.
+From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
+Require Import SetsClass.SetsClass. Import SetsNotation.
+From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.EE.OUTPUT.xizi.xizi_double_link_remove_node.source Require Import xizi_double_link_remove_node_goal.
+From SimpleC.EE.OUTPUT.xizi.xizi_double_link_remove_node.source Require Import xizi_double_link_remove_node_proof_auto.
+Require Import Logic.LogicGenerator.demo932.Interface.
+Local Open Scope Z_scope.
+Local Open Scope sets.
+Local Open Scope string_scope.
+Local Open Scope list.
+Import naive_C_Rules.
+From QCIPLib.xizi.xizi_double_link_common Require Import xizi_double_link_lib.
+From SimpleC.EE.OUTPUT.xizi.xizi_double_link_remove_node.source Require Import xizi_double_link_remove_node_lib.
+Local Open Scope sac.
+
+Lemma proof_of_xizi_double_link_remove_node_entail_wit_1 : xizi_double_link_remove_node_entail_wit_1.
+Proof.
+  unfold xizi_double_link_remove_node_entail_wit_1.
+  left.
+  intros linklist_node_pre suffix_strong_spec prefix_strong_spec
+    nodes_strong_spec head_strong_spec PreH1.
+  rewrite PreH1.
+  sep_apply_l_atomic
+    (xizi_dll_split_at_node__dll_cut_split_reconnect
+       head_strong_spec prefix_strong_spec linklist_node_pre
+       suffix_strong_spec).
+  Intros node_next node_prev.
+  Exists node_next node_prev.
+  unfold xizi_dll_next, xizi_dll_prev.
+  entailer!.
+Qed.
+
+Lemma proof_of_xizi_double_link_remove_node_return_wit_1 : xizi_double_link_remove_node_return_wit_1.
+Proof.
+  unfold xizi_double_link_remove_node_return_wit_1.
+  left.
+  intros linklist_node_pre suffix_strong_spec prefix_strong_spec
+    head_strong_spec node_next node_prev PreH1.
+  unfold xizi_dll_next, xizi_dll_prev.
+  apply
+    (xizi_dll_remove_result__dll_cut_split_reconnect
+       head_strong_spec prefix_strong_spec suffix_strong_spec
+       linklist_node_pre node_next node_prev PreH1).
+Qed.
+
+Lemma proof_of_xizi_double_link_remove_node_derive_remove_tail_spec_by_strong_spec : xizi_double_link_remove_node_derive_remove_tail_spec_by_strong_spec.
+Proof.
+  pre_process.
+  Exists head_remove_tail_spec
+    (prefix_remove_tail_spec ++ (linklist_node_pre :: nil))
+    prefix_remove_tail_spec (@nil Z).
+  entailer!.
+  apply derivable1_wand_sepcon_adjoint.
+  rewrite app_nil_r.
+  entailer!.
+Qed.
+
+Lemma proof_of_xizi_double_link_remove_node_derive_remove_front_spec_by_strong_spec : xizi_double_link_remove_node_derive_remove_front_spec_by_strong_spec.
+Proof.
+  pre_process.
+  Exists head_remove_front_spec (linklist_node_pre :: suffix_remove_front_spec)
+    (@nil Z) suffix_remove_front_spec.
+  entailer!.
+  apply derivable1_wand_sepcon_adjoint.
+  entailer!.
+Qed.
+
+Lemma proof_of_xizi_double_link_remove_node_derive_remove_member_spec_by_strong_spec : xizi_double_link_remove_node_derive_remove_member_spec_by_strong_spec.
+Proof.
+  pre_process.
+  pose proof (xizi_dll_remove_first_split__spec_derivations_direct
+                linklist_node_pre nodes_remove_member_spec H) as
+    (prefix_strong_spec & suffix_strong_spec & Hnodes & _ & Hremove).
+  Exists head_remove_member_spec nodes_remove_member_spec
+    prefix_strong_spec suffix_strong_spec.
+  entailer!.
+  apply derivable1_wand_sepcon_adjoint.
+  rewrite <- Hremove.
+  entailer!.
+Qed.

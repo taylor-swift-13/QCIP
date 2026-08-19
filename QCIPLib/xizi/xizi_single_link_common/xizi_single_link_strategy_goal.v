@@ -92,6 +92,7 @@ Definition xizi_single_link_strategy305 :=
     EX (q : Z),
       (
       TT &&
+      (“ (p <> 0) ”) &&
       emp **
       ((poly_store FET_ptr &( ((p)) # "SingleLinklistNode" ->ₛ "node_next") q)) **
       ((xizi_sll q l))
@@ -112,13 +113,53 @@ Definition xizi_single_link_strategy306 :=
   ) ** (
   ALL (p : Z) (l : (@list Z)) (q : Z),
     TT &&
+    (“ (p <> 0) ”) &&
     emp **
     ((poly_store FET_ptr &( ((p)) # "SingleLinklistNode" ->ₛ "node_next") q)) **
     ((xizi_sll q l)) -*
     TT &&
     emp **
-    ((xizi_sll_head p l))
+      ((xizi_sll_head p l))
+      ).
+
+Definition xizi_single_link_strategy311 :=
+  forall (p : Z),
+    TT &&
+    emp **
+    ((xizi_sll_node p))
+    |--
+    (
+    TT &&
+    (“ (p <> 0) ”) &&
+    emp **
+    ((poly_undef_store FET_ptr &( ((p)) # "SingleLinklistNode" ->ₛ "node_next")))
+    ) ** (
+    TT &&
+    emp -*
+    TT &&
+    emp
     ).
+
+Definition xizi_single_link_strategy312 :=
+  forall (p : Z) (x : Z) (l : (@list Z)),
+    TT &&
+    emp **
+    ((xizi_sll p (@cons Z x l)))
+    |--
+    EX (q : Z),
+      (
+      TT &&
+      (“ (p <> 0) ”) &&
+      (“ (p = x) ”) &&
+      emp **
+      ((poly_store FET_ptr &( ((p)) # "SingleLinklistNode" ->ₛ "node_next") q)) **
+      ((xizi_sll q l))
+      ) ** (
+      TT &&
+      emp -*
+      TT &&
+      emp
+      ).
 
 Definition xizi_single_link_strategy307 :=
   TT &&
@@ -198,6 +239,30 @@ Definition xizi_single_link_strategy310 :=
     ((xizi_sll_to_target p p l))
     ).
 
+Definition xizi_single_link_strategy313 :=
+  forall (l : (@list Z)) (node : Z),
+    TT &&
+    (“ (In node l) ”) &&
+    emp **
+    ((xizi_sll (xizi_sll_first_value l) l))
+    |--
+    EX (prefix : (@list Z)) (suffix : (@list Z)) (next : Z),
+      (
+      TT &&
+      (“ (l = (@app Z prefix (@cons Z node suffix))) ”) &&
+      (“ (not (@In Z node prefix)) ”) &&
+      (“ (node <> 0) ”) &&
+      emp **
+      ((xizi_sllseg (xizi_sll_first_value l) node prefix)) **
+      ((poly_store FET_ptr &(node # "SingleLinklistNode" ->ₛ "node_next") next)) **
+      ((xizi_sll next suffix))
+      ) ** (
+      TT &&
+      emp -*
+      TT &&
+      emp
+      ).
+
 Module Type xizi_single_link_Strategy_Correct.
 
   Axiom xizi_single_link_strategy301_correctness : xizi_single_link_strategy301.
@@ -210,5 +275,7 @@ Module Type xizi_single_link_Strategy_Correct.
   Axiom xizi_single_link_strategy308_correctness : xizi_single_link_strategy308.
   Axiom xizi_single_link_strategy309_correctness : xizi_single_link_strategy309.
   Axiom xizi_single_link_strategy310_correctness : xizi_single_link_strategy310.
-
+  Axiom xizi_single_link_strategy311_correctness : xizi_single_link_strategy311.
+  Axiom xizi_single_link_strategy312_correctness : xizi_single_link_strategy312.
+  Axiom xizi_single_link_strategy313_correctness : xizi_single_link_strategy313.
 End xizi_single_link_Strategy_Correct.

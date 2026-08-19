@@ -1,0 +1,81 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "f432bf1bba9d2939995f36d1aec7da461a583b29c64bf5a4c8a8a0ba7b3abffb",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_len_entail_wit_1",
+    "proof_of_xizi_double_link_len_entail_wit_2_1",
+    "proof_of_xizi_double_link_len_entail_wit_2_2",
+    "proof_of_xizi_double_link_len_return_wit_1",
+    "proof_of_xizi_double_link_len_return_wit_2",
+    "proof_of_xizi_double_link_init_then_len_return_wit_1",
+    "proof_of_xizi_double_link_len_derive_nil_case_by_general"
+  ],
+  "witness_statement_hashes": {
+    "proof_of_xizi_double_link_len_entail_wit_1": "501b17f401ef8b6bc65d967d2cb6a0d20caa2bd54457ecd3a5d1bee6ba6b034d",
+    "proof_of_xizi_double_link_len_entail_wit_2_1": "6e501bb503e5c54992e897c28376c1eb1d2d4a08c3ab4c2a31de9c7b371f17b9",
+    "proof_of_xizi_double_link_len_entail_wit_2_2": "1e8f0b8430e9dea3075870083a772b53fc829283e37e525f45264165ca644763",
+    "proof_of_xizi_double_link_len_return_wit_1": "2911228f1b7b5d932143ba6c665840f3c6532c039558a63394c3f48b1b338d9b",
+    "proof_of_xizi_double_link_len_return_wit_2": "2856bca0f76d06f0abfbd93a897baadee91559aa150e8522154e743016207fda",
+    "proof_of_xizi_double_link_init_then_len_return_wit_1": "44e84c75d9b267de21b5de16615dd6ce81d45e77d60fa8cc8c03ed540977b6c0",
+    "proof_of_xizi_double_link_len_derive_nil_case_by_general": "99a9c0cf8d7f75ba03cf5ac331a8aaf1ed2cc2a5bd21590a36dd04cddd0d0aaa"
+  },
+  "proof_groups": [
+    {
+      "group_id": "dll_len_invariant_cycle",
+      "witness_names": [
+        "proof_of_xizi_double_link_len_entail_wit_1",
+        "proof_of_xizi_double_link_len_entail_wit_2_1",
+        "proof_of_xizi_double_link_len_entail_wit_2_2",
+        "proof_of_xizi_double_link_len_return_wit_1",
+        "proof_of_xizi_double_link_len_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_len_entail_wit_2_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "expected_helpers": [],
+      "difficulty": "high",
+      "confidence": "high",
+      "proof_strategy": "Prove the five general len obligations in manual order. Open xizi_dll to initialize done=nil and todo=nodes. For each loop step, unfold the nonempty suffix xizi_dllseg, fold the two fields into xizi_dll_links, move the current node into the prefix with a segment-snoc argument, and retain the remaining segment. For the general transition, derive Zlength(before)+2 < 2^32 from the disjoint aligned pointer stores via store_ptr_align4, store_align4_merge, and store_align4_n_valid, then rewrite unsigned_last_nbits with that bound; the first transition has counter 0 and needs only the trivial 0<=1<2^32 bound. On exit, equal-boundary xizi_dllseg forces todo=nil and the predecessor endpoint equality; append the last processed node and use xizi_dll_close, while the zero-iteration branch folds the empty circular node. Keep all reusable facts local to witness proof bodies unless a group-local case_lib declaration is truly necessary. Do not use any forbidden lemma, in particular derivable1_refl or logic_equiv_sepcon_comm; use structured predicate unfold/fold, Intros/Exists, sep_apply, cancellation, and entailer instead.",
+      "grouping_reason": "These witnesses are the initialization, two transition shapes, and two exit shapes of the same xizi_double_link_len invariant. They share the same DLL predicates, segment endpoint facts, length equations, and local proof vocabulary; keeping them together lets one worker carry one coherent invariant proof route. The group has 5 witnesses, below the controller maximum of 12.",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_len_entail_wit_1": "Unfold xizi_dll and instantiate first,last,done=nil,todo=nodes; the second disjunct is the already-open xizi_dllseg form with todo=nodes.",
+        "proof_of_xizi_double_link_len_entail_wit_2_1": "Unfold the nonempty todo suffix at next_2, advance the prefix through tmp_node, instantiate done'=done_2++[next_2] and todo'=rest, and derive the 32-bit no-wrap bound from owned aligned stores.",
+        "proof_of_xizi_double_link_len_entail_wit_2_2": "Use done_2=nil and tmp_node=linklist_pre, unfold the first nonempty suffix node, and instantiate before=nil, done=[first_2], todo=rest; unsigned(0+1)=1 follows from the trivial range bound.",
+        "proof_of_xizi_double_link_len_return_wit_1": "Substitute next=linklist_pre, use the equal-boundary segment to obtain todo=nil and endpoint equality, append tmp_node to before, fold links, and close xizi_dll.",
+        "proof_of_xizi_double_link_len_return_wit_2": "Substitute first=tmp_node=linklist_pre, use the equal-boundary segment to obtain todo=nil and the predecessor equality, derive nodes=nil and linklist_length=0, then fold the empty xizi_dll."
+      }
+    },
+    {
+      "group_id": "len_nil_case_callsite_bridge",
+      "witness_names": [
+        "proof_of_xizi_double_link_init_then_len_return_wit_1",
+        "proof_of_xizi_double_link_len_derive_nil_case_by_general"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_len_derive_nil_case_by_general",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "expected_helpers": [],
+      "difficulty": "medium",
+      "confidence": "high",
+      "proof_strategy": "For the wrapper return witness, unfold xizi_double_link_init_then_len_result, use retval=0, and preserve the incoming xizi_dll(head,nil); discharge the emp alternative analogously. For the specialization derivation, instantiate nodes_general=nil, allocate the existing xizi_dll resource to the general precondition, prove the residual wand structurally, and inside the wand instantiate retval=0; Zlength nil=0 turns the general result equality into the nil-case result while preserving the consumed xizi_dll resource. No duplication of spatial resources and no new public premise is needed. Do not use any forbidden lemma, in particular derivable1_refl or logic_equiv_sepcon_comm; construct the wand with the separation-logic introduction tactic and finish by structured Intros/Exists/cancellation and predicate preservation.",
+      "grouping_reason": "Both witnesses concern only the nil-case specialization and the real wrapper callsite, not loop traversal. They share the ret=0 simplification and xizi_dll(head,nil) preservation pattern, while having no proof dependency on the loop-invariant group. The group has 2 witnesses, below the controller maximum of 12.",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_init_then_len_return_wit_1": "Unfold the result predicate; PreH retval=0 proves the pure result and the same xizi_dll or emp frame discharges the spatial postcondition.",
+        "proof_of_xizi_double_link_len_derive_nil_case_by_general": "Choose nodes_general=nil; retain xizi_dll linklist nil as the general pre-resource and prove an identity-style wand that maps retval_2=Zlength nil to retval=0 while returning the same DLL resource."
+      }
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 7,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

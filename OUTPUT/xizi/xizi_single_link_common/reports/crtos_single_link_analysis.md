@@ -54,8 +54,12 @@ EX first: addr,
 
 ## QCIPLib 修正
 
-当前 `QCIPLib/xizi/xizi_single_link_common` 已按 crtos 实现拆分：
+当前 `QCIPLib/xizi/xizi_single_link_common/xizi_single_link_lib.v` 以单一
+public lib 组织：
 
 - `SLL_LAYOUT`：只含 `struct_name` 和 `next_field`。
 - `SLLLib`：生成基础 intrusive 单链表谓词。
 - `xizi_sll : addr -> list addr -> Assertion`：对应 crtos 单链表节点地址模型。
+- 通用定义、XiZi 实例和既有引理保持原名，不再通过
+  `xizi_single_link_lib_core.v` 二次导出，因此下游只需依赖
+  `xizi_single_link_lib`。

@@ -19,4 +19,3 @@ Local Open Scope list.
 Import naive_C_Rules.
 From QCIPLib.xizi.xizi_single_link_common Require Import xizi_single_link_lib.
 Local Open Scope sac.
-

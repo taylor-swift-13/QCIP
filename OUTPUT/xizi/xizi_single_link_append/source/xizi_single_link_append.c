@@ -1,16 +1,14 @@
 #include "verification_stdlib.h"
 #include "verification_list.h"
-#include "xizi_single_link_def.h"
+#include "../../xizi_single_link_common/source/xizi_single_link_def.h"
 
 void xizi_single_link_append(SysSingleLinklistType *linklist, SysSingleLinklistType *linklist_node)
-/*@ With l old_next
+/*@ With l
     Require
-      linklist != 0 &&
-      linklist_node != 0 &&
-      xizi_sll(linklist, l) &&
-      linklist_node -> node_next == old_next
+      xizi_sll_head(linklist, l) *
+      xizi_sll_node(linklist_node)
     Ensure
-      xizi_sll(linklist, app(l, cons(linklist_node, nil)))
+      xizi_sll_head(linklist, app(l, cons(linklist_node, nil)))
 */
 {
     struct SingleLinklistNode *node;
@@ -19,14 +17,13 @@ void xizi_single_link_append(SysSingleLinklistType *linklist, SysSingleLinklistT
 
     /*@ Inv
           exists l1a l1b next,
-            l == app(l1a, cons(node, l1b)) &&
-            linklist == linklist@pre &&
-            linklist_node == linklist_node@pre &&
+            cons(linklist, l) == app(l1a, cons(node, l1b)) &&
             node != 0 &&
+            linklist_node != 0 &&
             node -> node_next == next &&
             xizi_sllseg(linklist, node, l1a) *
             xizi_sll(next, l1b) &&
-            linklist_node -> node_next == old_next
+            has_permission(&(linklist_node -> node_next))
     */
     while (node->node_next) {
         node = node->node_next;

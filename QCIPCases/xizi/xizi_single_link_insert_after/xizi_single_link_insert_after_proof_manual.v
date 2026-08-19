@@ -20,12 +20,14 @@ Import naive_C_Rules.
 From QCIPLib.xizi.xizi_single_link_common Require Import xizi_single_link_lib.
 Local Open Scope sac.
 
-Lemma proof_of_xizi_single_link_insert_after_return_wit_1 : xizi_single_link_insert_after_return_wit_1.
+Lemma proof_of_xizi_single_link_insert_after_return_wit_1 :
+  xizi_single_link_insert_after_return_wit_1.
 Proof.
-  pre_process.
-  assert (Hnode : linklist_node_pre <> NULL) by tauto.
+  right.
+  intros.
   fold xizi_struct_name.
   fold xizi_next_field.
-  sep_apply (xizi_sll_cons linklist_node_pre first l); [ | tauto ].
+  sep_apply
+    (xizi_sll_cons linklist_node_pre q l PreH1).
   entailer!.
 Qed.

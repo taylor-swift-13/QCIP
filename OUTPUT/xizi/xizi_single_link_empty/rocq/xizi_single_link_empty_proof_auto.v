@@ -10,7 +10,7 @@ Require Import Coq.Sorting.Permutation.
 From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
 Require Import SetsClass.SetsClass. Import SetsNotation.
 From SimpleC.SL Require Import Mem SeparationLogic.
-From QCIPCases.xizi.xizi_single_link_empty Require Import xizi_single_link_empty_goal.
+From SimpleC.EE.OUTPUT.xizi.xizi_single_link_empty.rocq Require Import xizi_single_link_empty_goal.
 Require Import Logic.LogicGenerator.demo932.Interface.
 Local Open Scope Z_scope.
 Local Open Scope sets.
@@ -23,6 +23,6 @@ Local Open Scope sac.
 Lemma proof_of_xizi_single_link_empty_safety_wit_1 : xizi_single_link_empty_safety_wit_1.
 Proof. Admitted. 
 
-Lemma proof_of_xizi_single_link_empty_return_wit_2 : xizi_single_link_empty_return_wit_2.
+Lemma proof_of_xizi_single_link_empty_partial_solve_wit_1 : xizi_single_link_empty_partial_solve_wit_1.
 Proof. Admitted. 
 

@@ -1,0 +1,10 @@
+# Reuse Note
+
+Note kind: non-authoritative reuse note
+This file is not acceptance evidence.
+
+The ready candidate adds `member_case <= dispatch_case` and `sentinel_case <= dispatch_case`. The member contract remains the complete-list `In(anchor,nodes)` contract. The sentinel contract is directly selectable with `where (sentinel_case)` and exposes only `xizi_dll(head,nodes) * xizi_dll_node(node)` to `xizi_dll(head, nodes ++ [node])`.
+
+The implementation assertion has four spatial shapes: member with the anchor first, member with a nonempty prefix, sentinel with an empty list, and sentinel with a nonempty list cut at the last node. Keep the sentinel empty branch's `linklist->node_next` and `linklist->node_prev` cells explicit; expressing them only through `prev == head` caused QCP nested-memory-read failure.
+
+The candidate source digest is `639d740481d04f662ef559c6a7f5c581b41b30b7684ca68d3beee95df51e3fd2`. Four final QCP MCP cycles reached file end, and the candidate-bound fixed case-lib check passed. Controller-owned canonical symexec and diagnostics split remain the next step.

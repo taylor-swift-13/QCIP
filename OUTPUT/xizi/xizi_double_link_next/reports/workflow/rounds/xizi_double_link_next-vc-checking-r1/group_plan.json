@@ -1,0 +1,72 @@
+{
+  "schema_version": "qcp-group-plan/v1",
+  "source_goal_version": "999bfbeba92961fd0dc887054676c876a1d9ad9d7c5d3a4df615ed9a849d2390",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_next_entail_wit_1",
+    "proof_of_xizi_double_link_next_return_wit_1",
+    "proof_of_xizi_double_link_next_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "dll_successor_split_and_reclose",
+      "witness_names": [
+        "proof_of_xizi_double_link_next_entail_wit_1",
+        "proof_of_xizi_double_link_next_return_wit_1",
+        "proof_of_xizi_double_link_next_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_next_entail_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "For entail_wit_1, select the segment-form generated disjunct, choose the first list occurrence, and inductively split xizi_dllseg around the queried node. For return_wit_1, prove the suffix empty from node_next = sentinel, derive return 0, join the fields/segments, and close xizi_dll. For return_wit_2, prove the suffix head equals node_next from node_next <> sentinel, derive the returned successor, then use the same join/close route. Keep any Hlinks_neq/Hsplit/Hstop_nil/Hvalue/Hjoin facts local to proof bodies; no case_lib helper is needed.",
+      "natural_language_proof_strategy": "Use the annotation's first-occurrence decomposition as the bridge between full-sequence next-value semantics and the circular DLL ownership. The entail proof exposes that cut; both return proofs consume it and restore the original DLL. Tail/non-tail is decided solely by whether the exposed node_next is the sentinel.",
+      "grouping_reason": "Same function, same DLL segment decomposition/reassembly family, same address-distinctness argument, and only three witnesses (within max_witnesses_per_group = 12). Splitting would duplicate proof context and provide no dependency or strategy benefit.",
+      "confidence": "high",
+      "difficulty": "medium",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_next_entail_wit_1": {
+          "judgment": "proofable",
+          "route": "first-occurrence list decomposition plus inductive xizi_dllseg split",
+          "local_facts": [
+            "link ownership implies distinct node addresses",
+            "segment split at a selected abstract node"
+          ]
+        },
+        "proof_of_xizi_double_link_next_return_wit_1": {
+          "judgment": "proofable",
+          "route": "equal start/stop suffix implies nil; sequence result is 0; inductive segment join and xizi_dll_close",
+          "local_facts": [
+            "equal-boundary dllseg has nil abstract nodes",
+            "full DLL segment rejoin"
+          ]
+        },
+        "proof_of_xizi_double_link_next_return_wit_2": {
+          "judgment": "proofable",
+          "route": "non-sentinel suffix start is its abstract head; sequence result is node_next; inductive segment join and xizi_dll_close",
+          "local_facts": [
+            "nonempty dllseg start equals abstract head",
+            "full DLL segment rejoin"
+          ]
+        }
+      },
+      "premise_discharge": {
+        "sentinel_nonnull": "generated PreH5/selected-disjunct PreH1",
+        "queried_node_nonnull": "generated PreH6 or the nonempty dllseg branch",
+        "first_occurrence": "In decomposition chosen with no occurrence in nodes_before",
+        "successor_value": "unfold xizi_double_link_next_value over nodes_before and at linklist_node_pre, then use xizi_double_link_first_value on nodes_after",
+        "ownership_preservation": "reorder the same owned fields/segments, inductively join, and apply xizi_dll_close"
+      }
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

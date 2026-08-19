@@ -22,5 +22,31 @@ Local Open Scope sac.
 
 Lemma proof_of_xizi_single_link_empty_return_wit_1 : xizi_single_link_empty_return_wit_1.
 Proof.
-  pre_process.
+  right.
+  intros linklist_pre l q q_2 l0 PreH1 PreH2 PreH3.
+  subst l.
+  apply _derivable1_andp_intros.
+  - entailer!.
+    discriminate.
+  - unfold xizi_sll.
+    simpl.
+    unfold xizi_addr_node_store, sll_addr_store, sll_link,
+      xizi_struct_name, xizi_next_field.
+    Exists q_2.
+    entailer!.
+Qed.
+
+Lemma proof_of_xizi_single_link_empty_return_wit_2 : xizi_single_link_empty_return_wit_2.
+Proof.
+  right.
+  intros linklist_pre l q PreH1 PreH2.
+  subst q.
+  destruct l as [|node rest].
+  - unfold xizi_sll, generic_sll.
+    simpl.
+    entailer!.
+  - unfold xizi_sll, generic_sll.
+    simpl.
+    Intros next.
+    entailer!.
 Qed.

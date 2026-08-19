@@ -1,4 +1,4 @@
-From QCIPCases.xizi.xizi_single_link_tail Require Import xizi_single_link_tail_goal xizi_single_link_tail_proof_auto xizi_single_link_tail_proof_manual.
+From SimpleC.EE.OUTPUT.xizi.xizi_single_link_tail.rocq Require Import xizi_single_link_tail_goal xizi_single_link_tail_proof_auto xizi_single_link_tail_proof_manual.
 
 Module VC_Correctness : VC_Correct.
   Include xizi_single_link_strategy_proof.

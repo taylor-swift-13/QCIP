@@ -1,0 +1,60 @@
+{
+  "schema_version": "qcp-group-plan/v1",
+  "source_goal_version": "65ba58e95f7b6200a7f4e9288207a41b7d10e647973ff1ea15ec3df3b9cf1e2b",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_next_rec_last_entail_wit_1",
+    "proof_of_xizi_double_link_next_rec_last_return_wit_1",
+    "proof_of_xizi_double_link_next_rec_last_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "dll_next_rec_split_suffix_and_reclose",
+      "witness_names": [
+        "proof_of_xizi_double_link_next_rec_last_entail_wit_1",
+        "proof_of_xizi_double_link_next_rec_last_return_wit_1",
+        "proof_of_xizi_double_link_next_rec_last_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_next_rec_last_entail_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "For entail_wit_1, open xizi_dll, choose the query's first occurrence, and inductively split xizi_dllseg around it; derive the next_value/first_value bridge by recursion over the no-occurrence prefix. For return_wit_1, node_next=sentinel forces nodes_after=nil, so first_value=0; inductively rejoin the cut and close xizi_dll. For return_wit_2, node_next<>sentinel forces a nonempty suffix headed by node_next; combine that with PreH4, then use the same join/close route. Replace local uses of obsolete xizi_double_link_next_rec_last_value with xizi_double_link_first_value nodes_after. Keep split/join/distinctness observations local; no case_lib helper is needed.",
+      "natural_language_proof_strategy": "Use the complete-sequence first-occurrence cut as the sole bridge between public successor semantics and circular DLL ownership. The entail witness exposes the cut, and both return witnesses consume it; tail versus non-tail is exactly empty versus nonempty suffix, without narrowing the public spec to the last-node scenario.",
+      "grouping_reason": "Same function, same first-occurrence cut, same local segment split/join and address-distinctness family, same suffix-head observation, no dependencies, and only three witnesses within max_witnesses_per_group=12.",
+      "confidence": "high",
+      "difficulty": "medium",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_next_rec_last_entail_wit_1": {
+          "judgment": "proofable",
+          "route": "first-occurrence decomposition and inductive dllseg split"
+        },
+        "proof_of_xizi_double_link_next_rec_last_return_wit_1": {
+          "judgment": "proofable",
+          "route": "empty suffix gives 0; inductive rejoin and xizi_dll_close"
+        },
+        "proof_of_xizi_double_link_next_rec_last_return_wit_2": {
+          "judgment": "proofable",
+          "route": "nonempty suffix head is node_next; inductive rejoin and xizi_dll_close"
+        }
+      },
+      "premise_discharge": {
+        "first_occurrence": "constructive list decomposition from In, choosing a prefix without the query",
+        "successor_bridge": "unfold xizi_double_link_next_value across the prefix and at the query",
+        "tail_value": "equal-boundary suffix segment is nil, hence xizi_double_link_first_value=0",
+        "non_tail_value": "distinct suffix start/stop forces a cons headed by node_next",
+        "ownership_preservation": "inductive segment rejoin plus xizi_dll_close over existing sentinel fields"
+      }
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

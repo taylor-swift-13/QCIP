@@ -8,6 +8,7 @@ typedef struct SingleLinklistNode
                (xizi_sll_to_target : Z -> Z -> list Z -> Assertion)
                (xizi_sll_not_target : Z -> Z -> list Z -> Assertion)
                (xizi_sll_head : Z -> list Z -> Assertion)
+               (xizi_sll_first_value : list Z -> Z)
  */
 /*@ Import Coq From QCIPLib.xizi.xizi_single_link_common Require Import xizi_single_link_lib */
 /*@ include strategies "xizi_single_link.strategies" */

@@ -34,6 +34,7 @@ priority : core(3)
 left : xizi_sll_head(?p, ?l) at 0
 action : left_erase(0);
          left_exist_add(q);
+         left_add(p != NULL);
          left_add(store(field_addr(p, SingleLinklistNode, node_next), PTR(struct SingleLinklistNode), q));
          left_add(xizi_sll(q, l));
 
@@ -42,6 +43,7 @@ priority : core(3)
 right : xizi_sll_head(?p, ?l) at 0
 action : right_erase(0);
          right_exist_add(q);
+         right_add(p != NULL);
          right_add(store(field_addr(p, SingleLinklistNode, node_next), PTR(struct SingleLinklistNode), q));
          right_add(xizi_sll(q, l));
 
@@ -78,3 +80,36 @@ priority : core(1)
 right : xizi_sll_to_target(?p, p, ?l) at 0
 action : right_erase(0);
          right_add(l == nil{Z});
+
+id : 311
+priority : core(3)
+left : xizi_sll_node(?p) at 0
+action : left_erase(0);
+         left_add(p != NULL);
+         left_add(has_permission(field_addr(p, SingleLinklistNode, node_next), PTR(struct SingleLinklistNode)));
+
+id : 312
+priority : core(3)
+left : xizi_sll(?p, cons{Z}(?x, ?l)) at 0
+action : left_erase(0);
+         left_exist_add(q);
+         left_add(p != NULL);
+         left_add(p == x);
+         left_add(store(field_addr(p, SingleLinklistNode, node_next), PTR(struct SingleLinklistNode), q));
+         left_add(xizi_sll(q, l));
+
+id : 313
+priority : core(4)
+left : In{Z}(?node, ?l) at 0
+left : xizi_sll(xizi_sll_first_value(?l), ?l) at 1
+action : left_erase(1);
+         left_erase(0);
+         left_exist_add(prefix);
+         left_exist_add(suffix);
+         left_exist_add(next);
+         left_add(l == app{Z}(prefix, cons{Z}(node, suffix)));
+         left_add(not(In{Z}(node, prefix)));
+         left_add(node != 0);
+         left_add(xizi_sllseg(xizi_sll_first_value(l), node, prefix));
+         left_add(store(field_addr(node, SingleLinklistNode, node_next), PTR(struct SingleLinklistNode), next));
+         left_add(xizi_sll(next, suffix));

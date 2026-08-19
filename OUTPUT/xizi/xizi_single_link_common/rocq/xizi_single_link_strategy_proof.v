@@ -78,6 +78,30 @@ Proof.
   entailer!.
 Qed.
 
+Lemma xizi_single_link_strategy311_correctness : xizi_single_link_strategy311.
+Proof.
+  pre_process_default.
+  unfold xizi_sll_node.
+  entailer!.
+Qed.
+
+Lemma xizi_single_link_strategy312_correctness : xizi_single_link_strategy312.
+Proof.
+  pre_process_default.
+  unfold xizi_sll at 1.
+  simpl.
+  unfold xizi_addr_node_store, sll_addr_store, sll_link,
+    xizi_struct_name, xizi_next_field.
+  Intros q.
+  Exists q.
+  entailer!.
+  rewrite <- sepcon_emp_equiv at 1.
+  apply derivable1_sepcon_mono.
+  - entailer!.
+  - rewrite <- derivable1_wand_sepcon_adjoint.
+    entailer!.
+Qed.
+
 Lemma xizi_single_link_strategy307_correctness : xizi_single_link_strategy307.
 Proof.
   pre_process_default.
@@ -128,4 +152,21 @@ Proof.
   unfold xizi_sll_to_target.
   simpl.
   entailer!.
+Qed.
+
+Lemma xizi_single_link_strategy313_correctness : xizi_single_link_strategy313.
+Proof.
+  pre_process_default.
+  Intros.
+  sep_apply
+    (xizi_sll_member_split
+      (xizi_sll_first_value l) l node H).
+  Intros prefix suffix next.
+  Exists prefix suffix next.
+  entailer!.
+  rewrite <- sepcon_emp_equiv at 1.
+  apply derivable1_sepcon_mono.
+  - entailer!.
+  - rewrite <- derivable1_wand_sepcon_adjoint.
+    entailer!.
 Qed.
