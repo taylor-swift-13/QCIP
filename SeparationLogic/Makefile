@@ -285,7 +285,6 @@ LLM_FRIENDLY_CASES_Lib_FILES = \
 LLM_BENCH_Lib_FILES = \
 	Algorithms/coin_change/coin_change_lib.v \
 	Algorithms/dual_loop_quicksort/dual_loop_quicksort_lib.v \
-	Algorithms/energy_necklace/energy_necklace_lib.v \
 	Algorithms/house_robber/house_robber_lib.v \
 	Algorithms/longest_increasing_subsequence/longest_increasing_subsequence_lib.v \
 	Algorithms/longest_nondecreasing_subsequence/longest_nondecreasing_subsequence_lib.v \
@@ -358,7 +357,6 @@ LLM_FRIENDLY_CASES_EXAMPLE_FILE_NAME = \
 LLM_BENCH_EXAMPLE_FILE_NAME = \
 	Algorithms/coin_change/coin_change \
 	Algorithms/dual_loop_quicksort/dual_loop_quicksort \
-	Algorithms/energy_necklace/energy_necklace \
 	Algorithms/house_robber/house_robber \
 	Algorithms/longest_increasing_subsequence/longest_increasing_subsequence \
 	Algorithms/longest_nondecreasing_subsequence/longest_nondecreasing_subsequence \
