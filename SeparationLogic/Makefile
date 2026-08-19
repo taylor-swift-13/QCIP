@@ -321,10 +321,7 @@ LLM_BENCH_Lib_FILES = \
 	Engineering/glibc_slist/glibc_slist_rel/glibc_slist_multi_rev_rel_lib.v \
 	Engineering/glibc_slist/glibc_slist_rel/glibc_slist_rev_append_rel_lib.v \
 	Engineering/glibc_slist/glibc_slist_rel/glibc_slist_rev_append_twice_rel_lib.v \
-	Engineering/glibc_slist/glibc_slist_rel/glibc_slist_rev_rel_lib.v \
-	Codeforces/SpecHelpers.v \
-	Codeforces/GraphInstances.v \
-	Codeforces/GridGraphInstances.v
+	Engineering/glibc_slist/glibc_slist_rel/glibc_slist_rev_rel_lib.v
 
 APPLICATION_Lib_FILES = \
 	fme/algorithm.v fme/implement.v fme/implement_lemma.v fme/fme_lib.v typeinfer/repr_subst_prop.v typeinfer/sol_prop.v typeinfer/sound_pv.v typeinfer/type_infer_lib.v typeinfer/typeinfer_lib.v \
