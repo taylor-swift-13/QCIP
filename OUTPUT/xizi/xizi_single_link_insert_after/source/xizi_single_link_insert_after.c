@@ -2,7 +2,7 @@
 #include "verification_list.h"
 #include "../../xizi_single_link_common/source/xizi_single_link_def.h"
 
-void xizi_single_link_insert_after(
+void SingleLinkListNodeInsert(
     SysSingleLinklistType *linklist,
     SysSingleLinklistType *linklist_node)
 /*@ With l

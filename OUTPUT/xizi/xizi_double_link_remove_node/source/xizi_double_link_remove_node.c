@@ -7,7 +7,7 @@
                (In : {A} -> A -> list A -> Prop)
  */
 
-void xizi_double_link_remove_node(DoubleLinklistType *linklist_node)
+void DoubleLinkListRmNode(DoubleLinklistType *linklist_node)
 /*@ remove_member_spec <= strong_spec
     With (head : Z) (nodes : list Z)
     Require In(linklist_node, nodes) &&
@@ -15,32 +15,32 @@ void xizi_double_link_remove_node(DoubleLinklistType *linklist_node)
     Ensure xizi_dll(
              head,
              xizi_dll_remove_first(linklist_node, nodes)) *
-           xizi_dll(linklist_node@pre, nil)
+           xizi_dll(linklist_node, nil)
 */;
 
-void xizi_double_link_remove_node(DoubleLinklistType *linklist_node)
+void DoubleLinkListRmNode(DoubleLinklistType *linklist_node)
 /*@ remove_front_spec <= strong_spec
     With (head : Z) (suffix : list Z)
     Require xizi_dll(head, cons(linklist_node, suffix))
     Ensure xizi_dll(head, suffix) *
-           xizi_dll(linklist_node@pre, nil)
+           xizi_dll(linklist_node, nil)
 */;
 
-void xizi_double_link_remove_node(DoubleLinklistType *linklist_node)
+void DoubleLinkListRmNode(DoubleLinklistType *linklist_node)
 /*@ remove_tail_spec <= strong_spec
     With (head : Z) (prefix : list Z)
     Require xizi_dll(head, app(prefix, cons(linklist_node, nil)))
     Ensure xizi_dll(head, prefix) *
-           xizi_dll(linklist_node@pre, nil)
+           xizi_dll(linklist_node, nil)
 */;
 
-void xizi_double_link_remove_node(DoubleLinklistType *linklist_node)
+void DoubleLinkListRmNode(DoubleLinklistType *linklist_node)
 /*@ strong_spec
     With (head: Z) (nodes prefix suffix: list Z)
     Require nodes == app(prefix, cons(linklist_node, suffix)) &&
             xizi_dll(head, nodes)
     Ensure xizi_dll(head, app(prefix, suffix)) *
-           xizi_dll(linklist_node@pre, nil)
+           xizi_dll(linklist_node, nil)
 */
 {
     /*@ Assert

@@ -1,0 +1,607 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "annotation",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "annotation": {
+      "status": "completed",
+      "attempt_id": "xizi_circular_area_init-annotation-r2-attempt-1",
+      "round": "xizi_circular_area_init-annotation-r2",
+      "source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "dcf66448e83f8f1531de1e2855f2c755255c41c2c2fc5fb32d8bbe006e3643f0",
+        "binding": "agent_input seed version; both target C and case-lib seed hashes matched before editing"
+      },
+      "candidate_source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "f849ae66cafbaa47f0fde02d945ef799a0f4b329f886aea6bdd74892fdd949c2",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "relative_path": "OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init.c",
+            "sha256": "ff960f0ab8cb7e6d4fd2ffff877b3351229e9451419a4626a10e23d9952dcebf",
+            "state": "present",
+            "role": "target-c-annotated"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_lib.v",
+            "sha256": "239142e8cdd512bbd01590b7aba16e17bf4fb4c3d30b20ff1a546d9c762caf27",
+            "state": "present",
+            "role": "case-lib-seed"
+          }
+        ]
+      },
+      "source_goal_version": null,
+      "ready_for_annotation_check_round": true,
+      "ready_for_main_symexec": true,
+      "qcp_mcp_requirement_satisfied": "yes",
+      "annotation_scratch_lib_coqc_status": "passed",
+      "summary": "Rebuilt the log-free annotation candidate and corrected the buffer-allocation-failure ownership exposed by return_wit_2. CircularAreaInitFailureState now represents p_head, p_tail, area_length, and CircularAreaOperations as genuine uninitialized stores while preserving the initialized null data_buffer, zero indices, and zero status. Fresh qcp-mcp reached EOF, canonical symbolic execution succeeded, the fixed case-lib check passed, and annotation-checking passed.",
+      "annotation_design_summary": {
+        "schema_version": "qcp-annotation-design-summary/v1",
+        "source": "annotation-subagent",
+        "proof_style": "direct-proof predicate-first annotation",
+        "case_lib_spec_declarations": [
+          {
+            "kind": "Definition",
+            "name": "CircularAreaAlignedLength",
+            "purpose": "exact four-byte downward alignment relation"
+          },
+          {
+            "kind": "Definition",
+            "name": "CircularAreaInitDescriptorState",
+            "purpose": "successful initialized descriptor/buffer semantics"
+          },
+          {
+            "kind": "Definition",
+            "name": "CircularAreaInitFailureState",
+            "purpose": "exact allocation-failure ownership, including the partially initialized retained descriptor"
+          }
+        ],
+        "hidden_properties": [
+          "aligned = (circular_area_length / 4) * 4",
+          "success implies 0 < aligned <= 256",
+          "success has p_head = data_buffer and p_tail = data_buffer + aligned",
+          "success has readidx = writeidx = b_status = 0 and the concrete operations table",
+          "descriptor-allocation failure owns emp",
+          "buffer-allocation failure owns initialized data_buffer/readidx/writeidx/b_status cells and uninitialized p_head/p_tail/area_length/operations cells"
+        ],
+        "algorithm_mirror_used": "no",
+        "loop_invariant_required": "no-loop-in-target-function",
+        "array_predicate_selection": "UCharArray::undef_full for the newly allocated uninitialized byte buffer",
+        "known_risks": [
+          "The unchanged CRTOS failure body frees only the null buffer and leaks the descriptor; the postcondition deliberately returns that exact ownership rather than claiming cleanup.",
+          "Controller annotation-check-round must refresh a fresh proof_manual skeleton and diagnostics; this round did not hand-edit generated witness statements or proof bodies."
+        ]
+      },
+      "function_body_alignment_evidence": {
+        "status": "passed",
+        "reference": "/home/yangfp/crtos/Ubiquitous/XiZi_IIoT_Macro/kernel/thread/circular_area.c",
+        "target_function": "CircularAreaInit",
+        "comparison": "C tokens after stripping comments/annotations and deleting only the three KPrintf statements from the reference",
+        "target_token_count": 120,
+        "reference_token_count": 120,
+        "tokens_equal": true,
+        "signature_equal": true,
+        "static_attribute_equal": true,
+        "error_macro_value": 1
+      },
+      "logging_removal_evidence": {
+        "status": "passed",
+        "removed_active_failure_calls": 2,
+        "removed_active_success_call_from_reference": 1,
+        "removed_kprintf_declaration_and_spec": true,
+        "removed_global_strings_contract": true,
+        "final_search_terms": [
+          "KPrintf",
+          "GlobalStrings",
+          "LitMap"
+        ],
+        "final_search_match_count": 0
+      },
+      "qcp_mcp_interactive_evidence": {
+        "schema_version": "qcp-mcp-interactive-evidence/v1",
+        "status": "passed",
+        "qcp_mcp_requirement_satisfied": "yes",
+        "wrapper": "mcp/qcp-mcp/src/qcp_mcp/server.py direct tool-function chain",
+        "backend_driver": "/home/yangfp/QCIP/linux-binary/mcp",
+        "cwd": "/home/yangfp/QCIP/worktrees/xizi_circular_area_init-20260821150720/xizi_circular_area_init-annotation-r2",
+        "target_file": "/home/yangfp/QCIP/worktrees/xizi_circular_area_init-20260821150720/xizi_circular_area_init-annotation-r2/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init.c",
+        "actual_args": [
+          "--input-file=/home/yangfp/QCIP/worktrees/xizi_circular_area_init-20260821150720/xizi_circular_area_init-annotation-r2/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init.c",
+          "--goal-file=<qcp-mcp-temporary-goal>"
+        ],
+        "load_target_file": "parsed",
+        "final_operation": "fresh symbolic",
+        "final_line": 190,
+        "result": "success",
+        "errormessage": null,
+        "warningmessage": null,
+        "loaded_strategies": [
+          "builtin/uchar_array.strategies",
+          "builtin/undef_uchar_array.strategies",
+          "builtin/mixed_uchar_array.strategies",
+          "builtin/uchar_array_shape.strategies"
+        ],
+        "failure_return_state_audit": {
+          "initialized_cells": [
+            "data_buffer = 0",
+            "readidx = 0",
+            "writeidx = 0",
+            "b_status = 0"
+          ],
+          "uninitialized_cells": [
+            "p_head",
+            "p_tail",
+            "area_length",
+            "CircularAreaOperations"
+          ]
+        },
+        "session_closed": true
+      },
+      "canonical_symexec_evidence": {
+        "schema_version": "qcp-canonical-symexec-evidence/v1",
+        "status": "passed",
+        "driver": "/home/yangfp/QCIP/linux-binary/symexec",
+        "cwd": "/home/yangfp/QCIP/worktrees/xizi_circular_area_init-20260821150720/xizi_circular_area_init-annotation-r2",
+        "argv": [
+          "/home/yangfp/QCIP/linux-binary/symexec",
+          "--goal-file=SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_goal.v",
+          "--proof-auto-file=SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_proof_auto.v",
+          "--proof-manual-file=SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_proof_manual.v",
+          "-IQCP_examples/QCP_demos_LLM/",
+          "-slp",
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM",
+          "--coq-logic-path=SimpleC.EE.OUTPUT.xizi.xizi_circular_area_init.source",
+          "--input-file=OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init.c",
+          "--no-exec-info"
+        ],
+        "include_args": [
+          "QCP_examples/QCP_demos_LLM/"
+        ],
+        "slp_args": [
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM"
+        ],
+        "returncode": 0,
+        "stdout_tail": "End of symbolic execution of function CircularAreaInit; Successfully finished symbolic execution",
+        "stderr_tail": "",
+        "target_manual_witnesses": [
+          "proof_of_CircularAreaInit_return_wit_1",
+          "proof_of_CircularAreaInit_return_wit_2",
+          "proof_of_CircularAreaInit_return_wit_3"
+        ],
+        "return_wit_2_semantic_audit": "The generated antecedent and CircularAreaInitFailureState consequent both contain |->_ for p_head, p_tail, area_length, and CircularAreaOperations.",
+        "manual_refresh_note": "The driver reported its normal existing-manual warning. Controller annotation-check-round owns fresh proof_manual skeleton and diagnostics refresh."
+      },
+      "case_lib_coqc_evidence": {
+        "schema_version": "qcp-coqc-check-evidence/v1",
+        "status": "passed",
+        "tool": "coqc",
+        "helper": "/home/yangfp/QCIP/.agents/skills/vc-proving/scripts/coq_tooling.py",
+        "target_kind": "case_lib",
+        "target_file": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_lib.v",
+        "source_goal_version": "dcf66448e83f8f1531de1e2855f2c755255c41c2c2fc5fb32d8bbe006e3643f0",
+        "candidate_source_version": "f849ae66cafbaa47f0fde02d945ef799a0f4b329f886aea6bdd74892fdd949c2",
+        "case_lib_sha256": "239142e8cdd512bbd01590b7aba16e17bf4fb4c3d30b20ff1a546d9c762caf27",
+        "fixed_flags_hash": "75b2bdd1edb990c20e7514694fa4303e8d948c120bc1e5ac3813d06caabc3dff",
+        "workspace_root": "/home/yangfp/QCIP/worktrees/xizi_circular_area_init-20260821150720/xizi_circular_area_init-annotation-r2",
+        "build_workspace": "/home/yangfp/QCIP/worktrees/xizi_circular_area_init-20260821150720/_coq_builds/xizi_circular_area_init-annotation-r2-case-lib-cycle1",
+        "coq_version": "The Coq Proof Assistant, version 8.20.1",
+        "returncode": 0,
+        "full_dependency_check_elapsed_seconds": 117.945,
+        "final_no_deps_confirmation_elapsed_seconds": 1.373,
+        "first_diagnostic": null
+      },
+      "annotation_checking_evidence": {
+        "schema_version": "qcp-annotation-checking-report/v1",
+        "status": "passed",
+        "checked_scope": [
+          "candidate C Require/Ensure and helper allocation/reset/free specifications",
+          "CircularAreaAlignedLength",
+          "CircularAreaInitDescriptorState",
+          "CircularAreaInitFailureState",
+          "exact initialized-versus-uninitialized descriptor ownership",
+          "UCharArray::undef_full success buffer ownership",
+          "no-KPrintf source alignment"
+        ],
+        "qcp_mcp_requirement_satisfied": "yes",
+        "annotation_scratch_lib_coqc_status": "passed",
+        "spec_definition_status": "passed: alignment and successful descriptor definitions are strict mathematical properties; the failure assertion is an exact resource interface and does not mirror control flow",
+        "function_spec_status": "passed: positive bounded input, exact alignment, NULL allocation failures, fully initialized successful descriptor, concrete operation table, and uninitialized output buffer ownership are all stated",
+        "invariant_status": "passed: CircularAreaInit contains no loop",
+        "annotation_scratch_lib_changes": [
+          "Added only the separation-logic imports required by the exact resource predicate.",
+          "Replaced CircularAreaInitLeakedDescriptorState with CircularAreaInitFailureState.",
+          "Represented p_head, p_tail, area_length, and operations with uninitialized-store notation rather than existential initialized values."
+        ],
+        "array_predicate_review": "passed: the newly allocated byte buffer uses builtin UCharArray::undef_full and no duplicate array predicate was introduced",
+        "summary": "Annotation Checking Report: passed. The revised failure state is mathematically and spatially faithful to the actual partial initialization, directly addressing the downstream unprovable VC without weakening the contract.",
+        "failed_checks": [],
+        "required_annotation_rework": [],
+        "required_annotation_scratch_lib_rework": [],
+        "ready_for_main_common_case_formal_lib_update": "yes",
+        "ready_for_main_symexec": "yes",
+        "timing_summary": "Three in-spawn filling/checking cycles completed; the slowest command was the full fixed case-lib dependency check at 117.945 seconds.",
+        "timing_gaps": [
+          "Exact manual-analysis and edit substep durations were not incrementally logged because the handoff declared no separate timing ledger path."
+        ]
+      },
+      "iteration_count": 3,
+      "failure_count": 1,
+      "repair_count": 1,
+      "self_repair_budget": {
+        "configured_min_complete_cycles": 3,
+        "configured_min_wall_clock_minutes": 30,
+        "complete_cycles_performed": 3,
+        "exhausted": false,
+        "completion_before_exhaustion": true
+      },
+      "iteration_history": [
+        {
+          "cycle": 1,
+          "result": "rework",
+          "finding": "The previous failure predicate modeled four never-written descriptor fields as initialized points-to cells, so return_wit_2 could not be proved from genuine mstore_noninit resources.",
+          "repair": "Reconstructed CircularAreaInitFailureState with exact initialized cells and |->_ for p_head, p_tail, area_length, and operations; independently rebuilt the log-free C contract from the current seed and problem context."
+        },
+        {
+          "cycle": 2,
+          "result": "passed",
+          "finding": "The fixed case-lib compile succeeded and qcp-mcp reached EOF; its returned failure state explicitly showed four undef_data_at cells matching the revised predicate.",
+          "repair": "No further semantic repair was required after the exact resource comparison."
+        },
+        {
+          "cycle": 3,
+          "result": "completed",
+          "finding": "Canonical symexec succeeded and generated return_wit_2 with identical uninitialized-store resources on both sides; a second fresh qcp-mcp run, source token comparison, final no-deps case-lib compile, forbidden-marker scan, and annotation-checking all passed.",
+          "repair": "Final consistency confirmation only."
+        }
+      ],
+      "self_reworkable_failures": [],
+      "previous_attempts_reviewed": [
+        {
+          "round": "xizi_circular_area_init-annotation-r1",
+          "report": "/home/yangfp/QCIP/reports/xizi_circular_area_init-20260821150720/rounds/xizi_circular_area_init-annotation-r1/agent_report.json",
+          "output": "/home/yangfp/QCIP/reports/xizi_circular_area_init-20260821150720/rounds/xizi_circular_area_init-annotation-r1/agent_output.txt",
+          "worktree": "/home/yangfp/QCIP/worktrees/xizi_circular_area_init-20260821150720/xizi_circular_area_init-annotation-r1",
+          "allowed_use": "read-only-analysis",
+          "formal_copy_used": "no",
+          "lessons_applied": [
+            "xizi_circular_area_init-annotation-r1-annotation-retry-1"
+          ]
+        }
+      ],
+      "prior_blockers_addressed": [
+        {
+          "id": "xizi_circular_area_init-annotation-r1-annotation-retry-1",
+          "status": "addressed",
+          "detail": "The buffer-allocation failure branch now preserves the actual four mstore_noninit descriptor fields instead of requiring initialized points-to cells; qcp-mcp state and canonical return_wit_2 independently confirm the match."
+        }
+      ],
+      "changed_files": [
+        {
+          "path": "OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init.c",
+          "change": "annotation repair and user-authorized removal of all KPrintf material",
+          "sha256": "ff960f0ab8cb7e6d4fd2ffff877b3351229e9451419a4626a10e23d9952dcebf"
+        },
+        {
+          "path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_lib.v",
+          "change": "annotation-approved exact partial-initialization failure resource predicate",
+          "sha256": "239142e8cdd512bbd01590b7aba16e17bf4fb4c3d30b20ff1a546d9c762caf27"
+        }
+      ],
+      "generated_refresh_evidence": [
+        {
+          "path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_goal.v",
+          "sha256": "b4f0f5aa3d83a75e67503760aa0713b7f98715e01eb7fab195312d4435cd4918",
+          "content_changed_from_handoff": false,
+          "note": "Canonical symexec refreshed the file; the opaque predicate name/signature stayed the same, so the goal content hash is unchanged."
+        },
+        {
+          "path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_proof_auto.v",
+          "sha256": "08eca8c7aba6a0600353f8b829c53cdcaea93613d2f28739caebe2fddc73364f",
+          "content_changed_from_handoff": false
+        }
+      ],
+      "file_access_summary": {
+        "must_log_file_reads": "yes",
+        "read_categories": {
+          "handoff": [
+            "/home/yangfp/QCIP/reports/xizi_circular_area_init-20260821150720/rounds/xizi_circular_area_init-annotation-r2/agent_input.json"
+          ],
+          "rules_and_skills": [
+            ".agents/skills/verification-orchestrator/SKILL.md",
+            ".agents/skills/annotation-filling/SKILL.md",
+            ".agents/skills/annotation-filling/docs/use-notes.md",
+            ".agents/skills/annotation-filling/docs/annotation-rules.md",
+            ".agents/skills/annotation-filling/docs/common-annotation-errors.md",
+            ".agents/skills/annotation-filling/docs/predicate-first-annotation.md",
+            ".agents/skills/annotation-filling/docs/builtin-array-string-support.md",
+            ".agents/skills/annotation-filling/docs/array-predicate-selection.md",
+            ".agents/skills/annotation-filling/docs/reference-cases.md",
+            ".agents/skills/annotation-filling/docs/symexec-refresh.md",
+            ".agents/skills/annotation-checking/SKILL.md",
+            ".agents/skills/annotation-checking/docs/spec-quality-checklist.md"
+          ],
+          "current_target_files": [
+            "OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init.c",
+            "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_lib.v",
+            "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_goal.v",
+            "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_proof_manual.v"
+          ],
+          "previous_attempt_read_only": [
+            "/home/yangfp/QCIP/reports/xizi_circular_area_init-20260821150720/rounds/xizi_circular_area_init-annotation-r1/agent_report.json",
+            "/home/yangfp/QCIP/reports/xizi_circular_area_init-20260821150720/rounds/xizi_circular_area_init-annotation-r1/agent_output.txt",
+            "/home/yangfp/QCIP/worktrees/xizi_circular_area_init-20260821150720/xizi_circular_area_init-annotation-r1/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init.c",
+            "/home/yangfp/QCIP/worktrees/xizi_circular_area_init-20260821150720/xizi_circular_area_init-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_lib.v"
+          ],
+          "allowed_references": [
+            "/home/yangfp/crtos/Ubiquitous/XiZi_IIoT_Macro/kernel/thread/circular_area.c",
+            "/home/yangfp/crtos/Ubiquitous/XiZi_IIoT_Macro/kernel/thread/xs_circular_area.h (declared path was missing)",
+            "QCP_examples/QCP_demos_LLM/**",
+            "SeparationLogic/examples/QCP_demos_LLM/**"
+          ],
+          "tooling_sources": [
+            "mcp/qcp-mcp/src/qcp_mcp/server.py",
+            "mcp/qcp-mcp/src/qcp_mcp/session_manager.py",
+            "mcp/qcp-mcp/src/qcp_mcp/session.py",
+            ".agents/skills/vc-proving/scripts/coq_tooling.py command interface",
+            ".agents/skills/verification-orchestrator/scripts/controller.py source-version digest logic and report review logic"
+          ]
+        },
+        "searches": [
+          "Exact-path searches under QCP_examples/QCP_demos_LLM and SeparationLogic/examples/QCP_demos_LLM for has_permission, uninitialized-store notation, and Assertion definitions",
+          "Exact-path searches under mcp/qcp-mcp/src/qcp_mcp for the interactive tool chain",
+          "Exact-path searches under .agents/skills/verification-orchestrator/scripts for source-version and report contracts",
+          "Exact current-case marker scans for KPrintf, GlobalStrings, LitMap, Admitted, and extra Axiom"
+        ],
+        "denied_globs_touched": []
+      },
+      "blockers": []
+    }
+  },
+  "verification_result": {
+    "controller_acceptance": "not-requested",
+    "ready": true,
+    "annotation_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-08-21T08:03:19Z",
+      "source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "f849ae66cafbaa47f0fde02d945ef799a0f4b329f886aea6bdd74892fdd949c2",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_circular_area_init-20260821150720/xizi_circular_area_init-annotation-r2/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init.c",
+            "relative_path": "OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init.c",
+            "sha256": "ff960f0ab8cb7e6d4fd2ffff877b3351229e9451419a4626a10e23d9952dcebf",
+            "state": "present",
+            "role": "target-c-annotated"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_circular_area_init-20260821150720/xizi_circular_area_init-annotation-r2/SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_lib.v",
+            "sha256": "239142e8cdd512bbd01590b7aba16e17bf4fb4c3d30b20ff1a546d9c762caf27",
+            "state": "present",
+            "role": "case-lib-seed"
+          }
+        ]
+      },
+      "source_goal_version": {
+        "schema_version": "qcp-source-goal-version/v1",
+        "digest": "c3d38be29b09000c4eff2fa2161388533d44e2c000245118f340a8fb5138a053",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_goal.v",
+            "sha256": "b4f0f5aa3d83a75e67503760aa0713b7f98715e01eb7fab195312d4435cd4918",
+            "state": "present",
+            "role": "generated-goal"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_proof_auto.v",
+            "sha256": "08eca8c7aba6a0600353f8b829c53cdcaea93613d2f28739caebe2fddc73364f",
+            "state": "present",
+            "role": "generated-proof-auto"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_proof_manual.v",
+            "sha256": "9ce37ac4ecc23f690befed0cf8fbfe3cffffe920e1ed31ade78fb9a56b27339f",
+            "state": "present",
+            "role": "generated-proof-manual"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_goal_check.v",
+            "sha256": "02be63d0881e6a2759373725fe5660430eca3f0e6d94ee3322e80dd7e08b4526",
+            "state": "present",
+            "role": "generated-goal-check"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_proof_diagnostics.v",
+            "sha256": "8373d8056ca9790284e28e4ed2620a081ab8c885e0d5a8fccbecf75d5343c4c4",
+            "state": "present",
+            "role": "generated-diagnostics"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/diagnostics_snapshot.json",
+            "sha256": "89739b81893dcb05c784867bfd0d744d6cfc8c7a023b4a7fe75628b6402e3241",
+            "state": "present",
+            "role": "generated-diagnostics-snapshot"
+          }
+        ],
+        "target_witnesses": [
+          "proof_of_CircularAreaInit_return_wit_1",
+          "proof_of_CircularAreaInit_return_wit_2",
+          "proof_of_CircularAreaInit_return_wit_3"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_CircularAreaInit_return_wit_1": "8db7a4b7c6dd45f67acbb17a81d97b90d63bad7eea96e4e82c4844cd2b920fdb",
+          "proof_of_CircularAreaInit_return_wit_2": "34df322a7e98b45b8e2af7a715a7cafeafc71e4a5de836bd2311c4dbb1acfaa6",
+          "proof_of_CircularAreaInit_return_wit_3": "bcdf4c407754de3d930ec8a61a5df44631ae1d1559eb43081d524fcbfc59f0a6"
+        },
+        "witnesses": [
+          {
+            "name": "proof_of_CircularAreaInit_return_wit_1",
+            "target_symbol": "CircularAreaInit_return_wit_1",
+            "statement_hash": "8db7a4b7c6dd45f67acbb17a81d97b90d63bad7eea96e4e82c4844cd2b920fdb",
+            "start_line": 25,
+            "end_line": 27
+          },
+          {
+            "name": "proof_of_CircularAreaInit_return_wit_2",
+            "target_symbol": "CircularAreaInit_return_wit_2",
+            "statement_hash": "34df322a7e98b45b8e2af7a715a7cafeafc71e4a5de836bd2311c4dbb1acfaa6",
+            "start_line": 28,
+            "end_line": 30
+          },
+          {
+            "name": "proof_of_CircularAreaInit_return_wit_3",
+            "target_symbol": "CircularAreaInit_return_wit_3",
+            "statement_hash": "bcdf4c407754de3d930ec8a61a5df44631ae1d1559eb43081d524fcbfc59f0a6",
+            "start_line": 31,
+            "end_line": 33
+          }
+        ]
+      },
+      "annotation_design_summary": {
+        "schema_version": "qcp-annotation-design-summary/v1",
+        "source": "annotation-subagent",
+        "proof_style": "direct-proof predicate-first annotation",
+        "case_lib_spec_declarations": [
+          {
+            "kind": "Definition",
+            "name": "CircularAreaAlignedLength",
+            "purpose": "exact four-byte downward alignment relation"
+          },
+          {
+            "kind": "Definition",
+            "name": "CircularAreaInitDescriptorState",
+            "purpose": "successful initialized descriptor/buffer semantics"
+          },
+          {
+            "kind": "Definition",
+            "name": "CircularAreaInitFailureState",
+            "purpose": "exact allocation-failure ownership, including the partially initialized retained descriptor"
+          }
+        ],
+        "hidden_properties": [
+          "aligned = (circular_area_length / 4) * 4",
+          "success implies 0 < aligned <= 256",
+          "success has p_head = data_buffer and p_tail = data_buffer + aligned",
+          "success has readidx = writeidx = b_status = 0 and the concrete operations table",
+          "descriptor-allocation failure owns emp",
+          "buffer-allocation failure owns initialized data_buffer/readidx/writeidx/b_status cells and uninitialized p_head/p_tail/area_length/operations cells"
+        ],
+        "algorithm_mirror_used": "no",
+        "loop_invariant_required": "no-loop-in-target-function",
+        "array_predicate_selection": "UCharArray::undef_full for the newly allocated uninitialized byte buffer",
+        "known_risks": [
+          "The unchanged CRTOS failure body frees only the null buffer and leaks the descriptor; the postcondition deliberately returns that exact ownership rather than claiming cleanup.",
+          "Controller annotation-check-round must refresh a fresh proof_manual skeleton and diagnostics; this round did not hand-edit generated witness statements or proof bodies."
+        ]
+      },
+      "canonical_symexec_evidence": {
+        "schema_version": "qcp-canonical-symexec-evidence/v1",
+        "driver": "/home/yangfp/QCIP/linux-binary/symexec",
+        "cwd": "/home/yangfp/QCIP/worktrees/xizi_circular_area_init-20260821150720/xizi_circular_area_init-annotation-r2",
+        "argv": [
+          "/home/yangfp/QCIP/linux-binary/symexec",
+          "--goal-file=SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_goal.v",
+          "--proof-auto-file=SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_proof_auto.v",
+          "--proof-manual-file=SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_proof_manual.v",
+          "-IQCP_examples/QCP_demos_LLM/",
+          "-slp",
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM",
+          "--coq-logic-path=SimpleC.EE.OUTPUT.xizi.xizi_circular_area_init.source",
+          "--input-file=OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init.c",
+          "--no-exec-info"
+        ],
+        "include_args": [
+          "QCP_examples/QCP_demos_LLM/"
+        ],
+        "slp_args": [
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM"
+        ],
+        "manual_refresh": {
+          "policy": "fresh-symbolic-execution-skeleton",
+          "path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_proof_manual.v",
+          "previous_sha256": "a8bb46cc7b18ec5c046e7603f11a70afa4680aea3e040e9227133eb9f3764422",
+          "generated": true,
+          "generated_sha256": "4435ff1be3c362cf7201c87d1db99b7dfd9cb965fd4b8394dbc7a08c5e153274",
+          "previous_restored_on_failure": false
+        },
+        "status": "passed",
+        "returncode": 0,
+        "stdout_tail": "Start to symbolic execution on program : OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init.c\nStart to parse function declaration of function x_malloc\nStart to parse function declaration of function x_malloc\nStart to parse function declaration of function x_free\nSymbolic Execution into function CircularAreaReset\nEnd of symbolic execution of function CircularAreaReset\nSymbolic Execution into function CircularAreaRelease\nEnd of symbolic execution of function CircularAreaRelease\nSymbolic Execution into function CircularAreaInit\nEnd of symbolic execution of function CircularAreaInit\nSuccessfully finished symbolic execution\n",
+        "stderr_tail": ""
+      },
+      "diagnostics_split": {
+        "status": "passed",
+        "normalized_at": "2026-08-21T08:03:19Z",
+        "proof_manual_file": "/home/yangfp/QCIP/worktrees/xizi_circular_area_init-20260821150720/xizi_circular_area_init-annotation-r2/SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_proof_manual.v",
+        "proof_diagnostics_file": "/home/yangfp/QCIP/worktrees/xizi_circular_area_init-20260821150720/xizi_circular_area_init-annotation-r2/SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_proof_diagnostics.v",
+        "diagnostics_snapshot": "/home/yangfp/QCIP/worktrees/xizi_circular_area_init-20260821150720/xizi_circular_area_init-annotation-r2/SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/diagnostics_snapshot.json",
+        "schema_version": "qcp-diagnostics-snapshot/v1",
+        "manual_obligations": [
+          {
+            "name": "proof_of_CircularAreaInit_return_wit_1",
+            "statement_hash": "8db7a4b7c6dd45f67acbb17a81d97b90d63bad7eea96e4e82c4844cd2b920fdb",
+            "target_symbol": "CircularAreaInit_return_wit_1",
+            "start_line": 34,
+            "end_line": 36
+          },
+          {
+            "name": "proof_of_CircularAreaInit_return_wit_2",
+            "statement_hash": "34df322a7e98b45b8e2af7a715a7cafeafc71e4a5de836bd2311c4dbb1acfaa6",
+            "target_symbol": "CircularAreaInit_return_wit_2",
+            "start_line": 37,
+            "end_line": 39
+          },
+          {
+            "name": "proof_of_CircularAreaInit_return_wit_3",
+            "statement_hash": "bcdf4c407754de3d930ec8a61a5df44631ae1d1559eb43081d524fcbfc59f0a6",
+            "target_symbol": "CircularAreaInit_return_wit_3",
+            "start_line": 40,
+            "end_line": 42
+          }
+        ],
+        "diagnostics": [
+          {
+            "name": "proof_of_CircularAreaInit_return_wit_1_split_goal_1",
+            "statement_hash": "e8c6f2ed9c205c06c4898cb719ac2443a8c39f7623bc1be413d6886a922a6037",
+            "target_symbol": "CircularAreaInit_return_wit_1_split_goal_1",
+            "start_line": 25,
+            "end_line": 27,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_CircularAreaInit_return_wit_1_split_goal_2",
+            "statement_hash": "972b0bdac37307775b48d16d9e922e8cdeb347aea2a9424b1acd38274c282fad",
+            "target_symbol": "CircularAreaInit_return_wit_1_split_goal_2",
+            "start_line": 28,
+            "end_line": 30,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_CircularAreaInit_return_wit_1_split_goal_spatial",
+            "statement_hash": "20813af9f908b1c5f1883e897cfb93d41dc79f525bfe103d0bb55642de22f135",
+            "target_symbol": "CircularAreaInit_return_wit_1_split_goal_spatial",
+            "start_line": 31,
+            "end_line": 33,
+            "has_abort": true,
+            "has_split_goal": true
+          }
+        ],
+        "manual_obligation_count": 3,
+        "diagnostic_count": 3
+      }
+    }
+  },
+  "blockers": []
+}

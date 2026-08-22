@@ -2,7 +2,7 @@
 #include "verification_list.h"
 #include "../../xizi_single_link_common/source/xizi_single_link_def.h"
 
-void xizi_single_link_init(SysSingleLinklistType *linklist)
+void InitSingleLinkList(SysSingleLinklistType *linklist)
 /*@ Require
       xizi_sll_node(linklist)
     Ensure

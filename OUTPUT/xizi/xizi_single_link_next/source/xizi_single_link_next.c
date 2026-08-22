@@ -2,7 +2,7 @@
 #include "verification_list.h"
 #include "../../xizi_single_link_common/source/xizi_single_link_def.h"
 
-SysSingleLinklistType *xizi_single_link_next(SysSingleLinklistType *linklist_node)
+SysSingleLinklistType *SingleLinkListGetNextNode(SysSingleLinklistType *linklist_node)
 /*@ With l
     Require
       In(linklist_node, l) &&

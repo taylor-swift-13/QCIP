@@ -2,7 +2,7 @@
 
 /*@ Import Coq From SimpleC.EE.OUTPUT.xizi.xizi_double_link_len.source Require Import xizi_double_link_len_lib */
 
-unsigned int xizi_double_link_len(const DoubleLinklistType *linklist)
+unsigned int DoubleLinkListLenGet(const DoubleLinklistType *linklist)
 /*@ general
     With nodes
     Require
@@ -12,7 +12,7 @@ unsigned int xizi_double_link_len(const DoubleLinklistType *linklist)
       xizi_dll(linklist, nodes)
 */;
 
-unsigned int xizi_double_link_len(const DoubleLinklistType *linklist)
+unsigned int DoubleLinkListLenGet(const DoubleLinklistType *linklist)
 /*@ nil_case <= general
     Require
       xizi_dll(linklist, nil)
@@ -21,7 +21,7 @@ unsigned int xizi_double_link_len(const DoubleLinklistType *linklist)
       xizi_dll(linklist, nil)
 */;
 
-unsigned int xizi_double_link_len(const DoubleLinklistType *linklist)
+unsigned int DoubleLinkListLenGet(const DoubleLinklistType *linklist)
 /*@ general
 */
 {

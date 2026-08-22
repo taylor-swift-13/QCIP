@@ -2,7 +2,7 @@
 #include "verification_list.h"
 #include "../../xizi_single_link_common/source/xizi_single_link_def.h"
 
-unsigned int xizi_single_link_len(const SysSingleLinklistType *linklist)
+unsigned int SingleLinkListGetLen(const SysSingleLinklistType *linklist)
 /*@ With l
     Require
       xizi_sll_head(linklist, l)
@@ -18,6 +18,7 @@ unsigned int xizi_single_link_len(const SysSingleLinklistType *linklist)
           exists first l1 l2,
             l == app(l1, l2) &&
             length == Zlength(l1) &&
+            linklist == linklist@pre &&
             linklist != 0 &&
             linklist -> node_next == first &&
             xizi_sllseg(first, tmp_list, l1) *

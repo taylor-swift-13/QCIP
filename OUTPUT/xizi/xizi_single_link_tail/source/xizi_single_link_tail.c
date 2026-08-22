@@ -2,7 +2,7 @@
 #include "verification_list.h"
 #include "../../xizi_single_link_common/source/xizi_single_link_def.h"
 
-SysSingleLinklistType *xizi_single_link_tail(SysSingleLinklistType *linklist)
+SysSingleLinklistType *SingleLinkListGetTailNode(SysSingleLinklistType *linklist)
 /*@ With l
     Require
       xizi_sll_head(linklist, l)
@@ -21,6 +21,7 @@ SysSingleLinklistType *xizi_single_link_tail(SysSingleLinklistType *linklist)
     /*@ Inv Assert
           exists first l1 l2 next,
             l == app(l1, cons(current, l2)) &&
+            linklist == linklist@pre &&
             current != 0 &&
             linklist != 0 &&
             (linklist -> node_next == first) *

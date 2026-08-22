@@ -1,0 +1,9 @@
+# Reuse Note
+Note kind: non-authoritative reuse note
+This file is not acceptance evidence.
+
+The annotation candidate changes `ERROR` from `(-1)` to `1` in the self-contained C case and `xizi_circular_area_error_result` from `result = -1` to `result = 1` in the case lib. It also restores the exact `KPrintf("the circular area is full\n")` call required by the updated handoff. The parser-compatible external model keeps `const char *fmt`, requires `fmt == LM(s)` plus `GlobalStrings(LM)`, and returns `GlobalStrings(LM)` unchanged. `CircularAreaIsFull` threads `GlobalStrings(LitMap)` through every branch and explicitly instantiates the log literal at the call. The valid-descriptor result predicate and full descriptor/byte-array ownership remain unchanged.
+
+The stock qcp-mcp `load_target_file` surface initially failed because it did not carry the required include path. Reusing the same qcp-mcp backend/session chain with `-IQCP_examples/QCP_demos_LLM/` and `-slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM` repaired the issue. During KPrintf restoration, QCP rejected the unused variadic ellipsis and could not derive a `store_stringLit`-only call contract; the parser-compatible declaration and full `GlobalStrings` preserving contract repaired both failures. Final qcp-mcp symbolic execution succeeded to line 84. The case-lib fixed Coq gate passed; final source-version digest is `8481a881c43bb52787371bcd4389f3201a03e756fbed7f2d401ea799a17a8a4d`.
+
+JSON handoff, controller manifests, source versions, and current files win over this note.

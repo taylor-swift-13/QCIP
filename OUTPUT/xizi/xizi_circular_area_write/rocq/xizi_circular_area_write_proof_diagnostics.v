@@ -1,0 +1,246 @@
+Require Import Coq.ZArith.ZArith.
+Require Import Coq.Bool.Bool.
+Require Import Coq.Strings.String.
+Require Import Coq.Strings.Ascii.
+Require Import Coq.Lists.List.
+Require Import Coq.Classes.RelationClasses.
+Require Import Coq.Classes.Morphisms.
+Require Import Coq.micromega.Psatz.
+Require Import Coq.Sorting.Permutation.
+From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
+Require Import SetsClass.SetsClass. Import SetsNotation.
+From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.EE.OUTPUT.xizi.xizi_circular_area_write.source Require Import xizi_circular_area_write_goal.
+From SimpleC.EE.OUTPUT.xizi.xizi_circular_area_write.source Require Import xizi_circular_area_write_proof_auto.
+Require Import Logic.LogicGenerator.demo932.Interface.
+Local Open Scope Z_scope.
+Local Open Scope sets.
+Local Open Scope string_scope.
+Local Open Scope list.
+Import naive_C_Rules.
+Require Import
+      SimpleC.EE.OUTPUT.xizi.xizi_circular_area_write.source.xizi_circular_area_write_lib.
+Local Open Scope sac.
+
+Lemma proof_of_CircularAreaIsFull_return_wit_1_split_goal_1 : CircularAreaIsFull_return_wit_1_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaIsFull_return_wit_1_split_goal_spatial : CircularAreaIsFull_return_wit_1_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaIsFull_return_wit_2_split_goal_1 : CircularAreaIsFull_return_wit_2_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaIsFull_return_wit_2_split_goal_spatial : CircularAreaIsFull_return_wit_2_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaIsFull_return_wit_3_split_goal_1 : CircularAreaIsFull_return_wit_3_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaIsFull_return_wit_3_split_goal_spatial : CircularAreaIsFull_return_wit_3_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaGetDataLength_return_wit_1_split_goal_1 : CircularAreaGetDataLength_return_wit_1_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaGetDataLength_return_wit_1_split_goal_2 : CircularAreaGetDataLength_return_wit_1_split_goal_2.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaGetDataLength_return_wit_1_split_goal_3 : CircularAreaGetDataLength_return_wit_1_split_goal_3.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaGetDataLength_return_wit_1_split_goal_spatial : CircularAreaGetDataLength_return_wit_1_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaGetDataLength_return_wit_2_split_goal_1 : CircularAreaGetDataLength_return_wit_2_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaGetDataLength_return_wit_2_split_goal_spatial : CircularAreaGetDataLength_return_wit_2_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaDivideWrData_return_wit_1_split_goal_1 : CircularAreaDivideWrData_return_wit_1_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaDivideWrData_return_wit_2_split_goal_1 : CircularAreaDivideWrData_return_wit_2_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_1_1_split_goal_1 : CircularAreaWrite_entail_wit_1_1_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_1_1_split_goal_2 : CircularAreaWrite_entail_wit_1_1_split_goal_2.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_1_1_split_goal_3 : CircularAreaWrite_entail_wit_1_1_split_goal_3.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_1_1_split_goal_4 : CircularAreaWrite_entail_wit_1_1_split_goal_4.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_1_1_split_goal_5 : CircularAreaWrite_entail_wit_1_1_split_goal_5.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_1_1_split_goal_spatial : CircularAreaWrite_entail_wit_1_1_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_1_2_split_goal_1 : CircularAreaWrite_entail_wit_1_2_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_1_2_split_goal_2 : CircularAreaWrite_entail_wit_1_2_split_goal_2.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_1_2_split_goal_3 : CircularAreaWrite_entail_wit_1_2_split_goal_3.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_1_2_split_goal_4 : CircularAreaWrite_entail_wit_1_2_split_goal_4.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_1_2_split_goal_5 : CircularAreaWrite_entail_wit_1_2_split_goal_5.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_1_2_split_goal_spatial : CircularAreaWrite_entail_wit_1_2_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_1_3_split_goal_1 : CircularAreaWrite_entail_wit_1_3_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_1_3_split_goal_2 : CircularAreaWrite_entail_wit_1_3_split_goal_2.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_1_3_split_goal_3 : CircularAreaWrite_entail_wit_1_3_split_goal_3.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_1_3_split_goal_4 : CircularAreaWrite_entail_wit_1_3_split_goal_4.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_1_3_split_goal_5 : CircularAreaWrite_entail_wit_1_3_split_goal_5.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_1_3_split_goal_6 : CircularAreaWrite_entail_wit_1_3_split_goal_6.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_1_3_split_goal_spatial : CircularAreaWrite_entail_wit_1_3_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_1_4_split_goal_1 : CircularAreaWrite_entail_wit_1_4_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_1_4_split_goal_2 : CircularAreaWrite_entail_wit_1_4_split_goal_2.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_1_4_split_goal_3 : CircularAreaWrite_entail_wit_1_4_split_goal_3.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_1_4_split_goal_4 : CircularAreaWrite_entail_wit_1_4_split_goal_4.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_1_4_split_goal_5 : CircularAreaWrite_entail_wit_1_4_split_goal_5.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_1_4_split_goal_6 : CircularAreaWrite_entail_wit_1_4_split_goal_6.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_1_4_split_goal_spatial : CircularAreaWrite_entail_wit_1_4_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_2_split_goal_1 : CircularAreaWrite_entail_wit_2_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_2_split_goal_2 : CircularAreaWrite_entail_wit_2_split_goal_2.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_2_split_goal_3 : CircularAreaWrite_entail_wit_2_split_goal_3.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_2_split_goal_spatial : CircularAreaWrite_entail_wit_2_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_3_1_split_goal_1 : CircularAreaWrite_entail_wit_3_1_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_3_1_split_goal_2 : CircularAreaWrite_entail_wit_3_1_split_goal_2.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_3_1_split_goal_3 : CircularAreaWrite_entail_wit_3_1_split_goal_3.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_3_1_split_goal_4 : CircularAreaWrite_entail_wit_3_1_split_goal_4.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_3_1_split_goal_spatial : CircularAreaWrite_entail_wit_3_1_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_3_2_split_goal_1 : CircularAreaWrite_entail_wit_3_2_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_3_2_split_goal_2 : CircularAreaWrite_entail_wit_3_2_split_goal_2.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_3_2_split_goal_3 : CircularAreaWrite_entail_wit_3_2_split_goal_3.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_3_2_split_goal_4 : CircularAreaWrite_entail_wit_3_2_split_goal_4.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_3_2_split_goal_spatial : CircularAreaWrite_entail_wit_3_2_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_3_3_split_goal_1 : CircularAreaWrite_entail_wit_3_3_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_3_3_split_goal_2 : CircularAreaWrite_entail_wit_3_3_split_goal_2.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_3_3_split_goal_3 : CircularAreaWrite_entail_wit_3_3_split_goal_3.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_3_3_split_goal_4 : CircularAreaWrite_entail_wit_3_3_split_goal_4.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_3_3_split_goal_5 : CircularAreaWrite_entail_wit_3_3_split_goal_5.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_3_3_split_goal_spatial : CircularAreaWrite_entail_wit_3_3_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_3_4_split_goal_1 : CircularAreaWrite_entail_wit_3_4_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_3_4_split_goal_2 : CircularAreaWrite_entail_wit_3_4_split_goal_2.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_3_4_split_goal_3 : CircularAreaWrite_entail_wit_3_4_split_goal_3.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_3_4_split_goal_4 : CircularAreaWrite_entail_wit_3_4_split_goal_4.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_3_4_split_goal_5 : CircularAreaWrite_entail_wit_3_4_split_goal_5.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_entail_wit_3_4_split_goal_spatial : CircularAreaWrite_entail_wit_3_4_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_return_wit_6_split_goal_1 : CircularAreaWrite_return_wit_6_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_return_wit_6_split_goal_spatial : CircularAreaWrite_return_wit_6_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_partial_solve_wit_8_pure_split_goal_1 : CircularAreaWrite_partial_solve_wit_8_pure_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_partial_solve_wit_8_pure_split_goal_2 : CircularAreaWrite_partial_solve_wit_8_pure_split_goal_2.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_partial_solve_wit_9_pure_split_goal_1 : CircularAreaWrite_partial_solve_wit_9_pure_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_partial_solve_wit_9_pure_split_goal_2 : CircularAreaWrite_partial_solve_wit_9_pure_split_goal_2.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_partial_solve_wit_10_pure_split_goal_1 : CircularAreaWrite_partial_solve_wit_10_pure_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaWrite_partial_solve_wit_10_pure_split_goal_2 : CircularAreaWrite_partial_solve_wit_10_pure_split_goal_2.
+Proof. Abort.
+

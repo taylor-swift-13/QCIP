@@ -1,6 +1,6 @@
 #include "xizi_double_link_def.h"
 
-void xizi_double_link_init(DoubleLinklistType *linklist_head)
+void InitDoubleLinkList(DoubleLinklistType *linklist_head)
 /*@ Require
       xizi_dll_node(linklist_head)
     Ensure

@@ -1,6 +1,6 @@
 #include "xizi_double_link_def.h"
 
-void xizi_double_link_init(DoubleLinklistType *linklist_head)
+void InitDoubleLinkList(DoubleLinklistType *linklist_head)
 /*@ Require
       xizi_dll_node(linklist_head)
     Ensure
@@ -11,7 +11,7 @@ void xizi_double_link_init(DoubleLinklistType *linklist_head)
     linklist_head->node_prev = linklist_head;
 }
 
-int xizi_double_link_empty(const DoubleLinklistType *linklist)
+int IsDoubleLinkListEmpty(const DoubleLinklistType *linklist)
 /*@ general
     With nodes
     Require
@@ -40,6 +40,6 @@ int xizi_double_link_init_then_empty(DoubleLinklistType *linklist_head)
       xizi_dll(linklist_head, nil)
 */
 {
-    xizi_double_link_init(linklist_head);
-    return xizi_double_link_empty(linklist_head) /*@ where (nil_case) */;
+    InitDoubleLinkList(linklist_head);
+    return IsDoubleLinkListEmpty(linklist_head) /*@ where (nil_case) */;
 }

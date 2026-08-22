@@ -13,7 +13,7 @@
 
 
 
-struct SysDoubleLinklistNode *xizi_double_link_next_rec_last(
+struct SysDoubleLinklistNode *DoubleLinkListGetNext(
     const DoubleLinklistType *linklist,
     const struct SysDoubleLinklistNode *linklist_node)
 /*@ dispatch_case
@@ -22,12 +22,12 @@ struct SysDoubleLinklistNode *xizi_double_link_next_rec_last(
             xizi_dll(linklist, nodes)
     Ensure __return ==
              xizi_double_link_next_dispatch_value(nodes,
-                                                  linklist@pre,
-                                                  linklist_node@pre) &&
-           xizi_dll(linklist@pre, nodes)
+                                                  linklist,
+                                                  linklist_node) &&
+           xizi_dll(linklist, nodes)
 */;
 
-struct SysDoubleLinklistNode *xizi_double_link_next_rec_last(
+struct SysDoubleLinklistNode *DoubleLinkListGetNext(
     const DoubleLinklistType *linklist,
     const struct SysDoubleLinklistNode *linklist_node)
 /*@ member_case <= dispatch_case
@@ -35,11 +35,11 @@ struct SysDoubleLinklistNode *xizi_double_link_next_rec_last(
     Require In(linklist_node, nodes) &&
             xizi_dll(linklist, nodes)
     Ensure __return == xizi_double_link_next_value(nodes,
-                                                   linklist_node@pre) &&
-           xizi_dll(linklist@pre, nodes)
+                                                   linklist_node) &&
+           xizi_dll(linklist, nodes)
 */;
 
-struct SysDoubleLinklistNode *xizi_double_link_next_rec_last(
+struct SysDoubleLinklistNode *DoubleLinkListGetNext(
     const DoubleLinklistType *linklist,
     const struct SysDoubleLinklistNode *linklist_node)
 /*@ sentinel_case <= dispatch_case
@@ -47,10 +47,10 @@ struct SysDoubleLinklistNode *xizi_double_link_next_rec_last(
     Require linklist_node == linklist &&
             xizi_dll(linklist, nodes)
     Ensure __return == xizi_double_link_first_value(nodes) &&
-           xizi_dll(linklist@pre, nodes)
+           xizi_dll(linklist, nodes)
 */;
 
-struct SysDoubleLinklistNode *xizi_double_link_next_rec_last(
+struct SysDoubleLinklistNode *DoubleLinkListGetNext(
     const DoubleLinklistType *linklist,
     const struct SysDoubleLinklistNode *linklist_node)
 /*@ dispatch_case

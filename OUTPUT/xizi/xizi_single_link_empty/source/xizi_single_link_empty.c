@@ -2,7 +2,7 @@
 #include "verification_list.h"
 #include "../../xizi_single_link_common/source/xizi_single_link_def.h"
 
-int xizi_single_link_empty(SysSingleLinklistType *linklist)
+int IsSingleLinkListEmpty(SysSingleLinklistType *linklist)
 /*@ With l
     Require
       xizi_sll_head(linklist, l)

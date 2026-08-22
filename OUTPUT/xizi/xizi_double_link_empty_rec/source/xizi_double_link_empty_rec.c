@@ -1,6 +1,6 @@
 #include "xizi_double_link_def.h"
 
-int xizi_double_link_empty_rec(const DoubleLinklistType *linklist)
+int IsDoubleLinkListEmpty(const DoubleLinklistType *linklist)
 /*@ nil_case <= general
     Require
       xizi_dll(linklist, nil)

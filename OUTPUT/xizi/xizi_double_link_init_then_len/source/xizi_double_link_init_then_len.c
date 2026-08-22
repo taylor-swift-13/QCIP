@@ -3,7 +3,7 @@
 /*@ Import Coq From SimpleC.EE.OUTPUT.xizi.xizi_double_link_init_then_len.source Require Import xizi_double_link_init_then_len_lib */
 /*@ Extern Coq (xizi_double_link_init_then_len_result : Z -> Prop) */
 
-void xizi_double_link_init(DoubleLinklistType *linklist_head)
+void InitDoubleLinkList(DoubleLinklistType *linklist_head)
 /*@ Require
       xizi_dll_node(linklist_head)
     Ensure
@@ -14,7 +14,7 @@ void xizi_double_link_init(DoubleLinklistType *linklist_head)
     linklist_head->node_prev = linklist_head;
 }
 
-unsigned int xizi_double_link_len(const DoubleLinklistType *linklist)
+unsigned int DoubleLinkListLenGet(const DoubleLinklistType *linklist)
 /*@ general
     With nodes
     Require
@@ -24,7 +24,7 @@ unsigned int xizi_double_link_len(const DoubleLinklistType *linklist)
       xizi_dll(linklist, nodes)
 */;
 
-unsigned int xizi_double_link_len(const DoubleLinklistType *linklist)
+unsigned int DoubleLinkListLenGet(const DoubleLinklistType *linklist)
 /*@ nil_case <= general
     Require
       xizi_dll(linklist, nil)
@@ -33,7 +33,7 @@ unsigned int xizi_double_link_len(const DoubleLinklistType *linklist)
       xizi_dll(linklist, nil)
 */;
 
-unsigned int xizi_double_link_len(const DoubleLinklistType *linklist)
+unsigned int DoubleLinkListLenGet(const DoubleLinklistType *linklist)
 /*@ general
 */
 {
@@ -77,6 +77,6 @@ unsigned int xizi_double_link_init_then_len(DoubleLinklistType *linklist_head)
       xizi_dll(linklist_head, nil)
 */
 {
-    xizi_double_link_init(linklist_head);
-    return xizi_double_link_len(linklist_head) /*@ where (nil_case) */;
+    InitDoubleLinkList(linklist_head);
+    return DoubleLinkListLenGet(linklist_head) /*@ where (nil_case) */;
 }

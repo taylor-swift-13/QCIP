@@ -4,7 +4,7 @@
       Require Import xizi_double_link_head_rec_lib */
 /*@ Extern Coq (xizi_double_link_first_value : list Z -> Z) */
 
-struct SysDoubleLinklistNode *xizi_double_link_head_rec(
+struct SysDoubleLinklistNode *DoubleLinkListGetHead(
     const DoubleLinklistType *linklist)
 /*@ nil_case <= general
     Require xizi_dll(linklist, nil)
@@ -12,7 +12,7 @@ struct SysDoubleLinklistNode *xizi_double_link_head_rec(
            xizi_dll(linklist, nil)
 */;
 
-struct SysDoubleLinklistNode *xizi_double_link_head_rec(
+struct SysDoubleLinklistNode *DoubleLinkListGetHead(
     const DoubleLinklistType *linklist)
 /*@ general
     With (nodes: list Z)

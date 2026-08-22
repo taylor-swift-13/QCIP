@@ -7,7 +7,7 @@
                (xizi_double_link_insert_after_dispatch_nodes : Z -> list Z -> Z -> Z -> list Z)
  */
 
-void xizi_double_link_insert_after(DoubleLinklistType *linklist,
+void DoubleLinkListInsertNodeAfter(DoubleLinklistType *linklist,
                                    DoubleLinklistType *linklist_node)
 /*@ dispatch_case
     With (head: Z) (nodes: list Z)
@@ -18,11 +18,11 @@ void xizi_double_link_insert_after(DoubleLinklistType *linklist,
                     xizi_double_link_insert_after_dispatch_nodes(
                       head,
                       nodes,
-                      linklist@pre,
-                      linklist_node@pre))
+                      linklist,
+                      linklist_node))
 */;
 
-void xizi_double_link_insert_after(DoubleLinklistType *linklist,
+void DoubleLinkListInsertNodeAfter(DoubleLinklistType *linklist,
                                    DoubleLinklistType *linklist_node)
 /*@ member_case <= dispatch_case
     With (head: Z) (nodes: list Z)
@@ -31,21 +31,21 @@ void xizi_double_link_insert_after(DoubleLinklistType *linklist,
             xizi_dll_node(linklist_node)
     Ensure xizi_dll(head,
                     xizi_double_link_insert_after_nodes(nodes,
-                                                        linklist@pre,
-                                                        linklist_node@pre))
+                                                        linklist,
+                                                        linklist_node))
 */;
 
-void xizi_double_link_insert_after(DoubleLinklistType *linklist,
+void DoubleLinkListInsertNodeAfter(DoubleLinklistType *linklist,
                                    DoubleLinklistType *linklist_node)
 /*@ sentinel_case <= dispatch_case
     With (nodes: list Z)
     Require xizi_dll(linklist, nodes) *
             xizi_dll_node(linklist_node)
     Ensure xizi_dll(linklist,
-                    cons(linklist_node@pre, nodes))
+                    cons(linklist_node, nodes))
 */;
 
-void xizi_double_link_insert_after(DoubleLinklistType *linklist,
+void DoubleLinkListInsertNodeAfter(DoubleLinklistType *linklist,
                                    DoubleLinklistType *linklist_node)
 /*@ dispatch_case
 */

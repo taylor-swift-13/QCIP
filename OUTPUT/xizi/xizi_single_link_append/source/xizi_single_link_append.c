@@ -2,7 +2,7 @@
 #include "verification_list.h"
 #include "../../xizi_single_link_common/source/xizi_single_link_def.h"
 
-void xizi_single_link_append(SysSingleLinklistType *linklist, SysSingleLinklistType *linklist_node)
+void AppendSingleLinkList(SysSingleLinklistType *linklist, SysSingleLinklistType *linklist_node)
 /*@ With l
     Require
       xizi_sll_head(linklist, l) *
@@ -17,6 +17,8 @@ void xizi_single_link_append(SysSingleLinklistType *linklist, SysSingleLinklistT
 
     /*@ Inv
           exists l1a l1b next,
+            linklist == linklist@pre &&
+            linklist_node == linklist_node@pre &&
             cons(linklist, l) == app(l1a, cons(node, l1b)) &&
             node != 0 &&
             linklist_node != 0 &&

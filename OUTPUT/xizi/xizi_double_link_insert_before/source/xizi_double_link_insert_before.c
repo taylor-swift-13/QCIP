@@ -6,7 +6,7 @@
                (xizi_double_link_insert_before_nodes : list Z -> Z -> Z -> list Z)
  */
 
-void xizi_double_link_insert_before(DoubleLinklistType *linklist,
+void DoubleLinkListInsertNodeBefore(DoubleLinklistType *linklist,
                                     DoubleLinklistType *linklist_node)
 /*@ dispatch_case
     With (head: Z) (nodes: list Z)
@@ -15,11 +15,11 @@ void xizi_double_link_insert_before(DoubleLinklistType *linklist,
             xizi_dll_node(linklist_node)
     Ensure xizi_dll(head,
                     xizi_double_link_insert_before_nodes(nodes,
-                                                         linklist@pre,
-                                                         linklist_node@pre))
+                                                         linklist,
+                                                         linklist_node))
 */;
 
-void xizi_double_link_insert_before(DoubleLinklistType *linklist,
+void DoubleLinkListInsertNodeBefore(DoubleLinklistType *linklist,
                                     DoubleLinklistType *linklist_node)
 /*@ member_case <= dispatch_case
     With (head: Z) (nodes: list Z)
@@ -28,21 +28,21 @@ void xizi_double_link_insert_before(DoubleLinklistType *linklist,
             xizi_dll_node(linklist_node)
     Ensure xizi_dll(head,
                     xizi_double_link_insert_before_nodes(nodes,
-                                                         linklist@pre,
-                                                         linklist_node@pre))
+                                                         linklist,
+                                                         linklist_node))
 */;
 
-void xizi_double_link_insert_before(DoubleLinklistType *linklist,
+void DoubleLinkListInsertNodeBefore(DoubleLinklistType *linklist,
                                     DoubleLinklistType *linklist_node)
 /*@ sentinel_case <= dispatch_case
     With (nodes: list Z)
     Require xizi_dll(linklist, nodes) *
             xizi_dll_node(linklist_node)
     Ensure xizi_dll(linklist,
-                    app(nodes, cons(linklist_node@pre, nil)))
+                    app(nodes, cons(linklist_node, nil)))
 */;
 
-void xizi_double_link_insert_before(DoubleLinklistType *linklist,
+void DoubleLinkListInsertNodeBefore(DoubleLinklistType *linklist,
                                     DoubleLinklistType *linklist_node)
 /*@ dispatch_case
 */

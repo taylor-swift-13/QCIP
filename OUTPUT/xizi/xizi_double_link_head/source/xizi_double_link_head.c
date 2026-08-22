@@ -7,7 +7,7 @@
       (xizi_double_link_first_value : list Z -> Z)
  */
 
-struct SysDoubleLinklistNode *xizi_double_link_head(
+struct SysDoubleLinklistNode *DoubleLinkListGetHead(
     const DoubleLinklistType *linklist)
 /*@ nil_case <= general
     Require xizi_dll(linklist, nil)
@@ -15,7 +15,7 @@ struct SysDoubleLinklistNode *xizi_double_link_head(
            xizi_dll(linklist, nil)
  */;
 
-struct SysDoubleLinklistNode *xizi_double_link_head(
+struct SysDoubleLinklistNode *DoubleLinkListGetHead(
     const DoubleLinklistType *linklist)
 /*@ general
     With (nodes: list Z)

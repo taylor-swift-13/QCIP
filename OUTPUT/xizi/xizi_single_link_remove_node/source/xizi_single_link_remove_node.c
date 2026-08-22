@@ -5,7 +5,7 @@
 /*@ Import Coq From SimpleC.EE.OUTPUT.xizi.xizi_single_link_remove_node.source Require Import xizi_single_link_remove_node_lib */
 /*@ Extern Coq (xizi_sll_remove_first: Z -> list Z -> list Z) */
 
-SysSingleLinklistType *xizi_single_link_remove_node(SysSingleLinklistType *linklist, SysSingleLinklistType *linklist_node)
+SysSingleLinklistType *SingleLinkListRmNode(SysSingleLinklistType *linklist, SysSingleLinklistType *linklist_node)
 /*@ remove_member_spec <= strong_spec
     With l
     Require
@@ -18,7 +18,7 @@ SysSingleLinklistType *xizi_single_link_remove_node(SysSingleLinklistType *linkl
       xizi_sll_node(linklist_node)
 */;
 
-SysSingleLinklistType *xizi_single_link_remove_node(SysSingleLinklistType *linklist, SysSingleLinklistType *linklist_node)
+SysSingleLinklistType *SingleLinkListRmNode(SysSingleLinklistType *linklist, SysSingleLinklistType *linklist_node)
 /*@ remove_front_spec <= strong_spec
     With suffix
     Require
@@ -30,7 +30,7 @@ SysSingleLinklistType *xizi_single_link_remove_node(SysSingleLinklistType *linkl
       xizi_sll_node(linklist_node)
 */;
 
-SysSingleLinklistType *xizi_single_link_remove_node(SysSingleLinklistType *linklist, SysSingleLinklistType *linklist_node)
+SysSingleLinklistType *SingleLinkListRmNode(SysSingleLinklistType *linklist, SysSingleLinklistType *linklist_node)
 /*@ remove_tail_spec <= strong_spec
     With prefix
     Require
@@ -42,7 +42,7 @@ SysSingleLinklistType *xizi_single_link_remove_node(SysSingleLinklistType *linkl
       xizi_sll_node(linklist_node)
 */;
 
-SysSingleLinklistType *xizi_single_link_remove_node(SysSingleLinklistType *linklist, SysSingleLinklistType *linklist_node)
+SysSingleLinklistType *SingleLinkListRmNode(SysSingleLinklistType *linklist, SysSingleLinklistType *linklist_node)
 /*@ strong_spec
     With l l1 l2
     Require

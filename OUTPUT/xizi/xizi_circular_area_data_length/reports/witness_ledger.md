@@ -1,5 +1,11 @@
-## Witness Ledger
+# Witness Ledger
 
-| witness_id | category | status | owner | source_goal_version | summary | stale_reason |
-| --- | --- | --- | --- | --- | --- | --- |
-| xizi_circular_area_data_length_goal_check | pure/spatial | proved | main | latest symexec at 2026-07-02T22:56:58+08:00 | goal_check 编译通过，所有 required witness 已由 proof_auto 或 proof_manual 覆盖。 |  |
+- `proof_of_CircularAreaIsFull_return_wit_1`: proved
+- `proof_of_CircularAreaIsFull_return_wit_2`: proved
+- `proof_of_CircularAreaIsFull_return_wit_3`: proved
+- `proof_of_CircularAreaIsFull_partial_solve_wit_1_pure`: proved
+- `proof_of_CircularAreaGetDataLength_safety_wit_7`: proved
+- `proof_of_CircularAreaGetDataLength_safety_wit_8`: proved
+- `proof_of_CircularAreaGetDataLength_return_wit_1`: proved
+- `proof_of_CircularAreaGetDataLength_return_wit_2`: proved
+- `proof_of_CircularAreaGetDataLength_return_wit_3`: proved
