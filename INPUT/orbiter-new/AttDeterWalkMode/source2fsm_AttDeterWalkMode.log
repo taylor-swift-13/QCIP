@@ -1,0 +1,30 @@
+===== source2fsm batch debug =====
+name: AttDeterWalkMode
+source: IP_AttDeterWalkMode.c
+source directory: /home/hp/文档/output/CE7-FYQ-src_flat_out/AttDeterWalkMode
+output directory: /home/hp/文档/output/CE7-FYQ-src_flat_out/AttDeterWalkMode
+copied input .c files:
+  IP_AttDeterWalkMode.c
+===== docker output =====
+source-only mode: /work/input/IP_AttDeterWalkMode.c
+source-only cfg
+function "AttDeterWalkMode" found
+nodes: 17
+edges: 22
+dot: /work/output/.AttDeterWalkMode.dot
+cfg nodes:
+  n0 [basic] float64 tmpFabs;
+  n1 [if] if (IN_RANGE_CLOSE(sWalkModeData.TaskNumber, 1, 8))
+  n2 [basic] DeviceDataProc(); | AttDeterWalk(); | AttProcWalk(); | tmpFabs = Fabsx(sWalkModeData.AttBaseBoard);
+  n3 [if] if (sGncCtrlFlag.BZ1 == WORK_MODE_STATIC)
+  n4 [if] if ((sWalkAttData.AttValidIF == 1) && (tmpFabs > sWalkModeParam.theta_safe))
+  n5 [basic] sWalkCtrlFlag.Task = 62; | UI32_BIT_SET1(sWalkSendData.tiltAlarm, 0u, 1u);
+  n6 [basic] UI32_BIT_SET1(sWalkSendData.tiltAlarm, 0u, 0u);
+  n7 [if] if (tmpFabs > sWalkModeParam.theta_safe)
+  n8 [basic] sWalkCtrlFlag.Task = 62; | UI32_BIT_SET1(sWalkSendData.tiltAlarm, 0u, 1u);
+  n9 [if] if ((sGncCtrlFlag.GyrInvNum > sAttiModifyParam.GyrInvMaxN) || | (sGncCtrlFlag.AccInvNum > sAttiModifyParam.AccInvMaxN))
+  n10 [basic] sWalkCtrlFlag.Task = 35;
+  n11 [if] if (sWalkModeData.TaskNumber == 1)
+  n12 [basic] AttDeterStsGyro();
+  n13 [terminal] return;
+png: /work/output/AttDeterWalkMode.png

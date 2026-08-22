@@ -1,0 +1,40 @@
+===== source2fsm batch debug =====
+name: AttiCtrlCmd
+source: IP_AttiCtrlCmd.c
+source directory: /home/hp/文档/output/CE7-FYQ-src_flat_out/AttiCtrlCmd
+output directory: /home/hp/文档/output/CE7-FYQ-src_flat_out/AttiCtrlCmd
+copied input .c files:
+  IP_AttiCtrlCmd.c
+===== docker output =====
+source-only mode: /work/input/IP_AttiCtrlCmd.c
+source-only cfg
+function "AttiCtrlCmd" found
+nodes: 27
+edges: 34
+dot: /work/output/.AttiCtrlCmd.dot
+cfg nodes:
+  n0 [basic] SQuater oldqGI; | float64 tmpXB[3]; | float64 tmpYF[3]; | float64 tmpVec3[3]; | float64 tmpVec3Sec[3]; | float64 Tmp1[3]; | float64 Tmp2[3]; | float64 Tmp3[3]; | float64 TmpLQC[3]; | float64 Tmpe[3]; | float64 tmpQBT[4]; | float64 tmpMat33[3][3]; | float64 TmpC[3][3]; | float64 tmpdLmdc[3]; | float64 tmpEulerBT; | float64 tmpTheta; | float64 tmpFlt; | float64 Tmpdot; | boolu32 bCond1Ok; | boolu32 bCond2Ok; | VectorEval4(&oldqGI.q4[0], &sAttiData.qGI.q4[0]); | tmpXB[0] = 1.0; | tmpXB[1] = 0.0; | tmpXB[2] = 0.0; | tmpYF[0] = 0.0; | tmpYF[1] = 1.0; | tmpYF[2] = 0.0; | DivNorm(&Tmp1[0], &sNaviData.ri[0], 3); | DivNorm(&Tmp2[0], &sGuideData.aIC[0], 3); | Tmpdot = VectorDot3(&Tmp1[0], &Tmp2[0]);
+  n1 [if] if (Tmpdot < 0.0)
+  n2 [if] if (Tmpdot < sAttiModifyParam.dot_rI_aIc)
+  n3 [basic] Q2C(&TmpC[0][0], &oldqGI.q4[0]); | Tmp3[0] = TmpC[0][0]; | Tmp3[1] = TmpC[0][1]; | Tmp3[2] = TmpC[0][2]; | VectorCross3(&TmpLQC[0], &Tmp1[0], &Tmp3[0]); | DivNorm(&Tmpe[0], &TmpLQC[0], 3);
+  n4 [basic] VectorCross3(&TmpLQC[0], &Tmp1[0], &Tmp2[0]); | DivNorm(&Tmpe[0], &TmpLQC[0], 3);
+  n5 [basic] VectorRotation(&TmpLQC[0], &Tmp1[0], &Tmpe[0], PI/2.0); | tmpFlt = VectorNorm3(&sGuideData.aIC[0]); | VectorScalar3(&sGuideData.aIC[0], &TmpLQC[0], tmpFlt);
+  n6 [if] if ((sGncCtrlFlag.BZ1 == WORK_MODE_GLIDE) && (sGuideData.bCovFlg == | FALSE32))
+  n7 [basic] bCond1Ok = TRUE32;
+  n8 [basic] bCond1Ok = FALSE32;
+  n9 [if] if (IN_RANGE_SET3(sGncCtrlFlag.BZ1, WORK_MODE_SPEEDDECEL, | WORK_MODE_APPROACH, WORK_MODE_SLOWDOWN) && (sGuideData.bHoverFlg == TRUE32))
+  n10 [basic] bCond2Ok = TRUE32;
+  n11 [basic] bCond2Ok = FALSE32;
+  n12 [if] if (sGncCtrlFlag.BZ1 == WORK_MODE_VERTRISE)
+  n13 [basic] VectorEval4(&sAttiData.qGI.q4[0], &sAttiData.q0.q4[0]);
+  n14 [if] if ((IN_RANGE_SET2(sGncCtrlFlag.BZ1, WORK_MODE_TRANSLATION, | WORK_MODE_RISEATTI)) || (bCond1Ok == TRUE32) || (bCond2Ok == TRUE32))
+  n15 [basic] DivNorm(&tmpVec3[0], &sGuideData.aIC[0], 3); | Avv(&tmpMat33[0][0], &tmpVec3[0], &sNaviData.wOrbit[0], &tmpXB[0], | &sNaviData.wOrbitB[0]); | C2Q(&sAttiData.qGI.q4[0], &tmpMat33[0][0]);
+  n16 [basic] DivNorm(&tmpVec3[0], &sGuideData.aIC[0], 3); | MatrixMulti331(&tmpVec3Sec[0], &sAttiModifyParam.cBF[0][0], &tmpYF[0]); | Avv(&tmpMat33[0][0], &tmpVec3[0], &sNaviData.wOrbit[0], &tmpXB[0], | &tmpVec3Sec[0]); | C2Q(&sAttiData.qGI.q4[0], &tmpMat33[0][0]);
+  n17 [basic] Qdiv(&tmpQBT[0], &oldqGI.q4[0], &sAttiData.qGI.q4[0]); | tmpEulerBT = 2.0 * Acosx(LimitDouble(tmpQBT[3], 1.0)); | tmpTheta = Fabsx(sAttiCtrlParam.dThetar) * T_128MS;
+  n18 [if] if ((sGncCtrlFlag.BZ1 != WORK_MODE_TRANSLATION) && (tmpEulerBT > tmpTheta))
+  n19 [basic] VectorEval3(&tmpVec3[0], &tmpQBT[0]); | VectorUnit3(&tmpVec3[0]); | tmpTheta = tmpTheta / 2.0; | tmpFlt = Sinx(tmpTheta); | tmpQBT[0] = tmpVec3[0] * tmpFlt; | tmpQBT[1] = tmpVec3[1] * tmpFlt; | tmpQBT[2] = tmpVec3[2] * tmpFlt; | tmpQBT[3] = Cosx(tmpTheta); | QMulti(&sAttiData.qGI.q4[0], &oldqGI.q4[0], &tmpQBT[0]);
+  n20 [basic] VectorZero3(&tmpdLmdc[0]);
+  n21 [if] if (sGncCtrlFlag.BZ1 == WORK_MODE_RISEATTI)
+  n22 [basic] tmpFlt = VectorNorm3(&sGuideData.dlamd1[0]); | tmpFlt = Minx(tmpFlt, 0.05236); | VectorCross3(&tmpVec3[0], &sGuideData.lamdv1[0], &sGuideData.dlamd1[0]); | VectorUnit3(&tmpVec3[0]); | VectorScalar3(&tmpdLmdc[0], &tmpVec3[0], tmpFlt);
+  n23 [terminal] Q2C(&tmpMat33[0][0], &sAttiData.qGI.q4[0]); | MatrixMulti331(&sAttiData.wGI[0], &tmpMat33[0][0], &tmpdLmdc[0]); | return;
+png: /work/output/AttiCtrlCmd.png

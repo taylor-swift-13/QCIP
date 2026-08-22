@@ -1,0 +1,40 @@
+===== source2fsm batch debug =====
+name: CcuUartComm
+source: IP_CcuUartComm.c
+source directory: /home/hp/文档/output/CE7-FYQ-src_flat_out/CcuUartComm
+output directory: /home/hp/文档/output/CE7-FYQ-src_flat_out/CcuUartComm
+copied input .c files:
+  IP_CcuUartComm.c
+===== docker output =====
+source-only mode: /work/input/IP_CcuUartComm.c
+source-only cfg
+function "CcuUartComm" found
+nodes: 27
+edges: 35
+dot: /work/output/.CcuUartComm.dot
+cfg nodes:
+  n0 [basic] unint32 lenFifo; | unint32 recvSize; | unint32 tmpFlgErr; | boolu32 bReadData; | boolu32 bFaultProc; | boolu32 bDataValid; | unint08 sendByte; | bDataValid = FALSE32;
+  n1 [if] if (DEV_GET_COMM(sDevManage.devStatus[DEV_ID_ZLQCCU]) == DEV_STATUS_GOOD)
+  n2 [basic] sendByte = 0xBB; | bReadData = FALSE32; | bFaultProc = FALSE32; | lenFifo = Drv_Uart_Get_FIFO_Num(UART_NO_ZLQ_CCU);
+  n3 [if] if (lenFifo == ZLQ_CCU_RECV_DATA_LEN)
+  n4 [basic] bReadData = TRUE32;
+  n5 [if] if (sZlqCcuStatus.lenRecved > 0)
+  n6 [basic] bFaultProc = TRUE32;
+  n7 [basic] sZlqCcuStatus.lenRecved = lenFifo;
+  n8 [if] if (lenFifo == 0)
+  n9 [basic] sZlqCcuStatus.cntUnComm++;
+  n10 [if] if (sZlqCcuStatus.cntUnComm > 2)
+  n11 [basic] sZlqCcuStatus.cntUnComm = 0; | bFaultProc = TRUE32;
+  n12 [basic] sZlqCcuStatus.cntUnComm = 0;
+  n13 [if] if (bReadData == TRUE32)
+  n14 [basic] sZlqCcuStatus.lenRecved = 0; | recvSize = ZLQ_CCU_RECV_DATA_LEN; | sZlqCcuStatus.flgCommValidRecv = UartRecv(UART_NO_ZLQ_CCU, | &sZlqCcuStatus.buf[0], &recvSize, &sZlqCcuStatus.numerror); | bDataValid = CcuUartDataProc(&sZlqCcuStatus.buf[0]);
+  n15 [if] if ((sZlqCcuStatus.flgCommValidRecv != 0) || (bDataValid != TRUE32))
+  n16 [basic] bFaultProc = TRUE32;
+  n17 [basic] sZlqCcuStatus.cntCommSucc++; | sZlqCcuStatus.cntCommErrorCnt = 0; | sZlqCcuStatus.flgCommValidSend = UartSend(UART_NO_ZLQ_CCU, &sendByte, 1);
+  n18 [if] if (bFaultProc == TRUE32)
+  n19 [basic] sZlqCcuStatus.cntCommError++; | sZlqCcuStatus.cntCommErrorCnt++; | tmpFlgErr = UI32_MAKE16((unint32)sZlqCcuStatus.flgCommValidRecv, | (unint32)sZlqCcuRecvData.flgAbnormal); | AbnormalSaveOp(ABNORMAL_DATA_ZLCCCU, tmpFlgErr, ZLQ_CCU_RECV_DATA_LEN, | &sZlqCcuStatus.buf[0]); | sZlqCcuStatus.lenRecved = 0; | Drv_Uart_Init(UART_NO_ZLQ_CCU, UART_BAUD_115200, UART_EVEN, UART_STOP_1);
+  n20 [if] if ((bReadData == TRUE32) || (bFaultProc == TRUE32))
+  n21 [basic] sZlqCcuStatus.bCommValid = bDataValid;
+  n22 [basic] sZlqCcuStatus.bCommValid = bDataValid;
+  n23 [terminal] #ifdef DEBUG | #endif | return;
+png: /work/output/CcuUartComm.png

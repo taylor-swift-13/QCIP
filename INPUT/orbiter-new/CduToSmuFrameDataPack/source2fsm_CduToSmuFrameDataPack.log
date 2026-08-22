@@ -1,0 +1,53 @@
+===== source2fsm batch debug =====
+name: CduToSmuFrameDataPack
+source: IP_CduToSmuFrameDataPack.c
+source directory: /home/hp/文档/output/CE7-FYQ-src_flat_out/CduToSmuFrameDataPack
+output directory: /home/hp/文档/output/CE7-FYQ-src_flat_out/CduToSmuFrameDataPack
+copied input .c files:
+  IP_CduToSmuFrameDataPack.c
+===== docker output =====
+source-only mode: /work/input/IP_CduToSmuFrameDataPack.c
+source-only cfg
+function "CduToSmuFrameDataPack" found
+nodes: 40
+edges: 51
+dot: /work/output/.CduToSmuFrameDataPack.dot
+cfg nodes:
+  n0 [basic] unint32 validLen; | unint32 fillLen; | unint32 tmpEven; | unint32 tmpUn32; | siint16 tmpSi16; | unint16 tmpUn16; | unint08 tmpUn08; | *dataValid01 = 0x00; | *dataValid02 = 0x00; | tmpUn32 = 0x00; | UI08_BIT_SET(*dataValid01, 7u); | UI32_BIT_SET4(tmpUn32, 0, sWalkSendData.tiltAlarm);
+  n1 [if] if ((sWalkRecData.WIFIHshakeSig != 0xAA) && | ((UI32_BIT_GET2(sAlignToSmu.SMUWIFIreleaseFlag, 0) == 0x02) || | (UI32_BIT_GET2(sAlignToSmu.SMUWIFIreleaseFlag, 0) == 0x01)) && | (sSmuLvdsCtrl.bRecvWifiShakeSig != TRUE32))
+  n2 [basic] UI08_BIT_SET(*dataValid01, 6u);
+  n3 [if] if(sWalkRecData.WIFIHshakeSig == 0xAA)
+  n4 [basic] sSmuLvdsCtrl.bRecvWifiShakeSig = TRUE32;
+  n5 [basic] UI32_BIT_SET2(tmpUn32, 4, sAlignToSmu.SMUWIFIreleaseFlag);
+  n6 [if] if (sFrameCduSend.cntDataItem3 > 0)
+  n7 [basic] UI08_BIT_SET(*dataValid01, 5u); | sFrameCduSend.cntDataItem3--;
+  n8 [basic] UI32_BIT_SET2(tmpUn32, 6, sAlignToSmu.SMUFWSafeIF); | data[0] = (unint08)tmpUn32;
+  n9 [if] if (sFrameCduSend.cntDataItem4 > 0)
+  n10 [basic] UI08_BIT_SET(*dataValid01, 4u); | sFrameCduSend.cntDataItem4--;
+  n11 [basic] data[1] = (unint08)sAlignToSmu.SMUPathPlanFlag;
+  n12 [if] if (sFrameCduSend.cntDataItem5 > 0)
+  n13 [basic] UI08_BIT_SET(*dataValid01, 3u); | sFrameCduSend.cntDataItem5--;
+  n14 [basic] data[2] = (unint08)sAlignToSmu.SMUMoveNum; | #if 0 && DEBUG | print2("\r\n MN: %d, %d.", sWalkSendData.MoveNum, | sFrameCduSend.cntDataItem5); | #endif | UI08_BIT_SET(*dataValid01, 2u); | tmpSi16 = DBL_TO_SI16(sWalkSendData.r_fyq * RAD2DEG / SMU_LVDS_SEC_ARC_30); | data[3] = UI16_HI8(tmpSi16); | data[4] = UI16_LO8(tmpSi16); | tmpSi16 = DBL_TO_SI16(sWalkSendData.p_fyq * RAD2DEG / SMU_LVDS_SEC_ARC_30); | data[5] = UI16_HI8(tmpSi16); | data[6] = UI16_LO8(tmpSi16); | tmpSi16 = DBL_TO_SI16(sWalkSendData.y_fyq * RAD2DEG / SMU_LVDS_SEC_ARC_30); | data[7] = UI16_HI8(tmpSi16); | data[8] = UI16_LO8(tmpSi16);
+  n15 [if] if (sWalkModeData.TaskNumber % 2 == 0)
+  n16 [basic] UI08_BIT_SET(*dataValid01, 1u);
+  n17 [basic] tmpSi16 = DBL_TO_SI16(sWalkSendData.xn * 200.0); | data[9 ] = UI16_HI8(tmpSi16); | data[10] = UI16_LO8(tmpSi16); | tmpSi16 = DBL_TO_SI16(sWalkSendData.yn * 200.0); | data[11] = UI16_HI8(tmpSi16); | data[12] = UI16_LO8(tmpSi16); | tmpSi16 = DBL_TO_SI16(sWalkSendData.zn * 200.0); | data[13] = UI16_HI8(tmpSi16); | data[14] = UI16_LO8(tmpSi16);
+  n18 [if] if (sFrameCduSend.cntDataItem8 > 0)
+  n19 [basic] UI08_BIT_SET(*dataValid01, 0u); | sFrameCduSend.cntDataItem8--;
+  n20 [basic] tmpUn16 = DBL_TO_UN16(sAlignToSmu.SMUSlopeAgl1 * RAD2DEG / | SMU_LVDS_SEC_ARC_30); | data[15] = UI16_HI8(tmpUn16); | data[16] = UI16_LO8(tmpUn16);
+  n21 [if] if (sFrameCduSend.cntDataItem9 > 0)
+  n22 [basic] UI08_BIT_SET(*dataValid02, 7u); | sFrameCduSend.cntDataItem9--;
+  n23 [basic] tmpUn16 = DBL_TO_UN16(sAlignToSmu.SMUSlopeAgl2 * RAD2DEG / | SMU_LVDS_SEC_ARC_30); | data[17] = UI16_HI8(tmpUn16); | data[18] = UI16_LO8(tmpUn16);
+  n24 [if] if (sFrameCduSend.cntDataItem10 > 0)
+  n25 [basic] UI08_BIT_SET(*dataValid02, 6u); | sFrameCduSend.cntDataItem10--;
+  n26 [basic] tmpUn16 = DBL_TO_UN16(sAlignToSmu.SMUd * 1000.0); | data[19] = UI16_HI8(tmpUn16); | data[20] = UI16_LO8(tmpUn16); | tmpSi16 = DBL_TO_SI16(sAlignToSmu.SMUTurnAgl * RAD2DEG / | SMU_LVDS_SEC_ARC_30); | #if DEBUG_SIMULATE_FLY | tmpSi16 = 0; | #endif | data[21] = UI16_HI8(tmpSi16); | data[22] = UI16_LO8(tmpSi16); | UI08_BIT_SET(*dataValid02, 5u); | data[23] = (unint08)sWalkSendData.MFaultFlag; | UI08_BIT_SET(*dataValid02, 4u); | data[24] = (unint08)sWalkSendData.MstopFlag; | Memsetx(&data[25], 0x00, 8); | tmpEven = sFrameCduSend.cntDataItem14;
+  n27 [if] if ((tmpEven & 0x01) == 0x00)
+  n28 [basic] tmpUn08 = 0x01;
+  n29 [basic] tmpUn08 = 0x02;
+  n30 [basic] data[33] = tmpUn08;
+  n31 [if] if (sFrameCduSend.cntDataItem14 > 0)
+  n32 [basic] UI08_BIT_SET(*dataValid02, 2u); | sFrameCduSend.cntDataItem14--;
+  n33 [if] if ((tmpEven & 0x01) == 0x00)
+  n34 [basic] data[34] = (unint08)sWalkSendData.Haznum; | Memcpyx(&data[35], &sWalkSendData.HazIfin[0], SMU_LVDS_OBSTACLE_FIRST_PK-1);
+  n35 [basic] validLen = SMU_LVDS_OBSTACLE_TOTAL_LEN - SMU_LVDS_OBSTACLE_FIRST_PK; | fillLen = SMU_LVDS_OBSTACLE_FIRST_PK - validLen; | Memcpyx(&data[34], &sWalkSendData.HazIfin[SMU_LVDS_OBSTACLE_FIRST_PK-1], | validLen); | Memsetx(&data[34 + validLen], 0xAA, fillLen);
+  n36 [terminal] return;
+png: /work/output/CduToSmuFrameDataPack.png

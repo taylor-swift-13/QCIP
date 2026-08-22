@@ -1,0 +1,22 @@
+===== source2fsm batch debug =====
+name: CoastingTrajectory
+source: IP_CoastingTrajectory.c
+source directory: /home/hp/文档/output/CE7-FYQ-src_flat_out/CoastingTrajectory
+output directory: /home/hp/文档/output/CE7-FYQ-src_flat_out/CoastingTrajectory
+copied input .c files:
+  IP_CoastingTrajectory.c
+===== docker output =====
+source-only mode: /work/input/IP_CoastingTrajectory.c
+source-only cfg
+function "CoastingTrajectory" found
+nodes: 9
+edges: 10
+dot: /work/output/.CoastingTrajectory.dot
+cfg nodes:
+  n0 [basic] unint32 i, j; | float64 tempT; | float64 tmpx1[6], tmpx2[6], tmpx3[6], tmpx4[6]; | float64 tmpk1[6], tmpk2[6], tmpk3[6], tmpk4[6]; | tempT = t / (float64)n; | VectorEval3(&tmpx1[0], &rc1[0]); | VectorEval3(&tmpx1[3], &vc1[0]);
+  n1 [loop] for (i=0; i<n; i++)
+  n2 [basic] CoastingDynamic(&tmpk1[0], &tmpx1[0]); | VectorScalar(&tmpk1[0], &tmpk1[0], tempT, 6); | VectorAddCoef(&tmpx2[0], &tmpx1[0], &tmpk1[0], 0.5, 6); | CoastingDynamic(&tmpk2[0], &tmpx2[0]); | VectorScalar(&tmpk2[0], &tmpk2[0], tempT, 6); | VectorAddCoef(&tmpx3[0], &tmpx1[0], &tmpk2[0], 0.5, 6); | CoastingDynamic(&tmpk3[0], &tmpx3[0]); | VectorScalar(&tmpk3[0], &tmpk3[0], tempT, 6); | VectorAdd(&tmpx4[0], &tmpx1[0], &tmpk3[0], 6); | CoastingDynamic(&tmpk4[0], &tmpx4[0]); | VectorScalar(&tmpk4[0], &tmpk4[0], tempT, 6);
+  n3 [loop] for (j=0; j<6; j++)
+  n4 [basic] tmpx1[j] = tmpx1[j] + (tmpk1[j] + 2.0 * tmpk2[j] + 2.0 * tmpk3[j] + | tmpk4[j]) / 6.0;
+  n5 [terminal] VectorEval(&pOutX[0], &tmpx1[0], 6); | return;
+png: /work/output/CoastingTrajectory.png

@@ -1,0 +1,109 @@
+===== source2fsm batch debug =====
+name: AttDeterStsGyro
+source: IP_AttDeterStsGyro.c
+source directory: /home/hp/文档/output/CE7-FYQ-src_flat_out/AttDeterStsGyro
+output directory: /home/hp/文档/output/CE7-FYQ-src_flat_out/AttDeterStsGyro
+copied input .c files:
+  IP_AttDeterStsGyro.c
+===== docker output =====
+source-only mode: /work/input/IP_AttDeterStsGyro.c
+source-only cfg
+function "AttDeterStsGyro" found
+nodes: 96
+edges: 135
+dot: /work/output/.AttDeterStsGyro.dot
+cfg nodes:
+  n0 [basic] float64 tmpQ[4]; | float64 tmpVec[3]; | float64 tmpVec4[4]; | float64 tmpVec6[6]; | float64 *ptrCS; | float64 *pTmpdq; | float64 *pTmpDb; | float64 tmpKSA[6][3]; | float64 tmpKSB[6][3]; | float64 tmpMat43[4][3]; | float64 tmpMat63[6][3]; | float64 tmpMat66[6][6]; | float64 tmpVG[3][3]; | float64 tmpMat[3][3]; | float64 tmpXI[5][3]; | float64 tmpYI[5][3]; | float64 tmpZI[5][3]; | float64 tmpX[3]; | float64 tmpY[3]; | float64 tmpZ[3]; | float64 tmpXI1[3]; | float64 tmpZI1[3]; | float64 tmpBt[3]; | float64 tmpDeltaX[3]; | float64 tmpDeltaY[3]; | float64 tmpDeltaZ[3]; | float64 tmpEq[4][3]; | float64 tmpFabs; | float64 tmpFlt; | float64 *ptmpKS; | unint32 iSts; | unint32 iGyro; | unint32 cntGyro; | unint32 gyroNum[3]; | boolu32 bModeOk; | boolu32 bModeOk2; | boolu32 bCondOk; | boolu32 bQuit; | VectorZero(&tmpVec6[0], 6); | pTmpdq = &tmpVec6[0]; | pTmpDb = &tmpVec6[3];
+  n1 [if] if (sGncCtrlFlag.BZ4 == 0)
+  n2 [basic] VectorScalar3(&sStsDataCom.deltaZr[0], &sStsDataCom.deltaZrOld[0], -1.0);
+  n3 [if] if (sGncCtrlFlag.bInerAtt == TRUE32)
+  n4 [basic] VectorSub3(&tmpVec[0], &sStsDataCom.deltaZrOld[0], &sStsDataCom.deltaZr[0]); | tmpFabs = VectorNorm3(&tmpVec[0]);
+  n5 [if] if (tmpFabs < sStsProcParam.deltaZrMax)
+  n6 [basic] sStsDataCom.cntDeltaZr++;
+  n7 [basic] sStsDataCom.cntDeltaZr = 0;
+  n8 [if] if ((sGncCtrlFlag.BZ4 != 0) && (sStsDataCom.cntDeltaZr >= 2))
+  n9 [basic] iSts = 0; | bQuit = FALSE32;
+  n10 [loop] while ((bQuit == FALSE32) && (iSts < DEV_NUM_STS_ALL))
+  n11 [basic] bCondOk = TRUE32;
+  n12 [if] if (iSts >= 2)
+  n13 [if] if (UI32_BIT_GET1(sGncCtrlFlag.ZT9, 13u) == 0u)
+  n14 [basic] bCondOk = FALSE32;
+  n15 [if] if ((bCondOk == TRUE32) && (UI32_BIT_GET1(sGncCtrlFlag.BZ4, iSts) == 1u))
+  n16 [basic] C2Q(&tmpQ[0], &sStsProcParam.CBS[iSts][0][0]); | QMulti(&sAttiData.q.q4[0], &sStsRaw[iSts].qv[0], &tmpQ[0]); | bQuit = TRUE32;
+  n17 [basic] iSts++;
+  n18 [basic] QUnit(&sAttiData.q.q4[0]); | Q2C(&sAttiData.cbi[0][0], &sAttiData.q.q4[0]); | MatrixTran33(&sAttiData.cib[0][0], &sAttiData.cbi[0][0]); | sAttiData.qg = sAttiData.q; | sAttiData.Q0 = sAttiData.q; | sAttiData.Q1 = sAttiData.q; | sGncCtrlFlag.bInerAtt = FALSE32; | sStsDataCom.cntDeltaZr = 0;
+  n19 [basic] MatrixZero(&tmpKSA[0][0], 6, 3); | MatrixZero(&tmpKSB[0][0], 6, 3); | bModeOk = FALSE32; | bModeOk2 = FALSE32;
+  n20 [if] if (IN_RANGE_SET4(sGncCtrlFlag.BZ1, WORK_MODE_WAIT, WORK_MODE_LAUNCHRDY, | WORK_MODE_NOCTRL, WORK_MODE_STATIC))
+  n21 [basic] bModeOk = TRUE32;
+  n22 [if] if ((sGncCtrlFlag.BZ1 == WORK_MODE_GLIDE) && | (UI32_BIT_GET1(sGncCtrlFlag.ZT9, 8u) == 1u))
+  n23 [basic] bModeOk = TRUE32;
+  n24 [if] if (IN_RANGE_CLOSE(sGncCtrlFlag.BZ1, WORK_MODE_VERTRISE, WORK_MODE_MOVEPLAN) | && (sGncCtrlFlag.BZ1 != WORK_MODE_GLIDE) && (sGncCtrlFlag.BZ1 != | WORK_MODE_NOCTRL) && (sGncCtrlFlag.BZ1 != WORK_MODE_STATIC))
+  n25 [basic] bModeOk2 = TRUE32;
+  n26 [if] if ((bModeOk2 == TRUE32) && ((UI32_BIT_GET1(sGncCtrlFlag.ZT9, 29u) == 1u) || | (sWalkModeData.STWalkFlg == 1)))
+  n27 [basic] bModeOk = TRUE32;
+  n28 [if] if ((bModeOk == TRUE32) && (sGncCtrlFlag.bInerAtt == FALSE32) && | (sGncCtrlFlag.BZ4 != 0))
+  n29 [basic] MatrixEval(&tmpKSA[0][0], &sAttiModifyParam.KS[0][0][0], 6, 3); | MatrixEval(&tmpKSB[0][0], &sAttiModifyParam.KS[1][0][0], 6, 3);
+  n30 [if] if (sGncCtrlFlag.BZ1 == WORK_MODE_GLIDE)
+  n31 [basic] MatrixMultiScalar(&tmpKSA[0][0], &sAttiModifyParam.KS[0][0][0], | sAttiModifyParam.mKS5, 6, 3); | MatrixMultiScalar(&tmpKSB[0][0], &sAttiModifyParam.KS[1][0][0], | sAttiModifyParam.mKS5, 6, 3);
+  n32 [if] if (bModeOk2 == TRUE32)
+  n33 [basic] MatrixMultiScalar(&tmpKSA[0][0], &sAttiModifyParam.KS[0][0][0], | sAttiModifyParam.mKS2, 6, 3); | MatrixMultiScalar(&tmpKSB[0][0], &sAttiModifyParam.KS[1][0][0], | sAttiModifyParam.mKS2, 6, 3);
+  n34 [loop] for (iSts=0; iSts<DEV_NUM_STS_ALL; iSts++)
+  n35 [basic] tmpFlt = Maxx(Fabsx(sStsData[iSts].deltaZ[0]), | Fabsx(sStsData[iSts].deltaZ[1])); | tmpFlt = Maxx(Fabsx(sStsData[iSts].deltaZ[2]), tmpFlt);
+  n36 [if] if (tmpFlt > sStsProcParam.deltaZMax)
+  n37 [basic] tmpFlt = sStsProcParam.deltaZMax / tmpFlt; | VectorScalar3(&sStsData[iSts].deltaZ[0], &sStsData[iSts].deltaZ[0], tmpFlt);
+  n38 [basic] iSts = 0; | bQuit = FALSE32;
+  n39 [loop] while ((bQuit == FALSE32) && (iSts < DEV_NUM_STS_ALL))
+  n40 [basic] bCondOk = TRUE32;
+  n41 [if] if (iSts >= 2)
+  n42 [if] if (UI32_BIT_GET1(sGncCtrlFlag.ZT9, 13u) == 0u)
+  n43 [basic] bCondOk = FALSE32;
+  n44 [if] if ((bCondOk == TRUE32) && (UI32_BIT_GET1(sGncCtrlFlag.BZ4, iSts) == 1u))
+  n45 [if] if (iSts == 0)
+  n46 [basic] ptmpKS = &tmpKSA[0][0];
+  n47 [if] if (iSts == 1)
+  n48 [basic] ptmpKS = &tmpKSB[0][0];
+  n49 [basic] ptmpKS = &sAttiModifyParam.KS[iSts][0][0];
+  n50 [basic] MatrixZero(&tmpMat66[0][0], 6, 6); | tmpMat66[0][0] = sAttiModifyParam.mKSq[iSts]; | tmpMat66[1][1] = sAttiModifyParam.mKSq[iSts]; | tmpMat66[2][2] = sAttiModifyParam.mKSq[iSts]; | tmpMat66[3][3] = sAttiModifyParam.mKSb[iSts]; | tmpMat66[4][4] = sAttiModifyParam.mKSb[iSts]; | tmpMat66[5][5] = sAttiModifyParam.mKSb[iSts]; | MatrixMulti(&tmpMat63[0][0], &tmpMat66[0][0], ptmpKS, 6, 6, 3); | MatrixMulti(&tmpVec6[0], &tmpMat63[0][0], &sStsData[iSts].deltaZ[0], 6, 3, | 1); | bQuit = TRUE32;
+  n51 [basic] iSts++;
+  n52 [basic] Q2Ksi(&tmpMat43[0][0], &sAttiData.q.q4[0]); | MatrixMulti(&tmpQ[0], &tmpMat43[0][0], &pTmpdq[0], 4, 3, 1); | VectorAdd(&sAttiData.q.q4[0], &sAttiData.q.q4[0], &tmpQ[0], 4); | QUnit(&sAttiData.q.q4[0]); | Q2C(&sAttiData.cbi[0][0], &sAttiData.q.q4[0]); | MatrixTran33(&sAttiData.cib[0][0], &sAttiData.cbi[0][0]);
+  n53 [if] if (IN_RANGE_SET3(sGncCtrlFlag.BZ1, WORK_MODE_WAIT, WORK_MODE_LAUNCHRDY, | WORK_MODE_STATIC) && (sGncCtrlFlag.bInerAtt == FALSE32) && (sGncCtrlFlag.BZ4 | != 0))
+  n54 [loop] for (iSts=0; iSts<DEV_NUM_STS_ALL; iSts++)
+  n55 [basic] MatrixTran33(&tmpMat[0][0], &sStsProcParam.CBS[iSts][0][0]); | MatrixMulti331(&tmpVec[0], &tmpMat[0][0], &sGyroData.wg[0]); | Q2Ksi(&tmpEq[0][0], &sStsRaw[iSts].qv[0]); | MatrixMulti(&tmpVec4[0], &tmpEq[0][0], &tmpVec[0], 4, 3, 1); | VectorAddCoef(&tmpQ[0], &sStsRaw[iSts].qv[0], &tmpVec4[0], (0.5 * | sStsData[iSts].dtS), 4); | QUnit(&tmpQ[0]); | bCondOk = TRUE32;
+  n56 [if] if (iSts >= 2)
+  n57 [if] if (UI32_BIT_GET1(sGncCtrlFlag.ZT9, 13u) == 0u)
+  n58 [basic] bCondOk = FALSE32;
+  n59 [if] if (bCondOk == TRUE32)
+  n60 [basic] Q2C(&tmpMat[0][0], &tmpQ[0]); | MatrixExtractRow(&tmpXI[iSts][0], &tmpMat[0][0], 3, 3, 0); | MatrixExtractRow(&tmpYI[iSts][0], &tmpMat[0][0], 3, 3, 1); | MatrixExtractRow(&tmpZI[iSts][0], &tmpMat[0][0], 3, 3, 2); | tmpFlt = VectorDot3(&tmpZI[iSts][0], &sStsDataCom.gamma[0]); | VectorScalar3(&tmpVec[0], &tmpZI[iSts][0], tmpFlt); | VectorSub3(&tmpZI1[0], &tmpZI[iSts][0], &tmpVec[0]); | VectorAdd3(&tmpZI1[0], &tmpZI1[0], &sStsDataCom.gamma[0]); | tmpFlt = VectorDot3(&tmpXI[iSts][0], &sStsDataCom.gamma[0]); | VectorScalar3(&tmpVec[0], &tmpZI[iSts][0], tmpFlt); | VectorSub3(&tmpXI1[0], &tmpXI[iSts][0], &tmpVec[0]); | DivNorm(&tmpZI[iSts][0], &tmpZI1[0], 3); | VectorCross3(&tmpVec[0], &tmpZI1[0], &tmpXI1[0]); | DivNorm(&tmpYI[iSts][0], &tmpVec[0], 3); | VectorCross3(&tmpVec[0], &tmpYI[iSts][0], &tmpZI[iSts][0]); | DivNorm(&tmpXI[iSts][0], &tmpVec[0], 3); | Q2C(&tmpMat[0][0], &sAttiData.qg.q4[0]);
+  n61 [if] if (iSts == 0)
+  n62 [basic] ptrCS = &sStsProcParam.CBS[0][0][0];
+  n63 [basic] ptrCS = &sStsProcParam.CBSR[iSts][0][0];
+  n64 [basic] MatrixExtractColumn(&tmpX[0], ptrCS, 3, 3, 0); | MatrixExtractColumn(&tmpY[0], ptrCS, 3, 3, 1); | MatrixExtractColumn(&tmpZ[0], ptrCS, 3, 3, 2); | MatrixMulti331(&tmpVec[0], &tmpMat[0][0], &tmpXI[iSts][0]); | VectorCross3(&tmpDeltaX[0], &tmpX[0], &tmpVec[0]); | MatrixMulti331(&tmpVec[0], &tmpMat[0][0], &tmpYI[iSts][0]); | VectorCross3(&tmpDeltaY[0], &tmpY[0], &tmpVec[0]); | MatrixMulti331(&tmpVec[0], &tmpMat[0][0], &tmpZI[iSts][0]); | VectorCross3(&tmpDeltaZ[0], &tmpZ[0], &tmpVec[0]); | sStsData[iSts].deltaZ[0] = 0.5 * (tmpDeltaX[0] + tmpDeltaY[0] + | tmpDeltaZ[0]); | sStsData[iSts].deltaZ[1] = 0.5 * (tmpDeltaX[1] + tmpDeltaY[1] + | tmpDeltaZ[1]); | sStsData[iSts].deltaZ[2] = 0.5 * (tmpDeltaX[2] + tmpDeltaY[2] + | tmpDeltaZ[2]); | tmpFlt = Maxx(Fabsx(sStsData[iSts].deltaZ[0]), | Fabsx(sStsData[iSts].deltaZ[1])); | tmpFlt = Maxx(Fabsx(sStsData[iSts].deltaZ[2]), tmpFlt);
+  n65 [if] if (tmpFlt > sStsProcParam.deltaZMax)
+  n66 [basic] tmpFlt = sStsProcParam.deltaZMax / tmpFlt; | VectorScalar3(&sStsData[iSts].deltaZ[0], &sStsData[iSts].deltaZ[0], tmpFlt);
+  n67 [basic] iSts = 0; | bQuit = FALSE32;
+  n68 [loop] while ((bQuit == FALSE32) && (iSts < DEV_NUM_STS_ALL))
+  n69 [basic] bCondOk = TRUE32;
+  n70 [if] if (iSts >= 2)
+  n71 [if] if (UI32_BIT_GET1(sGncCtrlFlag.ZT9, 13u) == 0u)
+  n72 [basic] bCondOk = FALSE32;
+  n73 [if] if ((bCondOk == TRUE32) && (sGncCtrlFlag.bInerAtt == FALSE32) && | (UI32_BIT_GET1(sGncCtrlFlag.BZ4, iSts) == 1u))
+  n74 [if] if (iSts == 0)
+  n75 [basic] ptmpKS = &tmpKSA[0][0];
+  n76 [if] if (iSts == 1)
+  n77 [basic] ptmpKS = &tmpKSB[0][0];
+  n78 [basic] ptmpKS = &sAttiModifyParam.KS[iSts][0][0];
+  n79 [basic] MatrixZero(&tmpMat66[0][0], 6, 6); | tmpMat66[0][0] = sAttiModifyParam.mKSq[iSts]; | tmpMat66[1][1] = sAttiModifyParam.mKSq[iSts]; | tmpMat66[2][2] = sAttiModifyParam.mKSq[iSts]; | tmpMat66[3][3] = sAttiModifyParam.mKSb[iSts]; | tmpMat66[4][4] = sAttiModifyParam.mKSb[iSts]; | tmpMat66[5][5] = sAttiModifyParam.mKSb[iSts]; | MatrixMulti(&tmpMat63[0][0], &tmpMat66[0][0], ptmpKS, 6, 6, 3); | MatrixMulti(&tmpVec6[0], &tmpMat63[0][0], &sStsData[iSts].deltaZ[0], 6, 3, | 1); | bQuit = TRUE32;
+  n80 [basic] iSts++;
+  n81 [basic] Q2Ksi(&tmpMat43[0][0], &sAttiData.qg.q4[0]); | MatrixMulti(&tmpQ[0], &tmpMat43[0][0], &pTmpdq[0], 4, 3, 1); | VectorAdd(&sAttiData.qg.q4[0], &sAttiData.qg.q4[0], &tmpQ[0], 4); | QUnit(&sAttiData.qg.q4[0]); | tmpFabs = VectorNorm3(&sGyroData.w[0]);
+  n82 [if] if (tmpFabs > sAttiModifyParam.wsDb)
+  n83 [basic] VectorZero3(&pTmpDb[0]);
+  n84 [basic] gyroNum[0] = 0; | gyroNum[1] = 0; | gyroNum[2] = 0; | cntGyro = 0; | iGyro = 0;
+  n85 [loop] while ((cntGyro < 3) && (iGyro < IMU_HEAD_NUM))
+  n86 [if] if (UI32_BIT_GET1(sGncCtrlFlag.BZ2, iGyro) == 1)
+  n87 [basic] gyroNum[cntGyro] = iGyro; | cntGyro++;
+  n88 [basic] iGyro++;
+  n89 [basic] ASSERT(cntGyro == 3); | VectorEval3(&tmpVG[0][0], &sGyroData.vecVG[gyroNum[0]][0]); | VectorEval3(&tmpVG[1][0], &sGyroData.vecVG[gyroNum[1]][0]); | VectorEval3(&tmpVG[2][0], &sGyroData.vecVG[gyroNum[2]][0]); | MatrixInv33(&tmpMat[0][0], &tmpVG[0][0]); | tmpBt[0] = sImuParam.constDriftEstiGyro[gyroNum[0]]; | tmpBt[1] = sImuParam.constDriftEstiGyro[gyroNum[1]]; | tmpBt[2] = sImuParam.constDriftEstiGyro[gyroNum[2]]; | MatrixMulti331(&tmpVec[0], &tmpMat[0][0], &tmpBt[0]); | VectorAdd3(&tmpVec[0], &tmpVec[0], &pTmpDb[0]); | tmpVec[0] = LimitDouble(tmpVec[0], sAttiModifyParam.bMax); | tmpVec[1] = LimitDouble(tmpVec[1], sAttiModifyParam.bMax); | tmpVec[2] = LimitDouble(tmpVec[2], sAttiModifyParam.bMax); | MatrixMulti331(&tmpBt[0], &tmpVG[0][0], &tmpVec[0]); | sImuParam.constDriftEstiGyro[gyroNum[0]] = tmpBt[0]; | sImuParam.constDriftEstiGyro[gyroNum[1]] = tmpBt[1]; | sImuParam.constDriftEstiGyro[gyroNum[2]] = tmpBt[2];
+  n90 [if] if (sGncCtrlFlag.BZ4 != 0)
+  n91 [basic] VectorEval3(&sStsDataCom.deltaZrOld[0], &sStsDataCom.deltaZr[0]);
+  n92 [terminal] return;
+png: /work/output/AttDeterStsGyro.png

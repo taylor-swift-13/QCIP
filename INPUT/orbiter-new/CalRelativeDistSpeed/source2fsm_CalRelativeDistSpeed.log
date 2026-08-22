@@ -1,0 +1,25 @@
+===== source2fsm batch debug =====
+name: CalRelativeDistSpeed
+source: IP_CalRelativeDistSpeed.c
+source directory: /home/hp/文档/output/CE7-FYQ-src_flat_out/CalRelativeDistSpeed
+output directory: /home/hp/文档/output/CE7-FYQ-src_flat_out/CalRelativeDistSpeed
+copied input .c files:
+  IP_CalRelativeDistSpeed.c
+===== docker output =====
+source-only mode: /work/input/IP_CalRelativeDistSpeed.c
+source-only cfg
+function "CalRelativeDistSpeed" found
+nodes: 12
+edges: 15
+dot: /work/output/.CalRelativeDistSpeed.dot
+cfg nodes:
+  n0 [basic] siint32 i; | siint32 j; | siint32 z; | siint32 k; | float64 tmpDis[3]; | float64 tmpSpeed[3]; | VectorZero(RelativeDist, 15); | VectorZero(RelativeSpeed, 15); | VectorZeroSint32(LegDoubleTouchSignal, 15); | z = 0;
+  n1 [loop] for (i=0; i<5; i++)
+  n2 [loop] for (j=i+1; j<6; j++)
+  n3 [if] if ((touch_s_L[i] == 1) && (touch_s_L[j] == 1))
+  n4 [basic] LegDoubleTouchSignal[z] = 1;
+  n5 [loop] for (k=0; k<3; k++)
+  n6 [basic] tmpDis[k] = pf_m[k*6 + i] - pf_m[k*6 + j]; | tmpSpeed[k] = vf_m[k*6 + i] - vf_m[k*6 + j];
+  n7 [basic] RelativeDist[z] = VectorNorm3(&tmpDis[0]); | RelativeSpeed[z] = VectorNorm3(&tmpSpeed[0]); | z = z + 1;
+  n8 [terminal] return;
+png: /work/output/CalRelativeDistSpeed.png

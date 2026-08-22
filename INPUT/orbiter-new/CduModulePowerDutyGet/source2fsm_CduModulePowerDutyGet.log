@@ -1,0 +1,28 @@
+===== source2fsm batch debug =====
+name: CduModulePowerDutyGet
+source: IP_CduModulePowerDutyGet.c
+source directory: /home/hp/文档/output/CE7-FYQ-src_flat_out/CduModulePowerDutyGet
+output directory: /home/hp/文档/output/CE7-FYQ-src_flat_out/CduModulePowerDutyGet
+copied input .c files:
+  IP_CduModulePowerDutyGet.c
+===== docker output =====
+source-only mode: /work/input/IP_CduModulePowerDutyGet.c
+source-only cfg
+function "CduModulePowerDutyGet" found
+nodes: 15
+edges: 20
+dot: /work/output/.CduModulePowerDutyGet.dot
+cfg nodes:
+  n0 [basic] boolu32 bOnDutySwitch; | sCduStatus.CduOnDutyOld[0] = sCduStatus.CduOnDuty[0]; | sCduStatus.CduOnDutyOld[1] = sCduStatus.CduOnDuty[1]; | sCduStatus.CduOnDutyOld[2] = sCduStatus.CduOnDuty[2]; | sCduStatus.CduOnDutyForce[0] = Drv_IO_Bit_In(IO_BIT_IN_NO_ONDUTY_A_FORCE); | sCduStatus.CduOnDutyForce[1] = Drv_IO_Bit_In(IO_BIT_IN_NO_ONDUTY_B_FORCE); | sCduStatus.CduOnDutyForce[2] = Drv_IO_Bit_In(IO_BIT_IN_NO_ONDUTY_C_FORCE); | sCduStatus.CduOnDuty[0] = Drv_IO_Bit_In(IO_BIT_IN_NO_ONDUTY_A); | sCduStatus.CduOnDuty[1] = Drv_IO_Bit_In(IO_BIT_IN_NO_ONDUTY_B); | sCduStatus.CduOnDuty[2] = Drv_IO_Bit_In(IO_BIT_IN_NO_ONDUTY_C); | sCduStatus.CduPowerOn[0] = Drv_IO_Bit_In(IO_BIT_IN_NO_POWERON_A); | sCduStatus.CduPowerOn[1] = Drv_IO_Bit_In(IO_BIT_IN_NO_POWERON_B); | sCduStatus.CduPowerOn[2] = Drv_IO_Bit_In(IO_BIT_IN_NO_POWERON_C); | bOnDutySwitch = FALSE32;
+  n1 [if] if (sCduStatus.CduModuleFlag == CDU_MODULE_A)
+  n2 [if] if ((sCduStatus.CduOnDutyOld[0] == CDU_DUTY_OFF) && (sCduStatus.CduOnDuty[0] | == CDU_DUTY_ON))
+  n3 [basic] bOnDutySwitch = TRUE32;
+  n4 [if] if (sCduStatus.CduModuleFlag == CDU_MODULE_B)
+  n5 [if] if ((sCduStatus.CduOnDutyOld[1] == CDU_DUTY_OFF) && (sCduStatus.CduOnDuty[1] | == CDU_DUTY_ON))
+  n6 [basic] bOnDutySwitch = TRUE32;
+  n7 [if] if ((sCduStatus.CduOnDutyOld[2] == CDU_DUTY_OFF) && (sCduStatus.CduOnDuty[2] | == CDU_DUTY_ON))
+  n8 [basic] bOnDutySwitch = TRUE32;
+  n9 [if] if (bOnDutySwitch == TRUE32)
+  n10 [basic] SYSPowerSwitch = 0x00; | DevCommInit();
+  n11 [terminal] ASSERT((sCduStatus.CduOnDutyForce[0] == CDU_FORCE_DUTY_ON) || | (sCduStatus.CduOnDutyForce[0] == CDU_FORCE_DUTY_OFF)); | ASSERT((sCduStatus.CduOnDutyForce[1] == CDU_FORCE_DUTY_ON) || | (sCduStatus.CduOnDutyForce[1] == CDU_FORCE_DUTY_OFF)); | ASSERT((sCduStatus.CduOnDutyForce[2] == CDU_FORCE_DUTY_ON) || | (sCduStatus.CduOnDutyForce[2] == CDU_FORCE_DUTY_OFF)); | ASSERT((sCduStatus.CduOnDuty[0] == CDU_DUTY_ON ) || (sCduStatus.CduOnDuty[0] | == CDU_DUTY_OFF )); | ASSERT((sCduStatus.CduOnDuty[1] == CDU_DUTY_ON ) || (sCduStatus.CduOnDuty[1] | == CDU_DUTY_OFF )); | ASSERT((sCduStatus.CduOnDuty[2] == CDU_DUTY_ON ) || (sCduStatus.CduOnDuty[2] | == CDU_DUTY_OFF )); | ASSERT((sCduStatus.CduPowerOn[0] == CDU_POWER_ON ) || | (sCduStatus.CduPowerOn[0] == CDU_POWER_OFF )); | ASSERT((sCduStatus.CduPowerOn[1] == CDU_POWER_ON ) || | (sCduStatus.CduPowerOn[1] == CDU_POWER_OFF )); | ASSERT((sCduStatus.CduPowerOn[2] == CDU_POWER_ON ) || | (sCduStatus.CduPowerOn[2] == CDU_POWER_OFF )); | return;
+png: /work/output/CduModulePowerDutyGet.png

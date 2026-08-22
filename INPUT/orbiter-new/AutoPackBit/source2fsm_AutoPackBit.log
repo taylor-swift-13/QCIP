@@ -1,0 +1,104 @@
+===== source2fsm batch debug =====
+name: AutoPackBit
+source: IP_AutoPackBit.c
+source directory: /home/hp/文档/output/CE7-FYQ-src_flat_out/AutoPackBit
+output directory: /home/hp/文档/output/CE7-FYQ-src_flat_out/AutoPackBit
+copied input .c files:
+  IP_AutoPackBit.c
+===== docker output =====
+source-only mode: /work/input/IP_AutoPackBit.c
+source-only cfg
+function "AutoPackBit" found
+nodes: 91
+edges: 125
+dot: /work/output/.AutoPackBit.dot
+cfg nodes:
+  n0 [basic] STcmdDataConverte sTcmdDataConverte; | unint08 srcDataU08; | unint32 srcDataU32; | float64 srcDataF64; | unint32 bitPos; | unint32 bitType; | unint08 * pDst; | unint32 tmpGlobalBitIndex; | unint32 tmpGlobalByteIndex; | sTcmdDataConverte.ui32 = 0; | tmpGlobalByteIndex = 0; | tmpGlobalBitIndex = 0;
+  n1 [if] if (*firstTime == TRUE32)
+  n2 [basic] pDst = &pBuf[ sPackShift.byteIndex ]; | pData->byteID = sPackShift.byteIndex; | bitPos = 0;
+  n3 [basic] pDst = &pBuf[ pData->byteID ]; | bitPos = UI32_LO16(pData->type);
+  n4 [basic] bitType = UI32_HI16(pData->type);
+  n5 [switch] switch (bitType)
+  n6 [case] case ORIGIN_1BIT_NULL:
+  n7 [if] if (*firstTime == TRUE32)
+  n8 [basic] bitPos = 7 - sPackShift.bitIndex; | pData->type = UI32_MAKE16(ORIGIN_1BIT_NULL, bitPos); | tmpGlobalBitIndex = 1;
+  n9 [terminal] UI08_BIT_CLR(pDst[0], bitPos); | break;
+  n10 [case] case ORIGIN_1BIT:
+  n11 [if] if (*firstTime == TRUE32)
+  n12 [basic] bitPos = 7 - sPackShift.bitIndex; | pData->type = UI32_MAKE16(ORIGIN_1BIT, bitPos); | tmpGlobalBitIndex = 1;
+  n13 [terminal] srcDataU08 = *(unint08*)pData->pSrc; | UI08_BIT_SET1(pDst[0], bitPos, (srcDataU08 & 0x01u)); | break;
+  n14 [case] case ORIGIN_2BIT:
+  n15 [if] if (*firstTime == TRUE32)
+  n16 [basic] bitPos = 6 - sPackShift.bitIndex; | pData->type = UI32_MAKE16(ORIGIN_2BIT, bitPos); | tmpGlobalBitIndex = 2;
+  n17 [terminal] srcDataU08 = *(unint08*)pData->pSrc; | UI08_BIT_SET2(pDst[0], bitPos, (srcDataU08 & 0x03u)); | break;
+  n18 [case] case ORIGIN_3BIT:
+  n19 [if] if (*firstTime == TRUE32)
+  n20 [basic] bitPos = 5 - sPackShift.bitIndex; | pData->type = UI32_MAKE16(ORIGIN_3BIT, bitPos); | tmpGlobalBitIndex = 3;
+  n21 [terminal] srcDataU08 = *(unint08*)pData->pSrc; | UI08_BIT_SET3(pDst[0], bitPos, (srcDataU08 & 0x07u)); | break;
+  n22 [case] case ORIGIN_4BIT:
+  n23 [if] if (*firstTime == TRUE32)
+  n24 [basic] bitPos = 4 - sPackShift.bitIndex; | pData->type = UI32_MAKE16(ORIGIN_4BIT, bitPos); | tmpGlobalBitIndex = 4;
+  n25 [terminal] srcDataU08 = *(unint08*)pData->pSrc; | UI08_BIT_SET4(pDst[0], bitPos, (srcDataU08 & 0x0Fu)); | break;
+  n26 [case] case ORIGIN_5BIT:
+  n27 [if] if (*firstTime == TRUE32)
+  n28 [basic] bitPos = 3 - sPackShift.bitIndex; | pData->type = UI32_MAKE16(ORIGIN_5BIT, bitPos); | tmpGlobalBitIndex = 5;
+  n29 [terminal] srcDataU08 = *(unint08*)pData->pSrc; | UI08_BIT_SET5(pDst[0], bitPos, (srcDataU08 & 0x1Fu)); | break;
+  n30 [case] case ORIGIN_6BIT:
+  n31 [if] if (*firstTime == TRUE32)
+  n32 [basic] bitPos = 2 - sPackShift.bitIndex; | pData->type = UI32_MAKE16(ORIGIN_6BIT, bitPos); | tmpGlobalBitIndex = 6;
+  n33 [terminal] srcDataU08 = *(unint08*)pData->pSrc; | UI08_BIT_SET6(pDst[0], bitPos, (srcDataU08 & 0x3Fu)); | break;
+  n34 [case] case ORIGIN_7BIT:
+  n35 [if] if (*firstTime == TRUE32)
+  n36 [basic] bitPos = 1 - sPackShift.bitIndex; | pData->type = UI32_MAKE16(ORIGIN_7BIT, bitPos); | tmpGlobalBitIndex = 7;
+  n37 [terminal] srcDataU08 = *(unint08*)pData->pSrc; | UI08_BIT_SET7(pDst[0], bitPos, (srcDataU08 & 0x7Fu)); | break;
+  n38 [case] case CONVERTE_FLOAT_20BIT:
+  n39 [basic] srcDataF64 = *(float64*)pData->pSrc; | srcDataF64 = srcDataF64 / NZ(pData->eq, FLT64_ZERO); | srcDataU32 = DBL_TO_UN32(srcDataF64);
+  n40 [if] if (*firstTime == TRUE32)
+  n41 [basic] bitPos = 12 - sPackShift.bitIndex; | pData->type = UI32_MAKE16(CONVERTE_FLOAT_20BIT, bitPos); | tmpGlobalByteIndex = 2; | tmpGlobalBitIndex = 4;
+  n42 [terminal] UI32_BIT_SET8 (sTcmdDataConverte.ui32, 24, (unint32)pDst[0]); | UI32_BIT_SET20(sTcmdDataConverte.ui32, bitPos, (srcDataU32 & 0xFFFFFu)); | pDst[0] = UI32_HIHI8(sTcmdDataConverte.ui32); | pDst[1] = UI32_HILO8(sTcmdDataConverte.ui32); | pDst[2] = UI32_LOHI8(sTcmdDataConverte.ui32); | pDst[3] = UI32_LOLO8(sTcmdDataConverte.ui32); | break;
+  n43 [case] case CONVERTE_FLOAT_23BIT:
+  n44 [basic] srcDataF64 = *(float64*)pData->pSrc; | srcDataF64 = srcDataF64 / NZ(pData->eq, FLT64_ZERO); | srcDataU32 = DBL_TO_UN32(srcDataF64);
+  n45 [if] if (*firstTime == TRUE32)
+  n46 [basic] bitPos = 9 - sPackShift.bitIndex; | pData->type = UI32_MAKE16(CONVERTE_FLOAT_23BIT, bitPos); | tmpGlobalByteIndex = 2; | tmpGlobalBitIndex = 7;
+  n47 [terminal] UI32_BIT_SET8 (sTcmdDataConverte.ui32, 24, (unint32)pDst[0]); | UI32_BIT_SET23(sTcmdDataConverte.ui32, bitPos, (srcDataU32 & 0x7FFFFFu)); | pDst[0] = UI32_HIHI8(sTcmdDataConverte.ui32); | pDst[1] = UI32_HILO8(sTcmdDataConverte.ui32); | pDst[2] = UI32_LOHI8(sTcmdDataConverte.ui32); | pDst[3] = UI32_LOLO8(sTcmdDataConverte.ui32); | break;
+  n48 [case] case LOG_UI32_TF:
+  n49 [basic] srcDataU32 = *(unint32*)pData->pSrc;
+  n50 [if] if (*firstTime == TRUE32)
+  n51 [basic] bitPos = 7 - sPackShift.bitIndex; | pData->type = UI32_MAKE16(LOG_UI32_TF, bitPos); | tmpGlobalBitIndex = 1;
+  n52 [if] if (srcDataU32 == pData->bitPara)
+  n53 [basic] UI08_BIT_SET(pDst[0], bitPos);
+  n54 [basic] UI08_BIT_CLR(pDst[0], bitPos);
+  n55 [terminal] break;
+  n56 [case] case LOG_UI08_TF:
+  n57 [basic] srcDataU08 = *(unint08*)pData->pSrc;
+  n58 [if] if (*firstTime == TRUE32)
+  n59 [basic] bitPos = 7 - sPackShift.bitIndex; | pData->type = UI32_MAKE16(LOG_UI08_TF, bitPos); | tmpGlobalBitIndex = 1;
+  n60 [if] if (srcDataU08 == pData->bitPara)
+  n61 [basic] UI08_BIT_SET(pDst[0], bitPos);
+  n62 [basic] UI08_BIT_CLR(pDst[0], bitPos);
+  n63 [terminal] break;
+  n64 [case] case POWER_TF:
+  n65 [basic] srcDataU32 = ADDR_READ(pData->pSrc); | srcDataU08 = DEV_GET_POWER(srcDataU32);
+  n66 [if] if (*firstTime == TRUE32)
+  n67 [basic] bitPos = 7 - sPackShift.bitIndex; | pData->type = UI32_MAKE16(POWER_TF, bitPos); | tmpGlobalBitIndex = 1;
+  n68 [if] if (srcDataU08 == pData->bitPara)
+  n69 [basic] UI08_BIT_SET(pDst[0], bitPos);
+  n70 [basic] UI08_BIT_CLR(pDst[0], bitPos);
+  n71 [terminal] break;
+  n72 [case] case COM_ENA_TF:
+  n73 [basic] srcDataU32 = ADDR_READ(pData->pSrc); | srcDataU08 = DEV_GET_COMM(srcDataU32);
+  n74 [if] if (*firstTime == TRUE32)
+  n75 [basic] bitPos = 7 - sPackShift.bitIndex; | pData->type = UI32_MAKE16(COM_ENA_TF, bitPos); | tmpGlobalBitIndex = 1;
+  n76 [if] if (srcDataU08 == pData->bitPara)
+  n77 [basic] UI08_BIT_SET(pDst[0], bitPos);
+  n78 [basic] UI08_BIT_CLR(pDst[0], bitPos);
+  n79 [terminal] break;
+  n80 [case] default:
+  n81 [terminal] break;
+  n82 [if] if (*firstTime == TRUE32)
+  n83 [basic] sPackShift.bitIndex = sPackShift.bitIndex + tmpGlobalBitIndex; | sPackShift.byteIndex = sPackShift.byteIndex + tmpGlobalByteIndex;
+  n84 [if] if (sPackShift.bitIndex > 7)
+  n85 [basic] sPackShift.bitIndex = sPackShift.bitIndex - 8; | sPackShift.byteIndex = sPackShift.byteIndex + 1;
+  n86 [basic] ASSERT(sPackShift.byteIndex <= lengthofAddress);
+  n87 [terminal] return;
+png: /work/output/AutoPackBit.png

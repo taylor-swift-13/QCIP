@@ -1,0 +1,85 @@
+===== source2fsm batch debug =====
+name: AvoidanceCalc
+source: IP_AvoidanceCalc.c
+source directory: /home/hp/文档/output/CE7-FYQ-src_flat_out/AvoidanceCalc
+output directory: /home/hp/文档/output/CE7-FYQ-src_flat_out/AvoidanceCalc
+copied input .c files:
+  IP_AvoidanceCalc.c
+===== docker output =====
+source-only mode: /work/input/IP_AvoidanceCalc.c
+source-only cfg
+function "AvoidanceCalc" found
+nodes: 72
+edges: 102
+dot: /work/output/.AvoidanceCalc.dot
+cfg nodes:
+  n0 [basic] float64 vecNorm; | float64 TmpdR; | float64 Tmpp[3]; | float64 TmpCIB[3][3]; | float64 tmpMat33[3][3]; | float64 rIt; | float64 ht; | float64 p1[3]; | float64 p1Neg[3]; | float64 tmpVec3[3]; | float64 tmpVec3Sec[3]; | float64 Tmpa; | float64 Tmpr_LI0[3]; | float64 Tmpr_LI1[3]; | float64 Tmpr_LI2[3]; | unint32 TmpFlg; | float64 TmpFabs1; | float64 TmpFabs2; | float64 TmpFabs3; | float64 TmpMax1; | float64 TmpMax2; | float64 TmpMax3; | float64 TmpMax4; | float64 Tmph; | float64 TmpVec3[3]; | float64 TmpVec3Sec[3]; | unint32 TmpTDIFlg; | boolu32 bCondOk; | boolu32 bCondOk2; | TmpTDIFlg = 0;
+  n1 [if] if ((sGuideData.bHoverFlg == FALSE32) && (UI32_BIT_GET2(sGncCtrlFlag.ZT9, | 30u) != 0x03))
+  n2 [if] if (sModeProcess.Sub7Flg < 3)
+  n3 [basic] Tmph = sAvoidParam.hFTDI1;
+  n4 [basic] Tmph = sAvoidParam.hFTDI2;
+  n5 [basic] TmpFabs1 = Fabsx(sNaviData.height - Tmph); | TmpFabs2 = Fabsx(sNaviData.lcy); | TmpFabs3 = Fabsx(sNaviData.lcz); | TmpMax1 = Maxx(TmpFabs1, TmpFabs2); | TmpMax1 = Maxx(TmpMax1, TmpFabs3); | TmpFabs1 = Fabsx(sNaviData.dh); | TmpFabs2 = Fabsx(sNaviData.dlcy); | TmpFabs3 = Fabsx(sNaviData.dlcz); | TmpMax2 = Maxx(TmpFabs1, TmpFabs2); | TmpMax2 = Maxx(TmpMax2, TmpFabs3); | TmpFabs1 = Fabsx(sAttiCtrl.angleErr[0]); | TmpFabs2 = Fabsx(sAttiCtrl.angleErr[1]); | TmpFabs3 = Fabsx(sAttiCtrl.angleErr[2]); | TmpMax3 = Maxx(TmpFabs1, TmpFabs2); | TmpMax3 = Maxx(TmpMax3, TmpFabs3); | TmpFabs1 = Fabsx(sGyroData.w[0]); | TmpFabs2 = Fabsx(sGyroData.w[1]); | TmpFabs3 = Fabsx(sGyroData.w[2]); | TmpMax4 = Maxx(TmpFabs1, TmpFabs2); | TmpMax4 = Maxx(TmpMax4, TmpFabs3);
+  n6 [if] if ((TmpMax1 < sAvoidParam.LcTDI) && (TmpMax2 < sAvoidParam.dLcTDI) && | (TmpMax3 < sAvoidParam.phicTDI) && (TmpMax4 < sAvoidParam.wTDI))
+  n7 [basic] TmpTDIFlg = 1;
+  n8 [if] if ((sGuideData.bHoverFlg == FALSE32) && (UI32_BIT_GET2(sGncCtrlFlag.ZT9, | 30u) != 0x03))
+  n9 [if] if ((sTime.sstime - sFtdiSafeLandData.tFTDI) > sAvoidParam.dtFTDI)
+  n10 [basic] bCondOk = TRUE32;
+  n11 [basic] bCondOk = FALSE32;
+  n12 [if] if (sModeProcess.Sub7Flg == 0)
+  n13 [basic] sGuideData.r_tG[0] = sAvoidParam.hFTDI2; | sGuideData.v_tG[0] = 0.0; | sGuideData.a_tG[0] = sModeParam.a_tGx22;
+  n14 [if] if ((sModeProcess.Sub7Flg == 0) && (bCondOk == TRUE32) && | (sFtdiSafeLandData.FTDIFailFlg == 0) && (UI32_BIT_GET1(sGncCtrlFlag.ZT9, | 30u) == 0x0) && (sBodyData.mass >= sAvoidParam.mass100))
+  n15 [basic] sModeProcess.Sub7Flg = 1; | sNaviData.h100Flg = 1; | sModeProcess.t7_1 = sTime.sstime; | DivNorm(&TmpVec3[0], &sNaviData.r_LI0[0], 3); | VectorRotation(&TmpVec3Sec[0], &sNaviData.wOrbit[0], &TmpVec3[0], | sAvoidParam.alfa100); | VectorAddCoef(&sNaviData.r_LI0[0], &sNaviData.r_LI0[0], &TmpVec3Sec[0], | sAvoidParam.distace100, 3);
+  n16 [if] if ((sModeProcess.Sub7Flg == 0) && ((sFtdiSafeLandData.FTDIUseFlg == 1) || | ((bCondOk == TRUE32) && (sFtdiSafeLandData.FTDIFailFlg == 1)) || | (UI32_BIT_GET1(sGncCtrlFlag.ZT9, 30u) == 0x1) || (sBodyData.mass < | sAvoidParam.mass100)))
+  n17 [basic] sModeProcess.Sub7Flg = 3; | sGuideData.tgo = 50.0; | sGuideData.nQPGNum = 0; | sModeProcess.bQPGFirstFlg = TRUE32;
+  n18 [if] if ((sModeProcess.Sub7Flg == 1) && ((TmpTDIFlg == 1) || ((sTime.sstime - | sModeProcess.t7_1) > sModeParam.t7_1to2)))
+  n19 [basic] sModeProcess.Sub7Flg = 2;
+  n20 [if] if ((sModeProcess.Sub7Flg == 2) && ((sFtdiSafeLandData.FTDIUseFlg == 1) || | (bCondOk == TRUE32)))
+  n21 [basic] sModeProcess.Sub7Flg = 3; | sGuideData.tgo = 50.0; | sGuideData.nQPGNum = 0; | sModeProcess.bQPGFirstFlg = TRUE32;
+  n22 [if] if ((sModeProcess.Sub7Flg == 3) && ((sGuideData.tgo < 0.0) || | (sModeProcess.TModemax < 0.0)))
+  n23 [basic] sModeProcess.Sub7Flg = 4; | sGuideData.r_tG[0] = sModeParam.hslw; | sGuideData.v_tG[0] = sModeParam.vslw3; | sGuideData.a_tG[0] = sModeParam.a_tGx23; | sFtdiSafeLandData.tFTDI = 1.0e9; | sModeProcess.t7_4 = sTime.sstime; | sNaviData.tLI0 = sTime.sstime - T_128MS; | VectorEval3(&Tmpr_LI0[0], &sNaviData.ri[0]); | VectorUnit3(&Tmpr_LI0[0]); | VectorScalar3(&sNaviData.r_LI0[0], &Tmpr_LI0[0], sNaviData.rM);
+  n24 [if] if ((sModeProcess.Sub7Flg == 4) && (bCondOk == TRUE32) && (sNaviData.h100Flg | == 0) && (UI32_BIT_GET1(sGncCtrlFlag.ZT9, 31u) == 0x0) && (sBodyData.mass >= | sAvoidParam.mass50))
+  n25 [basic] sModeProcess.Sub7Flg = 5; | sModeProcess.t7_5 = sTime.sstime; | DivNorm(&TmpVec3[0], &sNaviData.r_LI0[0], 3); | VectorRotation(&TmpVec3Sec[0], &sNaviData.wOrbit[0], &TmpVec3[0], | sAvoidParam.alfa100); | VectorAddCoef(&sNaviData.r_LI0[0], &sNaviData.r_LI0[0], &TmpVec3Sec[0], | sAvoidParam.distace50, 3);
+  n26 [if] if ((sModeProcess.Sub7Flg == 4) && ((sFtdiSafeLandData.FTDIUseFlg == 1) || | ((bCondOk == TRUE32) && (sNaviData.h100Flg == 1)) || | (UI32_BIT_GET1(sGncCtrlFlag.ZT9, 31u) == 0x1) || (sBodyData.mass < | sAvoidParam.mass50)))
+  n27 [basic] sModeProcess.Sub7Flg = 7; | sGuideData.tgo = 50.0; | sGuideData.nQPGNum = 0; | sModeProcess.bQPGFirstFlg = TRUE32;
+  n28 [if] if ((sModeProcess.Sub7Flg == 5) && ((TmpTDIFlg == 1) || ((sTime.sstime - | sModeProcess.t7_5) > sModeParam.t7_5to6)))
+  n29 [basic] sModeProcess.Sub7Flg = 6;
+  n30 [if] if ((sModeProcess.Sub7Flg == 6) && ((sFtdiSafeLandData.FTDIUseFlg == 1) || | (bCondOk == TRUE32)))
+  n31 [basic] sModeProcess.Sub7Flg = 7; | sGuideData.tgo = 50.0; | sGuideData.nQPGNum = 0; | sModeProcess.bQPGFirstFlg = TRUE32;
+  n32 [basic] NULL_STATEMENT();
+  n33 [if] if ((UI32_BIT_GET1(sGncCtrlFlag.ZT6, 0) == 1) && (sGuideData.bHoverFlg == | TRUE32) && (sNaviData.height < sGuideTransData.hHover))
+  n34 [basic] sAvoidData.flgFTDI = 1;
+  n35 [if] if ((UI32_BIT_GET1(sGncCtrlFlag.ZT6, 1) == 1) && (sGuideData.bHoverFlg == | FALSE32) && (UI32_BIT_GET1(sGncCtrlFlag.ZT9, 30u) == 0x1) && | IN_RANGE_LCUO(sNaviData.height, sAvoidParam.hFTDI2, sAvoidParam.hFTDI1))
+  n36 [basic] sAvoidData.flgFTDI = 1;
+  n37 [if] if ((UI32_BIT_GET1(sGncCtrlFlag.ZT6, 2) == 1) && (sGuideData.bHoverFlg == | FALSE32) && (UI32_BIT_GET1(sGncCtrlFlag.ZT9, 31u) == 0x1) && | (sNaviData.height < sAvoidParam.hFTDI2))
+  n38 [basic] sAvoidData.flgFTDI = 2;
+  n39 [if] if ((UI32_BIT_GET1(sGncCtrlFlag.ZT6, 1) == 1) && (sGuideData.bHoverFlg == | FALSE32) && (UI32_BIT_GET1(sGncCtrlFlag.ZT9, 30u) == 0x0))
+  n40 [basic] bCondOk = TRUE32;
+  n41 [basic] bCondOk = FALSE32;
+  n42 [if] if ((UI32_BIT_GET1(sGncCtrlFlag.ZT6, 2) == 1) && (sGuideData.bHoverFlg == | FALSE32) && (UI32_BIT_GET1(sGncCtrlFlag.ZT9, 31u) == 0x0))
+  n43 [basic] bCondOk2 = TRUE32;
+  n44 [basic] bCondOk2 = FALSE32;
+  n45 [if] if ((bCondOk == TRUE32) && (sModeProcess.Sub7Flg == 0) && ((TmpTDIFlg == 1) | || ((sTime.sstime - sModeProcess.t70) > sModeParam.t7_TDI)))
+  n46 [basic] sAvoidData.flgFTDI = 1;
+  n47 [if] if ((bCondOk == TRUE32) && (sModeProcess.Sub7Flg == 2))
+  n48 [basic] sAvoidData.flgFTDI = 2;
+  n49 [if] if ((bCondOk2 == TRUE32) && (sModeProcess.Sub7Flg == 4) && ((TmpTDIFlg == 1) | || ((sTime.sstime - sModeProcess.t7_4) > sModeParam.t7_TDI)))
+  n50 [basic] sAvoidData.flgFTDI = 3;
+  n51 [if] if ((bCondOk2 == TRUE32) && (sModeProcess.Sub7Flg == 6))
+  n52 [basic] sAvoidData.flgFTDI = 4;
+  n53 [if] if (sNaviData.height > (sAvoidParam.hFTDI2 + sAvoidParam.hFTDI1) / 2.0)
+  n54 [basic] TmpdR = sAvoidParam.dRFTDI1;
+  n55 [basic] TmpdR = sAvoidParam.dRFTDI2;
+  n56 [if] if ((sAvoidData.flgFTDI != 0) && (sAvoidData.flgFTDI != | sAvoidData.flgFTDIOld))
+  n57 [basic] sFtdiCtrl.flgSafePointSeq = 0xFF; | sFtdiCtrl.cycleSafePtSeq = 0;
+  n58 [if] if ((sFtdiSafeLandData.FTDIUseFlg == 1) && (sAvoidData.flgFTDI != 0))
+  n59 [basic] sFtdiSafeLandData.FTDIVldFlg = 0; | MatrixMulti331(&Tmpp[0], &sAvoidParam.CBC[0][0], | &sFtdiSafePointRecv.pFTDI[0]); | VectorUnit3(&Tmpp[0]); | Q2C(&TmpCIB[0][0], &sFtdiSafeLandData.qFTDI[0]); | MatrixTran33(&TmpCIB[0][0], &TmpCIB[0][0]);
+  n60 [if] if ((Tmpp[0] < sAvoidParam.pxMax) && (Fabsx(Tmpp[1]) < sAvoidParam.pyMax) && | (Fabsx(Tmpp[2]) < sAvoidParam.pyMax))
+  n61 [basic] MatrixMulti333(&tmpMat33[0][0], &TmpCIB[0][0], &sAttiModifyParam.cBF[0][0]); | VectorSub3(&tmpVec3[0], &sAvoidParam.drFTDI[0], &sBodyData.pgoF[0]); | MatrixMulti331(&tmpVec3[0], &tmpMat33[0][0], &tmpVec3[0]); | VectorAdd3(&tmpVec3[0], &sFtdiSafeLandData.r_IFTDI[0], &tmpVec3[0]); | rIt = VectorNorm3(&tmpVec3[0]); | ht = rIt - sNaviData.rM; | MatrixMulti331(&p1[0], &TmpCIB[0][0], &Tmpp[0]); | VectorScalar3(&p1Neg[0], &p1[0], -1.0); | DivNorm(&tmpVec3Sec[0], &tmpVec3[0], 3); | Tmpa = VectorDot3(&p1Neg[0], &tmpVec3Sec[0]); | TmpFlg = 1;
+  n62 [if] if (Tmpa < FLT64_ZERO)
+  n63 [basic] TmpFlg = 0;
+  n64 [if] if (TmpFlg == 1)
+  n65 [basic] VectorAddCoef(&Tmpr_LI0[0], &tmpVec3[0], &p1[0], ht/Tmpa, 3); | VectorRotation(&Tmpr_LI1[0], &Tmpr_LI0[0], &sNaviData.wmi[0], sNaviParam.wM | * (sTime.sstime - sFtdiSafeLandData.tFTDI)); | VectorEval3(&Tmpr_LI2[0], &sNaviData.r_LI[0]); | VectorSub3(&tmpVec3Sec[0], &Tmpr_LI1[0], &Tmpr_LI2[0]); | vecNorm = VectorNorm3(&tmpVec3Sec[0]);
+  n66 [if] if (vecNorm < TmpdR)
+  n67 [basic] sAvoidData.flgSLP = sAvoidData.flgFTDI; | VectorEval3(&sNaviData.r_LI0[0], &Tmpr_LI0[0]); | sNaviData.tLI0 = sFtdiSafeLandData.tFTDI;
+  n68 [terminal] sAvoidData.flgFTDIOld = sAvoidData.flgFTDI; | return;
+png: /work/output/AvoidanceCalc.png

@@ -1,0 +1,29 @@
+===== source2fsm batch debug =====
+name: CentroidAndInertiaEst
+source: IP_CentroidAndInertiaEst.c
+source directory: /home/hp/文档/output/CE7-FYQ-src_flat_out/CentroidAndInertiaEst
+output directory: /home/hp/文档/output/CE7-FYQ-src_flat_out/CentroidAndInertiaEst
+copied input .c files:
+  IP_CentroidAndInertiaEst.c
+===== docker output =====
+source-only mode: /work/input/IP_CentroidAndInertiaEst.c
+source-only cfg
+function "CentroidAndInertiaEst" found
+nodes: 16
+edges: 19
+dot: /work/output/.CentroidAndInertiaEst.dot
+cfg nodes:
+  n0 [basic] float64 tmpFlt; | float64 tmpmfuel; | float64 tmpmfuelSqr; | float64 tmpcFB[3][3]; | float64 tmpVec[3]; | float64 tmpVec3Sec[3]; | boolu32 bImuCommOk; | boolu32 bModeOk; | unint32 tmpBit; | unint32 cntGyro; | unint32 cntAcce; | unint32 iHead; | cntGyro = 0; | cntAcce = 0;
+  n1 [loop] for (iHead=0; iHead<IMU_HEAD_NUM; iHead++)
+  n2 [basic] tmpBit = UI32_BIT_GET1(sGncCtrlFlag.UseZT2, iHead); | cntGyro = cntGyro + tmpBit; | tmpBit = UI32_BIT_GET1(sGncCtrlFlag.UseZT3, iHead); | cntAcce = cntAcce + tmpBit;
+  n3 [basic] tmpmfuel = sBodyData.mass - sAttiModifyParam.mass0; | tmpmfuelSqr = tmpmfuel * tmpmfuel; | sBodyData.hgo = sAttiModifyParam.para[0][0] * tmpmfuelSqr + | sAttiModifyParam.para[0][1] * tmpmfuel + sAttiModifyParam.para[0][2]; | sBodyData.Jb[0][0] = sAttiModifyParam.para[1][0] * tmpmfuelSqr + | sAttiModifyParam.para[1][1] * tmpmfuel + sAttiModifyParam.para[1][2]; | sBodyData.Jb[1][1] = sAttiModifyParam.para[2][0] * tmpmfuelSqr + | sAttiModifyParam.para[2][1] * tmpmfuel + sAttiModifyParam.para[2][2]; | sBodyData.Jb[2][2] = sAttiModifyParam.para[3][0] * tmpmfuelSqr + | sAttiModifyParam.para[3][1] * tmpmfuel + sAttiModifyParam.para[3][2]; | sBodyData.Jb[0][1] = sAttiModifyParam.Ixy; | sBodyData.Jb[1][0] = sAttiModifyParam.Ixy; | sBodyData.Jb[0][2] = sAttiModifyParam.Ixz; | sBodyData.Jb[2][0] = sAttiModifyParam.Ixz; | sBodyData.Jb[1][2] = sAttiModifyParam.Iyz; | sBodyData.Jb[2][1] = sAttiModifyParam.Iyz; | sBodyData.pgoF[0] = sBodyData.hgo; | sBodyData.pgoF[1] = sAttiModifyParam.ygo0; | sBodyData.pgoF[2] = sAttiModifyParam.zgo0; | MatrixTran33(&tmpcFB[0][0], &sAttiModifyParam.cBF[0][0]); | VectorSub3(&tmpVec[0], &sGyroData.w8[0], &sGyroData.oldw8[0]); | MatrixMulti331(&tmpVec[0], &sBodyData.Jb[0][0], &tmpVec[0]); | MatrixMulti331(&tmpVec3Sec[0], &sBodyData.Jb[0][0], &sGyroData.w[0]); | VectorCross3(&tmpVec3Sec[0], &sGyroData.w[0], &tmpVec3Sec[0]); | VectorScalar3(&tmpVec3Sec[0], &tmpVec3Sec[0], T_128MS); | VectorAdd3(&tmpVec[0], &tmpVec[0], &tmpVec3Sec[0]); | VectorSub3(&tmpVec[0], &tmpVec[0], &sBodyData.HtotalP[0]); | MatrixMulti331(&tmpVec[0], &tmpcFB[0][0], &tmpVec[0]);
+  n4 [if] if ((cntGyro >= 3) && (cntAcce >= 3))
+  n5 [basic] bImuCommOk = TRUE32;
+  n6 [basic] bImuCommOk = FALSE32;
+  n7 [if] if ((IN_RANGE_CLOSE(sGncCtrlFlag.BZ1, WORK_MODE_TRANSLATION, | WORK_MODE_APPROACH)) && (sGncCtrlFlag.BZ1 != WORK_MODE_GLIDE))
+  n8 [basic] bModeOk = TRUE32;
+  n9 [basic] bModeOk = FALSE32;
+  n10 [if] if ((UI32_BIT_GET1(sGncCtrlFlag.ZT10, 0u) == 0x01) && (bImuCommOk == TRUE32) | && (bModeOk == TRUE32) && (sBodyData.Itotal[0] > (sThruCtrl.F285 * | T_128MS)))
+  n11 [basic] tmpFlt = NZ(sBodyData.Itotal[0], FLT64_ZERO); | sBodyData.ygo = sBodyData.ygo + sAttiModifyParam.kgo * ( tmpVec[2] / tmpFlt | - sBodyData.ygo); | sBodyData.ygo = LimitDouble(sBodyData.ygo, sAttiModifyParam.gomax); | sBodyData.zgo = sBodyData.zgo + sAttiModifyParam.kgo * (-tmpVec[1] / tmpFlt | - sBodyData.zgo); | sBodyData.zgo = LimitDouble(sBodyData.zgo, sAttiModifyParam.gomax);
+  n12 [terminal] return;
+png: /work/output/CentroidAndInertiaEst.png
