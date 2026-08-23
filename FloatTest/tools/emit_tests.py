@@ -41,18 +41,58 @@ FUN_NAMES = {
     'CS_OrbitComputation': 'cs_OrbitComputation_fun',
     'CS_IRES_Attitude': 'cs_IRES_Attitude_fun',
     'CS_AttCtrl_Propel': 'cs_AttCtrl_Propel_fun',
+    'BinarySearch_New': 'binarySearch_New_fun',
+    'ConstDiagSignInt': 'constDiagSignInt_fun',
+    'ClearIntFromDsp': 'clearIntFromDsp_fun',
+    'CDUToSMUAlign': 'cduToSmuAlign_fun',
+    'CruInit': 'cruInit_fun',
+    'CduToSmuFramePack': 'cduToSmuFramePack_fun',
+    'Chebyshev': 'chebyshev_fun',
+    'CalRelativeDistSpeed': 'calRelativeDistSpeed_fun',
+    'Avv': 'avv_fun',
+    'CoorConvert': 'coorConvert_fun',
+    'CoastingDynamic': 'coastingDynamic_fun',
+    'CoastingTrajectory': 'coastingTrajectory_fun',
+    'CruDataFlyUnpackQ': 'cruDataFlyUnpackQ_fun',
+    'CruDataFill1553B': 'cruDataFill1553B_fun',
+    'CruDataFillTr32': 'cruDataFillTr32_fun',
+    'CruDataReadFromTr32': 'cruDataReadFromTr32_fun',
+    'CruPackFlyToWalk': 'cruPackFlyToWalk_fun',
+    'CduModulePowerDutyGet': 'cduModulePowerDutyGet_fun',
+    'CduModuleInfoGet': 'cduModuleInfoGet_fun',
+    'AutoPackByte': 'autoPackByte_fun',
+    'AutoPackBit': 'autoPackBit_fun',
+    'AutuPackDataflow': 'autuPackDataflow_fun',
+    'CruPack': 'cruPack_fun',
+    'CcuUartDataProc': 'ccuUartDataProc_fun',
+    'CduToSmuFrameDataPack': 'cduToSmuFrameDataPack_fun',
+    'CcuUartComm': 'ccuUartComm_fun',
+    'AttProcWalk': 'attProcWalk_fun',
+    'AttDeterWalk': 'attDeterWalk_fun',
+    'CMICalculate': 'cmiCalculate_fun',
+    'CentroidAndInertiaEst': 'centroidAndInertiaEst_fun',
+    'AvoidanceCalc': 'avoidanceCalc_fun',
+    'AttiCtrlCmd': 'attiCtrlCmd_fun',
+    'AttiErrCalc': 'attiErrCalc_fun',
+    'AttDeterWalkMode': 'attDeterWalkMode_fun',
+    'AttDeterStsGyro': 'attDeterStsGyro_fun',
 }
 FUN = FUN_NAMES.get(CASE, CASE[0].lower() + CASE[1:] + '_fun')
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 REPO = os.path.dirname(ROOT)
 CASE_DIR = None
 SPEC_REQ = None
-for base in ('iplib', 'SAMCodeSynthesis'):
+LOGICAL_BASES = {
+    'iplib': 'iplib',
+    'orbiter-new': 'orbiter_new',
+    'SAMCodeSynthesis': 'SAMCodeSynthesis',
+}
+for base, logical_base in LOGICAL_BASES.items():
     cand = os.path.join(REPO, 'OUTPUT', base, CASE)
     if os.path.isdir(cand):
-        # 新布局：case 产物在 OUTPUT/{iplib,SAMCodeSynthesis}/<case>/{rocq,reports}
+        # 新布局：case 产物在 OUTPUT/<collection>/<case>/{rocq,reports}
         CASE_DIR = cand
-        SPEC_REQ = f'OUTPUT.{base}.{CASE}.rocq.spec'
+        SPEC_REQ = f'OUTPUT.{logical_base}.{CASE}.rocq.spec'
         break
 if CASE_DIR is not None:
     VEC = os.path.join(CASE_DIR, 'reports', 'vectors.txt')
@@ -413,6 +453,53 @@ def emit_cs_attctrl_propel(idx, cols):
             f'{zl(cols[17:20])} {fl(cols[20:26])}')
     return lemma(idx, f'{FUN} {args}\n  = {zl(cols[26:38])}')
 
+# ---- orbiter-new：统一 list Z 接口，显式登记输入列数与总列数 ----
+
+ORBITER_NEW_LAYOUTS = {
+    'BinarySearch_New': (11, 12),
+    'ConstDiagSignInt': (19, 21),
+    'ClearIntFromDsp': (1, 6),
+    'CDUToSMUAlign': (28, 48),
+    'CruInit': (11, 21),
+    'CduToSmuFramePack': (7, 27),
+    'Chebyshev': (8, 9),
+    'CalRelativeDistSpeed': (42, 87),
+    'Avv': (12, 21),
+    'CoorConvert': (6, 8),
+    'CoastingDynamic': (9, 20),
+    'CoastingTrajectory': (11, 21),
+    'CruDataFlyUnpackQ': (12, 16),
+    'CruDataFill1553B': (2, 22),
+    'CruDataFillTr32': (2, 7),
+    'CruDataReadFromTr32': (2, 13),
+    'CruPackFlyToWalk': (7, 23),
+    'CduModulePowerDutyGet': (15, 36),
+    'CduModuleInfoGet': (18, 40),
+    'AutoPackByte': (7, 27),
+    'AutoPackBit': (9, 26),
+    'AutuPackDataflow': (6, 15),
+    'CruPack': (15, 31),
+    'CcuUartDataProc': (6, 29),
+    'CduToSmuFrameDataPack': (20, 49),
+    'CcuUartComm': (14, 29),
+    'AttProcWalk': (5, 21),
+    'AttDeterWalk': (3, 25),
+    'CMICalculate': (8, 36),
+    'CentroidAndInertiaEst': (12, 27),
+    'AvoidanceCalc': (9, 16),
+    'AttiCtrlCmd': (11, 24),
+    'AttiErrCalc': (11, 27),
+    'AttDeterWalkMode': (8, 15),
+    'AttDeterStsGyro': (10, 19),
+}
+
+def emit_orbiter_new(idx, cols):
+    input_count, total_count = ORBITER_NEW_LAYOUTS[CASE]
+    assert len(cols) == total_count, f'line {idx}: {len(cols)} cols'
+    args = '[' + '; '.join(cols[:input_count]) + ']'
+    expected = '[' + '; '.join(cols[input_count:]) + ']'
+    return lemma(idx, f'{FUN} {args}\n  = {expected}')
+
 EMITTERS = {
     'PseudoRate': emit_pseudorate,
     'ThreeAxisController': emit_threeaxiscontroller,
@@ -449,6 +536,7 @@ EMITTERS = {
     'CS_OrbitComputation': emit_cs_orbit_computation,
     'CS_IRES_Attitude': emit_cs_ires_attitude,
     'CS_AttCtrl_Propel': emit_cs_attctrl_propel,
+    **{case: emit_orbiter_new for case in ORBITER_NEW_LAYOUTS},
 }
 
 def main():
@@ -457,6 +545,17 @@ def main():
     out = [HEADER]
     for idx, line in enumerate(lines):
         out.append(emit(idx, line.split()))
+    if CASE in ORBITER_NEW_LAYOUTS:
+        first = lines[0].split()
+        input_count, _ = ORBITER_NEW_LAYOUTS[CASE]
+        args = '[' + '; '.join(first[:input_count]) + ']'
+        wrong = first[input_count:].copy()
+        wrong[0] = str(int(wrong[0]) ^ 1)
+        out.append(f'''\nExample negative_control_wrong_expected :
+  {FUN} {args}
+  <> [{"; ".join(wrong)}].
+Proof. vm_compute. discriminate. Qed.
+''')
     if CASE == 'CS_Gyro_Att_Predict':
         first = lines[0].split()
         args = emit(0, first).split(' :\n  ', 1)[1].split('\n  = ', 1)[0]

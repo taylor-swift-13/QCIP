@@ -47,6 +47,7 @@ FIXED_Q_MAPPINGS: tuple[tuple[str, str], ...] = (
     ("SeparationLogic/algorithms", "Algorithms"),
     ("FloatTest", "FloatTest"),
     ("OUTPUT/iplib", "OUTPUT.iplib"),
+    ("OUTPUT/orbiter-new", "OUTPUT.orbiter_new"),
 )
 FIXED_COQC = "coqc"
 FIXED_COQTOP = "coqtop"

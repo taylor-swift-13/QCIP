@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Inventory or audit QCIP FloatTest iplib deliveries."""
+"""Inventory or audit QCIP FloatTest collection deliveries."""
 
 from __future__ import annotations
 
@@ -35,8 +35,9 @@ def case_names(root: Path, relative: str) -> set[str]:
     return {path.name for path in base.iterdir() if path.is_dir()} if base.is_dir() else set()
 
 
-def audit_case(root: Path, case: str, require_evidence: bool) -> dict[str, object]:
-    base = root / "OUTPUT" / "iplib" / case
+def audit_case(root: Path, collection: str, case: str,
+               require_evidence: bool) -> dict[str, object]:
+    base = root / "OUTPUT" / collection / case
     errors: list[str] = []
     for pattern in REQUIRED + (EVIDENCE if require_evidence else ()):
         relative = pattern.format(case=case)
@@ -83,6 +84,15 @@ def audit_case(root: Path, case: str, require_evidence: bool) -> dict[str, objec
             evidence = loaded[evidence_path]
             if evidence.get("returncode") != 0:
                 errors.append("coqc returncode is not zero")
+            if tests.is_file():
+                expected_version = f"floattest-{case}-{digest(tests)[:16]}"
+                if evidence.get("source_goal_version") != expected_version:
+                    errors.append("coqc source_goal_version is not current")
+            if evidence.get("target_kind") != "check":
+                errors.append("coqc target_kind is not check")
+            argv = evidence.get("argv")
+            if not isinstance(argv, list) or not argv or argv[0] != "coqc":
+                errors.append("coqc fixed argv is missing")
         if freshness_path in loaded and rows:
             freshness = loaded[freshness_path]
             if freshness.get("total_count") != len(rows):
@@ -109,30 +119,52 @@ def audit_case(root: Path, case: str, require_evidence: bool) -> dict[str, objec
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--repo-root", type=Path, default=Path.cwd())
+    parser.add_argument("--collection", default="iplib",
+                        choices=("iplib", "orbiter-new"))
     parser.add_argument("--case")
+    parser.add_argument("--all-cases", action="store_true")
     parser.add_argument("--require-evidence", action="store_true")
+    parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     root = args.repo_root.resolve()
 
-    inputs = case_names(root, "INPUT/iplib")
-    outputs = case_names(root, "OUTPUT/iplib")
+    collection = args.collection
+    inputs = case_names(root, f"INPUT/{collection}")
+    outputs = case_names(root, f"OUTPUT/{collection}")
     result: dict[str, object] = {
+        "schema_version": "floattest-collection-audit/v1",
+        "collection": collection,
         "input_count": len(inputs),
         "output_count": len(outputs),
         "missing_outputs": sorted(inputs - outputs),
         "orphan_outputs": sorted(outputs - inputs),
     }
     exit_code = 0
+    if args.case and args.all_cases:
+        parser.error("--case and --all-cases are mutually exclusive")
     if args.case:
         if args.case not in outputs:
             result["audit"] = {"case": args.case, "status": "failed",
-                               "errors": ["OUTPUT/iplib case directory does not exist"]}
+                               "errors": [f"OUTPUT/{collection} case directory does not exist"]}
             exit_code = 1
         else:
-            audit = audit_case(root, args.case, args.require_evidence)
+            audit = audit_case(root, collection, args.case, args.require_evidence)
             result["audit"] = audit
             exit_code = 0 if audit["status"] == "passed" else 1
-    print(json.dumps(result, ensure_ascii=False, indent=2))
+    elif args.all_cases:
+        audits = [audit_case(root, collection, case, args.require_evidence)
+                  for case in sorted(outputs)]
+        failed = [audit["case"] for audit in audits if audit["status"] != "passed"]
+        result["audit_count"] = len(audits)
+        result["passed_count"] = len(audits) - len(failed)
+        result["failed_cases"] = failed
+        result["audits"] = audits
+        exit_code = 1 if failed else 0
+    rendered = json.dumps(result, ensure_ascii=False, indent=2) + "\n"
+    if args.output:
+        output = args.output if args.output.is_absolute() else root / args.output
+        output.write_text(rendered, encoding="utf-8")
+    print(rendered, end="")
     return exit_code
 
 

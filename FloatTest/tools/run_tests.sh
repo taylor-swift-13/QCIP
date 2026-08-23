@@ -21,16 +21,18 @@ COQ="${COQ:-${DEFAULT_COQ}}"
 PYTHON="${PYTHON:-python3}"
 command -v "${PYTHON}" >/dev/null 2>&1 || PYTHON=python
 
-# 源码目录：iplib（source/ 子目录）或 SAMCodeSynthesis
+# 源码目录：iplib（source/ 子目录）、orbiter-new 或 SAMCodeSynthesis
 if [ -d "INPUT/iplib/${CASE}/source" ]; then
   SRC="INPUT/iplib/${CASE}/source"
+elif [ -d "INPUT/orbiter-new/${CASE}" ]; then
+  SRC="INPUT/orbiter-new/${CASE}"
 else
   SRC="INPUT/SAMCodeSynthesis/${CASE}"
 fi
 
-# 产物目录：OUTPUT/iplib 或 OUTPUT/SAMCodeSynthesis；否则旧布局（PseudoRate）
+# 产物目录：OUTPUT/iplib、OUTPUT/orbiter-new 或 OUTPUT/SAMCodeSynthesis；否则旧布局
 CASE_DIR=""
-for base in OUTPUT/iplib OUTPUT/SAMCodeSynthesis; do
+for base in OUTPUT/iplib OUTPUT/orbiter-new OUTPUT/SAMCodeSynthesis; do
   if [ -d "${base}/${CASE}" ]; then CASE_DIR="${base}/${CASE}"; break; fi
 done
 if [ -n "${CASE_DIR}" ]; then
@@ -57,6 +59,10 @@ IP_SOURCE="${SRC}/IP_${CASE}.c"
 if [ -n "${CASE_DIR}" ] && [ -f "${CASE_DIR}/source/${CASE}_ip_source.txt" ]; then
   read -r IP_SOURCE < "${CASE_DIR}/source/${CASE}_ip_source.txt"
 fi
+IP_SOURCES=()
+if [ "${IP_SOURCE}" != "NONE" ]; then
+  IP_SOURCES+=("${IP_SOURCE}")
+fi
 
 echo "== [1/5] 编译参考程序 (${CASE})"
 EXTRA_SRCS=()
@@ -71,7 +77,7 @@ if [ -n "${CASE_DIR}" ] && [ -f "${CASE_DIR}/source/${CASE}_extra_srcs.txt" ]; t
   done < "${CASE_DIR}/source/${CASE}_extra_srcs.txt"
 fi
 gcc -std=c11 -O0 -Wall -I "${SRC}" "${EXTRA_CFLAGS[@]}" \
-    "${DRIVER}" "${IP_SOURCE}" "${EXTRA_SRCS[@]}" \
+    "${DRIVER}" "${IP_SOURCES[@]}" "${EXTRA_SRCS[@]}" \
     -lm -o "${EXE}"
 
 echo "== [2/5] 生成 ${N} 条测试向量"

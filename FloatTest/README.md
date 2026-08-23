@@ -1,5 +1,11 @@
 # FloatTest — 浮点 IP 的 Coq 计算测试方案
 
+## orbiter-new 当前 FloatTest 状态（2026-08-24）
+
+`INPUT/orbiter-new` 的 35 个 case 已全部归档到 `OUTPUT/orbiter-new/<case>/`：每题 1000 条固定种子向量、1000 条 `vm_compute; reflexivity` 正例定理、1 条 negative control、固定 Coq 检查证据、逐字节向量新鲜度和耗时汇总均齐全。集合结果为 35/35 case、35000/35000 向量通过；完整边界和复现方式见 `OUTPUT/orbiter-new/README.md`。
+
+这里的“通过”只表示有限样本上的 C/Rocq 位级一致。输入快照遗漏的外部实现按 case 使用确定性重建或可观察桩，并在各自 README 中声明；这不构成对任意输入或被桩组件的全称证明。
+
 ## cfg_target 当前 Rocq spec 状态
 
 `INPUT/cfg_target` 的 12 道题现在分别在 `FloatTest/cases/<题名>/` 下包含：
@@ -108,9 +114,9 @@ symexec → 分离逻辑 VC → Coq 证明的全链路。浮点 IP 走不通，�
 **产物位置（2026-07-24 起）**：每个 case 的最终产物归档在
 `OUTPUT/<批次>/<X>/`（`source/` 参考驱动、`rocq/` spec+tests、
 `reports/` 向量+检查单、根目录中文 README），与整数 IP 的交付惯例一致；
-批次目录为 `SAMCodeSynthesis` 或 `iplib`（对应 `INPUT/<批次>/`）。
+批次目录为 `SAMCodeSynthesis`、`iplib` 或 `orbiter-new`（对应 `INPUT/<批次>/`）。
 唯一的例外是 PseudoRate 试点，保留旧布局 `FloatTest/{ref,cases,vectors}/`。
-`run_tests.sh` 与 `emit_tests.py` 自动识别三种布局，一键命令不变。
+`run_tests.sh` 与 `emit_tests.py` 自动识别这些布局，一键命令不变。
 iplib 源码在 `INPUT/iplib/<X>/source/`（无 std_utils.c，部分 case 需要
 `source/<X>_cflags.txt` 注入原项目缺失的宏，如 `-DWKMD_EIM=0x11`）。
 
