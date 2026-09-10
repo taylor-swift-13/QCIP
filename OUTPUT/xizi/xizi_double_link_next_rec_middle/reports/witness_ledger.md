@@ -1,9 +1,9 @@
-# Witness Ledger
+# Manual witnesses
 
-| witness_id | category | status | source_goal_version |
-| --- | --- | --- | --- |
-| `proof_of_xizi_double_link_next_rec_middle_entail_wit_1` | spatial/pure | proved | `b10e15c5c16d584c466e004c2090ba8492d321592cf919f12a695f7e3148f3a5` |
-| `proof_of_xizi_double_link_next_rec_middle_return_wit_1` | spatial/pure | proved | `b10e15c5c16d584c466e004c2090ba8492d321592cf919f12a695f7e3148f3a5` |
-| `proof_of_xizi_double_link_next_rec_middle_return_wit_2` | spatial/pure | proved | `b10e15c5c16d584c466e004c2090ba8492d321592cf919f12a695f7e3148f3a5` |
-
-Target witness count: 3. Diagnostics split goals are excluded.
+- `proof_of_DoubleLinkListGetNext_entail_wit_1`：已证明，parent verification 与 final-check 通过。
+- `proof_of_DoubleLinkListGetNext_return_wit_1`：已证明，parent verification 与 final-check 通过。
+- `proof_of_DoubleLinkListGetNext_return_wit_2`：已证明，parent verification 与 final-check 通过。
+- `proof_of_DoubleLinkListGetNext_return_wit_3`：已证明，parent verification 与 final-check 通过。
+- `proof_of_DoubleLinkListGetNext_return_wit_4`：已证明，parent verification 与 final-check 通过。
+- `proof_of_DoubleLinkListGetNext_derive_sentinel_case_by_dispatch_case`：已证明，parent verification 与 final-check 通过。
+- `proof_of_DoubleLinkListGetNext_derive_member_case_by_dispatch_case`：已证明，parent verification 与 final-check 通过。

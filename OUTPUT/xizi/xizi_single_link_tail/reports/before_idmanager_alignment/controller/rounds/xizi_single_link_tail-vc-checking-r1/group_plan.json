@@ -1,0 +1,223 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "b3038f4b033c029d0934e56b6c8897fbe500a164fc566cac69989a6947bb4b45",
+  "target_witnesses": [
+    "proof_of_SingleLinkListGetTailNode_entail_wit_1",
+    "proof_of_SingleLinkListGetTailNode_entail_wit_2",
+    "proof_of_SingleLinkListGetTailNode_entail_wit_3",
+    "proof_of_SingleLinkListGetTailNode_return_wit_1",
+    "proof_of_SingleLinkListGetTailNode_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "tail_payload_traversal",
+      "witness_names": [
+        "proof_of_SingleLinkListGetTailNode_entail_wit_1",
+        "proof_of_SingleLinkListGetTailNode_entail_wit_2",
+        "proof_of_SingleLinkListGetTailNode_entail_wit_3",
+        "proof_of_SingleLinkListGetTailNode_return_wit_1",
+        "proof_of_SingleLinkListGetTailNode_return_wit_2"
+      ],
+      "representative_witness": "proof_of_SingleLinkListGetTailNode_return_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "proof_strategy": "Use the accepted head payload factor/unfactor bridges around the original structural traversal. Prefer the simplified second disjuncts of entail witnesses 2 and 3. Advance the prefix using singleton segment and concatenation. On exit derive an empty suffix from null, use tail_value_app_last, rebuild the structural head and restore identical payload records. No new helper is expected; optional proved convenience helpers must have the current group suffix in case_lib.",
+      "natural_language_proof_strategy": "The old pointer sequence is conserved as prefix ++ current :: suffix while payload ownership stays framed. Nonzero guards permit node decomposition and prefix extension. A null successor forces an empty suffix and identifies the last pointer; a null initial successor returns the sentinel.",
+      "grouping_reason": "All five witnesses share the same tail traversal and payload preservation proof family; five is within the handoff limit of twelve. One group avoids duplicated setup without unrelated proof strategies.",
+      "grouping_confidence": "high"
+    }
+  ],
+  "natural_language_analysis": {
+    "schema_version": "qcp-natural-language-vc-analysis/v1",
+    "witnesses": [
+      {
+        "witness_name": "proof_of_SingleLinkListGetTailNode_entail_wit_1",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "head_payload(storeA,h,l)",
+          "pre_pure": "none",
+          "pre_exists": "none; all data universally quantified, with decomposition existentials introduced locally as described",
+          "post_spatial": "head(h,addresses(l)) ** payloads(storeA,l)",
+          "post_pure": "none",
+          "post_exists": "none"
+        },
+        "witness_instantiation": "Choose the first disjunct; no existential witnesses required.",
+        "space_plan": "Apply payload_head_factor__remove_payloads directly; arbitrary A and storeA are preserved.",
+        "pure_plan": "No pure obligation.",
+        "refinement_plan": "Direct separation-logic proof; no abstract monadic refinement.",
+        "used_existing_lemmas": [
+          "payload_head_factor__remove_payloads"
+        ],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          "none",
+          "Payload head factor/unfactor and segment concatenation have no extra logical preconditions; nonzero and null premises come from the displayed guards/invariant."
+        ],
+        "failure_signal": "none",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "tail_payload_traversal",
+        "proof_group_candidate": "tail_payload_traversal",
+        "grouping_reason": "One function, one structural prefix/suffix traversal, and one unchanged arbitrary payload frame."
+      },
+      {
+        "witness_name": "proof_of_SingleLinkListGetTailNode_entail_wit_2",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "h.next |-> q ** sll(q,addresses(l)) ** payloads(storeA,l)",
+          "pre_pure": "q != 0; h != 0",
+          "pre_exists": "none; all data universally quantified, with decomposition existentials introduced locally as described",
+          "post_spatial": "h.next |-> first ** seg(first,q,l1) ** q.next |-> next ** sll(next,l2) ** payloads(storeA,l)",
+          "post_pure": "addresses(l)=l1++q::l2; q != 0; h != 0",
+          "post_exists": "next, first, l1, l2"
+        },
+        "witness_instantiation": "Either choose the second disjunct and simplify nil append using PreH1, or choose the first and instantiate first=q, l1=[], next and l2 from nonzero decomposition.",
+        "space_plan": "For the first disjunct, apply xizi_sll_not_zero, construct empty seg(q,q,[]), and frame the head field and all payloads. The second disjunct is pure.",
+        "pure_plan": "The supplied equality addresses(l)=q::l0 is definitionally the desired nil-append equation in the second disjunct.",
+        "refinement_plan": "Direct separation-logic proof; no abstract monadic refinement.",
+        "used_existing_lemmas": [
+          "xizi_sll_not_zero"
+        ],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          "q != 0; h != 0",
+          "Payload head factor/unfactor and segment concatenation have no extra logical preconditions; nonzero and null premises come from the displayed guards/invariant."
+        ],
+        "failure_signal": "none",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "tail_payload_traversal",
+        "proof_group_candidate": "tail_payload_traversal",
+        "grouping_reason": "One function, one structural prefix/suffix traversal, and one unchanged arbitrary payload frame."
+      },
+      {
+        "witness_name": "proof_of_SingleLinkListGetTailNode_entail_wit_3",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "h.next |-> first_2 ** seg(first_2,current,l1_2) ** current.next |-> next_2 ** sll(next_2,l2_2) ** payloads(storeA,l)",
+          "pre_pure": "addresses(l)=l1_2++current::l2_2; current != 0; h != 0; next_2 != 0",
+          "pre_exists": "none; all data universally quantified, with decomposition existentials introduced locally as described",
+          "post_spatial": "h.next |-> first ** seg(first,next_2,l1) ** next_2.next |-> next ** sll(next,l2) ** payloads(storeA,l)",
+          "post_pure": "addresses(l)=l1++next_2::l2; next_2 != 0; h != 0",
+          "post_exists": "next, first, l1, l2"
+        },
+        "witness_instantiation": "Choose second disjunct, whose decomposition already supplies l2_2=next_2::l0 and next=q. Choose l1=l1_2++[current], l2=l0.",
+        "space_plan": "Turn current.next into seg(current,next_2,[current]) using current != 0. Compose with the existing prefix using xizi_sllseg_sllseg. Frame sll(q,l0) and all payloads.",
+        "pure_plan": "Substitute l2_2=next_2::l0 in the original decomposition and rewrite append associativity; the two required nonzero facts are explicit premises.",
+        "refinement_plan": "Direct separation-logic proof; no abstract monadic refinement.",
+        "used_existing_lemmas": [
+          "xizi_sllseg_len1",
+          "xizi_sllseg_sllseg"
+        ],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          "addresses(l)=l1_2++current::l2_2; current != 0; h != 0; next_2 != 0",
+          "Payload head factor/unfactor and segment concatenation have no extra logical preconditions; nonzero and null premises come from the displayed guards/invariant."
+        ],
+        "failure_signal": "none",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "tail_payload_traversal",
+        "proof_group_candidate": "tail_payload_traversal",
+        "grouping_reason": "One function, one structural prefix/suffix traversal, and one unchanged arbitrary payload frame."
+      },
+      {
+        "witness_name": "proof_of_SingleLinkListGetTailNode_return_wit_1",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "h.next |-> first ** seg(first,current,l1) ** current.next |-> next ** sll(next,l2) ** payloads(storeA,l)",
+          "pre_pure": "addresses(l)=l1++current::l2; current != 0; h != 0; next=0",
+          "pre_exists": "none; all data universally quantified, with decomposition existentials introduced locally as described",
+          "post_spatial": "head_payload(storeA,h,l)",
+          "post_pure": "current=tail_value(addresses(l),h)",
+          "post_exists": "none"
+        },
+        "witness_instantiation": "Choose either identical disjunct. Existential head witness is first when folding the structural head.",
+        "space_plan": "From next=0 and xizi_sll_zero derive l2=[]; preserve/reconstruct the null suffix if needed. Fold current.next and suffix using xizi_sll_cons, then join prefix using xizi_sllseg_sll. Fold structural head with h!=0 and first, rewrite the projected-list decomposition, then apply payload_head_unfactor__remove_payloads with the unchanged payload frame.",
+        "pure_plan": "The decomposition becomes addresses(l)=l1++[current]; xizi_sll_tail_value_app_last identifies current as the tail.",
+        "refinement_plan": "Direct separation-logic proof; no abstract monadic refinement.",
+        "used_existing_lemmas": [
+          "xizi_sll_zero",
+          "xizi_sll_cons",
+          "xizi_sllseg_sll",
+          "xizi_sll_tail_value_app_last",
+          "payload_head_unfactor__remove_payloads"
+        ],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          "addresses(l)=l1++current::l2; current != 0; h != 0; next=0",
+          "Payload head factor/unfactor and segment concatenation have no extra logical preconditions; nonzero and null premises come from the displayed guards/invariant."
+        ],
+        "failure_signal": "none",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "tail_payload_traversal",
+        "proof_group_candidate": "tail_payload_traversal",
+        "grouping_reason": "One function, one structural prefix/suffix traversal, and one unchanged arbitrary payload frame."
+      },
+      {
+        "witness_name": "proof_of_SingleLinkListGetTailNode_return_wit_2",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "h.next |-> q ** sll(q,addresses(l)) ** payloads(storeA,l)",
+          "pre_pure": "q=0; h != 0",
+          "pre_exists": "none; all data universally quantified, with decomposition existentials introduced locally as described",
+          "post_spatial": "head_payload(storeA,h,l)",
+          "post_pure": "h=tail_value(addresses(l),h)",
+          "post_exists": "none"
+        },
+        "witness_instantiation": "Choose either identical disjunct; choose q=0 as the head successor when folding the structural head.",
+        "space_plan": "Fold the head field and original sll into head(h,addresses(l)), preserving payloads, then apply payload_head_unfactor__remove_payloads. For the pure branch use xizi_sll_zero on the null successor.",
+        "pure_plan": "xizi_sll_zero yields addresses(l)=[] from q=0; tail_value [] h reduces to h. This preserves the original empty-list sentinel return.",
+        "refinement_plan": "Direct separation-logic proof; no abstract monadic refinement.",
+        "used_existing_lemmas": [
+          "xizi_sll_zero",
+          "payload_head_unfactor__remove_payloads"
+        ],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          "q=0; h != 0",
+          "Payload head factor/unfactor and segment concatenation have no extra logical preconditions; nonzero and null premises come from the displayed guards/invariant."
+        ],
+        "failure_signal": "none",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "tail_payload_traversal",
+        "proof_group_candidate": "tail_payload_traversal",
+        "grouping_reason": "One function, one structural prefix/suffix traversal, and one unchanged arbitrary payload frame."
+      }
+    ],
+    "analysis_groups": [
+      {
+        "group_id": "tail_payload_traversal",
+        "witness_names": [
+          "proof_of_SingleLinkListGetTailNode_entail_wit_1",
+          "proof_of_SingleLinkListGetTailNode_entail_wit_2",
+          "proof_of_SingleLinkListGetTailNode_entail_wit_3",
+          "proof_of_SingleLinkListGetTailNode_return_wit_1",
+          "proof_of_SingleLinkListGetTailNode_return_wit_2"
+        ],
+        "representative_witness": "proof_of_SingleLinkListGetTailNode_return_wit_1",
+        "dependencies": [],
+        "candidate_helper_declarations": [],
+        "likely_helper_declarations": [],
+        "proof_strategy": "Use the accepted head payload factor/unfactor bridges around the original structural traversal. Prefer the simplified second disjuncts of entail witnesses 2 and 3. Advance the prefix using singleton segment and concatenation. On exit derive an empty suffix from null, use tail_value_app_last, rebuild the structural head and restore identical payload records. No new helper is expected; optional proved convenience helpers must have the current group suffix in case_lib.",
+        "natural_language_proof_strategy": "The old pointer sequence is conserved as prefix ++ current :: suffix while payload ownership stays framed. Nonzero guards permit node decomposition and prefix extension. A null successor forces an empty suffix and identifies the last pointer; a null initial successor returns the sentinel.",
+        "grouping_reason": "All five witnesses share the same tail traversal and payload preservation proof family; five is within the handoff limit of twelve. One group avoids duplicated setup without unrelated proof strategies.",
+        "grouping_confidence": "high",
+        "shared_proof_pattern": "Structural SLL tail traversal with unchanged payload frame",
+        "shared_space_plan": "Head factor/unfactor and structural segment construction/concatenation",
+        "shared_pure_plan": "append associativity, null-implies-empty, last of singleton-ended append",
+        "shared_refinement_plan": "none",
+        "proof_group_ready": true
+      }
+    ]
+  },
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 5,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

@@ -1,11 +1,3 @@
-# Proof Strategy Report
+# 复用与证明
 
-- target witnesses: 2
-- grouping source: accepted vc-checking group plan
-- parent verification: passed
-- helper policy: no helper/import added; case_lib uses the unified first-value definition
-- manual policy: witness proofs only
-
-## Groups
-
-- `dll_head_rec_empty_nonempty_observation`: same abstract empty/nonempty observation as `head`; only one stale proof-body identifier required replacement.
+规格设计与检查见 annotation_report.json；分组见 controller/rounds/；最终合并与 helper 来源见 vc_proving_report.json。历史证明见 before_storeA，仅作复用参考。

@@ -22,9 +22,6 @@ From SimpleC.EE.OUTPUT.xizi.xizi_double_link_head_rec.source
       Require Import xizi_double_link_head_rec_lib.
 Local Open Scope sac.
 
-Lemma proof_of_xizi_double_link_head_rec_safety_wit_1 : xizi_double_link_head_rec_safety_wit_1.
-Proof. Admitted. 
-
-Lemma proof_of_xizi_double_link_head_rec_partial_solve_wit_1 : xizi_double_link_head_rec_partial_solve_wit_1.
+Lemma proof_of_DoubleLinkListGetHead_safety_wit_1 : DoubleLinkListGetHead_safety_wit_1.
 Proof. Admitted. 
 

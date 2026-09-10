@@ -1,42 +1,32 @@
 # xizi_double_link_empty 验证交付
 
-本目录保存 双链表判空定义一 的最新 controller-accepted 交付。`source/` 是最终 C annotation，`rocq/` 是当前 generated goal、auto/manual proof、goal check、唯一 case lib 与 diagnostics，`reports/` 保存复用和验收摘要。
+本次验证已通过 controller final-check，run 为 `xizi_double_link_empty-20260910183542`。所有非注释 token 与迁移前一致。 本次指定的 8 个双链表与 9 个单链表函数已完成当前依赖下的统一复验。
 
-验证状态：run `xizi_double_link_empty-20260808185540` 已到 `done`；source_goal_version 为 `8b91d6eab6826562326ca7321df33d1f9057b0fe7c11e36ef9e464bb26da1844`；manual witness 数为 2。
+泛型 storeA : addr -> A -> Assertion 表示嵌入 link 对应的业务资源；结构指针字段由链表谓词持有。公共 DLL 谓词保留参考逻辑条件，实际 C 用例与 idmanager 共用 CRules 模型；XiziLocalDLL 是 XiziIdmanagerDLL 同一实例的别名。
 
-## C 语义摘要
+- `source/`：正式带标注 C 与头文件。
+- `rocq/`：本版本生成目标与已完成证明。
+- 唯一 active case_lib：`SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_empty/source/xizi_double_link_empty_lib.v`；归档：`OUTPUT/xizi/xizi_double_link_empty/rocq/xizi_double_link_empty_lib.v`。
+- `reports/controller/`：本 run 的 controller、round、group 与最终证据。
+- `reports/before_crules_unification/`：迁移前历史报告，不作为当前验收证据。
 
-只读判断 sentinel 的 next 是否回到自身；公开 general spec 与单链表 empty 对齐，直接关联抽象序列是否为空与返回值，并保持 xizi_dll。
+source_goal_version：`4bdc2ab8f5c8f9b6fb5ad2d541f7c655037404cfc0b5dd89837a3cf74335047a`；manual witness 数：4。symbolic execution freshness、固定 Coq 检查、manual 结构、case_lib 合同及 forbidden lemma 检查均通过。
 
-## 对齐后的 empty general spec
+验证边界：当前 QCP 自动生成的 `proof_auto.v` 有 0 个 `Admitted` 占位。按仓库生成文件边界保留并单独记录；本轮完成证明的是 manual witnesses 和维护库中的引理，不能据此宣称整套证明完全没有假设。
 
-```c
-/*@ With nodes
-    Require
-      xizi_dll(linklist, nodes)
-    Ensure
-      ((nodes == nil && __return == 1) ||
-       (nodes != nil && __return == 0)) &&
-      xizi_dll(linklist, nodes)
-*/
-```
-
-不再保留 `xizi_double_link_empty_result` wrapper，也不在 general `Require` 重复 `linklist != 0`。非空性由 `xizi_dll` 自身蕴含。
-
-## 复现
-
-在仓库根目录运行 canonical symbolic execution时保留：
-
-```text
--IQCP_examples/QCP_demos_LLM/
--slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM
--slp QCIPLib/xizi/xizi_double_link_common/ QCIPLib.xizi.xizi_double_link_common
-```
-
-不要覆盖已证明的 manual；fresh 输出应写到临时目录比较 witness statements。Rocq 只通过：
+在仓库根目录复现 symbolic execution（输出到临时目录，保留正式 manual）：
 
 ```sh
-python3 .agents/skills/vc-proving/scripts/coq_tooling.py check --workspace-root /home/yangfp/QCIP --build-workspace /tmp/xizi_double_link_empty-coq-build --target-file SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_empty/source/xizi_double_link_empty_goal_check.v --target-kind check --source-goal-version 8b91d6eab6826562326ca7321df33d1f9057b0fe7c11e36ef9e464bb26da1844
+mkdir -p /tmp/xizi_double_link_empty-storeA-refresh
+/home/yangfp/QCIP/linux-binary/symexec --goal-file=/tmp/xizi_double_link_empty-storeA-refresh/xizi_double_link_empty_goal.v --proof-auto-file=/tmp/xizi_double_link_empty-storeA-refresh/xizi_double_link_empty_proof_auto.v --proof-manual-file=/tmp/xizi_double_link_empty-storeA-refresh/xizi_double_link_empty_proof_manual.v -IQCP_examples/QCP_demos_LLM/ -slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM -slp QCIPLib/xizi/xizi_double_link_common/ QCIPLib.xizi.xizi_double_link_common --CRules CRules --coq-logic-path=SimpleC.EE.OUTPUT.xizi.xizi_double_link_empty.source --input-file=OUTPUT/xizi/xizi_double_link_empty/source/xizi_double_link_empty.c --no-exec-info
 ```
 
-本 case final-check 与包含 13 个目标（含真实调用点）的 suite fixed check 均通过。任何 annotation、case_lib seed 或 witness statement 变化都会使本归档 stale。
+通过固定入口编译：
+
+```sh
+python3 /home/yangfp/QCIP/.agents/skills/vc-proving/scripts/coq_tooling.py check --workspace-root /home/yangfp/QCIP --build-workspace /tmp/xizi_double_link_empty-storeA-coq-build --target-file SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_empty/source/xizi_double_link_empty_goal_check.v --target-kind check --source-goal-version 4bdc2ab8f5c8f9b6fb5ad2d541f7c655037404cfc0b5dd89837a3cf74335047a
+```
+
+修改源码、规约或目标后应重新执行 controller 流程。快照与 OUTPUT 副本的字节比对见 `reports/archive_comparison.json`。
+
+本次双链表 CRules 统一后的当前依赖复验：canonical symbolic execution freshness、manual/case_lib 结构与禁用项检查、固定 Coq 编译均通过。统一证据：`OUTPUT/xizi/xizi_double_link_common/reports/crules_unification/suite_audits/20260910113338/audit.json`。历史报告仍按原版本保留。

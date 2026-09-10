@@ -17,19 +17,19 @@ Local Open Scope Z_scope.
 Local Open Scope sets.
 Local Open Scope string_scope.
 Local Open Scope list.
-Import naive_C_Rules.
+Import CRules.
 From QCIPLib.xizi.xizi_double_link_common Require Import xizi_double_link_lib.
 Local Open Scope sac.
 
-Lemma proof_of_xizi_double_link_empty_return_wit_1_split_goal_1 : xizi_double_link_empty_return_wit_1_split_goal_1.
+Lemma proof_of_IsDoubleLinkListEmpty_return_wit_1_split_goal_1 : IsDoubleLinkListEmpty_return_wit_1_split_goal_1.
 Proof. Abort.
 
-Lemma proof_of_xizi_double_link_empty_return_wit_1_split_goal_spatial : xizi_double_link_empty_return_wit_1_split_goal_spatial.
+Lemma proof_of_IsDoubleLinkListEmpty_return_wit_1_split_goal_spatial : IsDoubleLinkListEmpty_return_wit_1_split_goal_spatial.
 Proof. Abort.
 
-Lemma proof_of_xizi_double_link_empty_return_wit_2_split_goal_1 : xizi_double_link_empty_return_wit_2_split_goal_1.
+Lemma proof_of_IsDoubleLinkListEmpty_return_wit_2_split_goal_1 : IsDoubleLinkListEmpty_return_wit_2_split_goal_1.
 Proof. Abort.
 
-Lemma proof_of_xizi_double_link_empty_return_wit_2_split_goal_spatial : xizi_double_link_empty_return_wit_2_split_goal_spatial.
+Lemma proof_of_IsDoubleLinkListEmpty_return_wit_2_split_goal_spatial : IsDoubleLinkListEmpty_return_wit_2_split_goal_spatial.
 Proof. Abort.
 

@@ -1,9 +1,16 @@
-# Witness Ledger
+# Manual witnesses
 
-| 分组 | Witness 数 | 结果 |
-| --- | ---: | --- |
-| `init_observation_and_singleton_insert` | 9 | fixed group-check passed |
-| `singleton_removal_normalization` | 4 | fixed group-check passed |
-| 合计 | 13 | parent merge/final-check passed |
-
-target 包括 9 个 init 后观察/插入 return witness，以及 singleton 头删/尾删的 2 个 entail 和 2 个 return witness。
+- `proof_of_xizi_double_link_call_empty_after_init_return_wit_1`：已证明，parent verification 与 final-check 通过。
+- `proof_of_xizi_double_link_call_empty_rec_after_init_return_wit_1`：已证明，parent verification 与 final-check 通过。
+- `proof_of_xizi_double_link_call_head_after_init_return_wit_1`：已证明，parent verification 与 final-check 通过。
+- `proof_of_xizi_double_link_call_head_rec_after_init_return_wit_1`：已证明，parent verification 与 final-check 通过。
+- `proof_of_xizi_double_link_call_len_after_init_return_wit_1`：已证明，parent verification 与 final-check 通过。
+- `proof_of_xizi_double_link_call_next_after_init_return_wit_1`：已证明，parent verification 与 final-check 通过。
+- `proof_of_xizi_double_link_call_next_rec_last_after_init_return_wit_1`：已证明，parent verification 与 final-check 通过。
+- `proof_of_xizi_double_link_call_next_rec_middle_after_init_return_wit_1`：已证明，parent verification 与 final-check 通过。
+- `proof_of_xizi_double_link_call_insert_after_init_return_wit_1`：已证明，parent verification 与 final-check 通过。
+- `proof_of_xizi_double_link_call_remove_front_singleton_return_wit_1`：已证明，parent verification 与 final-check 通过。
+- `proof_of_xizi_double_link_call_remove_front_singleton_partial_solve_wit_3_pure`：已证明，parent verification 与 final-check 通过。
+- `proof_of_xizi_double_link_call_remove_tail_singleton_entail_wit_2`：已证明，parent verification 与 final-check 通过。
+- `proof_of_xizi_double_link_call_remove_tail_singleton_return_wit_1`：已证明，parent verification 与 final-check 通过。
+- `proof_of_xizi_double_link_call_remove_tail_singleton_partial_solve_wit_3_pure`：已证明，parent verification 与 final-check 通过。

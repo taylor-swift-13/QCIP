@@ -1,17 +1,9 @@
-# Final Check Checklist
+# 最终检查
 
-- [x] controller final phase is `done`
-- [x] annotation round accepted by controller
-- [x] vc-checking round accepted by controller
-- [x] all 5 target manual witnesses are solved
-- [x] canonical symbolic execution reached EOF
-- [x] fresh goal/proof_auto/goal_check match accepted generated files
-- [x] target witness statements match fresh skeleton
-- [x] fixed `coq_tooling.py check` passed
-- [x] manual contains witness proofs only
-- [x] case_lib satisfies the seed/helper-suffix contract
-- [x] no `Admitted.`, `Abort.`, extra `Axiom`, or forbidden lemma in manual/case_lib
-- [x] OUTPUT source/rocq/reports archive complete
-
-Controller run: `xizi_double_link_len-20260807220004`  
-Source goal version: `b049a55a4335805e427bf6e6fa1cc502ebd7b79bab236a5a8f082c68527a4e36`
+- case_lib_contract: passed
+- cleanup_scan: passed
+- coqc_check: passed
+- forbidden-lemma-scan: passed
+- manual_structure: passed
+- manual_witnesses: passed
+- symexec_refresh: passed

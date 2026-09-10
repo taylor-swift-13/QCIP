@@ -1,0 +1,184 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "40bb4a193279aa2fe4cc5b1be06d8ca8563aadb3d73ba1abf36f71f3abd56446",
+  "target_witnesses": [
+    "proof_of_IsDoubleLinkListEmpty_entail_wit_1",
+    "proof_of_IsDoubleLinkListEmpty_return_wit_1",
+    "proof_of_IsDoubleLinkListEmpty_return_wit_2",
+    "proof_of_IsDoubleLinkListEmpty_derive_nil_case_by_general"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "dll_empty_generic",
+      "witness_names": [
+        "proof_of_IsDoubleLinkListEmpty_entail_wit_1",
+        "proof_of_IsDoubleLinkListEmpty_return_wit_1",
+        "proof_of_IsDoubleLinkListEmpty_return_wit_2",
+        "proof_of_IsDoubleLinkListEmpty_derive_nil_case_by_general"
+      ],
+      "representative_witness": "proof_of_IsDoubleLinkListEmpty_return_wit_2",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "proof_strategy": "Reuse the declared xizi_double_link_empty manual proof as a pattern; unfold/fold generic store_dll and head links, split spatial and pure conjuncts, destruct nodes only for the emptiness fact, then discharge nil_case via identical type/storeA/nil instantiation and wand introduction. Generated goal alternatives may be selected explicitly or reduced with pre_process. No new helper or shared-library changes are needed.",
+      "natural_language_proof_strategy": "Reuse the declared xizi_double_link_empty manual proof as a pattern; unfold/fold generic store_dll and head links, split spatial and pure conjuncts, destruct nodes only for the emptiness fact, then discharge nil_case via identical type/storeA/nil instantiation and wand introduction. Generated goal alternatives may be selected explicitly or reduced with pre_process. No new helper or shared-library changes are needed.",
+      "grouping_reason": "All four witnesses belong to IsDoubleLinkListEmpty, share store_dll/dllseg unfolding and unchanged payload resources, and fit within the 12-witness cap. The small nil_case refinement is handled by the same worker.",
+      "reference_files": [
+        "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_empty/source/xizi_double_link_empty_proof_manual.v",
+        "QCIPLib/xizi/xizi_double_link_common/xizi_double_link_lib.v"
+      ],
+      "proof_group_ready": true
+    }
+  ],
+  "natural_language_analysis": {
+    "schema_version": "qcp-vc-natural-language-analysis/v1",
+    "witnesses": [
+      {
+        "witness_name": "proof_of_IsDoubleLinkListEmpty_entail_wit_1",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "xizi_store_dll storeA head nodes",
+          "pre_pure": "No separate pure premise",
+          "pre_exists": "first and last are inside store_dll",
+          "post_spatial": "head.next |-> first ** head.prev |-> last ** dllseg storeA first head head last nodes",
+          "post_pure": "head <> 0",
+          "post_exists": "last, first"
+        },
+        "witness_instantiation": "Reuse the first and last supplied by store_dll, reversing their existential order to match Q.",
+        "space_plan": "Select either identical disjunct, unfold xizi_store_dll and XiziStoreADLL.store_dll, extract witnesses, unfold xizi_dll_links/XiziDLL.links and cancel the unchanged fields and segment.",
+        "pure_plan": "The nonnull head conjunct comes directly from store_dll.",
+        "refinement_plan": "No monadic refinement; nil_case specification refinement is handled by the final witness.",
+        "used_existing_lemmas": [],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          "store_dll exposes head <> NULL and the exact required spatial resources."
+        ],
+        "failure_signal": "none",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "dll_empty_generic",
+        "proof_group_candidate": "dll_empty_generic",
+        "grouping_reason": "Same function and unchanged generic list resource; four related shape and emptiness obligations."
+      },
+      {
+        "witness_name": "proof_of_IsDoubleLinkListEmpty_return_wit_1",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "head.next |-> first ** head.prev |-> last ** dllseg storeA first head head last nodes",
+          "pre_pure": "first <> head; head <> 0",
+          "pre_exists": "none",
+          "post_spatial": "xizi_store_dll storeA head nodes",
+          "post_pure": "nodes <> nil (and reflexive 0 = 0 in first disjunct)",
+          "post_exists": "first and last when folding store_dll"
+        },
+        "witness_instantiation": "Use the same first and last to reconstruct store_dll.",
+        "space_plan": "Prove the spatial conjunct separately by folding store_dll and the head link fields, preserving all storeA payloads in the same dllseg.",
+        "pure_plan": "For nodes=nil, unfolding dllseg gives first=head, contradicting the branch guard. For a cons list, constructor discrimination yields nodes<>nil. The return equality is reflexive.",
+        "refinement_plan": "No monadic refinement; nil_case specification refinement is handled by the final witness.",
+        "used_existing_lemmas": [],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          "first<>head is PreH1; head<>0 is PreH2; the nil segment contains first=head."
+        ],
+        "failure_signal": "none",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "dll_empty_generic",
+        "proof_group_candidate": "dll_empty_generic",
+        "grouping_reason": "Same function and unchanged generic list resource; four related shape and emptiness obligations."
+      },
+      {
+        "witness_name": "proof_of_IsDoubleLinkListEmpty_return_wit_2",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "head.next |-> first ** head.prev |-> last ** dllseg storeA first head head last nodes",
+          "pre_pure": "first = head; head <> 0",
+          "pre_exists": "none",
+          "post_spatial": "xizi_store_dll storeA head nodes",
+          "post_pure": "nodes = nil (and reflexive 1 = 1 in first disjunct)",
+          "post_exists": "first and last when folding store_dll"
+        },
+        "witness_instantiation": "Use the same first and last.",
+        "space_plan": "Fold store_dll in the spatial branch using unchanged link fields, segment, and nonnull head.",
+        "pure_plan": "Case split nodes. Nil is immediate. In the cons case, unfolding dllseg exposes first<>head (node<>stop), contradicting the branch equality. No payload assumption is needed.",
+        "refinement_plan": "No monadic refinement; nil_case specification refinement is handled by the final witness.",
+        "used_existing_lemmas": [],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          "first=head is PreH1; head<>0 is PreH2; a cons dllseg enforces its node differs from stop."
+        ],
+        "failure_signal": "none",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "dll_empty_generic",
+        "proof_group_candidate": "dll_empty_generic",
+        "grouping_reason": "Same function and unchanged generic list resource; four related shape and emptiness obligations."
+      },
+      {
+        "witness_name": "proof_of_IsDoubleLinkListEmpty_derive_nil_case_by_general",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "xizi_store_dll storeA_nil_case head nil",
+          "pre_pure": "none",
+          "pre_exists": "none",
+          "post_spatial": "general precondition ** (general postcondition -* nil_case postcondition)",
+          "post_pure": "nil_case result = 1",
+          "post_exists": "A, storeA_general, nodes_general; retval"
+        },
+        "witness_instantiation": "Choose the original A, original storeA_nil_case, and nil. For the successful post branch choose retval=1.",
+        "space_plan": "Cancel the identical general precondition and introduce the separating implication with derivable1_wand_sepcon_adjoint. Split the disjunction under the wand; preserve the identical nil store_dll in the successful branch.",
+        "pure_plan": "The nonempty general-post branch specializes to nil<>nil, hence contradiction. The empty branch gives return value 1 and the exact original nil list resource.",
+        "refinement_plan": "No monadic refinement; nil_case specification refinement is handled by the final witness.",
+        "used_existing_lemmas": [
+          "sepcon_cancel_end",
+          "derivable1_wand_sepcon_adjoint"
+        ],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          "Instantiation preserves both payload type and storeA without casts; the general post branches explicitly provide nil<>nil or retval=1."
+        ],
+        "failure_signal": "none",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "dll_empty_generic",
+        "proof_group_candidate": "dll_empty_generic",
+        "grouping_reason": "Same function and unchanged generic list resource; four related shape and emptiness obligations."
+      }
+    ],
+    "analysis_groups": [
+      {
+        "group_id": "dll_empty_generic",
+        "witness_names": [
+          "proof_of_IsDoubleLinkListEmpty_entail_wit_1",
+          "proof_of_IsDoubleLinkListEmpty_return_wit_1",
+          "proof_of_IsDoubleLinkListEmpty_return_wit_2",
+          "proof_of_IsDoubleLinkListEmpty_derive_nil_case_by_general"
+        ],
+        "representative_witness": "proof_of_IsDoubleLinkListEmpty_return_wit_2",
+        "dependencies": [],
+        "candidate_helper_declarations": [],
+        "likely_helper_declarations": [],
+        "proof_strategy": "Reuse the declared xizi_double_link_empty manual proof as a pattern; unfold/fold generic store_dll and head links, split spatial and pure conjuncts, destruct nodes only for the emptiness fact, then discharge nil_case via identical type/storeA/nil instantiation and wand introduction. Generated goal alternatives may be selected explicitly or reduced with pre_process. No new helper or shared-library changes are needed.",
+        "natural_language_proof_strategy": "Reuse the declared xizi_double_link_empty manual proof as a pattern; unfold/fold generic store_dll and head links, split spatial and pure conjuncts, destruct nodes only for the emptiness fact, then discharge nil_case via identical type/storeA/nil instantiation and wand introduction. Generated goal alternatives may be selected explicitly or reduced with pre_process. No new helper or shared-library changes are needed.",
+        "grouping_reason": "All four witnesses belong to IsDoubleLinkListEmpty, share store_dll/dllseg unfolding and unchanged payload resources, and fit within the 12-witness cap. The small nil_case refinement is handled by the same worker.",
+        "reference_files": [
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_empty/source/xizi_double_link_empty_proof_manual.v",
+          "QCIPLib/xizi/xizi_double_link_common/xizi_double_link_lib.v"
+        ],
+        "proof_group_ready": true,
+        "shared_proof_pattern": "Generic DLL unfolding/folding with nil-versus-cons case split.",
+        "shared_space_plan": "Preserve original storeA segment and head fields.",
+        "shared_pure_plan": "Read segment endpoint facts under branch guard.",
+        "shared_refinement_plan": "Instantiate general contract with original A/storeA and nil."
+      }
+    ],
+    "blockers": []
+  },
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 4,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

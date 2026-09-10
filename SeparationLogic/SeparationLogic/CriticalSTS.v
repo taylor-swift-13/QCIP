@@ -77,7 +77,9 @@ Module Type CriticalCSL
               (C: critical_STS_def)
               (S: critical_STS_to_STS_def C)
               (R1: ConAssertion.CSL S)
-              (R2: DerivedPredSig R1).
+              (Arch : CArchSig)
+              (Endian : CEndianSig)
+              (R2: DerivedPredSig Arch Endian R1).
 Import R1 R2.
 Local Open Scope sac.
 

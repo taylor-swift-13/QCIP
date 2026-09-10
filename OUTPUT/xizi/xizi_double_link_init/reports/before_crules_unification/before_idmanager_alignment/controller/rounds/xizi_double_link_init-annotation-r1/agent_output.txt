@@ -1,0 +1,36 @@
+# Reuse Note
+Note kind: non-authoritative reuse note
+This file is not acceptance evidence.
+
+Outcome: completed annotation candidate; controller acceptance remains pending.
+Source of truth: agent_input.json, agent_report.json, and the declared round worktree.
+
+InitDoubleLinkList now quantifies arbitrary A and storeA : Z -> A -> Assertion.
+The existing xizi_dll_node precondition and executable assignments are unchanged.
+Postcondition uses xizi_store_dll storeA head nil, not an emp-only payload instance.
+
+XiziStoreADLL.DL_Node preserves reference constructor Build_DL_Node(data, pointer)
+and getData/getPtr. Four list-resource recursions follow the reference; old library
+prefix is byte-identical to the handoff seed. Existing layout and links are reused.
+For the initial empty list, store_dll_empty_eq is definitional and existing
+xizi_dll_empty / xizi_dll_empty_rev proofs are reused unchanged.
+
+Reference differences are documented beside the new module: public dllseg retains
+existing node <> NULL and node <> stop guards; store_dll retains non-null sentinel.
+Shifted predicates preserve reference field-resource transfer and have no extra
+endpoint exclusion; reverse guarded conversion needs shape premises.
+IDNode payloads instantiate storeA with store_idnode node_storeA; node_storeA itself
+has pure addr -> Z -> Prop type and must not be passed directly as an Assertion.
+No C payload field or header update was introduced.
+
+Canonical symexec and qcp-mcp SessionManager/Session both used the actual main
+linux driver, round cwd, canonical -I and both -slp mappings. Interactive check,
+step, and symbolic to EOF succeeded, exposing one generic empty return VC.
+The initial declaration repairs were => kind arrows and separate kind/term
+Extern Coq blocks. Final fixed case_lib coqc_check passed in 185.874 seconds.
+Detailed evidence, file access, source bindings, and checks are in agent_report.json.
+
+Downstream: controller annotation-check-round must refresh/split diagnostics and
+freeze source_goal_version. The return witness can unfold xizi_store_dll, select
+the duplicated disjunction branch, and use XiziStoreADLL.store_dll_empty_rev.
+This proof suggestion is non-authoritative; use the freshly generated VC.

@@ -21,10 +21,7 @@ From QCIPLib.xizi.xizi_double_link_common Require Import xizi_double_link_lib.
 From SimpleC.EE.OUTPUT.xizi.xizi_double_link_init_then_insert_before.source Require Import xizi_double_link_init_then_insert_before_lib.
 Local Open Scope sac.
 
-Lemma proof_of_xizi_double_link_init_return_wit_1 : xizi_double_link_init_return_wit_1.
-Proof. Admitted. 
-
-Lemma proof_of_xizi_double_link_init_partial_solve_wit_1 : xizi_double_link_init_partial_solve_wit_1.
+Lemma proof_of_InitDoubleLinkList_partial_solve_wit_1 : InitDoubleLinkList_partial_solve_wit_1.
 Proof. Admitted. 
 
 Lemma proof_of_xizi_double_link_init_then_insert_before_entail_wit_1 : xizi_double_link_init_then_insert_before_entail_wit_1.

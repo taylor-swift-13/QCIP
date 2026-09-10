@@ -1,16 +1,5 @@
-# Case Brief
+# xizi_double_link_init_then_empty
 
-- Case：`xizi_double_link_init_then_empty`
-- Run：`xizi_double_link_init_then_empty-20260808192707`
-- 状态：done / final-check passed
-- Source version：`230eb493b267bce805b8106a48626120ae8c6ac8bc2527c69377f87ec6d1d687`
-- Source goal version：`90ae45af4a6e2a2009a80292705957446d192362fdf418d031dfdbbb7f0ed00c`
-- OUTPUT：`OUTPUT/xizi/xizi_double_link_init_then_empty`
+参照 idmanager 使用的 dll.v，将当前函数规约迁移至泛型 storeA。仅存在同一翻译单元内、与函数定义完全同签名的重复声明差异；其他非注释 token 均未改变。详见 executable_c_comparison.json。
 
-## 本轮目标
-
-初始化空双链表后调用对齐后的 empty general spec；保留 nil_case 特化，并证明 general spec 在真实调用上下文中可实例化。
-
-## 结论
-
-canonical symbolic execution、VC semantic checking、group check、parent full fixed check、final-check 与 13-case suite fixed check 均通过。
+输出目录：`OUTPUT/xizi/xizi_double_link_init_then_empty`。

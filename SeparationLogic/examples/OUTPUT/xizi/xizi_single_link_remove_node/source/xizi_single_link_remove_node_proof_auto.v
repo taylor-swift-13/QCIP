@@ -21,24 +21,18 @@ From QCIPLib.xizi.xizi_single_link_common Require Import xizi_single_link_lib.
 From SimpleC.EE.OUTPUT.xizi.xizi_single_link_remove_node.source Require Import xizi_single_link_remove_node_lib.
 Local Open Scope sac.
 
-Lemma proof_of_xizi_single_link_remove_node_safety_wit_1 : xizi_single_link_remove_node_safety_wit_1.
+Lemma proof_of_SingleLinkListRmNode_safety_wit_1 : SingleLinkListRmNode_safety_wit_1.
 Proof. Admitted. 
 
-Lemma proof_of_xizi_single_link_remove_node_safety_wit_2 : xizi_single_link_remove_node_safety_wit_2.
+Lemma proof_of_SingleLinkListRmNode_safety_wit_2 : SingleLinkListRmNode_safety_wit_2.
 Proof. Admitted. 
 
-Lemma proof_of_xizi_single_link_remove_node_safety_wit_3 : xizi_single_link_remove_node_safety_wit_3.
+Lemma proof_of_SingleLinkListRmNode_safety_wit_3 : SingleLinkListRmNode_safety_wit_3.
 Proof. Admitted. 
 
-Lemma proof_of_xizi_single_link_remove_node_safety_wit_4 : xizi_single_link_remove_node_safety_wit_4.
+Lemma proof_of_SingleLinkListRmNode_safety_wit_4 : SingleLinkListRmNode_safety_wit_4.
 Proof. Admitted. 
 
-Lemma proof_of_xizi_single_link_remove_node_partial_solve_wit_1_pure : xizi_single_link_remove_node_partial_solve_wit_1_pure.
-Proof. Admitted. 
-
-Lemma proof_of_xizi_single_link_remove_node_partial_solve_wit_1 : xizi_single_link_remove_node_partial_solve_wit_1.
-Proof. Admitted. 
-
-Lemma proof_of_xizi_single_link_remove_node_partial_solve_wit_2 : xizi_single_link_remove_node_partial_solve_wit_2.
+Lemma proof_of_SingleLinkListRmNode_partial_solve_wit_1 : SingleLinkListRmNode_partial_solve_wit_1.
 Proof. Admitted. 
 

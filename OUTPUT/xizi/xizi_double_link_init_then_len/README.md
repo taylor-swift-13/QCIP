@@ -1,21 +1,32 @@
 # xizi_double_link_init_then_len 验证交付
 
-本目录保存 `xizi_double_link_init_then_len` 的最终 accepted 交付。`source/` 是带 annotation 的 C 源码，`rocq/` 包含 generated goal、auto/manual proof、goal check、唯一 case lib 与 diagnostics 快照，`reports/` 保存 controller 日志、accepted round/group handoff、checkpoint 和复用入口。
+本次 storeA 迁移已通过 controller final-check，run 为 `xizi_double_link_init_then_len-20260910003057`。可执行 C 未改动；迁移规约与证明。所有非注释 token 与迁移前一致。 本次单双链表套件已全部完成，并通过当前公共库依赖下的整套回归。旧版套件报告仅供历史参考。
 
-验证状态：controller run `xizi_double_link_init_then_len-20260808222000` 已到 `done`。`source_version` 为 `1b7370178254c96470476f0f35b7a30ef2a32cb4fd7e1c2ca977de5327889088`，`source_goal_version` 为 `f432bf1bba9d2939995f36d1aec7da461a583b29c64bf5a4c8a8a0ba7b3abffb`，7 个 manual witnesses 全部完成。
+泛型 `storeA : addr -> A -> Assertion` 与 idmanager 使用的 `dll.v` 对齐，表示内嵌 link 对应外部对象的业务资源；结构指针字段由链表谓词持有。保留已有非空、哨兵与函数行为条件。
 
-## 与单链表对齐
+- `source/`：正式带标注 C 与头文件。
+- `rocq/`：本版本生成目标与已完成证明。
+- 唯一 active case_lib：`SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_init_then_len/source/xizi_double_link_init_then_len_lib.v`；归档：`OUTPUT/xizi/xizi_double_link_init_then_len/rocq/xizi_double_link_init_then_len_lib.v`。
+- `reports/controller/`：本 run 的 controller、round、group 与最终证据。
+- `reports/before_storeA/`：迁移前历史报告，不作为当前验收证据。
 
-该调用点验证 `init` 建立的 `xizi_dll(head, nil)` 可以直接供长度函数的 `nil_case` 特化使用，返回 `0` 并保持空 DLL。standalone `xizi_double_link_len` 的一般公共规格保持不变：仍以抽象节点序列为输入，返回 `Zlength nodes`；公开规格没有额外暴露非空或 `UINT_MAX` 前提。
+source_goal_version：`4947594d8bc0c563c63902c7ab1292cca1daaf1441cab5491bd39412c5f7d4f3`；manual witness 数：8。symbolic execution freshness、固定 Coq 检查、manual 结构、case_lib 合同及 forbidden lemma 检查均通过。
 
-双链表相对单链表的必要差异只在内部证明：循环 invariant 同时维护前后向链接和 DLL 段，计数不回绕从实际双向节点字段 ownership 推出。
+验证边界：当前 QCP 自动生成的 `proof_auto.v` 有 5 个 `Admitted` 占位。按仓库生成文件边界保留并单独记录；本轮完成证明的是 manual witnesses 和维护库中的引理，不能据此宣称整套证明完全没有假设。
 
-## 复现
+在仓库根目录复现 symbolic execution（输出到临时目录，保留正式 manual）：
 
-canonical symbolic execution 必须保留 `-IQCP_examples/QCP_demos_LLM/`，以及 `QCP_examples/QCP_demos_LLM/ -> SimpleC.EE.QCP_demos_LLM` 和 `QCIPLib/xizi/xizi_double_link_common/ -> QCIPLib.xizi.xizi_double_link_common` 两组 `-slp`。fresh 输出应写到临时目录，不能覆盖已证明 manual。
+```sh
+mkdir -p /tmp/xizi_double_link_init_then_len-storeA-refresh
+/home/yangfp/QCIP/linux-binary/symexec --goal-file=/tmp/xizi_double_link_init_then_len-storeA-refresh/xizi_double_link_init_then_len_goal.v --proof-auto-file=/tmp/xizi_double_link_init_then_len-storeA-refresh/xizi_double_link_init_then_len_proof_auto.v --proof-manual-file=/tmp/xizi_double_link_init_then_len-storeA-refresh/xizi_double_link_init_then_len_proof_manual.v -IQCP_examples/QCP_demos_LLM/ -slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM -slp QCIPLib/xizi/xizi_double_link_common/ QCIPLib.xizi.xizi_double_link_common --coq-logic-path=SimpleC.EE.OUTPUT.xizi.xizi_double_link_init_then_len.source --input-file=OUTPUT/xizi/xizi_double_link_init_then_len/source/xizi_double_link_init_then_len.c --no-exec-info
+```
 
-固定 Rocq 检查：
+通过固定入口编译：
 
-    python3 .agents/skills/vc-proving/scripts/coq_tooling.py check --workspace-root /home/yangfp/QCIP --build-workspace /tmp/xizi-double-link-init-then-len-coq --target-file SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_init_then_len/source/xizi_double_link_init_then_len_goal_check.v --target-kind check --source-goal-version f432bf1bba9d2939995f36d1aec7da461a583b29c64bf5a4c8a8a0ba7b3abffb
+```sh
+python3 /home/yangfp/QCIP/.agents/skills/vc-proving/scripts/coq_tooling.py check --workspace-root /home/yangfp/QCIP --build-workspace /tmp/xizi_double_link_init_then_len-storeA-coq-build --target-file SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_init_then_len/source/xizi_double_link_init_then_len_goal_check.v --target-kind check --source-goal-version 4947594d8bc0c563c63902c7ab1292cca1daaf1441cab5491bd39412c5f7d4f3
+```
 
-完整 controller 和 accepted workflow 证据位于 `reports/controller/` 与 `reports/workflow/`。diagnostics split goals 只用于规划，不是 target witnesses。
+修改源码、规约或目标后应重新执行 controller 流程。快照与 OUTPUT 副本的字节比对见 `reports/archive_comparison.json`。
+
+当前依赖回归证据：`OUTPUT/xizi/xizi_double_link_common/reports/storeA_migration_reference/suite_audits/20260909181337/audit.json`；不替换本 case 原始 controller 接受记录。

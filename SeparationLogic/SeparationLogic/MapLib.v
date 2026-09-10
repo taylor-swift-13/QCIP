@@ -18,7 +18,7 @@ Local Open Scope string.
 Import ListNotations.
 Local Open Scope list.
 
-Module Type MapLibSig (CRules: SeparationLogicSig) (DePredSig : DerivedPredSig CRules) (SLibSig : StoreLibSig CRules DePredSig).
+Module Type MapLibSig (Arch : CArchSig) (Endian : CEndianSig) (CRules: SeparationLogicSig) (DePredSig : DerivedPredSig Arch Endian CRules) (SLibSig : StoreLibSig Arch Endian CRules DePredSig).
 
 Import CRules.
 Import DePredSig.

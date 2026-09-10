@@ -22,3 +22,24 @@ From QCIPLib.xizi.xizi_single_link_common Require Import xizi_single_link_lib.
 From SimpleC.EE.OUTPUT.xizi.xizi_single_link_remove_node.source Require Import xizi_single_link_remove_node_lib.
 Local Open Scope sac.
 
+Lemma proof_of_SingleLinkListRmNode_entail_wit_1_split_goal_1 : SingleLinkListRmNode_entail_wit_1_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_SingleLinkListRmNode_entail_wit_1_split_goal_2 : SingleLinkListRmNode_entail_wit_1_split_goal_2.
+Proof. Abort.
+
+Lemma proof_of_SingleLinkListRmNode_entail_wit_1_split_goal_3 : SingleLinkListRmNode_entail_wit_1_split_goal_3.
+Proof. Abort.
+
+Lemma proof_of_SingleLinkListRmNode_entail_wit_1_split_goal_spatial : SingleLinkListRmNode_entail_wit_1_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_SingleLinkListRmNode_entail_wit_2_split_goal_1 : SingleLinkListRmNode_entail_wit_2_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_SingleLinkListRmNode_return_wit_1_split_goal_spatial : SingleLinkListRmNode_return_wit_1_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_SingleLinkListRmNode_return_wit_2_split_goal_spatial : SingleLinkListRmNode_return_wit_2_split_goal_spatial.
+Proof. Abort.
+

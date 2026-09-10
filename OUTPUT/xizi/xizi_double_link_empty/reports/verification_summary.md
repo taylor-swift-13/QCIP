@@ -1,3 +1,30 @@
-# Verification Summary
+# xizi_double_link_empty 验证交付
 
-`xizi_double_link_empty` 已在 run `xizi_double_link_empty-20260808185540` 完成接口对齐后的端到端验证。source_goal_version：`8b91d6eab6826562326ca7321df33d1f9057b0fe7c11e36ef9e464bb26da1844`；2 个 manual witnesses 全部证明，parent/final/suite fixed checks 均通过。
+本次验证已通过 controller final-check，run 为 `xizi_double_link_empty-20260910183542`。所有非注释 token 与迁移前一致。 完整套件仍在迁移中，旧套件检查不作为本版本证据。
+
+泛型 storeA : addr -> A -> Assertion 表示嵌入 link 对应的业务资源；结构指针字段由链表谓词持有。公共 DLL 谓词保留参考逻辑条件，实际 C 用例与 idmanager 共用 CRules 模型；XiziLocalDLL 是 XiziIdmanagerDLL 同一实例的别名。
+
+- `source/`：正式带标注 C 与头文件。
+- `rocq/`：本版本生成目标与已完成证明。
+- 唯一 active case_lib：`SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_empty/source/xizi_double_link_empty_lib.v`；归档：`OUTPUT/xizi/xizi_double_link_empty/rocq/xizi_double_link_empty_lib.v`。
+- `reports/controller/`：本 run 的 controller、round、group 与最终证据。
+- `reports/before_crules_unification/`：迁移前历史报告，不作为当前验收证据。
+
+source_goal_version：`4bdc2ab8f5c8f9b6fb5ad2d541f7c655037404cfc0b5dd89837a3cf74335047a`；manual witness 数：4。symbolic execution freshness、固定 Coq 检查、manual 结构、case_lib 合同及 forbidden lemma 检查均通过。
+
+验证边界：当前 QCP 自动生成的 `proof_auto.v` 有 0 个 `Admitted` 占位。按仓库生成文件边界保留并单独记录；本轮完成证明的是 manual witnesses 和维护库中的引理，不能据此宣称整套证明完全没有假设。
+
+在仓库根目录复现 symbolic execution（输出到临时目录，保留正式 manual）：
+
+```sh
+mkdir -p /tmp/xizi_double_link_empty-storeA-refresh
+/home/yangfp/QCIP/linux-binary/symexec --goal-file=/tmp/xizi_double_link_empty-storeA-refresh/xizi_double_link_empty_goal.v --proof-auto-file=/tmp/xizi_double_link_empty-storeA-refresh/xizi_double_link_empty_proof_auto.v --proof-manual-file=/tmp/xizi_double_link_empty-storeA-refresh/xizi_double_link_empty_proof_manual.v -IQCP_examples/QCP_demos_LLM/ -slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM -slp QCIPLib/xizi/xizi_double_link_common/ QCIPLib.xizi.xizi_double_link_common --CRules CRules --coq-logic-path=SimpleC.EE.OUTPUT.xizi.xizi_double_link_empty.source --input-file=OUTPUT/xizi/xizi_double_link_empty/source/xizi_double_link_empty.c --no-exec-info
+```
+
+通过固定入口编译：
+
+```sh
+python3 /home/yangfp/QCIP/.agents/skills/vc-proving/scripts/coq_tooling.py check --workspace-root /home/yangfp/QCIP --build-workspace /tmp/xizi_double_link_empty-storeA-coq-build --target-file SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_empty/source/xizi_double_link_empty_goal_check.v --target-kind check --source-goal-version 4bdc2ab8f5c8f9b6fb5ad2d541f7c655037404cfc0b5dd89837a3cf74335047a
+```
+
+修改源码、规约或目标后应重新执行 controller 流程。快照与 OUTPUT 副本的字节比对见 `reports/archive_comparison.json`。

@@ -1,11 +1,3 @@
-# Proof Strategy Report
+# 复用与证明
 
-- target witnesses: 3
-- grouping source: accepted vc-checking group plan
-- parent verification: passed
-- helper policy: no helper/import added; case_lib contains full-sequence successor definitions
-- manual policy: witness proofs only
-
-## Groups
-
-- `dll_next_rec_split_suffix_and_reclose`: derive first-occurrence decomposition from `In`, connect the suffix head with full-sequence `next_value`, then reclose unchanged DLL ownership.
+规格设计与检查见 annotation_report.json；分组见 controller/rounds/；最终合并与 helper 来源见 vc_proving_report.json。历史证明见 before_storeA，仅作复用参考。

@@ -1,66 +1,36 @@
 # xizi_single_link_remove_node 验证交付
 
-本目录交付 `xizi_single_link_remove_node` 的 C annotation、Rocq 证明和可复现检查摘要。函数实现与 ABI 未改动；验证保留精确的 `strong_spec`，并由它导出三个常用客户端规格。
+本次 storeA 迁移已通过 controller final-check，run 为 `xizi_single_link_remove_node-20260909220108`。可执行 C 未改动；仅迁移规约与证明。本次单双链表套件已全部完成，并通过当前公共库依赖下的整套回归。旧版套件报告仅供历史参考。
 
-## 四个规格如何选
+泛型 `storeA : addr -> A -> Assertion` 与 idmanager 使用的 `dll.v` 对齐，表示内嵌 link 对应外部对象的业务资源；结构指针字段由链表谓词持有。保留已有非空、哨兵与函数行为条件。
 
-- `strong_spec`：证明函数本体时使用。它给出精确分解 `l = l1 ++ node :: l2`、删除后的 `l1 ++ l2`、原 `node_next` 值和返回头指针。
-- `remove_member_spec`：一般调用默认使用。调用方只需知道节点属于链表；后置条件用 `xizi_sll_remove_first` 删除第一次出现，并取回 detached node 的 `node_next` 字段所有权。
-- `remove_front_spec`：已知待删节点是首节点时使用。
-- `remove_tail_spec`：已知待删节点是尾节点时使用。
+- `source/`：正式带标注 C 与头文件。
+- `rocq/`：本版本生成目标与已完成证明。
+- 唯一 active case_lib：`SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node_lib.v`；归档：`OUTPUT/xizi/xizi_single_link_remove_node/rocq/xizi_single_link_remove_node_lib.v`。
+- `reports/controller/`：本 run 的 controller、round、group 与最终证据。
+- `reports/before_storeA/`：迁移前历史报告，不作为当前验收证据。
 
-`xizi_sll_remove_first` 是 case-local 纯列表函数：遇到第一次相等立即返回 suffix，因此不会像 remove-all 算子那样删除重复节点的后续出现。
+source_goal_version：`15eb8b61442505928eb6c66fcbb1f3735125ef8de2fe6eb28ba69fa343e10f0f`；manual witness 数：8。symbolic execution freshness、固定 Coq 检查、manual 结构、case_lib 合同及 forbidden lemma 检查均通过。
 
-## 关键 annotation 修复
+在仓库根目录复现 symbolic execution（输出到临时目录，保留正式 manual）：
 
-循环不变量显式保存：
-
-```c
-linklist == linklist@pre &&
-linklist_node == linklist_node@pre
+```sh
+mkdir -p /tmp/xizi_single_link_remove_node-storeA-refresh
+/home/yangfp/QCIP/linux-binary/symexec --goal-file=/tmp/xizi_single_link_remove_node-storeA-refresh/xizi_single_link_remove_node_goal.v --proof-auto-file=/tmp/xizi_single_link_remove_node-storeA-refresh/xizi_single_link_remove_node_proof_auto.v --proof-manual-file=/tmp/xizi_single_link_remove_node-storeA-refresh/xizi_single_link_remove_node_proof_manual.v -IQCP_examples/QCP_demos_LLM/ -slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM --coq-logic-path=SimpleC.EE.OUTPUT.xizi.xizi_single_link_remove_node.source --input-file=OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node.c --no-exec-info
 ```
 
-这两个等式把循环中的 current 地址资源桥接回函数入口 snapshot。缺少它们时，循环返回 VC 的前提允许 current/snapshot 是四个不同地址，而后置条件却要求入口地址上的资源，因而存在具体反例。补上等式后，generated return VC 中的地址统一，矛盾来源被消除。
+通过固定入口编译：
 
-## 证明结果
-
-- source goal version：`9675b89a1c82e0e65105714364653bd81b00896e0d47a5cc425701378a2788de`
-- 8 个 manual witnesses：全部 `Qed`
-- `*_goal_check.v`：fixed `coq_tooling.py check` 通过
-- `proof_manual` / case lib：无 `Admitted.`、无额外 `Axiom`
-- forbidden lemma：23 个名称全部零命中
-- case helper：`xizi_sll_remove_first_split__spec_derivations_direct`
-
-## 复现
-
-在仓库根目录 `/home/yangfp/QCIP` 执行：
-
-```bash
-linux-binary/symexec \
-  --goal-file=/tmp/xizi_single_link_remove_node_goal.v \
-  --proof-auto-file=/tmp/xizi_single_link_remove_node_proof_auto.v \
-  --proof-manual-file=/tmp/xizi_single_link_remove_node_proof_manual.v \
-  -IQCP_examples/QCP_demos_LLM/ \
-  -slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM \
-  --coq-logic-path=SimpleC.EE.OUTPUT.xizi.xizi_single_link_remove_node.source \
-  --input-file=OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node.c \
-  --no-exec-info
+```sh
+python3 /home/yangfp/QCIP/.agents/skills/vc-proving/scripts/coq_tooling.py check --workspace-root /home/yangfp/QCIP --build-workspace /tmp/xizi_single_link_remove_node-storeA-coq-build --target-file SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node_goal_check.v --target-kind check --source-goal-version 15eb8b61442505928eb6c66fcbb1f3735125ef8de2fe6eb28ba69fa343e10f0f
 ```
 
-正式 Coq 检查只通过固定入口：
+修改源码、规约或目标后应重新执行 controller 流程。快照与 OUTPUT 副本的字节比对见 `reports/archive_comparison.json`。
 
-```bash
-python3 .agents/skills/vc-proving/scripts/coq_tooling.py check \
-  --workspace-root /home/yangfp/QCIP \
-  --build-workspace /tmp/xizi_single_link_remove_node-final-check \
-  --target-file SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node_goal_check.v \
-  --target-kind check \
-  --source-goal-version 9675b89a1c82e0e65105714364653bd81b00896e0d47a5cc425701378a2788de
-```
+验证边界：当前 QCP 自动生成的 `proof_auto.v` 有 5 个 `Admitted` 占位。按仓库生成文件边界保留并单独记录；本轮完成证明的是 manual witnesses 和维护库中的引理，不能据此宣称整套证明完全没有假设。
 
-## 目录
+当前依赖回归证据：`OUTPUT/xizi/xizi_double_link_common/reports/storeA_migration_reference/suite_audits/20260909181337/audit.json`；不替换本 case 原始 controller 接受记录。
 
-- `source/`：已验证 C 源码与所需头文件。
-- `rocq/`：goal、auto/manual proof、goal check、case lib 和 diagnostics snapshot。
-- `reports/`：final checklist、freshness、witness ledger、checkpoint、reuse packet 与 timing 摘要。
+本次参考 DLL 迁移后的当前版本复验：canonical symbolic execution freshness、manual/case_lib 结构与禁用项检查、固定 Coq 编译均通过。统一证据：`OUTPUT/xizi/xizi_double_link_common/reports/idmanager_dll_alignment/suite_audits/20260910072705/audit.json`。历史报告仍按原版本保留。
 
+本次双链表 CRules 统一后的当前依赖复验：canonical symbolic execution freshness、manual/case_lib 结构与禁用项检查、固定 Coq 编译均通过。统一证据：`OUTPUT/xizi/xizi_double_link_common/reports/crules_unification/suite_audits/20260910113338/audit.json`。历史报告仍按原版本保留。

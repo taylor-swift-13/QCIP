@@ -1,0 +1,231 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "7ade72c78014da3dd9bfd643e3e8075f8150d7f2867b4b40e079771e61c47977",
+  "source_version": "2e0b7f5ea1743dea6eced9b8a1cb7dcc1c8d5ba4dc45ad188e0ff435c259e450",
+  "target_witnesses": [
+    "proof_of_DoubleLinkListGetHead_entail_wit_1",
+    "proof_of_DoubleLinkListGetHead_return_wit_1",
+    "proof_of_DoubleLinkListGetHead_return_wit_2",
+    "proof_of_DoubleLinkListGetHead_derive_nil_case_by_general",
+    "proof_of_IsDoubleLinkListEmpty_derive_expanded_by_general"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "dll_head_observation",
+      "witness_names": [
+        "proof_of_DoubleLinkListGetHead_entail_wit_1",
+        "proof_of_DoubleLinkListGetHead_return_wit_1",
+        "proof_of_DoubleLinkListGetHead_return_wit_2",
+        "proof_of_DoubleLinkListGetHead_derive_nil_case_by_general",
+        "proof_of_IsDoubleLinkListEmpty_derive_expanded_by_general"
+      ],
+      "representative_witness": "proof_of_DoubleLinkListGetHead_return_wit_2",
+      "dependencies": [],
+      "likely_helper_declarations": [],
+      "candidate_helper_declarations": [],
+      "proof_strategy": "Open/fold XiziLocalDLL.store_dll with field reordering, split empty/nonempty logical lists for the observed address, and establish the two specification-derivation wands with unchanged node/payload parameters. The first three witnesses have duplicated outer disjuncts: choosing left is sufficient. For the nonempty return equality, one cons expansion of dllseg exposes first_out = DLL.getPtr a; prove the spatial conjunct separately to retain all resources.",
+      "natural_language_proof_strategy": "Open/fold XiziLocalDLL.store_dll with field reordering, split empty/nonempty logical lists for the observed address, and establish the two specification-derivation wands with unchanged node/payload parameters. The first three witnesses have duplicated outer disjuncts: choosing left is sufficient. For the nonempty return equality, one cons expansion of dllseg exposes first_out = DLL.getPtr a; prove the spatial conjunct separately to retain all resources.",
+      "grouping_reason": "All five target witnesses concern one head-observation operation and the same local list opening/folding and head-projection definitions. The empty-query derivation is its call adapter. One worker can sequentially handle the shared proof pattern; 5 <= 12."
+    }
+  ],
+  "blockers": [],
+  "natural_language_analysis": {
+    "schema_version": "qcp-vc-natural-language-analysis/v1",
+    "witnesses": [
+      {
+        "witness_name": "proof_of_DoubleLinkListGetHead_entail_wit_1",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "XiziLocalDLL.store_dll storeA head nodes",
+          "pre_pure": "none",
+          "pre_exists": "none outside predicate definitions",
+          "post_spatial": "head.next |-> first ** head.prev |-> last ** XiziLocalDLL.dllseg storeA first head head last nodes",
+          "post_pure": "none",
+          "post_exists": "last_link, first_link"
+        },
+        "witness_instantiation": "Choose the first and last addresses already existentially owned by store_dll.",
+        "space_plan": "Choose the left disjunct (the two alternatives are identical). Unfold store_dll, introduce its first/last witnesses, commute the head fields and keep dllseg unchanged.",
+        "pure_plan": "No pure side condition.",
+        "refinement_plan": "No safeExec or loop refinement obligation. Preserve the same logical node list, payload assertion, and actual C layout.",
+        "used_existing_lemmas": [],
+        "used_existing_definitions": [
+          "XiziLocalDLL.store_dll",
+          "XiziLocalDLL.dllseg",
+          "xizi_double_link_head_ptrs",
+          "xizi_double_link_first_value"
+        ],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          "All spatial fields and payload resources are supplied by the antecedent; no nonnull or endpoint guard is introduced.",
+          "none"
+        ],
+        "failure_signal": "",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "dll_head_observation",
+        "grouping_reason": "Same store_dll opening/folding and head projection family; five related witnesses fit the limit of twelve."
+      },
+      {
+        "witness_name": "proof_of_DoubleLinkListGetHead_return_wit_1",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "head.next |-> first ** head.prev |-> last ** XiziLocalDLL.dllseg storeA first head head last nodes",
+          "pre_pure": "nodes = nil; retval = 1; retval <> 0",
+          "pre_exists": "none outside predicate definitions",
+          "post_spatial": "XiziLocalDLL.store_dll storeA head nodes",
+          "post_pure": "0 = first_value(head_ptrs nodes)",
+          "post_exists": "store_dll internal first/last"
+        },
+        "witness_instantiation": "Use first_out and last_out when folding store_dll.",
+        "space_plan": "Choose the left disjunct. Prove the pure-and-spatial post via conjunction introduction; fold store_dll using the supplied fields and segment.",
+        "pure_plan": "Substitute nodes=nil; head_ptrs maps nil to nil and first_value nil reduces to 0.",
+        "refinement_plan": "No safeExec or loop refinement obligation. Preserve the same logical node list, payload assertion, and actual C layout.",
+        "used_existing_lemmas": [],
+        "used_existing_definitions": [
+          "XiziLocalDLL.store_dll",
+          "XiziLocalDLL.dllseg",
+          "xizi_double_link_head_ptrs",
+          "xizi_double_link_first_value"
+        ],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          "All spatial fields and payload resources are supplied by the antecedent; no nonnull or endpoint guard is introduced.",
+          "nodes = nil; retval = 1; retval <> 0"
+        ],
+        "failure_signal": "",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "dll_head_observation",
+        "grouping_reason": "Same store_dll opening/folding and head projection family; five related witnesses fit the limit of twelve."
+      },
+      {
+        "witness_name": "proof_of_DoubleLinkListGetHead_return_wit_2",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "head.next |-> first ** head.prev |-> last ** XiziLocalDLL.dllseg storeA first head head last nodes",
+          "pre_pure": "nodes <> nil; retval = 0",
+          "pre_exists": "none outside predicate definitions",
+          "post_spatial": "XiziLocalDLL.store_dll storeA head nodes",
+          "post_pure": "first_out = first_value(head_ptrs nodes)",
+          "post_exists": "store_dll internal first/last"
+        },
+        "witness_instantiation": "Use first_out and last_out for the closed list; the cons successor existential is needed only while extracting the pure head equality.",
+        "space_plan": "Choose the left disjunct. For the pure conjunct, destruct nodes: nil contradicts the premise, and cons permits one-step dllseg unfolding to extract first_out = DLL.getPtr a. The spatial conjunct is proved independently from the original full antecedent by folding store_dll; this retains all arbitrary payload ownership.",
+        "pure_plan": "For nodes=a::tail, head_ptrs/first_value reduces to DLL.getPtr a. The cons dllseg pure equality gives exactly the required equality. No assumption that first_out differs from head is needed.",
+        "refinement_plan": "No safeExec or loop refinement obligation. Preserve the same logical node list, payload assertion, and actual C layout.",
+        "used_existing_lemmas": [],
+        "used_existing_definitions": [
+          "XiziLocalDLL.store_dll",
+          "XiziLocalDLL.dllseg",
+          "xizi_double_link_head_ptrs",
+          "xizi_double_link_first_value"
+        ],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          "All spatial fields and payload resources are supplied by the antecedent; no nonnull or endpoint guard is introduced.",
+          "nodes <> nil; retval = 0"
+        ],
+        "failure_signal": "",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "dll_head_observation",
+        "grouping_reason": "Same store_dll opening/folding and head projection family; five related witnesses fit the limit of twelve."
+      },
+      {
+        "witness_name": "proof_of_DoubleLinkListGetHead_derive_nil_case_by_general",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "XiziLocalDLL.store_dll storeA head nil",
+          "pre_pure": "none",
+          "pre_exists": "none outside predicate definitions",
+          "post_spatial": "general precondition ** (general existential-return postcondition -* nil_case existential-return postcondition)",
+          "post_pure": "nil-case return equals zero",
+          "post_exists": "A, storeA_general, nodes_general; retval"
+        },
+        "witness_instantiation": "Choose original A, original storeA and nil; in the wand conclusion choose retval_2 (or zero after substitution).",
+        "space_plan": "Instantiate the general spec with the same A and storeA, and nodes=nil. Split off emp for the wand and use separating implication introduction; the assumed general post returns the same store_dll, which can be passed through unchanged.",
+        "pure_plan": "General return equality reduces to retval_2=0 by computation on nil.",
+        "refinement_plan": "No safeExec or loop refinement obligation. Preserve the same logical node list, payload assertion, and actual C layout.",
+        "used_existing_lemmas": [],
+        "used_existing_definitions": [
+          "XiziLocalDLL.store_dll",
+          "XiziLocalDLL.dllseg",
+          "xizi_double_link_head_ptrs",
+          "xizi_double_link_first_value"
+        ],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          "All spatial fields and payload resources are supplied by the antecedent; no nonnull or endpoint guard is introduced.",
+          "none"
+        ],
+        "failure_signal": "",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "dll_head_observation",
+        "grouping_reason": "Same store_dll opening/folding and head projection family; five related witnesses fit the limit of twelve."
+      },
+      {
+        "witness_name": "proof_of_IsDoubleLinkListEmpty_derive_expanded_by_general",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "head.next |-> first ** head.prev |-> last ** XiziLocalDLL.dllseg storeA first head head last nodes",
+          "pre_pure": "none",
+          "pre_exists": "none outside predicate definitions",
+          "post_spatial": "general precondition ** (general empty/nonempty post disjunction -* expanded post disjunction)",
+          "post_pure": "same emptiness decision and same retval in the matching branch",
+          "post_exists": "A, storeA_general, nodes_general; last_out, first_out, retval"
+        },
+        "witness_instantiation": "Choose original A, storeA and nodes; for each returned branch choose the first/last witnesses of the returned store_dll and its retval_2. Do not assume returned first/last equal their pre-call values; the expanded post only asks for existential outputs.",
+        "space_plan": "Fold the initial fields/segment into store_dll and use an emp-frame wand. In the wand, split the general post disjunction. In each branch unfold the returned store_dll to recover its first and last addresses, reorder the head fields, and construct the matching expanded post disjunct.",
+        "pure_plan": "Carry nodes<>nil and retval_2=0 through the nonempty branch, and nodes=nil and retval_2=1 through the empty branch.",
+        "refinement_plan": "No safeExec or loop refinement obligation. Preserve the same logical node list, payload assertion, and actual C layout.",
+        "used_existing_lemmas": [],
+        "used_existing_definitions": [
+          "XiziLocalDLL.store_dll",
+          "XiziLocalDLL.dllseg",
+          "xizi_double_link_head_ptrs",
+          "xizi_double_link_first_value"
+        ],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          "All spatial fields and payload resources are supplied by the antecedent; no nonnull or endpoint guard is introduced.",
+          "none"
+        ],
+        "failure_signal": "",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "dll_head_observation",
+        "grouping_reason": "Same store_dll opening/folding and head projection family; five related witnesses fit the limit of twelve."
+      }
+    ],
+    "analysis_groups": [
+      {
+        "group_id": "dll_head_observation",
+        "witness_names": [
+          "proof_of_DoubleLinkListGetHead_entail_wit_1",
+          "proof_of_DoubleLinkListGetHead_return_wit_1",
+          "proof_of_DoubleLinkListGetHead_return_wit_2",
+          "proof_of_DoubleLinkListGetHead_derive_nil_case_by_general",
+          "proof_of_IsDoubleLinkListEmpty_derive_expanded_by_general"
+        ],
+        "representative_witness": "proof_of_DoubleLinkListGetHead_return_wit_2",
+        "dependencies": [],
+        "likely_helper_declarations": [],
+        "candidate_helper_declarations": [],
+        "proof_strategy": "Open/fold XiziLocalDLL.store_dll with field reordering, split empty/nonempty logical lists for the observed address, and establish the two specification-derivation wands with unchanged node/payload parameters. The first three witnesses have duplicated outer disjuncts: choosing left is sufficient. For the nonempty return equality, one cons expansion of dllseg exposes first_out = DLL.getPtr a; prove the spatial conjunct separately to retain all resources.",
+        "natural_language_proof_strategy": "Open/fold XiziLocalDLL.store_dll with field reordering, split empty/nonempty logical lists for the observed address, and establish the two specification-derivation wands with unchanged node/payload parameters. The first three witnesses have duplicated outer disjuncts: choosing left is sufficient. For the nonempty return equality, one cons expansion of dllseg exposes first_out = DLL.getPtr a; prove the spatial conjunct separately to retain all resources.",
+        "grouping_reason": "All five target witnesses concern one head-observation operation and the same local list opening/folding and head-projection definitions. The empty-query derivation is its call adapter. One worker can sequentially handle the shared proof pattern; 5 <= 12.",
+        "shared_proof_pattern": "store_dll and dllseg one-step exposure; frame-preserving postcondition adapters",
+        "shared_space_plan": "Preserve head fields, dllseg and arbitrary storeA resources through opening/folding.",
+        "shared_pure_plan": "nil computes to zero; cons dllseg exposes getPtr equality; preserve empty-query branch facts.",
+        "shared_refinement_plan": "No refinement program.",
+        "proof_group_ready": true
+      }
+    ]
+  },
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 5,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

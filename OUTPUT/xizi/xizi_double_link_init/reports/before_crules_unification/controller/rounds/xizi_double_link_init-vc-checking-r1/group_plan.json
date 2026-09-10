@@ -1,0 +1,233 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "ba84e5c49739132e711fe31f1c9154a01413131b27d0435d9a9fec65e0524859",
+  "source_version": "2df5ac9a7bb0310852aeb34717c2c41d292b0d9249408211316462695b70b2ee",
+  "target_witnesses": [
+    "proof_of_InitDoubleLinkList_entail_wit_1",
+    "proof_of_InitDoubleLinkList_return_wit_1"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "dll_init_canonical",
+      "witness_names": [
+        "proof_of_InitDoubleLinkList_entail_wit_1",
+        "proof_of_InitDoubleLinkList_return_wit_1"
+      ],
+      "representative_witness": "proof_of_InitDoubleLinkList_return_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "Choose the left branch of each duplicated disjunction. Open canonical occupy_dll_node and transport its existential field values for entry; apply canonical DLL.store_dll_empty_rev for return. Preserve arbitrary A/storeA.",
+      "grouping_reason": "Same initialization function and direct canonical sentinel field ownership; two witnesses remain within the maximum of twelve.",
+      "difficulty": "low",
+      "confidence": "high",
+      "per_witness_plan": {
+        "proof_of_InitDoubleLinkList_entail_wit_1": {
+          "judgment": "proofable",
+          "refinement_plan": "No refinement state or loop is present.",
+          "candidate_helper_declarations": [],
+          "failure_signal": "",
+          "recommended_next_phase": "vc-proving-preparing",
+          "analysis_group_candidate": "dll_init_canonical",
+          "proof_group_candidate": "dll_init_canonical",
+          "grouping_reason": "Same initialization function and direct canonical sentinel field ownership; two witnesses remain within the maximum of twelve.",
+          "witness_name": "proof_of_InitDoubleLinkList_entail_wit_1",
+          "vc_shape": {
+            "pre_spatial": "DLL.occupy_dll_node head = (EX prev, head.prev |-> prev) ** (EX next, head.next |-> next).",
+            "pre_pure": "None.",
+            "pre_exists": "prev and next are the existing field values.",
+            "post_spatial": "head.prev |-> prev ** head.next |-> next.",
+            "post_pure": "None.",
+            "post_exists": "EX next prev, in the generated order."
+          },
+          "witness_instantiation": "Extract prev then next from the two separated existential fields, then instantiate the generated RHS as next then prev.",
+          "space_plan": "Unfold InitDoubleLinkList_entail_wit_1 and choose the left disjunct; both disjuncts are identical. Introduce head, unfold DLL.occupy_dll_node, extract the field values, introduce the RHS existentials in its declared order, and match both unchanged field resources.",
+          "pure_plan": "No arithmetic or address inequality is required.",
+          "used_existing_lemmas": [],
+          "premise_discharge": [
+            "Each RHS field resource is exactly its corresponding LHS resource after unfolding; existential distribution requires no new ownership."
+          ]
+        },
+        "proof_of_InitDoubleLinkList_return_wit_1": {
+          "judgment": "proofable",
+          "refinement_plan": "No refinement state or loop is present.",
+          "candidate_helper_declarations": [],
+          "failure_signal": "",
+          "recommended_next_phase": "vc-proving-preparing",
+          "analysis_group_candidate": "dll_init_canonical",
+          "proof_group_candidate": "dll_init_canonical",
+          "grouping_reason": "Same initialization function and direct canonical sentinel field ownership; two witnesses remain within the maximum of twelve.",
+          "witness_name": "proof_of_InitDoubleLinkList_return_wit_1",
+          "vc_shape": {
+            "pre_spatial": "head.prev |-> head ** head.next |-> head.",
+            "pre_pure": "None. A and storeA are arbitrary.",
+            "pre_exists": "None.",
+            "post_spatial": "DLL.store_dll storeA head nil: EX first last, head.prev |-> last ** head.next |-> first ** DLL.dllseg storeA first head head last nil.",
+            "post_pure": "The empty segment requires first = head and head = last.",
+            "post_exists": "first = head, last = head."
+          },
+          "witness_instantiation": "Use head for both first and last.",
+          "space_plan": "Unfold InitDoubleLinkList_return_wit_1, choose the left identical disjunct, introduce A/head/storeA and apply DLL.store_dll_empty_rev. Alternatively unfold DLL.store_dll and DLL.dllseg and introduce head twice; both sentinel fields are already present and the empty segment consumes emp.",
+          "pure_plan": "With first = last = head, both empty-segment equalities are reflexive. No head <> NULL or restriction on storeA is needed.",
+          "used_existing_lemmas": [
+            "DLL.store_dll_empty_rev"
+          ],
+          "premise_discharge": [
+            "DLL.store_dll_empty_rev has exactly the two field resources in this VC and no extra pure precondition.",
+            "Empty dllseg has no payload element, so arbitrary storeA is never evaluated."
+          ]
+        }
+      }
+    }
+  ],
+  "natural_language_analysis": {
+    "schema_version": "qcp-vc-natural-language-analysis/v1",
+    "witnesses": [
+      {
+        "judgment": "proofable",
+        "refinement_plan": "No refinement state or loop is present.",
+        "candidate_helper_declarations": [],
+        "failure_signal": "",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "dll_init_canonical",
+        "proof_group_candidate": "dll_init_canonical",
+        "grouping_reason": "Same initialization function and direct canonical sentinel field ownership; two witnesses remain within the maximum of twelve.",
+        "witness_name": "proof_of_InitDoubleLinkList_entail_wit_1",
+        "vc_shape": {
+          "pre_spatial": "DLL.occupy_dll_node head = (EX prev, head.prev |-> prev) ** (EX next, head.next |-> next).",
+          "pre_pure": "None.",
+          "pre_exists": "prev and next are the existing field values.",
+          "post_spatial": "head.prev |-> prev ** head.next |-> next.",
+          "post_pure": "None.",
+          "post_exists": "EX next prev, in the generated order."
+        },
+        "witness_instantiation": "Extract prev then next from the two separated existential fields, then instantiate the generated RHS as next then prev.",
+        "space_plan": "Unfold InitDoubleLinkList_entail_wit_1 and choose the left disjunct; both disjuncts are identical. Introduce head, unfold DLL.occupy_dll_node, extract the field values, introduce the RHS existentials in its declared order, and match both unchanged field resources.",
+        "pure_plan": "No arithmetic or address inequality is required.",
+        "used_existing_lemmas": [],
+        "premise_discharge": [
+          "Each RHS field resource is exactly its corresponding LHS resource after unfolding; existential distribution requires no new ownership."
+        ]
+      },
+      {
+        "judgment": "proofable",
+        "refinement_plan": "No refinement state or loop is present.",
+        "candidate_helper_declarations": [],
+        "failure_signal": "",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "dll_init_canonical",
+        "proof_group_candidate": "dll_init_canonical",
+        "grouping_reason": "Same initialization function and direct canonical sentinel field ownership; two witnesses remain within the maximum of twelve.",
+        "witness_name": "proof_of_InitDoubleLinkList_return_wit_1",
+        "vc_shape": {
+          "pre_spatial": "head.prev |-> head ** head.next |-> head.",
+          "pre_pure": "None. A and storeA are arbitrary.",
+          "pre_exists": "None.",
+          "post_spatial": "DLL.store_dll storeA head nil: EX first last, head.prev |-> last ** head.next |-> first ** DLL.dllseg storeA first head head last nil.",
+          "post_pure": "The empty segment requires first = head and head = last.",
+          "post_exists": "first = head, last = head."
+        },
+        "witness_instantiation": "Use head for both first and last.",
+        "space_plan": "Unfold InitDoubleLinkList_return_wit_1, choose the left identical disjunct, introduce A/head/storeA and apply DLL.store_dll_empty_rev. Alternatively unfold DLL.store_dll and DLL.dllseg and introduce head twice; both sentinel fields are already present and the empty segment consumes emp.",
+        "pure_plan": "With first = last = head, both empty-segment equalities are reflexive. No head <> NULL or restriction on storeA is needed.",
+        "used_existing_lemmas": [
+          "DLL.store_dll_empty_rev"
+        ],
+        "premise_discharge": [
+          "DLL.store_dll_empty_rev has exactly the two field resources in this VC and no extra pure precondition.",
+          "Empty dllseg has no payload element, so arbitrary storeA is never evaluated."
+        ]
+      }
+    ],
+    "analysis_groups": [
+      {
+        "group_id": "dll_init_canonical",
+        "witness_names": [
+          "proof_of_InitDoubleLinkList_entail_wit_1",
+          "proof_of_InitDoubleLinkList_return_wit_1"
+        ],
+        "representative_witness": "proof_of_InitDoubleLinkList_return_wit_1",
+        "dependencies": [],
+        "candidate_helper_declarations": [],
+        "expected_helpers": [],
+        "proof_strategy": "Choose the left branch of each duplicated disjunction. Open canonical occupy_dll_node and transport its existential field values for entry; apply canonical DLL.store_dll_empty_rev for return. Preserve arbitrary A/storeA.",
+        "grouping_reason": "Same initialization function and direct canonical sentinel field ownership; two witnesses remain within the maximum of twelve.",
+        "difficulty": "low",
+        "confidence": "high",
+        "per_witness_plan": {
+          "proof_of_InitDoubleLinkList_entail_wit_1": {
+            "judgment": "proofable",
+            "refinement_plan": "No refinement state or loop is present.",
+            "candidate_helper_declarations": [],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "dll_init_canonical",
+            "proof_group_candidate": "dll_init_canonical",
+            "grouping_reason": "Same initialization function and direct canonical sentinel field ownership; two witnesses remain within the maximum of twelve.",
+            "witness_name": "proof_of_InitDoubleLinkList_entail_wit_1",
+            "vc_shape": {
+              "pre_spatial": "DLL.occupy_dll_node head = (EX prev, head.prev |-> prev) ** (EX next, head.next |-> next).",
+              "pre_pure": "None.",
+              "pre_exists": "prev and next are the existing field values.",
+              "post_spatial": "head.prev |-> prev ** head.next |-> next.",
+              "post_pure": "None.",
+              "post_exists": "EX next prev, in the generated order."
+            },
+            "witness_instantiation": "Extract prev then next from the two separated existential fields, then instantiate the generated RHS as next then prev.",
+            "space_plan": "Unfold InitDoubleLinkList_entail_wit_1 and choose the left disjunct; both disjuncts are identical. Introduce head, unfold DLL.occupy_dll_node, extract the field values, introduce the RHS existentials in its declared order, and match both unchanged field resources.",
+            "pure_plan": "No arithmetic or address inequality is required.",
+            "used_existing_lemmas": [],
+            "premise_discharge": [
+              "Each RHS field resource is exactly its corresponding LHS resource after unfolding; existential distribution requires no new ownership."
+            ]
+          },
+          "proof_of_InitDoubleLinkList_return_wit_1": {
+            "judgment": "proofable",
+            "refinement_plan": "No refinement state or loop is present.",
+            "candidate_helper_declarations": [],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "dll_init_canonical",
+            "proof_group_candidate": "dll_init_canonical",
+            "grouping_reason": "Same initialization function and direct canonical sentinel field ownership; two witnesses remain within the maximum of twelve.",
+            "witness_name": "proof_of_InitDoubleLinkList_return_wit_1",
+            "vc_shape": {
+              "pre_spatial": "head.prev |-> head ** head.next |-> head.",
+              "pre_pure": "None. A and storeA are arbitrary.",
+              "pre_exists": "None.",
+              "post_spatial": "DLL.store_dll storeA head nil: EX first last, head.prev |-> last ** head.next |-> first ** DLL.dllseg storeA first head head last nil.",
+              "post_pure": "The empty segment requires first = head and head = last.",
+              "post_exists": "first = head, last = head."
+            },
+            "witness_instantiation": "Use head for both first and last.",
+            "space_plan": "Unfold InitDoubleLinkList_return_wit_1, choose the left identical disjunct, introduce A/head/storeA and apply DLL.store_dll_empty_rev. Alternatively unfold DLL.store_dll and DLL.dllseg and introduce head twice; both sentinel fields are already present and the empty segment consumes emp.",
+            "pure_plan": "With first = last = head, both empty-segment equalities are reflexive. No head <> NULL or restriction on storeA is needed.",
+            "used_existing_lemmas": [
+              "DLL.store_dll_empty_rev"
+            ],
+            "premise_discharge": [
+              "DLL.store_dll_empty_rev has exactly the two field resources in this VC and no extra pure precondition.",
+              "Empty dllseg has no payload element, so arbitrary storeA is never evaluated."
+            ]
+          }
+        },
+        "shared_proof_pattern": "Canonical sentinel field ownership opening and empty-list closing.",
+        "shared_space_plan": "The two sentinel fields suffice without any other resource.",
+        "shared_pure_plan": "Only reflexive empty-segment endpoint equalities.",
+        "shared_refinement_plan": "None.",
+        "proof_group_ready": true
+      }
+    ]
+  },
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 2,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

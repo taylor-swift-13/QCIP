@@ -1,0 +1,98 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "e1c61be737b20b1b02d96698fd2acb6e582c9306bbf77bf3e54fe5f090e5def1",
+  "target_witnesses": [
+    "proof_of_InitDoubleLinkList_return_wit_1"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "empty_dll_initialization",
+      "witness_names": [
+        "proof_of_InitDoubleLinkList_return_wit_1"
+      ],
+      "representative_witness": "proof_of_InitDoubleLinkList_return_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "proof_strategy": "Unfold InitDoubleLinkList_return_wit_1 and choose the left disjunct (the two branches are identical). Introduce A, head, storeA and PreH1. Change the displayed two concrete field stores to xizi_dll_links head head head and unfold only xizi_store_dll. Apply XiziStoreADLL.store_dll_empty_rev; PreH1 discharges head <> NULL by definitional equality of NULL and 0. No payload resource is required for nil.",
+      "natural_language_proof_strategy": "Unfold InitDoubleLinkList_return_wit_1 and choose the left disjunct (the two branches are identical). Introduce A, head, storeA and PreH1. Change the displayed two concrete field stores to xizi_dll_links head head head and unfold only xizi_store_dll. Apply XiziStoreADLL.store_dll_empty_rev; PreH1 discharges head <> NULL by definitional equality of NULL and 0. No payload resource is required for nil.",
+      "grouping_reason": "One manual witness; empty-list initialization is one proof pattern and stays below the handoff limit of 12."
+    }
+  ],
+  "natural_language_analysis": {
+    "schema_version": "qcp-vc-natural-language-analysis/v1",
+    "witnesses": [
+      {
+        "witness_name": "proof_of_InitDoubleLinkList_return_wit_1",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "head.node_next |-> head ** head.node_prev |-> head",
+          "pre_pure": "PreH1 : head <> 0",
+          "pre_exists": "None; A, head and storeA are universally quantified.",
+          "post_spatial": "xizi_store_dll storeA head nil",
+          "post_pure": "Unfolded target retains head <> NULL and empty-segment endpoint equalities.",
+          "post_exists": "Unfolded target has first and last sentinel links; both are head."
+        },
+        "witness_instantiation": "If unfolding instead of applying the existing lemma, choose first = head and last = head. The nil segment is emp with head=head endpoint equalities.",
+        "space_plan": "Unfold InitDoubleLinkList_return_wit_1 and choose the left disjunct (the two branches are identical). Introduce A, head, storeA and PreH1. Change the displayed two concrete field stores to xizi_dll_links head head head and unfold only xizi_store_dll. Apply XiziStoreADLL.store_dll_empty_rev; PreH1 discharges head <> NULL by definitional equality of NULL and 0. No payload resource is required for nil.",
+        "pure_plan": "Use PreH1 for non-null sentinel; endpoint equalities are reflexive. No arithmetic or facts about storeA are needed.",
+        "refinement_plan": "Not applicable: direct structural ownership specification.",
+        "used_existing_lemmas": [
+          {
+            "name": "XiziStoreADLL.store_dll_empty_rev",
+            "source": "QCIPLib/xizi/xizi_double_link_common/xizi_double_link_lib.v",
+            "premises": "head <> NULL; discharged directly by PreH1.",
+            "underlying_reuse": "store_dll_empty_eq rewrites to xizi_dll head nil; xizi_dll_empty_rev provides the existing proof."
+          }
+        ],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          {
+            "premise": "head <> NULL",
+            "source": "PreH1 : head <> 0, with NULL definitionally 0"
+          },
+          {
+            "premise": "xizi_dll_links head head head ownership",
+            "source": "The two concrete pointer stores in P, definitionally the existing links predicate."
+          }
+        ],
+        "failure_signal": "None",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "empty_dll_initialization",
+        "proof_group_candidate": "empty_dll_initialization",
+        "grouping_reason": "The sole target VC uses the existing empty-list constructor lemma."
+      }
+    ],
+    "analysis_groups": [
+      {
+        "group_id": "empty_dll_initialization",
+        "witness_names": [
+          "proof_of_InitDoubleLinkList_return_wit_1"
+        ],
+        "representative_witness": "proof_of_InitDoubleLinkList_return_wit_1",
+        "dependencies": [],
+        "candidate_helper_declarations": [],
+        "likely_helper_declarations": [],
+        "proof_strategy": "Unfold InitDoubleLinkList_return_wit_1 and choose the left disjunct (the two branches are identical). Introduce A, head, storeA and PreH1. Change the displayed two concrete field stores to xizi_dll_links head head head and unfold only xizi_store_dll. Apply XiziStoreADLL.store_dll_empty_rev; PreH1 discharges head <> NULL by definitional equality of NULL and 0. No payload resource is required for nil.",
+        "natural_language_proof_strategy": "Unfold InitDoubleLinkList_return_wit_1 and choose the left disjunct (the two branches are identical). Introduce A, head, storeA and PreH1. Change the displayed two concrete field stores to xizi_dll_links head head head and unfold only xizi_store_dll. Apply XiziStoreADLL.store_dll_empty_rev; PreH1 discharges head <> NULL by definitional equality of NULL and 0. No payload resource is required for nil.",
+        "grouping_reason": "One manual witness; empty-list initialization is one proof pattern and stays below the handoff limit of 12.",
+        "shared_proof_pattern": "Empty generic DLL constructor via existing empty-list proof",
+        "shared_space_plan": "Unfold InitDoubleLinkList_return_wit_1 and choose the left disjunct (the two branches are identical). Introduce A, head, storeA and PreH1. Change the displayed two concrete field stores to xizi_dll_links head head head and unfold only xizi_store_dll. Apply XiziStoreADLL.store_dll_empty_rev; PreH1 discharges head <> NULL by definitional equality of NULL and 0. No payload resource is required for nil.",
+        "shared_pure_plan": "Use PreH1 for non-null sentinel; endpoint equalities are reflexive. No arithmetic or facts about storeA are needed.",
+        "shared_refinement_plan": "Not applicable: direct structural ownership specification.",
+        "proof_group_ready": true
+      }
+    ]
+  },
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 1,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

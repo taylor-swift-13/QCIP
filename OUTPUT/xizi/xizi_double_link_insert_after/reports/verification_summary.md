@@ -1,16 +1,30 @@
-# xizi_double_link_insert_after 验证摘要
+# xizi_double_link_insert_after 验证交付
 
-- accepted run：`xizi_double_link_insert_after-20260817150208`
-- annotation 与 canonical symbolic execution：passed，到达文件尾
-- manual witnesses：3，全部完成
-- parent fixed Coq check：passed
-- final-check：passed
-- full 23-name forbidden scan：passed
-- public spec：完整 `nodes + In(anchor,nodes)` 与三元 first-occurrence 插入变换
-- API difference：双链表在任意数据成员后插入；单链表同名接口仅在 sentinel 后 prepend
-- spec decision：现有单一一般成员规约已覆盖调用需求，不增加 strong/weak 变体
-- formal changes：无；C、case-lib、manual 内容保持不变
-- fixed flags hash：`75b2bdd1edb990c20e7514694fa4303e8d948c120bc1e5ac3813d06caabc3dff`
-- source_goal_version：`e2e9be8a2fca9b41961acf47b5ae65d910e67ce0b050c9a5eb5644b5936937a2`
-- final isolated symexec refresh：OUTPUT 布局未配置，记录为 skipped；accepted annotation canonical symexec 已到文件尾并绑定 hashes
-- authoritative reports：`reports/xizi_double_link_insert_after-20260817150208/`
+本次验证已通过 controller final-check，run 为 `xizi_double_link_insert_after-20260910183629`。所有非注释 token 与迁移前一致。 完整套件仍在迁移中，旧套件检查不作为本版本证据。
+
+泛型 storeA : addr -> A -> Assertion 表示嵌入 link 对应的业务资源；结构指针字段由链表谓词持有。公共 DLL 谓词保留参考逻辑条件，实际 C 用例与 idmanager 共用 CRules 模型；XiziLocalDLL 是 XiziIdmanagerDLL 同一实例的别名。
+
+- `source/`：正式带标注 C 与头文件。
+- `rocq/`：本版本生成目标与已完成证明。
+- 唯一 active case_lib：`SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_after/source/xizi_double_link_insert_after_lib.v`；归档：`OUTPUT/xizi/xizi_double_link_insert_after/rocq/xizi_double_link_insert_after_lib.v`。
+- `reports/controller/`：本 run 的 controller、round、group 与最终证据。
+- `reports/before_crules_unification/`：迁移前历史报告，不作为当前验收证据。
+
+source_goal_version：`577d4beb15763b19cd75745432d3231d26fe8af89bd6f95286a840917e074b5a`；manual witness 数：7。symbolic execution freshness、固定 Coq 检查、manual 结构、case_lib 合同及 forbidden lemma 检查均通过。
+
+验证边界：当前 QCP 自动生成的 `proof_auto.v` 有 0 个 `Admitted` 占位。按仓库生成文件边界保留并单独记录；本轮完成证明的是 manual witnesses 和维护库中的引理，不能据此宣称整套证明完全没有假设。
+
+在仓库根目录复现 symbolic execution（输出到临时目录，保留正式 manual）：
+
+```sh
+mkdir -p /tmp/xizi_double_link_insert_after-storeA-refresh
+/home/yangfp/QCIP/linux-binary/symexec --goal-file=/tmp/xizi_double_link_insert_after-storeA-refresh/xizi_double_link_insert_after_goal.v --proof-auto-file=/tmp/xizi_double_link_insert_after-storeA-refresh/xizi_double_link_insert_after_proof_auto.v --proof-manual-file=/tmp/xizi_double_link_insert_after-storeA-refresh/xizi_double_link_insert_after_proof_manual.v -IQCP_examples/QCP_demos_LLM/ -slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM -slp QCIPLib/xizi/xizi_double_link_common/ QCIPLib.xizi.xizi_double_link_common --CRules CRules --coq-logic-path=SimpleC.EE.OUTPUT.xizi.xizi_double_link_insert_after.source --input-file=OUTPUT/xizi/xizi_double_link_insert_after/source/xizi_double_link_insert_after.c --no-exec-info
+```
+
+通过固定入口编译：
+
+```sh
+python3 /home/yangfp/QCIP/.agents/skills/vc-proving/scripts/coq_tooling.py check --workspace-root /home/yangfp/QCIP --build-workspace /tmp/xizi_double_link_insert_after-storeA-coq-build --target-file SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_after/source/xizi_double_link_insert_after_goal_check.v --target-kind check --source-goal-version 577d4beb15763b19cd75745432d3231d26fe8af89bd6f95286a840917e074b5a
+```
+
+修改源码、规约或目标后应重新执行 controller 流程。快照与 OUTPUT 副本的字节比对见 `reports/archive_comparison.json`。

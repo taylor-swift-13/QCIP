@@ -22,7 +22,7 @@ Local Open Scope list.
 
 Set Asymmetric Patterns.
 
-Module Type StoreLibSig (CRules: SeparationLogicSig) (DePredSig : DerivedPredSig CRules).
+Module Type StoreLibSig (Arch : CArchSig) (Endian : CEndianSig) (CRules: SeparationLogicSig) (DePredSig : DerivedPredSig Arch Endian CRules).
 
 Import CRules.
 Import DePredSig.
@@ -45,7 +45,25 @@ Proof.
     + apply Zbits.eqmod_mod.
     + apply Zbits.eqmod_trans with (y mod 256).
       * apply Zbits.eqmod_refl2. auto.
-      * apply Zbits.eqmod_sym. apply Zbits.eqmod_mod.
+        * apply Zbits.eqmod_sym. apply Zbits.eqmod_mod.
+Qed.
+
+Lemma byte_eqm_unsigned_last_8 x :
+  Byte.eqm x (unsigned_last_nbits x 8).
+Proof.
+  apply eqm_iff_mod_eq.
+  change 256 with (2 ^ 8).
+  apply unsigned_Lastnbits_mod_correct.
+  lia.
+Qed.
+
+Lemma byte_eqm_signed_last_8 x :
+  Byte.eqm x (signed_last_nbits x 8).
+Proof.
+  apply eqm_iff_mod_eq.
+  change 256 with (2 ^ 8).
+  apply signed_Lastnbits_mod_correct.
+  lia.
 Qed.
 
 Section generic_n_bytes.
@@ -53,109 +71,7 @@ Section generic_n_bytes.
 Import Vector.VectorNotations.
 Close Scope vector_scope.
 
-Notation byte := Z.
-
-Fixpoint bytes_eqm (n : nat) : forall (v1 v2 : Vector.t byte n), Prop :=
-  match n with 
-  | O => fun _ _ => True
-  | S n => fun v1 v2 => 
-      Vector.caseS' v1 (fun _ => Prop) (fun hd1 tl1 =>
-        Vector.caseS' v2 (fun _ => Prop) (fun hd2 tl2 =>
-          Byte.eqm hd1 hd2 /\ bytes_eqm n tl1 tl2
-        )
-      )
-  end.
-
-Fixpoint n_bytes_to_Z n (v : Vector.t byte n) : Z :=
-  match v with 
-  | Vector.nil => 0
-  | Vector.cons b n v' =>
-      (b mod 2^8) * 2 ^ (8 * Z.of_nat n) + n_bytes_to_Z n v'
-  end.
-
-Lemma n_bytes_to_Z_cons b n v :
-  n_bytes_to_Z (S n) (b :: v)%vector =
-  (b mod 2^8) * 2 ^ (8 * Z.of_nat n) + n_bytes_to_Z n v.
-Proof. reflexivity. Qed.
-
-Lemma eqm_bytes_to_Z_eq n v1 v2 :
-  bytes_eqm n v1 v2 -> n_bytes_to_Z n v1 = n_bytes_to_Z n v2.
-Proof.
-  induction n.
-  - revert v1. refine (Vector.case0 _ _).
-    revert v2. refine (Vector.case0 _ _).
-    cbn. reflexivity.
-  - apply (Vector.caseS' v1). clear v1. intros hd1 tl1.
-    apply (Vector.caseS' v2). clear v2. intros hd2 tl2.
-    simpl (bytes_eqm _ _). cbn. intros [Hhd H].
-    apply eqm_iff_mod_eq in Hhd. rewrite <- Hhd. clear Hhd.
-    rewrite (IHn tl1 tl2); auto.
-Qed.
-
-Fixpoint Z_to_n_bytes (v : Z) (length : nat) : Vector.t byte length :=
-  match length with 
-    | O => Vector.nil _
-    | S n =>
-        (v / 2 ^ (8 * Z.of_nat n) mod 2^8 :: Z_to_n_bytes v n)%vector
-  end.
-
-Lemma Z_to_n_bytes_succ v length :
-  Z_to_n_bytes v (S length) = 
-  (v / 2 ^ (8 * Z.of_nat length) mod 2^8 :: Z_to_n_bytes v length)%vector.
-Proof. reflexivity. Qed.
-
-Lemma Z_to_n_bytes_to_Z length v :
-  n_bytes_to_Z length (Z_to_n_bytes v length) = v mod (2 ^ (8 * Z.of_nat length)).
-Proof.
-  induction length.
-  - simpl. rewrite Z.mod_1_r. reflexivity.
-  - rewrite Z_to_n_bytes_succ, n_bytes_to_Z_cons.
-    rewrite Z.mod_mod. 2: lia.
-    rewrite IHlength.
-    replace (8 * (Z.of_nat (S length))) with (8 + 8 * Z.of_nat length) by lia.
-    rewrite Z.pow_add_r. 2-3: lia.
-    rewrite Zmod_recombine. 2-3: lia.
-    reflexivity.
-Qed.
-
-
-Definition merge_n_bytes n (v : Vector.t byte n) (x : Z) : Prop :=
-  x mod (2 ^ (8 * Z.of_nat n)) = n_bytes_to_Z n v.
-
-
-Lemma merge_short_equiv_merge_n_bytes:
-  forall x1 x2 y,
-    merge_short x1 x2 y <->
-    merge_n_bytes 2 [x1; x2]%vector y.
-Proof.
-  intros.
-  unfold merge_short, merge_n_bytes. cbn.
-  rewrite Z.add_0_r, Z.mul_1_r.
-  reflexivity.
-Qed.
-
-Lemma merge_int_equiv_merge_n_bytes:
-  forall x1 x2 x3 x4 y,
-    merge_int x1 x2 x3 x4 y <->
-    merge_n_bytes 4 [x1; x2; x3; x4]%vector y.
-Proof.
-  intros.
-  unfold merge_int, merge_n_bytes. cbn.
-  rewrite Z.add_0_r, Z.mul_1_r, !Z.add_assoc.
-  reflexivity.
-Qed.
-
-Lemma merge_int64_equiv_merge_n_bytes:
-  forall x1 x2 x3 x4 x5 x6 x7 x8 y,
-    merge_int64 x1 x2 x3 x4 x5 x6 x7 x8 y <->
-    merge_n_bytes 8 [x1; x2; x3; x4; x5; x6; x7; x8]%vector y.
-Proof.
-  intros.
-  unfold merge_int64, merge_n_bytes. cbn.
-  rewrite Z.add_0_r, Z.mul_1_r, !Z.add_assoc.
-  reflexivity.
-Qed.
-
+Notation byte := Z (only parsing).
 
 Fixpoint store_n_bytes (x : addr) n : Vector.t byte n -> CRules.expr :=
   match n with
@@ -191,10 +107,12 @@ Qed. *)
 Lemma store_byte_equiv_store_n_bytes_Z a v :
     (store_byte a v) --||-- (store_n_bytes_Z a 1 v).
 Proof.
-  unfold store_byte, store_n_bytes_Z, merge_n_bytes.
-  cbn.
+  unfold store_byte, store_n_bytes_Z.
   split.
-  - Exists [v]%vector. cbn.
+  - Exists [v]%vector.
+    cbn.
+    assert (Hmerge : merge_n_bytes 1 [v]%vector v).
+    { apply merge_byte_equiv_merge_n_bytes. apply Byte.eqm_refl. }
     entailer!.
   - Intros bytes.
     revert H.
@@ -202,9 +120,10 @@ Proof.
     refine (Vector.case0 _ _).
     intros H.
     cbn.
-    unfold n_bytes_to_Z in H. cbn in H.
-    replace (z1 mod 256 * 1 + 0) with (z1 mod 256) in H by lia.
-    apply mstore_eqm. apply eqm_iff_mod_eq. auto.
+    entailer!.
+    apply mstore_eqm.
+    apply merge_byte_equiv_merge_n_bytes in H.
+    exact H.
 Qed.
 
 Lemma store_2byte_equiv_store_n_bytes_Z a v :
@@ -293,9 +212,9 @@ End generic_n_bytes.
 Lemma store_int_store_char: forall p v,
   store_int p v --||--
   EX v1 v2 v3 v4: Z,
-    “ merge_int v1 v2 v3 v4 v ” &&
-    “ Int.min_signed <= v <= Int.max_signed ” &&
-    “ aligned_4 p ” &&
+    “ merge_int v1 v2 v3 v4 v ”&&
+    “ Int.min_signed <= v <= Int.max_signed ”&&
+    “ aligned_4 p ”&&
     store_char p v1 **
     store_char (p + 1) v2 **
     store_char (p + 2) v3 **
@@ -335,14 +254,7 @@ Proof.
       unfold isvalidptr_int in H.
       lia.
     - unfold isvalidptr_int in H. apply H.
-    - unfold merge_int.
-      pose proof Byte.eqm_mod_eq _ _ (Byte.eqm_signed_repr z1).
-      pose proof Byte.eqm_mod_eq _ _ (Byte.eqm_signed_repr z2).
-      pose proof Byte.eqm_mod_eq _ _ (Byte.eqm_signed_repr z3).
-      pose proof Byte.eqm_mod_eq _ _ (Byte.eqm_signed_repr z4).
-      change Byte.modulus with (2^8) in *.
-      rewrite <- H5, <- H6, <- H7, <- H8.
-      apply H0.
+    - eapply merge_int_eqm; try apply Byte.eqm_signed_repr; exact H0.
   + Intros v1 v2 v3 v4.
     unfold store_int, store_char.
     unfold store_4byte.
@@ -355,7 +267,7 @@ Proof.
 Qed.
 
 Lemma undef_store_uint_undef_store_char : forall p,
-  undef_store_uint p --||-- “ aligned_4 p ”  && undef_store_char p ** undef_store_char (p + 1) ** undef_store_char (p + 2) ** undef_store_char (p + 3).
+  undef_store_uint p --||-- “ aligned_4 p ” && undef_store_char p ** undef_store_char (p + 1) ** undef_store_char (p + 2) ** undef_store_char (p + 3).
 Proof.
   intros.
   unfold undef_store_uint, undef_store_char. 
@@ -364,7 +276,7 @@ Proof.
 Qed.
 
 Lemma undef_store_int_undef_store_char : forall p,
-  undef_store_int p --||-- “ aligned_4 p ”  && undef_store_char p ** undef_store_char (p + 1) ** undef_store_char (p + 2) ** undef_store_char (p + 3).
+  undef_store_int p --||-- “ aligned_4 p ” && undef_store_char p ** undef_store_char (p + 1) ** undef_store_char (p + 2) ** undef_store_char (p + 3).
 Proof.
   intros.
   unfold undef_store_int, undef_store_char. 
@@ -375,9 +287,9 @@ Qed.
 Lemma store_uint_store_char: forall p v,
   store_uint p v --||--
   EX v1 v2 v3 v4: Z,
-    “ merge_int v1 v2 v3 v4 v ” &&
-    “ 0 <= v <= Int.max_unsigned ” &&
-    “ aligned_4 p ” &&
+    “ merge_int v1 v2 v3 v4 v ”&&
+    “ 0 <= v <= Int.max_unsigned ”&&
+    “ aligned_4 p ”&&
     store_char p v1 **
     store_char (p + 1) v2 **
     store_char (p + 2) v3 **
@@ -417,14 +329,7 @@ Proof.
       unfold isvalidptr_int in H.
       lia.
     - apply H.
-    - unfold merge_int.
-      pose proof Byte.eqm_mod_eq _ _ (Byte.eqm_signed_repr z1).
-      pose proof Byte.eqm_mod_eq _ _ (Byte.eqm_signed_repr z2).
-      pose proof Byte.eqm_mod_eq _ _ (Byte.eqm_signed_repr z3).
-      pose proof Byte.eqm_mod_eq _ _ (Byte.eqm_signed_repr z4).
-      change Byte.modulus with (2^8) in *.
-      rewrite <- H5, <- H6, <- H7, <- H8.
-      apply H0.
+    - eapply merge_int_eqm; try apply Byte.eqm_signed_repr; exact H0.
   + Intros v1 v2 v3 v4.
     unfold store_uint, store_char.
     unfold store_4byte.
@@ -434,6 +339,589 @@ Proof.
     unfold isvalidptr_int.
     unfold isvalidptr_char in *.
     repeat split ; try lia ; auto.
+Qed.
+
+Lemma store_int64_store_char: forall p v,
+  store_int64 p v --||--
+  EX v1 : Z, EX v2 : Z, EX v3 : Z, EX v4 : Z,
+  EX v5 : Z, EX v6 : Z, EX v7 : Z, EX v8 : Z,
+    “ merge_int64 v1 v2 v3 v4 v5 v6 v7 v8 v ”&&
+    “ Int64.min_signed <= v <= Int64.max_signed ”&&
+    “ aligned_4 p ”&&
+    store_char p v1 **
+    store_char (p + 1) v2 **
+    store_char (p + 2) v3 **
+    store_char (p + 3) v4 **
+    store_char (p + 4) v5 **
+    store_char (p + 5) v6 **
+    store_char (p + 6) v7 **
+    store_char (p + 7) v8.
+Proof.
+  intros.
+  split.
+  + unfold store_int64, store_8byte.
+    Intros z1 z2 z3 z4.
+    Intros z5 z6 z7 z8.
+    Exists (Byte.signed (Byte.repr z1)).
+    Exists (Byte.signed (Byte.repr z2)).
+    Exists (Byte.signed (Byte.repr z3)).
+    Exists (Byte.signed (Byte.repr z4)).
+    Exists (Byte.signed (Byte.repr z5)).
+    Exists (Byte.signed (Byte.repr z6)).
+    Exists (Byte.signed (Byte.repr z7)).
+    Exists (Byte.signed (Byte.repr z8)).
+    unfold store_char.
+    pose proof Byte.signed_range (Byte.repr z1).
+    pose proof Byte.signed_range (Byte.repr z2).
+    pose proof Byte.signed_range (Byte.repr z3).
+    pose proof Byte.signed_range (Byte.repr z4).
+    pose proof Byte.signed_range (Byte.repr z5).
+    pose proof Byte.signed_range (Byte.repr z6).
+    pose proof Byte.signed_range (Byte.repr z7).
+    pose proof Byte.signed_range (Byte.repr z8).
+    entailer!.
+    - repeat (apply derivable1_sepcon_mono;
+              [apply store_byte_eqm, Byte.eqm_signed_repr |]).
+      apply store_byte_eqm, Byte.eqm_signed_repr.
+    - unfold isvalidptr_char.
+      unfold isvalidptr_int64 in H.
+      lia.
+    - unfold isvalidptr_char.
+      unfold isvalidptr_int64 in H.
+      lia.
+    - unfold isvalidptr_char.
+      unfold isvalidptr_int64 in H.
+      lia.
+    - unfold isvalidptr_char.
+      unfold isvalidptr_int64 in H.
+      lia.
+    - unfold isvalidptr_char.
+      unfold isvalidptr_int64 in H.
+      lia.
+    - unfold isvalidptr_char.
+      unfold isvalidptr_int64 in H.
+      lia.
+    - unfold isvalidptr_char.
+      unfold isvalidptr_int64 in H.
+      lia.
+    - unfold isvalidptr_char.
+      unfold isvalidptr_int64 in H.
+      lia.
+    - unfold isvalidptr_int64 in H. apply H.
+    - eapply merge_int64_eqm; try apply Byte.eqm_signed_repr; exact H0.
+  + Intros v1 v2 v3 v4.
+    Intros v5 v6 v7 v8.
+    unfold store_int64, store_char.
+    unfold store_8byte.
+    Intros.
+    Exists v1 v2 v3 v4.
+    Exists v5 v6 v7 v8.
+    entailer!.
+    unfold isvalidptr_int64.
+    unfold isvalidptr_char in *.
+    repeat split ; try lia ; auto.
+Qed.
+
+Lemma store_uint64_store_uchar: forall p v,
+  store_uint64 p v --||--
+  EX v1 : Z, EX v2 : Z, EX v3 : Z, EX v4 : Z,
+  EX v5 : Z, EX v6 : Z, EX v7 : Z, EX v8 : Z,
+    “ merge_int64 v1 v2 v3 v4 v5 v6 v7 v8 v ”&&
+    “ 0 <= v <= Int64.max_unsigned ”&&
+    “ aligned_4 p ”&&
+    store_uchar p v1 **
+    store_uchar (p + 1) v2 **
+    store_uchar (p + 2) v3 **
+    store_uchar (p + 3) v4 **
+    store_uchar (p + 4) v5 **
+    store_uchar (p + 5) v6 **
+    store_uchar (p + 6) v7 **
+    store_uchar (p + 7) v8.
+Proof.
+  intros.
+  split.
+  + unfold store_uint64, store_8byte.
+    Intros z1 z2 z3 z4.
+    Intros z5 z6 z7 z8.
+    Exists (Byte.unsigned (Byte.repr z1)).
+    Exists (Byte.unsigned (Byte.repr z2)).
+    Exists (Byte.unsigned (Byte.repr z3)).
+    Exists (Byte.unsigned (Byte.repr z4)).
+    Exists (Byte.unsigned (Byte.repr z5)).
+    Exists (Byte.unsigned (Byte.repr z6)).
+    Exists (Byte.unsigned (Byte.repr z7)).
+    Exists (Byte.unsigned (Byte.repr z8)).
+    unfold store_uchar.
+    pose proof Byte.unsigned_range_2 (Byte.repr z1).
+    pose proof Byte.unsigned_range_2 (Byte.repr z2).
+    pose proof Byte.unsigned_range_2 (Byte.repr z3).
+    pose proof Byte.unsigned_range_2 (Byte.repr z4).
+    pose proof Byte.unsigned_range_2 (Byte.repr z5).
+    pose proof Byte.unsigned_range_2 (Byte.repr z6).
+    pose proof Byte.unsigned_range_2 (Byte.repr z7).
+    pose proof Byte.unsigned_range_2 (Byte.repr z8).
+    entailer!.
+    - repeat (apply derivable1_sepcon_mono;
+              [apply store_byte_eqm, Byte.eqm_unsigned_repr |]).
+      apply store_byte_eqm, Byte.eqm_unsigned_repr.
+    - unfold isvalidptr_char.
+      unfold isvalidptr_int64 in H.
+      lia.
+    - unfold isvalidptr_char.
+      unfold isvalidptr_int64 in H.
+      lia.
+    - unfold isvalidptr_char.
+      unfold isvalidptr_int64 in H.
+      lia.
+    - unfold isvalidptr_char.
+      unfold isvalidptr_int64 in H.
+      lia.
+    - unfold isvalidptr_char.
+      unfold isvalidptr_int64 in H.
+      lia.
+    - unfold isvalidptr_char.
+      unfold isvalidptr_int64 in H.
+      lia.
+    - unfold isvalidptr_char.
+      unfold isvalidptr_int64 in H.
+      lia.
+    - unfold isvalidptr_char.
+      unfold isvalidptr_int64 in H.
+      lia.
+    - unfold isvalidptr_int64 in H. apply H.
+    - eapply merge_int64_eqm; try apply Byte.eqm_unsigned_repr; exact H0.
+  + Intros v1 v2 v3 v4.
+    Intros v5 v6 v7 v8.
+    unfold store_uint64, store_uchar.
+    unfold store_8byte.
+    Intros.
+    Exists v1 v2 v3 v4.
+    Exists v5 v6 v7 v8.
+    entailer!.
+    unfold isvalidptr_int64.
+    unfold isvalidptr_char in *.
+    repeat split ; try lia ; auto.
+Qed.
+
+Lemma store_int64_store_uchar: forall p v,
+  store_int64 p v --||--
+  EX v1 : Z, EX v2 : Z, EX v3 : Z, EX v4 : Z,
+  EX v5 : Z, EX v6 : Z, EX v7 : Z, EX v8 : Z,
+    “ merge_int64 v1 v2 v3 v4 v5 v6 v7 v8 v ”&&
+    “ Int64.min_signed <= v <= Int64.max_signed ”&&
+    “ aligned_4 p ”&&
+    store_uchar p v1 **
+    store_uchar (p + 1) v2 **
+    store_uchar (p + 2) v3 **
+    store_uchar (p + 3) v4 **
+    store_uchar (p + 4) v5 **
+    store_uchar (p + 5) v6 **
+    store_uchar (p + 6) v7 **
+    store_uchar (p + 7) v8.
+Proof.
+  intros.
+  split.
+  + unfold store_int64, store_8byte.
+    Intros z1 z2 z3 z4.
+    Intros z5 z6 z7 z8.
+    Exists (Byte.unsigned (Byte.repr z1)).
+    Exists (Byte.unsigned (Byte.repr z2)).
+    Exists (Byte.unsigned (Byte.repr z3)).
+    Exists (Byte.unsigned (Byte.repr z4)).
+    Exists (Byte.unsigned (Byte.repr z5)).
+    Exists (Byte.unsigned (Byte.repr z6)).
+    Exists (Byte.unsigned (Byte.repr z7)).
+    Exists (Byte.unsigned (Byte.repr z8)).
+    unfold store_uchar.
+    pose proof Byte.unsigned_range_2 (Byte.repr z1).
+    pose proof Byte.unsigned_range_2 (Byte.repr z2).
+    pose proof Byte.unsigned_range_2 (Byte.repr z3).
+    pose proof Byte.unsigned_range_2 (Byte.repr z4).
+    pose proof Byte.unsigned_range_2 (Byte.repr z5).
+    pose proof Byte.unsigned_range_2 (Byte.repr z6).
+    pose proof Byte.unsigned_range_2 (Byte.repr z7).
+    pose proof Byte.unsigned_range_2 (Byte.repr z8).
+    entailer!.
+    - repeat (apply derivable1_sepcon_mono;
+              [apply store_byte_eqm, Byte.eqm_unsigned_repr |]).
+      apply store_byte_eqm, Byte.eqm_unsigned_repr.
+    - unfold isvalidptr_char.
+      unfold isvalidptr_int64 in H.
+      lia.
+    - unfold isvalidptr_char.
+      unfold isvalidptr_int64 in H.
+      lia.
+    - unfold isvalidptr_char.
+      unfold isvalidptr_int64 in H.
+      lia.
+    - unfold isvalidptr_char.
+      unfold isvalidptr_int64 in H.
+      lia.
+    - unfold isvalidptr_char.
+      unfold isvalidptr_int64 in H.
+      lia.
+    - unfold isvalidptr_char.
+      unfold isvalidptr_int64 in H.
+      lia.
+    - unfold isvalidptr_char.
+      unfold isvalidptr_int64 in H.
+      lia.
+    - unfold isvalidptr_char.
+      unfold isvalidptr_int64 in H.
+      lia.
+    - unfold isvalidptr_int64 in H. apply H.
+    - eapply merge_int64_eqm; try apply Byte.eqm_unsigned_repr; exact H0.
+  + Intros v1 v2 v3 v4.
+    Intros v5 v6 v7 v8.
+    unfold store_int64, store_uchar.
+    unfold store_8byte.
+    Intros.
+    Exists v1 v2 v3 v4.
+    Exists v5 v6 v7 v8.
+    entailer!.
+    unfold isvalidptr_int64.
+    unfold isvalidptr_char in *.
+    repeat split ; try lia ; auto.
+Qed.
+
+Lemma store_uint64_store_char: forall p v,
+  store_uint64 p v --||--
+  EX v1 : Z, EX v2 : Z, EX v3 : Z, EX v4 : Z,
+  EX v5 : Z, EX v6 : Z, EX v7 : Z, EX v8 : Z,
+    “ merge_int64 v1 v2 v3 v4 v5 v6 v7 v8 v ”&&
+    “ 0 <= v <= Int64.max_unsigned ”&&
+    “ aligned_4 p ”&&
+    store_char p v1 **
+    store_char (p + 1) v2 **
+    store_char (p + 2) v3 **
+    store_char (p + 3) v4 **
+    store_char (p + 4) v5 **
+    store_char (p + 5) v6 **
+    store_char (p + 6) v7 **
+    store_char (p + 7) v8.
+Proof.
+  intros.
+  split.
+  + unfold store_uint64, store_8byte.
+    Intros z1 z2 z3 z4.
+    Intros z5 z6 z7 z8.
+    Exists (Byte.signed (Byte.repr z1)).
+    Exists (Byte.signed (Byte.repr z2)).
+    Exists (Byte.signed (Byte.repr z3)).
+    Exists (Byte.signed (Byte.repr z4)).
+    Exists (Byte.signed (Byte.repr z5)).
+    Exists (Byte.signed (Byte.repr z6)).
+    Exists (Byte.signed (Byte.repr z7)).
+    Exists (Byte.signed (Byte.repr z8)).
+    unfold store_char.
+    pose proof Byte.signed_range (Byte.repr z1).
+    pose proof Byte.signed_range (Byte.repr z2).
+    pose proof Byte.signed_range (Byte.repr z3).
+    pose proof Byte.signed_range (Byte.repr z4).
+    pose proof Byte.signed_range (Byte.repr z5).
+    pose proof Byte.signed_range (Byte.repr z6).
+    pose proof Byte.signed_range (Byte.repr z7).
+    pose proof Byte.signed_range (Byte.repr z8).
+    entailer!.
+    - repeat (apply derivable1_sepcon_mono;
+              [apply store_byte_eqm, Byte.eqm_signed_repr |]).
+      apply store_byte_eqm, Byte.eqm_signed_repr.
+    - unfold isvalidptr_char.
+      unfold isvalidptr_int64 in H.
+      lia.
+    - unfold isvalidptr_char.
+      unfold isvalidptr_int64 in H.
+      lia.
+    - unfold isvalidptr_char.
+      unfold isvalidptr_int64 in H.
+      lia.
+    - unfold isvalidptr_char.
+      unfold isvalidptr_int64 in H.
+      lia.
+    - unfold isvalidptr_char.
+      unfold isvalidptr_int64 in H.
+      lia.
+    - unfold isvalidptr_char.
+      unfold isvalidptr_int64 in H.
+      lia.
+    - unfold isvalidptr_char.
+      unfold isvalidptr_int64 in H.
+      lia.
+    - unfold isvalidptr_char.
+      unfold isvalidptr_int64 in H.
+      lia.
+    - unfold isvalidptr_int64 in H. apply H.
+    - eapply merge_int64_eqm; try apply Byte.eqm_signed_repr; exact H0.
+  + Intros v1 v2 v3 v4.
+    Intros v5 v6 v7 v8.
+    unfold store_uint64, store_char.
+    unfold store_8byte.
+    Intros.
+    Exists v1 v2 v3 v4.
+    Exists v5 v6 v7 v8.
+    entailer!.
+    unfold isvalidptr_int64.
+    unfold isvalidptr_char in *.
+    repeat split ; try lia ; auto.
+Qed.
+
+Definition merge_int64_by_ints (w1 w2 v : Z) : Prop :=
+  exists b1 b2 b3 b4 b5 b6 b7 b8,
+    merge_int b1 b2 b3 b4 w1 /\
+    merge_int b5 b6 b7 b8 w2 /\
+    merge_int64 b1 b2 b3 b4 b5 b6 b7 b8 v.
+
+Definition signed_int_of_bytes b1 b2 b3 b4 : Z :=
+  signed_last_nbits (n_bytes_to_Z 4 (vec4 b1 b2 b3 b4)) 32.
+
+Definition unsigned_int_of_bytes b1 b2 b3 b4 : Z :=
+  unsigned_last_nbits (n_bytes_to_Z 4 (vec4 b1 b2 b3 b4)) 32.
+
+Lemma merge_int_signed_of_bytes :
+  forall b1 b2 b3 b4,
+    merge_int b1 b2 b3 b4 (signed_int_of_bytes b1 b2 b3 b4).
+Proof.
+  intros.
+  unfold signed_int_of_bytes.
+  eapply merge_int_value_eqm.
+  - apply signed_Lastnbits_mod_correct. lia.
+  - rewrite merge_int_equiv_merge_n_bytes.
+    apply merge_n_bytes_self.
+Qed.
+
+Lemma merge_int_unsigned_of_bytes :
+  forall b1 b2 b3 b4,
+    merge_int b1 b2 b3 b4 (unsigned_int_of_bytes b1 b2 b3 b4).
+Proof.
+  intros.
+  unfold unsigned_int_of_bytes.
+  eapply merge_int_value_eqm.
+  - apply unsigned_Lastnbits_mod_correct. lia.
+  - rewrite merge_int_equiv_merge_n_bytes.
+    apply merge_n_bytes_self.
+Qed.
+
+Lemma signed_int_of_bytes_range :
+  forall b1 b2 b3 b4,
+    Int.min_signed <= signed_int_of_bytes b1 b2 b3 b4 <= Int.max_signed.
+Proof.
+  intros.
+  unfold signed_int_of_bytes.
+  pose proof (signed_Lastnbits_range (n_bytes_to_Z 4 (vec4 b1 b2 b3 b4)) 32).
+  replace Int.min_signed with (- 2 ^ 31) by reflexivity.
+  replace Int.max_signed with (2 ^ 31 - 1) by reflexivity.
+  lia.
+Qed.
+
+Lemma unsigned_int_of_bytes_range :
+  forall b1 b2 b3 b4,
+    0 <= unsigned_int_of_bytes b1 b2 b3 b4 <= Int.max_unsigned.
+Proof.
+  intros.
+  unfold unsigned_int_of_bytes.
+  pose proof (unsigned_Lastnbits_range (n_bytes_to_Z 4 (vec4 b1 b2 b3 b4)) 32).
+  replace Int.max_unsigned with (2 ^ 32 - 1) by reflexivity.
+  lia.
+Qed.
+
+Lemma store_int64_store_int: forall p v,
+  store_int64 p v |--
+  EX v1 : Z, EX v2 : Z,
+    “ merge_int64_by_ints v1 v2 v /\
+      Int64.min_signed <= v <= Int64.max_signed /\
+      aligned_4 p ” &&
+    store_int p v1 ** store_int (p + 4) v2.
+Proof.
+  intros.
+  unfold store_int64, store_int.
+  unfold store_8byte, store_4byte.
+  Intros z1 z2 z3 z4.
+  Intros z5 z6 z7 z8.
+  pose (v1 := signed_int_of_bytes z1 z2 z3 z4).
+  pose (v2 := signed_int_of_bytes z5 z6 z7 z8).
+  Exists v1. Exists v2.
+  Exists z1 z2 z3 z4.
+  Exists z5 z6 z7 z8.
+  entailer!.
+  - replace (p + 4 + 1) with (p + 5) by ring.
+    replace (p + 4 + 2) with (p + 6) by ring.
+    replace (p + 4 + 3) with (p + 7) by ring.
+    entailer!.
+  - subst v2. apply merge_int_signed_of_bytes.
+  - subst v1. apply merge_int_signed_of_bytes.
+  - destruct H as [[Hp0 [Hp7 Halign]] [Hvmax Hvmin]].
+    unfold isvalidptr_int.
+    repeat split; try lia.
+    unfold aligned_4 in *.
+    rewrite Z.add_mod by lia.
+    rewrite Halign.
+    reflexivity.
+  - subst v2. pose proof signed_int_of_bytes_range z5 z6 z7 z8. lia.
+  - subst v2. pose proof signed_int_of_bytes_range z5 z6 z7 z8. lia.
+  - destruct H as [[Hp0 [Hp7 Halign]] [Hvmax Hvmin]].
+    unfold isvalidptr_int.
+    repeat split; try lia.
+    exact Halign.
+  - subst v1. pose proof signed_int_of_bytes_range z1 z2 z3 z4. lia.
+  - subst v1. pose proof signed_int_of_bytes_range z1 z2 z3 z4. lia.
+  - unfold merge_int64_by_ints.
+    do 8 eexists.
+    repeat split.
+    + subst v1. apply merge_int_signed_of_bytes.
+    + subst v2. apply merge_int_signed_of_bytes.
+    + exact H0.
+  - destruct H as [[Hp0 [Hp7 Halign]] [Hvmax Hvmin]].
+    exact Halign.
+Qed.
+
+Lemma store_uint64_store_uint: forall p v,
+  store_uint64 p v |--
+  EX v1 : Z, EX v2 : Z,
+    “ merge_int64_by_ints v1 v2 v /\
+      0 <= v <= Int64.max_unsigned /\
+      aligned_4 p ” &&
+    store_uint p v1 ** store_uint (p + 4) v2.
+Proof.
+  intros.
+  unfold store_uint64, store_uint.
+  unfold store_8byte, store_4byte.
+  Intros z1 z2 z3 z4.
+  Intros z5 z6 z7 z8.
+  pose (v1 := unsigned_int_of_bytes z1 z2 z3 z4).
+  pose (v2 := unsigned_int_of_bytes z5 z6 z7 z8).
+  Exists v1. Exists v2.
+  Exists z1 z2 z3 z4.
+  Exists z5 z6 z7 z8.
+  entailer!.
+  - replace (p + 4 + 1) with (p + 5) by ring.
+    replace (p + 4 + 2) with (p + 6) by ring.
+    replace (p + 4 + 3) with (p + 7) by ring.
+    entailer!.
+  - subst v2. apply merge_int_unsigned_of_bytes.
+  - subst v1. apply merge_int_unsigned_of_bytes.
+  - destruct H as [[Hp0 [Hp7 Halign]] [Hvmin Hvmax]].
+    unfold isvalidptr_int.
+    repeat split; try lia.
+    unfold aligned_4 in *.
+    rewrite Z.add_mod by lia.
+    rewrite Halign.
+    reflexivity.
+  - subst v2. pose proof unsigned_int_of_bytes_range z5 z6 z7 z8. lia.
+  - subst v2. pose proof unsigned_int_of_bytes_range z5 z6 z7 z8. lia.
+  - destruct H as [[Hp0 [Hp7 Halign]] [Hvmin Hvmax]].
+    unfold isvalidptr_int.
+    repeat split; try lia.
+    exact Halign.
+  - subst v1. pose proof unsigned_int_of_bytes_range z1 z2 z3 z4. lia.
+  - subst v1. pose proof unsigned_int_of_bytes_range z1 z2 z3 z4. lia.
+  - unfold merge_int64_by_ints.
+    do 8 eexists.
+    repeat split.
+    + subst v1. apply merge_int_unsigned_of_bytes.
+    + subst v2. apply merge_int_unsigned_of_bytes.
+    + exact H0.
+  - destruct H as [[Hp0 [Hp7 Halign]] [Hvmin Hvmax]].
+    exact Halign.
+Qed.
+
+Lemma store_int64_store_uint: forall p v,
+  store_int64 p v |--
+  EX v1 : Z, EX v2 : Z,
+    “ merge_int64_by_ints v1 v2 v /\
+      Int64.min_signed <= v <= Int64.max_signed /\
+      aligned_4 p ” &&
+    store_uint p v1 ** store_uint (p + 4) v2.
+Proof.
+  intros.
+  unfold store_int64, store_uint.
+  unfold store_8byte, store_4byte.
+  Intros z1 z2 z3 z4.
+  Intros z5 z6 z7 z8.
+  pose (v1 := unsigned_int_of_bytes z1 z2 z3 z4).
+  pose (v2 := unsigned_int_of_bytes z5 z6 z7 z8).
+  Exists v1. Exists v2.
+  Exists z1 z2 z3 z4.
+  Exists z5 z6 z7 z8.
+  entailer!.
+  - replace (p + 4 + 1) with (p + 5) by ring.
+    replace (p + 4 + 2) with (p + 6) by ring.
+    replace (p + 4 + 3) with (p + 7) by ring.
+    entailer!.
+  - subst v2. apply merge_int_unsigned_of_bytes.
+  - subst v1. apply merge_int_unsigned_of_bytes.
+  - destruct H as [[Hp0 [Hp7 Halign]] [Hvmax Hvmin]].
+    unfold isvalidptr_int.
+    repeat split; try lia.
+    unfold aligned_4 in *.
+    rewrite Z.add_mod by lia.
+    rewrite Halign.
+    reflexivity.
+  - subst v2. pose proof unsigned_int_of_bytes_range z5 z6 z7 z8. lia.
+  - subst v2. pose proof unsigned_int_of_bytes_range z5 z6 z7 z8. lia.
+  - destruct H as [[Hp0 [Hp7 Halign]] [Hvmax Hvmin]].
+    unfold isvalidptr_int.
+    repeat split; try lia.
+    exact Halign.
+  - subst v1. pose proof unsigned_int_of_bytes_range z1 z2 z3 z4. lia.
+  - subst v1. pose proof unsigned_int_of_bytes_range z1 z2 z3 z4. lia.
+  - unfold merge_int64_by_ints.
+    do 8 eexists.
+    repeat split.
+    + subst v1. apply merge_int_unsigned_of_bytes.
+    + subst v2. apply merge_int_unsigned_of_bytes.
+    + exact H0.
+  - destruct H as [[Hp0 [Hp7 Halign]] [Hvmax Hvmin]].
+    exact Halign.
+Qed.
+
+Lemma store_uint64_store_int: forall p v,
+  store_uint64 p v |--
+  EX v1 : Z, EX v2 : Z,
+    “ merge_int64_by_ints v1 v2 v /\
+      0 <= v <= Int64.max_unsigned /\
+      aligned_4 p ” &&
+    store_int p v1 ** store_int (p + 4) v2.
+Proof.
+  intros.
+  unfold store_uint64, store_int.
+  unfold store_8byte, store_4byte.
+  Intros z1 z2 z3 z4.
+  Intros z5 z6 z7 z8.
+  pose (v1 := signed_int_of_bytes z1 z2 z3 z4).
+  pose (v2 := signed_int_of_bytes z5 z6 z7 z8).
+  Exists v1. Exists v2.
+  Exists z1 z2 z3 z4.
+  Exists z5 z6 z7 z8.
+  entailer!.
+  - replace (p + 4 + 1) with (p + 5) by ring.
+    replace (p + 4 + 2) with (p + 6) by ring.
+    replace (p + 4 + 3) with (p + 7) by ring.
+    entailer!.
+  - subst v2. apply merge_int_signed_of_bytes.
+  - subst v1. apply merge_int_signed_of_bytes.
+  - destruct H as [[Hp0 [Hp7 Halign]] [Hvmin Hvmax]].
+    unfold isvalidptr_int.
+    repeat split; try lia.
+    unfold aligned_4 in *.
+    rewrite Z.add_mod by lia.
+    rewrite Halign.
+    reflexivity.
+  - subst v2. pose proof signed_int_of_bytes_range z5 z6 z7 z8. lia.
+  - subst v2. pose proof signed_int_of_bytes_range z5 z6 z7 z8. lia.
+  - destruct H as [[Hp0 [Hp7 Halign]] [Hvmin Hvmax]].
+    unfold isvalidptr_int.
+    repeat split; try lia.
+    exact Halign.
+  - subst v1. pose proof signed_int_of_bytes_range z1 z2 z3 z4. lia.
+  - subst v1. pose proof signed_int_of_bytes_range z1 z2 z3 z4. lia.
+  - unfold merge_int64_by_ints.
+    do 8 eexists.
+    repeat split.
+    + subst v1. apply merge_int_signed_of_bytes.
+    + subst v2. apply merge_int_signed_of_bytes.
+    + exact H0.
+  - destruct H as [[Hp0 [Hp7 Halign]] [Hvmin Hvmax]].
+    exact Halign.
 Qed.
 
 Lemma store_byte_store_byte_noinit: forall p v,
@@ -489,13 +977,35 @@ Proof.
   apply derivable1_sepcon_mono; apply store_byte_store_byte_noinit.
 Qed.
 
+Lemma store_bytes_store_bytes_noninit:
+  forall n p (bytes : Vector.t Z n),
+    store_bytes p n bytes |-- store_bytes_noninit p n.
+Proof.
+  induction n; intros; cbn.
+  - entailer!.
+  - apply derivable1_sepcon_mono.
+    + apply store_byte_store_byte_noinit.
+    + apply IHn.
+Qed.
+
+Lemma store_16byte_store_16byte_noinit: forall p v,
+  store_16byte p v |-- store_16byte_noninit p.
+Proof.
+  unfold store_16byte, store_16byte_noninit.
+  intros.
+  Intros bytes.
+  apply store_bytes_store_bytes_noninit.
+Qed.
+
 Lemma store_ptr_undef_store_ptr: forall p v,
   store_ptr p v |-- undef_store_ptr p.
 Proof.
   unfold store_ptr, undef_store_ptr.
   intros.
-  entailer!.
-  apply store_4byte_store_4byte_noinit.
+  destruct Arch.ptr_size_32_or_64 as [Hsize | Hsize];
+    unfold ptr_size; rewrite Hsize; entailer!.
+  - apply store_4byte_store_4byte_noinit.
+  - apply store_8byte_store_8byte_noinit.
 Qed.
 
 Lemma store_int_range : forall x v,
@@ -608,6 +1118,23 @@ Proof.
   entailer!.
 Qed.
 
+Lemma store_bool_undef_store_bool: forall x v,
+  (x # Bool |-> v) |-- (x # Bool |->_).
+Proof.
+  intros.
+  unfold store_bool, undef_store_bool.
+  entailer!.
+  apply store_byte_store_byte_noinit.
+Qed.
+
+Lemma valid_store_bool: forall x v,
+  (x # Bool |-> v) |-- “ 0 <= v <= 1 ”.
+Proof.
+  intros.
+  unfold store_bool.
+  entailer!.
+Qed.
+
 Lemma store_ushort_undef_store_ushort: forall x v, 
   (x # UShort |->v) |-- (x # UShort |->_).
 Proof.
@@ -632,6 +1159,40 @@ Proof.
   unfold store_uint64, undef_store_uint64.
   entailer!.
   apply store_8byte_store_8byte_noinit.
+Qed.
+
+Lemma store_int128_range : forall x v,
+  (x # Int128 |-> v) |-- CRules.coq_prop (Int128.min_signed <= v <= Int128.max_signed).
+Proof.
+  intros.
+  unfold store_int128.
+  entailer!.
+Qed.
+
+Lemma store_int128_undef_store_int128: forall x v,
+  (x # Int128 |-> v) |-- (x # Int128 |->_).
+Proof.
+  intros.
+  unfold store_int128, undef_store_int128.
+  entailer!.
+  apply store_16byte_store_16byte_noinit.
+Qed.
+
+Lemma store_uint128_range : forall x v,
+  (x # UInt128 |-> v) |-- CRules.coq_prop (0 <= v <= Int128.max_unsigned).
+Proof.
+  intros.
+  unfold store_uint128.
+  entailer!.
+Qed.
+
+Lemma store_uint128_undef_store_uint128: forall x v,
+  (x # UInt128 |-> v) |-- (x # UInt128 |->_).
+Proof.
+  intros.
+  unfold store_uint128, undef_store_uint128.
+  entailer!.
+  apply store_16byte_store_16byte_noinit.
 Qed.
 
 Lemma store_float_undef_store_float:
@@ -660,6 +1221,19 @@ Proof.
   - apply coq_prop_False_left. tauto.
 Qed.
 
+Lemma store_long_double_undef_store_long_double:
+  forall x v,
+    x # LongDouble |-> v |-- x # LongDouble |->_.
+Proof.
+  intros.
+  unfold store_long_double, undef_store_long_double.
+  destruct (bits_of_long_double_value v).
+  - apply derivable1_andp_mono.
+    + apply coq_prop_imply. tauto.
+    + apply store_16byte_store_16byte_noinit.
+  - apply coq_prop_False_left. tauto.
+Qed.
+
 Lemma store_finite_float_undef_store_finite_float:
   forall x v,
     x # FiniteFloat |-> v |-- x # FiniteFloat |->_.
@@ -680,6 +1254,16 @@ Proof.
   apply store_double_undef_store_double.
 Qed.
 
+Lemma store_finite_long_double_undef_store_finite_long_double:
+  forall x v,
+    x # FiniteLongDouble |-> v |-- x # FiniteLongDouble |->_.
+Proof.
+  intros.
+  unfold store_finite_long_double, undef_store_finite_long_double.
+  apply coq_prop_andp_left. intros _.
+  apply store_long_double_undef_store_long_double.
+Qed.
+
 Lemma valid_store_float:
   forall x v,
     x # Float |-> v |-- “ isvalidptr_float x ”.
@@ -696,6 +1280,15 @@ Proof.
   intros.
   unfold store_double.
   destruct (bits_of_double_value v); entailer!.
+Qed.
+
+Lemma valid_store_long_double:
+  forall x v,
+    x # LongDouble |-> v |-- “ isvalidptr_long_double x ”.
+Proof.
+  intros.
+  unfold store_long_double.
+  destruct (bits_of_long_double_value v); entailer!.
 Qed.
 
 Lemma valid_store_finite_float:
@@ -726,6 +1319,20 @@ Proof.
     split; auto.
 Qed.
 
+Lemma valid_store_finite_long_double:
+  forall x v,
+    x # FiniteLongDouble |-> v |--
+    “ fp128_isFinite v /\ isvalidptr_long_double x ”.
+Proof.
+  intros.
+  unfold store_finite_long_double.
+  apply coq_prop_andp_left. intros Hfinite.
+  eapply derivable1_trans.
+  - apply valid_store_long_double.
+  - apply coq_prop_imply. intros Hvalid.
+    split; auto.
+Qed.
+
 Lemma poly_store_poly_undef_store: forall x ty v,
   poly_store ty x v |-- poly_undef_store ty x.
 Proof.
@@ -735,6 +1342,7 @@ Proof.
   + unfold Invalid_store; entailer!.
   + unfold Invalid_store; entailer!.
   + unfold Invalid_store; entailer!.
+  + apply store_bool_undef_store_bool.
   + apply store_int_undef_store_int.
   + apply store_char_undef_store_char.
   + apply store_int64_undef_store_int64.
@@ -742,9 +1350,12 @@ Proof.
   + apply store_uint_undef_store_uint.
   + apply store_uchar_undef_store_uchar.
   + apply store_uint64_undef_store_uint64.
+  + apply store_int128_undef_store_int128.
+  + apply store_uint128_undef_store_uint128.
   + apply store_ushort_undef_store_ushort.
   + apply store_float_undef_store_float.
   + apply store_double_undef_store_double.
+  + apply store_long_double_undef_store_long_double.
   + apply store_ptr_undef_store_ptr.
 Qed.
 
@@ -758,6 +1369,7 @@ Proof.
   + unfold Invalid_store; entailer!.
   + unfold Invalid_store; entailer!.
   + unfold Invalid_store; entailer!.
+  + apply store_bool_undef_store_bool.
   + apply store_int_undef_store_int.
   + apply store_char_undef_store_char.
   + apply store_int64_undef_store_int64.
@@ -765,9 +1377,12 @@ Proof.
   + apply store_uint_undef_store_uint.
   + apply store_uchar_undef_store_uchar.
   + apply store_uint64_undef_store_uint64.
+  + apply store_int128_undef_store_int128.
+  + apply store_uint128_undef_store_uint128.
   + apply store_ushort_undef_store_ushort.
   + apply store_float_undef_store_float.
   + apply store_double_undef_store_double.
+  + apply store_long_double_undef_store_long_double.
   + apply store_ptr_undef_store_ptr.
 Qed.
 
@@ -804,11 +1419,11 @@ Proof.
   intros.
   unfold store_2byte_noninit.
   eapply derivable1_trans. apply derivable1_sepcon_assoc1.
-  apply (derivable1_trans _ (“ False ” ** TT)). 2: entailer!.
+  apply (derivable1_trans _ (“ False ”** TT)). 2: entailer!.
   apply derivable1_sepcon_mono. 2: entailer!.
   eapply derivable1_trans. apply derivable1_sepcon_comm.
   eapply derivable1_trans. apply derivable1_sepcon_assoc1.
-  apply (derivable1_trans _ (“ False ” ** TT)). 2: entailer!.
+  apply (derivable1_trans _ (“ False ”** TT)). 2: entailer!.
   apply derivable1_sepcon_mono. 2: entailer!.
   apply dup_store_byte_noninit.
 Qed.
@@ -829,11 +1444,11 @@ Proof.
   intros.
   unfold store_4byte_noninit.
   eapply derivable1_trans. apply derivable1_sepcon_assoc1.
-  apply (derivable1_trans _ (“ False ” ** TT)). 2: entailer!.
+  apply (derivable1_trans _ (“ False ”** TT)). 2: entailer!.
   apply derivable1_sepcon_mono. 2: entailer!.
   eapply derivable1_trans. apply derivable1_sepcon_comm.
   eapply derivable1_trans. apply derivable1_sepcon_assoc1.
-  apply (derivable1_trans _ (“ False ” ** TT)). 2: entailer!.
+  apply (derivable1_trans _ (“ False ”** TT)). 2: entailer!.
   apply derivable1_sepcon_mono. 2: entailer!.
   apply dup_store_byte_noninit.
 Qed.
@@ -854,11 +1469,11 @@ Proof.
   intros.
   unfold store_8byte_noninit.
   eapply derivable1_trans. apply derivable1_sepcon_assoc1.
-  apply (derivable1_trans _ (“ False ” ** TT)). 2: entailer!.
+  apply (derivable1_trans _ (“ False ”** TT)). 2: entailer!.
   apply derivable1_sepcon_mono. 2: entailer!.
   eapply derivable1_trans. apply derivable1_sepcon_comm.
   eapply derivable1_trans. apply derivable1_sepcon_assoc1.
-  apply (derivable1_trans _ (“ False ” ** TT)). 2: entailer!.
+  apply (derivable1_trans _ (“ False ”** TT)). 2: entailer!.
   apply derivable1_sepcon_mono. 2: entailer!.
   apply dup_store_byte_noninit.
 Qed.
@@ -897,9 +1512,14 @@ Lemma dup_undef_store_ptr: forall x,
 Proof.
   intros.
   unfold undef_store_ptr.
-  eapply derivable1_trans.
-  2: apply (dup_store_4bytes_noninit x).
-  apply derivable1_sepcon_mono; entailer!.
+  destruct Arch.ptr_size_32_or_64 as [Hsize | Hsize];
+    unfold ptr_size; rewrite Hsize.
+  - eapply derivable1_trans.
+    2: apply (dup_store_4bytes_noninit x).
+    apply derivable1_sepcon_mono; entailer!.
+  - eapply derivable1_trans.
+    2: apply (dup_store_8bytes_noninit x).
+    apply derivable1_sepcon_mono; entailer!.
 Qed.
 
 Lemma dup_store_ptr: forall x v1 v2,
@@ -962,8 +1582,9 @@ Proof.
     Exists (unsigned_last_nbits z1 8).
     Exists (unsigned_last_nbits z2 8).
     entailer!.
-    unfold merge_short in *.
-    rewrite <- !unsigned_Lastnbits_mod_correct ; lia.
+    eapply merge_short_value_eqm.
+    + apply unsigned_Lastnbits_mod_correct. lia.
+    + eapply merge_short_eqm; try apply byte_eqm_unsigned_last_8; exact H0.
   - pose proof (unsigned_Lastnbits_range v 16). lia.
   - pose proof (unsigned_Lastnbits_range v 16). 
     lia.
@@ -982,8 +1603,9 @@ Proof.
     Exists (signed_last_nbits z1 8).
     Exists (signed_last_nbits z2 8).
     entailer!.
-    unfold merge_short in *.
-    rewrite <- !signed_Lastnbits_mod_correct ; lia.
+    eapply merge_short_value_eqm.
+    + apply signed_Lastnbits_mod_correct. lia.
+    + eapply merge_short_eqm; try apply byte_eqm_signed_last_8; exact H0.
   - pose proof (signed_Lastnbits_range v 16). lia.
   - pose proof (signed_Lastnbits_range v 16). lia. 
 Qed. 
@@ -1004,8 +1626,9 @@ Proof.
     Exists (unsigned_last_nbits z3 8).
     Exists (unsigned_last_nbits z4 8).
     entailer!.
-    unfold merge_int in *.
-    rewrite <- !unsigned_Lastnbits_mod_correct ; lia.
+    eapply merge_int_value_eqm.
+    + apply unsigned_Lastnbits_mod_correct. lia.
+    + eapply merge_int_eqm; try apply byte_eqm_unsigned_last_8; exact H0.
   - pose proof (unsigned_Lastnbits_range v 32). lia.  
   - pose proof (unsigned_Lastnbits_range v 32). 
     replace Int.max_unsigned with (2 ^ 32 - 1) by reflexivity. lia.
@@ -1027,8 +1650,9 @@ Proof.
     Exists (signed_last_nbits z3 8).
     Exists (signed_last_nbits z4 8).
     entailer!.
-    unfold merge_int in *.
-    rewrite <- !signed_Lastnbits_mod_correct ; lia.
+    eapply merge_int_value_eqm.
+    + apply signed_Lastnbits_mod_correct. lia.
+    + eapply merge_int_eqm; try apply byte_eqm_signed_last_8; exact H0.
   - pose proof (signed_Lastnbits_range v 32).
     replace Int.max_signed with (2 ^ 31 - 1) by reflexivity. lia.  
   - pose proof (signed_Lastnbits_range v 32). 
@@ -1060,8 +1684,9 @@ Proof.
     Exists (unsigned_last_nbits z7 8).
     Exists (unsigned_last_nbits z8 8).
     entailer!.
-    unfold merge_int64 in *.
-    rewrite <- !unsigned_Lastnbits_mod_correct ; lia.
+    eapply merge_int64_value_eqm.
+    + apply unsigned_Lastnbits_mod_correct. lia.
+    + eapply merge_int64_eqm; try apply byte_eqm_unsigned_last_8; exact H0.
   - pose proof (unsigned_Lastnbits_range v 64). lia.
   - pose proof (unsigned_Lastnbits_range v 64).
     replace Int64.max_unsigned with (2 ^ 64 - 1) by reflexivity. lia. 
@@ -1092,8 +1717,9 @@ Proof.
     Exists (signed_last_nbits z7 8).
     Exists (signed_last_nbits z8 8).
     entailer!.
-    unfold merge_int64 in *.
-    rewrite <- !signed_Lastnbits_mod_correct ; lia.
+    eapply merge_int64_value_eqm.
+    + apply signed_Lastnbits_mod_correct. lia.
+    + eapply merge_int64_eqm; try apply byte_eqm_signed_last_8; exact H0.
   - pose proof (signed_Lastnbits_range v 64).
     replace Int64.max_signed with (2 ^ 63 - 1) by reflexivity. lia. 
   - pose proof (signed_Lastnbits_range v 64).
@@ -1198,6 +1824,27 @@ Proof.
   entailer!.
 Qed.
 
+
+Lemma valid_store_int128 :
+  forall x v,
+    x # Int128 |-> v |--
+    CRules.coq_prop (Int128.min_signed <= v <= Int128.max_signed /\ isvalidptr_int128 x).
+Proof.
+  intros.
+  unfold store_int128.
+  entailer!.
+Qed.
+
+Lemma valid_store_uint128 :
+  forall x v,
+    x # UInt128 |-> v |--
+    CRules.coq_prop (0 <= v <= Int128.max_unsigned /\ isvalidptr_int128 x).
+Proof.
+  intros.
+  unfold store_uint128.
+  entailer!.
+Qed.
+
 Lemma valid_undef_store_int64 : forall x, x # Int64 |->_ |-- “ isvalidptr_int64 x ”.
 Proof.
   intros.
@@ -1212,7 +1859,24 @@ Proof.
   entailer!.
 Qed.
 
-Lemma valid_store_ptr : forall x v, x # Ptr |-> v |-- “ isvalidptr x /\ 0 <= v /\ v <= Int.max_unsigned ”.
+
+Lemma valid_undef_store_int128 :
+  forall x, x # Int128 |->_ |-- CRules.coq_prop (isvalidptr_int128 x).
+Proof.
+  intros.
+  unfold undef_store_int128.
+  entailer!.
+Qed.
+
+Lemma valid_undef_store_uint128 :
+  forall x, x # UInt128 |->_ |-- CRules.coq_prop (isvalidptr_int128 x).
+Proof.
+  intros.
+  unfold undef_store_uint128.
+  entailer!.
+Qed.
+
+Lemma valid_store_ptr : forall x v, x # Ptr |-> v |-- “ isvalidptr x /\ valid_ptr_value v ”.
 Proof.
   intros.
   unfold store_ptr.
@@ -1278,6 +1942,21 @@ Proof.
   entailer!.
 Qed.
 
+Lemma undef_store_bool_align : forall x, x # Bool |->_ |-- store_align_n 1.
+Proof.
+  intros.
+  change (x # UChar |->_ |-- store_align_n 1).
+  apply undef_store_uchar_align.
+Qed.
+
+Lemma store_bool_align : forall x v, x # Bool |-> v |-- store_align_n 1.
+Proof.
+  intros.
+  sep_apply store_bool_undef_store_bool.
+  sep_apply undef_store_bool_align.
+  entailer!.
+Qed.
+
 Lemma undef_store_int_align4 :
   forall x, x # Int |->_ |-- store_align4_n 1.
 Proof.
@@ -1333,13 +2012,13 @@ Proof.
     replace (x + 4 + 2) with (x + 6) by lia.
     replace (x + 4 + 3) with (x + 7) by lia.
     entailer!.
-  - unfold isvalidptr_int64 in H. unfold isvalidptr. 
+  - unfold isvalidptr_int64 in H. unfold isvalidptr_int. 
     unfold aligned_4 in *. 
     repeat split ; try lia. 
     rewrite <- Zplus_mod_idemp_l.
-    destruct H as [? [? ?]].
-    rewrite H1. reflexivity.
-  - unfold isvalidptr_int64 in H. unfold isvalidptr. 
+    destruct H as [Hlo [Hhi Halign]].
+    rewrite Halign. reflexivity.
+  - unfold isvalidptr_int64 in H. unfold isvalidptr_int. 
     unfold aligned_4 in *. 
     repeat split ; try lia.
   - unfold isvalidptr_int64, aligned_4 in H. 
@@ -1367,13 +2046,13 @@ Proof.
     replace (x + 4 + 2) with (x + 6) by lia.
     replace (x + 4 + 3) with (x + 7) by lia.
     entailer!.
-  - unfold isvalidptr_int64 in H. unfold isvalidptr. 
+  - unfold isvalidptr_int64 in H. unfold isvalidptr_int. 
     unfold aligned_4 in *. 
     repeat split ; try lia. 
     rewrite <- Zplus_mod_idemp_l.
-    destruct H as [? [? ?]].
-    rewrite H1. reflexivity.
-  - unfold isvalidptr_int64 in H. unfold isvalidptr. 
+    destruct H as [Hlo [Hhi Halign]].
+    rewrite Halign. reflexivity.
+  - unfold isvalidptr_int64 in H. unfold isvalidptr_int. 
     unfold aligned_4 in *. 
     repeat split ; try lia.
   - unfold isvalidptr_int64, aligned_4 in H. 
@@ -1440,6 +2119,26 @@ Proof.
   apply store_double_aligned8.
 Qed.
 
+Lemma store_long_double_aligned8 :
+  forall x v,
+    x # LongDouble |-> v |-- CRules.coq_prop (aligned_8 x).
+Proof.
+  intros.
+  unfold store_long_double.
+  destruct (bits_of_long_double_value v); entailer!.
+  unfold isvalidptr_long_double in H. tauto.
+Qed.
+
+Lemma store_finite_long_double_aligned8 :
+  forall x v,
+    x # FiniteLongDouble |-> v |-- CRules.coq_prop (aligned_8 x).
+Proof.
+  intros.
+  unfold store_finite_long_double.
+  apply coq_prop_andp_left. intros _.
+  apply store_long_double_aligned8.
+Qed.
+
 Lemma undef_store_float_align4 :
   forall x, x # Float |->_ |-- store_align4_n 1.
 Proof.
@@ -1476,16 +2175,16 @@ Proof.
     replace (x + 4 + 2) with (x + 6) by lia.
     replace (x + 4 + 3) with (x + 7) by lia.
     entailer!.
-		  - unfold isvalidptr_double in H. unfold isvalidptr.
+		  - unfold isvalidptr_double in H. unfold isvalidptr_int.
 		    repeat split; try lia.
-		    destruct H as [? [? H8]].
+		    destruct H as [? [ ? H8]].
 		    pose proof (aligned_8_aligned_4 x H8) as H4.
 		    unfold aligned_4 in *.
 		    rewrite <- Zplus_mod_idemp_l.
 		    rewrite H4. reflexivity.
-	  - unfold isvalidptr_double in H. unfold isvalidptr.
+	  - unfold isvalidptr_double in H. unfold isvalidptr_int.
 	    repeat split; try lia.
-	    destruct H as [? [? H8]].
+	    destruct H as [? [ ? H8]].
 	    pose proof (aligned_8_aligned_4 x H8) as H4.
 	    exact H4.
   - unfold isvalidptr_double, aligned_8 in H.
@@ -1502,23 +2201,37 @@ Proof.
   entailer!.
 Qed.
 
-Lemma undef_store_ptr_align4 : forall x, x # Ptr |->_ |-- store_align4_n 1.
+Lemma undef_store_ptr_align4 : forall x : addr, ptr_size = 4%nat -> undef_store_ptr x |-- store_align4_n 1.
 Proof.
-  intros.
+  intros x Hsize.
   unfold undef_store_ptr, store_align4_n. simpl.
-  Intros. Exists [x]. 
-  simpl. 
+  rewrite Hsize.
+  Intros.
+  assert (Hvalid_int: isvalidptr_int x).
+  {
+    unfold isvalidptr, isvalidptr_int, aligned_4 in *.
+    destruct H as [? [ ? ? ]].
+    unfold ptr_size in Hsize.
+    unfold ptr_size_Z, Arch.ptr_size_Z in *; rewrite Hsize in *; simpl in *.
+    repeat split; try lia.
+    apply Arch.ptr_aligned_aligned_4; auto.
+  }
+  assert (Hinterval: interval_list 3 0 addr_max_unsigned [x]).
+  {
+    constructor; try constructor.
+    - unfold isvalidptr_int in Hvalid_int. lia.
+    - unfold isvalidptr_int in Hvalid_int. lia.
+  }
+  Exists [x].
+  simpl.
   entailer!.
-  unfold isvalidptr , aligned_4 in H.
-  constructor ; auto ; try lia.
-  constructor.
 Qed.
 
-Lemma store_ptr_align4 : forall x v, x # Ptr |-> v |-- store_align4_n 1.
+Lemma store_ptr_align4 : forall (x : addr) v, ptr_size = 4%nat -> x # Ptr |-> v |-- store_align4_n 1.
 Proof.
-  intros.
+  intros x v Hsize.
   sep_apply store_ptr_undef_store_ptr.
-  sep_apply undef_store_ptr_align4.
+  sep_apply (undef_store_ptr_align4 x Hsize).
   entailer!.
 Qed.
 
@@ -1531,7 +2244,7 @@ Proof.
   - destruct (Z_lt_ge_dec (y + 1) x).
     + entailer!.
     + assert (x = y - 1 \/ x = y \/ x = y + 1) by lia.
-      destruct H as [? | [? | ?]] ; subst.
+      destruct H as [ ? | [ ? | ? ]] ; subst.
       * entailer!.
       * prop_apply (dup_store_byte_noninit y). Intros. lia.
       * entailer!.
@@ -1546,7 +2259,7 @@ Proof.
   - destruct (Z_lt_ge_dec (y + 3) x).
     + entailer!.
     + assert (x = y - 3 \/ x = y - 2 \/ x = y - 1 \/ x = y \/ x = y + 1 \/ x = y + 2 \/ x = y + 3) by lia.
-      destruct H as [? | [? | [? | [? | [? | [? | ?]]]]]] ; subst.
+      destruct H as [? | [ ? | [? | [ ? | [? | [ ? | ? ]]]]]] ; subst.
       * replace (y - 3 + 3) with y by lia. 
         prop_apply (dup_store_byte_noninit y). Intros. lia.
       * replace (y - 2 + 2) with y by lia. 
@@ -1590,7 +2303,7 @@ Proof.
     constructor ; auto.
 Qed. 
 
-Lemma store_align4_n_valid : forall n, store_align4_n n |-- “ n <= Int.max_unsigned / 4 + 1 ”.
+Lemma store_align4_n_valid : forall n, store_align4_n n |-- “ n <= addr_max_unsigned / 4 + 1 ”.
 Proof.
   intros.
   unfold store_align4_n.
@@ -1598,9 +2311,19 @@ Proof.
   destruct H.
   rewrite <- H.
   entailer!.
-  replace Int.max_unsigned with (4294967295) in * by reflexivity.
-  pose proof interval_list_range l 3 0 4294967295 (ltac:(lia)) (ltac:(lia)) H0.
-  simpl in *.
+  pose proof interval_list_range l 3 0 addr_max_unsigned
+    (ltac:(lia))
+    (ltac:(unfold addr_max_unsigned; pose proof Arch.addr_max_unsigned_ge_7; lia))
+    H0 as Hrange.
+  simpl in Hrange.
+  assert (Hdiv: (4 * n) / 4 <= (addr_max_unsigned + 4) / 4).
+  {
+    apply Z.div_le_mono; lia.
+  }
+  replace (4 * n) with (n * 4) in Hdiv by ring.
+  rewrite Z_div_mult_full in Hdiv by lia.
+  replace (addr_max_unsigned + 4) with (1 * 4 + addr_max_unsigned) in Hdiv by ring.
+  rewrite Z.div_add_l in Hdiv by lia.
   lia.
 Qed.
 
@@ -1642,11 +2365,11 @@ Proof.
   Intros.
   sep_apply (store_byte_align1 x ltac:(
     unfold isvalidptr_short, isvalidptr_char in H;
-    destruct H as [? [? ?]];
+    destruct H as [ ? [ ? ? ]];
     split; lia)).
   sep_apply (store_byte_align1 (x + 1) ltac:(
     unfold isvalidptr_short, isvalidptr_char in H;
-    destruct H as [? [? ?]];
+    destruct H as [? [ ? ? ]];
     split; lia)).
   sep_apply (store_align_merge 1 1).
   replace (1 + 1) with 2 by lia.
@@ -1668,11 +2391,11 @@ Proof.
   Intros.
   sep_apply (store_byte_align1 x ltac:(
     unfold isvalidptr_short, isvalidptr_char in H;
-    destruct H as [? [? ?]];
+    destruct H as [ ? [ ? ? ]];
     split; lia)).
   sep_apply (store_byte_align1 (x + 1) ltac:(
     unfold isvalidptr_short, isvalidptr_char in H;
-    destruct H as [? [? ?]];
+    destruct H as [? [ ? ? ]];
     split; lia)).
   sep_apply (store_align_merge 1 1).
   replace (1 + 1) with 2 by lia.
@@ -1687,7 +2410,27 @@ Proof.
   entailer!.
 Qed.
 
-Lemma store_align_n_valid : forall n, store_align_n n |-- “ n <= Int.max_unsigned / 1 + 1 ”.
+Lemma store_bytes_noninit_align : forall n x,
+  0 <= x ->
+  x + Z.of_nat n - 1 <= addr_max_unsigned ->
+  store_bytes_noninit x n |-- store_align_n (Z.of_nat n).
+Proof.
+  induction n; intros x Hlo Hhi; simpl.
+  - unfold store_align_n.
+    Exists nil.
+    simpl.
+    entailer!.
+    constructor.
+  - sep_apply (store_byte_align1 x ltac:(unfold isvalidptr_char; split; lia)).
+    sep_apply (IHn (x + 1) ltac:(lia) ltac:(
+      replace (x + 1 + Z.of_nat n - 1) with (x + Z.of_nat (S n) - 1) by lia;
+      lia)).
+    sep_apply (store_align_merge 1 (Z.of_nat n)).
+    replace (1 + Z.of_nat n) with (Z.of_nat (S n)) by lia.
+    entailer!.
+Qed.
+
+Lemma store_align_n_valid : forall n, store_align_n n |-- “ n <= addr_max_unsigned / 1 + 1 ”.
 Proof.
   intros.
   unfold store_align_n.
@@ -1695,9 +2438,9 @@ Proof.
   destruct H.
   rewrite <- H.
   entailer!.
-  replace Int.max_unsigned with (4294967295) in * by reflexivity.
-  pose proof interval_list_range l 0 0 4294967295 (ltac:(lia)) (ltac:(lia)) H0.
+  pose proof interval_list_range l 0 0 addr_max_unsigned (ltac:(lia)) (ltac:(unfold addr_max_unsigned; pose proof Arch.addr_max_unsigned_ge_7; lia)) H0.
   simpl in *.
+  rewrite Z.div_1_r.
   lia.
 Qed.
 
@@ -1720,7 +2463,7 @@ Proof.
       prop_apply (store_align_valid (a + 3) l0). Intros.
       Exists ((a :: (a + 1) :: (a + 2) :: (a + 3) :: l0)).
       simpl store_align_list. unfold isvalidptr_char.
-      unfold isvalidptr in H0. entailer!.
+      unfold isvalidptr_int in H0. entailer!.
       repeat rewrite Zlength_cons. lia.
       destruct H2.
       repeat constructor ; auto ; try lia.
@@ -1752,6 +2495,66 @@ Proof.
     apply store_align4_to_store_align.
 Qed.
 
+Lemma undef_store_long_double_align :
+  forall x,
+    x # LongDouble |->_ |-- store_align_n 16.
+Proof.
+  intros.
+  unfold undef_store_long_double, store_16byte_noninit.
+  apply coq_prop_andp_left. intros Hvalid.
+  apply store_bytes_noninit_align; unfold isvalidptr_long_double in Hvalid; lia.
+Qed.
+
+Lemma store_long_double_align :
+  forall x v,
+    x # LongDouble |-> v |-- store_align_n 16.
+Proof.
+  intros.
+  sep_apply store_long_double_undef_store_long_double.
+  sep_apply undef_store_long_double_align.
+  entailer!.
+Qed.
+
+Lemma undef_store_int128_align :
+  forall x,
+    x # Int128 |->_ |-- store_align_n 16.
+Proof.
+  intros.
+  unfold undef_store_int128, store_16byte_noninit.
+  apply coq_prop_andp_left. intros Hvalid.
+  apply store_bytes_noninit_align; unfold isvalidptr_int128 in Hvalid; lia.
+Qed.
+
+Lemma store_int128_align :
+  forall x v,
+    x # Int128 |-> v |-- store_align_n 16.
+Proof.
+  intros.
+  sep_apply store_int128_undef_store_int128.
+  sep_apply undef_store_int128_align.
+  entailer!.
+Qed.
+
+Lemma undef_store_uint128_align :
+  forall x,
+    x # UInt128 |->_ |-- store_align_n 16.
+Proof.
+  intros.
+  unfold undef_store_uint128, store_16byte_noninit.
+  apply coq_prop_andp_left. intros Hvalid.
+  apply store_bytes_noninit_align; unfold isvalidptr_int128 in Hvalid; lia.
+Qed.
+
+Lemma store_uint128_align :
+  forall x v,
+    x # UInt128 |-> v |-- store_align_n 16.
+Proof.
+  intros.
+  sep_apply store_uint128_undef_store_uint128.
+  sep_apply undef_store_uint128_align.
+  entailer!.
+Qed.
+
 Lemma store_finite_float_align :
   forall x v,
     x # FiniteFloat |-> v |-- store_align_n 4.
@@ -1772,10 +2575,125 @@ Proof.
   apply store_double_align.
 Qed.
 
-Lemma store_ptr_store_uint : forall x v, x # Ptr |-> v |-- x # UInt |-> v.
+Lemma store_finite_long_double_align :
+  forall x v,
+    x # FiniteLongDouble |-> v |-- store_align_n 16.
 Proof.
   intros.
+  unfold store_finite_long_double.
+  apply coq_prop_andp_left. intros _.
+  apply store_long_double_align.
+Qed.
+
+Lemma undef_store_ptr_undef_store_uint64 :
+  forall x, ptr_size = 8%nat -> x # Ptr |->_ |-- x # UInt64 |->_.
+Proof.
+  intros x Hsize.
+  unfold undef_store_ptr, undef_store_uint64.
+  rewrite Hsize.
+  entailer!.
+  unfold isvalidptr, isvalidptr_int64, aligned_4 in *.
+  destruct H as [ ? [ ? ? ]].
+  unfold ptr_size in Hsize.
+  unfold ptr_size_Z, Arch.ptr_size_Z in *; rewrite Hsize in *; simpl in *.
+  repeat split; try lia.
+  apply Arch.ptr_aligned_aligned_4; auto.
+Qed.
+
+Lemma undef_store_ptr_undef_store_int64 :
+  forall x, ptr_size = 8%nat -> x # Ptr |->_ |-- x # Int64 |->_.
+Proof.
+  intros x Hsize.
+  unfold undef_store_ptr, undef_store_int64.
+  rewrite Hsize.
+  entailer!.
+  unfold isvalidptr, isvalidptr_int64, aligned_4 in *.
+  destruct H as [? [ ? ? ]].
+  unfold ptr_size in Hsize.
+  unfold ptr_size_Z, Arch.ptr_size_Z in *; rewrite Hsize in *; simpl in *.
+  repeat split; try lia.
+  apply Arch.ptr_aligned_aligned_4; auto.
+Qed.
+
+Lemma undef_store_ptr_align :
+  forall x, x # Ptr |->_ |-- store_align_n ptr_size_Z.
+Proof.
+  intros x.
+  destruct Arch.ptr_size_32_or_64 as [Hsize | Hsize].
+  - eapply derivable1_trans.
+    + apply undef_store_ptr_align4. unfold ptr_size. exact Hsize.
+    + unfold ptr_size_Z, ptr_size, Arch.ptr_size_Z. rewrite Hsize. simpl.
+      replace 4 with (4 * 1) by lia.
+      apply store_align4_to_store_align.
+  - eapply derivable1_trans.
+    + eapply derivable1_trans.
+      * apply undef_store_ptr_undef_store_uint64. unfold ptr_size. exact Hsize.
+      * apply undef_store_uint64_align4.
+    + unfold ptr_size_Z, ptr_size, Arch.ptr_size_Z. rewrite Hsize. simpl.
+      replace 8 with (4 * 2) by lia.
+      apply store_align4_to_store_align.
+Qed.
+
+Lemma store_ptr_align :
+  forall x v, x # Ptr |-> v |-- store_align_n ptr_size_Z.
+Proof.
+  intros.
+  sep_apply store_ptr_undef_store_ptr.
+  sep_apply undef_store_ptr_align.
+  entailer!.
+Qed.
+
+Lemma store_ptr_store_uint : forall x v,
+  ptr_size = 4%nat ->
+  addr_max_unsigned = Int.max_unsigned ->
+  x # Ptr |-> v |-- x # UInt |-> v.
+Proof.
+  intros x v Hsize Haddr.
   unfold store_ptr, store_uint.
+  rewrite Hsize.
+  Intros.
+  destruct H as [[HpLo [HpHi HpAlign]] [HvLo HvHi]].
+  assert (Hvalid_int: isvalidptr_int x).
+  {
+    unfold isvalidptr, isvalidptr_int, aligned_4 in *.
+    unfold ptr_size in Hsize.
+    unfold ptr_size_Z, Arch.ptr_size_Z in *; rewrite Hsize in *; simpl in *.
+    refine (conj _ (conj _ _)); [lia | lia | exact (Arch.ptr_aligned_aligned_4 x HpAlign)].
+  }
+  assert (Huint_range: 0 <= v /\ v <= Int.max_unsigned).
+  {
+    unfold addr_max_unsigned in Haddr.
+    unfold addr_max_unsigned in HvHi.
+    rewrite Haddr in HvHi.
+    lia.
+  }
+  entailer!.
+Qed.
+
+Lemma store_ptr_store_uint64 : forall x v,
+  ptr_size = 8%nat ->
+  addr_max_unsigned = Int64.max_unsigned ->
+  x # Ptr |-> v |-- x # UInt64 |-> v.
+Proof.
+  intros x v Hsize Haddr.
+  unfold store_ptr, store_uint64.
+  rewrite Hsize.
+  Intros.
+  destruct H as [[HpLo [HpHi HpAlign]] [HvLo HvHi]].
+  assert (Hvalid_int64: isvalidptr_int64 x).
+  {
+    unfold isvalidptr, isvalidptr_int64, aligned_4 in *.
+    unfold ptr_size in Hsize.
+    unfold ptr_size_Z, Arch.ptr_size_Z in *; rewrite Hsize in *; simpl in *.
+    refine (conj _ (conj _ _)); [lia | lia | exact (Arch.ptr_aligned_aligned_4 x HpAlign)].
+  }
+  assert (Huint64_range: 0 <= v /\ v <= Int64.max_unsigned).
+  {
+    unfold addr_max_unsigned in Haddr.
+    unfold addr_max_unsigned in HvHi.
+    rewrite Haddr in HvHi.
+    lia.
+  }
   entailer!.
 Qed.
 

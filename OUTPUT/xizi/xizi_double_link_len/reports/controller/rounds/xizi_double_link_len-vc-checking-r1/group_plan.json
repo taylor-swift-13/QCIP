@@ -1,0 +1,426 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_version": {
+    "digest": "b0220a5ef11fd16f8779d7d05cec995b141558a35ef9f010440e24ba539261b2",
+    "digest_input_policy": "relative_path+sha256+state+role only",
+    "files": [
+      {
+        "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_len-20260910183914/xizi_double_link_len-annotation-r1/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len.c",
+        "relative_path": "OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len.c",
+        "role": "target-c-annotated",
+        "sha256": "8d9cadb3fd1b6b4e769165e429aad6b281ae1fbcf10503e0436669932c7bbf29",
+        "state": "present"
+      },
+      {
+        "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_len-20260910183914/xizi_double_link_len-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_lib.v",
+        "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_lib.v",
+        "role": "case-lib-seed",
+        "sha256": "b9d9462192e989fc38983b8ecd4c8e9708c6903a336f4308e3efa02a90ec4525",
+        "state": "present"
+      }
+    ],
+    "schema_version": "qcp-source-version/v1"
+  },
+  "source_goal_version": "655e53d37f67d86cef5784681c1b2ed50694f0bf7388da9b053852dafa656a9f",
+  "target_witnesses": [
+    "proof_of_DoubleLinkListLenGet_entail_wit_1",
+    "proof_of_DoubleLinkListLenGet_entail_wit_2",
+    "proof_of_DoubleLinkListLenGet_entail_wit_3",
+    "proof_of_DoubleLinkListLenGet_return_wit_1",
+    "proof_of_DoubleLinkListLenGet_derive_nil_case_by_general"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "dll_len_cycle",
+      "witness_names": [
+        "proof_of_DoubleLinkListLenGet_entail_wit_1",
+        "proof_of_DoubleLinkListLenGet_entail_wit_2",
+        "proof_of_DoubleLinkListLenGet_entail_wit_3",
+        "proof_of_DoubleLinkListLenGet_return_wit_1",
+        "proof_of_DoubleLinkListLenGet_derive_nil_case_by_general"
+      ],
+      "representative_witness": "proof_of_DoubleLinkListLenGet_entail_wit_3",
+      "dependencies": [],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "dllseg_shift_capacity",
+          "statement_shape": "forall A storeA px py xs, XiziLocalDLL.dllseg_shift storeA px py xs |-- CRules.store_align4_n (2 * Zlength xs) ** TT",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListLenGet_entail_wit_3"
+          ],
+          "premises": [
+            {
+              "premise": "ownership of dllseg_shift storeA px py xs",
+              "discharged_by": "entail_wit_3 left spatial prefix; induction on xs exposes two separated pointer stores per node",
+              "spatial_resource": "CRules pointer stores project through store_ptr_align4_32; store_align4_merge sums capacities"
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix",
+          "proof_strategy": "Induct on xs; nil owns emp and capacity zero. Cons exposes previous pointer and previous cursor next pointer; project both to capacity one, merge with IH capacity, and retain arbitrary payload under TT."
+        },
+        {
+          "name_hint": "dllseg_shift_uint_bound",
+          "statement_shape": "forall A storeA px py xs, XiziLocalDLL.dllseg_shift storeA px py xs |-- \u201c 0 <= Zlength xs + 1 < 2 ^ 32 \u201d",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListLenGet_entail_wit_3"
+          ],
+          "premises": [
+            {
+              "premise": "ownership of shifted prefix",
+              "discharged_by": "entail_wit_3 prefix",
+              "arithmetic": "capacity gives 2*Zlength xs <= (2^32-1)/4+1 = 1073741824; Zlength_nonneg gives lower bound; hence increment strictly below 2^32"
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix",
+          "proof_strategy": "Apply capacity helper and CRules.store_align4_n_valid; rewrite CRules.addr_max_unsigned_eq_int, then discharge bounds by linear arithmetic. May instead keep these as local assertions within the assigned witness."
+        }
+      ],
+      "likely_helper_declarations": [
+        {
+          "name_hint": "dllseg_shift_capacity",
+          "statement_shape": "forall A storeA px py xs, XiziLocalDLL.dllseg_shift storeA px py xs |-- CRules.store_align4_n (2 * Zlength xs) ** TT",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListLenGet_entail_wit_3"
+          ],
+          "premises": [
+            {
+              "premise": "ownership of dllseg_shift storeA px py xs",
+              "discharged_by": "entail_wit_3 left spatial prefix; induction on xs exposes two separated pointer stores per node",
+              "spatial_resource": "CRules pointer stores project through store_ptr_align4_32; store_align4_merge sums capacities"
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix",
+          "proof_strategy": "Induct on xs; nil owns emp and capacity zero. Cons exposes previous pointer and previous cursor next pointer; project both to capacity one, merge with IH capacity, and retain arbitrary payload under TT."
+        },
+        {
+          "name_hint": "dllseg_shift_uint_bound",
+          "statement_shape": "forall A storeA px py xs, XiziLocalDLL.dllseg_shift storeA px py xs |-- \u201c 0 <= Zlength xs + 1 < 2 ^ 32 \u201d",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListLenGet_entail_wit_3"
+          ],
+          "premises": [
+            {
+              "premise": "ownership of shifted prefix",
+              "discharged_by": "entail_wit_3 prefix",
+              "arithmetic": "capacity gives 2*Zlength xs <= (2^32-1)/4+1 = 1073741824; Zlength_nonneg gives lower bound; hence increment strictly below 2^32"
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix",
+          "proof_strategy": "Apply capacity helper and CRules.store_align4_n_valid; rewrite CRules.addr_max_unsigned_eq_int, then discharge bounds by linear arithmetic. May instead keep these as local assertions within the assigned witness."
+        }
+      ],
+      "natural_language_proof_strategy": "Prove invariant establishment, unfold nonempty suffix, append node with finite storage increment bound, close empty residual suffix at loop exit, and instantiate nil-case subsumption. Reuse frozen proof bodies as candidates while keeping current CRules imports.",
+      "proof_strategy": "Full left disjuncts; pre_process; structured sep_apply_l_atomic/Intros/Exists/entailer; CRules capacity bound for unsigned arithmetic.",
+      "grouping_reason": "All five witnesses belong to DoubleLinkListLenGet and one shared shifted-prefix traversal invariant. The capacity fact is used only by the transition; there is no inter-group dependency or need to split this bounded group.",
+      "proof_pattern_references": [
+        {
+          "path": "/home/yangfp/QCIP/OUTPUT/xizi/xizi_double_link_common/reports/crules_unification/input_snapshots/workspace/SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_proof_manual.v",
+          "role": "read-only-proof-pattern-reference",
+          "reuse_policy": "Candidate only; old naive_C_Rules compilation is not current evidence. Keep generated CRules header and witness statements; compile with current fixed group-check."
+        }
+      ]
+    }
+  ],
+  "natural_language_analysis": {
+    "witnesses": [
+      {
+        "witness_name": "proof_of_DoubleLinkListLenGet_entail_wit_1",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "store_dll storeA head nodes",
+          "pre_pure": "None",
+          "pre_exists": "Parameters and existential fields already present in the frozen VC.",
+          "post_spatial": "head.prev |-> last ** dllseg_shift head head [] ** head.next |-> first ** dllseg first head head last nodes",
+          "post_pure": "nodes=[]++nodes; 0=Zlength []; additive length identity",
+          "post_exists": "first,last from store_dll; done=[]; todo=nodes"
+        },
+        "witness_instantiation": "first,last from store_dll; done=[]; todo=nodes",
+        "space_plan": "Unfold store_dll to obtain first and last, introduce empty shifted segment using head=head and emp. Frame every sentinel and suffix field.",
+        "pure_plan": "Empty-list app and length reduce; resulting arithmetic is identity.",
+        "refinement_plan": "No monadic refinement; general/nil specification subsumption only in final witness.",
+        "used_existing_lemmas": [
+          "XiziLocalDLL.store_dll",
+          "XiziLocalDLL.dllseg_shift"
+        ],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          "None",
+          "Unfold store_dll to obtain first and last, introduce empty shifted segment using head=head and emp. Frame every sentinel and suffix field.",
+          "Empty-list app and length reduce; resulting arithmetic is identity."
+        ],
+        "failure_signal": "",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "dll_len_cycle",
+        "grouping_reason": "Same function and shifted prefix / suffix invariant; five witnesses within bound 12."
+      },
+      {
+        "witness_name": "proof_of_DoubleLinkListLenGet_entail_wit_2",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "head.prev; shifted done; cursor.next=next; dllseg next cursor head last todo",
+          "pre_pure": "next<>head; nodes=done++todo; count=Zlength done; total length sum",
+          "pre_exists": "Parameters and existential fields already present in the frozen VC.",
+          "post_spatial": "Same sentinel/prefix plus payload and two node fields of first todo element, followed by residual dllseg",
+          "post_pure": "nodes=done++node::rest; count=Zlength done; Zlength nodes=Zlength done+1+Zlength rest",
+          "post_exists": "done unchanged; node/rest/after from dllseg_neq; last unchanged"
+        },
+        "witness_instantiation": "done unchanged; node/rest/after from dllseg_neq; last unchanged",
+        "space_plan": "Choose full left disjunct. Apply dllseg_neq with guard next<>head. Empty suffix contradicts guard, while cons exposes exactly required payload and fields.",
+        "pure_plan": "Substitute todo=node::rest and next=getPtr node; Zlength_cons converts old sum to requested sum.",
+        "refinement_plan": "No monadic refinement; general/nil specification subsumption only in final witness.",
+        "used_existing_lemmas": [
+          "XiziLocalDLL.dllseg_neq",
+          "Zlength_cons"
+        ],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          "next<>head; nodes=done++todo; count=Zlength done; total length sum",
+          "Choose full left disjunct. Apply dllseg_neq with guard next<>head. Empty suffix contradicts guard, while cons exposes exactly required payload and fields.",
+          "Substitute todo=node::rest and next=getPtr node; Zlength_cons converts old sum to requested sum."
+        ],
+        "failure_signal": "",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "dll_len_cycle",
+        "grouping_reason": "Same function and shifted prefix / suffix invariant; five witnesses within bound 12."
+      },
+      {
+        "witness_name": "proof_of_DoubleLinkListLenGet_entail_wit_3",
+        "judgment": "needs-helper",
+        "vc_shape": {
+          "pre_spatial": "head.prev; shifted done; cursor.next=node.ptr; node payload; node.prev=cursor; node.next=after; suffix rest",
+          "pre_pure": "nodes=done++node::rest; count=Zlength done; length relation",
+          "pre_exists": "Parameters and existential fields already present in the frozen VC.",
+          "post_spatial": "head.prev; shifted (done++[node]) ending at node.ptr; node.next=after; suffix rest",
+          "post_pure": "nodes=(done++[node])++rest; unsigned_last_nbits(count+1,32)=Zlength(done++[node]); total lengths",
+          "post_exists": "next=after; last unchanged; done_new=done++[node]; todo_new=rest"
+        },
+        "witness_instantiation": "next=after; last unchanged; done_new=done++[node]; todo_new=rest",
+        "space_plan": "Choose full left disjunct. Derive a pure increment bound from shifted prefix capacity without losing resources, then apply dllseg_shift_contact_a to append current node. Preserve its next field and suffix.",
+        "pure_plan": "Finite 32-bit separated storage bounds 2*Zlength done by 1073741824, so 0<=Zlength done+1<2^32. Since count=Zlength done, Z.mod_small eliminates unsigned_last_nbits. app_assoc and Zlength_app/cons prove remaining equalities.",
+        "refinement_plan": "No monadic refinement; general/nil specification subsumption only in final witness.",
+        "used_existing_lemmas": [
+          "XiziLocalDLL.dllseg_shift_contact_a",
+          "CRules.store_ptr_align4_32",
+          "CRules.store_align4_merge",
+          "CRules.store_align4_n_valid",
+          "CRules.addr_max_unsigned_eq_int",
+          "Z.mod_small",
+          "Zlength_nonneg",
+          "Zlength_app",
+          "Zlength_cons",
+          "app_assoc"
+        ],
+        "candidate_helper_declarations": [
+          {
+            "name_hint": "dllseg_shift_capacity",
+            "statement_shape": "forall A storeA px py xs, XiziLocalDLL.dllseg_shift storeA px py xs |-- CRules.store_align4_n (2 * Zlength xs) ** TT",
+            "used_by_witnesses": [
+              "proof_of_DoubleLinkListLenGet_entail_wit_3"
+            ],
+            "premises": [
+              {
+                "premise": "ownership of dllseg_shift storeA px py xs",
+                "discharged_by": "entail_wit_3 left spatial prefix; induction on xs exposes two separated pointer stores per node",
+                "spatial_resource": "CRules pointer stores project through store_ptr_align4_32; store_align4_merge sums capacities"
+              }
+            ],
+            "destination": "group-local case_lib with helper_namespace.suffix",
+            "proof_strategy": "Induct on xs; nil owns emp and capacity zero. Cons exposes previous pointer and previous cursor next pointer; project both to capacity one, merge with IH capacity, and retain arbitrary payload under TT."
+          },
+          {
+            "name_hint": "dllseg_shift_uint_bound",
+            "statement_shape": "forall A storeA px py xs, XiziLocalDLL.dllseg_shift storeA px py xs |-- \u201c 0 <= Zlength xs + 1 < 2 ^ 32 \u201d",
+            "used_by_witnesses": [
+              "proof_of_DoubleLinkListLenGet_entail_wit_3"
+            ],
+            "premises": [
+              {
+                "premise": "ownership of shifted prefix",
+                "discharged_by": "entail_wit_3 prefix",
+                "arithmetic": "capacity gives 2*Zlength xs <= (2^32-1)/4+1 = 1073741824; Zlength_nonneg gives lower bound; hence increment strictly below 2^32"
+              }
+            ],
+            "destination": "group-local case_lib with helper_namespace.suffix",
+            "proof_strategy": "Apply capacity helper and CRules.store_align4_n_valid; rewrite CRules.addr_max_unsigned_eq_int, then discharge bounds by linear arithmetic. May instead keep these as local assertions within the assigned witness."
+          }
+        ],
+        "premise_discharge": [
+          "nodes=done++node::rest; count=Zlength done; length relation",
+          "Choose full left disjunct. Derive a pure increment bound from shifted prefix capacity without losing resources, then apply dllseg_shift_contact_a to append current node. Preserve its next field and suffix.",
+          "Finite 32-bit separated storage bounds 2*Zlength done by 1073741824, so 0<=Zlength done+1<2^32. Since count=Zlength done, Z.mod_small eliminates unsigned_last_nbits. app_assoc and Zlength_app/cons prove remaining equalities."
+        ],
+        "failure_signal": "",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "dll_len_cycle",
+        "grouping_reason": "Same function and shifted prefix / suffix invariant; five witnesses within bound 12."
+      },
+      {
+        "witness_name": "proof_of_DoubleLinkListLenGet_return_wit_1",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "head.prev=last; shifted done ending cursor; cursor.next=next; dllseg next cursor head last todo",
+          "pre_pure": "next=head; nodes=done++todo; count=Zlength done",
+          "pre_exists": "Parameters and existential fields already present in the frozen VC.",
+          "post_spatial": "store_dll storeA head nodes",
+          "post_pure": "count=Zlength nodes",
+          "post_exists": "first pointer from dllseg_shift_to_dllseg; last from precondition"
+        },
+        "witness_instantiation": "first pointer from dllseg_shift_to_dllseg; last from precondition",
+        "space_plan": "Choose left disjunct and substitute next=head. Case-split todo. Nil gives cursor=last. Convert shifted prefix with cursor.next back to dllseg, then fold store_dll. Cons owns head.prev again, contradicting separated head.prev ownership using dup_store_ptr; no endpoint guard needs adding.",
+        "pure_plan": "Nil reduces nodes=done++[] to nodes=done, then count equality is old invariant. Cons is spatially inconsistent.",
+        "refinement_plan": "No monadic refinement; general/nil specification subsumption only in final witness.",
+        "used_existing_lemmas": [
+          "XiziLocalDLL.dllseg_shift_to_dllseg",
+          "XiziLocalDLL.store_dll",
+          "dup_store_ptr",
+          "app_nil_r"
+        ],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          "next=head; nodes=done++todo; count=Zlength done",
+          "Choose left disjunct and substitute next=head. Case-split todo. Nil gives cursor=last. Convert shifted prefix with cursor.next back to dllseg, then fold store_dll. Cons owns head.prev again, contradicting separated head.prev ownership using dup_store_ptr; no endpoint guard needs adding.",
+          "Nil reduces nodes=done++[] to nodes=done, then count equality is old invariant. Cons is spatially inconsistent."
+        ],
+        "failure_signal": "",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "dll_len_cycle",
+        "grouping_reason": "Same function and shifted prefix / suffix invariant; five witnesses within bound 12."
+      },
+      {
+        "witness_name": "proof_of_DoubleLinkListLenGet_derive_nil_case_by_general",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "store_dll storeA head []",
+          "pre_pure": "None",
+          "pre_exists": "Parameters and existential fields already present in the frozen VC.",
+          "post_spatial": "General precondition and wand from general return to nil-case return",
+          "post_pure": "Return zero after instantiating general nodes=[]",
+          "post_exists": "A unchanged; storeA_general=storeA_nil_case; nodes_general=[]; returned value unchanged"
+        },
+        "witness_instantiation": "A unchanged; storeA_general=storeA_nil_case; nodes_general=[]; returned value unchanged",
+        "space_plan": "Instantiate type, payload predicate and empty node list. Frame the identical precondition; introduce wand and preserve the returned empty-list ownership.",
+        "pure_plan": "Zlength []=0 converts general return equality to nil-case equality.",
+        "refinement_plan": "No monadic refinement; general/nil specification subsumption only in final witness.",
+        "used_existing_lemmas": [
+          "sepcon_cancel_end",
+          "derivable1_wand_sepcon_adjoint"
+        ],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          "None",
+          "Instantiate type, payload predicate and empty node list. Frame the identical precondition; introduce wand and preserve the returned empty-list ownership.",
+          "Zlength []=0 converts general return equality to nil-case equality."
+        ],
+        "failure_signal": "",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "dll_len_cycle",
+        "grouping_reason": "Same function and shifted prefix / suffix invariant; five witnesses within bound 12."
+      }
+    ],
+    "analysis_groups": [
+      {
+        "group_id": "dll_len_cycle",
+        "witness_names": [
+          "proof_of_DoubleLinkListLenGet_entail_wit_1",
+          "proof_of_DoubleLinkListLenGet_entail_wit_2",
+          "proof_of_DoubleLinkListLenGet_entail_wit_3",
+          "proof_of_DoubleLinkListLenGet_return_wit_1",
+          "proof_of_DoubleLinkListLenGet_derive_nil_case_by_general"
+        ],
+        "representative_witness": "proof_of_DoubleLinkListLenGet_entail_wit_3",
+        "dependencies": [],
+        "candidate_helper_declarations": [
+          {
+            "name_hint": "dllseg_shift_capacity",
+            "statement_shape": "forall A storeA px py xs, XiziLocalDLL.dllseg_shift storeA px py xs |-- CRules.store_align4_n (2 * Zlength xs) ** TT",
+            "used_by_witnesses": [
+              "proof_of_DoubleLinkListLenGet_entail_wit_3"
+            ],
+            "premises": [
+              {
+                "premise": "ownership of dllseg_shift storeA px py xs",
+                "discharged_by": "entail_wit_3 left spatial prefix; induction on xs exposes two separated pointer stores per node",
+                "spatial_resource": "CRules pointer stores project through store_ptr_align4_32; store_align4_merge sums capacities"
+              }
+            ],
+            "destination": "group-local case_lib with helper_namespace.suffix",
+            "proof_strategy": "Induct on xs; nil owns emp and capacity zero. Cons exposes previous pointer and previous cursor next pointer; project both to capacity one, merge with IH capacity, and retain arbitrary payload under TT."
+          },
+          {
+            "name_hint": "dllseg_shift_uint_bound",
+            "statement_shape": "forall A storeA px py xs, XiziLocalDLL.dllseg_shift storeA px py xs |-- \u201c 0 <= Zlength xs + 1 < 2 ^ 32 \u201d",
+            "used_by_witnesses": [
+              "proof_of_DoubleLinkListLenGet_entail_wit_3"
+            ],
+            "premises": [
+              {
+                "premise": "ownership of shifted prefix",
+                "discharged_by": "entail_wit_3 prefix",
+                "arithmetic": "capacity gives 2*Zlength xs <= (2^32-1)/4+1 = 1073741824; Zlength_nonneg gives lower bound; hence increment strictly below 2^32"
+              }
+            ],
+            "destination": "group-local case_lib with helper_namespace.suffix",
+            "proof_strategy": "Apply capacity helper and CRules.store_align4_n_valid; rewrite CRules.addr_max_unsigned_eq_int, then discharge bounds by linear arithmetic. May instead keep these as local assertions within the assigned witness."
+          }
+        ],
+        "likely_helper_declarations": [
+          {
+            "name_hint": "dllseg_shift_capacity",
+            "statement_shape": "forall A storeA px py xs, XiziLocalDLL.dllseg_shift storeA px py xs |-- CRules.store_align4_n (2 * Zlength xs) ** TT",
+            "used_by_witnesses": [
+              "proof_of_DoubleLinkListLenGet_entail_wit_3"
+            ],
+            "premises": [
+              {
+                "premise": "ownership of dllseg_shift storeA px py xs",
+                "discharged_by": "entail_wit_3 left spatial prefix; induction on xs exposes two separated pointer stores per node",
+                "spatial_resource": "CRules pointer stores project through store_ptr_align4_32; store_align4_merge sums capacities"
+              }
+            ],
+            "destination": "group-local case_lib with helper_namespace.suffix",
+            "proof_strategy": "Induct on xs; nil owns emp and capacity zero. Cons exposes previous pointer and previous cursor next pointer; project both to capacity one, merge with IH capacity, and retain arbitrary payload under TT."
+          },
+          {
+            "name_hint": "dllseg_shift_uint_bound",
+            "statement_shape": "forall A storeA px py xs, XiziLocalDLL.dllseg_shift storeA px py xs |-- \u201c 0 <= Zlength xs + 1 < 2 ^ 32 \u201d",
+            "used_by_witnesses": [
+              "proof_of_DoubleLinkListLenGet_entail_wit_3"
+            ],
+            "premises": [
+              {
+                "premise": "ownership of shifted prefix",
+                "discharged_by": "entail_wit_3 prefix",
+                "arithmetic": "capacity gives 2*Zlength xs <= (2^32-1)/4+1 = 1073741824; Zlength_nonneg gives lower bound; hence increment strictly below 2^32"
+              }
+            ],
+            "destination": "group-local case_lib with helper_namespace.suffix",
+            "proof_strategy": "Apply capacity helper and CRules.store_align4_n_valid; rewrite CRules.addr_max_unsigned_eq_int, then discharge bounds by linear arithmetic. May instead keep these as local assertions within the assigned witness."
+          }
+        ],
+        "natural_language_proof_strategy": "Prove invariant establishment, unfold nonempty suffix, append node with finite storage increment bound, close empty residual suffix at loop exit, and instantiate nil-case subsumption. Reuse frozen proof bodies as candidates while keeping current CRules imports.",
+        "proof_strategy": "Full left disjuncts; pre_process; structured sep_apply_l_atomic/Intros/Exists/entailer; CRules capacity bound for unsigned arithmetic.",
+        "grouping_reason": "All five witnesses belong to DoubleLinkListLenGet and one shared shifted-prefix traversal invariant. The capacity fact is used only by the transition; there is no inter-group dependency or need to split this bounded group.",
+        "proof_pattern_references": [
+          {
+            "path": "/home/yangfp/QCIP/OUTPUT/xizi/xizi_double_link_common/reports/crules_unification/input_snapshots/workspace/SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_proof_manual.v",
+            "role": "read-only-proof-pattern-reference",
+            "reuse_policy": "Candidate only; old naive_C_Rules compilation is not current evidence. Keep generated CRules header and witness statements; compile with current fixed group-check."
+          }
+        ],
+        "proof_group_ready": true
+      }
+    ],
+    "summary": "All five VCs semantically follow from current assertions. Finite storage capacity supplies the overflow bound; no specification change or new assumption required."
+  },
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 5,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

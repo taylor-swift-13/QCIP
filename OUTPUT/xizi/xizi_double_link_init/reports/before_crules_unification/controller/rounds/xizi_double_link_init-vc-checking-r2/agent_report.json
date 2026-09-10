@@ -1,0 +1,425 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "status": "completed",
+    "source_version": "fb73ef869c1d761d755475a35b1cf8431d9cad1ec42f2c9e89cb9e7a75b6761a",
+    "source_goal_version": "0ae406435ea80f0ee8c25c6a86d62a7ff97098fe418b89bd5965e43dfed60a0a",
+    "vc_checking": {
+      "status": "completed",
+      "source_version": "fb73ef869c1d761d755475a35b1cf8431d9cad1ec42f2c9e89cb9e7a75b6761a",
+      "source_goal_version": "0ae406435ea80f0ee8c25c6a86d62a7ff97098fe418b89bd5965e43dfed60a0a",
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "0ae406435ea80f0ee8c25c6a86d62a7ff97098fe418b89bd5965e43dfed60a0a",
+        "source_version": "fb73ef869c1d761d755475a35b1cf8431d9cad1ec42f2c9e89cb9e7a75b6761a",
+        "target_witnesses": [
+          "proof_of_InitDoubleLinkList_entail_wit_1",
+          "proof_of_InitDoubleLinkList_return_wit_1"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "sentinel_init",
+            "witness_names": [
+              "proof_of_InitDoubleLinkList_entail_wit_1",
+              "proof_of_InitDoubleLinkList_return_wit_1"
+            ],
+            "representative_witness": "proof_of_InitDoubleLinkList_entail_wit_1",
+            "dependencies": [],
+            "candidate_helper_declarations": [],
+            "likely_helper_declarations": [],
+            "proof_strategy": "Choose the left branch of each duplicated disjunction. Unpack occupy_dll_node for entry; use XiziLocalDLL.store_dll_empty_rev for return. Use actual SysDoubleLinklistNode fields and the shared DLL.DL_Node logical type.",
+            "natural_language_proof_strategy": "Both goals are immediate fold/unfold ownership facts for the same sentinel. The initialization writes both self pointers and the empty segment contributes only reflexive equalities and emp.",
+            "grouping_reason": "Two witnesses, same function and same two-field ownership pattern, no dependencies or new helper required; within the maximum group size of 12."
+          }
+        ],
+        "grouping_policy": {
+          "controller_policy": "bounded-witness-groups/v1",
+          "balanced_grouping_required": "yes",
+          "max_witnesses_per_group": 12,
+          "single_group_allowed_only_if_target_witness_count_lte": 12,
+          "oversized_group_rejected_by_controller": "yes",
+          "grouping_basis": [
+            "same proof pattern or helper family",
+            "same loop/refinement phase",
+            "dependency ordering",
+            "manual witness order as deterministic tie-breaker"
+          ],
+          "split_required_when": [
+            "target witness count exceeds 12",
+            "any proposed group would exceed 12 witnesses",
+            "proof strategies are unrelated enough to confuse one worker"
+          ],
+          "same_function_related_witnesses": "keep-together-only-within-max-witnesses-per-group",
+          "reason_required_for_each_group": "yes"
+        },
+        "natural_language_analysis": {
+          "status": "completed",
+          "witnesses": [
+            {
+              "judgment": "proofable",
+              "refinement_plan": "No abstract program or refinement state is present.",
+              "candidate_helper_declarations": [],
+              "failure_signal": "",
+              "recommended_next_phase": "vc-proving-preparing",
+              "analysis_group_candidate": "sentinel_init",
+              "proof_group_candidate": "sentinel_init",
+              "grouping_reason": "Both obligations describe the two sentinel fields of the same straight-line initialization function.",
+              "witness_name": "proof_of_InitDoubleLinkList_entail_wit_1",
+              "vc_shape": {
+                "pre_spatial": "XiziLocalDLL.occupy_dll_node head: independently existential previous and next pointer field ownership.",
+                "pre_pure": "None.",
+                "pre_exists": "prev0 and next0 after unfolding occupy_dll_node.",
+                "post_spatial": "head.node_prev |-> prev ** head.node_next |-> next, both with SysDoubleLinklistNode tag.",
+                "post_pure": "None.",
+                "post_exists": "EX next prev."
+              },
+              "witness_instantiation": "Choose either identical outer disjunct (left). Eliminate precondition existentials prev0,next0, then choose postcondition next=next0, prev=prev0.",
+              "space_plan": "Unfold the witness, choose left, introduce head, unfold XiziLocalDLL.occupy_dll_node; eliminate the two owned-field existentials and reintroduce them in requested order. Match the identical pointer resources using structural spatial tactics.",
+              "pure_plan": "No arithmetic, non-null premise or endpoint inequality is needed.",
+              "used_existing_lemmas": [],
+              "premise_discharge": [
+                "Both required field resources are exactly the two conjuncts of occupy_dll_node."
+              ],
+              "proving_hint": "unfold InitDoubleLinkList_entail_wit_1; left; intros; unfold XiziLocalDLL.occupy_dll_node; Intros prev next; Exists next prev; entailer!."
+            },
+            {
+              "judgment": "proofable",
+              "refinement_plan": "No abstract program or refinement state is present.",
+              "candidate_helper_declarations": [],
+              "failure_signal": "",
+              "recommended_next_phase": "vc-proving-preparing",
+              "analysis_group_candidate": "sentinel_init",
+              "proof_group_candidate": "sentinel_init",
+              "grouping_reason": "Both obligations describe the two sentinel fields of the same straight-line initialization function.",
+              "witness_name": "proof_of_InitDoubleLinkList_return_wit_1",
+              "vc_shape": {
+                "pre_spatial": "head.node_prev |-> head ** head.node_next |-> head, with SysDoubleLinklistNode tag.",
+                "pre_pure": "None.",
+                "pre_exists": "None.",
+                "post_spatial": "XiziLocalDLL.store_dll storeA head (@nil (DLL.DL_Node A)).",
+                "post_pure": "Empty dllseg requires first=head and head=last.",
+                "post_exists": "first and last inside store_dll."
+              },
+              "witness_instantiation": "Choose the left outer disjunct. In store_dll choose first=head and last=head; the empty segment consumes emp.",
+              "space_plan": "After unfolding the witness and introducing A/head/storeA, apply XiziLocalDLL.store_dll_empty_rev. Its premise exactly matches both owned fields and its result uses the transparently shared DLL.DL_Node type. Alternatively unfold store_dll,dllseg and choose head twice.",
+              "pure_plan": "The empty segment equalities reduce to head=head. No storeA payload or non-null assumption is required for nil.",
+              "used_existing_lemmas": [
+                {
+                  "name": "XiziLocalDLL.store_dll_empty_rev",
+                  "source": "QCIPLib/xizi/xizi_double_link_common/xizi_double_link_lib.v",
+                  "line": 1009
+                }
+              ],
+              "premise_discharge": [
+                "The lemma is polymorphic in arbitrary A and storeA, matching the VC binders.",
+                "Its only spatial premise is precisely the two self-referential pointer fields owned by the VC.",
+                "XiziLocalDLL.DL_Node is a transparent alias of DLL.DL_Node, so no conversion theorem or layout equality assumption is needed."
+              ],
+              "proving_hint": "unfold InitDoubleLinkList_return_wit_1; left; intros; apply XiziLocalDLL.store_dll_empty_rev."
+            }
+          ],
+          "analysis_groups": [
+            {
+              "group_id": "sentinel_init",
+              "witness_names": [
+                "proof_of_InitDoubleLinkList_entail_wit_1",
+                "proof_of_InitDoubleLinkList_return_wit_1"
+              ],
+              "representative_witness": "proof_of_InitDoubleLinkList_entail_wit_1",
+              "dependencies": [],
+              "candidate_helper_declarations": [],
+              "likely_helper_declarations": [],
+              "proof_strategy": "Choose the left branch of each duplicated disjunction. Unpack occupy_dll_node for entry; use XiziLocalDLL.store_dll_empty_rev for return. Use actual SysDoubleLinklistNode fields and the shared DLL.DL_Node logical type.",
+              "natural_language_proof_strategy": "Both goals are immediate fold/unfold ownership facts for the same sentinel. The initialization writes both self pointers and the empty segment contributes only reflexive equalities and emp.",
+              "grouping_reason": "Two witnesses, same function and same two-field ownership pattern, no dependencies or new helper required; within the maximum group size of 12.",
+              "shared_proof_pattern": "Unfold/fold sentinel ownership.",
+              "shared_space_plan": "Match the two actual C layout pointer fields.",
+              "shared_pure_plan": "Only reflexive empty-segment endpoint equalities.",
+              "shared_refinement_plan": "None.",
+              "proof_group_ready": true
+            }
+          ]
+        },
+        "blockers": []
+      },
+      "natural_language_analysis": {
+        "status": "completed",
+        "witnesses": [
+          {
+            "judgment": "proofable",
+            "refinement_plan": "No abstract program or refinement state is present.",
+            "candidate_helper_declarations": [],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "sentinel_init",
+            "proof_group_candidate": "sentinel_init",
+            "grouping_reason": "Both obligations describe the two sentinel fields of the same straight-line initialization function.",
+            "witness_name": "proof_of_InitDoubleLinkList_entail_wit_1",
+            "vc_shape": {
+              "pre_spatial": "XiziLocalDLL.occupy_dll_node head: independently existential previous and next pointer field ownership.",
+              "pre_pure": "None.",
+              "pre_exists": "prev0 and next0 after unfolding occupy_dll_node.",
+              "post_spatial": "head.node_prev |-> prev ** head.node_next |-> next, both with SysDoubleLinklistNode tag.",
+              "post_pure": "None.",
+              "post_exists": "EX next prev."
+            },
+            "witness_instantiation": "Choose either identical outer disjunct (left). Eliminate precondition existentials prev0,next0, then choose postcondition next=next0, prev=prev0.",
+            "space_plan": "Unfold the witness, choose left, introduce head, unfold XiziLocalDLL.occupy_dll_node; eliminate the two owned-field existentials and reintroduce them in requested order. Match the identical pointer resources using structural spatial tactics.",
+            "pure_plan": "No arithmetic, non-null premise or endpoint inequality is needed.",
+            "used_existing_lemmas": [],
+            "premise_discharge": [
+              "Both required field resources are exactly the two conjuncts of occupy_dll_node."
+            ],
+            "proving_hint": "unfold InitDoubleLinkList_entail_wit_1; left; intros; unfold XiziLocalDLL.occupy_dll_node; Intros prev next; Exists next prev; entailer!."
+          },
+          {
+            "judgment": "proofable",
+            "refinement_plan": "No abstract program or refinement state is present.",
+            "candidate_helper_declarations": [],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "sentinel_init",
+            "proof_group_candidate": "sentinel_init",
+            "grouping_reason": "Both obligations describe the two sentinel fields of the same straight-line initialization function.",
+            "witness_name": "proof_of_InitDoubleLinkList_return_wit_1",
+            "vc_shape": {
+              "pre_spatial": "head.node_prev |-> head ** head.node_next |-> head, with SysDoubleLinklistNode tag.",
+              "pre_pure": "None.",
+              "pre_exists": "None.",
+              "post_spatial": "XiziLocalDLL.store_dll storeA head (@nil (DLL.DL_Node A)).",
+              "post_pure": "Empty dllseg requires first=head and head=last.",
+              "post_exists": "first and last inside store_dll."
+            },
+            "witness_instantiation": "Choose the left outer disjunct. In store_dll choose first=head and last=head; the empty segment consumes emp.",
+            "space_plan": "After unfolding the witness and introducing A/head/storeA, apply XiziLocalDLL.store_dll_empty_rev. Its premise exactly matches both owned fields and its result uses the transparently shared DLL.DL_Node type. Alternatively unfold store_dll,dllseg and choose head twice.",
+            "pure_plan": "The empty segment equalities reduce to head=head. No storeA payload or non-null assumption is required for nil.",
+            "used_existing_lemmas": [
+              {
+                "name": "XiziLocalDLL.store_dll_empty_rev",
+                "source": "QCIPLib/xizi/xizi_double_link_common/xizi_double_link_lib.v",
+                "line": 1009
+              }
+            ],
+            "premise_discharge": [
+              "The lemma is polymorphic in arbitrary A and storeA, matching the VC binders.",
+              "Its only spatial premise is precisely the two self-referential pointer fields owned by the VC.",
+              "XiziLocalDLL.DL_Node is a transparent alias of DLL.DL_Node, so no conversion theorem or layout equality assumption is needed."
+            ],
+            "proving_hint": "unfold InitDoubleLinkList_return_wit_1; left; intros; apply XiziLocalDLL.store_dll_empty_rev."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "sentinel_init",
+            "witness_names": [
+              "proof_of_InitDoubleLinkList_entail_wit_1",
+              "proof_of_InitDoubleLinkList_return_wit_1"
+            ],
+            "representative_witness": "proof_of_InitDoubleLinkList_entail_wit_1",
+            "dependencies": [],
+            "candidate_helper_declarations": [],
+            "likely_helper_declarations": [],
+            "proof_strategy": "Choose the left branch of each duplicated disjunction. Unpack occupy_dll_node for entry; use XiziLocalDLL.store_dll_empty_rev for return. Use actual SysDoubleLinklistNode fields and the shared DLL.DL_Node logical type.",
+            "natural_language_proof_strategy": "Both goals are immediate fold/unfold ownership facts for the same sentinel. The initialization writes both self pointers and the empty segment contributes only reflexive equalities and emp.",
+            "grouping_reason": "Two witnesses, same function and same two-field ownership pattern, no dependencies or new helper required; within the maximum group size of 12.",
+            "shared_proof_pattern": "Unfold/fold sentinel ownership.",
+            "shared_space_plan": "Match the two actual C layout pointer fields.",
+            "shared_pure_plan": "Only reflexive empty-segment endpoint equalities.",
+            "shared_refinement_plan": "None.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "changed_files": [],
+      "blockers": [],
+      "evidence": {
+        "version_check": {
+          "status": "passed",
+          "files": [
+            {
+              "relative_path": "OUTPUT/xizi/xizi_double_link_init/source/xizi_double_link_init.c",
+              "sha256": "791ea179ad9978ef5c664951803f74d5c54235ba2fc4b1258e959387c5f6ef7d",
+              "status": "matched"
+            },
+            {
+              "relative_path": "QCIPLib/xizi/xizi_double_link_common/xizi_double_link_lib.v",
+              "sha256": "397648ca54cb88c1ce80ea00dcb8d2595a82043fac1ee3b680979f867ce71b9b",
+              "status": "matched"
+            },
+            {
+              "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_init/source/xizi_double_link_init_goal.v",
+              "sha256": "10cd8ed122d05706e9b6d7fc3f167303ecefa04d6e1f53d547e0a9e71ed39c5c",
+              "status": "matched"
+            },
+            {
+              "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_init/source/xizi_double_link_init_proof_auto.v",
+              "sha256": "7c5e1a30b6d099d845163b8f856ebc3ce97962f831b6c32d0b336a3025d8bcc5",
+              "status": "matched"
+            },
+            {
+              "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_init/source/xizi_double_link_init_proof_manual.v",
+              "sha256": "5c21326fbf22591b867093096390dd512ad36d86cd9f4c147d3bf4f7a59147ca",
+              "status": "matched"
+            },
+            {
+              "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_init/source/xizi_double_link_init_goal_check.v",
+              "sha256": "6ca1a2159c04f485c2516a786475fdec6789f0112ad38b53b8ec775c4c930789",
+              "status": "matched"
+            },
+            {
+              "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_init/source/xizi_double_link_init_proof_diagnostics.v",
+              "sha256": "072672bafdb23e588c98f864d49ecb34062f92bcbe8ccd2126db22cc6ca6fe92",
+              "status": "matched"
+            },
+            {
+              "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_init/source/diagnostics_snapshot.json",
+              "sha256": "a70a42289352e125cd6db86c76a2b902277aef0054c21b4ff6f823dcbc77b465",
+              "status": "matched"
+            }
+          ]
+        },
+        "manual_target_check": {
+          "status": "passed",
+          "target_witnesses": [
+            "proof_of_InitDoubleLinkList_entail_wit_1",
+            "proof_of_InitDoubleLinkList_return_wit_1"
+          ],
+          "diagnostics_excluded": true
+        },
+        "semantic_analysis": {
+          "status": "passed",
+          "proofable_count": 2,
+          "needs_helper_count": 0
+        },
+        "coqc_check": {
+          "status": "not-run",
+          "reason": "Read-only semantic planning phase; proof execution and group-check belong to group-worker."
+        }
+      },
+      "layout_observation": "Current annotation and VC use XiziLocalDLL actual SysDoubleLinklistNode field ownership; canonical DLL remains literal reference DoubleLinklistType. XiziLocalDLL.DL_Node transparently aliases DLL.DL_Node. No extra guards are present in the initialization pre/post or local predicates.",
+      "recommended_next_phase": "vc-proving-preparing"
+    },
+    "changed_files": [],
+    "blockers": [],
+    "finished_at": "2026-09-10T04:18:25.203261+00:00"
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-09-10T04:18:52Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_double_link_init-20260910112837/rounds/xizi_double_link_init-vc-checking-r2/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    },
+    "controller_simple_repairs": [
+      {
+        "kind": "materialized-inline-group-plan",
+        "source": "/home/yangfp/QCIP/reports/xizi_double_link_init-20260910112837/rounds/xizi_double_link_init-vc-checking-r2/agent_report.json",
+        "target": "/home/yangfp/QCIP/reports/xizi_double_link_init-20260910112837/rounds/xizi_double_link_init-vc-checking-r2/group_plan.json",
+        "reason": "vc-checking report included an inline group_plan but the default group_plan.json artifact was missing"
+      }
+    ],
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-09-10T04:18:52Z",
+      "source_version": {
+        "digest": "fb73ef869c1d761d755475a35b1cf8431d9cad1ec42f2c9e89cb9e7a75b6761a",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_init-20260910112837/xizi_double_link_init-annotation-r2/OUTPUT/xizi/xizi_double_link_init/source/xizi_double_link_init.c",
+            "relative_path": "OUTPUT/xizi/xizi_double_link_init/source/xizi_double_link_init.c",
+            "role": "target-c-annotated",
+            "sha256": "791ea179ad9978ef5c664951803f74d5c54235ba2fc4b1258e959387c5f6ef7d",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_init-20260910112837/xizi_double_link_init-annotation-r2/QCIPLib/xizi/xizi_double_link_common/xizi_double_link_lib.v",
+            "relative_path": "QCIPLib/xizi/xizi_double_link_common/xizi_double_link_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "397648ca54cb88c1ce80ea00dcb8d2595a82043fac1ee3b680979f867ce71b9b",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "0ae406435ea80f0ee8c25c6a86d62a7ff97098fe418b89bd5965e43dfed60a0a",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_init/source/xizi_double_link_init_goal.v",
+            "role": "generated-goal",
+            "sha256": "10cd8ed122d05706e9b6d7fc3f167303ecefa04d6e1f53d547e0a9e71ed39c5c",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_init/source/xizi_double_link_init_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "7c5e1a30b6d099d845163b8f856ebc3ce97962f831b6c32d0b336a3025d8bcc5",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_init/source/xizi_double_link_init_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "5c21326fbf22591b867093096390dd512ad36d86cd9f4c147d3bf4f7a59147ca",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_init/source/xizi_double_link_init_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "6ca1a2159c04f485c2516a786475fdec6789f0112ad38b53b8ec775c4c930789",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_init/source/xizi_double_link_init_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "072672bafdb23e588c98f864d49ecb34062f92bcbe8ccd2126db22cc6ca6fe92",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_init/source/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "a70a42289352e125cd6db86c76a2b902277aef0054c21b4ff6f823dcbc77b465",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_InitDoubleLinkList_entail_wit_1",
+          "proof_of_InitDoubleLinkList_return_wit_1"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_InitDoubleLinkList_entail_wit_1": "10c4fa2f05705228c6afc3d879ca5c2ab2ec23e0d4af199d76fd61c8988c46c7",
+          "proof_of_InitDoubleLinkList_return_wit_1": "81b92d2f09f4960ea0b82255d28a56ec52239d721e26e2524a345d985259e34a"
+        },
+        "witnesses": [
+          {
+            "end_line": 26,
+            "name": "proof_of_InitDoubleLinkList_entail_wit_1",
+            "start_line": 24,
+            "statement_hash": "10c4fa2f05705228c6afc3d879ca5c2ab2ec23e0d4af199d76fd61c8988c46c7",
+            "target_symbol": "InitDoubleLinkList_entail_wit_1"
+          },
+          {
+            "end_line": 29,
+            "name": "proof_of_InitDoubleLinkList_return_wit_1",
+            "start_line": 27,
+            "statement_hash": "81b92d2f09f4960ea0b82255d28a56ec52239d721e26e2524a345d985259e34a",
+            "target_symbol": "InitDoubleLinkList_return_wit_1"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_double_link_init-20260910112837/rounds/xizi_double_link_init-vc-checking-r2/group_plan.json",
+      "target_witnesses": [
+        "proof_of_InitDoubleLinkList_entail_wit_1",
+        "proof_of_InitDoubleLinkList_return_wit_1"
+      ]
+    }
+  },
+  "blockers": []
+}

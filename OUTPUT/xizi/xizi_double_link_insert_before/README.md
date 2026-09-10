@@ -1,44 +1,32 @@
 # xizi_double_link_insert_before 验证交付
 
-本目录保存 `xizi_double_link_insert_before` 的最新 accepted 交付。此次修正的重点是让公开 spec 在真实调用点可实例化，而不是只证明函数体。
+本次验证已通过 controller final-check，run 为 `xizi_double_link_insert_before-20260910183709`。所有非注释 token 与迁移前一致。 本次指定的 8 个双链表与 9 个单链表函数已完成当前依赖下的统一复验。
 
-最终接口包含三个命名规格：
+泛型 storeA : addr -> A -> Assertion 表示嵌入 link 对应的业务资源；结构指针字段由链表谓词持有。公共 DLL 谓词保留参考逻辑条件，实际 C 用例与 idmanager 共用 CRules 模型；XiziLocalDLL 是 XiziIdmanagerDLL 同一实例的别名。
 
-- `dispatch_case`：统一描述“目标是普通成员或 sentinel”的插入语义。
-- `member_case <= dispatch_case`：普通成员调用，要求 `In(linklist, nodes)`。
-- `sentinel_case <= dispatch_case`：sentinel 调用，不要求错误的 `In(head, nodes)`，语义是把新节点追加到抽象序列尾部。
+- `source/`：正式带标注 C 与头文件。
+- `rocq/`：本版本生成目标与已完成证明。
+- 唯一 active case_lib：`SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_lib.v`；归档：`OUTPUT/xizi/xizi_double_link_insert_before/rocq/xizi_double_link_insert_before_lib.v`。
+- `reports/controller/`：本 run 的 controller、round、group 与最终证据。
+- `reports/before_crules_unification/`：迁移前历史报告，不作为当前验收证据。
 
-controller run `xizi_double_link_insert_before-20260817190000` 已到 `done`。`source_goal_version` 为 `5dfcd902197d89db68e123f0f89d2998aeb2be3792c2e0c207a64ad3cabec848`，7 条 target manual witness 全部完成，parent fixed check 与 final-check 均通过。
+source_goal_version：`7dacec39d9fabfa349f8b6c1d7059496442e53267f1e9aef1f7f5cf9f1ba9754`；manual witness 数：7。symbolic execution freshness、固定 Coq 检查、manual 结构、case_lib 合同及 forbidden lemma 检查均通过。
 
-目录说明：
+验证边界：当前 QCP 自动生成的 `proof_auto.v` 有 0 个 `Admitted` 占位。按仓库生成文件边界保留并单独记录；本轮完成证明的是 manual witnesses 和维护库中的引理，不能据此宣称整套证明完全没有假设。
 
-- `source/`：带 annotation 的 C 源码和头文件。
-- `rocq/`：generated goal、auto/manual proof、goal check、唯一 active case lib 和 diagnostics 快照。
-- `reports/controller_run/`：完整 controller run、round 和 group-worker evidence。
-- `reports/generated_snapshots/`：最终 formal 文件快照。
-- `reports/checkpoint.json`、`reports/reuse_packet.json`：后续复用入口。
-
-## 固定 Rocq 复现
-
-在仓库根目录运行：
+在仓库根目录复现 symbolic execution（输出到临时目录，保留正式 manual）：
 
 ```sh
-python3 .agents/skills/vc-proving/scripts/coq_tooling.py check \
-  --workspace-root /home/yangfp/QCIP \
-  --build-workspace /tmp/xizi-double-link-insert-before-coq \
-  --target-file SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_goal_check.v \
-  --target-kind check \
-  --source-goal-version 5dfcd902197d89db68e123f0f89d2998aeb2be3792c2e0c207a64ad3cabec848
+mkdir -p /tmp/xizi_double_link_insert_before-storeA-refresh
+/home/yangfp/QCIP/linux-binary/symexec --goal-file=/tmp/xizi_double_link_insert_before-storeA-refresh/xizi_double_link_insert_before_goal.v --proof-auto-file=/tmp/xizi_double_link_insert_before-storeA-refresh/xizi_double_link_insert_before_proof_auto.v --proof-manual-file=/tmp/xizi_double_link_insert_before-storeA-refresh/xizi_double_link_insert_before_proof_manual.v -IQCP_examples/QCP_demos_LLM/ -slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM -slp QCIPLib/xizi/xizi_double_link_common/ QCIPLib.xizi.xizi_double_link_common --CRules CRules --coq-logic-path=SimpleC.EE.OUTPUT.xizi.xizi_double_link_insert_before.source --input-file=OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before.c --no-exec-info
 ```
 
-symbolic execution 使用 `/home/yangfp/QCIP/linux-binary/symexec`，工作目录为仓库根目录，并保留：
+通过固定入口编译：
 
-```text
--IQCP_examples/QCP_demos_LLM/
--slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM
--slp QCIPLib/xizi/xizi_double_link_common/ QCIPLib.xizi.xizi_double_link_common
+```sh
+python3 /home/yangfp/QCIP/.agents/skills/vc-proving/scripts/coq_tooling.py check --workspace-root /home/yangfp/QCIP --build-workspace /tmp/xizi_double_link_insert_before-storeA-coq-build --target-file SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_goal_check.v --target-kind check --source-goal-version 7dacec39d9fabfa349f8b6c1d7059496442e53267f1e9aef1f7f5cf9f1ba9754
 ```
 
-不要直接覆盖已经证明的 `*_proof_manual.v`；fresh skeleton 应写入隔离目录后比较 generated 文件和 witness statement。精确 evidence 见 `reports/controller_run/run_logs.json`。
+修改源码、规约或目标后应重新执行 controller 流程。快照与 OUTPUT 副本的字节比对见 `reports/archive_comparison.json`。
 
-真实调用点 `init(head); insert_before(head,node) where (sentinel_case)` 的独立验证交付在 `../xizi_double_link_init_then_insert_before/`。
+本次双链表 CRules 统一后的当前依赖复验：canonical symbolic execution freshness、manual/case_lib 结构与禁用项检查、固定 Coq 编译均通过。统一证据：`OUTPUT/xizi/xizi_double_link_common/reports/crules_unification/suite_audits/20260910113338/audit.json`。历史报告仍按原版本保留。

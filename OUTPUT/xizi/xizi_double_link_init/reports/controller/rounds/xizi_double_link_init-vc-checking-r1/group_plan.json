@@ -1,0 +1,115 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "e9be5bdee03fb814509d06083a161680d183b7033a51be86bf841de9718d1b8b",
+  "target_witnesses": [
+    "proof_of_InitDoubleLinkList_entail_wit_1",
+    "proof_of_InitDoubleLinkList_return_wit_1"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "dll_init",
+      "witness_names": [
+        "proof_of_InitDoubleLinkList_entail_wit_1",
+        "proof_of_InitDoubleLinkList_return_wit_1"
+      ],
+      "representative_witness": "proof_of_InitDoubleLinkList_entail_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "proof_strategy": "Choose the left branch of each duplicated disjunction. Open occupy_dll_node and repackage its existentials for entail_wit_1; apply XiziLocalDLL.store_dll_empty_rev for return_wit_1. Use CRules throughout, with transparent SysDoubleLinkLayout field reduction.",
+      "grouping_reason": "Two related witnesses of InitDoubleLinkList share the same concrete head cells and canonical predicates; 2 <= 12 and there is no inter-group dependency.",
+      "shared_proof_pattern": "Existential opening followed by empty-ring folding under CRules.",
+      "proof_group_ready": true
+    }
+  ],
+  "natural_language_analysis": {
+    "schema_version": "qcp-vc-natural-language-analysis/v1",
+    "status": "completed",
+    "witnesses": [
+      {
+        "judgment": "proofable",
+        "candidate_helper_declarations": [],
+        "refinement_plan": "No abstract-program refinement or loop obligation.",
+        "failure_signal": "",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "dll_init",
+        "grouping_reason": "Both obligations are direct CRules spatial opening/folding for the same initialization function.",
+        "witness_name": "proof_of_InitDoubleLinkList_entail_wit_1",
+        "vc_shape": {
+          "pre_spatial": "XiziLocalDLL.occupy_dll_node head: existential previous and next pointer cells in separation.",
+          "pre_pure": "None.",
+          "pre_exists": "prev and next are bound separately inside occupy_dll_node.",
+          "post_spatial": "prev field maps to prev ** next field maps to next.",
+          "post_pure": "None.",
+          "post_exists": "EX next prev outside the separating conjunction."
+        },
+        "witness_instantiation": "Take next and prev from the two occupied pointer fields, preserving their values and ownership. Choose the left branch of the duplicated disjunction.",
+        "space_plan": "Unfold InitDoubleLinkList_entail_wit_1, choose left; introduce head; unfold XiziLocalDLL.occupy_dll_node. Open its two existentials and reintroduce them in target order (next, prev). The two cells cancel exactly after transparent SysDoubleLinkLayout reduction.",
+        "pure_plan": "No nonnull, alignment, endpoint, or arithmetic side condition is introduced.",
+        "used_existing_lemmas": [
+          "XiziLocalDLL.occupy_dll_node (definition)"
+        ],
+        "premise_discharge": [
+          "Both required cells occur in the precondition with the identical SysDoubleLinklistNode field addresses."
+        ]
+      },
+      {
+        "judgment": "proofable",
+        "candidate_helper_declarations": [],
+        "refinement_plan": "No abstract-program refinement or loop obligation.",
+        "failure_signal": "",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "dll_init",
+        "grouping_reason": "Both obligations are direct CRules spatial opening/folding for the same initialization function.",
+        "witness_name": "proof_of_InitDoubleLinkList_return_wit_1",
+        "vc_shape": {
+          "pre_spatial": "head.prev maps to head ** head.next maps to head.",
+          "pre_pure": "None.",
+          "pre_exists": "None.",
+          "post_spatial": "XiziLocalDLL.store_dll storeA head nil.",
+          "post_pure": "Empty dllseg requires head=head and head=head.",
+          "post_exists": "store_dll internally quantifies first and last pointers."
+        },
+        "witness_instantiation": "Choose the left duplicated disjunct; choose first=head and last=head inside store_dll.",
+        "space_plan": "After introducing A, head, storeA, apply XiziLocalDLL.store_dll_empty_rev. Its two pointer-cell premises exactly match the VC after transparent layout reduction. Equivalently unfold store_dll and nil dllseg and choose head twice.",
+        "pure_plan": "The empty segment imposes only reflexive equalities; its emp contributes no heap. No payload ownership is required because the logical list is nil, for arbitrary A and storeA.",
+        "used_existing_lemmas": [
+          "XiziLocalDLL.store_dll_empty_rev"
+        ],
+        "premise_discharge": [
+          "The premise of store_dll_empty_rev is precisely the pair of self-pointer cells in P; no extra hypothesis is needed.",
+          "DLL.DL_Node and XiziLocalDLL.DL_Node are transparently the shared DLLNode record."
+        ]
+      }
+    ],
+    "analysis_groups": [
+      {
+        "group_id": "dll_init",
+        "witness_names": [
+          "proof_of_InitDoubleLinkList_entail_wit_1",
+          "proof_of_InitDoubleLinkList_return_wit_1"
+        ],
+        "representative_witness": "proof_of_InitDoubleLinkList_entail_wit_1",
+        "dependencies": [],
+        "candidate_helper_declarations": [],
+        "likely_helper_declarations": [],
+        "proof_strategy": "Choose the left branch of each duplicated disjunction. Open occupy_dll_node and repackage its existentials for entail_wit_1; apply XiziLocalDLL.store_dll_empty_rev for return_wit_1. Use CRules throughout, with transparent SysDoubleLinkLayout field reduction.",
+        "grouping_reason": "Two related witnesses of InitDoubleLinkList share the same concrete head cells and canonical predicates; 2 <= 12 and there is no inter-group dependency.",
+        "shared_proof_pattern": "Existential opening followed by empty-ring folding under CRules.",
+        "proof_group_ready": true
+      }
+    ],
+    "blockers": []
+  },
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 2,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

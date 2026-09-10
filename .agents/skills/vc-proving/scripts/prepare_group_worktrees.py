@@ -14,7 +14,10 @@ from typing import Any
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 
-from coq_tooling import fixed_flags_hash, infer_case_config, make_coqc_argv, make_coqtop_argv
+from coq_tooling import (
+    FIXED_R_MAPPINGS, FIXED_Q_MAPPINGS,
+    fixed_flags_hash, infer_case_config, make_coqc_argv, make_coqtop_argv,
+)
 from group_plan_utils import group_entries_from_plan, load_group_plan
 from proof_manual_utils import helper_namespace_for_group_id
 from worktree_utils import (
@@ -52,7 +55,34 @@ def _formal_file_candidates(manual_rel: Path) -> list[Path]:
     return candidates
 
 
+def sync_round_dependency_sources(round_worktree: Path, group_worktree: Path,
+                                  manifest: dict[str, Any]) -> list[str]:
+    """Restore the accepted dependency snapshot without touching worker outputs.
+
+    A detached HEAD alone omits uncommitted architecture/library updates that
+    were present in the accepted round. Compilation must use the same sources.
+    """
+    protected = set(_formal_file_candidates(Path(str(manifest["proof_manual_file"]))))
+    protected.add(Path(str(manifest["case_lib"])))
+    copied = []
+    for physical, _logical in (*FIXED_R_MAPPINGS, *FIXED_Q_MAPPINGS):
+        source_root = round_worktree / physical
+        if not source_root.is_dir():
+            continue
+        for source in source_root.rglob("*.v"):
+            relative = source.relative_to(round_worktree)
+            if relative in protected:
+                continue
+            target = group_worktree / relative
+            if not target.is_file() or source.read_bytes() != target.read_bytes():
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(source, target)
+                copied.append(relative.as_posix())
+    return copied
+
+
 def _sync_round_files(round_worktree: Path, group_worktree: Path, manifest: dict[str, Any]) -> None:
+    sync_round_dependency_sources(round_worktree, group_worktree, manifest)
     # A round worktree may contain controller-approved, uncommitted shared
     # libraries.  A Git worktree created from its HEAD alone would silently
     # fall back to stale library definitions, so mirror the active QCIPLib

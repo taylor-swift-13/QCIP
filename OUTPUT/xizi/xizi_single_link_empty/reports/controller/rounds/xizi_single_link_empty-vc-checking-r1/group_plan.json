@@ -1,0 +1,148 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "8ed71727c0a17647fd21146bd6b3376eedaf6cb168c9ad8c0d3468cd72ddd9b7",
+  "target_witnesses": [
+    "proof_of_IsSingleLinkListEmpty_entail_wit_1",
+    "proof_of_IsSingleLinkListEmpty_return_wit_1",
+    "proof_of_IsSingleLinkListEmpty_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "payload_emptiness",
+      "witness_names": [
+        "proof_of_IsSingleLinkListEmpty_entail_wit_1",
+        "proof_of_IsSingleLinkListEmpty_return_wit_1",
+        "proof_of_IsSingleLinkListEmpty_return_wit_2"
+      ],
+      "representative_witness": "proof_of_IsSingleLinkListEmpty_return_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "proof_strategy": "Select the left duplicated disjunction in every witness. Open/close generic_sll_head through payload adapters. For returns destruct l: nil forces first=0; cons forces first<>0. Contradict the impossible branch, prove the matching xizi_sll_empty_result disjunct and restore the head with the same first and full ownership. No induction or payload-specific premise is required.",
+      "grouping_reason": "All three witnesses verify one read-only emptiness function with identical head-predicate and null-characterization patterns. One dependency-free group is within the 12-witness bound.",
+      "shared_proof_pattern": "Head definition expansion and list constructor case split.",
+      "shared_space_plan": "Preserve exactly the pointer cell and arbitrary storeA resources.",
+      "shared_pure_plan": "nil iff null; exact zero/one result.",
+      "shared_refinement_plan": "None.",
+      "proof_group_ready": true
+    }
+  ],
+  "natural_language_analysis": {
+    "schema_version": "qcp-vc-natural-language-analysis/v1",
+    "witnesses": [
+      {
+        "witness_name": "proof_of_IsSingleLinkListEmpty_entail_wit_1",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "xizi_sll_head_payload storeA head l",
+          "pre_pure": "head<>NULL inside head predicate",
+          "pre_exists": "first inside head predicate",
+          "post_spatial": "head.node_next |-> first ** xizi_sll_payload storeA first l",
+          "post_pure": "head<>0",
+          "post_exists": "first:Z"
+        },
+        "witness_instantiation": "Reuse the original first pointer from the input resources.",
+        "space_plan": "Choose the left duplicated disjunction. Unfold xizi_sll_head_payload, generic_sll_head_payload, generic_sll_head, sll_head_store and sll_link; extract first and non-nullness, rebuild the existential and frame the identical list resource.",
+        "pure_plan": "head<>0 is exactly the head<>NULL conjunct, with NULL definitionally zero.",
+        "refinement_plan": "No monadic refinement; exact Boolean emptiness and resource preservation.",
+        "used_existing_lemmas": [],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          "Head non-null, first and both spatial conjuncts come from generic_sll_head."
+        ],
+        "failure_signal": "",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "payload_emptiness",
+        "proof_group_candidate": "payload_emptiness",
+        "grouping_reason": "One function; shared head unfolding and generic_sll nullness case analysis."
+      },
+      {
+        "witness_name": "proof_of_IsSingleLinkListEmpty_return_wit_1",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "head.node_next |-> first ** xizi_sll_payload storeA first l",
+          "pre_pure": "first<>0 and head<>0",
+          "pre_exists": "none externally",
+          "post_spatial": "xizi_sll_head_payload storeA head l, identical logical nodes and arbitrary payload resources",
+          "post_pure": "xizi_sll_empty_result l 0",
+          "post_exists": "first inside reconstructed head"
+        },
+        "witness_instantiation": "Reuse the original first pointer from the input resources.",
+        "space_plan": "Choose the left duplicated disjunction; split l into nil/cons. Nil exposes first=0 and contradiction. For cons preserve the entire list predicate and node_next cell; unfold only the output head adapter and close with original first.",
+        "pure_plan": "Nil implies first=0 by generic_sll, contradicting PreH1. Cons has l<>nil by constructor discrimination; choose nonempty result disjunct with ret=0.",
+        "refinement_plan": "No monadic refinement; exact Boolean emptiness and resource preservation.",
+        "used_existing_lemmas": [],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          "first<>0 is PreH1; head<>0 is PreH2.",
+          "The nil/null law is definitional generic_sll at nil, independent of storeA.",
+          "All payload assertions are framed; no payload-specific fact is needed."
+        ],
+        "failure_signal": "",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "payload_emptiness",
+        "proof_group_candidate": "payload_emptiness",
+        "grouping_reason": "One function; shared head unfolding and generic_sll nullness case analysis."
+      },
+      {
+        "witness_name": "proof_of_IsSingleLinkListEmpty_return_wit_2",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "head.node_next |-> first ** xizi_sll_payload storeA first l",
+          "pre_pure": "first=0 and head<>0",
+          "pre_exists": "none externally",
+          "post_spatial": "xizi_sll_head_payload storeA head l with identical payload ownership",
+          "post_pure": "xizi_sll_empty_result l 1",
+          "post_exists": "first inside reconstructed head"
+        },
+        "witness_instantiation": "Reuse the original first pointer from the input resources.",
+        "space_plan": "Choose the left duplicated disjunction; split l into nil/cons. Cons exposes first<>NULL and contradiction with first=0. For nil retain the node_next cell and nil-list resource and close the head predicate with zero.",
+        "pure_plan": "Cons implies first<>NULL by the outer generic_sll conjunct, contradicting PreH1. Nil satisfies the empty result disjunct with ret=1.",
+        "refinement_plan": "No monadic refinement; exact Boolean emptiness and resource preservation.",
+        "used_existing_lemmas": [],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          "first=0 is PreH1; head<>0 is PreH2.",
+          "The cons/non-null law is the outer pure conjunct of generic_sll, independent of payload ownership."
+        ],
+        "failure_signal": "",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "payload_emptiness",
+        "proof_group_candidate": "payload_emptiness",
+        "grouping_reason": "One function; shared head unfolding and generic_sll nullness case analysis."
+      }
+    ],
+    "analysis_groups": [
+      {
+        "group_id": "payload_emptiness",
+        "witness_names": [
+          "proof_of_IsSingleLinkListEmpty_entail_wit_1",
+          "proof_of_IsSingleLinkListEmpty_return_wit_1",
+          "proof_of_IsSingleLinkListEmpty_return_wit_2"
+        ],
+        "representative_witness": "proof_of_IsSingleLinkListEmpty_return_wit_1",
+        "dependencies": [],
+        "candidate_helper_declarations": [],
+        "likely_helper_declarations": [],
+        "proof_strategy": "Select the left duplicated disjunction in every witness. Open/close generic_sll_head through payload adapters. For returns destruct l: nil forces first=0; cons forces first<>0. Contradict the impossible branch, prove the matching xizi_sll_empty_result disjunct and restore the head with the same first and full ownership. No induction or payload-specific premise is required.",
+        "grouping_reason": "All three witnesses verify one read-only emptiness function with identical head-predicate and null-characterization patterns. One dependency-free group is within the 12-witness bound.",
+        "shared_proof_pattern": "Head definition expansion and list constructor case split.",
+        "shared_space_plan": "Preserve exactly the pointer cell and arbitrary storeA resources.",
+        "shared_pure_plan": "nil iff null; exact zero/one result.",
+        "shared_refinement_plan": "None.",
+        "proof_group_ready": true
+      }
+    ]
+  },
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

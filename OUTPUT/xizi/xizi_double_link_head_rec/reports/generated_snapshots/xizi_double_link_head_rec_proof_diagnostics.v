@@ -23,3 +23,15 @@ From SimpleC.EE.OUTPUT.xizi.xizi_double_link_head_rec.source
       Require Import xizi_double_link_head_rec_lib.
 Local Open Scope sac.
 
+Lemma proof_of_DoubleLinkListGetHead_return_wit_1_split_goal_1 : DoubleLinkListGetHead_return_wit_1_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_DoubleLinkListGetHead_return_wit_1_split_goal_spatial : DoubleLinkListGetHead_return_wit_1_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_DoubleLinkListGetHead_return_wit_2_split_goal_1 : DoubleLinkListGetHead_return_wit_2_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_DoubleLinkListGetHead_return_wit_2_split_goal_spatial : DoubleLinkListGetHead_return_wit_2_split_goal_spatial.
+Proof. Abort.
+

@@ -17,7 +17,23 @@ Local Open Scope Z_scope.
 Local Open Scope sets.
 Local Open Scope string_scope.
 Local Open Scope list.
-Import naive_C_Rules.
+Import CRules.
 From QCIPLib.xizi.xizi_double_link_common Require Import xizi_double_link_lib.
 Local Open Scope sac.
+
+Lemma proof_of_InitDoubleLinkList_entail_wit_1 : InitDoubleLinkList_entail_wit_1.
+Proof.
+  pre_process.
+  unfold XiziLocalDLL.occupy_dll_node.
+  Intros prev next.
+  Exists next prev.
+  cancel (&(linklist_head_pre # "SysDoubleLinklistNode" ->ₛ "node_next") # Ptr |-> next).
+  cancel (&(linklist_head_pre # "SysDoubleLinklistNode" ->ₛ "node_prev") # Ptr |-> prev).
+Qed. 
+
+Lemma proof_of_InitDoubleLinkList_return_wit_1 : InitDoubleLinkList_return_wit_1.
+Proof.
+  pre_process.
+  apply XiziLocalDLL.store_dll_empty_rev.
+Qed. 
 

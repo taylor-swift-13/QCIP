@@ -22,6 +22,9 @@ From QCIPLib.xizi.xizi_double_link_common Require Import xizi_double_link_lib.
 From SimpleC.EE.OUTPUT.xizi.xizi_double_link_init_then_insert_before.source Require Import xizi_double_link_init_then_insert_before_lib.
 Local Open Scope sac.
 
+Lemma proof_of_InitDoubleLinkList_return_wit_1_split_goal_spatial : InitDoubleLinkList_return_wit_1_split_goal_spatial.
+Proof. Abort.
+
 Lemma proof_of_xizi_double_link_init_then_insert_before_return_wit_1_split_goal_spatial : xizi_double_link_init_then_insert_before_return_wit_1_split_goal_spatial.
 Proof. Abort.
 

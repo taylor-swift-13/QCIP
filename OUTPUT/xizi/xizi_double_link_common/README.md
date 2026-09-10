@@ -1,24 +1,9 @@
 # xizi_double_link_common
 
-这是 12 个 DLL 函数 case 与 2 个真实调用点（`init -> empty`、`init -> len`）共用的分离逻辑库交付副本。active source 位于
-`QCIPLib/xizi/xizi_double_link_common/`；`crtosverify/lib/dll.v` 只作为设计来源，
-当前交付不依赖也不修改 crtos 仓库。
+当前公共库已统一到 CRules，并通过原 idnode 导入兼容检查；8 个原 double_link.c 函数的本轮最终验收与 17 函数统一复验均已通过。
 
-- `source/xizi_double_link_def.h`：C 结构与 common import/谓词声明快照。
-- `source/xizi_double_link.strategies`：共享展开、折叠与非空链表策略。
-- `rocq/xizi_double_link_lib.v`：`DLL_LAYOUT`、可复用 `AddrDLL(Layout)`、
-  xizi 布局实例、`xizi_dllseg`/`xizi_dll` 及基础代数引理。
-- `rocq/xizi_double_link_strategy_goal.v`、`xizi_double_link_strategy_proof.v`：策略 VC 与证明。
-- `reports/strict_refresh_comparison.json`：各 case accepted annotation round 的 canonical symexec / source-goal freshness 汇总。
-- `reports/full_suite_check.json`：整套 fixed `coq_tooling.py check` 证据。
-- `reports/final_structure_audit.json`：manual/case_lib 与 23 项 forbidden 规则审计。
-- `reports/output_layout_audit.json`：14 个 case 的标准报告与输入/生成物快照完整性审计。
-- `reports/checkpoint.json`、`reuse_packet.json`、`run_manifest.json`：收尾状态与复用入口。
+active source：`QCIPLib/xizi/xizi_double_link_common/xizi_double_link_lib.v`。公共谓词与证明只在 CanonicalDLL 布局模块中维护一份。DLL 是 master 参考布局实例；XiziIdmanagerDLL 是实际 SysDoubleLinklistNode 布局实例；XiziLocalDLL 是后者的直接模块别名。所有公共节点类型共享，公共谓词无额外 guards。
 
-设计先参考单链表的公开接口，再落实双链表的前后向 ownership。字段寻址使用真实
-C tag `SysDoubleLinklistNode`；sentinel/head 显式非空；非空 segment 明确要求当前
-节点非空且不等于 stop；新节点只要求可写的 undefined next/prev ownership。
+[本轮统一进度与复现](reports/crules_unification/README.md)、[接口说明](reports/crules_unification/interface_correspondence.md)。此前 idmanager_dll_alignment 的双模型结果与更早的 storeA_migration_reference 均为历史版本证据。rocq 副本已随本轮 final-check 归档。
 
-本 common 已由真实 `init -> empty` 与 `init -> len` 调用点验证可调用性，再通过全部 14 个目标的
-统一 fixed `coq_tooling.py check`。case 的实际依赖仍指向
-`QCIPLib`；此目录是完整发布快照。
+范围仍为 8 DLL 原函数；9 SLL 原函数做当前依赖回归。原 idnode 假设与生成 auto 占位单列，维护库和 manual 不新增 Admitted/额外 Axiom。

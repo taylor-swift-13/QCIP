@@ -5,6 +5,9 @@ Local Open Scope Z.
 Notation "'INT_MIN'" := (-2147483648).
 Notation "'INT_MAX'" := (2147483647).
 Notation "'UINT_MAX'" := (4294967295).
+Notation "'INT64_MIN'" := (-9223372036854775808).
+Notation "'INT64_MAX'" := (9223372036854775807).
+Notation "'UINT64_MAX'" := (18446744073709551615).
 Notation "'Zabs'" := (Z.abs).
 Notation "'Zgcd'" := (Z.gcd).
 Notation "x % y" := (Z.rem x y) (at level 40).
@@ -15,6 +18,12 @@ Definition unsigned_last_nbits (x : Z) (n : Z) : Z :=
 Definition signed_last_nbits (x : Z) (n : Z) : Z := 
    let v := x mod (2 ^ n) in 
    if (zlt v (2 ^ (n - 1))) then v else v - 2 ^ n.
+
+Module Int128.
+  Definition min_signed : Z := - 2 ^ 127.
+  Definition max_signed : Z := 2 ^ 127 - 1.
+  Definition max_unsigned : Z := 2 ^ 128 - 1.
+End Int128.
 
 Lemma Zland_land : forall x y c, Z.land (Z.land x y) c = Z.land (Z.land x c) (Z.land y c).
 Proof.

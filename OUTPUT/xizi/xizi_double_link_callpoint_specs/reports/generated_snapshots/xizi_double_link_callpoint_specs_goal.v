@@ -27,23 +27,23 @@ From QCIPLib.xizi.xizi_double_link_common Require Import xizi_double_link_strate
 
 Definition xizi_double_link_call_empty_after_init_return_wit_1 := 
 (
-forall (head_pre: Z) (retval: Z) (PreH1 : (retval = 1)) (PreH2 : (head_pre <> 0)) (PreH3 : (head_pre <> 0)) ,
-  (xizi_dll head_pre (@nil Z) )
+forall (A: Type) (head_pre: Z) (storeA: (Z -> (A -> Assertion))) (retval: Z) (PreH1 : (retval = 1)) (PreH2 : (head_pre <> 0)) ,
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 |--
   “ (xizi_double_link_call_empty_result retval ) ”
-  &&  (xizi_dll head_pre (@nil Z) )
+  &&  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 ) \/
 (
-forall (head_pre: Z) (retval: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (retval = 1)) (PreH3 : (head_pre <> 0)) (PreH4 : (head_pre <> 0)) ,
+forall (head_pre: Z) (retval: Z) (PreH1 : (retval = 1)) (PreH2 : (head_pre <> 0)) ,
   TT && emp 
 |--
-  “ (xizi_double_link_call_empty_result retval ) ”
+  “ (xizi_double_link_call_empty_result 1 ) ”
   &&  emp
 ).
 
 Definition xizi_double_link_call_empty_after_init_return_wit_1_split_goal_1 := 
-forall (head_pre: Z) (retval: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (retval = 1)) (PreH3 : (head_pre <> 0)) (PreH4 : (head_pre <> 0)) ,
-  (xizi_double_link_call_empty_result retval )
+forall (head_pre: Z) (retval: Z) (PreH1 : (retval = 1)) (PreH2 : (head_pre <> 0)) ,
+  (xizi_double_link_call_empty_result 1 )
 .
 
 Definition xizi_double_link_call_empty_after_init_partial_solve_wit_1 := 
@@ -55,35 +55,34 @@ forall (head_pre: Z) ,
 .
 
 Definition xizi_double_link_call_empty_after_init_partial_solve_wit_2 := 
-forall (head_pre: Z) (PreH1 : (head_pre <> 0)) ,
-  (xizi_dll head_pre (@nil Z) )
+forall (A: Type) (head_pre: Z) (storeA: (Z -> (A -> Assertion))) (PreH1 : (head_pre <> 0)) ,
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 |--
-  “ (head_pre <> 0) ” 
-  &&  “ (head_pre <> 0) ”
-  &&  (xizi_dll head_pre (@nil Z) )
+  “ (head_pre <> 0) ”
+  &&  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 .
 
 (*----- Function xizi_double_link_call_empty_rec_after_init -----*)
 
 Definition xizi_double_link_call_empty_rec_after_init_return_wit_1 := 
 (
-forall (head_pre: Z) (retval: Z) (PreH1 : (retval = 1)) (PreH2 : (head_pre <> 0)) (PreH3 : (head_pre <> 0)) ,
-  (xizi_dll head_pre (@nil Z) )
+forall (A: Type) (head_pre: Z) (storeA: (Z -> (A -> Assertion))) (retval: Z) (PreH1 : (retval = 1)) (PreH2 : (head_pre <> 0)) ,
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 |--
   “ (xizi_double_link_call_empty_result retval ) ”
-  &&  (xizi_dll head_pre (@nil Z) )
+  &&  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 ) \/
 (
-forall (head_pre: Z) (retval: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (retval = 1)) (PreH3 : (head_pre <> 0)) (PreH4 : (head_pre <> 0)) ,
+forall (head_pre: Z) (retval: Z) (PreH1 : (retval = 1)) (PreH2 : (head_pre <> 0)) ,
   TT && emp 
 |--
-  “ (xizi_double_link_call_empty_result retval ) ”
+  “ (xizi_double_link_call_empty_result 1 ) ”
   &&  emp
 ).
 
 Definition xizi_double_link_call_empty_rec_after_init_return_wit_1_split_goal_1 := 
-forall (head_pre: Z) (retval: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (retval = 1)) (PreH3 : (head_pre <> 0)) (PreH4 : (head_pre <> 0)) ,
-  (xizi_double_link_call_empty_result retval )
+forall (head_pre: Z) (retval: Z) (PreH1 : (retval = 1)) (PreH2 : (head_pre <> 0)) ,
+  (xizi_double_link_call_empty_result 1 )
 .
 
 Definition xizi_double_link_call_empty_rec_after_init_partial_solve_wit_1 := 
@@ -95,35 +94,34 @@ forall (head_pre: Z) ,
 .
 
 Definition xizi_double_link_call_empty_rec_after_init_partial_solve_wit_2 := 
-forall (head_pre: Z) (PreH1 : (head_pre <> 0)) ,
-  (xizi_dll head_pre (@nil Z) )
+forall (A: Type) (head_pre: Z) (storeA: (Z -> (A -> Assertion))) (PreH1 : (head_pre <> 0)) ,
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 |--
-  “ (head_pre <> 0) ” 
-  &&  “ (head_pre <> 0) ”
-  &&  (xizi_dll head_pre (@nil Z) )
+  “ (head_pre <> 0) ”
+  &&  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 .
 
 (*----- Function xizi_double_link_call_head_after_init -----*)
 
 Definition xizi_double_link_call_head_after_init_return_wit_1 := 
 (
-forall (head_pre: Z) (retval: Z) (PreH1 : (retval = 0)) (PreH2 : (head_pre <> 0)) (PreH3 : (head_pre <> 0)) ,
-  (xizi_dll head_pre (@nil Z) )
+forall (A: Type) (head_pre: Z) (storeA: (Z -> (A -> Assertion))) (retval: Z) (PreH1 : (retval = 0)) (PreH2 : (head_pre <> 0)) ,
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 |--
   “ (xizi_double_link_call_null_result retval ) ”
-  &&  (xizi_dll head_pre (@nil Z) )
+  &&  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 ) \/
 (
-forall (head_pre: Z) (retval: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (retval = 0)) (PreH3 : (head_pre <> 0)) (PreH4 : (head_pre <> 0)) ,
+forall (head_pre: Z) (retval: Z) (PreH1 : (retval = 0)) (PreH2 : (head_pre <> 0)) ,
   TT && emp 
 |--
-  “ (xizi_double_link_call_null_result retval ) ”
+  “ (xizi_double_link_call_null_result 0 ) ”
   &&  emp
 ).
 
 Definition xizi_double_link_call_head_after_init_return_wit_1_split_goal_1 := 
-forall (head_pre: Z) (retval: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (retval = 0)) (PreH3 : (head_pre <> 0)) (PreH4 : (head_pre <> 0)) ,
-  (xizi_double_link_call_null_result retval )
+forall (head_pre: Z) (retval: Z) (PreH1 : (retval = 0)) (PreH2 : (head_pre <> 0)) ,
+  (xizi_double_link_call_null_result 0 )
 .
 
 Definition xizi_double_link_call_head_after_init_partial_solve_wit_1 := 
@@ -135,35 +133,34 @@ forall (head_pre: Z) ,
 .
 
 Definition xizi_double_link_call_head_after_init_partial_solve_wit_2 := 
-forall (head_pre: Z) (PreH1 : (head_pre <> 0)) ,
-  (xizi_dll head_pre (@nil Z) )
+forall (A: Type) (head_pre: Z) (storeA: (Z -> (A -> Assertion))) (PreH1 : (head_pre <> 0)) ,
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 |--
-  “ (head_pre <> 0) ” 
-  &&  “ (head_pre <> 0) ”
-  &&  (xizi_dll head_pre (@nil Z) )
+  “ (head_pre <> 0) ”
+  &&  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 .
 
 (*----- Function xizi_double_link_call_head_rec_after_init -----*)
 
 Definition xizi_double_link_call_head_rec_after_init_return_wit_1 := 
 (
-forall (head_pre: Z) (retval: Z) (PreH1 : (retval = 0)) (PreH2 : (head_pre <> 0)) (PreH3 : (head_pre <> 0)) ,
-  (xizi_dll head_pre (@nil Z) )
+forall (A: Type) (head_pre: Z) (storeA: (Z -> (A -> Assertion))) (retval: Z) (PreH1 : (retval = 0)) (PreH2 : (head_pre <> 0)) ,
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 |--
   “ (xizi_double_link_call_null_result retval ) ”
-  &&  (xizi_dll head_pre (@nil Z) )
+  &&  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 ) \/
 (
-forall (head_pre: Z) (retval: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (retval = 0)) (PreH3 : (head_pre <> 0)) (PreH4 : (head_pre <> 0)) ,
+forall (head_pre: Z) (retval: Z) (PreH1 : (retval = 0)) (PreH2 : (head_pre <> 0)) ,
   TT && emp 
 |--
-  “ (xizi_double_link_call_null_result retval ) ”
+  “ (xizi_double_link_call_null_result 0 ) ”
   &&  emp
 ).
 
 Definition xizi_double_link_call_head_rec_after_init_return_wit_1_split_goal_1 := 
-forall (head_pre: Z) (retval: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (retval = 0)) (PreH3 : (head_pre <> 0)) (PreH4 : (head_pre <> 0)) ,
-  (xizi_double_link_call_null_result retval )
+forall (head_pre: Z) (retval: Z) (PreH1 : (retval = 0)) (PreH2 : (head_pre <> 0)) ,
+  (xizi_double_link_call_null_result 0 )
 .
 
 Definition xizi_double_link_call_head_rec_after_init_partial_solve_wit_1 := 
@@ -175,35 +172,34 @@ forall (head_pre: Z) ,
 .
 
 Definition xizi_double_link_call_head_rec_after_init_partial_solve_wit_2 := 
-forall (head_pre: Z) (PreH1 : (head_pre <> 0)) ,
-  (xizi_dll head_pre (@nil Z) )
+forall (A: Type) (head_pre: Z) (storeA: (Z -> (A -> Assertion))) (PreH1 : (head_pre <> 0)) ,
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 |--
-  “ (head_pre <> 0) ” 
-  &&  “ (head_pre <> 0) ”
-  &&  (xizi_dll head_pre (@nil Z) )
+  “ (head_pre <> 0) ”
+  &&  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 .
 
 (*----- Function xizi_double_link_call_len_after_init -----*)
 
 Definition xizi_double_link_call_len_after_init_return_wit_1 := 
 (
-forall (head_pre: Z) (retval: Z) (PreH1 : (retval = 0)) (PreH2 : (head_pre <> 0)) (PreH3 : (head_pre <> 0)) ,
-  (xizi_dll head_pre (@nil Z) )
+forall (A: Type) (head_pre: Z) (storeA: (Z -> (A -> Assertion))) (retval: Z) (PreH1 : (retval = 0)) (PreH2 : (head_pre <> 0)) ,
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 |--
   “ (xizi_double_link_call_len_result retval ) ”
-  &&  (xizi_dll head_pre (@nil Z) )
+  &&  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 ) \/
 (
-forall (head_pre: Z) (retval: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (retval = 0)) (PreH3 : (head_pre <> 0)) (PreH4 : (head_pre <> 0)) ,
+forall (head_pre: Z) (retval: Z) (PreH1 : (retval = 0)) (PreH2 : (head_pre <> 0)) ,
   TT && emp 
 |--
-  “ (xizi_double_link_call_len_result retval ) ”
+  “ (xizi_double_link_call_len_result 0 ) ”
   &&  emp
 ).
 
 Definition xizi_double_link_call_len_after_init_return_wit_1_split_goal_1 := 
-forall (head_pre: Z) (retval: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (retval = 0)) (PreH3 : (head_pre <> 0)) (PreH4 : (head_pre <> 0)) ,
-  (xizi_double_link_call_len_result retval )
+forall (head_pre: Z) (retval: Z) (PreH1 : (retval = 0)) (PreH2 : (head_pre <> 0)) ,
+  (xizi_double_link_call_len_result 0 )
 .
 
 Definition xizi_double_link_call_len_after_init_partial_solve_wit_1 := 
@@ -215,69 +211,41 @@ forall (head_pre: Z) ,
 .
 
 Definition xizi_double_link_call_len_after_init_partial_solve_wit_2 := 
-forall (head_pre: Z) (PreH1 : (head_pre <> 0)) ,
-  (xizi_dll head_pre (@nil Z) )
+forall (A: Type) (head_pre: Z) (storeA: (Z -> (A -> Assertion))) (PreH1 : (head_pre <> 0)) ,
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 |--
-  “ (head_pre <> 0) ” 
-  &&  “ (head_pre <> 0) ”
-  &&  (xizi_dll head_pre (@nil Z) )
+  “ (head_pre <> 0) ”
+  &&  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 .
 
 (*----- Function xizi_double_link_call_next_after_init -----*)
 
 Definition xizi_double_link_call_next_after_init_entail_wit_1 := 
-forall (head_pre: Z) (PreH1 : (head_pre <> 0)) ,
-  (xizi_dll head_pre (@nil Z) )
+forall (A: Type) (head_pre: Z) (storeA: (Z -> (A -> Assertion))) (PreH1 : (head_pre <> 0)) ,
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 |--
-  EX (nodes: (@list Z)) ,
-  “ (nodes = (@nil Z)) ”
-  &&  (xizi_dll head_pre nodes )
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 .
 
 Definition xizi_double_link_call_next_after_init_return_wit_1 := 
 (
-forall (head_pre: Z) (nodes: (@list Z)) (retval: Z) (PreH1 : (retval = (xizi_double_link_first_value (nodes)))) (PreH2 : (head_pre <> 0)) (PreH3 : (nodes = (@nil Z))) ,
-  (xizi_dll head_pre nodes )
+forall (A: Type) (head_pre: Z) (storeA: (Z -> (A -> Assertion))) (retval: Z) (PreH1 : (retval = (xizi_double_link_first_value ((xizi_dll_ptrs ((@nil (@XiziStoreADLL.DL_Node A)))))))) ,
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 |--
   “ (xizi_double_link_call_null_result retval ) ”
-  &&  (xizi_dll head_pre (@nil Z) )
+  &&  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 ) \/
 (
-forall (head_pre: Z) (nodes: (@list Z)) (retval: Z) (first: Z) (last: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (retval = (xizi_double_link_first_value (nodes)))) (PreH3 : (head_pre <> 0)) (PreH4 : (nodes = (@nil Z))) ,
-  (xizi_dllseg first head_pre head_pre last nodes )
+forall (A: Type) (retval: Z) (PreH1 : (retval = (xizi_double_link_first_value ((xizi_dll_ptrs ((@nil (@XiziStoreADLL.DL_Node A)))))))) ,
+  TT && emp 
 |--
-  “ (xizi_double_link_call_null_result retval ) ” 
-  &&  “ (last = head_pre) ” 
-  &&  “ (first = head_pre) ”
+  “ (xizi_double_link_call_null_result retval ) ”
   &&  emp
 ).
 
 Definition xizi_double_link_call_next_after_init_return_wit_1_split_goal_1 := 
-forall (head_pre: Z) (nodes: (@list Z)) (retval: Z) (first: Z) (last: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (retval = (xizi_double_link_first_value (nodes)))) (PreH3 : (head_pre <> 0)) (PreH4 : (nodes = (@nil Z))) ,
-  (xizi_dllseg first head_pre head_pre last nodes )
-|--
-  “ (xizi_double_link_call_null_result retval ) ”
-.
-
-Definition xizi_double_link_call_next_after_init_return_wit_1_split_goal_2 := 
-forall (head_pre: Z) (nodes: (@list Z)) (retval: Z) (first: Z) (last: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (retval = (xizi_double_link_first_value (nodes)))) (PreH3 : (head_pre <> 0)) (PreH4 : (nodes = (@nil Z))) ,
-  (xizi_dllseg first head_pre head_pre last nodes )
-|--
-  “ (last = head_pre) ”
-.
-
-Definition xizi_double_link_call_next_after_init_return_wit_1_split_goal_3 := 
-forall (head_pre: Z) (nodes: (@list Z)) (retval: Z) (first: Z) (last: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (retval = (xizi_double_link_first_value (nodes)))) (PreH3 : (head_pre <> 0)) (PreH4 : (nodes = (@nil Z))) ,
-  (xizi_dllseg first head_pre head_pre last nodes )
-|--
-  “ (first = head_pre) ”
-.
-
-Definition xizi_double_link_call_next_after_init_return_wit_1_split_goal_spatial := 
-forall (head_pre: Z) (nodes: (@list Z)) (retval: Z) (first: Z) (last: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (retval = (xizi_double_link_first_value (nodes)))) (PreH3 : (head_pre <> 0)) (PreH4 : (nodes = (@nil Z))) ,
-  (xizi_dllseg first head_pre head_pre last nodes )
-|--
-  TT && emp 
+forall (A: Type) (retval: Z) (PreH1 : (retval = (xizi_double_link_first_value ((xizi_dll_ptrs ((@nil (@XiziStoreADLL.DL_Node A)))))))) ,
+  (xizi_double_link_call_null_result retval )
 .
 
 Definition xizi_double_link_call_next_after_init_partial_solve_wit_1 := 
@@ -289,21 +257,19 @@ forall (head_pre: Z) ,
 .
 
 Definition xizi_double_link_call_next_after_init_partial_solve_wit_2_pure := 
-forall (head_pre: Z) (nodes: (@list Z)) (PreH1 : (nodes = (@nil Z))) ,
+forall (A: Type) (head_pre: Z) (storeA: (Z -> (A -> Assertion))) ,
   ((( &( "head" ) )) # Ptr  |-> head_pre)
-  **  (xizi_dll head_pre nodes )
+  **  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 |--
   “ (head_pre = head_pre) ”
 .
 
 Definition xizi_double_link_call_next_after_init_partial_solve_wit_2_aux := 
-forall (head_pre: Z) (nodes: (@list Z)) (PreH1 : (nodes = (@nil Z))) ,
-  (xizi_dll head_pre nodes )
+forall (A: Type) (head_pre: Z) (storeA: (Z -> (A -> Assertion))) ,
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 |--
-  “ (head_pre = head_pre) ” 
-  &&  “ (head_pre <> 0) ” 
-  &&  “ (nodes = (@nil Z)) ”
-  &&  (xizi_dll head_pre nodes )
+  “ (head_pre = head_pre) ”
+  &&  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 .
 
 Definition xizi_double_link_call_next_after_init_partial_solve_wit_2 := xizi_double_link_call_next_after_init_partial_solve_wit_2_pure -> xizi_double_link_call_next_after_init_partial_solve_wit_2_aux.
@@ -311,58 +277,31 @@ Definition xizi_double_link_call_next_after_init_partial_solve_wit_2 := xizi_dou
 (*----- Function xizi_double_link_call_next_rec_last_after_init -----*)
 
 Definition xizi_double_link_call_next_rec_last_after_init_entail_wit_1 := 
-forall (head_pre: Z) (PreH1 : (head_pre <> 0)) ,
-  (xizi_dll head_pre (@nil Z) )
+forall (A: Type) (head_pre: Z) (storeA: (Z -> (A -> Assertion))) (PreH1 : (head_pre <> 0)) ,
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 |--
-  EX (nodes: (@list Z)) ,
-  “ (nodes = (@nil Z)) ”
-  &&  (xizi_dll head_pre nodes )
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 .
 
 Definition xizi_double_link_call_next_rec_last_after_init_return_wit_1 := 
 (
-forall (head_pre: Z) (nodes: (@list Z)) (retval: Z) (PreH1 : (retval = (xizi_double_link_first_value (nodes)))) (PreH2 : (head_pre <> 0)) (PreH3 : (nodes = (@nil Z))) ,
-  (xizi_dll head_pre nodes )
+forall (A: Type) (head_pre: Z) (storeA: (Z -> (A -> Assertion))) (retval: Z) (PreH1 : (retval = (xizi_double_link_first_value ((xizi_dll_ptrs ((@nil (@XiziStoreADLL.DL_Node A)))))))) ,
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 |--
   “ (xizi_double_link_call_null_result retval ) ”
-  &&  (xizi_dll head_pre (@nil Z) )
+  &&  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 ) \/
 (
-forall (head_pre: Z) (nodes: (@list Z)) (retval: Z) (first: Z) (last: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (retval = (xizi_double_link_first_value (nodes)))) (PreH3 : (head_pre <> 0)) (PreH4 : (nodes = (@nil Z))) ,
-  (xizi_dllseg first head_pre head_pre last nodes )
+forall (A: Type) (retval: Z) (PreH1 : (retval = (xizi_double_link_first_value ((xizi_dll_ptrs ((@nil (@XiziStoreADLL.DL_Node A)))))))) ,
+  TT && emp 
 |--
-  “ (xizi_double_link_call_null_result retval ) ” 
-  &&  “ (last = head_pre) ” 
-  &&  “ (first = head_pre) ”
+  “ (xizi_double_link_call_null_result retval ) ”
   &&  emp
 ).
 
 Definition xizi_double_link_call_next_rec_last_after_init_return_wit_1_split_goal_1 := 
-forall (head_pre: Z) (nodes: (@list Z)) (retval: Z) (first: Z) (last: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (retval = (xizi_double_link_first_value (nodes)))) (PreH3 : (head_pre <> 0)) (PreH4 : (nodes = (@nil Z))) ,
-  (xizi_dllseg first head_pre head_pre last nodes )
-|--
-  “ (xizi_double_link_call_null_result retval ) ”
-.
-
-Definition xizi_double_link_call_next_rec_last_after_init_return_wit_1_split_goal_2 := 
-forall (head_pre: Z) (nodes: (@list Z)) (retval: Z) (first: Z) (last: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (retval = (xizi_double_link_first_value (nodes)))) (PreH3 : (head_pre <> 0)) (PreH4 : (nodes = (@nil Z))) ,
-  (xizi_dllseg first head_pre head_pre last nodes )
-|--
-  “ (last = head_pre) ”
-.
-
-Definition xizi_double_link_call_next_rec_last_after_init_return_wit_1_split_goal_3 := 
-forall (head_pre: Z) (nodes: (@list Z)) (retval: Z) (first: Z) (last: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (retval = (xizi_double_link_first_value (nodes)))) (PreH3 : (head_pre <> 0)) (PreH4 : (nodes = (@nil Z))) ,
-  (xizi_dllseg first head_pre head_pre last nodes )
-|--
-  “ (first = head_pre) ”
-.
-
-Definition xizi_double_link_call_next_rec_last_after_init_return_wit_1_split_goal_spatial := 
-forall (head_pre: Z) (nodes: (@list Z)) (retval: Z) (first: Z) (last: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (retval = (xizi_double_link_first_value (nodes)))) (PreH3 : (head_pre <> 0)) (PreH4 : (nodes = (@nil Z))) ,
-  (xizi_dllseg first head_pre head_pre last nodes )
-|--
-  TT && emp 
+forall (A: Type) (retval: Z) (PreH1 : (retval = (xizi_double_link_first_value ((xizi_dll_ptrs ((@nil (@XiziStoreADLL.DL_Node A)))))))) ,
+  (xizi_double_link_call_null_result retval )
 .
 
 Definition xizi_double_link_call_next_rec_last_after_init_partial_solve_wit_1 := 
@@ -374,21 +313,19 @@ forall (head_pre: Z) ,
 .
 
 Definition xizi_double_link_call_next_rec_last_after_init_partial_solve_wit_2_pure := 
-forall (head_pre: Z) (nodes: (@list Z)) (PreH1 : (nodes = (@nil Z))) ,
+forall (A: Type) (head_pre: Z) (storeA: (Z -> (A -> Assertion))) ,
   ((( &( "head" ) )) # Ptr  |-> head_pre)
-  **  (xizi_dll head_pre nodes )
+  **  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 |--
   “ (head_pre = head_pre) ”
 .
 
 Definition xizi_double_link_call_next_rec_last_after_init_partial_solve_wit_2_aux := 
-forall (head_pre: Z) (nodes: (@list Z)) (PreH1 : (nodes = (@nil Z))) ,
-  (xizi_dll head_pre nodes )
+forall (A: Type) (head_pre: Z) (storeA: (Z -> (A -> Assertion))) ,
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 |--
-  “ (head_pre = head_pre) ” 
-  &&  “ (head_pre <> 0) ” 
-  &&  “ (nodes = (@nil Z)) ”
-  &&  (xizi_dll head_pre nodes )
+  “ (head_pre = head_pre) ”
+  &&  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 .
 
 Definition xizi_double_link_call_next_rec_last_after_init_partial_solve_wit_2 := xizi_double_link_call_next_rec_last_after_init_partial_solve_wit_2_pure -> xizi_double_link_call_next_rec_last_after_init_partial_solve_wit_2_aux.
@@ -396,58 +333,31 @@ Definition xizi_double_link_call_next_rec_last_after_init_partial_solve_wit_2 :=
 (*----- Function xizi_double_link_call_next_rec_middle_after_init -----*)
 
 Definition xizi_double_link_call_next_rec_middle_after_init_entail_wit_1 := 
-forall (head_pre: Z) (PreH1 : (head_pre <> 0)) ,
-  (xizi_dll head_pre (@nil Z) )
+forall (A: Type) (head_pre: Z) (storeA: (Z -> (A -> Assertion))) (PreH1 : (head_pre <> 0)) ,
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 |--
-  EX (nodes: (@list Z)) ,
-  “ (nodes = (@nil Z)) ”
-  &&  (xizi_dll head_pre nodes )
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 .
 
 Definition xizi_double_link_call_next_rec_middle_after_init_return_wit_1 := 
 (
-forall (head_pre: Z) (nodes: (@list Z)) (retval: Z) (PreH1 : (retval = (xizi_double_link_first_value (nodes)))) (PreH2 : (head_pre <> 0)) (PreH3 : (nodes = (@nil Z))) ,
-  (xizi_dll head_pre nodes )
+forall (A: Type) (head_pre: Z) (storeA: (Z -> (A -> Assertion))) (retval: Z) (PreH1 : (retval = (xizi_double_link_first_value ((xizi_dll_ptrs ((@nil (@XiziStoreADLL.DL_Node A)))))))) ,
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 |--
   “ (xizi_double_link_call_null_result retval ) ”
-  &&  (xizi_dll head_pre (@nil Z) )
+  &&  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 ) \/
 (
-forall (head_pre: Z) (nodes: (@list Z)) (retval: Z) (first: Z) (last: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (retval = (xizi_double_link_first_value (nodes)))) (PreH3 : (head_pre <> 0)) (PreH4 : (nodes = (@nil Z))) ,
-  (xizi_dllseg first head_pre head_pre last nodes )
+forall (A: Type) (retval: Z) (PreH1 : (retval = (xizi_double_link_first_value ((xizi_dll_ptrs ((@nil (@XiziStoreADLL.DL_Node A)))))))) ,
+  TT && emp 
 |--
-  “ (xizi_double_link_call_null_result retval ) ” 
-  &&  “ (last = head_pre) ” 
-  &&  “ (first = head_pre) ”
+  “ (xizi_double_link_call_null_result retval ) ”
   &&  emp
 ).
 
 Definition xizi_double_link_call_next_rec_middle_after_init_return_wit_1_split_goal_1 := 
-forall (head_pre: Z) (nodes: (@list Z)) (retval: Z) (first: Z) (last: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (retval = (xizi_double_link_first_value (nodes)))) (PreH3 : (head_pre <> 0)) (PreH4 : (nodes = (@nil Z))) ,
-  (xizi_dllseg first head_pre head_pre last nodes )
-|--
-  “ (xizi_double_link_call_null_result retval ) ”
-.
-
-Definition xizi_double_link_call_next_rec_middle_after_init_return_wit_1_split_goal_2 := 
-forall (head_pre: Z) (nodes: (@list Z)) (retval: Z) (first: Z) (last: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (retval = (xizi_double_link_first_value (nodes)))) (PreH3 : (head_pre <> 0)) (PreH4 : (nodes = (@nil Z))) ,
-  (xizi_dllseg first head_pre head_pre last nodes )
-|--
-  “ (last = head_pre) ”
-.
-
-Definition xizi_double_link_call_next_rec_middle_after_init_return_wit_1_split_goal_3 := 
-forall (head_pre: Z) (nodes: (@list Z)) (retval: Z) (first: Z) (last: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (retval = (xizi_double_link_first_value (nodes)))) (PreH3 : (head_pre <> 0)) (PreH4 : (nodes = (@nil Z))) ,
-  (xizi_dllseg first head_pre head_pre last nodes )
-|--
-  “ (first = head_pre) ”
-.
-
-Definition xizi_double_link_call_next_rec_middle_after_init_return_wit_1_split_goal_spatial := 
-forall (head_pre: Z) (nodes: (@list Z)) (retval: Z) (first: Z) (last: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (retval = (xizi_double_link_first_value (nodes)))) (PreH3 : (head_pre <> 0)) (PreH4 : (nodes = (@nil Z))) ,
-  (xizi_dllseg first head_pre head_pre last nodes )
-|--
-  TT && emp 
+forall (A: Type) (retval: Z) (PreH1 : (retval = (xizi_double_link_first_value ((xizi_dll_ptrs ((@nil (@XiziStoreADLL.DL_Node A)))))))) ,
+  (xizi_double_link_call_null_result retval )
 .
 
 Definition xizi_double_link_call_next_rec_middle_after_init_partial_solve_wit_1 := 
@@ -459,21 +369,19 @@ forall (head_pre: Z) ,
 .
 
 Definition xizi_double_link_call_next_rec_middle_after_init_partial_solve_wit_2_pure := 
-forall (head_pre: Z) (nodes: (@list Z)) (PreH1 : (nodes = (@nil Z))) ,
+forall (A: Type) (head_pre: Z) (storeA: (Z -> (A -> Assertion))) ,
   ((( &( "head" ) )) # Ptr  |-> head_pre)
-  **  (xizi_dll head_pre nodes )
+  **  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 |--
   “ (head_pre = head_pre) ”
 .
 
 Definition xizi_double_link_call_next_rec_middle_after_init_partial_solve_wit_2_aux := 
-forall (head_pre: Z) (nodes: (@list Z)) (PreH1 : (nodes = (@nil Z))) ,
-  (xizi_dll head_pre nodes )
+forall (A: Type) (head_pre: Z) (storeA: (Z -> (A -> Assertion))) ,
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 |--
-  “ (head_pre = head_pre) ” 
-  &&  “ (head_pre <> 0) ” 
-  &&  “ (nodes = (@nil Z)) ”
-  &&  (xizi_dll head_pre nodes )
+  “ (head_pre = head_pre) ”
+  &&  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 .
 
 Definition xizi_double_link_call_next_rec_middle_after_init_partial_solve_wit_2 := xizi_double_link_call_next_rec_middle_after_init_partial_solve_wit_2_pure -> xizi_double_link_call_next_rec_middle_after_init_partial_solve_wit_2_aux.
@@ -481,279 +389,303 @@ Definition xizi_double_link_call_next_rec_middle_after_init_partial_solve_wit_2 
 (*----- Function xizi_double_link_call_insert_after_init -----*)
 
 Definition xizi_double_link_call_insert_after_init_entail_wit_1 := 
-forall (node_pre: Z) (head_pre: Z) (PreH1 : (node_pre <> 0)) (PreH2 : (head_pre <> 0)) ,
-  (xizi_dll head_pre (@nil Z) )
+forall (A: Type) (node_pre: Z) (head_pre: Z) (data: A) (storeA: (Z -> (A -> Assertion))) (PreH1 : (node_pre <> 0)) (PreH2 : (head_pre <> 0)) ,
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
   **  ((&((node_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |->_)
   **  ((&((node_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |->_)
+  **  (storeA node_pre data )
 |--
-  EX (nodes: (@list Z)) ,
-  “ (nodes = (@nil Z)) ”
-  &&  (xizi_dll head_pre nodes )
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
   **  (xizi_dll_node node_pre )
+  **  (storeA node_pre data )
 .
 
 Definition xizi_double_link_call_insert_after_init_return_wit_1 := 
 (
-forall (node_pre: Z) (head_pre: Z) (nodes: (@list Z)) (PreH1 : (node_pre <> 0)) (PreH2 : (head_pre <> 0)) (PreH3 : (nodes = (@nil Z))) ,
-  (xizi_dll head_pre (cons (node_pre) (nodes)) )
+forall (A: Type) (node_pre: Z) (head_pre: Z) (data: A) (storeA: (Z -> (A -> Assertion))) (PreH1 : (node_pre <> 0)) ,
+  (xizi_store_dll storeA head_pre (cons ((XiziStoreADLL.Build_DL_Node (data) (node_pre))) ((@nil (@XiziStoreADLL.DL_Node A)))) )
 |--
-  (xizi_dll head_pre (xizi_double_link_singleton_nodes (node_pre)) )
+  (xizi_store_dll storeA head_pre (xizi_double_link_singleton_nodes ((XiziStoreADLL.Build_DL_Node (data) (node_pre)))) )
 ) \/
 (
-forall (node_pre: Z) (head_pre: Z) (nodes: (@list Z)) (first: Z) (last: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (node_pre <> 0)) (PreH3 : (head_pre <> 0)) (PreH4 : (nodes = (@nil Z))) ,
-  (xizi_dllseg first head_pre head_pre last (cons (node_pre) (nodes)) )
+forall (A: Type) (node_pre: Z) (head_pre: Z) (data: A) (storeA: (Z -> (A -> Assertion))) (PreH1 : (node_pre <> 0)) ,
+  (xizi_store_dll storeA head_pre (cons ((XiziStoreADLL.Build_DL_Node (data) (node_pre))) ((@nil (@XiziStoreADLL.DL_Node A)))) )
 |--
-  (xizi_dllseg first head_pre head_pre last (xizi_double_link_singleton_nodes (node_pre)) )
+  (xizi_store_dll storeA head_pre (xizi_double_link_singleton_nodes ((XiziStoreADLL.Build_DL_Node (data) (node_pre)))) )
 ).
 
 Definition xizi_double_link_call_insert_after_init_return_wit_1_split_goal_spatial := 
-forall (node_pre: Z) (head_pre: Z) (nodes: (@list Z)) (first: Z) (last: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (node_pre <> 0)) (PreH3 : (head_pre <> 0)) (PreH4 : (nodes = (@nil Z))) ,
-  (xizi_dllseg first head_pre head_pre last (cons (node_pre) (nodes)) )
+forall (A: Type) (node_pre: Z) (head_pre: Z) (data: A) (storeA: (Z -> (A -> Assertion))) (PreH1 : (node_pre <> 0)) ,
+  (xizi_store_dll storeA head_pre (cons ((XiziStoreADLL.Build_DL_Node (data) (node_pre))) ((@nil (@XiziStoreADLL.DL_Node A)))) )
 |--
-  (xizi_dllseg first head_pre head_pre last (xizi_double_link_singleton_nodes (node_pre)) )
+  (xizi_store_dll storeA head_pre (xizi_double_link_singleton_nodes ((XiziStoreADLL.Build_DL_Node (data) (node_pre)))) )
 .
 
 Definition xizi_double_link_call_insert_after_init_partial_solve_wit_1 := 
-forall (node_pre: Z) (head_pre: Z) ,
+forall (A: Type) (node_pre: Z) (head_pre: Z) (data: A) (storeA: (Z -> (A -> Assertion))) ,
   (xizi_dll_node head_pre )
   **  (xizi_dll_node node_pre )
+  **  (storeA node_pre data )
 |--
   “ (node_pre <> 0) ” 
   &&  “ (head_pre <> 0) ”
   &&  (xizi_dll_node head_pre )
   **  ((&((node_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |->_)
   **  ((&((node_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |->_)
+  **  (storeA node_pre data )
 .
 
 Definition xizi_double_link_call_insert_after_init_partial_solve_wit_2 := 
-forall (node_pre: Z) (head_pre: Z) (nodes: (@list Z)) (PreH1 : (nodes = (@nil Z))) ,
-  (xizi_dll head_pre nodes )
+forall (A: Type) (node_pre: Z) (head_pre: Z) (data: A) (storeA: (Z -> (A -> Assertion))) ,
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
   **  (xizi_dll_node node_pre )
+  **  (storeA node_pre data )
 |--
-  “ (node_pre <> 0) ” 
-  &&  “ (head_pre <> 0) ” 
-  &&  “ (nodes = (@nil Z)) ”
-  &&  (xizi_dll head_pre nodes )
+  “ (node_pre <> 0) ”
+  &&  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
   **  (xizi_dll_node node_pre )
+  **  (storeA node_pre data )
 .
 
 (*----- Function xizi_double_link_call_remove_front_singleton -----*)
 
 Definition xizi_double_link_call_remove_front_singleton_entail_wit_1 := 
-forall (node_pre: Z) (head_pre: Z) (PreH1 : (node_pre <> 0)) (PreH2 : (head_pre <> 0)) ,
-  (xizi_dll head_pre (@nil Z) )
+forall (A: Type) (node_pre: Z) (head_pre: Z) (data: A) (storeA: (Z -> (A -> Assertion))) (PreH1 : (node_pre <> 0)) (PreH2 : (head_pre <> 0)) ,
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
   **  ((&((node_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |->_)
   **  ((&((node_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |->_)
+  **  (storeA node_pre data )
 |--
-  EX (nodes: (@list Z)) ,
-  “ (nodes = (@nil Z)) ”
-  &&  (xizi_dll head_pre nodes )
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
   **  (xizi_dll_node node_pre )
+  **  (storeA node_pre data )
 .
 
 Definition xizi_double_link_call_remove_front_singleton_entail_wit_2 := 
-(
-forall (node_pre: Z) (head_pre: Z) (nodes: (@list Z)) (PreH1 : (node_pre <> 0)) (PreH2 : (head_pre <> 0)) (PreH3 : (nodes = (@nil Z))) ,
-  (xizi_dll head_pre (cons (node_pre) (nodes)) )
+forall (A: Type) (node_pre: Z) (head_pre: Z) (data: A) (storeA: (Z -> (A -> Assertion))) (PreH1 : (node_pre <> 0)) ,
+  (xizi_store_dll storeA head_pre (cons ((XiziStoreADLL.Build_DL_Node (data) (node_pre))) ((@nil (@XiziStoreADLL.DL_Node A)))) )
 |--
-  EX (suffix: (@list Z)) ,
-  “ (suffix = (@nil Z)) ”
-  &&  (xizi_dll head_pre (cons (node_pre) (suffix)) )
-) \/
-(
-forall (node_pre: Z) (head_pre: Z) (nodes: (@list Z)) (first: Z) (last: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (node_pre <> 0)) (PreH3 : (head_pre <> 0)) (PreH4 : (nodes = (@nil Z))) ,
-  (xizi_dllseg first head_pre head_pre last (cons (node_pre) (nodes)) )
-|--
-  (xizi_dllseg first head_pre head_pre last (cons (node_pre) ((@nil Z))) )
-).
-
-Definition xizi_double_link_call_remove_front_singleton_entail_wit_2_split_goal_spatial := 
-forall (node_pre: Z) (head_pre: Z) (nodes: (@list Z)) (first: Z) (last: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (node_pre <> 0)) (PreH3 : (head_pre <> 0)) (PreH4 : (nodes = (@nil Z))) ,
-  (xizi_dllseg first head_pre head_pre last (cons (node_pre) (nodes)) )
-|--
-  (xizi_dllseg first head_pre head_pre last (cons (node_pre) ((@nil Z))) )
+  (xizi_store_dll storeA head_pre (cons ((XiziStoreADLL.Build_DL_Node (data) (node_pre))) ((@nil (@XiziStoreADLL.DL_Node A)))) )
 .
 
 Definition xizi_double_link_call_remove_front_singleton_return_wit_1 := 
 (
-forall (node_pre: Z) (head_pre: Z) (suffix: (@list Z)) (PreH1 : (head_pre <> 0)) (PreH2 : (suffix = (@nil Z))) ,
-  (xizi_dll head_pre suffix )
+forall (A: Type) (node_pre: Z) (head_pre: Z) (data: A) (storeA: (Z -> (A -> Assertion))) ,
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
   **  (xizi_dll node_pre (@nil Z) )
+  **  (storeA node_pre (XiziStoreADLL.getData ((XiziStoreADLL.Build_DL_Node (data) (node_pre)))) )
 |--
-  (xizi_dll head_pre (@nil Z) )
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
   **  (xizi_dll node_pre (@nil Z) )
+  **  (storeA node_pre data )
 ) \/
 (
-forall (node_pre: Z) (head_pre: Z) (suffix: (@list Z)) (first: Z) (last: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (node_pre <> 0)) (PreH3 : (head_pre <> 0)) (PreH4 : (suffix = (@nil Z))) ,
-  (xizi_dllseg first head_pre head_pre last suffix )
+forall (A: Type) (node_pre: Z) (head_pre: Z) (data: A) (storeA: (Z -> (A -> Assertion))) (PreH1 : (node_pre <> 0)) ,
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
+  **  (storeA node_pre (XiziStoreADLL.getData ((XiziStoreADLL.Build_DL_Node (data) (node_pre)))) )
 |--
-  “ (last = head_pre) ” 
-  &&  “ (first = head_pre) ”
-  &&  emp
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
+  **  (storeA node_pre data )
 ).
 
-Definition xizi_double_link_call_remove_front_singleton_return_wit_1_split_goal_1 := 
-forall (node_pre: Z) (head_pre: Z) (suffix: (@list Z)) (first: Z) (last: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (node_pre <> 0)) (PreH3 : (head_pre <> 0)) (PreH4 : (suffix = (@nil Z))) ,
-  (xizi_dllseg first head_pre head_pre last suffix )
-|--
-  “ (last = head_pre) ”
-.
-
-Definition xizi_double_link_call_remove_front_singleton_return_wit_1_split_goal_2 := 
-forall (node_pre: Z) (head_pre: Z) (suffix: (@list Z)) (first: Z) (last: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (node_pre <> 0)) (PreH3 : (head_pre <> 0)) (PreH4 : (suffix = (@nil Z))) ,
-  (xizi_dllseg first head_pre head_pre last suffix )
-|--
-  “ (first = head_pre) ”
-.
-
 Definition xizi_double_link_call_remove_front_singleton_return_wit_1_split_goal_spatial := 
-forall (node_pre: Z) (head_pre: Z) (suffix: (@list Z)) (first: Z) (last: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (node_pre <> 0)) (PreH3 : (head_pre <> 0)) (PreH4 : (suffix = (@nil Z))) ,
-  (xizi_dllseg first head_pre head_pre last suffix )
+forall (A: Type) (node_pre: Z) (head_pre: Z) (data: A) (storeA: (Z -> (A -> Assertion))) (PreH1 : (node_pre <> 0)) ,
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
+  **  (storeA node_pre (XiziStoreADLL.getData ((XiziStoreADLL.Build_DL_Node (data) (node_pre)))) )
 |--
-  TT && emp 
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
+  **  (storeA node_pre data )
 .
 
 Definition xizi_double_link_call_remove_front_singleton_partial_solve_wit_1 := 
-forall (node_pre: Z) (head_pre: Z) ,
+forall (A: Type) (node_pre: Z) (head_pre: Z) (data: A) (storeA: (Z -> (A -> Assertion))) ,
   (xizi_dll_node head_pre )
   **  (xizi_dll_node node_pre )
+  **  (storeA node_pre data )
 |--
   “ (node_pre <> 0) ” 
   &&  “ (head_pre <> 0) ”
   &&  (xizi_dll_node head_pre )
   **  ((&((node_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |->_)
   **  ((&((node_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |->_)
+  **  (storeA node_pre data )
 .
 
 Definition xizi_double_link_call_remove_front_singleton_partial_solve_wit_2 := 
-forall (node_pre: Z) (head_pre: Z) (nodes: (@list Z)) (PreH1 : (nodes = (@nil Z))) ,
-  (xizi_dll head_pre nodes )
+forall (A: Type) (node_pre: Z) (head_pre: Z) (data: A) (storeA: (Z -> (A -> Assertion))) ,
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
   **  (xizi_dll_node node_pre )
+  **  (storeA node_pre data )
 |--
-  “ (node_pre <> 0) ” 
-  &&  “ (head_pre <> 0) ” 
-  &&  “ (nodes = (@nil Z)) ”
-  &&  (xizi_dll head_pre nodes )
+  “ (node_pre <> 0) ”
+  &&  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
   **  (xizi_dll_node node_pre )
+  **  (storeA node_pre data )
 .
 
-Definition xizi_double_link_call_remove_front_singleton_partial_solve_wit_3 := 
-forall (node_pre: Z) (head_pre: Z) (suffix: (@list Z)) (PreH1 : (suffix = (@nil Z))) ,
-  (xizi_dll head_pre (cons (node_pre) (suffix)) )
+Definition xizi_double_link_call_remove_front_singleton_partial_solve_wit_3_pure := 
+(
+forall (A: Type) (node_pre: Z) (head_pre: Z) (data: A) (storeA: (Z -> (A -> Assertion))) ,
+  ((( &( "head" ) )) # Ptr  |-> head_pre)
+  **  ((( &( "node" ) )) # Ptr  |-> node_pre)
+  **  (xizi_store_dll storeA head_pre (cons ((XiziStoreADLL.Build_DL_Node (data) (node_pre))) ((@nil (@XiziStoreADLL.DL_Node A)))) )
 |--
-  “ (head_pre <> 0) ” 
-  &&  “ (suffix = (@nil Z)) ”
-  &&  (xizi_dll head_pre (cons (node_pre) (suffix)) )
+  “ ((XiziStoreADLL.getPtr ((XiziStoreADLL.Build_DL_Node (data) (node_pre)))) = node_pre) ”
+) \/
+(
+forall (A: Type) (node_pre: Z) (head_pre: Z) (data: A) (storeA: (Z -> (A -> Assertion))) ,
+  ((( &( "head" ) )) # Ptr  |-> head_pre)
+  **  ((( &( "node" ) )) # Ptr  |-> node_pre)
+  **  (xizi_store_dll storeA head_pre (cons ((XiziStoreADLL.Build_DL_Node (data) (node_pre))) ((@nil (@XiziStoreADLL.DL_Node A)))) )
+|--
+  “ ((XiziStoreADLL.getPtr ((XiziStoreADLL.Build_DL_Node (data) (node_pre)))) = node_pre) ”
+).
+
+Definition xizi_double_link_call_remove_front_singleton_partial_solve_wit_3_pure_split_goal_1 := 
+forall (A: Type) (node_pre: Z) (head_pre: Z) (data: A) (storeA: (Z -> (A -> Assertion))) ,
+  ((( &( "head" ) )) # Ptr  |-> head_pre)
+  **  ((( &( "node" ) )) # Ptr  |-> node_pre)
+  **  (xizi_store_dll storeA head_pre (cons ((XiziStoreADLL.Build_DL_Node (data) (node_pre))) ((@nil (@XiziStoreADLL.DL_Node A)))) )
+|--
+  “ ((XiziStoreADLL.getPtr ((XiziStoreADLL.Build_DL_Node (data) (node_pre)))) = node_pre) ”
 .
+
+Definition xizi_double_link_call_remove_front_singleton_partial_solve_wit_3_aux := 
+forall (A: Type) (node_pre: Z) (head_pre: Z) (data: A) (storeA: (Z -> (A -> Assertion))) ,
+  (xizi_store_dll storeA head_pre (cons ((XiziStoreADLL.Build_DL_Node (data) (node_pre))) ((@nil (@XiziStoreADLL.DL_Node A)))) )
+|--
+  “ ((XiziStoreADLL.getPtr ((XiziStoreADLL.Build_DL_Node (data) (node_pre)))) = node_pre) ”
+  &&  (xizi_store_dll storeA head_pre (cons ((XiziStoreADLL.Build_DL_Node (data) (node_pre))) ((@nil (@XiziStoreADLL.DL_Node A)))) )
+.
+
+Definition xizi_double_link_call_remove_front_singleton_partial_solve_wit_3 := xizi_double_link_call_remove_front_singleton_partial_solve_wit_3_pure -> xizi_double_link_call_remove_front_singleton_partial_solve_wit_3_aux.
 
 (*----- Function xizi_double_link_call_remove_tail_singleton -----*)
 
 Definition xizi_double_link_call_remove_tail_singleton_entail_wit_1 := 
-forall (node_pre: Z) (head_pre: Z) (PreH1 : (node_pre <> 0)) (PreH2 : (head_pre <> 0)) ,
-  (xizi_dll head_pre (@nil Z) )
+forall (A: Type) (node_pre: Z) (head_pre: Z) (data: A) (storeA: (Z -> (A -> Assertion))) (PreH1 : (node_pre <> 0)) (PreH2 : (head_pre <> 0)) ,
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
   **  ((&((node_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |->_)
   **  ((&((node_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |->_)
+  **  (storeA node_pre data )
 |--
-  EX (nodes: (@list Z)) ,
-  “ (nodes = (@nil Z)) ”
-  &&  (xizi_dll head_pre nodes )
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
   **  (xizi_dll_node node_pre )
+  **  (storeA node_pre data )
 .
 
 Definition xizi_double_link_call_remove_tail_singleton_entail_wit_2 := 
 (
-forall (node_pre: Z) (head_pre: Z) (nodes: (@list Z)) (PreH1 : (node_pre <> 0)) (PreH2 : (head_pre <> 0)) (PreH3 : (nodes = (@nil Z))) ,
-  (xizi_dll head_pre (cons (node_pre) (nodes)) )
+forall (A: Type) (node_pre: Z) (head_pre: Z) (data: A) (storeA: (Z -> (A -> Assertion))) (PreH1 : (node_pre <> 0)) ,
+  (xizi_store_dll storeA head_pre (cons ((XiziStoreADLL.Build_DL_Node (data) (node_pre))) ((@nil (@XiziStoreADLL.DL_Node A)))) )
 |--
-  EX (prefix: (@list Z)) ,
-  “ (prefix = (@nil Z)) ”
-  &&  (xizi_dll head_pre (app (prefix) ((cons (node_pre) ((@nil Z))))) )
+  (xizi_store_dll storeA head_pre (app ((@nil (@XiziStoreADLL.DL_Node A))) ((cons ((XiziStoreADLL.Build_DL_Node (data) (node_pre))) ((@nil (@XiziStoreADLL.DL_Node A)))))) )
 ) \/
 (
-forall (node_pre: Z) (head_pre: Z) (nodes: (@list Z)) (first: Z) (last: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (node_pre <> 0)) (PreH3 : (head_pre <> 0)) (PreH4 : (nodes = (@nil Z))) ,
-  (xizi_dllseg first head_pre head_pre last (cons (node_pre) (nodes)) )
+forall (A: Type) (node_pre: Z) (head_pre: Z) (data: A) (storeA: (Z -> (A -> Assertion))) (PreH1 : (node_pre <> 0)) ,
+  (xizi_store_dll storeA head_pre (cons ((XiziStoreADLL.Build_DL_Node (data) (node_pre))) ((@nil (@XiziStoreADLL.DL_Node A)))) )
 |--
-  (xizi_dllseg first head_pre head_pre last (app ((@nil Z)) ((cons (node_pre) ((@nil Z))))) )
+  (xizi_store_dll storeA head_pre (app ((@nil (@XiziStoreADLL.DL_Node A))) ((cons ((XiziStoreADLL.Build_DL_Node (data) (node_pre))) ((@nil (@XiziStoreADLL.DL_Node A)))))) )
 ).
 
 Definition xizi_double_link_call_remove_tail_singleton_entail_wit_2_split_goal_spatial := 
-forall (node_pre: Z) (head_pre: Z) (nodes: (@list Z)) (first: Z) (last: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (node_pre <> 0)) (PreH3 : (head_pre <> 0)) (PreH4 : (nodes = (@nil Z))) ,
-  (xizi_dllseg first head_pre head_pre last (cons (node_pre) (nodes)) )
+forall (A: Type) (node_pre: Z) (head_pre: Z) (data: A) (storeA: (Z -> (A -> Assertion))) (PreH1 : (node_pre <> 0)) ,
+  (xizi_store_dll storeA head_pre (cons ((XiziStoreADLL.Build_DL_Node (data) (node_pre))) ((@nil (@XiziStoreADLL.DL_Node A)))) )
 |--
-  (xizi_dllseg first head_pre head_pre last (app ((@nil Z)) ((cons (node_pre) ((@nil Z))))) )
+  (xizi_store_dll storeA head_pre (app ((@nil (@XiziStoreADLL.DL_Node A))) ((cons ((XiziStoreADLL.Build_DL_Node (data) (node_pre))) ((@nil (@XiziStoreADLL.DL_Node A)))))) )
 .
 
 Definition xizi_double_link_call_remove_tail_singleton_return_wit_1 := 
 (
-forall (node_pre: Z) (head_pre: Z) (prefix: (@list Z)) (PreH1 : (head_pre <> 0)) (PreH2 : (prefix = (@nil Z))) ,
-  (xizi_dll head_pre prefix )
+forall (A: Type) (node_pre: Z) (head_pre: Z) (data: A) (storeA: (Z -> (A -> Assertion))) ,
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
   **  (xizi_dll node_pre (@nil Z) )
+  **  (storeA node_pre (XiziStoreADLL.getData ((XiziStoreADLL.Build_DL_Node (data) (node_pre)))) )
 |--
-  (xizi_dll head_pre (@nil Z) )
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
   **  (xizi_dll node_pre (@nil Z) )
+  **  (storeA node_pre data )
 ) \/
 (
-forall (node_pre: Z) (head_pre: Z) (prefix: (@list Z)) (first: Z) (last: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (node_pre <> 0)) (PreH3 : (head_pre <> 0)) (PreH4 : (prefix = (@nil Z))) ,
-  (xizi_dllseg first head_pre head_pre last prefix )
+forall (A: Type) (node_pre: Z) (head_pre: Z) (data: A) (storeA: (Z -> (A -> Assertion))) (PreH1 : (node_pre <> 0)) ,
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
+  **  (storeA node_pre (XiziStoreADLL.getData ((XiziStoreADLL.Build_DL_Node (data) (node_pre)))) )
 |--
-  “ (last = head_pre) ” 
-  &&  “ (first = head_pre) ”
-  &&  emp
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
+  **  (storeA node_pre data )
 ).
 
-Definition xizi_double_link_call_remove_tail_singleton_return_wit_1_split_goal_1 := 
-forall (node_pre: Z) (head_pre: Z) (prefix: (@list Z)) (first: Z) (last: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (node_pre <> 0)) (PreH3 : (head_pre <> 0)) (PreH4 : (prefix = (@nil Z))) ,
-  (xizi_dllseg first head_pre head_pre last prefix )
-|--
-  “ (last = head_pre) ”
-.
-
-Definition xizi_double_link_call_remove_tail_singleton_return_wit_1_split_goal_2 := 
-forall (node_pre: Z) (head_pre: Z) (prefix: (@list Z)) (first: Z) (last: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (node_pre <> 0)) (PreH3 : (head_pre <> 0)) (PreH4 : (prefix = (@nil Z))) ,
-  (xizi_dllseg first head_pre head_pre last prefix )
-|--
-  “ (first = head_pre) ”
-.
-
 Definition xizi_double_link_call_remove_tail_singleton_return_wit_1_split_goal_spatial := 
-forall (node_pre: Z) (head_pre: Z) (prefix: (@list Z)) (first: Z) (last: Z) (PreH1 : (head_pre <> 0)) (PreH2 : (node_pre <> 0)) (PreH3 : (head_pre <> 0)) (PreH4 : (prefix = (@nil Z))) ,
-  (xizi_dllseg first head_pre head_pre last prefix )
+forall (A: Type) (node_pre: Z) (head_pre: Z) (data: A) (storeA: (Z -> (A -> Assertion))) (PreH1 : (node_pre <> 0)) ,
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
+  **  (storeA node_pre (XiziStoreADLL.getData ((XiziStoreADLL.Build_DL_Node (data) (node_pre)))) )
 |--
-  TT && emp 
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
+  **  (storeA node_pre data )
 .
 
 Definition xizi_double_link_call_remove_tail_singleton_partial_solve_wit_1 := 
-forall (node_pre: Z) (head_pre: Z) ,
+forall (A: Type) (node_pre: Z) (head_pre: Z) (data: A) (storeA: (Z -> (A -> Assertion))) ,
   (xizi_dll_node head_pre )
   **  (xizi_dll_node node_pre )
+  **  (storeA node_pre data )
 |--
   “ (node_pre <> 0) ” 
   &&  “ (head_pre <> 0) ”
   &&  (xizi_dll_node head_pre )
   **  ((&((node_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |->_)
   **  ((&((node_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |->_)
+  **  (storeA node_pre data )
 .
 
 Definition xizi_double_link_call_remove_tail_singleton_partial_solve_wit_2 := 
-forall (node_pre: Z) (head_pre: Z) (nodes: (@list Z)) (PreH1 : (nodes = (@nil Z))) ,
-  (xizi_dll head_pre nodes )
+forall (A: Type) (node_pre: Z) (head_pre: Z) (data: A) (storeA: (Z -> (A -> Assertion))) ,
+  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
   **  (xizi_dll_node node_pre )
+  **  (storeA node_pre data )
 |--
-  “ (node_pre <> 0) ” 
-  &&  “ (head_pre <> 0) ” 
-  &&  “ (nodes = (@nil Z)) ”
-  &&  (xizi_dll head_pre nodes )
+  “ (node_pre <> 0) ”
+  &&  (xizi_store_dll storeA head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
   **  (xizi_dll_node node_pre )
+  **  (storeA node_pre data )
 .
 
-Definition xizi_double_link_call_remove_tail_singleton_partial_solve_wit_3 := 
-forall (node_pre: Z) (head_pre: Z) (prefix: (@list Z)) (PreH1 : (prefix = (@nil Z))) ,
-  (xizi_dll head_pre (app (prefix) ((cons (node_pre) ((@nil Z))))) )
+Definition xizi_double_link_call_remove_tail_singleton_partial_solve_wit_3_pure := 
+(
+forall (A: Type) (node_pre: Z) (head_pre: Z) (data: A) (storeA: (Z -> (A -> Assertion))) ,
+  ((( &( "head" ) )) # Ptr  |-> head_pre)
+  **  ((( &( "node" ) )) # Ptr  |-> node_pre)
+  **  (xizi_store_dll storeA head_pre (app ((@nil (@XiziStoreADLL.DL_Node A))) ((cons ((XiziStoreADLL.Build_DL_Node (data) (node_pre))) ((@nil (@XiziStoreADLL.DL_Node A)))))) )
 |--
-  “ (head_pre <> 0) ” 
-  &&  “ (prefix = (@nil Z)) ”
-  &&  (xizi_dll head_pre (app (prefix) ((cons (node_pre) ((@nil Z))))) )
+  “ ((XiziStoreADLL.getPtr ((XiziStoreADLL.Build_DL_Node (data) (node_pre)))) = node_pre) ”
+) \/
+(
+forall (A: Type) (node_pre: Z) (head_pre: Z) (data: A) (storeA: (Z -> (A -> Assertion))) ,
+  ((( &( "head" ) )) # Ptr  |-> head_pre)
+  **  ((( &( "node" ) )) # Ptr  |-> node_pre)
+  **  (xizi_store_dll storeA head_pre (app ((@nil (@XiziStoreADLL.DL_Node A))) ((cons ((XiziStoreADLL.Build_DL_Node (data) (node_pre))) ((@nil (@XiziStoreADLL.DL_Node A)))))) )
+|--
+  “ ((XiziStoreADLL.getPtr ((XiziStoreADLL.Build_DL_Node (data) (node_pre)))) = node_pre) ”
+).
+
+Definition xizi_double_link_call_remove_tail_singleton_partial_solve_wit_3_pure_split_goal_1 := 
+forall (A: Type) (node_pre: Z) (head_pre: Z) (data: A) (storeA: (Z -> (A -> Assertion))) ,
+  ((( &( "head" ) )) # Ptr  |-> head_pre)
+  **  ((( &( "node" ) )) # Ptr  |-> node_pre)
+  **  (xizi_store_dll storeA head_pre (app ((@nil (@XiziStoreADLL.DL_Node A))) ((cons ((XiziStoreADLL.Build_DL_Node (data) (node_pre))) ((@nil (@XiziStoreADLL.DL_Node A)))))) )
+|--
+  “ ((XiziStoreADLL.getPtr ((XiziStoreADLL.Build_DL_Node (data) (node_pre)))) = node_pre) ”
 .
+
+Definition xizi_double_link_call_remove_tail_singleton_partial_solve_wit_3_aux := 
+forall (A: Type) (node_pre: Z) (head_pre: Z) (data: A) (storeA: (Z -> (A -> Assertion))) ,
+  (xizi_store_dll storeA head_pre (app ((@nil (@XiziStoreADLL.DL_Node A))) ((cons ((XiziStoreADLL.Build_DL_Node (data) (node_pre))) ((@nil (@XiziStoreADLL.DL_Node A)))))) )
+|--
+  “ ((XiziStoreADLL.getPtr ((XiziStoreADLL.Build_DL_Node (data) (node_pre)))) = node_pre) ”
+  &&  (xizi_store_dll storeA head_pre (app ((@nil (@XiziStoreADLL.DL_Node A))) ((cons ((XiziStoreADLL.Build_DL_Node (data) (node_pre))) ((@nil (@XiziStoreADLL.DL_Node A)))))) )
+.
+
+Definition xizi_double_link_call_remove_tail_singleton_partial_solve_wit_3 := xizi_double_link_call_remove_tail_singleton_partial_solve_wit_3_pure -> xizi_double_link_call_remove_tail_singleton_partial_solve_wit_3_aux.
 
 Module Type VC_Correct.
 
@@ -798,12 +730,14 @@ Axiom proof_of_xizi_double_link_call_remove_front_singleton_entail_wit_2 : xizi_
 Axiom proof_of_xizi_double_link_call_remove_front_singleton_return_wit_1 : xizi_double_link_call_remove_front_singleton_return_wit_1.
 Axiom proof_of_xizi_double_link_call_remove_front_singleton_partial_solve_wit_1 : xizi_double_link_call_remove_front_singleton_partial_solve_wit_1.
 Axiom proof_of_xizi_double_link_call_remove_front_singleton_partial_solve_wit_2 : xizi_double_link_call_remove_front_singleton_partial_solve_wit_2.
+Axiom proof_of_xizi_double_link_call_remove_front_singleton_partial_solve_wit_3_pure : xizi_double_link_call_remove_front_singleton_partial_solve_wit_3_pure.
 Axiom proof_of_xizi_double_link_call_remove_front_singleton_partial_solve_wit_3 : xizi_double_link_call_remove_front_singleton_partial_solve_wit_3.
 Axiom proof_of_xizi_double_link_call_remove_tail_singleton_entail_wit_1 : xizi_double_link_call_remove_tail_singleton_entail_wit_1.
 Axiom proof_of_xizi_double_link_call_remove_tail_singleton_entail_wit_2 : xizi_double_link_call_remove_tail_singleton_entail_wit_2.
 Axiom proof_of_xizi_double_link_call_remove_tail_singleton_return_wit_1 : xizi_double_link_call_remove_tail_singleton_return_wit_1.
 Axiom proof_of_xizi_double_link_call_remove_tail_singleton_partial_solve_wit_1 : xizi_double_link_call_remove_tail_singleton_partial_solve_wit_1.
 Axiom proof_of_xizi_double_link_call_remove_tail_singleton_partial_solve_wit_2 : xizi_double_link_call_remove_tail_singleton_partial_solve_wit_2.
+Axiom proof_of_xizi_double_link_call_remove_tail_singleton_partial_solve_wit_3_pure : xizi_double_link_call_remove_tail_singleton_partial_solve_wit_3_pure.
 Axiom proof_of_xizi_double_link_call_remove_tail_singleton_partial_solve_wit_3 : xizi_double_link_call_remove_tail_singleton_partial_solve_wit_3.
 
 End VC_Correct.

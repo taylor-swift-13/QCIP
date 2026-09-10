@@ -22,3 +22,21 @@ From QCIPLib.xizi.xizi_double_link_common Require Import xizi_double_link_lib.
 From SimpleC.EE.OUTPUT.xizi.xizi_double_link_init_then_len.source Require Import xizi_double_link_init_then_len_lib.
 Local Open Scope sac.
 
+Lemma proof_of_InitDoubleLinkList_return_wit_1_split_goal_spatial : InitDoubleLinkList_return_wit_1_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_DoubleLinkListLenGet_return_wit_1_split_goal_1 : DoubleLinkListLenGet_return_wit_1_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_DoubleLinkListLenGet_return_wit_1_split_goal_spatial : DoubleLinkListLenGet_return_wit_1_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_DoubleLinkListLenGet_return_wit_2_split_goal_1 : DoubleLinkListLenGet_return_wit_2_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_DoubleLinkListLenGet_return_wit_2_split_goal_spatial : DoubleLinkListLenGet_return_wit_2_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_xizi_double_link_init_then_len_return_wit_1_split_goal_1 : xizi_double_link_init_then_len_return_wit_1_split_goal_1.
+Proof. Abort.
+

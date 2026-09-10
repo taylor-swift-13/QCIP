@@ -1,11 +1,3 @@
-# Proof Strategy Report
+# 复用与证明
 
-- target witnesses: 5
-- grouping source: accepted vc-checking group plan
-- parent verification: passed
-- helper policy: group-id-suffixed helpers in case_lib
-- manual policy: witness proofs only
-
-## Groups
-
-- `dll_traversal_and_closure`: 
+规格设计与检查见 annotation_report.json；分组见 controller/rounds/；最终合并与 helper 来源见 vc_proving_report.json。历史证明见 before_crules_unification，仅作复用参考。

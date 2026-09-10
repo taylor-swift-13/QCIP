@@ -1,0 +1,782 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "vc_checking": {
+      "status": "completed",
+      "source_version": {
+        "digest": "ba4bbad594a1a71b09d365caaa155f2608a6d7baab5be99e4465ca98d5ef4076",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_single_link_append-20260910001748/xizi_single_link_append-annotation-r1/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append.c",
+            "relative_path": "OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append.c",
+            "role": "target-c-annotated",
+            "sha256": "3fc599e9f49e0e6dbff2799d55331d8100e04000699087bcde17ebed286a7486",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_single_link_append-20260910001748/xizi_single_link_append-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "47210c7500513d3526a376e42af16e933cdaf0d87486da4fb4173630dc8a500c",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": "75100616e908cbe1e323c83c90c1d174b56bb41b9d4164db5d1da1be8f1ef4e7",
+      "summary": "All four current manual witnesses are semantically provable. One bounded group reuses the common structural and payload conversions; one local suffixed payload append helper may be needed.",
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "75100616e908cbe1e323c83c90c1d174b56bb41b9d4164db5d1da1be8f1ef4e7",
+        "target_witnesses": [
+          "proof_of_AppendSingleLinkList_entail_wit_1",
+          "proof_of_AppendSingleLinkList_entail_wit_2",
+          "proof_of_AppendSingleLinkList_entail_wit_3",
+          "proof_of_AppendSingleLinkList_return_wit_1"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "append_payload",
+            "witness_names": [
+              "proof_of_AppendSingleLinkList_entail_wit_1",
+              "proof_of_AppendSingleLinkList_entail_wit_2",
+              "proof_of_AppendSingleLinkList_entail_wit_3",
+              "proof_of_AppendSingleLinkList_return_wit_1"
+            ],
+            "representative_witness": "proof_of_AppendSingleLinkList_return_wit_1",
+            "dependencies": [],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "payloads_append_singleton",
+                "statement_shape": "forall A storeA l data p, xizi_sll_remove_payloads storeA l ** storeA p data |-- xizi_sll_remove_payloads storeA (l ++ [Build_sll_payload_node data p]).",
+                "used_by_witnesses": [
+                  "proof_of_AppendSingleLinkList_return_wit_1"
+                ],
+                "premises": [
+                  {
+                    "premise": "ownership of original payload fold and new node payload",
+                    "discharged_by": "Both occur as separate spatial conjuncts in return_wit_1 precondition; no pure assumptions on arbitrary A/storeA are required."
+                  }
+                ],
+                "proof_strategy": "Induction on l; empty case unfolds fold and singleton, step frames the first payload and applies induction hypothesis. This is a fold concatenation fact, not a traversal model.",
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "expected_helpers": [
+              "payloads_append_singleton__append_payload"
+            ],
+            "proof_strategy": "Reuse shared payload head factor/unfactor around the unchanged address traversal. Initialize and extend the structural segment with existing common lemmas. On exit append new node structurally, join its exact arbitrary payload using a suffixed fold-append lemma, and restore head_payload. Select provable disjuncts of generated obligations.",
+            "grouping_reason": "All 4 witnesses belong to the same append function and share one structural traversal plus payload frame; 4 <= 12, with no cross-group dependency.",
+            "confidence": "high",
+            "difficulty": "moderate",
+            "per_witness_plan": {
+              "proof_of_AppendSingleLinkList_entail_wit_1": {
+                "witness_name": "proof_of_AppendSingleLinkList_entail_wit_1",
+                "judgment": "proofable",
+                "vc_shape": {
+                  "pre_spatial": "head_payload(storeA,h,l) ** node(p) ** storeA(p,data)",
+                  "pre_pure": "None beyond predicate-defined nonnull/ownership.",
+                  "pre_exists": "Implicit through predicate unfolding as described below.",
+                  "post_spatial": "head(h,addresses(l)) ** node(p) ** payloads(storeA,l) ** storeA(p,data)",
+                  "post_pure": "None.",
+                  "post_exists": "Choose left disjunct of the VC; no new existential."
+                },
+                "witness_instantiation": "Choose left disjunct of the VC; no new existential.",
+                "space_plan": "Apply payload_head_factor__remove_payloads to head_payload, frame standalone node and new payload, cancel matching resources.",
+                "pure_plan": "No additional premises required by head factorization.",
+                "refinement_plan": "Direct separation-logic proof; no refinement program or safeExec state.",
+                "used_existing_lemmas": [
+                  "payload_head_factor__remove_payloads"
+                ],
+                "candidate_helper_declarations": [],
+                "premise_discharge": [
+                  "All frames are present verbatim in P.",
+                  "No additional premises required by head factorization."
+                ],
+                "failure_signal": "No semantic gap found.",
+                "recommended_next_phase": "vc-proving-preparing",
+                "analysis_group_candidate": "append_payload",
+                "grouping_reason": "Same append traversal invariant, structural segment composition and unchanged payload frame."
+              },
+              "proof_of_AppendSingleLinkList_entail_wit_2": {
+                "witness_name": "proof_of_AppendSingleLinkList_entail_wit_2",
+                "judgment": "proofable",
+                "vc_shape": {
+                  "pre_spatial": "head(h,addresses(l)) ** node(p) ** payloads(storeA,l) ** storeA(p,data)",
+                  "pre_pure": "Head and standalone node encode h != 0 and p != 0.",
+                  "pre_exists": "Implicit through predicate unfolding as described below.",
+                  "post_spatial": "h.next -> next ** seg(h,h,[]) ** sll(next,addresses(l)) ** payload frames ** p.next undefined",
+                  "post_pure": "h::addresses(l) = [] ++ h::addresses(l), h != 0, p != 0.",
+                  "post_exists": "Left VC branch: next from head unfolding, l1a=[], l1b=addresses(l). Alternatively right branch is reflexivity on [] append."
+                },
+                "witness_instantiation": "Left VC branch: next from head unfolding, l1a=[], l1b=addresses(l). Alternatively right branch is reflexivity on [] append.",
+                "space_plan": "Unfold head and standalone node; their nonnull facts and cells exactly establish initial invariant. Empty segment holds at identical endpoints and owns emp.",
+                "pure_plan": "List equation reduces definitionally. Nonnull facts come from respective predicates.",
+                "refinement_plan": "Direct separation-logic proof; no refinement program or safeExec state.",
+                "used_existing_lemmas": [
+                  "xizi_sll_head",
+                  "generic_sll_head",
+                  "xizi_sll_node",
+                  "generic_sllseg"
+                ],
+                "candidate_helper_declarations": [],
+                "premise_discharge": [
+                  "All frames are present verbatim in P.",
+                  "List equation reduces definitionally. Nonnull facts come from respective predicates."
+                ],
+                "failure_signal": "No semantic gap found.",
+                "recommended_next_phase": "vc-proving-preparing",
+                "analysis_group_candidate": "append_payload",
+                "grouping_reason": "Same append traversal invariant, structural segment composition and unchanged payload frame."
+              },
+              "proof_of_AppendSingleLinkList_entail_wit_3": {
+                "witness_name": "proof_of_AppendSingleLinkList_entail_wit_3",
+                "judgment": "proofable",
+                "vc_shape": {
+                  "pre_spatial": "node.next -> next2 ** seg(h,node,prefix) ** sll(next2,suffix) ** old/new payload frames ** newnode.next undefined",
+                  "pre_pure": "h::addresses(l)=prefix++node::suffix; node != 0; newnode != 0; next2 != 0.",
+                  "pre_exists": "Implicit through predicate unfolding as described below.",
+                  "post_spatial": "next2.next -> q ** seg(h,next2,prefix++[node]) ** sll(q,tail) ** unchanged frames",
+                  "post_pure": "h::addresses(l)=(prefix++[node])++next2::tail; next2 != 0; newnode != 0.",
+                  "post_exists": "Choose left disjunct. Nonzero suffix opens as suffix=next2::tail with q; next=q, l1a=prefix++[node], l1b=tail."
+                },
+                "witness_instantiation": "Choose left disjunct. Nonzero suffix opens as suffix=next2::tail with q; next=q, l1a=prefix++[node], l1b=tail.",
+                "space_plan": "Use xizi_sll_not_zero on suffix. Turn old node cell into singleton segment with xizi_sllseg_len1 and compose with existing prefix using xizi_sllseg_sllseg. Preserve all payload and new-node frames.",
+                "pure_plan": "Guard discharges next2 != 0; existing invariant discharges node != 0 and newnode != 0. Substitute suffix=next2::tail in invariant equation and use append associativity.",
+                "refinement_plan": "Direct separation-logic proof; no refinement program or safeExec state.",
+                "used_existing_lemmas": [
+                  "xizi_sll_not_zero",
+                  "xizi_sllseg_len1",
+                  "xizi_sllseg_sllseg",
+                  "app_assoc"
+                ],
+                "candidate_helper_declarations": [],
+                "premise_discharge": [
+                  "All frames are present verbatim in P.",
+                  "Guard discharges next2 != 0; existing invariant discharges node != 0 and newnode != 0. Substitute suffix=next2::tail in invariant equation and use append associativity."
+                ],
+                "failure_signal": "No semantic gap found.",
+                "recommended_next_phase": "vc-proving-preparing",
+                "analysis_group_candidate": "append_payload",
+                "grouping_reason": "Same append traversal invariant, structural segment composition and unchanged payload frame."
+              },
+              "proof_of_AppendSingleLinkList_return_wit_1": {
+                "witness_name": "proof_of_AppendSingleLinkList_return_wit_1",
+                "judgment": "needs-helper",
+                "vc_shape": {
+                  "pre_spatial": "node.next -> p ** seg(h,node,prefix) ** sll(next,suffix) ** payloads(storeA,l) ** storeA(p,data) ** p.next -> 0",
+                  "pre_pure": "h::addresses(l)=prefix++node::suffix; node != 0; p != 0; next=0.",
+                  "pre_exists": "Implicit through predicate unfolding as described below.",
+                  "post_spatial": "head_payload(storeA,h,l++[Build_sll_payload_node data p])",
+                  "post_pure": "Exact old logical list followed by the same new logical record.",
+                  "post_exists": "Choose either identical disjunct. Exposed suffix must be []; reconstructed list addresses are addresses(l)++[p]."
+                },
+                "witness_instantiation": "Choose either identical disjunct. Exposed suffix must be []; reconstructed list addresses are addresses(l)++[p].",
+                "space_plan": "Use xizi_sll_zero to extract suffix=[] and consume empty suffix. Build sll p [p] from p.next=0, prepend node via xizi_sll_cons, then compose prefix via xizi_sllseg_sll. Rewrite resulting address list as h::(addresses(l)++[p]); apply xizi_sll_head_from_cons. Join payload frame and new payload using the candidate fold lemma. Rewrite addresses(l++[record]) by map_app and apply payload_head_unfactor__remove_payloads.",
+                "pure_plan": "next=0 supplies xizi_sll_zero premise; node!=0 and p!=0 supply constructors. Original list equation with suffix=[] implies prefix++[node]=h::addresses(l). Append [p] to both sides and normalize association. map_app computes appended record pointer p; no additional assumptions or payload weakening.",
+                "refinement_plan": "Direct separation-logic proof; no refinement program or safeExec state.",
+                "used_existing_lemmas": [
+                  "xizi_sll_zero",
+                  "xizi_sll_len1",
+                  "xizi_sll_cons",
+                  "xizi_sllseg_sll",
+                  "xizi_sll_head_from_cons",
+                  "payload_head_unfactor__remove_payloads",
+                  "map_app",
+                  "app_assoc"
+                ],
+                "candidate_helper_declarations": [
+                  {
+                    "name_hint": "payloads_append_singleton",
+                    "statement_shape": "forall A storeA l data p, xizi_sll_remove_payloads storeA l ** storeA p data |-- xizi_sll_remove_payloads storeA (l ++ [Build_sll_payload_node data p]).",
+                    "used_by_witnesses": [
+                      "proof_of_AppendSingleLinkList_return_wit_1"
+                    ],
+                    "premises": [
+                      {
+                        "premise": "ownership of original payload fold and new node payload",
+                        "discharged_by": "Both occur as separate spatial conjuncts in return_wit_1 precondition; no pure assumptions on arbitrary A/storeA are required."
+                      }
+                    ],
+                    "proof_strategy": "Induction on l; empty case unfolds fold and singleton, step frames the first payload and applies induction hypothesis. This is a fold concatenation fact, not a traversal model.",
+                    "destination": "group-local case_lib with helper_namespace.suffix"
+                  }
+                ],
+                "premise_discharge": [
+                  "All frames are present verbatim in P.",
+                  "next=0 supplies xizi_sll_zero premise; node!=0 and p!=0 supply constructors. Original list equation with suffix=[] implies prefix++[node]=h::addresses(l). Append [p] to both sides and normalize association. map_app computes appended record pointer p; no additional assumptions or payload weakening."
+                ],
+                "failure_signal": "No semantic gap found.",
+                "recommended_next_phase": "vc-proving-preparing",
+                "analysis_group_candidate": "append_payload",
+                "grouping_reason": "Same append traversal invariant, structural segment composition and unchanged payload frame."
+              }
+            }
+          }
+        ],
+        "natural_language_analysis": {
+          "witnesses": [
+            {
+              "witness_name": "proof_of_AppendSingleLinkList_entail_wit_1",
+              "judgment": "proofable",
+              "vc_shape": {
+                "pre_spatial": "head_payload(storeA,h,l) ** node(p) ** storeA(p,data)",
+                "pre_pure": "None beyond predicate-defined nonnull/ownership.",
+                "pre_exists": "Implicit through predicate unfolding as described below.",
+                "post_spatial": "head(h,addresses(l)) ** node(p) ** payloads(storeA,l) ** storeA(p,data)",
+                "post_pure": "None.",
+                "post_exists": "Choose left disjunct of the VC; no new existential."
+              },
+              "witness_instantiation": "Choose left disjunct of the VC; no new existential.",
+              "space_plan": "Apply payload_head_factor__remove_payloads to head_payload, frame standalone node and new payload, cancel matching resources.",
+              "pure_plan": "No additional premises required by head factorization.",
+              "refinement_plan": "Direct separation-logic proof; no refinement program or safeExec state.",
+              "used_existing_lemmas": [
+                "payload_head_factor__remove_payloads"
+              ],
+              "candidate_helper_declarations": [],
+              "premise_discharge": [
+                "All frames are present verbatim in P.",
+                "No additional premises required by head factorization."
+              ],
+              "failure_signal": "No semantic gap found.",
+              "recommended_next_phase": "vc-proving-preparing",
+              "analysis_group_candidate": "append_payload",
+              "grouping_reason": "Same append traversal invariant, structural segment composition and unchanged payload frame."
+            },
+            {
+              "witness_name": "proof_of_AppendSingleLinkList_entail_wit_2",
+              "judgment": "proofable",
+              "vc_shape": {
+                "pre_spatial": "head(h,addresses(l)) ** node(p) ** payloads(storeA,l) ** storeA(p,data)",
+                "pre_pure": "Head and standalone node encode h != 0 and p != 0.",
+                "pre_exists": "Implicit through predicate unfolding as described below.",
+                "post_spatial": "h.next -> next ** seg(h,h,[]) ** sll(next,addresses(l)) ** payload frames ** p.next undefined",
+                "post_pure": "h::addresses(l) = [] ++ h::addresses(l), h != 0, p != 0.",
+                "post_exists": "Left VC branch: next from head unfolding, l1a=[], l1b=addresses(l). Alternatively right branch is reflexivity on [] append."
+              },
+              "witness_instantiation": "Left VC branch: next from head unfolding, l1a=[], l1b=addresses(l). Alternatively right branch is reflexivity on [] append.",
+              "space_plan": "Unfold head and standalone node; their nonnull facts and cells exactly establish initial invariant. Empty segment holds at identical endpoints and owns emp.",
+              "pure_plan": "List equation reduces definitionally. Nonnull facts come from respective predicates.",
+              "refinement_plan": "Direct separation-logic proof; no refinement program or safeExec state.",
+              "used_existing_lemmas": [
+                "xizi_sll_head",
+                "generic_sll_head",
+                "xizi_sll_node",
+                "generic_sllseg"
+              ],
+              "candidate_helper_declarations": [],
+              "premise_discharge": [
+                "All frames are present verbatim in P.",
+                "List equation reduces definitionally. Nonnull facts come from respective predicates."
+              ],
+              "failure_signal": "No semantic gap found.",
+              "recommended_next_phase": "vc-proving-preparing",
+              "analysis_group_candidate": "append_payload",
+              "grouping_reason": "Same append traversal invariant, structural segment composition and unchanged payload frame."
+            },
+            {
+              "witness_name": "proof_of_AppendSingleLinkList_entail_wit_3",
+              "judgment": "proofable",
+              "vc_shape": {
+                "pre_spatial": "node.next -> next2 ** seg(h,node,prefix) ** sll(next2,suffix) ** old/new payload frames ** newnode.next undefined",
+                "pre_pure": "h::addresses(l)=prefix++node::suffix; node != 0; newnode != 0; next2 != 0.",
+                "pre_exists": "Implicit through predicate unfolding as described below.",
+                "post_spatial": "next2.next -> q ** seg(h,next2,prefix++[node]) ** sll(q,tail) ** unchanged frames",
+                "post_pure": "h::addresses(l)=(prefix++[node])++next2::tail; next2 != 0; newnode != 0.",
+                "post_exists": "Choose left disjunct. Nonzero suffix opens as suffix=next2::tail with q; next=q, l1a=prefix++[node], l1b=tail."
+              },
+              "witness_instantiation": "Choose left disjunct. Nonzero suffix opens as suffix=next2::tail with q; next=q, l1a=prefix++[node], l1b=tail.",
+              "space_plan": "Use xizi_sll_not_zero on suffix. Turn old node cell into singleton segment with xizi_sllseg_len1 and compose with existing prefix using xizi_sllseg_sllseg. Preserve all payload and new-node frames.",
+              "pure_plan": "Guard discharges next2 != 0; existing invariant discharges node != 0 and newnode != 0. Substitute suffix=next2::tail in invariant equation and use append associativity.",
+              "refinement_plan": "Direct separation-logic proof; no refinement program or safeExec state.",
+              "used_existing_lemmas": [
+                "xizi_sll_not_zero",
+                "xizi_sllseg_len1",
+                "xizi_sllseg_sllseg",
+                "app_assoc"
+              ],
+              "candidate_helper_declarations": [],
+              "premise_discharge": [
+                "All frames are present verbatim in P.",
+                "Guard discharges next2 != 0; existing invariant discharges node != 0 and newnode != 0. Substitute suffix=next2::tail in invariant equation and use append associativity."
+              ],
+              "failure_signal": "No semantic gap found.",
+              "recommended_next_phase": "vc-proving-preparing",
+              "analysis_group_candidate": "append_payload",
+              "grouping_reason": "Same append traversal invariant, structural segment composition and unchanged payload frame."
+            },
+            {
+              "witness_name": "proof_of_AppendSingleLinkList_return_wit_1",
+              "judgment": "needs-helper",
+              "vc_shape": {
+                "pre_spatial": "node.next -> p ** seg(h,node,prefix) ** sll(next,suffix) ** payloads(storeA,l) ** storeA(p,data) ** p.next -> 0",
+                "pre_pure": "h::addresses(l)=prefix++node::suffix; node != 0; p != 0; next=0.",
+                "pre_exists": "Implicit through predicate unfolding as described below.",
+                "post_spatial": "head_payload(storeA,h,l++[Build_sll_payload_node data p])",
+                "post_pure": "Exact old logical list followed by the same new logical record.",
+                "post_exists": "Choose either identical disjunct. Exposed suffix must be []; reconstructed list addresses are addresses(l)++[p]."
+              },
+              "witness_instantiation": "Choose either identical disjunct. Exposed suffix must be []; reconstructed list addresses are addresses(l)++[p].",
+              "space_plan": "Use xizi_sll_zero to extract suffix=[] and consume empty suffix. Build sll p [p] from p.next=0, prepend node via xizi_sll_cons, then compose prefix via xizi_sllseg_sll. Rewrite resulting address list as h::(addresses(l)++[p]); apply xizi_sll_head_from_cons. Join payload frame and new payload using the candidate fold lemma. Rewrite addresses(l++[record]) by map_app and apply payload_head_unfactor__remove_payloads.",
+              "pure_plan": "next=0 supplies xizi_sll_zero premise; node!=0 and p!=0 supply constructors. Original list equation with suffix=[] implies prefix++[node]=h::addresses(l). Append [p] to both sides and normalize association. map_app computes appended record pointer p; no additional assumptions or payload weakening.",
+              "refinement_plan": "Direct separation-logic proof; no refinement program or safeExec state.",
+              "used_existing_lemmas": [
+                "xizi_sll_zero",
+                "xizi_sll_len1",
+                "xizi_sll_cons",
+                "xizi_sllseg_sll",
+                "xizi_sll_head_from_cons",
+                "payload_head_unfactor__remove_payloads",
+                "map_app",
+                "app_assoc"
+              ],
+              "candidate_helper_declarations": [
+                {
+                  "name_hint": "payloads_append_singleton",
+                  "statement_shape": "forall A storeA l data p, xizi_sll_remove_payloads storeA l ** storeA p data |-- xizi_sll_remove_payloads storeA (l ++ [Build_sll_payload_node data p]).",
+                  "used_by_witnesses": [
+                    "proof_of_AppendSingleLinkList_return_wit_1"
+                  ],
+                  "premises": [
+                    {
+                      "premise": "ownership of original payload fold and new node payload",
+                      "discharged_by": "Both occur as separate spatial conjuncts in return_wit_1 precondition; no pure assumptions on arbitrary A/storeA are required."
+                    }
+                  ],
+                  "proof_strategy": "Induction on l; empty case unfolds fold and singleton, step frames the first payload and applies induction hypothesis. This is a fold concatenation fact, not a traversal model.",
+                  "destination": "group-local case_lib with helper_namespace.suffix"
+                }
+              ],
+              "premise_discharge": [
+                "All frames are present verbatim in P.",
+                "next=0 supplies xizi_sll_zero premise; node!=0 and p!=0 supply constructors. Original list equation with suffix=[] implies prefix++[node]=h::addresses(l). Append [p] to both sides and normalize association. map_app computes appended record pointer p; no additional assumptions or payload weakening."
+              ],
+              "failure_signal": "No semantic gap found.",
+              "recommended_next_phase": "vc-proving-preparing",
+              "analysis_group_candidate": "append_payload",
+              "grouping_reason": "Same append traversal invariant, structural segment composition and unchanged payload frame."
+            }
+          ],
+          "analysis_groups": [
+            {
+              "group_id": "append_payload",
+              "witness_names": [
+                "proof_of_AppendSingleLinkList_entail_wit_1",
+                "proof_of_AppendSingleLinkList_entail_wit_2",
+                "proof_of_AppendSingleLinkList_entail_wit_3",
+                "proof_of_AppendSingleLinkList_return_wit_1"
+              ],
+              "representative_witness": "proof_of_AppendSingleLinkList_return_wit_1",
+              "shared_proof_pattern": "Reuse shared payload head factor/unfactor around the unchanged address traversal. Initialize and extend the structural segment with existing common lemmas. On exit append new node structurally, join its exact arbitrary payload using a suffixed fold-append lemma, and restore head_payload. Select provable disjuncts of generated obligations.",
+              "dependencies": [],
+              "candidate_helper_declarations": [
+                {
+                  "name_hint": "payloads_append_singleton",
+                  "statement_shape": "forall A storeA l data p, xizi_sll_remove_payloads storeA l ** storeA p data |-- xizi_sll_remove_payloads storeA (l ++ [Build_sll_payload_node data p]).",
+                  "used_by_witnesses": [
+                    "proof_of_AppendSingleLinkList_return_wit_1"
+                  ],
+                  "premises": [
+                    {
+                      "premise": "ownership of original payload fold and new node payload",
+                      "discharged_by": "Both occur as separate spatial conjuncts in return_wit_1 precondition; no pure assumptions on arbitrary A/storeA are required."
+                    }
+                  ],
+                  "proof_strategy": "Induction on l; empty case unfolds fold and singleton, step frames the first payload and applies induction hypothesis. This is a fold concatenation fact, not a traversal model.",
+                  "destination": "group-local case_lib with helper_namespace.suffix"
+                }
+              ],
+              "grouping_reason": "All 4 witnesses belong to the same append function and share one structural traversal plus payload frame; 4 <= 12, with no cross-group dependency.",
+              "proof_group_ready": true
+            }
+          ]
+        },
+        "blockers": []
+      },
+      "natural_language_analysis": {
+        "witnesses": [
+          {
+            "witness_name": "proof_of_AppendSingleLinkList_entail_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "head_payload(storeA,h,l) ** node(p) ** storeA(p,data)",
+              "pre_pure": "None beyond predicate-defined nonnull/ownership.",
+              "pre_exists": "Implicit through predicate unfolding as described below.",
+              "post_spatial": "head(h,addresses(l)) ** node(p) ** payloads(storeA,l) ** storeA(p,data)",
+              "post_pure": "None.",
+              "post_exists": "Choose left disjunct of the VC; no new existential."
+            },
+            "witness_instantiation": "Choose left disjunct of the VC; no new existential.",
+            "space_plan": "Apply payload_head_factor__remove_payloads to head_payload, frame standalone node and new payload, cancel matching resources.",
+            "pure_plan": "No additional premises required by head factorization.",
+            "refinement_plan": "Direct separation-logic proof; no refinement program or safeExec state.",
+            "used_existing_lemmas": [
+              "payload_head_factor__remove_payloads"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "All frames are present verbatim in P.",
+              "No additional premises required by head factorization."
+            ],
+            "failure_signal": "No semantic gap found.",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "append_payload",
+            "grouping_reason": "Same append traversal invariant, structural segment composition and unchanged payload frame."
+          },
+          {
+            "witness_name": "proof_of_AppendSingleLinkList_entail_wit_2",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "head(h,addresses(l)) ** node(p) ** payloads(storeA,l) ** storeA(p,data)",
+              "pre_pure": "Head and standalone node encode h != 0 and p != 0.",
+              "pre_exists": "Implicit through predicate unfolding as described below.",
+              "post_spatial": "h.next -> next ** seg(h,h,[]) ** sll(next,addresses(l)) ** payload frames ** p.next undefined",
+              "post_pure": "h::addresses(l) = [] ++ h::addresses(l), h != 0, p != 0.",
+              "post_exists": "Left VC branch: next from head unfolding, l1a=[], l1b=addresses(l). Alternatively right branch is reflexivity on [] append."
+            },
+            "witness_instantiation": "Left VC branch: next from head unfolding, l1a=[], l1b=addresses(l). Alternatively right branch is reflexivity on [] append.",
+            "space_plan": "Unfold head and standalone node; their nonnull facts and cells exactly establish initial invariant. Empty segment holds at identical endpoints and owns emp.",
+            "pure_plan": "List equation reduces definitionally. Nonnull facts come from respective predicates.",
+            "refinement_plan": "Direct separation-logic proof; no refinement program or safeExec state.",
+            "used_existing_lemmas": [
+              "xizi_sll_head",
+              "generic_sll_head",
+              "xizi_sll_node",
+              "generic_sllseg"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "All frames are present verbatim in P.",
+              "List equation reduces definitionally. Nonnull facts come from respective predicates."
+            ],
+            "failure_signal": "No semantic gap found.",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "append_payload",
+            "grouping_reason": "Same append traversal invariant, structural segment composition and unchanged payload frame."
+          },
+          {
+            "witness_name": "proof_of_AppendSingleLinkList_entail_wit_3",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "node.next -> next2 ** seg(h,node,prefix) ** sll(next2,suffix) ** old/new payload frames ** newnode.next undefined",
+              "pre_pure": "h::addresses(l)=prefix++node::suffix; node != 0; newnode != 0; next2 != 0.",
+              "pre_exists": "Implicit through predicate unfolding as described below.",
+              "post_spatial": "next2.next -> q ** seg(h,next2,prefix++[node]) ** sll(q,tail) ** unchanged frames",
+              "post_pure": "h::addresses(l)=(prefix++[node])++next2::tail; next2 != 0; newnode != 0.",
+              "post_exists": "Choose left disjunct. Nonzero suffix opens as suffix=next2::tail with q; next=q, l1a=prefix++[node], l1b=tail."
+            },
+            "witness_instantiation": "Choose left disjunct. Nonzero suffix opens as suffix=next2::tail with q; next=q, l1a=prefix++[node], l1b=tail.",
+            "space_plan": "Use xizi_sll_not_zero on suffix. Turn old node cell into singleton segment with xizi_sllseg_len1 and compose with existing prefix using xizi_sllseg_sllseg. Preserve all payload and new-node frames.",
+            "pure_plan": "Guard discharges next2 != 0; existing invariant discharges node != 0 and newnode != 0. Substitute suffix=next2::tail in invariant equation and use append associativity.",
+            "refinement_plan": "Direct separation-logic proof; no refinement program or safeExec state.",
+            "used_existing_lemmas": [
+              "xizi_sll_not_zero",
+              "xizi_sllseg_len1",
+              "xizi_sllseg_sllseg",
+              "app_assoc"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "All frames are present verbatim in P.",
+              "Guard discharges next2 != 0; existing invariant discharges node != 0 and newnode != 0. Substitute suffix=next2::tail in invariant equation and use append associativity."
+            ],
+            "failure_signal": "No semantic gap found.",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "append_payload",
+            "grouping_reason": "Same append traversal invariant, structural segment composition and unchanged payload frame."
+          },
+          {
+            "witness_name": "proof_of_AppendSingleLinkList_return_wit_1",
+            "judgment": "needs-helper",
+            "vc_shape": {
+              "pre_spatial": "node.next -> p ** seg(h,node,prefix) ** sll(next,suffix) ** payloads(storeA,l) ** storeA(p,data) ** p.next -> 0",
+              "pre_pure": "h::addresses(l)=prefix++node::suffix; node != 0; p != 0; next=0.",
+              "pre_exists": "Implicit through predicate unfolding as described below.",
+              "post_spatial": "head_payload(storeA,h,l++[Build_sll_payload_node data p])",
+              "post_pure": "Exact old logical list followed by the same new logical record.",
+              "post_exists": "Choose either identical disjunct. Exposed suffix must be []; reconstructed list addresses are addresses(l)++[p]."
+            },
+            "witness_instantiation": "Choose either identical disjunct. Exposed suffix must be []; reconstructed list addresses are addresses(l)++[p].",
+            "space_plan": "Use xizi_sll_zero to extract suffix=[] and consume empty suffix. Build sll p [p] from p.next=0, prepend node via xizi_sll_cons, then compose prefix via xizi_sllseg_sll. Rewrite resulting address list as h::(addresses(l)++[p]); apply xizi_sll_head_from_cons. Join payload frame and new payload using the candidate fold lemma. Rewrite addresses(l++[record]) by map_app and apply payload_head_unfactor__remove_payloads.",
+            "pure_plan": "next=0 supplies xizi_sll_zero premise; node!=0 and p!=0 supply constructors. Original list equation with suffix=[] implies prefix++[node]=h::addresses(l). Append [p] to both sides and normalize association. map_app computes appended record pointer p; no additional assumptions or payload weakening.",
+            "refinement_plan": "Direct separation-logic proof; no refinement program or safeExec state.",
+            "used_existing_lemmas": [
+              "xizi_sll_zero",
+              "xizi_sll_len1",
+              "xizi_sll_cons",
+              "xizi_sllseg_sll",
+              "xizi_sll_head_from_cons",
+              "payload_head_unfactor__remove_payloads",
+              "map_app",
+              "app_assoc"
+            ],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "payloads_append_singleton",
+                "statement_shape": "forall A storeA l data p, xizi_sll_remove_payloads storeA l ** storeA p data |-- xizi_sll_remove_payloads storeA (l ++ [Build_sll_payload_node data p]).",
+                "used_by_witnesses": [
+                  "proof_of_AppendSingleLinkList_return_wit_1"
+                ],
+                "premises": [
+                  {
+                    "premise": "ownership of original payload fold and new node payload",
+                    "discharged_by": "Both occur as separate spatial conjuncts in return_wit_1 precondition; no pure assumptions on arbitrary A/storeA are required."
+                  }
+                ],
+                "proof_strategy": "Induction on l; empty case unfolds fold and singleton, step frames the first payload and applies induction hypothesis. This is a fold concatenation fact, not a traversal model.",
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "premise_discharge": [
+              "All frames are present verbatim in P.",
+              "next=0 supplies xizi_sll_zero premise; node!=0 and p!=0 supply constructors. Original list equation with suffix=[] implies prefix++[node]=h::addresses(l). Append [p] to both sides and normalize association. map_app computes appended record pointer p; no additional assumptions or payload weakening."
+            ],
+            "failure_signal": "No semantic gap found.",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "append_payload",
+            "grouping_reason": "Same append traversal invariant, structural segment composition and unchanged payload frame."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "append_payload",
+            "witness_names": [
+              "proof_of_AppendSingleLinkList_entail_wit_1",
+              "proof_of_AppendSingleLinkList_entail_wit_2",
+              "proof_of_AppendSingleLinkList_entail_wit_3",
+              "proof_of_AppendSingleLinkList_return_wit_1"
+            ],
+            "representative_witness": "proof_of_AppendSingleLinkList_return_wit_1",
+            "shared_proof_pattern": "Reuse shared payload head factor/unfactor around the unchanged address traversal. Initialize and extend the structural segment with existing common lemmas. On exit append new node structurally, join its exact arbitrary payload using a suffixed fold-append lemma, and restore head_payload. Select provable disjuncts of generated obligations.",
+            "dependencies": [],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "payloads_append_singleton",
+                "statement_shape": "forall A storeA l data p, xizi_sll_remove_payloads storeA l ** storeA p data |-- xizi_sll_remove_payloads storeA (l ++ [Build_sll_payload_node data p]).",
+                "used_by_witnesses": [
+                  "proof_of_AppendSingleLinkList_return_wit_1"
+                ],
+                "premises": [
+                  {
+                    "premise": "ownership of original payload fold and new node payload",
+                    "discharged_by": "Both occur as separate spatial conjuncts in return_wit_1 precondition; no pure assumptions on arbitrary A/storeA are required."
+                  }
+                ],
+                "proof_strategy": "Induction on l; empty case unfolds fold and singleton, step frames the first payload and applies induction hypothesis. This is a fold concatenation fact, not a traversal model.",
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "grouping_reason": "All 4 witnesses belong to the same append function and share one structural traversal plus payload frame; 4 <= 12, with no cross-group dependency.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "read-only semantic analysis",
+        "file_hash_checks": [
+          {
+            "relative_path": "OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append.c",
+            "sha256": "3fc599e9f49e0e6dbff2799d55331d8100e04000699087bcde17ebed286a7486",
+            "matches": "yes"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_lib.v",
+            "sha256": "47210c7500513d3526a376e42af16e933cdaf0d87486da4fb4173630dc8a500c",
+            "matches": "yes"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_goal.v",
+            "sha256": "63b22eb5e3ea429a91ac9b026046a8f92196fa161976f409aaa835a72d5ae699",
+            "matches": "yes"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_proof_auto.v",
+            "sha256": "421dc2890050a07b279810dbf90048f14825b1338df5778490e2213314e67769",
+            "matches": "yes"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_proof_manual.v",
+            "sha256": "fbcd98a524d895eac48cfd50cbb59933c5ffb3a9481d32248dbce89398cabeaa",
+            "matches": "yes"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_goal_check.v",
+            "sha256": "426ef8170aac9a5b6d2bef407686fa9f3a493e1f08a79cfa5eb535466ae87b12",
+            "matches": "yes"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_proof_diagnostics.v",
+            "sha256": "8df85850b2f75d30e69ee381435590e1a42f70e6cb50d1338440463a9e3b6e50",
+            "matches": "yes"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/diagnostics_snapshot.json",
+            "sha256": "0cb87890c281a41a185e676cd93377c66550f13a938f241e888453804749305f",
+            "matches": "yes"
+          }
+        ],
+        "manual_target_order_matches": "yes",
+        "manual_contains_diagnostics": "no",
+        "required_files_read": [
+          "OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append.c",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_lib.v",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_goal.v",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_proof_auto.v",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_proof_manual.v",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_goal_check.v",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_proof_diagnostics.v",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/diagnostics_snapshot.json"
+        ],
+        "common_library": "QCIPLib/xizi/xizi_single_link_common/xizi_single_link_lib.v",
+        "formal_compilation": "not performed: vc-checking is semantic planning; controller/worker own subsequent fixed coqc checks",
+        "scope_note": "Generated proof_auto safety witness contains its generator-owned Admitted; it is outside the cleaned manual target set and was not altered."
+      },
+      "changed_files": [],
+      "blockers": [],
+      "recommended_next_phase": "vc-proving-preparing",
+      "completed_at": "2026-09-09T16:39:31.990728+00:00"
+    }
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-09-09T16:39:50Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_single_link_append-20260910001748/rounds/xizi_single_link_append-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    },
+    "controller_simple_repairs": [
+      {
+        "kind": "materialized-inline-group-plan",
+        "source": "/home/yangfp/QCIP/reports/xizi_single_link_append-20260910001748/rounds/xizi_single_link_append-vc-checking-r1/agent_report.json",
+        "target": "/home/yangfp/QCIP/reports/xizi_single_link_append-20260910001748/rounds/xizi_single_link_append-vc-checking-r1/group_plan.json",
+        "reason": "vc-checking report included an inline group_plan but the default group_plan.json artifact was missing"
+      }
+    ],
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-09-09T16:39:50Z",
+      "source_version": {
+        "digest": "ba4bbad594a1a71b09d365caaa155f2608a6d7baab5be99e4465ca98d5ef4076",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_single_link_append-20260910001748/xizi_single_link_append-annotation-r1/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append.c",
+            "relative_path": "OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append.c",
+            "role": "target-c-annotated",
+            "sha256": "3fc599e9f49e0e6dbff2799d55331d8100e04000699087bcde17ebed286a7486",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_single_link_append-20260910001748/xizi_single_link_append-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "47210c7500513d3526a376e42af16e933cdaf0d87486da4fb4173630dc8a500c",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "75100616e908cbe1e323c83c90c1d174b56bb41b9d4164db5d1da1be8f1ef4e7",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_goal.v",
+            "role": "generated-goal",
+            "sha256": "63b22eb5e3ea429a91ac9b026046a8f92196fa161976f409aaa835a72d5ae699",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "421dc2890050a07b279810dbf90048f14825b1338df5778490e2213314e67769",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "fbcd98a524d895eac48cfd50cbb59933c5ffb3a9481d32248dbce89398cabeaa",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "426ef8170aac9a5b6d2bef407686fa9f3a493e1f08a79cfa5eb535466ae87b12",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "8df85850b2f75d30e69ee381435590e1a42f70e6cb50d1338440463a9e3b6e50",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "0cb87890c281a41a185e676cd93377c66550f13a938f241e888453804749305f",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_AppendSingleLinkList_entail_wit_1",
+          "proof_of_AppendSingleLinkList_entail_wit_2",
+          "proof_of_AppendSingleLinkList_entail_wit_3",
+          "proof_of_AppendSingleLinkList_return_wit_1"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_AppendSingleLinkList_entail_wit_1": "5917c11134bfabee6f974bff9bf2bc59b120227446d4b8a37aaf7e22462d9320",
+          "proof_of_AppendSingleLinkList_entail_wit_2": "4d106856c089a4c7988e70eaa443f3e1aa8a17afb416671fc584d0a610be2f42",
+          "proof_of_AppendSingleLinkList_entail_wit_3": "0a9c5b4a37301a8f68a1a6a9d6014e26c55cf7282a983aa3e01540dc67f53ecd",
+          "proof_of_AppendSingleLinkList_return_wit_1": "69557f299368c855c983ea1cd23c4257b3beac3448e3005d488e8bdf722c9458"
+        },
+        "witnesses": [
+          {
+            "end_line": 27,
+            "name": "proof_of_AppendSingleLinkList_entail_wit_1",
+            "start_line": 25,
+            "statement_hash": "5917c11134bfabee6f974bff9bf2bc59b120227446d4b8a37aaf7e22462d9320",
+            "target_symbol": "AppendSingleLinkList_entail_wit_1"
+          },
+          {
+            "end_line": 30,
+            "name": "proof_of_AppendSingleLinkList_entail_wit_2",
+            "start_line": 28,
+            "statement_hash": "4d106856c089a4c7988e70eaa443f3e1aa8a17afb416671fc584d0a610be2f42",
+            "target_symbol": "AppendSingleLinkList_entail_wit_2"
+          },
+          {
+            "end_line": 33,
+            "name": "proof_of_AppendSingleLinkList_entail_wit_3",
+            "start_line": 31,
+            "statement_hash": "0a9c5b4a37301a8f68a1a6a9d6014e26c55cf7282a983aa3e01540dc67f53ecd",
+            "target_symbol": "AppendSingleLinkList_entail_wit_3"
+          },
+          {
+            "end_line": 36,
+            "name": "proof_of_AppendSingleLinkList_return_wit_1",
+            "start_line": 34,
+            "statement_hash": "69557f299368c855c983ea1cd23c4257b3beac3448e3005d488e8bdf722c9458",
+            "target_symbol": "AppendSingleLinkList_return_wit_1"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_single_link_append-20260910001748/rounds/xizi_single_link_append-vc-checking-r1/group_plan.json",
+      "target_witnesses": [
+        "proof_of_AppendSingleLinkList_entail_wit_1",
+        "proof_of_AppendSingleLinkList_entail_wit_2",
+        "proof_of_AppendSingleLinkList_entail_wit_3",
+        "proof_of_AppendSingleLinkList_return_wit_1"
+      ]
+    }
+  },
+  "blockers": []
+}

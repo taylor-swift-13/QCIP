@@ -245,7 +245,26 @@ def _target_files_for_rel(target_rel: str) -> dict[str, str]:
 
 
 def _target_files_for_state(state: dict[str, Any]) -> dict[str, str]:
-    return _target_files_for_rel(_target_rel_from_state(state))
+    files = _target_files_for_rel(_target_rel_from_state(state))
+    if state.get("case_lib_file"):
+        files["case_lib"] = _case_lib_relative_path(
+            str(state["case_lib_file"]), Path(str(state["main_worktree"]))
+        )
+    return files
+
+
+def _case_lib_relative_path(value: str, main_root: Path) -> str:
+    """Bind an explicitly selected shared library to the normal case contract."""
+    root = main_root.resolve()
+    path = Path(value).expanduser()
+    path = (root / path).resolve() if not path.is_absolute() else path.resolve()
+    try:
+        relative = path.relative_to(root)
+    except ValueError as exc:
+        raise ValueError("case library must be inside the main worktree") from exc
+    if not path.name.endswith("_lib.v"):
+        raise ValueError("case library must be a *_lib.v source file")
+    return relative.as_posix()
 
 
 def _source_version_for_workspace(
@@ -440,6 +459,8 @@ def _qcp_driver_payload(state: dict[str, Any], workspace_root: Path, target_file
     for physical, logical in slp_mappings:
         slp_argv.extend(["-slp", physical, logical])
     slp_args = [item for mapping in slp_mappings for item in mapping]
+    coq_rules = state.get("coq_rules")
+    rules_argv = ["--CRules", str(coq_rules)] if coq_rules else []
     return {
         "driver": str(symexec),
         "cwd": str(workspace_root.resolve()),
@@ -447,6 +468,7 @@ def _qcp_driver_payload(state: dict[str, Any], workspace_root: Path, target_file
         "slp_args": slp_args,
         "slp_mappings": slp_mappings,
         "coq_logic_path": target_files["active_case_theory"],
+        "coq_rules": coq_rules,
         "canonical_argv_template": [
             str(symexec),
             f"--goal-file={target_files['goal_file']}",
@@ -454,6 +476,7 @@ def _qcp_driver_payload(state: dict[str, Any], workspace_root: Path, target_file
             f"--proof-manual-file={target_files['proof_manual_file']}",
             f"-I{CANONICAL_INCLUDE}",
             *slp_argv,
+            *rules_argv,
             f"--coq-logic-path={target_files['active_case_theory']}",
             f"--input-file={target_files['c_file']}",
             "--no-exec-info",
@@ -2071,6 +2094,10 @@ def init_run(args: argparse.Namespace) -> int:
         raise SystemExit(f"target C file not found: {target}")
     main_root = Path(args.main_worktree_root).expanduser().resolve() if args.main_worktree_root else git_toplevel(target)
     target_rel = _relative_path_for_digest(target, main_root)
+    case_lib_file = (
+        _case_lib_relative_path(args.case_lib_file, main_root)
+        if args.case_lib_file else None
+    )
     run_root = ensure_run_root(main_root, args.case, timestamp=args.timestamp)
     report_root = reports_root(run_root)
     _write_timing_summary(report_root)
@@ -2120,10 +2147,13 @@ def init_run(args: argparse.Namespace) -> int:
         "run_root": str(run_root),
         "report_root": str(report_root),
         "target_c_file": str(target),
+        "case_lib_file": case_lib_file,
+        "coq_rules": getattr(args, "coq_rules", None),
         "source_version": _source_version_for_workspace(
             {
                 "main_worktree": str(main_root),
                 "target_c_file": str(target),
+                "case_lib_file": case_lib_file,
             },
             main_root,
             annotated=False,
@@ -4502,21 +4532,51 @@ def _cleanup_findings(formal_dir: Path) -> list[dict[str, Any]]:
 def _final_symexec_refresh_evidence(state: dict[str, Any], main_root: Path, run_root: Path, target_files: dict[str, str]) -> dict[str, Any]:
     refresh_root = Path(str(state["report_root"])) / "final-check" / "symexec-refresh"
     refresh_root.mkdir(parents=True, exist_ok=True)
-    driver = main_root / "linux-binary" / "symexec"
     evidence = {
         "schema_version": "qcp-final-symexec-refresh/v1",
-        "status": "skipped",
+        "status": "failed",
         "refresh_root": str(refresh_root),
-        "driver": str(driver),
-        "reason": "canonical symexec driver not found or not executable",
     }
-    if not driver.is_file() or not driver.stat().st_mode & 0o111:
+    # Keep the input path, imports and logical namespace unchanged. Only outputs
+    # move to the report directory; the proved manual is never a driver output.
+    refreshed = dict(target_files)
+    for key in ("goal_file", "proof_auto_file", "proof_manual_file", "goal_check_file",
+                "proof_diagnostics_file", "diagnostics_snapshot"):
+        refreshed[key] = str((refresh_root / Path(target_files[key]).name).resolve())
+    refreshed["formal_directory"] = str(refresh_root.resolve())
+    before = {
+        key: _file_digest(main_root / target_files[key])
+        for key in ("goal_file", "proof_auto_file", "proof_manual_file", "goal_check_file")
+        if (main_root / target_files[key]).is_file()
+    }
+    replay = _run_canonical_symexec(state, main_root, refreshed)
+    evidence["canonical_symexec_evidence"] = replay
+    if replay.get("status") != "passed":
+        evidence["reason"] = "isolated canonical symbolic execution did not pass"
         return evidence
-    # The refresh workspace must not overwrite the proved manual in main worktree.
-    # A full isolated replay is case-environment-specific, so the controller records
-    # the strict output location and requires generated-file comparison evidence from
-    # future symexec integrations instead of running the driver in-place.
-    evidence["reason"] = "strict isolated symexec refresh is not configured for this repository layout"
+    evidence["diagnostics_split"] = _split_manual_diagnostics_for_workspace(main_root, refreshed)
+    comparisons = []
+    for key in ("goal_file", "proof_auto_file", "goal_check_file"):
+        formal, fresh = main_root / target_files[key], Path(refreshed[key])
+        same = formal.is_file() and fresh.is_file() and formal.read_bytes() == fresh.read_bytes()
+        comparisons.append({"file": target_files[key], "same": same})
+    def statements(path: Path) -> dict[str, str]:
+        _, lemmas = parse_manual_file(path.read_text(encoding="utf-8"))
+        ensure_unique_lemma_names(lemmas)
+        return {str(lemma["name"]): lemma_statement_hash(lemma) for lemma in lemmas}
+    original_statements = statements(main_root / target_files["proof_manual_file"])
+    fresh_statements = statements(Path(refreshed["proof_manual_file"]))
+    unchanged = all((main_root / target_files[key]).is_file() and
+                    _file_digest(main_root / target_files[key]) == digest
+                    for key, digest in before.items())
+    evidence.update({
+        "generated_file_comparisons": comparisons,
+        "witness_statements_match": original_statements == fresh_statements,
+        "formal_files_unchanged": unchanged,
+        "target_witnesses": list(original_statements),
+        "status": "passed" if all(item["same"] for item in comparisons)
+        and original_statements == fresh_statements and unchanged else "failed",
+    })
     return evidence
 
 
@@ -4611,6 +4671,8 @@ def final_check(args: argparse.Namespace) -> int:
     }
     if evidence["manual_witnesses"].get("status") != "passed":
         blockers.append({"failure_class": "manual-witness-mismatch", "errors": evidence["manual_witnesses"].get("errors", [])})
+    if evidence["symexec_refresh"].get("status") != "passed":
+        blockers.append({"failure_class": "final-symexec-freshness-failed", "evidence": evidence["symexec_refresh"]})
     if coq_check.get("status") == "failed":
         blockers.append({"failure_class": "final-coqc-check-failed", "evidence": coq_check})
     if manual_findings:
@@ -4864,6 +4926,10 @@ def build_parser() -> argparse.ArgumentParser:
     init = sub.add_parser("init-run")
     init.add_argument("--case", required=True)
     init.add_argument("--target-c-file", required=True)
+    init.add_argument("--case-lib-file", default=None,
+                      help="Explicit shared *_lib.v to use as this run's sole case library")
+    init.add_argument("--coq-rules", default=None,
+                      help="Explicit symexec --CRules module, replayed in every canonical check")
     init.add_argument("--timestamp", default=None)
     init.add_argument("--max-compact-attempts", type=int, default=3)
     init.add_argument("--problem-statement", default="")

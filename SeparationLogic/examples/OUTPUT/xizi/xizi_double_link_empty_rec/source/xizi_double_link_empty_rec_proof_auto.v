@@ -20,12 +20,3 @@ Import naive_C_Rules.
 From QCIPLib.xizi.xizi_double_link_common Require Import xizi_double_link_lib.
 Local Open Scope sac.
 
-Lemma proof_of_xizi_double_link_empty_rec_return_wit_3_nil_case : xizi_double_link_empty_rec_return_wit_3_nil_case.
-Proof. Admitted. 
-
-Lemma proof_of_xizi_double_link_empty_rec_partial_solve_wit_1_general : xizi_double_link_empty_rec_partial_solve_wit_1_general.
-Proof. Admitted. 
-
-Lemma proof_of_xizi_double_link_empty_rec_partial_solve_wit_2_nil_case : xizi_double_link_empty_rec_partial_solve_wit_2_nil_case.
-Proof. Admitted. 
-

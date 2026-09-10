@@ -1,0 +1,65 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "44819d3a6d3a8a320ab0fc5991cf7b48b003190802e321db2b573d59dcc1f464",
+  "target_witnesses": [
+    "proof_of_DoubleLinkListRmNode_return_wit_1",
+    "proof_of_DoubleLinkListRmNode_derive_remove_self_loop_spec_by_strong_spec",
+    "proof_of_DoubleLinkListRmNode_derive_remove_tail_spec_by_strong_spec",
+    "proof_of_DoubleLinkListRmNode_derive_remove_front_spec_by_strong_spec",
+    "proof_of_DoubleLinkListRmNode_derive_remove_member_spec_by_strong_spec"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "double_link_remove_contracts",
+      "witness_names": [
+        "proof_of_DoubleLinkListRmNode_return_wit_1",
+        "proof_of_DoubleLinkListRmNode_derive_remove_self_loop_spec_by_strong_spec",
+        "proof_of_DoubleLinkListRmNode_derive_remove_tail_spec_by_strong_spec",
+        "proof_of_DoubleLinkListRmNode_derive_remove_front_spec_by_strong_spec",
+        "proof_of_DoubleLinkListRmNode_derive_remove_member_spec_by_strong_spec"
+      ],
+      "representative_witness": "proof_of_DoubleLinkListRmNode_derive_remove_member_spec_by_strong_spec",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "Unfold each witness. For return_wit_1 select the first Coq disjunct, unfold the one-field views, and apply xizi_dll_remove_result__dll_cut_split_reconnect using PreH2. For self_loop instantiate dispatch_case = 1 and all unused addresses with linklist_node, unfold xizi_dll/XiziDLL.dll at nil to obtain the two self-loop stores and non-nullness, then discharge the wand by eliminating the impossible 1 = 0 post branch. For tail and front instantiate dispatch_case = 0 and call xizi_dll_split_at_node__dll_cut_split_reconnect with suffix nil or prefix nil. For member first call xizi_dll_remove_first_split__spec_derivations_direct, rewrite by its decomposition, and call the same split lemma. Construct each derivation wand with the standard wand/sepcon adjunction, eliminate the impossible dispatch branch, cancel the matching DLL resources, and simplify app_nil_r, nil-app, or the supplied remove-first equality. No helper or forbidden lemma is needed.",
+      "natural_language_proof_strategy": "The current seed library already provides both directions of the cut/reconnect abstraction. Every public precondition can be instantiated as one branch of strong_spec, and the corresponding strong postcondition is definitionally or by a recorded list equality the requested public postcondition.",
+      "grouping_reason": "Same function, same xizi_dll cut/reconnect helper family, same strong/public contract bridge, no dependency boundary, only five witnesses, and one worker can handle the direct return plus four closely related derivations sequentially.",
+      "confidence": "high",
+      "per_witness_plan": {
+        "proof_of_DoubleLinkListRmNode_return_wit_1": {
+          "judgment": "proofable",
+          "route": "select left; apply xizi_dll_remove_result__dll_cut_split_reconnect; use PreH2 and PreH1"
+        },
+        "proof_of_DoubleLinkListRmNode_derive_remove_self_loop_spec_by_strong_spec": {
+          "judgment": "proofable",
+          "route": "instantiate dispatch 1; unfold the nil DLL into self-loop fields; prove the post wand by branch elimination"
+        },
+        "proof_of_DoubleLinkListRmNode_derive_remove_tail_spec_by_strong_spec": {
+          "judgment": "proofable",
+          "route": "instantiate dispatch 0 and suffix nil; split at the tail node; simplify prefix ++ nil in the wand"
+        },
+        "proof_of_DoubleLinkListRmNode_derive_remove_front_spec_by_strong_spec": {
+          "judgment": "proofable",
+          "route": "instantiate dispatch 0 and prefix nil; split at the front node; simplify nil ++ suffix in the wand"
+        },
+        "proof_of_DoubleLinkListRmNode_derive_remove_member_spec_by_strong_spec": {
+          "judgment": "proofable",
+          "route": "derive the first-occurrence prefix/suffix split; split the DLL at the node; rewrite the strong result by the remove-first equality"
+        }
+      }
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 5,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "schema_version": "qcp-reuse-packet/v1",
+  "case": "xizi_single_link_remove_node",
+  "default_client_spec": "remove_member_spec",
+  "specialized_client_specs": ["remove_front_spec", "remove_tail_spec"],
+  "implementation_spec": "strong_spec",
+  "abstract_remove_operator": "xizi_sll_remove_first",
+  "critical_invariant_facts": [
+    "linklist == linklist@pre",
+    "linklist_node == linklist_node@pre"
+  ],
+  "proved_case_helper": "xizi_sll_remove_first_split__spec_derivations_direct",
+  "proof_patterns": [
+    "Use xizi_sll_head_split_target directly for which_implies; do not route through derivable1_trans.",
+    "Split membership into first-hit prefix/suffix in case_lib, rewrite remove_first, then prove the postcondition directly.",
+    "Convert the detached concrete next-field store to xizi_sll_node ownership with store_ptr_undef_store_ptr."
+  ],
+  "tooling_lesson": "Bare strategy imports used by Include require a real bare build-workspace module; other cross-root bare imports remain Require Export wrappers to preserve logical-library consistency.",
+  "forbidden_patterns": ["Coq List.remove", "remove-all semantics", "derivable1_trans", "derivable1_sepcon_mono"]
+}
+

@@ -1,0 +1,657 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "934303af9777ad2ac763e0aada1051398fc81d121ffc8566462c445683285f9c",
+  "target_witnesses": [
+    "proof_of_DoubleLinkListGetNext_entail_wit_1",
+    "proof_of_DoubleLinkListGetNext_return_wit_1",
+    "proof_of_DoubleLinkListGetNext_return_wit_2",
+    "proof_of_DoubleLinkListGetNext_return_wit_3",
+    "proof_of_DoubleLinkListGetNext_return_wit_4",
+    "proof_of_DoubleLinkListGetNext_derive_sentinel_case_by_dispatch_case",
+    "proof_of_DoubleLinkListGetNext_derive_member_case_by_dispatch_case"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "dll_middle_payload_dispatch",
+      "witness_names": [
+        "proof_of_DoubleLinkListGetNext_entail_wit_1",
+        "proof_of_DoubleLinkListGetNext_return_wit_1",
+        "proof_of_DoubleLinkListGetNext_return_wit_2",
+        "proof_of_DoubleLinkListGetNext_return_wit_3",
+        "proof_of_DoubleLinkListGetNext_return_wit_4",
+        "proof_of_DoubleLinkListGetNext_derive_sentinel_case_by_dispatch_case",
+        "proof_of_DoubleLinkListGetNext_derive_member_case_by_dispatch_case"
+      ],
+      "representative_witness": "proof_of_DoubleLinkListGetNext_entail_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "seg_nonzero",
+          "statement_shape": "s <> 0 -> xizi_dllseg n p s l xs |-- pure (n <> 0)",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListGetNext_entail_wit_1"
+          ],
+          "premises": [
+            {
+              "premise": "s <> 0",
+              "discharged_by": "The stop is head; unfolding the structural DLL supplies head <> 0."
+            }
+          ],
+          "proof_strategy": "Destruct xs. Empty segment equates n with s; nonempty segment explicitly gives n <> 0.",
+          "destination": "group-local case_lib with helper_namespace.suffix",
+          "reference_pattern": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next/source/xizi_double_link_next_lib.v: corresponding declaration with __dll_next_payload_dispatch suffix; reprove under current group suffix"
+        },
+        {
+          "name_hint": "seg_split",
+          "statement_shape": "~ In node before -> s <> 0 -> xizi_dllseg n p s l (before ++ node :: after) |-- EX prev next, pure(node<>0 /\\ node<>s /\\ next<>0) && (xizi_dllseg n p node prev before ** xizi_dll_links node next prev ** xizi_dllseg next node s l after)",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListGetNext_entail_wit_1"
+          ],
+          "premises": [
+            {
+              "premise": "~ In node before",
+              "discharged_by": "Seed first-occurrence lemma supplies it from anchor membership."
+            },
+            {
+              "premise": "s <> 0",
+              "discharged_by": "Unfolding DLL supplies nonzero head."
+            }
+          ],
+          "proof_strategy": "Induct before; nonmembership excludes node at each prefix position; split the selected cons cell and use seg_nonzero on the suffix.",
+          "destination": "group-local case_lib with helper_namespace.suffix",
+          "reference_pattern": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next/source/xizi_double_link_next_lib.v: corresponding declaration with __dll_next_payload_dispatch suffix; reprove under current group suffix"
+        },
+        {
+          "name_hint": "seg_join",
+          "statement_shape": "node<>0 -> node<>s -> links s hf hl ** seg n p node prev before ** links node next prev ** seg next node s last after |-- links s hf hl ** seg n p s last (before ++ node :: after)",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListGetNext_return_wit_2",
+            "proof_of_DoubleLinkListGetNext_return_wit_3"
+          ],
+          "premises": [
+            {
+              "premise": "node<>0 and node<>s",
+              "discharged_by": "Both are explicit member-branch PreH7/PreH8."
+            },
+            {
+              "premise": "links s hf hl",
+              "discharged_by": "The VC retains both sentinel fields."
+            }
+          ],
+          "proof_strategy": "Induct before and fold segment cons. A prefix node equal to s is impossible by separated sentinel links and xizi_dll_links_neq__dll_len_payload_cycle. Keep the sentinel links framed throughout induction.",
+          "destination": "group-local case_lib with helper_namespace.suffix",
+          "reference_pattern": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next/source/xizi_double_link_next_lib.v: corresponding declaration with __dll_next_payload_dispatch suffix; reprove under current group suffix"
+        },
+        {
+          "name_hint": "seg_first",
+          "statement_shape": "xizi_dllseg n p s l xs |-- pure ((n=s -> first_value xs=0) /\\ (n<>s -> first_value xs=n))",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListGetNext_return_wit_1",
+            "proof_of_DoubleLinkListGetNext_return_wit_2",
+            "proof_of_DoubleLinkListGetNext_return_wit_3",
+            "proof_of_DoubleLinkListGetNext_return_wit_4"
+          ],
+          "premises": [],
+          "proof_strategy": "Destruct xs. Empty gives n=s and first_value=0; cons gives head=n and n<>s. Read existing guards to select the desired implication.",
+          "destination": "group-local case_lib with helper_namespace.suffix",
+          "reference_pattern": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next/source/xizi_double_link_next_lib.v: corresponding declaration with __dll_next_payload_dispatch suffix; reprove under current group suffix"
+        },
+        {
+          "name_hint": "seg_member_exclude",
+          "statement_shape": "In node xs -> xizi_dllseg n p s l xs |-- pure (node<>s)",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListGetNext_derive_member_case_by_dispatch_case"
+          ],
+          "premises": [
+            {
+              "premise": "In node xs",
+              "discharged_by": "member_case input membership after dll_decompose."
+            }
+          ],
+          "proof_strategy": "Induct xs; each cons has its address different from stop. Membership picks head or suffix.",
+          "destination": "group-local case_lib with helper_namespace.suffix",
+          "reference_pattern": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next/source/xizi_double_link_next_lib.v: corresponding declaration with __dll_next_payload_dispatch suffix; reprove under current group suffix"
+        },
+        {
+          "name_hint": "dll_expose",
+          "statement_shape": "~ In node before -> xizi_dll head (before ++ node :: after) |-- EX first last prev next, pure(head<>0 /\\ first<>0 /\\ node<>0 /\\ node<>head /\\ next<>0) && (links head first last ** seg first head node prev before ** links node next prev ** seg next node head last after)",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListGetNext_entail_wit_1"
+          ],
+          "premises": [
+            {
+              "premise": "~ In node before",
+              "discharged_by": "Seed first-occurrence lemma."
+            },
+            {
+              "premise": "Full structural DLL",
+              "discharged_by": "dll_decompose__storeA_shared applied to original store_dll."
+            }
+          ],
+          "proof_strategy": "Unfold DLL; use seg_nonzero and seg_split, leaving generic payload frame untouched.",
+          "destination": "group-local case_lib with helper_namespace.suffix",
+          "reference_pattern": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next/source/xizi_double_link_next_lib.v: corresponding declaration with __dll_next_payload_dispatch suffix; reprove under current group suffix"
+        },
+        {
+          "name_hint": "dll_reassemble",
+          "statement_shape": "head<>0 -> node<>0 -> node<>head -> links head first last ** seg first head node prev before ** links node next prev ** seg next node head last after |-- xizi_dll head (before ++ node :: after)",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListGetNext_return_wit_2",
+            "proof_of_DoubleLinkListGetNext_return_wit_3"
+          ],
+          "premises": [
+            {
+              "premise": "head<>0, node<>0, node<>head",
+              "discharged_by": "Explicit return witness PreH2, PreH7, PreH8."
+            },
+            {
+              "premise": "Split structural resources",
+              "discharged_by": "Exactly the spatial premise of member returns."
+            }
+          ],
+          "proof_strategy": "Apply seg_join then existing xizi_dll_close.",
+          "destination": "group-local case_lib with helper_namespace.suffix",
+          "reference_pattern": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next/source/xizi_double_link_next_lib.v: corresponding declaration with __dll_next_payload_dispatch suffix; reprove under current group suffix"
+        },
+        {
+          "name_hint": "store_member_exclude",
+          "statement_shape": "In node (xizi_dll_ptrs nodes) -> xizi_store_dll storeA head nodes |-- pure (node<>head)",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListGetNext_derive_member_case_by_dispatch_case"
+          ],
+          "premises": [
+            {
+              "premise": "Membership",
+              "discharged_by": "Original member_case pure precondition."
+            }
+          ],
+          "proof_strategy": "Apply existing dll_decompose__storeA_shared, unfold structural DLL and use seg_member_exclude; payload remains framed.",
+          "destination": "group-local case_lib with helper_namespace.suffix",
+          "reference_pattern": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next/source/xizi_double_link_next_lib.v: corresponding declaration with __dll_next_payload_dispatch suffix; reprove under current group suffix"
+        }
+      ],
+      "expected_helpers": [
+        "seg_nonzero__dll_middle_payload_dispatch",
+        "seg_split__dll_middle_payload_dispatch",
+        "seg_join__dll_middle_payload_dispatch",
+        "seg_first__dll_middle_payload_dispatch",
+        "seg_member_exclude__dll_middle_payload_dispatch",
+        "dll_expose__dll_middle_payload_dispatch",
+        "dll_reassemble__dll_middle_payload_dispatch",
+        "store_member_exclude__dll_middle_payload_dispatch"
+      ],
+      "proof_strategy": "Reuse the declared next case only as proof-pattern text: generated goal function body is byte-identical from its Function marker onwards. Copy/adapt the eight spatial helper proofs into current case_lib with __dll_middle_payload_dispatch suffix, use current seed first-occurrence lemma names unchanged, then adapt the seven witness proof bodies. Reuse common dll_decompose/compose and existing sentinel collision lemma directly. Do not import next case artifacts, modify common, modify seed declarations, or copy foreign suffix helpers. All return witnesses may use the first intact-segment disjunct. No forbidden lemma calls.",
+      "grouping_reason": "Seven witnesses <= maximum 12. All belong to DoubleLinkListGetNext and reuse the same projection, payload frame and segment helper family; the two contract derivations also share sentinel exclusion and observations. One worker can handle these consecutively without external dependencies.",
+      "confidence": "high",
+      "difficulty": "moderate",
+      "per_witness_plan": {
+        "proof_of_DoubleLinkListGetNext_entail_wit_1": {
+          "witness_name": "proof_of_DoubleLinkListGetNext_entail_wit_1",
+          "judgment": "needs-helper",
+          "vc_shape": {
+            "pre_spatial": "store_dll storeA head nodes",
+            "pre_pure": "anchor head (ptrs nodes) node",
+            "pre_exists": "All input logical parameters and retained pointer values are universally bound; DLL opening reveals first/last.",
+            "post_spatial": "Unchanged payloads plus sentinel links and either member split segments/node links or the original complete segment",
+            "post_pure": "head/first nonzero; member branch adds first-occurrence decomposition, node/next nonzero, node<>head and dispatch=first_value after; sentinel branch gives node=head and dispatch=first_value(ptrs nodes)",
+            "post_exists": "Member: prev,last,next,before,after,first. Sentinel: last,first."
+          },
+          "witness_instantiation": "Use first-occurrence before/after from the seed lemma for membership; first/last/prev/next come from structural DLL and seg_split. Sentinel branch uses head links.",
+          "space_plan": "Decompose store_dll once using common bridge. Split anchor disjunction. For membership expose selected occurrence; for sentinel open DLL. Keep payloads unchanged.",
+          "pure_plan": "First-occurrence seed discharges list equality and no prior node. Exposed node<>head permits existing seed dispatch lemma; sentinel equality reduces dispatch by Z.eq_dec.",
+          "refinement_plan": "No monadic refinement or loop invariant; mathematical list query only.",
+          "used_existing_lemmas": [
+            "dll_decompose__storeA_shared",
+            "dll_compose__storeA_shared",
+            "xizi_dll_close",
+            "xizi_dll_links_neq__dll_len_payload_cycle",
+            "xizi_double_link_in_first_occurrence__dll_dispatch_and_reclose",
+            "xizi_double_link_next_value_at_first_occurrence__dll_dispatch_and_reclose"
+          ],
+          "candidate_helper_declarations": [
+            {
+              "name_hint": "seg_nonzero",
+              "statement_shape": "s <> 0 -> xizi_dllseg n p s l xs |-- pure (n <> 0)",
+              "used_by_witnesses": [
+                "proof_of_DoubleLinkListGetNext_entail_wit_1"
+              ],
+              "premises": [
+                {
+                  "premise": "s <> 0",
+                  "discharged_by": "The stop is head; unfolding the structural DLL supplies head <> 0."
+                }
+              ],
+              "proof_strategy": "Destruct xs. Empty segment equates n with s; nonempty segment explicitly gives n <> 0.",
+              "destination": "group-local case_lib with helper_namespace.suffix",
+              "reference_pattern": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next/source/xizi_double_link_next_lib.v: corresponding declaration with __dll_next_payload_dispatch suffix; reprove under current group suffix"
+            },
+            {
+              "name_hint": "seg_split",
+              "statement_shape": "~ In node before -> s <> 0 -> xizi_dllseg n p s l (before ++ node :: after) |-- EX prev next, pure(node<>0 /\\ node<>s /\\ next<>0) && (xizi_dllseg n p node prev before ** xizi_dll_links node next prev ** xizi_dllseg next node s l after)",
+              "used_by_witnesses": [
+                "proof_of_DoubleLinkListGetNext_entail_wit_1"
+              ],
+              "premises": [
+                {
+                  "premise": "~ In node before",
+                  "discharged_by": "Seed first-occurrence lemma supplies it from anchor membership."
+                },
+                {
+                  "premise": "s <> 0",
+                  "discharged_by": "Unfolding DLL supplies nonzero head."
+                }
+              ],
+              "proof_strategy": "Induct before; nonmembership excludes node at each prefix position; split the selected cons cell and use seg_nonzero on the suffix.",
+              "destination": "group-local case_lib with helper_namespace.suffix",
+              "reference_pattern": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next/source/xizi_double_link_next_lib.v: corresponding declaration with __dll_next_payload_dispatch suffix; reprove under current group suffix"
+            },
+            {
+              "name_hint": "dll_expose",
+              "statement_shape": "~ In node before -> xizi_dll head (before ++ node :: after) |-- EX first last prev next, pure(head<>0 /\\ first<>0 /\\ node<>0 /\\ node<>head /\\ next<>0) && (links head first last ** seg first head node prev before ** links node next prev ** seg next node head last after)",
+              "used_by_witnesses": [
+                "proof_of_DoubleLinkListGetNext_entail_wit_1"
+              ],
+              "premises": [
+                {
+                  "premise": "~ In node before",
+                  "discharged_by": "Seed first-occurrence lemma."
+                },
+                {
+                  "premise": "Full structural DLL",
+                  "discharged_by": "dll_decompose__storeA_shared applied to original store_dll."
+                }
+              ],
+              "proof_strategy": "Unfold DLL; use seg_nonzero and seg_split, leaving generic payload frame untouched.",
+              "destination": "group-local case_lib with helper_namespace.suffix",
+              "reference_pattern": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next/source/xizi_double_link_next_lib.v: corresponding declaration with __dll_next_payload_dispatch suffix; reprove under current group suffix"
+            }
+          ],
+          "premise_discharge": [
+            "Membership comes from anchor left disjunct.",
+            "head<>0 is part of DLL; suffix nonzero follows from endpoint<>0 or nonempty cons.",
+            "Sentinel node=head is anchor right disjunct."
+          ],
+          "failure_signal": "No semantic gap found. All needed facts follow from current premises; no new API precondition.",
+          "recommended_next_phase": "vc-proving-preparing",
+          "analysis_group_candidate": "dll_middle_payload_dispatch",
+          "proof_group_candidate": "dll_middle_payload_dispatch",
+          "grouping_reason": "Same function, same pointer-projection observation, unchanged payload frame, common segment exposure/reassembly family."
+        },
+        "proof_of_DoubleLinkListGetNext_return_wit_1": {
+          "witness_name": "proof_of_DoubleLinkListGetNext_return_wit_1",
+          "judgment": "needs-helper",
+          "vc_shape": {
+            "pre_spatial": "payloads, sentinel next/prev fields, segment first head head last (ptrs nodes)",
+            "pre_pure": "first=head, node=head, head<>0, dispatch=first_value(ptrs nodes)",
+            "pre_exists": "All input logical parameters and retained pointer values are universally bound; DLL opening reveals first/last.",
+            "post_spatial": "store_dll storeA head nodes",
+            "post_pure": "0=dispatch",
+            "post_exists": "None"
+          },
+          "witness_instantiation": "Reclose with original nodes, first, last; choose the first complete disjunct of the top-level VC if explicit disjunction selection is needed.",
+          "space_plan": "Use seg_first to extract empty-list observation; reclose structural DLL with xizi_dll_close and compose with original payload frame.",
+          "pure_plan": "first=head selects seg_first empty implication; given dispatch equality yields returned NULL.",
+          "refinement_plan": "No monadic refinement or loop invariant; mathematical list query only.",
+          "used_existing_lemmas": [
+            "dll_decompose__storeA_shared",
+            "dll_compose__storeA_shared",
+            "xizi_dll_close",
+            "xizi_dll_links_neq__dll_len_payload_cycle"
+          ],
+          "candidate_helper_declarations": [
+            {
+              "name_hint": "seg_first",
+              "statement_shape": "xizi_dllseg n p s l xs |-- pure ((n=s -> first_value xs=0) /\\ (n<>s -> first_value xs=n))",
+              "used_by_witnesses": [
+                "proof_of_DoubleLinkListGetNext_return_wit_1",
+                "proof_of_DoubleLinkListGetNext_return_wit_2",
+                "proof_of_DoubleLinkListGetNext_return_wit_3",
+                "proof_of_DoubleLinkListGetNext_return_wit_4"
+              ],
+              "premises": [],
+              "proof_strategy": "Destruct xs. Empty gives n=s and first_value=0; cons gives head=n and n<>s. Read existing guards to select the desired implication.",
+              "destination": "group-local case_lib with helper_namespace.suffix",
+              "reference_pattern": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next/source/xizi_double_link_next_lib.v: corresponding declaration with __dll_next_payload_dispatch suffix; reprove under current group suffix"
+            }
+          ],
+          "premise_discharge": [
+            "First=head is PreH1; head<>0 is PreH2; node=head is PreH4; dispatch equation is PreH5."
+          ],
+          "failure_signal": "No semantic gap found. All needed facts follow from current premises; no new API precondition.",
+          "recommended_next_phase": "vc-proving-preparing",
+          "analysis_group_candidate": "dll_middle_payload_dispatch",
+          "proof_group_candidate": "dll_middle_payload_dispatch",
+          "grouping_reason": "Same function, same pointer-projection observation, unchanged payload frame, common segment exposure/reassembly family."
+        },
+        "proof_of_DoubleLinkListGetNext_return_wit_2": {
+          "witness_name": "proof_of_DoubleLinkListGetNext_return_wit_2",
+          "judgment": "needs-helper",
+          "vc_shape": {
+            "pre_spatial": "payloads, sentinel links, prefix segment, selected node links, suffix segment",
+            "pre_pure": "next=head, ptrs nodes=before++node::after, node<>0, node<>head, head<>0, dispatch=first_value after",
+            "pre_exists": "All input logical parameters and retained pointer values are universally bound; DLL opening reveals first/last.",
+            "post_spatial": "store_dll storeA head nodes",
+            "post_pure": "0=dispatch",
+            "post_exists": "None"
+          },
+          "witness_instantiation": "Use original pointer list decomposition and all original node values.",
+          "space_plan": "Use seg_first on suffix; join member node and two segments with sentinel links retained, then compose common payload bridge.",
+          "pure_plan": "Suffix starts at stop because next=head; hence first_value after=0. Existing dispatch equation identifies null return.",
+          "refinement_plan": "No monadic refinement or loop invariant; mathematical list query only.",
+          "used_existing_lemmas": [
+            "dll_decompose__storeA_shared",
+            "dll_compose__storeA_shared",
+            "xizi_dll_close",
+            "xizi_dll_links_neq__dll_len_payload_cycle"
+          ],
+          "candidate_helper_declarations": [
+            {
+              "name_hint": "seg_join",
+              "statement_shape": "node<>0 -> node<>s -> links s hf hl ** seg n p node prev before ** links node next prev ** seg next node s last after |-- links s hf hl ** seg n p s last (before ++ node :: after)",
+              "used_by_witnesses": [
+                "proof_of_DoubleLinkListGetNext_return_wit_2",
+                "proof_of_DoubleLinkListGetNext_return_wit_3"
+              ],
+              "premises": [
+                {
+                  "premise": "node<>0 and node<>s",
+                  "discharged_by": "Both are explicit member-branch PreH7/PreH8."
+                },
+                {
+                  "premise": "links s hf hl",
+                  "discharged_by": "The VC retains both sentinel fields."
+                }
+              ],
+              "proof_strategy": "Induct before and fold segment cons. A prefix node equal to s is impossible by separated sentinel links and xizi_dll_links_neq__dll_len_payload_cycle. Keep the sentinel links framed throughout induction.",
+              "destination": "group-local case_lib with helper_namespace.suffix",
+              "reference_pattern": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next/source/xizi_double_link_next_lib.v: corresponding declaration with __dll_next_payload_dispatch suffix; reprove under current group suffix"
+            },
+            {
+              "name_hint": "seg_first",
+              "statement_shape": "xizi_dllseg n p s l xs |-- pure ((n=s -> first_value xs=0) /\\ (n<>s -> first_value xs=n))",
+              "used_by_witnesses": [
+                "proof_of_DoubleLinkListGetNext_return_wit_1",
+                "proof_of_DoubleLinkListGetNext_return_wit_2",
+                "proof_of_DoubleLinkListGetNext_return_wit_3",
+                "proof_of_DoubleLinkListGetNext_return_wit_4"
+              ],
+              "premises": [],
+              "proof_strategy": "Destruct xs. Empty gives n=s and first_value=0; cons gives head=n and n<>s. Read existing guards to select the desired implication.",
+              "destination": "group-local case_lib with helper_namespace.suffix",
+              "reference_pattern": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next/source/xizi_double_link_next_lib.v: corresponding declaration with __dll_next_payload_dispatch suffix; reprove under current group suffix"
+            },
+            {
+              "name_hint": "dll_reassemble",
+              "statement_shape": "head<>0 -> node<>0 -> node<>head -> links head first last ** seg first head node prev before ** links node next prev ** seg next node head last after |-- xizi_dll head (before ++ node :: after)",
+              "used_by_witnesses": [
+                "proof_of_DoubleLinkListGetNext_return_wit_2",
+                "proof_of_DoubleLinkListGetNext_return_wit_3"
+              ],
+              "premises": [
+                {
+                  "premise": "head<>0, node<>0, node<>head",
+                  "discharged_by": "Explicit return witness PreH2, PreH7, PreH8."
+                },
+                {
+                  "premise": "Split structural resources",
+                  "discharged_by": "Exactly the spatial premise of member returns."
+                }
+              ],
+              "proof_strategy": "Apply seg_join then existing xizi_dll_close.",
+              "destination": "group-local case_lib with helper_namespace.suffix",
+              "reference_pattern": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next/source/xizi_double_link_next_lib.v: corresponding declaration with __dll_next_payload_dispatch suffix; reprove under current group suffix"
+            }
+          ],
+          "premise_discharge": [
+            "PreH1 gives next=head; PreH4 gives list decomposition; PreH2/PreH7/PreH8 give close/join side conditions; PreH6 binds abstract result."
+          ],
+          "failure_signal": "No semantic gap found. All needed facts follow from current premises; no new API precondition.",
+          "recommended_next_phase": "vc-proving-preparing",
+          "analysis_group_candidate": "dll_middle_payload_dispatch",
+          "proof_group_candidate": "dll_middle_payload_dispatch",
+          "grouping_reason": "Same function, same pointer-projection observation, unchanged payload frame, common segment exposure/reassembly family."
+        },
+        "proof_of_DoubleLinkListGetNext_return_wit_3": {
+          "witness_name": "proof_of_DoubleLinkListGetNext_return_wit_3",
+          "judgment": "needs-helper",
+          "vc_shape": {
+            "pre_spatial": "Same member split resources as return_wit_2; first disjunct retains suffix segment intact",
+            "pre_pure": "next<>head, ptrs nodes=before++node::after, node<>0, node<>head, head<>0, dispatch=first_value after",
+            "pre_exists": "All input logical parameters and retained pointer values are universally bound; DLL opening reveals first/last.",
+            "post_spatial": "store_dll storeA head nodes",
+            "post_pure": "next=dispatch",
+            "post_exists": "None"
+          },
+          "witness_instantiation": "Prove first original disjunct with intact suffix; diagnostics second disjunct is only a hint.",
+          "space_plan": "Apply same segment observation and reassembly as return_wit_2, preserving arbitrary payloads.",
+          "pure_plan": "next<>head selects seg_first nonempty implication, so first_value after=next. Reverse supplied dispatch equality.",
+          "refinement_plan": "No monadic refinement or loop invariant; mathematical list query only.",
+          "used_existing_lemmas": [
+            "dll_decompose__storeA_shared",
+            "dll_compose__storeA_shared",
+            "xizi_dll_close",
+            "xizi_dll_links_neq__dll_len_payload_cycle"
+          ],
+          "candidate_helper_declarations": [
+            {
+              "name_hint": "seg_join",
+              "statement_shape": "node<>0 -> node<>s -> links s hf hl ** seg n p node prev before ** links node next prev ** seg next node s last after |-- links s hf hl ** seg n p s last (before ++ node :: after)",
+              "used_by_witnesses": [
+                "proof_of_DoubleLinkListGetNext_return_wit_2",
+                "proof_of_DoubleLinkListGetNext_return_wit_3"
+              ],
+              "premises": [
+                {
+                  "premise": "node<>0 and node<>s",
+                  "discharged_by": "Both are explicit member-branch PreH7/PreH8."
+                },
+                {
+                  "premise": "links s hf hl",
+                  "discharged_by": "The VC retains both sentinel fields."
+                }
+              ],
+              "proof_strategy": "Induct before and fold segment cons. A prefix node equal to s is impossible by separated sentinel links and xizi_dll_links_neq__dll_len_payload_cycle. Keep the sentinel links framed throughout induction.",
+              "destination": "group-local case_lib with helper_namespace.suffix",
+              "reference_pattern": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next/source/xizi_double_link_next_lib.v: corresponding declaration with __dll_next_payload_dispatch suffix; reprove under current group suffix"
+            },
+            {
+              "name_hint": "seg_first",
+              "statement_shape": "xizi_dllseg n p s l xs |-- pure ((n=s -> first_value xs=0) /\\ (n<>s -> first_value xs=n))",
+              "used_by_witnesses": [
+                "proof_of_DoubleLinkListGetNext_return_wit_1",
+                "proof_of_DoubleLinkListGetNext_return_wit_2",
+                "proof_of_DoubleLinkListGetNext_return_wit_3",
+                "proof_of_DoubleLinkListGetNext_return_wit_4"
+              ],
+              "premises": [],
+              "proof_strategy": "Destruct xs. Empty gives n=s and first_value=0; cons gives head=n and n<>s. Read existing guards to select the desired implication.",
+              "destination": "group-local case_lib with helper_namespace.suffix",
+              "reference_pattern": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next/source/xizi_double_link_next_lib.v: corresponding declaration with __dll_next_payload_dispatch suffix; reprove under current group suffix"
+            },
+            {
+              "name_hint": "dll_reassemble",
+              "statement_shape": "head<>0 -> node<>0 -> node<>head -> links head first last ** seg first head node prev before ** links node next prev ** seg next node head last after |-- xizi_dll head (before ++ node :: after)",
+              "used_by_witnesses": [
+                "proof_of_DoubleLinkListGetNext_return_wit_2",
+                "proof_of_DoubleLinkListGetNext_return_wit_3"
+              ],
+              "premises": [
+                {
+                  "premise": "head<>0, node<>0, node<>head",
+                  "discharged_by": "Explicit return witness PreH2, PreH7, PreH8."
+                },
+                {
+                  "premise": "Split structural resources",
+                  "discharged_by": "Exactly the spatial premise of member returns."
+                }
+              ],
+              "proof_strategy": "Apply seg_join then existing xizi_dll_close.",
+              "destination": "group-local case_lib with helper_namespace.suffix",
+              "reference_pattern": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next/source/xizi_double_link_next_lib.v: corresponding declaration with __dll_next_payload_dispatch suffix; reprove under current group suffix"
+            }
+          ],
+          "premise_discharge": [
+            "PreH1 now gives next<>head; all structural and dispatch premises are the same named hypotheses as return_wit_2."
+          ],
+          "failure_signal": "No semantic gap found. All needed facts follow from current premises; no new API precondition.",
+          "recommended_next_phase": "vc-proving-preparing",
+          "analysis_group_candidate": "dll_middle_payload_dispatch",
+          "proof_group_candidate": "dll_middle_payload_dispatch",
+          "grouping_reason": "Same function, same pointer-projection observation, unchanged payload frame, common segment exposure/reassembly family."
+        },
+        "proof_of_DoubleLinkListGetNext_return_wit_4": {
+          "witness_name": "proof_of_DoubleLinkListGetNext_return_wit_4",
+          "judgment": "needs-helper",
+          "vc_shape": {
+            "pre_spatial": "payloads, sentinel fields, entire segment first head head last (ptrs nodes)",
+            "pre_pure": "first<>head, node=head, head<>0, dispatch=first_value(ptrs nodes)",
+            "pre_exists": "All input logical parameters and retained pointer values are universally bound; DLL opening reveals first/last.",
+            "post_spatial": "store_dll storeA head nodes",
+            "post_pure": "first=dispatch",
+            "post_exists": "None"
+          },
+          "witness_instantiation": "Use original first/last; prove first intact-segment disjunct.",
+          "space_plan": "Extract segment observation and use xizi_dll_close plus dll_compose__storeA_shared.",
+          "pure_plan": "first<>head gives first_value(ptrs nodes)=first; supplied dispatch equation yields return. Substitute node=head for matching sentinel field address.",
+          "refinement_plan": "No monadic refinement or loop invariant; mathematical list query only.",
+          "used_existing_lemmas": [
+            "dll_decompose__storeA_shared",
+            "dll_compose__storeA_shared",
+            "xizi_dll_close",
+            "xizi_dll_links_neq__dll_len_payload_cycle"
+          ],
+          "candidate_helper_declarations": [
+            {
+              "name_hint": "seg_first",
+              "statement_shape": "xizi_dllseg n p s l xs |-- pure ((n=s -> first_value xs=0) /\\ (n<>s -> first_value xs=n))",
+              "used_by_witnesses": [
+                "proof_of_DoubleLinkListGetNext_return_wit_1",
+                "proof_of_DoubleLinkListGetNext_return_wit_2",
+                "proof_of_DoubleLinkListGetNext_return_wit_3",
+                "proof_of_DoubleLinkListGetNext_return_wit_4"
+              ],
+              "premises": [],
+              "proof_strategy": "Destruct xs. Empty gives n=s and first_value=0; cons gives head=n and n<>s. Read existing guards to select the desired implication.",
+              "destination": "group-local case_lib with helper_namespace.suffix",
+              "reference_pattern": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next/source/xizi_double_link_next_lib.v: corresponding declaration with __dll_next_payload_dispatch suffix; reprove under current group suffix"
+            }
+          ],
+          "premise_discharge": [
+            "PreH1 is first<>head; PreH2 is head<>0; PreH4 and PreH5 provide query/observation equations."
+          ],
+          "failure_signal": "No semantic gap found. All needed facts follow from current premises; no new API precondition.",
+          "recommended_next_phase": "vc-proving-preparing",
+          "analysis_group_candidate": "dll_middle_payload_dispatch",
+          "proof_group_candidate": "dll_middle_payload_dispatch",
+          "grouping_reason": "Same function, same pointer-projection observation, unchanged payload frame, common segment exposure/reassembly family."
+        },
+        "proof_of_DoubleLinkListGetNext_derive_sentinel_case_by_dispatch_case": {
+          "witness_name": "proof_of_DoubleLinkListGetNext_derive_sentinel_case_by_dispatch_case",
+          "judgment": "proofable",
+          "vc_shape": {
+            "pre_spatial": "store_dll storeA head nodes",
+            "pre_pure": "node=head",
+            "pre_exists": "All input logical parameters and retained pointer values are universally bound; DLL opening reveals first/last.",
+            "post_spatial": "Same generic store_dll in dispatch precondition and in the wand antecedent/consequent",
+            "post_pure": "anchor for dispatch; dispatch value rewritten to first_value(ptrs nodes)",
+            "post_exists": "A,storeA,nodes and existential return under wand"
+          },
+          "witness_instantiation": "Instantiate A/storeA/nodes with the originals; return witness is the antecedent return value.",
+          "space_plan": "Separate original store_dll from a resource-free wand proof; use wand adjunction and cancel the identical returned store_dll.",
+          "pure_plan": "anchor follows node=head; dispatch reduces by equal-address branch, preserving head-first argument order.",
+          "refinement_plan": "No monadic refinement or loop invariant; mathematical list query only.",
+          "used_existing_lemmas": [
+            "dll_decompose__storeA_shared",
+            "dll_compose__storeA_shared",
+            "xizi_dll_close",
+            "xizi_dll_links_neq__dll_len_payload_cycle"
+          ],
+          "candidate_helper_declarations": [],
+          "premise_discharge": [
+            "Input equality node=head; no ownership duplication occurs because wand checks the returned resource."
+          ],
+          "failure_signal": "No semantic gap found. All needed facts follow from current premises; no new API precondition.",
+          "recommended_next_phase": "vc-proving-preparing",
+          "analysis_group_candidate": "dll_middle_payload_dispatch",
+          "proof_group_candidate": "dll_middle_payload_dispatch",
+          "grouping_reason": "Same function, same pointer-projection observation, unchanged payload frame, common segment exposure/reassembly family."
+        },
+        "proof_of_DoubleLinkListGetNext_derive_member_case_by_dispatch_case": {
+          "witness_name": "proof_of_DoubleLinkListGetNext_derive_member_case_by_dispatch_case",
+          "judgment": "needs-helper",
+          "vc_shape": {
+            "pre_spatial": "store_dll storeA head nodes",
+            "pre_pure": "In node (ptrs nodes)",
+            "pre_exists": "All input logical parameters and retained pointer values are universally bound; DLL opening reveals first/last.",
+            "post_spatial": "Same generic store_dll in dispatch precondition and in the wand antecedent/consequent",
+            "post_pure": "anchor for dispatch; dispatch value rewritten to next_value(ptrs nodes) node",
+            "post_exists": "A,storeA,nodes and existential return under wand"
+          },
+          "witness_instantiation": "Choose identical A/storeA/nodes and the antecedent return.",
+          "space_plan": "Extract node<>head via store_member_exclude while preserving ownership; construct the same wand as sentinel case.",
+          "pure_plan": "Membership proves anchor; structural endpoint exclusion proves node<>head, so dispatch takes member branch.",
+          "refinement_plan": "No monadic refinement or loop invariant; mathematical list query only.",
+          "used_existing_lemmas": [
+            "dll_decompose__storeA_shared",
+            "dll_compose__storeA_shared",
+            "xizi_dll_close",
+            "xizi_dll_links_neq__dll_len_payload_cycle"
+          ],
+          "candidate_helper_declarations": [
+            {
+              "name_hint": "seg_member_exclude",
+              "statement_shape": "In node xs -> xizi_dllseg n p s l xs |-- pure (node<>s)",
+              "used_by_witnesses": [
+                "proof_of_DoubleLinkListGetNext_derive_member_case_by_dispatch_case"
+              ],
+              "premises": [
+                {
+                  "premise": "In node xs",
+                  "discharged_by": "member_case input membership after dll_decompose."
+                }
+              ],
+              "proof_strategy": "Induct xs; each cons has its address different from stop. Membership picks head or suffix.",
+              "destination": "group-local case_lib with helper_namespace.suffix",
+              "reference_pattern": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next/source/xizi_double_link_next_lib.v: corresponding declaration with __dll_next_payload_dispatch suffix; reprove under current group suffix"
+            },
+            {
+              "name_hint": "store_member_exclude",
+              "statement_shape": "In node (xizi_dll_ptrs nodes) -> xizi_store_dll storeA head nodes |-- pure (node<>head)",
+              "used_by_witnesses": [
+                "proof_of_DoubleLinkListGetNext_derive_member_case_by_dispatch_case"
+              ],
+              "premises": [
+                {
+                  "premise": "Membership",
+                  "discharged_by": "Original member_case pure precondition."
+                }
+              ],
+              "proof_strategy": "Apply existing dll_decompose__storeA_shared, unfold structural DLL and use seg_member_exclude; payload remains framed.",
+              "destination": "group-local case_lib with helper_namespace.suffix",
+              "reference_pattern": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next/source/xizi_double_link_next_lib.v: corresponding declaration with __dll_next_payload_dispatch suffix; reprove under current group suffix"
+            }
+          ],
+          "premise_discharge": [
+            "Membership is original member_case premise; segment endpoint exclusion follows from each cons node<>stop."
+          ],
+          "failure_signal": "No semantic gap found. All needed facts follow from current premises; no new API precondition.",
+          "recommended_next_phase": "vc-proving-preparing",
+          "analysis_group_candidate": "dll_middle_payload_dispatch",
+          "proof_group_candidate": "dll_middle_payload_dispatch",
+          "grouping_reason": "Same function, same pointer-projection observation, unchanged payload frame, common segment exposure/reassembly family."
+        }
+      }
+    }
+  ],
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 7,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  },
+  "blockers": [],
+  "controller_verified": true
+}

@@ -20,12 +20,14 @@ Import ListNotations.
 Local Open Scope list.
 
 Module Type PtrArray2LibSig
+  (Arch : CArchSig)
+  (Endian : CEndianSig)
   (CRules: SeparationLogicSig)
-  (DePredSig : DerivedPredSig CRules)
-  (SLibSig : StoreLibSig CRules DePredSig)
-  (ALibSig : ArrayLibSig CRules DePredSig SLibSig).
+  (DePredSig : DerivedPredSig Arch Endian CRules)
+  (SLibSig : StoreLibSig Arch Endian CRules DePredSig)
+  (ALibSig : ArrayLibSig Arch Endian CRules DePredSig SLibSig).
 
-Include PtrArray2LibCoreSig CRules DePredSig SLibSig ALibSig.
+Include PtrArray2LibCoreSig Arch Endian CRules DePredSig SLibSig ALibSig.
 
 Import CRules.
 Import DePredSig.
@@ -33,6 +35,7 @@ Import SLibSig.
 Import ALibSig.
 Local Open Scope sac.
 
+Module BoolPtrArray2 := PtrArray2Lib (StoreBoolAsElement).
 Module CharPtrArray2 := PtrArray2Lib (StoreCharAsElement).
 Module UCharPtrArray2 := PtrArray2Lib (StoreUCharAsElement).
 Module ShortPtrArray2 := PtrArray2Lib (StoreShortAsElement).

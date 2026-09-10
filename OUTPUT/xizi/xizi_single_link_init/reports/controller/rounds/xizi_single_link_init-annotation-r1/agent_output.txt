@@ -1,0 +1,29 @@
+# Reuse Note
+Note kind: non-authoritative reuse note
+This file is not acceptance evidence.
+
+Candidate: arbitrary A and storeA : Z -> A -> Assertion; Require remains
+xizi_sll_node(linklist), Ensure is xizi_sll_head_payload(storeA, linklist, nil).
+New sll_payload_node retains abstract data and address. sll_payload_cell is the
+structural adapter: address equality, storeA payload, and a separate sll_link.
+All four old generic recursions and the old sentinel definition are reused.
+NULL termination and non-NULL guards are preserved. The sentinel has no element
+payload, so empty initialization does not need a value of A.
+
+All old definitions, imports, and theorem statements are unchanged. Four old
+proof bodies needed existing Arch32 compatibility facts after an upstream
+StoreAux architecture refactor: ptr_size_eq_4 in the two local next-field
+nonaliasing proofs, store_ptr_align4_32 in xizi_sll_length, and
+addr_max_unsigned_eq_int in xizi_sll_length_max. The original compiler failure
+and successful fixed coqc_check are in agent_report.json agent_result.annotation.
+
+For the return witness, xizi_sll_head_payload_nil rewrites the goal to the old
+empty-head contract; unfold xizi_sll_head/generic_sll_head and choose first=NULL.
+Do not reuse old manual bodies without controller freshness/version checks.
+Generated manual refresh and diagnostics split remain controller-owned.
+
+Canonical symexec and SessionManager/Session.send interactive QCP both reached
+file end using -IQCP_examples/QCP_demos_LLM/ and canonical -slp. One return VC
+remains for the later proof phase; interactive success is not a claim that the
+manual obligation is proved. Fixed case_lib coqc_check and semantic annotation
+quality review passed. Controller acceptance remains separate.

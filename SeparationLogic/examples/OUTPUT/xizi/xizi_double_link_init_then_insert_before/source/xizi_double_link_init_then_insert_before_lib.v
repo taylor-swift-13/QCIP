@@ -2,32 +2,21 @@ Require Import Coq.Lists.List.
 Require Import Coq.ZArith.ZArith.
 Require Import Coq.micromega.Lia.
 Require Import AUXLib.ListLib.
+From SimpleC.SL Require Import Mem SeparationLogic.
+Require Import Logic.LogicGenerator.demo932.Interface.
+From QCIPLib.xizi.xizi_double_link_common Require Import xizi_double_link_lib.
+From SimpleC.EE.OUTPUT.xizi.xizi_double_link_insert_before.source
+  Require Export xizi_double_link_insert_before_lib.
 
 Import ListNotations.
+Import naive_C_Rules.
+Local Open Scope list.
+Local Open Scope string_scope.
+Local Open Scope sac.
 Local Open Scope Z_scope.
 
-(** An insertion anchor is either a member of the abstract node sequence or
-    the sentinel that owns that sequence.  This is the public admissibility
-    condition; callers do not need to expose an implementation-level cut. *)
-Definition xizi_double_link_insert_before_anchor
-  (head : Z) (nodes : list Z) (anchor : Z) : Prop :=
-  In anchor nodes \/ anchor = head.
-
-(** Insert [inserted] before the first occurrence of [anchor].  Reaching the
-    end represents insertion before the sentinel, hence appending the new
-    node.  This is a pure list transformation rather than a model of the C
-    pointer updates. *)
-Fixpoint xizi_double_link_insert_before_nodes
-  (nodes : list Z) (anchor inserted : Z) : list Z :=
-  match nodes with
-  | nil => cons inserted nil
-  | current :: suffix =>
-      if Z.eq_dec current anchor
-      then inserted :: current :: suffix
-      else current ::
-           xizi_double_link_insert_before_nodes suffix anchor inserted
-  end.
-
+(** The composition uses the accepted insertion relation and address operation
+    directly, keeping the member, dispatch, and sentinel contracts identical. *)
 Lemma xizi_insert_before_absent_append__dispatch_case_derivations :
   forall nodes anchor inserted,
     ~ In anchor nodes ->

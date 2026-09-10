@@ -1,0 +1,12 @@
+# Reuse Note
+
+Note kind: non-authoritative reuse note
+This file is not acceptance evidence.
+
+Current source_goal_version: eae1f4ae2d94c962d139b4d71cc0933defa2f3d9af659af447ee5f0a97f3d8bc
+
+Result: annotation repair required. The initial assertion establishes target != 0, but the loop invariant drops it. return_wit_2 admits target=next=0 with a nonempty suffix; the predecessor still stores 0 while the postcondition demands the suffix first address. The pointer store model allows aligned address 0, so detached field ownership cannot recover nonnull. Full concrete counterexample and per-witness semantic analysis are in agent_report.json.agent_result.vc_checking.
+
+Repair: retain linklist_node != 0 in the invariant, regenerate canonical symbolic execution and diagnostics, and recheck. This uses an already established fact and adds no input precondition. For future proving, factor shared payload lists into the existing address-only structure plus the case payload fold, and prove the reverse factorization. Reuse xizi_sll_head_split_target, segment concatenation, target-same, and target-zero-nonzero lemmas. For front/tail/member derived specs, establish target nonnull from the initial head before packaging the wand. Choose the first logical occurrence for member to discharge remove_first projection. All new helpers belong in group-local case_lib with its assigned suffix.
+
+No generated files, manual witness bodies, case_lib, or shared libraries were modified. JSON handoff, versions, and current files override this note.

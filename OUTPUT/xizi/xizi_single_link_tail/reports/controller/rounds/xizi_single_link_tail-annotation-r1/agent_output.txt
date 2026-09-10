@@ -1,0 +1,13 @@
+# Reuse Note
+Note kind: non-authoritative reuse note
+This file is not acceptance evidence.
+
+Original SingleLinkListGetTailNode body is restored exactly (after stripping comments/whitespace) from upstream lines 112-117. It uses the original mutable linklist cursor and contains no empty-case branch or extra current local.
+
+Invariant: initial_head :: payload_addresses(l) = prefix ++ cursor :: suffix. Spatially retain sllseg(initial_head,cursor,prefix), cursor.next, sll(next,suffix), and all generic storeA payload resources. Initialize prefix empty; extend prefix by cursor at each step; NULL next forces empty suffix at exit. Imported tail_value is List.last, so last(initial_head :: addresses) agrees with last(addresses,initial_head).
+
+Case_lib adds proved head/cons conversion lemmas xizi_sll_tail_head_cons and xizi_sll_tail_cons_head. It preserves the existing imported mathematical tail specification. Canonical full case_lib coqc passed after one repair of an invalid unfold occurrence number.
+
+QCP SessionManager with actual canonical -I/-slp and symbolic(41) reached the final line with 4 manual obligations and no execution error. Canonical symexec also passed on the final source. The driver's existing-manual warning is expected: main controller annotation-check-round must run its fresh skeleton regeneration and deterministic diagnostics splitter. Historical manual proofs were not edited, reused as evidence, or checked as current.
+
+Formal changed paths and all canonical argv, hashes, semantic review, original body comparison, and current compile evidence are recorded in agent_report.json agent_result.annotation. Controller acceptance remains pending.

@@ -19,7 +19,17 @@ Local Open Scope string_scope.
 Local Open Scope list.
 Import naive_C_Rules.
 From QCIPLib.xizi.xizi_double_link_common Require Import xizi_double_link_lib.
-From SimpleC.EE.OUTPUT.xizi.xizi_double_link_empty_rec.source
-      Require Import xizi_double_link_empty_rec_lib.
 Local Open Scope sac.
+
+Lemma proof_of_IsDoubleLinkListEmpty_return_wit_1_split_goal_1 : IsDoubleLinkListEmpty_return_wit_1_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_IsDoubleLinkListEmpty_return_wit_1_split_goal_spatial : IsDoubleLinkListEmpty_return_wit_1_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_IsDoubleLinkListEmpty_return_wit_2_split_goal_1 : IsDoubleLinkListEmpty_return_wit_2_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_IsDoubleLinkListEmpty_return_wit_2_split_goal_spatial : IsDoubleLinkListEmpty_return_wit_2_split_goal_spatial.
+Proof. Abort.
 

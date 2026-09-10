@@ -22,17 +22,33 @@ Local Open Scope sac.
 From QCIPLib.xizi.xizi_double_link_common Require Import xizi_double_link_strategy_goal.
 From QCIPLib.xizi.xizi_double_link_common Require Import xizi_double_link_strategy_proof.
 
-(*----- Function xizi_double_link_init -----*)
+(*----- Function InitDoubleLinkList -----*)
 
-Definition xizi_double_link_init_return_wit_1 := 
-forall (linklist_head_pre: Z) (PreH1 : (linklist_head_pre <> 0)) ,
+Definition InitDoubleLinkList_return_wit_1 := 
+(
+forall (A: Type) (linklist_head_pre: Z) (storeA: (Z -> (A -> Assertion))) (PreH1 : (linklist_head_pre <> 0)) ,
   ((&((linklist_head_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> linklist_head_pre)
   **  ((&((linklist_head_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> linklist_head_pre)
 |--
-  (xizi_dll linklist_head_pre (@nil Z) )
+  (xizi_store_dll storeA linklist_head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
+) \/
+(
+forall (A: Type) (linklist_head_pre: Z) (storeA: (Z -> (A -> Assertion))) (PreH1 : (linklist_head_pre <> 0)) ,
+  ((&((linklist_head_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> linklist_head_pre)
+  **  ((&((linklist_head_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> linklist_head_pre)
+|--
+  (xizi_store_dll storeA linklist_head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
+).
+
+Definition InitDoubleLinkList_return_wit_1_split_goal_spatial := 
+forall (A: Type) (linklist_head_pre: Z) (storeA: (Z -> (A -> Assertion))) (PreH1 : (linklist_head_pre <> 0)) ,
+  ((&((linklist_head_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> linklist_head_pre)
+  **  ((&((linklist_head_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> linklist_head_pre)
+|--
+  (xizi_store_dll storeA linklist_head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 .
 
-Definition xizi_double_link_init_partial_solve_wit_1 := 
+Definition InitDoubleLinkList_partial_solve_wit_1 := 
 forall (linklist_head_pre: Z) ,
   (xizi_dll_node linklist_head_pre )
 |--
@@ -41,105 +57,115 @@ forall (linklist_head_pre: Z) ,
   **  ((&((linklist_head_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |->_)
 .
 
-(*----- Function xizi_double_link_len -----*)
+(*----- Function DoubleLinkListLenGet -----*)
 
-Definition xizi_double_link_len_safety_wit_1 := 
-forall (linklist_pre: Z) (nodes_general: (@list Z)) ,
+Definition DoubleLinkListLenGet_safety_wit_1 := 
+forall (A: Type) (linklist_pre: Z) (nodes_general: (@list (@XiziStoreADLL.DL_Node A))) (storeA_general: (Z -> (A -> Assertion))) ,
   ((( &( "linklist_length" ) )) # UInt  |->_)
   **  ((( &( "linklist" ) )) # Ptr  |-> linklist_pre)
-  **  (xizi_dll linklist_pre nodes_general )
+  **  (xizi_store_dll storeA_general linklist_pre nodes_general )
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition xizi_double_link_len_entail_wit_1 := 
+Definition DoubleLinkListLenGet_entail_wit_1 := 
 (
-forall (linklist_pre: Z) (nodes_general: (@list Z)) ,
-  (xizi_dll linklist_pre nodes_general )
+forall (A: Type) (linklist_pre: Z) (nodes_general: (@list (@XiziStoreADLL.DL_Node A))) (storeA_general: (Z -> (A -> Assertion))) ,
+  (xizi_store_dll storeA_general linklist_pre nodes_general )
 |--
   EX (last: Z)  (first: Z)  (done: (@list Z))  (todo: (@list Z)) ,
-  “ (nodes_general = (app (done) (todo))) ” 
+  “ ((xizi_dll_ptrs (nodes_general)) = (app (done) (todo))) ” 
   &&  “ (linklist_pre <> 0) ” 
   &&  “ (0 = (Zlength (done))) ” 
   &&  “ ((Zlength (nodes_general)) = ((Zlength (done)) + (Zlength (todo)) )) ” 
   &&  “ (done = (@nil Z)) ” 
   &&  “ (linklist_pre = linklist_pre) ”
-  &&  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
+  &&  (xizi_dll_payloads storeA_general nodes_general )
+  **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
   **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> last)
   **  (xizi_dllseg first linklist_pre linklist_pre last todo )
 ) \/
 (
-forall (linklist_pre: Z) (nodes_general: (@list Z)) (first_2: Z) (last_2: Z) (PreH1 : (linklist_pre <> 0)) ,
-  (xizi_dllseg first_2 linklist_pre linklist_pre last_2 nodes_general )
+forall (A: Type) (linklist_pre: Z) (nodes_general: (@list (@XiziStoreADLL.DL_Node A))) (storeA_general: (Z -> (A -> Assertion))) ,
+  (xizi_store_dll storeA_general linklist_pre nodes_general )
 |--
-  EX (todo: (@list Z)) ,
-  “ (nodes_general = (app ((@nil Z)) (todo))) ” 
+  EX (last: Z)  (first: Z)  (todo: (@list Z)) ,
+  “ ((xizi_dll_ptrs (nodes_general)) = (app ((@nil Z)) (todo))) ” 
   &&  “ (linklist_pre <> 0) ” 
   &&  “ (0 = (Zlength ((@nil Z)))) ” 
   &&  “ ((Zlength (nodes_general)) = ((Zlength ((@nil Z))) + (Zlength (todo)) )) ”
-  &&  (xizi_dllseg first_2 linklist_pre linklist_pre last_2 todo )
+  &&  (xizi_dll_payloads storeA_general nodes_general )
+  **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
+  **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> last)
+  **  (xizi_dllseg first linklist_pre linklist_pre last todo )
 ).
 
-Definition xizi_double_link_len_entail_wit_2_1 := 
+Definition DoubleLinkListLenGet_entail_wit_2_1 := 
 (
-forall (linklist_pre: Z) (nodes_general: (@list Z)) (next_2: Z) (prev_2: Z) (last_2: Z) (first_2: Z) (before_2: (@list Z)) (tmp_node: Z) (linklist_length: Z) (done_2: (@list Z)) (todo_2: (@list Z)) (PreH1 : (next_2 <> linklist_pre)) (PreH2 : (nodes_general = (app (done_2) (todo_2)))) (PreH3 : (linklist_pre <> 0)) (PreH4 : (linklist_length = (Zlength (done_2)))) (PreH5 : ((Zlength (nodes_general)) = ((Zlength (done_2)) + (Zlength (todo_2)) ))) (PreH6 : (done_2 = (app (before_2) ((cons (tmp_node) ((@nil Z))))))) (PreH7 : (tmp_node <> 0)) (PreH8 : (tmp_node <> linklist_pre)) ,
-  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first_2)
+forall (A: Type) (linklist_pre: Z) (nodes_general: (@list (@XiziStoreADLL.DL_Node A))) (storeA_general: (Z -> (A -> Assertion))) (next: Z) (prev_2: Z) (last_2: Z) (first_2: Z) (before_2: (@list Z)) (tmp_node: Z) (linklist_length: Z) (done_2: (@list Z)) (todo_2: (@list Z)) (PreH1 : (next <> linklist_pre)) (PreH2 : ((xizi_dll_ptrs (nodes_general)) = (app (done_2) (todo_2)))) (PreH3 : (linklist_pre <> 0)) (PreH4 : (linklist_length = (Zlength (done_2)))) (PreH5 : ((Zlength (nodes_general)) = ((Zlength (done_2)) + (Zlength (todo_2)) ))) (PreH6 : (done_2 = (app (before_2) ((cons (tmp_node) ((@nil Z))))))) (PreH7 : (tmp_node <> 0)) (PreH8 : (tmp_node <> linklist_pre)) ,
+  (xizi_dll_payloads storeA_general nodes_general )
+  **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first_2)
   **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> last_2)
   **  (xizi_dllseg first_2 linklist_pre tmp_node prev_2 before_2 )
-  **  ((&((tmp_node)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> next_2)
+  **  ((&((tmp_node)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> next)
   **  ((&((tmp_node)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> prev_2)
-  **  (xizi_dllseg next_2 tmp_node linklist_pre last_2 todo_2 )
+  **  (xizi_dllseg next tmp_node linklist_pre last_2 todo_2 )
 |--
-  EX (next: Z)  (prev: Z)  (last: Z)  (first: Z)  (before: (@list Z))  (done: (@list Z))  (todo: (@list Z)) ,
-  “ (nodes_general = (app (done) (todo))) ” 
+  EX (next_2: Z)  (prev: Z)  (last: Z)  (first: Z)  (before: (@list Z))  (done: (@list Z))  (todo: (@list Z)) ,
+  “ ((xizi_dll_ptrs (nodes_general)) = (app (done) (todo))) ” 
   &&  “ (linklist_pre <> 0) ” 
   &&  “ ((unsigned_last_nbits ((linklist_length + 1 )) (32)) = (Zlength (done))) ” 
   &&  “ ((Zlength (nodes_general)) = ((Zlength (done)) + (Zlength (todo)) )) ” 
-  &&  “ (done = (app (before) ((cons (next_2) ((@nil Z)))))) ” 
-  &&  “ (next_2 <> 0) ” 
-  &&  “ (next_2 <> linklist_pre) ”
-  &&  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
+  &&  “ (done = (app (before) ((cons (next) ((@nil Z)))))) ” 
+  &&  “ (next <> 0) ” 
+  &&  “ (next <> linklist_pre) ”
+  &&  (xizi_dll_payloads storeA_general nodes_general )
+  **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
   **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> last)
-  **  (xizi_dllseg first linklist_pre next_2 prev before )
-  **  ((&((next_2)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> next)
-  **  ((&((next_2)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> prev)
-  **  (xizi_dllseg next next_2 linklist_pre last todo )
+  **  (xizi_dllseg first linklist_pre next prev before )
+  **  ((&((next)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> next_2)
+  **  ((&((next)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> prev)
+  **  (xizi_dllseg next_2 next linklist_pre last todo )
 ) \/
 (
-forall (linklist_pre: Z) (nodes_general: (@list Z)) (next_2: Z) (prev_2: Z) (last_2: Z) (first_2: Z) (before_2: (@list Z)) (tmp_node: Z) (linklist_length: Z) (done_2: (@list Z)) (todo_2: (@list Z)) (next_3: Z) (l0: (@list Z)) (PreH1 : (todo_2 = (cons (next_2) (l0)))) (PreH2 : (next_2 <> linklist_pre)) (PreH3 : (nodes_general = (app (done_2) (todo_2)))) (PreH4 : (linklist_pre <> 0)) (PreH5 : (linklist_length = (Zlength (done_2)))) (PreH6 : ((Zlength (nodes_general)) = ((Zlength (done_2)) + (Zlength (todo_2)) ))) (PreH7 : (done_2 = (app (before_2) ((cons (tmp_node) ((@nil Z))))))) (PreH8 : (tmp_node <> 0)) (PreH9 : (tmp_node <> linklist_pre)) ,
-  (xizi_dllseg next_3 next_2 linklist_pre last_2 l0 )
+forall (A: Type) (linklist_pre: Z) (nodes_general: (@list (@XiziStoreADLL.DL_Node A))) (storeA_general: (Z -> (A -> Assertion))) (next: Z) (prev_2: Z) (last_2: Z) (first_2: Z) (before_2: (@list Z)) (tmp_node: Z) (linklist_length: Z) (done_2: (@list Z)) (todo_2: (@list Z)) (next_3: Z) (l0: (@list Z)) (PreH1 : (todo_2 = (cons (next) (l0)))) (PreH2 : (next <> linklist_pre)) (PreH3 : ((xizi_dll_ptrs (nodes_general)) = (app (done_2) (todo_2)))) (PreH4 : (linklist_pre <> 0)) (PreH5 : (linklist_length = (Zlength (done_2)))) (PreH6 : ((Zlength (nodes_general)) = ((Zlength (done_2)) + (Zlength (todo_2)) ))) (PreH7 : (done_2 = (app (before_2) ((cons (tmp_node) ((@nil Z))))))) (PreH8 : (tmp_node <> 0)) (PreH9 : (tmp_node <> linklist_pre)) ,
+  (xizi_dllseg next_3 next linklist_pre last_2 l0 )
+  **  (xizi_dll_payloads storeA_general nodes_general )
   **  (xizi_dllseg first_2 linklist_pre tmp_node prev_2 before_2 )
-  **  ((&((tmp_node)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> next_2)
+  **  ((&((tmp_node)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> next)
   **  ((&((tmp_node)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> prev_2)
 |--
   EX (before: (@list Z))  (todo: (@list Z)) ,
-  “ (nodes_general = (app ((app (before) ((cons (next_2) ((@nil Z)))))) (todo))) ” 
+  “ ((xizi_dll_ptrs (nodes_general)) = (app ((app (before) ((cons (next) ((@nil Z)))))) (todo))) ” 
   &&  “ (linklist_pre <> 0) ” 
-  &&  “ ((unsigned_last_nbits ((linklist_length + 1 )) (32)) = (Zlength ((app (before) ((cons (next_2) ((@nil Z)))))))) ” 
-  &&  “ ((Zlength (nodes_general)) = ((Zlength ((app (before) ((cons (next_2) ((@nil Z))))))) + (Zlength (todo)) )) ” 
-  &&  “ (next_2 <> 0) ” 
-  &&  “ (next_2 <> linklist_pre) ”
-  &&  (xizi_dllseg first_2 linklist_pre next_2 tmp_node before )
-  **  (xizi_dllseg next_3 next_2 linklist_pre last_2 todo )
+  &&  “ ((unsigned_last_nbits ((linklist_length + 1 )) (32)) = (Zlength ((app (before) ((cons (next) ((@nil Z)))))))) ” 
+  &&  “ ((Zlength (nodes_general)) = ((Zlength ((app (before) ((cons (next) ((@nil Z))))))) + (Zlength (todo)) )) ” 
+  &&  “ (next <> 0) ” 
+  &&  “ (next <> linklist_pre) ”
+  &&  (xizi_dll_payloads storeA_general nodes_general )
+  **  (xizi_dllseg first_2 linklist_pre next tmp_node before )
+  **  (xizi_dllseg next_3 next linklist_pre last_2 todo )
 ).
 
-Definition xizi_double_link_len_entail_wit_2_2 := 
+Definition DoubleLinkListLenGet_entail_wit_2_2 := 
 (
-forall (linklist_pre: Z) (nodes_general: (@list Z)) (last_2: Z) (first_2: Z) (tmp_node: Z) (linklist_length: Z) (done_2: (@list Z)) (todo_2: (@list Z)) (PreH1 : (first_2 <> linklist_pre)) (PreH2 : (nodes_general = (app (done_2) (todo_2)))) (PreH3 : (linklist_pre <> 0)) (PreH4 : (linklist_length = (Zlength (done_2)))) (PreH5 : ((Zlength (nodes_general)) = ((Zlength (done_2)) + (Zlength (todo_2)) ))) (PreH6 : (done_2 = (@nil Z))) (PreH7 : (tmp_node = linklist_pre)) ,
+forall (A: Type) (linklist_pre: Z) (nodes_general: (@list (@XiziStoreADLL.DL_Node A))) (storeA_general: (Z -> (A -> Assertion))) (last_2: Z) (first_2: Z) (tmp_node: Z) (linklist_length: Z) (done_2: (@list Z)) (todo_2: (@list Z)) (PreH1 : (first_2 <> linklist_pre)) (PreH2 : ((xizi_dll_ptrs (nodes_general)) = (app (done_2) (todo_2)))) (PreH3 : (linklist_pre <> 0)) (PreH4 : (linklist_length = (Zlength (done_2)))) (PreH5 : ((Zlength (nodes_general)) = ((Zlength (done_2)) + (Zlength (todo_2)) ))) (PreH6 : (done_2 = (@nil Z))) (PreH7 : (tmp_node = linklist_pre)) ,
   ((&((tmp_node)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first_2)
+  **  (xizi_dll_payloads storeA_general nodes_general )
   **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> last_2)
   **  (xizi_dllseg first_2 linklist_pre linklist_pre last_2 todo_2 )
 |--
   EX (next: Z)  (prev: Z)  (last: Z)  (first: Z)  (before: (@list Z))  (done: (@list Z))  (todo: (@list Z)) ,
-  “ (nodes_general = (app (done) (todo))) ” 
+  “ ((xizi_dll_ptrs (nodes_general)) = (app (done) (todo))) ” 
   &&  “ (linklist_pre <> 0) ” 
   &&  “ ((unsigned_last_nbits ((linklist_length + 1 )) (32)) = (Zlength (done))) ” 
   &&  “ ((Zlength (nodes_general)) = ((Zlength (done)) + (Zlength (todo)) )) ” 
   &&  “ (done = (app (before) ((cons (first_2) ((@nil Z)))))) ” 
   &&  “ (first_2 <> 0) ” 
   &&  “ (first_2 <> linklist_pre) ”
-  &&  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
+  &&  (xizi_dll_payloads storeA_general nodes_general )
+  **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
   **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> last)
   **  (xizi_dllseg first linklist_pre first_2 prev before )
   **  ((&((first_2)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> next)
@@ -147,26 +173,29 @@ forall (linklist_pre: Z) (nodes_general: (@list Z)) (last_2: Z) (first_2: Z) (tm
   **  (xizi_dllseg next first_2 linklist_pre last todo )
 ) \/
 (
-forall (linklist_pre: Z) (nodes_general: (@list Z)) (last_2: Z) (first_2: Z) (tmp_node: Z) (linklist_length: Z) (done_2: (@list Z)) (todo_2: (@list Z)) (next_2: Z) (l0: (@list Z)) (PreH1 : (todo_2 = (cons (first_2) (l0)))) (PreH2 : (first_2 <> linklist_pre)) (PreH3 : (nodes_general = (app (done_2) (todo_2)))) (PreH4 : (linklist_pre <> 0)) (PreH5 : (linklist_length = (Zlength (done_2)))) (PreH6 : ((Zlength (nodes_general)) = ((Zlength (done_2)) + (Zlength (todo_2)) ))) (PreH7 : (done_2 = (@nil Z))) (PreH8 : (tmp_node = linklist_pre)) ,
+forall (A: Type) (linklist_pre: Z) (nodes_general: (@list (@XiziStoreADLL.DL_Node A))) (storeA_general: (Z -> (A -> Assertion))) (last_2: Z) (first_2: Z) (tmp_node: Z) (linklist_length: Z) (done_2: (@list Z)) (todo_2: (@list Z)) (next_2: Z) (l0: (@list Z)) (PreH1 : (todo_2 = (cons (first_2) (l0)))) (PreH2 : (first_2 <> linklist_pre)) (PreH3 : ((xizi_dll_ptrs (nodes_general)) = (app (done_2) (todo_2)))) (PreH4 : (linklist_pre <> 0)) (PreH5 : (linklist_length = (Zlength (done_2)))) (PreH6 : ((Zlength (nodes_general)) = ((Zlength (done_2)) + (Zlength (todo_2)) ))) (PreH7 : (done_2 = (@nil Z))) (PreH8 : (tmp_node = linklist_pre)) ,
   (xizi_dllseg next_2 first_2 linklist_pre last_2 l0 )
   **  ((&((tmp_node)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first_2)
+  **  (xizi_dll_payloads storeA_general nodes_general )
 |--
   EX (first: Z)  (before: (@list Z))  (todo: (@list Z)) ,
-  “ (nodes_general = (app ((app (before) ((cons (first_2) ((@nil Z)))))) (todo))) ” 
+  “ ((xizi_dll_ptrs (nodes_general)) = (app ((app (before) ((cons (first_2) ((@nil Z)))))) (todo))) ” 
   &&  “ (linklist_pre <> 0) ” 
   &&  “ ((unsigned_last_nbits ((linklist_length + 1 )) (32)) = (Zlength ((app (before) ((cons (first_2) ((@nil Z)))))))) ” 
   &&  “ ((Zlength (nodes_general)) = ((Zlength ((app (before) ((cons (first_2) ((@nil Z))))))) + (Zlength (todo)) )) ” 
   &&  “ (first_2 <> 0) ” 
   &&  “ (first_2 <> linklist_pre) ”
-  &&  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
+  &&  (xizi_dll_payloads storeA_general nodes_general )
+  **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
   **  (xizi_dllseg first linklist_pre first_2 linklist_pre before )
   **  (xizi_dllseg next_2 first_2 linklist_pre last_2 todo )
 ).
 
-Definition xizi_double_link_len_return_wit_1 := 
+Definition DoubleLinkListLenGet_return_wit_1 := 
 (
-forall (linklist_pre: Z) (nodes_general: (@list Z)) (next: Z) (prev: Z) (last: Z) (first: Z) (before: (@list Z)) (tmp_node: Z) (linklist_length: Z) (done: (@list Z)) (todo: (@list Z)) (PreH1 : (next = linklist_pre)) (PreH2 : (nodes_general = (app (done) (todo)))) (PreH3 : (linklist_pre <> 0)) (PreH4 : (linklist_length = (Zlength (done)))) (PreH5 : ((Zlength (nodes_general)) = ((Zlength (done)) + (Zlength (todo)) ))) (PreH6 : (done = (app (before) ((cons (tmp_node) ((@nil Z))))))) (PreH7 : (tmp_node <> 0)) (PreH8 : (tmp_node <> linklist_pre)) ,
-  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
+forall (A: Type) (linklist_pre: Z) (nodes_general: (@list (@XiziStoreADLL.DL_Node A))) (storeA_general: (Z -> (A -> Assertion))) (next: Z) (prev: Z) (last: Z) (first: Z) (before: (@list Z)) (tmp_node: Z) (linklist_length: Z) (done: (@list Z)) (todo: (@list Z)) (PreH1 : (next = linklist_pre)) (PreH2 : ((xizi_dll_ptrs (nodes_general)) = (app (done) (todo)))) (PreH3 : (linklist_pre <> 0)) (PreH4 : (linklist_length = (Zlength (done)))) (PreH5 : ((Zlength (nodes_general)) = ((Zlength (done)) + (Zlength (todo)) ))) (PreH6 : (done = (app (before) ((cons (tmp_node) ((@nil Z))))))) (PreH7 : (tmp_node <> 0)) (PreH8 : (tmp_node <> linklist_pre)) ,
+  (xizi_dll_payloads storeA_general nodes_general )
+  **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
   **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> last)
   **  (xizi_dllseg first linklist_pre tmp_node prev before )
   **  ((&((tmp_node)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> next)
@@ -174,22 +203,28 @@ forall (linklist_pre: Z) (nodes_general: (@list Z)) (next: Z) (prev: Z) (last: Z
   **  (xizi_dllseg next tmp_node linklist_pre last todo )
 |--
   “ (linklist_length = (Zlength (nodes_general))) ”
-  &&  (xizi_dll linklist_pre nodes_general )
+  &&  (xizi_store_dll storeA_general linklist_pre nodes_general )
 ) \/
 (
-forall (linklist_pre: Z) (nodes_general: (@list Z)) (next: Z) (prev: Z) (last: Z) (first: Z) (before: (@list Z)) (tmp_node: Z) (linklist_length: Z) (done: (@list Z)) (todo: (@list Z)) (PreH1 : (next = linklist_pre)) (PreH2 : (nodes_general = (app (done) (todo)))) (PreH3 : (linklist_pre <> 0)) (PreH4 : (linklist_length = (Zlength (done)))) (PreH5 : ((Zlength (nodes_general)) = ((Zlength (done)) + (Zlength (todo)) ))) (PreH6 : (done = (app (before) ((cons (tmp_node) ((@nil Z))))))) (PreH7 : (tmp_node <> 0)) (PreH8 : (tmp_node <> linklist_pre)) ,
-  (xizi_dllseg first linklist_pre tmp_node prev before )
+forall (A: Type) (linklist_pre: Z) (nodes_general: (@list (@XiziStoreADLL.DL_Node A))) (storeA_general: (Z -> (A -> Assertion))) (next: Z) (prev: Z) (last: Z) (first: Z) (before: (@list Z)) (tmp_node: Z) (linklist_length: Z) (done: (@list Z)) (todo: (@list Z)) (PreH1 : (next = linklist_pre)) (PreH2 : ((xizi_dll_ptrs (nodes_general)) = (app (done) (todo)))) (PreH3 : (linklist_pre <> 0)) (PreH4 : (linklist_length = (Zlength (done)))) (PreH5 : ((Zlength (nodes_general)) = ((Zlength (done)) + (Zlength (todo)) ))) (PreH6 : (done = (app (before) ((cons (tmp_node) ((@nil Z))))))) (PreH7 : (tmp_node <> 0)) (PreH8 : (tmp_node <> linklist_pre)) ,
+  (xizi_dll_payloads storeA_general nodes_general )
+  **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
+  **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> last)
+  **  (xizi_dllseg first linklist_pre tmp_node prev before )
   **  ((&((tmp_node)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> next)
   **  ((&((tmp_node)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> prev)
   **  (xizi_dllseg next tmp_node linklist_pre last todo )
 |--
   “ (linklist_length = (Zlength (nodes_general))) ”
-  &&  (xizi_dllseg first linklist_pre linklist_pre last nodes_general )
+  &&  (xizi_store_dll storeA_general linklist_pre nodes_general )
 ).
 
-Definition xizi_double_link_len_return_wit_1_split_goal_1 := 
-forall (linklist_pre: Z) (nodes_general: (@list Z)) (next: Z) (prev: Z) (last: Z) (first: Z) (before: (@list Z)) (tmp_node: Z) (linklist_length: Z) (done: (@list Z)) (todo: (@list Z)) (PreH1 : (next = linklist_pre)) (PreH2 : (nodes_general = (app (done) (todo)))) (PreH3 : (linklist_pre <> 0)) (PreH4 : (linklist_length = (Zlength (done)))) (PreH5 : ((Zlength (nodes_general)) = ((Zlength (done)) + (Zlength (todo)) ))) (PreH6 : (done = (app (before) ((cons (tmp_node) ((@nil Z))))))) (PreH7 : (tmp_node <> 0)) (PreH8 : (tmp_node <> linklist_pre)) ,
-  (xizi_dllseg first linklist_pre tmp_node prev before )
+Definition DoubleLinkListLenGet_return_wit_1_split_goal_1 := 
+forall (A: Type) (linklist_pre: Z) (nodes_general: (@list (@XiziStoreADLL.DL_Node A))) (storeA_general: (Z -> (A -> Assertion))) (next: Z) (prev: Z) (last: Z) (first: Z) (before: (@list Z)) (tmp_node: Z) (linklist_length: Z) (done: (@list Z)) (todo: (@list Z)) (PreH1 : (next = linklist_pre)) (PreH2 : ((xizi_dll_ptrs (nodes_general)) = (app (done) (todo)))) (PreH3 : (linklist_pre <> 0)) (PreH4 : (linklist_length = (Zlength (done)))) (PreH5 : ((Zlength (nodes_general)) = ((Zlength (done)) + (Zlength (todo)) ))) (PreH6 : (done = (app (before) ((cons (tmp_node) ((@nil Z))))))) (PreH7 : (tmp_node <> 0)) (PreH8 : (tmp_node <> linklist_pre)) ,
+  (xizi_dll_payloads storeA_general nodes_general )
+  **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
+  **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> last)
+  **  (xizi_dllseg first linklist_pre tmp_node prev before )
   **  ((&((tmp_node)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> next)
   **  ((&((tmp_node)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> prev)
   **  (xizi_dllseg next tmp_node linklist_pre last todo )
@@ -197,51 +232,76 @@ forall (linklist_pre: Z) (nodes_general: (@list Z)) (next: Z) (prev: Z) (last: Z
   “ (linklist_length = (Zlength (nodes_general))) ”
 .
 
-Definition xizi_double_link_len_return_wit_1_split_goal_spatial := 
-forall (linklist_pre: Z) (nodes_general: (@list Z)) (next: Z) (prev: Z) (last: Z) (first: Z) (before: (@list Z)) (tmp_node: Z) (linklist_length: Z) (done: (@list Z)) (todo: (@list Z)) (PreH1 : (next = linklist_pre)) (PreH2 : (nodes_general = (app (done) (todo)))) (PreH3 : (linklist_pre <> 0)) (PreH4 : (linklist_length = (Zlength (done)))) (PreH5 : ((Zlength (nodes_general)) = ((Zlength (done)) + (Zlength (todo)) ))) (PreH6 : (done = (app (before) ((cons (tmp_node) ((@nil Z))))))) (PreH7 : (tmp_node <> 0)) (PreH8 : (tmp_node <> linklist_pre)) ,
-  (xizi_dllseg first linklist_pre tmp_node prev before )
+Definition DoubleLinkListLenGet_return_wit_1_split_goal_spatial := 
+forall (A: Type) (linklist_pre: Z) (nodes_general: (@list (@XiziStoreADLL.DL_Node A))) (storeA_general: (Z -> (A -> Assertion))) (next: Z) (prev: Z) (last: Z) (first: Z) (before: (@list Z)) (tmp_node: Z) (linklist_length: Z) (done: (@list Z)) (todo: (@list Z)) (PreH1 : (next = linklist_pre)) (PreH2 : ((xizi_dll_ptrs (nodes_general)) = (app (done) (todo)))) (PreH3 : (linklist_pre <> 0)) (PreH4 : (linklist_length = (Zlength (done)))) (PreH5 : ((Zlength (nodes_general)) = ((Zlength (done)) + (Zlength (todo)) ))) (PreH6 : (done = (app (before) ((cons (tmp_node) ((@nil Z))))))) (PreH7 : (tmp_node <> 0)) (PreH8 : (tmp_node <> linklist_pre)) ,
+  (xizi_dll_payloads storeA_general nodes_general )
+  **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
+  **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> last)
+  **  (xizi_dllseg first linklist_pre tmp_node prev before )
   **  ((&((tmp_node)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> next)
   **  ((&((tmp_node)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> prev)
   **  (xizi_dllseg next tmp_node linklist_pre last todo )
 |--
-  (xizi_dllseg first linklist_pre linklist_pre last nodes_general )
+  (xizi_store_dll storeA_general linklist_pre nodes_general )
 .
 
-Definition xizi_double_link_len_return_wit_2 := 
+Definition DoubleLinkListLenGet_return_wit_2 := 
 (
-forall (linklist_pre: Z) (nodes_general: (@list Z)) (last: Z) (first: Z) (tmp_node: Z) (linklist_length: Z) (done: (@list Z)) (todo: (@list Z)) (PreH1 : (first = linklist_pre)) (PreH2 : (nodes_general = (app (done) (todo)))) (PreH3 : (linklist_pre <> 0)) (PreH4 : (linklist_length = (Zlength (done)))) (PreH5 : ((Zlength (nodes_general)) = ((Zlength (done)) + (Zlength (todo)) ))) (PreH6 : (done = (@nil Z))) (PreH7 : (tmp_node = linklist_pre)) ,
+forall (A: Type) (linklist_pre: Z) (nodes_general: (@list (@XiziStoreADLL.DL_Node A))) (storeA_general: (Z -> (A -> Assertion))) (last: Z) (first: Z) (tmp_node: Z) (linklist_length: Z) (done: (@list Z)) (todo: (@list Z)) (PreH1 : (first = linklist_pre)) (PreH2 : ((xizi_dll_ptrs (nodes_general)) = (app (done) (todo)))) (PreH3 : (linklist_pre <> 0)) (PreH4 : (linklist_length = (Zlength (done)))) (PreH5 : ((Zlength (nodes_general)) = ((Zlength (done)) + (Zlength (todo)) ))) (PreH6 : (done = (@nil Z))) (PreH7 : (tmp_node = linklist_pre)) ,
   ((&((tmp_node)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
+  **  (xizi_dll_payloads storeA_general nodes_general )
   **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> last)
   **  (xizi_dllseg first linklist_pre linklist_pre last todo )
 |--
   “ (linklist_length = (Zlength (nodes_general))) ”
-  &&  (xizi_dll linklist_pre nodes_general )
+  &&  (xizi_store_dll storeA_general linklist_pre nodes_general )
 ) \/
 (
-forall (linklist_pre: Z) (nodes_general: (@list Z)) (last: Z) (first: Z) (tmp_node: Z) (linklist_length: Z) (done: (@list Z)) (todo: (@list Z)) (PreH1 : (first = linklist_pre)) (PreH2 : (nodes_general = (app (done) (todo)))) (PreH3 : (linklist_pre <> 0)) (PreH4 : (linklist_length = (Zlength (done)))) (PreH5 : ((Zlength (nodes_general)) = ((Zlength (done)) + (Zlength (todo)) ))) (PreH6 : (done = (@nil Z))) (PreH7 : (tmp_node = linklist_pre)) ,
+forall (A: Type) (linklist_pre: Z) (nodes_general: (@list (@XiziStoreADLL.DL_Node A))) (storeA_general: (Z -> (A -> Assertion))) (last: Z) (first: Z) (tmp_node: Z) (linklist_length: Z) (done: (@list Z)) (todo: (@list Z)) (PreH1 : (first = linklist_pre)) (PreH2 : ((xizi_dll_ptrs (nodes_general)) = (app (done) (todo)))) (PreH3 : (linklist_pre <> 0)) (PreH4 : (linklist_length = (Zlength (done)))) (PreH5 : ((Zlength (nodes_general)) = ((Zlength (done)) + (Zlength (todo)) ))) (PreH6 : (done = (@nil Z))) (PreH7 : (tmp_node = linklist_pre)) ,
   ((&((tmp_node)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
-  **  (xizi_dllseg first linklist_pre linklist_pre last todo )
-|--
-  EX (first_2: Z) ,
-  “ (linklist_pre <> 0) ” 
-  &&  “ (linklist_length = (Zlength (nodes_general))) ”
-  &&  (xizi_dllseg first_2 linklist_pre linklist_pre last nodes_general )
-  **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first_2)
-).
-
-Definition xizi_double_link_len_partial_solve_wit_1 := 
-forall (linklist_pre: Z) (nodes_general: (@list Z)) (last: Z) (first: Z) (tmp_node: Z) (linklist_length: Z) (done: (@list Z)) (todo: (@list Z)) (PreH1 : (nodes_general = (app (done) (todo)))) (PreH2 : (linklist_pre <> 0)) (PreH3 : (linklist_length = (Zlength (done)))) (PreH4 : ((Zlength (nodes_general)) = ((Zlength (done)) + (Zlength (todo)) ))) (PreH5 : (done = (@nil Z))) (PreH6 : (tmp_node = linklist_pre)) ,
-  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
+  **  (xizi_dll_payloads storeA_general nodes_general )
   **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> last)
   **  (xizi_dllseg first linklist_pre linklist_pre last todo )
 |--
-  “ (nodes_general = (app (done) (todo))) ” 
+  “ (linklist_length = (Zlength (nodes_general))) ”
+  &&  (xizi_store_dll storeA_general linklist_pre nodes_general )
+).
+
+Definition DoubleLinkListLenGet_return_wit_2_split_goal_1 := 
+forall (A: Type) (linklist_pre: Z) (nodes_general: (@list (@XiziStoreADLL.DL_Node A))) (storeA_general: (Z -> (A -> Assertion))) (last: Z) (first: Z) (tmp_node: Z) (linklist_length: Z) (done: (@list Z)) (todo: (@list Z)) (PreH1 : (first = linklist_pre)) (PreH2 : ((xizi_dll_ptrs (nodes_general)) = (app (done) (todo)))) (PreH3 : (linklist_pre <> 0)) (PreH4 : (linklist_length = (Zlength (done)))) (PreH5 : ((Zlength (nodes_general)) = ((Zlength (done)) + (Zlength (todo)) ))) (PreH6 : (done = (@nil Z))) (PreH7 : (tmp_node = linklist_pre)) ,
+  ((&((tmp_node)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
+  **  (xizi_dll_payloads storeA_general nodes_general )
+  **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> last)
+  **  (xizi_dllseg first linklist_pre linklist_pre last todo )
+|--
+  “ (linklist_length = (Zlength (nodes_general))) ”
+.
+
+Definition DoubleLinkListLenGet_return_wit_2_split_goal_spatial := 
+forall (A: Type) (linklist_pre: Z) (nodes_general: (@list (@XiziStoreADLL.DL_Node A))) (storeA_general: (Z -> (A -> Assertion))) (last: Z) (first: Z) (tmp_node: Z) (linklist_length: Z) (done: (@list Z)) (todo: (@list Z)) (PreH1 : (first = linklist_pre)) (PreH2 : ((xizi_dll_ptrs (nodes_general)) = (app (done) (todo)))) (PreH3 : (linklist_pre <> 0)) (PreH4 : (linklist_length = (Zlength (done)))) (PreH5 : ((Zlength (nodes_general)) = ((Zlength (done)) + (Zlength (todo)) ))) (PreH6 : (done = (@nil Z))) (PreH7 : (tmp_node = linklist_pre)) ,
+  ((&((tmp_node)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
+  **  (xizi_dll_payloads storeA_general nodes_general )
+  **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> last)
+  **  (xizi_dllseg first linklist_pre linklist_pre last todo )
+|--
+  (xizi_store_dll storeA_general linklist_pre nodes_general )
+.
+
+Definition DoubleLinkListLenGet_partial_solve_wit_1 := 
+forall (A: Type) (linklist_pre: Z) (nodes_general: (@list (@XiziStoreADLL.DL_Node A))) (storeA_general: (Z -> (A -> Assertion))) (last: Z) (first: Z) (tmp_node: Z) (linklist_length: Z) (done: (@list Z)) (todo: (@list Z)) (PreH1 : ((xizi_dll_ptrs (nodes_general)) = (app (done) (todo)))) (PreH2 : (linklist_pre <> 0)) (PreH3 : (linklist_length = (Zlength (done)))) (PreH4 : ((Zlength (nodes_general)) = ((Zlength (done)) + (Zlength (todo)) ))) (PreH5 : (done = (@nil Z))) (PreH6 : (tmp_node = linklist_pre)) ,
+  (xizi_dll_payloads storeA_general nodes_general )
+  **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
+  **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> last)
+  **  (xizi_dllseg first linklist_pre linklist_pre last todo )
+|--
+  “ ((xizi_dll_ptrs (nodes_general)) = (app (done) (todo))) ” 
   &&  “ (linklist_pre <> 0) ” 
   &&  “ (linklist_length = (Zlength (done))) ” 
   &&  “ ((Zlength (nodes_general)) = ((Zlength (done)) + (Zlength (todo)) )) ” 
   &&  “ (done = (@nil Z)) ” 
   &&  “ (tmp_node = linklist_pre) ”
   &&  ((&((tmp_node)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
+  **  (xizi_dll_payloads storeA_general nodes_general )
   **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> last)
   **  (xizi_dllseg first linklist_pre linklist_pre last todo )
 .
@@ -250,23 +310,23 @@ forall (linklist_pre: Z) (nodes_general: (@list Z)) (last: Z) (first: Z) (tmp_no
 
 Definition xizi_double_link_init_then_len_return_wit_1 := 
 (
-forall (linklist_head_pre: Z) (retval: Z) (PreH1 : (retval = 0)) (PreH2 : (linklist_head_pre <> 0)) (PreH3 : (linklist_head_pre <> 0)) ,
-  (xizi_dll linklist_head_pre (@nil Z) )
+forall (A: Type) (linklist_head_pre: Z) (storeA: (Z -> (A -> Assertion))) (retval: Z) (PreH1 : (retval = 0)) (PreH2 : (linklist_head_pre <> 0)) ,
+  (xizi_store_dll storeA linklist_head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 |--
   “ (xizi_double_link_init_then_len_result retval ) ”
-  &&  (xizi_dll linklist_head_pre (@nil Z) )
+  &&  (xizi_store_dll storeA linklist_head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 ) \/
 (
-forall (linklist_head_pre: Z) (retval: Z) (PreH1 : (linklist_head_pre <> 0)) (PreH2 : (retval = 0)) (PreH3 : (linklist_head_pre <> 0)) (PreH4 : (linklist_head_pre <> 0)) ,
+forall (linklist_head_pre: Z) (retval: Z) (PreH1 : (retval = 0)) (PreH2 : (linklist_head_pre <> 0)) ,
   TT && emp 
 |--
-  “ (xizi_double_link_init_then_len_result retval ) ”
+  “ (xizi_double_link_init_then_len_result 0 ) ”
   &&  emp
 ).
 
 Definition xizi_double_link_init_then_len_return_wit_1_split_goal_1 := 
-forall (linklist_head_pre: Z) (retval: Z) (PreH1 : (linklist_head_pre <> 0)) (PreH2 : (retval = 0)) (PreH3 : (linklist_head_pre <> 0)) (PreH4 : (linklist_head_pre <> 0)) ,
-  (xizi_double_link_init_then_len_result retval )
+forall (linklist_head_pre: Z) (retval: Z) (PreH1 : (retval = 0)) (PreH2 : (linklist_head_pre <> 0)) ,
+  (xizi_double_link_init_then_len_result 0 )
 .
 
 Definition xizi_double_link_init_then_len_partial_solve_wit_1 := 
@@ -278,46 +338,47 @@ forall (linklist_head_pre: Z) ,
 .
 
 Definition xizi_double_link_init_then_len_partial_solve_wit_2 := 
-forall (linklist_head_pre: Z) (PreH1 : (linklist_head_pre <> 0)) ,
-  (xizi_dll linklist_head_pre (@nil Z) )
+forall (A: Type) (linklist_head_pre: Z) (storeA: (Z -> (A -> Assertion))) (PreH1 : (linklist_head_pre <> 0)) ,
+  (xizi_store_dll storeA linklist_head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 |--
-  “ (linklist_head_pre <> 0) ” 
-  &&  “ (linklist_head_pre <> 0) ”
-  &&  (xizi_dll linklist_head_pre (@nil Z) )
+  “ (linklist_head_pre <> 0) ”
+  &&  (xizi_store_dll storeA linklist_head_pre (@nil (@XiziStoreADLL.DL_Node A)) )
 .
 
-Definition xizi_double_link_len_derive_nil_case_by_general := 
-forall (linklist_pre: Z) ,
-  (xizi_dll linklist_pre nil )
+Definition DoubleLinkListLenGet_derive_nil_case_by_general := 
+forall (A: Type) ,
+forall (linklist_pre: Z) (storeA_nil_case: (Z -> (A -> Assertion))) ,
+  (xizi_store_dll storeA_nil_case linklist_pre nil )
 |--
-EX (nodes_general: (@list Z)) ,
-  ((xizi_dll linklist_pre nodes_general ))
+EX (A: Type) ,
+EX (storeA_general: (Z -> (A -> Assertion))) (nodes_general: (@list (@XiziStoreADLL.DL_Node A))) ,
+  ((xizi_store_dll storeA_general linklist_pre nodes_general ))
   **
   ((EX retval_2,
   “ (retval_2 = (Zlength (nodes_general))) ”
-  &&  (xizi_dll linklist_pre nodes_general ))
+  &&  (xizi_store_dll storeA_general linklist_pre nodes_general ))
   -*
   (EX retval,
   “ (retval = 0) ”
-  &&  (xizi_dll linklist_pre nil )))
+  &&  (xizi_store_dll storeA_nil_case linklist_pre nil )))
 .
 
 Module Type VC_Correct.
 
 Include xizi_double_link_Strategy_Correct.
 
-Axiom proof_of_xizi_double_link_init_return_wit_1 : xizi_double_link_init_return_wit_1.
-Axiom proof_of_xizi_double_link_init_partial_solve_wit_1 : xizi_double_link_init_partial_solve_wit_1.
-Axiom proof_of_xizi_double_link_len_safety_wit_1 : xizi_double_link_len_safety_wit_1.
-Axiom proof_of_xizi_double_link_len_entail_wit_1 : xizi_double_link_len_entail_wit_1.
-Axiom proof_of_xizi_double_link_len_entail_wit_2_1 : xizi_double_link_len_entail_wit_2_1.
-Axiom proof_of_xizi_double_link_len_entail_wit_2_2 : xizi_double_link_len_entail_wit_2_2.
-Axiom proof_of_xizi_double_link_len_return_wit_1 : xizi_double_link_len_return_wit_1.
-Axiom proof_of_xizi_double_link_len_return_wit_2 : xizi_double_link_len_return_wit_2.
-Axiom proof_of_xizi_double_link_len_partial_solve_wit_1 : xizi_double_link_len_partial_solve_wit_1.
+Axiom proof_of_InitDoubleLinkList_return_wit_1 : InitDoubleLinkList_return_wit_1.
+Axiom proof_of_InitDoubleLinkList_partial_solve_wit_1 : InitDoubleLinkList_partial_solve_wit_1.
+Axiom proof_of_DoubleLinkListLenGet_safety_wit_1 : DoubleLinkListLenGet_safety_wit_1.
+Axiom proof_of_DoubleLinkListLenGet_entail_wit_1 : DoubleLinkListLenGet_entail_wit_1.
+Axiom proof_of_DoubleLinkListLenGet_entail_wit_2_1 : DoubleLinkListLenGet_entail_wit_2_1.
+Axiom proof_of_DoubleLinkListLenGet_entail_wit_2_2 : DoubleLinkListLenGet_entail_wit_2_2.
+Axiom proof_of_DoubleLinkListLenGet_return_wit_1 : DoubleLinkListLenGet_return_wit_1.
+Axiom proof_of_DoubleLinkListLenGet_return_wit_2 : DoubleLinkListLenGet_return_wit_2.
+Axiom proof_of_DoubleLinkListLenGet_partial_solve_wit_1 : DoubleLinkListLenGet_partial_solve_wit_1.
 Axiom proof_of_xizi_double_link_init_then_len_return_wit_1 : xizi_double_link_init_then_len_return_wit_1.
 Axiom proof_of_xizi_double_link_init_then_len_partial_solve_wit_1 : xizi_double_link_init_then_len_partial_solve_wit_1.
 Axiom proof_of_xizi_double_link_init_then_len_partial_solve_wit_2 : xizi_double_link_init_then_len_partial_solve_wit_2.
-Axiom proof_of_xizi_double_link_len_derive_nil_case_by_general : xizi_double_link_len_derive_nil_case_by_general.
+Axiom proof_of_DoubleLinkListLenGet_derive_nil_case_by_general : DoubleLinkListLenGet_derive_nil_case_by_general.
 
 End VC_Correct.

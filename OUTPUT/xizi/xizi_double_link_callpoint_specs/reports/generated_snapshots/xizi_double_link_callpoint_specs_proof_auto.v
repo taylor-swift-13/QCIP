@@ -100,6 +100,9 @@ Proof. Admitted.
 Lemma proof_of_xizi_double_link_call_remove_front_singleton_entail_wit_1 : xizi_double_link_call_remove_front_singleton_entail_wit_1.
 Proof. Admitted. 
 
+Lemma proof_of_xizi_double_link_call_remove_front_singleton_entail_wit_2 : xizi_double_link_call_remove_front_singleton_entail_wit_2.
+Proof. Admitted. 
+
 Lemma proof_of_xizi_double_link_call_remove_front_singleton_partial_solve_wit_1 : xizi_double_link_call_remove_front_singleton_partial_solve_wit_1.
 Proof. Admitted. 
 

@@ -16,17 +16,17 @@ Local Open Scope Z_scope.
 Local Open Scope sets.
 Local Open Scope string_scope.
 Local Open Scope list.
-Import naive_C_Rules.
+Import CRules.
 From QCIPLib.xizi.xizi_double_link_common Require Import xizi_double_link_lib.
 From SimpleC.EE.OUTPUT.xizi.xizi_double_link_next.source Require Import xizi_double_link_next_lib.
 Local Open Scope sac.
 
-Lemma proof_of_xizi_double_link_next_safety_wit_1 : xizi_double_link_next_safety_wit_1.
+Lemma proof_of_DoubleLinkListGetNext_safety_wit_1 : DoubleLinkListGetNext_safety_wit_1.
 Proof. Admitted. 
 
-Lemma proof_of_xizi_double_link_next_safety_wit_2 : xizi_double_link_next_safety_wit_2.
+Lemma proof_of_DoubleLinkListGetNext_safety_wit_2 : DoubleLinkListGetNext_safety_wit_2.
 Proof. Admitted. 
 
-Lemma proof_of_xizi_double_link_next_partial_solve_wit_1 : xizi_double_link_next_partial_solve_wit_1.
+Lemma proof_of_DoubleLinkListGetNext_partial_solve_wit_1 : DoubleLinkListGetNext_partial_solve_wit_1.
 Proof. Admitted. 
 

@@ -3,88 +3,96 @@
 #include "../../xizi_single_link_common/source/xizi_single_link_def.h"
 
 /*@ Import Coq From SimpleC.EE.OUTPUT.xizi.xizi_single_link_remove_node.source Require Import xizi_single_link_remove_node_lib */
-/*@ Extern Coq (xizi_sll_remove_first: Z -> list Z -> list Z) */
+/*@ Extern Coq (sll_payload_node :: * => *) */
+/*@ Extern Coq (Build_sll_payload_node : {A} -> A -> Z -> sll_payload_node A)
+               (xizi_sll_head_payload : {A} -> (Z -> A -> Assertion) -> Z -> list (sll_payload_node A) -> Assertion)
+               (xizi_sll_payload_addresses : {A} -> list (sll_payload_node A) -> list Z)
+               (xizi_sll_remove_payloads : {A} -> (Z -> A -> Assertion) -> list (sll_payload_node A) -> Assertion)
+               (xizi_sll_payload_remove : {A} -> Z -> A -> list (sll_payload_node A) -> list (sll_payload_node A) -> Prop)
+               (xizi_sll_remove_first: Z -> list Z -> list Z) */
 
 SysSingleLinklistType *SingleLinkListRmNode(SysSingleLinklistType *linklist, SysSingleLinklistType *linklist_node)
 /*@ remove_member_spec <= strong_spec
-    With l
+    With {A} (storeA : Z -> A -> Assertion) (l : list (sll_payload_node A))
     Require
-      In(linklist_node, l) &&
-      xizi_sll_head(linklist, l)
+      In(linklist_node, xizi_sll_payload_addresses(l)) &&
+      xizi_sll_head_payload(storeA, linklist, l)
     Ensure
-      xizi_sll_head(
-        linklist,
-        xizi_sll_remove_first(linklist_node, l)) *
-      xizi_sll_node(linklist_node)
+      exists output a,
+      xizi_sll_payload_remove(linklist_node, a, l, output) &&
+      xizi_sll_head_payload(storeA, linklist, output) *
+      xizi_sll_node(linklist_node) * storeA(linklist_node, a)
 */;
 
 SysSingleLinklistType *SingleLinkListRmNode(SysSingleLinklistType *linklist, SysSingleLinklistType *linklist_node)
 /*@ remove_front_spec <= strong_spec
-    With suffix
+    With {A} (storeA : Z -> A -> Assertion) (a : A) (suffix : list (sll_payload_node A))
     Require
-      xizi_sll_head(
-        linklist,
-        cons(linklist_node, suffix))
+      xizi_sll_head_payload(storeA, linklist,
+        cons(Build_sll_payload_node(a, linklist_node), suffix))
     Ensure
-      xizi_sll_head(linklist, suffix) *
-      xizi_sll_node(linklist_node)
+      xizi_sll_head_payload(storeA, linklist, suffix) *
+      xizi_sll_node(linklist_node) * storeA(linklist_node, a)
 */;
 
 SysSingleLinklistType *SingleLinkListRmNode(SysSingleLinklistType *linklist, SysSingleLinklistType *linklist_node)
 /*@ remove_tail_spec <= strong_spec
-    With prefix
+    With {A} (storeA : Z -> A -> Assertion) (a : A) (prefix : list (sll_payload_node A))
     Require
-      xizi_sll_head(
-        linklist,
-        app(prefix, cons(linklist_node, nil)))
+      xizi_sll_head_payload(storeA, linklist,
+        app(prefix, cons(Build_sll_payload_node(a, linklist_node), nil)))
     Ensure
-      xizi_sll_head(linklist, prefix) *
-      xizi_sll_node(linklist_node)
+      xizi_sll_head_payload(storeA, linklist, prefix) *
+      xizi_sll_node(linklist_node) * storeA(linklist_node, a)
 */;
 
 SysSingleLinklistType *SingleLinkListRmNode(SysSingleLinklistType *linklist, SysSingleLinklistType *linklist_node)
 /*@ strong_spec
-    With l l1 l2
+    With {A} (storeA : Z -> A -> Assertion) (a : A)
+         (l : list (sll_payload_node A)) (l1 : list (sll_payload_node A)) (l2 : list (sll_payload_node A))
     Require
-      l == app(l1, cons(linklist_node, l2)) &&
-      xizi_sll_head(linklist, l)
+      l == app(l1, cons(Build_sll_payload_node(a, linklist_node), l2)) &&
+      xizi_sll_head_payload(storeA, linklist, l)
     Ensure
       __return == linklist &&
-      xizi_sll_head(linklist, app(l1, l2)) *
+      xizi_sll_head_payload(storeA, linklist, app(l1, l2)) *
       (linklist_node -> node_next ==
-        xizi_sll_first_value(l2))
+        xizi_sll_first_value(xizi_sll_payload_addresses(l2))) *
+      storeA(linklist_node, a)
 */
 {
-    /*@
-      l == app(l1, cons(linklist_node, l2)) &&
-      xizi_sll_head(linklist, l)
-      which implies
-      linklist != 0 &&
-      linklist_node != 0 &&
-      linklist != linklist_node &&
-      xizi_sll_to_target(
-        linklist,
-        linklist_node,
-        cons(linklist, l1)) *
+    /*@ Assert
+      l == app(l1, cons(Build_sll_payload_node(a, linklist_node), l2)) &&
+      linklist == linklist@pre &&
+      linklist_node == linklist_node@pre &&
+      linklist != 0 && linklist_node != 0 && linklist != linklist_node &&
+      xizi_sll_to_target(linklist, linklist_node,
+        cons(linklist, xizi_sll_payload_addresses(l1))) *
       (linklist_node -> node_next ==
-        xizi_sll_first_value(l2)) *
-      xizi_sll(xizi_sll_first_value(l2), l2)
+        xizi_sll_first_value(xizi_sll_payload_addresses(l2))) *
+      xizi_sll(xizi_sll_first_value(xizi_sll_payload_addresses(l2)),
+        xizi_sll_payload_addresses(l2)) *
+      xizi_sll_remove_payloads(storeA, l)
     */
     struct SingleLinklistNode *node = linklist;
 
-    /*@ Inv
+    /*@ Inv Assert
           exists l1a l1b next,
+            l == app(l1, cons(Build_sll_payload_node(a, linklist_node), l2)) &&
             linklist == linklist@pre &&
             linklist_node == linklist_node@pre &&
-            cons(linklist, l1) ==
+            linklist_node != 0 &&
+            cons(linklist, xizi_sll_payload_addresses(l1)) ==
               app(l1a, cons(node, l1b)) &&
             node != 0 &&
             node -> node_next == next &&
             xizi_sllseg(linklist, node, l1a) *
             xizi_sll_to_target(next, linklist_node, l1b) *
             (linklist_node -> node_next ==
-              xizi_sll_first_value(l2)) *
-            xizi_sll(xizi_sll_first_value(l2), l2)
+              xizi_sll_first_value(xizi_sll_payload_addresses(l2))) *
+            xizi_sll(xizi_sll_first_value(xizi_sll_payload_addresses(l2)),
+              xizi_sll_payload_addresses(l2)) *
+            xizi_sll_remove_payloads(storeA, l)
     */
     while (node->node_next && node->node_next != linklist_node) {
         node = node->node_next;

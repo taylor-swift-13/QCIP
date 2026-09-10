@@ -446,6 +446,7 @@ Proof.
       (store_ptr_undef_store_ptr
         (&(q # "SingleLinklistNode" ->ₛ "node_next")) q_next).
     unfold undef_store_ptr.
+    rewrite ptr_size_eq_4.
     Intros.
     Intros.
     prop_apply
@@ -537,6 +538,7 @@ Proof.
       (store_ptr_undef_store_ptr
         (&(q # "SingleLinklistNode" ->ₛ "node_next")) q_next).
     unfold undef_store_ptr.
+    rewrite ptr_size_eq_4.
     Intros.
     Intros.
     prop_apply
@@ -916,7 +918,7 @@ Proof.
     replace (Zlength (x :: l)) with (1 + Zlength l)
       by (rewrite Zlength_cons; lia).
     sep_apply
-      (store_ptr_align4
+      (store_ptr_align4_32
         (&(x # xizi_struct_name ->ₛ xizi_next_field)) y).
     fold xizi_sll.
     sep_apply (IHl y).
@@ -933,6 +935,7 @@ Proof.
   prop_apply store_align4_n_valid.
   Intros.
   dump_pre_spatial.
+  rewrite addr_max_unsigned_eq_int in H.
   exact H.
 Qed.
 
@@ -969,4 +972,149 @@ Proof.
   Intros.
   dump_pre_spatial.
   exact H1.
+Qed.
+
+(** * Resource-carrying payload interface
+
+    The public node keeps both its address and abstract data, like the
+    reference DLL.DL_Node.  [storeA] owns only payload resources; next-link
+    ownership is supplied here by [sll_link], never by the payload parameter.
+    The adapter reuses all four existing generic recursions and their NULL /
+    target guards.  No existing declaration is changed for older consumers.
+
+    Compared with the circular DLL reference, SLL remains NULL-terminated,
+    has no previous link, and retains the existing non-NULL node/head guards.
+    The sentinel is structural and carries no element payload.  An empty
+    sentinel therefore requires no value of A, even when A is empty. *)
+
+Record sll_payload_node (A: Type): Type := Build_sll_payload_node {
+  sll_payload_data: A;
+  sll_payload_ptr: addr
+}.
+Arguments Build_sll_payload_node {A} _ _.
+Arguments sll_payload_data {A} _.
+Arguments sll_payload_ptr {A} _.
+
+Definition sll_payload_cell {A: Type}
+  (struct_name next_field: string) (storeA: addr -> A -> Assertion)
+  (x next: addr) (node: sll_payload_node A): Assertion :=
+  “ x = sll_payload_ptr node ” &&
+  storeA x (sll_payload_data node) ** sll_link struct_name next_field x next.
+
+Definition generic_sll_payload {A: Type}
+  (struct_name next_field: string) (storeA: addr -> A -> Assertion)
+  : addr -> list (sll_payload_node A) -> Assertion :=
+  generic_sll (sll_payload_cell struct_name next_field storeA).
+
+Definition generic_sllseg_payload {A: Type}
+  (struct_name next_field: string) (storeA: addr -> A -> Assertion)
+  : addr -> addr -> list (sll_payload_node A) -> Assertion :=
+  generic_sllseg (sll_payload_cell struct_name next_field storeA).
+
+Definition generic_sll_to_target_payload {A: Type}
+  (struct_name next_field: string) (storeA: addr -> A -> Assertion)
+  : addr -> addr -> list (sll_payload_node A) -> Assertion :=
+  generic_sll_to_target (sll_payload_cell struct_name next_field storeA).
+
+Definition generic_sll_not_target_payload {A: Type}
+  (struct_name next_field: string) (storeA: addr -> A -> Assertion)
+  : addr -> addr -> list (sll_payload_node A) -> Assertion :=
+  generic_sll_not_target (sll_payload_cell struct_name next_field storeA).
+
+Definition generic_sll_head_payload {A: Type}
+  (struct_name next_field: string) (storeA: addr -> A -> Assertion)
+  : addr -> list (sll_payload_node A) -> Assertion :=
+  generic_sll_head (sll_payload_cell struct_name next_field storeA)
+    (sll_head_store struct_name next_field).
+
+Definition xizi_sll_payload {A: Type} (storeA: addr -> A -> Assertion) :=
+  generic_sll_payload xizi_struct_name xizi_next_field storeA.
+Definition xizi_sllseg_payload {A: Type} (storeA: addr -> A -> Assertion) :=
+  generic_sllseg_payload xizi_struct_name xizi_next_field storeA.
+Definition xizi_sll_to_target_payload {A: Type} (storeA: addr -> A -> Assertion) :=
+  generic_sll_to_target_payload xizi_struct_name xizi_next_field storeA.
+Definition xizi_sll_not_target_payload {A: Type} (storeA: addr -> A -> Assertion) :=
+  generic_sll_not_target_payload xizi_struct_name xizi_next_field storeA.
+Definition xizi_sll_head_payload {A: Type} (storeA: addr -> A -> Assertion) :=
+  generic_sll_head_payload xizi_struct_name xizi_next_field storeA.
+
+(** Empty-head compatibility reuses the existing sentinel specification.
+    These equalities are independent of the payload assertion. *)
+Lemma xizi_sll_head_payload_nil:
+  forall {A: Type} (storeA: addr -> A -> Assertion) head,
+    xizi_sll_head_payload storeA head nil = xizi_sll_head head nil.
+Proof. reflexivity. Qed.
+
+Lemma xizi_sll_head_payload_nil_node:
+  forall {A: Type} (storeA: addr -> A -> Assertion) head,
+    xizi_sll_head_payload storeA head nil |-- xizi_sll_node head.
+Proof.
+  intros. rewrite xizi_sll_head_payload_nil.
+  apply xizi_sll_head_nil_node.
+Qed.
+
+(** The nonempty interface retains arbitrary payload resources separately
+    from the structural link; it is not an emp-only specialization. *)
+Lemma xizi_sll_payload_cons:
+  forall {A: Type} (storeA: addr -> A -> Assertion) x next a l,
+    x <> NULL ->
+    storeA x a **
+    sll_link xizi_struct_name xizi_next_field x next **
+    xizi_sll_payload storeA next l |--
+    xizi_sll_payload storeA x (Build_sll_payload_node a x :: l).
+Proof.
+  intros.
+  unfold xizi_sll_payload, generic_sll_payload.
+  simpl. unfold sll_payload_cell. simpl.
+  Exists next. entailer!.
+Qed.
+
+(** * Shared payload factorization
+
+    Promoted without changes from the accepted SingleLinkListRmNode case,
+    xizi_single_link_remove_node_lib.v.  The historical names remain stable
+    for proof reuse; these declarations have no removal-specific semantics.
+    Removal relations and occurrence/member lemmas remain case-local. *)
+
+(** Pure address projection keeps the established address-based operation. *)
+Definition xizi_sll_payload_addresses {A: Type}
+  (l: list (sll_payload_node A)): list Z := map sll_payload_ptr l.
+
+(** The separating conjunction of the logical payloads. This is only a
+    resource factorization of the shared generic model, not a traversal
+    algorithm, and imposes no restriction on the arbitrary storeA. *)
+Definition xizi_sll_remove_payloads {A: Type}
+  (storeA: Z -> A -> Assertion) (l: list (sll_payload_node A)): Assertion :=
+  fold_right (fun n acc => storeA (sll_payload_ptr n) (sll_payload_data n) ** acc)
+    emp l.
+
+Lemma payload_factor__remove_payloads : forall A (storeA: Z -> A -> Assertion) l x,
+ xizi_sll_payload storeA x l |-- xizi_sll x (xizi_sll_payload_addresses l) ** xizi_sll_remove_payloads storeA l.
+Proof.
+ intros A storeA l; induction l as [|[a n] l IH]; intros x.
+ - unfold xizi_sll_payload, generic_sll_payload, xizi_sll, xizi_sll_payload_addresses, xizi_sll_remove_payloads; simpl. entailer!.
+ - unfold xizi_sll_payload, generic_sll_payload, xizi_sll, xizi_sll_payload_addresses, xizi_sll_remove_payloads in *; simpl in *.
+   unfold sll_payload_cell, xizi_addr_node_store, sll_addr_store in *; simpl in *.
+   Intros y. Intros. subst x. Exists y. sep_apply (IH y). entailer!.
+Qed.
+Lemma payload_unfactor__remove_payloads : forall A (storeA: Z -> A -> Assertion) l x,
+ xizi_sll x (xizi_sll_payload_addresses l) ** xizi_sll_remove_payloads storeA l |-- xizi_sll_payload storeA x l.
+Proof.
+ intros A storeA l; induction l as [|[a n] l IH]; intros x.
+ - unfold xizi_sll_payload, generic_sll_payload, xizi_sll, xizi_sll_payload_addresses, xizi_sll_remove_payloads; simpl. entailer!.
+ - unfold xizi_sll_payload, generic_sll_payload, xizi_sll, xizi_sll_payload_addresses, xizi_sll_remove_payloads in *; simpl in *.
+   unfold sll_payload_cell, xizi_addr_node_store, sll_addr_store in *; simpl in *.
+   Intros y. Intros. subst x. Exists y. sep_apply (IH y). entailer!.
+Qed.
+Lemma payload_head_factor__remove_payloads : forall A (storeA: Z -> A -> Assertion) l h,
+ xizi_sll_head_payload storeA h l |-- xizi_sll_head h (xizi_sll_payload_addresses l) ** xizi_sll_remove_payloads storeA l.
+Proof.
+ intros. unfold xizi_sll_head_payload, generic_sll_head_payload, xizi_sll_head, generic_sll_head.
+ Intros f. Exists f. fold xizi_sll. fold (@xizi_sll_payload A storeA). sep_apply (payload_factor__remove_payloads A storeA l f). entailer!.
+Qed.
+Lemma payload_head_unfactor__remove_payloads : forall A (storeA: Z -> A -> Assertion) l h,
+ xizi_sll_head h (xizi_sll_payload_addresses l) ** xizi_sll_remove_payloads storeA l |-- xizi_sll_head_payload storeA h l.
+Proof.
+ intros. unfold xizi_sll_head_payload, generic_sll_head_payload, xizi_sll_head, generic_sll_head.
+ Intros f. Exists f. fold xizi_sll. fold (@xizi_sll_payload A storeA). sep_apply (payload_unfactor__remove_payloads A storeA l f). unfold xizi_head_store, xizi_sll_payload, generic_sll_payload. entailer!.
 Qed.

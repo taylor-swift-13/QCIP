@@ -1,10 +1,32 @@
-# xizi_double_link_next_rec_last 验证摘要
+# xizi_double_link_next_rec_last 验证交付
 
-- accepted run：`xizi_double_link_next_rec_last-20260809015900`
-- annotation 与 canonical symbolic execution：passed，到达文件尾
-- manual witnesses：3，全部完成
-- parent fixed Coq check：passed
-- final-check：passed
-- fixed flags hash：`599d9322d6e5a5d67fc5d91252359c8343507d4c6861dede3304f496e050f2de`
-- source_goal_version：`65ba58e95f7b6200a7f4e9288207a41b7d10e647973ff1ea15ec3df3b9cf1e2b`
-- authoritative reports：`reports/xizi_double_link_next_rec_last-20260809015900/`
+本次 storeA 迁移已通过 controller final-check，run 为 `xizi_double_link_next_rec_last-20260910004243`。可执行 C 未改动；迁移规约与证明。所有非注释 token 与迁移前一致。 本次单双链表套件已全部完成，并通过当前公共库依赖下的整套回归。旧版套件报告仅供历史参考。
+
+泛型 `storeA : addr -> A -> Assertion` 与 idmanager 使用的 `dll.v` 对齐，表示内嵌 link 对应外部对象的业务资源；结构指针字段由链表谓词持有。保留已有非空、哨兵与函数行为条件。
+
+- `source/`：正式带标注 C 与头文件。
+- `rocq/`：本版本生成目标与已完成证明。
+- 唯一 active case_lib：`SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next_rec_last/source/xizi_double_link_next_rec_last_lib.v`；归档：`OUTPUT/xizi/xizi_double_link_next_rec_last/rocq/xizi_double_link_next_rec_last_lib.v`。
+- `reports/controller/`：本 run 的 controller、round、group 与最终证据。
+- `reports/before_storeA/`：迁移前历史报告，不作为当前验收证据。
+
+source_goal_version：`ca7d76e0f7d9e1d325a90798d60c8ca9b7e86cfe6da9a60c7f98988b3862eb6a`；manual witness 数：7。symbolic execution freshness、固定 Coq 检查、manual 结构、case_lib 合同及 forbidden lemma 检查均通过。
+
+验证边界：当前 QCP 自动生成的 `proof_auto.v` 有 3 个 `Admitted` 占位。按仓库生成文件边界保留并单独记录；本轮完成证明的是 manual witnesses 和维护库中的引理，不能据此宣称整套证明完全没有假设。
+
+在仓库根目录复现 symbolic execution（输出到临时目录，保留正式 manual）：
+
+```sh
+mkdir -p /tmp/xizi_double_link_next_rec_last-storeA-refresh
+/home/yangfp/QCIP/linux-binary/symexec --goal-file=/tmp/xizi_double_link_next_rec_last-storeA-refresh/xizi_double_link_next_rec_last_goal.v --proof-auto-file=/tmp/xizi_double_link_next_rec_last-storeA-refresh/xizi_double_link_next_rec_last_proof_auto.v --proof-manual-file=/tmp/xizi_double_link_next_rec_last-storeA-refresh/xizi_double_link_next_rec_last_proof_manual.v -IQCP_examples/QCP_demos_LLM/ -slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM -slp QCIPLib/xizi/xizi_double_link_common/ QCIPLib.xizi.xizi_double_link_common --coq-logic-path=SimpleC.EE.OUTPUT.xizi.xizi_double_link_next_rec_last.source --input-file=OUTPUT/xizi/xizi_double_link_next_rec_last/source/xizi_double_link_next_rec_last.c --no-exec-info
+```
+
+通过固定入口编译：
+
+```sh
+python3 /home/yangfp/QCIP/.agents/skills/vc-proving/scripts/coq_tooling.py check --workspace-root /home/yangfp/QCIP --build-workspace /tmp/xizi_double_link_next_rec_last-storeA-coq-build --target-file SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next_rec_last/source/xizi_double_link_next_rec_last_goal_check.v --target-kind check --source-goal-version ca7d76e0f7d9e1d325a90798d60c8ca9b7e86cfe6da9a60c7f98988b3862eb6a
+```
+
+修改源码、规约或目标后应重新执行 controller 流程。快照与 OUTPUT 副本的字节比对见 `reports/archive_comparison.json`。
+
+当前依赖回归证据：`OUTPUT/xizi/xizi_double_link_common/reports/storeA_migration_reference/suite_audits/20260909181337/audit.json`；不替换本 case 原始 controller 接受记录。

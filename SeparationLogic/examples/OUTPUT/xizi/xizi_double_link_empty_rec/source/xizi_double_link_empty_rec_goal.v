@@ -21,142 +21,139 @@ Local Open Scope sac.
 From QCIPLib.xizi.xizi_double_link_common Require Import xizi_double_link_strategy_goal.
 From QCIPLib.xizi.xizi_double_link_common Require Import xizi_double_link_strategy_proof.
 
-(*----- Function xizi_double_link_empty_rec -----*)
+(*----- Function IsDoubleLinkListEmpty -----*)
 
-Definition xizi_double_link_empty_rec_return_wit_1_general := 
+Definition IsDoubleLinkListEmpty_entail_wit_1 := 
 (
-forall (linklist_pre: Z) (nodes_general: (@list Z)) (first: Z) (last: Z) (PreH1 : (first <> linklist_pre)) (PreH2 : (linklist_pre <> 0)) ,
-  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
-  **  (xizi_dllseg first linklist_pre linklist_pre last nodes_general )
-  **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> last)
-|--
-  “ (nodes_general <> (@nil Z)) ” 
-  &&  “ (0 = 0) ”
-  &&  (xizi_dll linklist_pre nodes_general )
-) \/
-(
-forall (linklist_pre: Z) (nodes_general: (@list Z)) (first: Z) (last: Z) (next: Z) (l0: (@list Z)) (PreH1 : (nodes_general = (cons (first) (l0)))) (PreH2 : (first <> linklist_pre)) (PreH3 : (linklist_pre <> 0)) ,
-  (xizi_dllseg next first linklist_pre last l0 )
-  **  ((&((first)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> linklist_pre)
-  **  ((&((first)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> next)
-|--
-  “ (nodes_general <> (@nil Z)) ”
-  &&  (xizi_dllseg first linklist_pre linklist_pre last nodes_general )
-).
-
-Definition xizi_double_link_empty_rec_return_wit_1_general_split_goal_1 := 
-forall (linklist_pre: Z) (nodes_general: (@list Z)) (first: Z) (last: Z) (next: Z) (l0: (@list Z)) (PreH1 : (nodes_general = (cons (first) (l0)))) (PreH2 : (first <> linklist_pre)) (PreH3 : (linklist_pre <> 0)) ,
-  (xizi_dllseg next first linklist_pre last l0 )
-  **  ((&((first)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> linklist_pre)
-  **  ((&((first)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> next)
-|--
-  “ (nodes_general <> (@nil Z)) ”
-.
-
-Definition xizi_double_link_empty_rec_return_wit_1_general_split_goal_spatial := 
-forall (linklist_pre: Z) (nodes_general: (@list Z)) (first: Z) (last: Z) (next: Z) (l0: (@list Z)) (PreH1 : (nodes_general = (cons (first) (l0)))) (PreH2 : (first <> linklist_pre)) (PreH3 : (linklist_pre <> 0)) ,
-  (xizi_dllseg next first linklist_pre last l0 )
-  **  ((&((first)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> linklist_pre)
-  **  ((&((first)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> next)
-|--
-  (xizi_dllseg first linklist_pre linklist_pre last nodes_general )
-.
-
-Definition xizi_double_link_empty_rec_return_wit_2_general := 
-(
-forall (linklist_pre: Z) (nodes_general: (@list Z)) (first: Z) (last: Z) (PreH1 : (first = linklist_pre)) (PreH2 : (linklist_pre <> 0)) ,
-  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
-  **  (xizi_dllseg first linklist_pre linklist_pre last nodes_general )
-  **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> last)
-|--
-  “ (nodes_general = (@nil Z)) ” 
-  &&  “ (1 = 1) ”
-  &&  (xizi_dll linklist_pre nodes_general )
-) \/
-(
-forall (linklist_pre: Z) (nodes_general: (@list Z)) (first: Z) (last: Z) (PreH1 : (first = linklist_pre)) (PreH2 : (linklist_pre <> 0)) ,
-  (xizi_dllseg first linklist_pre linklist_pre last nodes_general )
-|--
-  “ (nodes_general = (@nil Z)) ”
-  &&  (xizi_dllseg first linklist_pre linklist_pre last nodes_general )
-).
-
-Definition xizi_double_link_empty_rec_return_wit_2_general_split_goal_1 := 
-forall (linklist_pre: Z) (nodes_general: (@list Z)) (first: Z) (last: Z) (PreH1 : (first = linklist_pre)) (PreH2 : (linklist_pre <> 0)) ,
-  (xizi_dllseg first linklist_pre linklist_pre last nodes_general )
-|--
-  “ (nodes_general = (@nil Z)) ”
-.
-
-Definition xizi_double_link_empty_rec_return_wit_2_general_split_goal_spatial := 
-forall (linklist_pre: Z) (nodes_general: (@list Z)) (first: Z) (last: Z) (PreH1 : (first = linklist_pre)) (PreH2 : (linklist_pre <> 0)) ,
-  (xizi_dllseg first linklist_pre linklist_pre last nodes_general )
-|--
-  (xizi_dllseg first linklist_pre linklist_pre last nodes_general )
-.
-
-Definition xizi_double_link_empty_rec_return_wit_3_nil_case := 
-forall (linklist_pre: Z) (PreH1 : (linklist_pre <> 0)) ,
-  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> linklist_pre)
-  **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> linklist_pre)
-|--
-  “ (1 = 1) ”
-  &&  (xizi_dll linklist_pre (@nil Z) )
-.
-
-Definition xizi_double_link_empty_rec_partial_solve_wit_1_general := 
-forall (linklist_pre: Z) (nodes_general: (@list Z)) ,
-  (xizi_dll linklist_pre nodes_general )
+forall (A: Type) (linklist_pre: Z) (nodes_general: (@list (@XiziStoreADLL.DL_Node A))) (storeA_general: (Z -> (A -> Assertion))) ,
+  (xizi_store_dll storeA_general linklist_pre nodes_general )
 |--
   EX (last: Z)  (first: Z) ,
   “ (linklist_pre <> 0) ”
   &&  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
-  **  (xizi_dllseg first linklist_pre linklist_pre last nodes_general )
   **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> last)
-.
-
-Definition xizi_double_link_empty_rec_partial_solve_wit_2_nil_case := 
-forall (linklist_pre: Z) ,
-  (xizi_dll linklist_pre (@nil Z) )
+  **  (XiziStoreADLL.dllseg storeA_general first linklist_pre linklist_pre last nodes_general )
+) \/
+(
+forall (A: Type) (linklist_pre: Z) (nodes_general: (@list (@XiziStoreADLL.DL_Node A))) (storeA_general: (Z -> (A -> Assertion))) ,
+  (xizi_store_dll storeA_general linklist_pre nodes_general )
 |--
+  EX (last: Z)  (first: Z) ,
   “ (linklist_pre <> 0) ”
-  &&  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> linklist_pre)
-  **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> linklist_pre)
+  &&  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
+  **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> last)
+  **  (XiziStoreADLL.dllseg storeA_general first linklist_pre linklist_pre last nodes_general )
+).
+
+Definition IsDoubleLinkListEmpty_return_wit_1 := 
+(
+forall (A: Type) (linklist_pre: Z) (nodes_general: (@list (@XiziStoreADLL.DL_Node A))) (storeA_general: (Z -> (A -> Assertion))) (first: Z) (last: Z) (PreH1 : (first <> linklist_pre)) (PreH2 : (linklist_pre <> 0)) ,
+  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
+  **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> last)
+  **  (XiziStoreADLL.dllseg storeA_general first linklist_pre linklist_pre last nodes_general )
+|--
+  “ (nodes_general <> (@nil (@XiziStoreADLL.DL_Node A))) ” 
+  &&  “ (0 = 0) ”
+  &&  (xizi_store_dll storeA_general linklist_pre nodes_general )
+) \/
+(
+forall (A: Type) (linklist_pre: Z) (nodes_general: (@list (@XiziStoreADLL.DL_Node A))) (storeA_general: (Z -> (A -> Assertion))) (first: Z) (last: Z) (PreH1 : (first <> linklist_pre)) (PreH2 : (linklist_pre <> 0)) ,
+  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
+  **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> last)
+  **  (XiziStoreADLL.dllseg storeA_general first linklist_pre linklist_pre last nodes_general )
+|--
+  “ (nodes_general <> (@nil (@XiziStoreADLL.DL_Node A))) ”
+  &&  (xizi_store_dll storeA_general linklist_pre nodes_general )
+).
+
+Definition IsDoubleLinkListEmpty_return_wit_1_split_goal_1 := 
+forall (A: Type) (linklist_pre: Z) (nodes_general: (@list (@XiziStoreADLL.DL_Node A))) (storeA_general: (Z -> (A -> Assertion))) (first: Z) (last: Z) (PreH1 : (first <> linklist_pre)) (PreH2 : (linklist_pre <> 0)) ,
+  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
+  **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> last)
+  **  (XiziStoreADLL.dllseg storeA_general first linklist_pre linklist_pre last nodes_general )
+|--
+  “ (nodes_general <> (@nil (@XiziStoreADLL.DL_Node A))) ”
 .
 
-Definition xizi_double_link_empty_rec_derive_nil_case_by_general := 
-forall (linklist_pre: Z) ,
-  (xizi_dll linklist_pre nil )
+Definition IsDoubleLinkListEmpty_return_wit_1_split_goal_spatial := 
+forall (A: Type) (linklist_pre: Z) (nodes_general: (@list (@XiziStoreADLL.DL_Node A))) (storeA_general: (Z -> (A -> Assertion))) (first: Z) (last: Z) (PreH1 : (first <> linklist_pre)) (PreH2 : (linklist_pre <> 0)) ,
+  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
+  **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> last)
+  **  (XiziStoreADLL.dllseg storeA_general first linklist_pre linklist_pre last nodes_general )
 |--
-EX (nodes_general: (@list Z)) ,
-  (((xizi_dll linklist_pre nodes_general ))
-  ||
-  ((xizi_dll linklist_pre nil )))
+  (xizi_store_dll storeA_general linklist_pre nodes_general )
+.
+
+Definition IsDoubleLinkListEmpty_return_wit_2 := 
+(
+forall (A: Type) (linklist_pre: Z) (nodes_general: (@list (@XiziStoreADLL.DL_Node A))) (storeA_general: (Z -> (A -> Assertion))) (first: Z) (last: Z) (PreH1 : (first = linklist_pre)) (PreH2 : (linklist_pre <> 0)) ,
+  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
+  **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> last)
+  **  (XiziStoreADLL.dllseg storeA_general first linklist_pre linklist_pre last nodes_general )
+|--
+  “ (nodes_general = (@nil (@XiziStoreADLL.DL_Node A))) ” 
+  &&  “ (1 = 1) ”
+  &&  (xizi_store_dll storeA_general linklist_pre nodes_general )
+) \/
+(
+forall (A: Type) (linklist_pre: Z) (nodes_general: (@list (@XiziStoreADLL.DL_Node A))) (storeA_general: (Z -> (A -> Assertion))) (first: Z) (last: Z) (PreH1 : (first = linklist_pre)) (PreH2 : (linklist_pre <> 0)) ,
+  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
+  **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> last)
+  **  (XiziStoreADLL.dllseg storeA_general first linklist_pre linklist_pre last nodes_general )
+|--
+  “ (nodes_general = (@nil (@XiziStoreADLL.DL_Node A))) ”
+  &&  (xizi_store_dll storeA_general linklist_pre nodes_general )
+).
+
+Definition IsDoubleLinkListEmpty_return_wit_2_split_goal_1 := 
+forall (A: Type) (linklist_pre: Z) (nodes_general: (@list (@XiziStoreADLL.DL_Node A))) (storeA_general: (Z -> (A -> Assertion))) (first: Z) (last: Z) (PreH1 : (first = linklist_pre)) (PreH2 : (linklist_pre <> 0)) ,
+  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
+  **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> last)
+  **  (XiziStoreADLL.dllseg storeA_general first linklist_pre linklist_pre last nodes_general )
+|--
+  “ (nodes_general = (@nil (@XiziStoreADLL.DL_Node A))) ”
+.
+
+Definition IsDoubleLinkListEmpty_return_wit_2_split_goal_spatial := 
+forall (A: Type) (linklist_pre: Z) (nodes_general: (@list (@XiziStoreADLL.DL_Node A))) (storeA_general: (Z -> (A -> Assertion))) (first: Z) (last: Z) (PreH1 : (first = linklist_pre)) (PreH2 : (linklist_pre <> 0)) ,
+  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
+  **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> last)
+  **  (XiziStoreADLL.dllseg storeA_general first linklist_pre linklist_pre last nodes_general )
+|--
+  (xizi_store_dll storeA_general linklist_pre nodes_general )
+.
+
+Definition IsDoubleLinkListEmpty_derive_nil_case_by_general := 
+forall (A: Type) ,
+forall (linklist_pre: Z) (storeA_nil_case: (Z -> (A -> Assertion))) ,
+  (xizi_store_dll storeA_nil_case linklist_pre nil )
+|--
+EX (A: Type) ,
+EX (storeA_general: (Z -> (A -> Assertion))) (nodes_general: (@list (@XiziStoreADLL.DL_Node A))) ,
+  ((xizi_store_dll storeA_general linklist_pre nodes_general ))
   **
   (((EX retval_2,
   “ (nodes_general <> nil) ” 
   &&  “ (retval_2 = 0) ”
-  &&  (xizi_dll linklist_pre nodes_general ))
+  &&  (xizi_store_dll storeA_general linklist_pre nodes_general ))
   ||
   (EX retval_2,
   “ (nodes_general = nil) ” 
   &&  “ (retval_2 = 1) ”
-  &&  (xizi_dll linklist_pre nodes_general )))
+  &&  (xizi_store_dll storeA_general linklist_pre nodes_general )))
   -*
   (EX retval,
   “ (retval = 1) ”
-  &&  (xizi_dll linklist_pre nil )))
+  &&  (xizi_store_dll storeA_nil_case linklist_pre nil )))
 .
 
 Module Type VC_Correct.
 
 Include xizi_double_link_Strategy_Correct.
 
-Axiom proof_of_xizi_double_link_empty_rec_return_wit_1_general : xizi_double_link_empty_rec_return_wit_1_general.
-Axiom proof_of_xizi_double_link_empty_rec_return_wit_2_general : xizi_double_link_empty_rec_return_wit_2_general.
-Axiom proof_of_xizi_double_link_empty_rec_return_wit_3_nil_case : xizi_double_link_empty_rec_return_wit_3_nil_case.
-Axiom proof_of_xizi_double_link_empty_rec_partial_solve_wit_1_general : xizi_double_link_empty_rec_partial_solve_wit_1_general.
-Axiom proof_of_xizi_double_link_empty_rec_partial_solve_wit_2_nil_case : xizi_double_link_empty_rec_partial_solve_wit_2_nil_case.
-Axiom proof_of_xizi_double_link_empty_rec_derive_nil_case_by_general : xizi_double_link_empty_rec_derive_nil_case_by_general.
+Axiom proof_of_IsDoubleLinkListEmpty_entail_wit_1 : IsDoubleLinkListEmpty_entail_wit_1.
+Axiom proof_of_IsDoubleLinkListEmpty_return_wit_1 : IsDoubleLinkListEmpty_return_wit_1.
+Axiom proof_of_IsDoubleLinkListEmpty_return_wit_2 : IsDoubleLinkListEmpty_return_wit_2.
+Axiom proof_of_IsDoubleLinkListEmpty_derive_nil_case_by_general : IsDoubleLinkListEmpty_derive_nil_case_by_general.
 
 End VC_Correct.

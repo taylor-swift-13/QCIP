@@ -1,11 +1,3 @@
-# Proof Strategy Report
+# 复用与证明
 
-- target witnesses: 2
-- grouping source: accepted vc-checking group plan
-- parent verification: passed
-- helper policy: no helper added; case_lib remains the annotation-approved first-value definition
-- manual policy: witness proofs only
-
-## Groups
-
-- `dll_head_empty_nonempty_observation`: two return witnesses; split abstract `nodes` into empty/nonempty cases, reopen/reclose `xizi_dll`, and use the abstract first-value definition. The only stale-proof repair was `PreH3` to `PreH2` after removing the redundant public non-null conjunct.
+规格设计与检查见 annotation_report.json；分组见 controller/rounds/；最终合并与 helper 来源见 vc_proving_report.json。历史证明见 before_crules_unification，仅作复用参考。

@@ -1,0 +1,843 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "vc_checking": {
+      "status": "completed",
+      "source_version": "cf39cdc23754588091b0dd885877086f8cc6b02c1f6a5fb36420438123f9d6e4",
+      "source_goal_version": "7b67615c8d9745ee11edee5da6ab022bd869fd780778d51505515f2c46a6540f",
+      "changed_files": [],
+      "blockers": [],
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "7b67615c8d9745ee11edee5da6ab022bd869fd780778d51505515f2c46a6540f",
+        "target_witnesses": [
+          "proof_of_SingleLinkListGetNextNode_entail_wit_1",
+          "proof_of_SingleLinkListGetNextNode_return_wit_1"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "payload_next",
+            "witness_names": [
+              "proof_of_SingleLinkListGetNextNode_entail_wit_1",
+              "proof_of_SingleLinkListGetNextNode_return_wit_1"
+            ],
+            "representative_witness": "proof_of_SingleLinkListGetNextNode_entail_wit_1",
+            "dependencies": [],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "payload_member_split",
+                "statement_shape": "For arbitrary A/storeA/root/l/p, In p (xizi_sll_next_ptrs l) implies xizi_sll_payload storeA root l entails exists next prefix a suffix, p<>0, l=prefix++Build_sll_payload_node a p::suffix, ~In p (xizi_sll_next_ptrs prefix), and prefix segment ** storeA p a ** target next field ** suffix list.",
+                "used_by_witnesses": [
+                  "proof_of_SingleLinkListGetNextNode_entail_wit_1"
+                ],
+                "premises": [
+                  {
+                    "premise": "In p (xizi_sll_next_ptrs l)",
+                    "discharged_by": "PreH1"
+                  },
+                  {
+                    "premise": "Whole payload list at root",
+                    "discharged_by": "Entire spatial antecedent"
+                  }
+                ],
+                "proof_strategy": "Induct on l generalized over root. Nil contradicts membership. Cons exposes nonzero root, root=ptr, payload, next field, tail. Compare ptr with p; equal chooses empty prefix. Unequal applies IH to tail membership and prepends current logical node, framing its payload/link and folding a segment step. The comparison and IH ensure prefix nonmembership.",
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              },
+              {
+                "name_hint": "payload_first_value_eq",
+                "statement_shape": "forall A storeA x l, xizi_sll_payload storeA x l |-- pure (x = xizi_sll_first_value (xizi_sll_next_ptrs l)).",
+                "used_by_witnesses": [
+                  "proof_of_SingleLinkListGetNextNode_return_wit_1"
+                ],
+                "premises": [
+                  {
+                    "premise": "Suffix payload list at next",
+                    "discharged_by": "Final spatial conjunct of return witness"
+                  }
+                ],
+                "proof_strategy": "Destruct l; nil gives x=0; cons gives x=ptr head. Use this pure consequence while retaining the spatial resource.",
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              },
+              {
+                "name_hint": "payload_segment_append",
+                "statement_shape": "forall A storeA x y prefix tail, xizi_sllseg_payload storeA x y prefix ** xizi_sll_payload storeA y tail |-- xizi_sll_payload storeA x (prefix ++ tail).",
+                "used_by_witnesses": [
+                  "proof_of_SingleLinkListGetNextNode_return_wit_1"
+                ],
+                "premises": [
+                  {
+                    "premise": "Prefix segment",
+                    "discharged_by": "First spatial conjunct of return witness"
+                  },
+                  {
+                    "premise": "Whole target::suffix at p",
+                    "discharged_by": "xizi_sll_payload_cons using PreH1 p<>0 and target payload/link/suffix resources"
+                  }
+                ],
+                "proof_strategy": "Induct on prefix generalized over x; nil gives x=y and emp; cons exposes its intermediate address and payload/link, then apply IH and fold one generic_sll step.",
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "likely_helper_declarations": [
+              {
+                "name_hint": "payload_member_split",
+                "statement_shape": "For arbitrary A/storeA/root/l/p, In p (xizi_sll_next_ptrs l) implies xizi_sll_payload storeA root l entails exists next prefix a suffix, p<>0, l=prefix++Build_sll_payload_node a p::suffix, ~In p (xizi_sll_next_ptrs prefix), and prefix segment ** storeA p a ** target next field ** suffix list.",
+                "used_by_witnesses": [
+                  "proof_of_SingleLinkListGetNextNode_entail_wit_1"
+                ],
+                "premises": [
+                  {
+                    "premise": "In p (xizi_sll_next_ptrs l)",
+                    "discharged_by": "PreH1"
+                  },
+                  {
+                    "premise": "Whole payload list at root",
+                    "discharged_by": "Entire spatial antecedent"
+                  }
+                ],
+                "proof_strategy": "Induct on l generalized over root. Nil contradicts membership. Cons exposes nonzero root, root=ptr, payload, next field, tail. Compare ptr with p; equal chooses empty prefix. Unequal applies IH to tail membership and prepends current logical node, framing its payload/link and folding a segment step. The comparison and IH ensure prefix nonmembership.",
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              },
+              {
+                "name_hint": "payload_first_value_eq",
+                "statement_shape": "forall A storeA x l, xizi_sll_payload storeA x l |-- pure (x = xizi_sll_first_value (xizi_sll_next_ptrs l)).",
+                "used_by_witnesses": [
+                  "proof_of_SingleLinkListGetNextNode_return_wit_1"
+                ],
+                "premises": [
+                  {
+                    "premise": "Suffix payload list at next",
+                    "discharged_by": "Final spatial conjunct of return witness"
+                  }
+                ],
+                "proof_strategy": "Destruct l; nil gives x=0; cons gives x=ptr head. Use this pure consequence while retaining the spatial resource.",
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              },
+              {
+                "name_hint": "payload_segment_append",
+                "statement_shape": "forall A storeA x y prefix tail, xizi_sllseg_payload storeA x y prefix ** xizi_sll_payload storeA y tail |-- xizi_sll_payload storeA x (prefix ++ tail).",
+                "used_by_witnesses": [
+                  "proof_of_SingleLinkListGetNextNode_return_wit_1"
+                ],
+                "premises": [
+                  {
+                    "premise": "Prefix segment",
+                    "discharged_by": "First spatial conjunct of return witness"
+                  },
+                  {
+                    "premise": "Whole target::suffix at p",
+                    "discharged_by": "xizi_sll_payload_cons using PreH1 p<>0 and target payload/link/suffix resources"
+                  }
+                ],
+                "proof_strategy": "Induct on prefix generalized over x; nil gives x=y and emp; cons exposes its intermediate address and payload/link, then apply IH and fold one generic_sll step.",
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "proof_strategy": "Prove suffixed payload-member split, first-pointer, and segment-append helpers in case_lib. Entail uses split; return uses next_value_app plus payload cons/append restoration. Use permitted structured spatial tactics, with no forbidden lemmas or black-box entailment shortcut.",
+            "natural_language_proof_strategy": "Conserve all arbitrary storeA resources during extraction and restoration; first-occurrence pointer projection links to existing next_value.",
+            "grouping_reason": "Two witnesses of the same query share one generic payload split/fold pattern and fit the maximum of 12."
+          }
+        ],
+        "natural_language_analysis": {
+          "status": "passed",
+          "witnesses": [
+            {
+              "witness_name": "proof_of_SingleLinkListGetNextNode_entail_wit_1",
+              "judgment": "needs-helper",
+              "vc_shape": {
+                "pre_spatial": "Whole payload SLL rooted at first projected address",
+                "pre_pure": "p in projected logical node list",
+                "pre_exists": "None at VC surface",
+                "post_spatial": "Prefix segment ** exact target payload ** target next field ** suffix list",
+                "post_pure": "p<>0; l=prefix++target::suffix; p absent from projected prefix",
+                "post_exists": "next, prefix, a, suffix"
+              },
+              "witness_instantiation": "First matching logical node gives a, prefix, suffix; unfolding its stored next field gives next.",
+              "space_plan": "Induct on l generalized over root. Nil contradicts membership. Cons exposes nonzero root, root=ptr, payload, next field, tail. Compare ptr with p; equal chooses empty prefix. Unequal applies IH to tail membership and prepends current logical node, framing its payload/link and folding a segment step. The comparison and IH ensure prefix nonmembership.",
+              "pure_plan": "Membership eliminates nil. Root-pointer equality binds the logical node. Generic_sll cons gives nonzero; first-occurrence selection yields prefix nonmembership without NoDup.",
+              "refinement_plan": "None; choose either identical disjunct in the goal definition.",
+              "used_existing_lemmas": [],
+              "candidate_helper_declarations": [
+                {
+                  "name_hint": "payload_member_split",
+                  "statement_shape": "For arbitrary A/storeA/root/l/p, In p (xizi_sll_next_ptrs l) implies xizi_sll_payload storeA root l entails exists next prefix a suffix, p<>0, l=prefix++Build_sll_payload_node a p::suffix, ~In p (xizi_sll_next_ptrs prefix), and prefix segment ** storeA p a ** target next field ** suffix list.",
+                  "used_by_witnesses": [
+                    "proof_of_SingleLinkListGetNextNode_entail_wit_1"
+                  ],
+                  "premises": [
+                    {
+                      "premise": "In p (xizi_sll_next_ptrs l)",
+                      "discharged_by": "PreH1"
+                    },
+                    {
+                      "premise": "Whole payload list at root",
+                      "discharged_by": "Entire spatial antecedent"
+                    }
+                  ],
+                  "proof_strategy": "Induct on l generalized over root. Nil contradicts membership. Cons exposes nonzero root, root=ptr, payload, next field, tail. Compare ptr with p; equal chooses empty prefix. Unequal applies IH to tail membership and prepends current logical node, framing its payload/link and folding a segment step. The comparison and IH ensure prefix nonmembership.",
+                  "destination": "group-local case_lib with helper_namespace.suffix"
+                }
+              ],
+              "premise_discharge": [
+                {
+                  "premise": "In p (xizi_sll_next_ptrs l)",
+                  "discharged_by": "PreH1"
+                },
+                {
+                  "premise": "Whole payload list at root",
+                  "discharged_by": "Entire spatial antecedent"
+                }
+              ],
+              "failure_signal": "None",
+              "recommended_next_phase": "vc-proving-preparing",
+              "analysis_group_candidate": "payload_next",
+              "grouping_reason": "Same function and generic payload split/fold pattern."
+            },
+            {
+              "witness_name": "proof_of_SingleLinkListGetNextNode_return_wit_1",
+              "judgment": "needs-helper",
+              "vc_shape": {
+                "pre_spatial": "Prefix segment ** storeA p a ** next field p|->next ** suffix list at next",
+                "pre_pure": "p<>0; l=prefix++Build_sll_payload_node a p::suffix; p absent from projected prefix",
+                "pre_exists": "All split components universally quantified",
+                "post_spatial": "Original whole list and all identical logical nodes/payloads",
+                "post_pure": "next=next_value(project l,p)",
+                "post_exists": "None"
+              },
+              "witness_instantiation": "Fold the supplied target logical node and exact suffix, then prefix.",
+              "space_plan": "Use xizi_sll_payload_cons with p<>0 and the target payload/link/suffix. Concatenate the prefix using payload_segment_append.",
+              "pure_plan": "Suffix predicate yields next=first_value(project suffix). Rewrite list decomposition through map_app/map_cons and apply existing xizi_sll_next_value_app with PreH3. Empty suffix gives next=0.",
+              "refinement_plan": "None; choose either identical goal disjunct.",
+              "used_existing_lemmas": [
+                "xizi_sll_payload_cons",
+                "xizi_sll_next_value_app",
+                "map_app"
+              ],
+              "candidate_helper_declarations": [
+                {
+                  "name_hint": "payload_first_value_eq",
+                  "statement_shape": "forall A storeA x l, xizi_sll_payload storeA x l |-- pure (x = xizi_sll_first_value (xizi_sll_next_ptrs l)).",
+                  "used_by_witnesses": [
+                    "proof_of_SingleLinkListGetNextNode_return_wit_1"
+                  ],
+                  "premises": [
+                    {
+                      "premise": "Suffix payload list at next",
+                      "discharged_by": "Final spatial conjunct of return witness"
+                    }
+                  ],
+                  "proof_strategy": "Destruct l; nil gives x=0; cons gives x=ptr head. Use this pure consequence while retaining the spatial resource.",
+                  "destination": "group-local case_lib with helper_namespace.suffix"
+                },
+                {
+                  "name_hint": "payload_segment_append",
+                  "statement_shape": "forall A storeA x y prefix tail, xizi_sllseg_payload storeA x y prefix ** xizi_sll_payload storeA y tail |-- xizi_sll_payload storeA x (prefix ++ tail).",
+                  "used_by_witnesses": [
+                    "proof_of_SingleLinkListGetNextNode_return_wit_1"
+                  ],
+                  "premises": [
+                    {
+                      "premise": "Prefix segment",
+                      "discharged_by": "First spatial conjunct of return witness"
+                    },
+                    {
+                      "premise": "Whole target::suffix at p",
+                      "discharged_by": "xizi_sll_payload_cons using PreH1 p<>0 and target payload/link/suffix resources"
+                    }
+                  ],
+                  "proof_strategy": "Induct on prefix generalized over x; nil gives x=y and emp; cons exposes its intermediate address and payload/link, then apply IH and fold one generic_sll step.",
+                  "destination": "group-local case_lib with helper_namespace.suffix"
+                }
+              ],
+              "premise_discharge": [
+                {
+                  "premise": "Suffix payload list at next",
+                  "discharged_by": "Final spatial conjunct of return witness"
+                },
+                {
+                  "premise": "Prefix segment",
+                  "discharged_by": "First spatial conjunct of return witness"
+                },
+                {
+                  "premise": "Whole target::suffix at p",
+                  "discharged_by": "xizi_sll_payload_cons using PreH1 p<>0 and target payload/link/suffix resources"
+                }
+              ],
+              "failure_signal": "None",
+              "recommended_next_phase": "vc-proving-preparing",
+              "analysis_group_candidate": "payload_next",
+              "grouping_reason": "Same split/restore helper family as entail witness."
+            }
+          ],
+          "analysis_groups": [
+            {
+              "group_id": "payload_next",
+              "witness_names": [
+                "proof_of_SingleLinkListGetNextNode_entail_wit_1",
+                "proof_of_SingleLinkListGetNextNode_return_wit_1"
+              ],
+              "representative_witness": "proof_of_SingleLinkListGetNextNode_entail_wit_1",
+              "dependencies": [],
+              "candidate_helper_declarations": [
+                {
+                  "name_hint": "payload_member_split",
+                  "statement_shape": "For arbitrary A/storeA/root/l/p, In p (xizi_sll_next_ptrs l) implies xizi_sll_payload storeA root l entails exists next prefix a suffix, p<>0, l=prefix++Build_sll_payload_node a p::suffix, ~In p (xizi_sll_next_ptrs prefix), and prefix segment ** storeA p a ** target next field ** suffix list.",
+                  "used_by_witnesses": [
+                    "proof_of_SingleLinkListGetNextNode_entail_wit_1"
+                  ],
+                  "premises": [
+                    {
+                      "premise": "In p (xizi_sll_next_ptrs l)",
+                      "discharged_by": "PreH1"
+                    },
+                    {
+                      "premise": "Whole payload list at root",
+                      "discharged_by": "Entire spatial antecedent"
+                    }
+                  ],
+                  "proof_strategy": "Induct on l generalized over root. Nil contradicts membership. Cons exposes nonzero root, root=ptr, payload, next field, tail. Compare ptr with p; equal chooses empty prefix. Unequal applies IH to tail membership and prepends current logical node, framing its payload/link and folding a segment step. The comparison and IH ensure prefix nonmembership.",
+                  "destination": "group-local case_lib with helper_namespace.suffix"
+                },
+                {
+                  "name_hint": "payload_first_value_eq",
+                  "statement_shape": "forall A storeA x l, xizi_sll_payload storeA x l |-- pure (x = xizi_sll_first_value (xizi_sll_next_ptrs l)).",
+                  "used_by_witnesses": [
+                    "proof_of_SingleLinkListGetNextNode_return_wit_1"
+                  ],
+                  "premises": [
+                    {
+                      "premise": "Suffix payload list at next",
+                      "discharged_by": "Final spatial conjunct of return witness"
+                    }
+                  ],
+                  "proof_strategy": "Destruct l; nil gives x=0; cons gives x=ptr head. Use this pure consequence while retaining the spatial resource.",
+                  "destination": "group-local case_lib with helper_namespace.suffix"
+                },
+                {
+                  "name_hint": "payload_segment_append",
+                  "statement_shape": "forall A storeA x y prefix tail, xizi_sllseg_payload storeA x y prefix ** xizi_sll_payload storeA y tail |-- xizi_sll_payload storeA x (prefix ++ tail).",
+                  "used_by_witnesses": [
+                    "proof_of_SingleLinkListGetNextNode_return_wit_1"
+                  ],
+                  "premises": [
+                    {
+                      "premise": "Prefix segment",
+                      "discharged_by": "First spatial conjunct of return witness"
+                    },
+                    {
+                      "premise": "Whole target::suffix at p",
+                      "discharged_by": "xizi_sll_payload_cons using PreH1 p<>0 and target payload/link/suffix resources"
+                    }
+                  ],
+                  "proof_strategy": "Induct on prefix generalized over x; nil gives x=y and emp; cons exposes its intermediate address and payload/link, then apply IH and fold one generic_sll step.",
+                  "destination": "group-local case_lib with helper_namespace.suffix"
+                }
+              ],
+              "likely_helper_declarations": [
+                {
+                  "name_hint": "payload_member_split",
+                  "statement_shape": "For arbitrary A/storeA/root/l/p, In p (xizi_sll_next_ptrs l) implies xizi_sll_payload storeA root l entails exists next prefix a suffix, p<>0, l=prefix++Build_sll_payload_node a p::suffix, ~In p (xizi_sll_next_ptrs prefix), and prefix segment ** storeA p a ** target next field ** suffix list.",
+                  "used_by_witnesses": [
+                    "proof_of_SingleLinkListGetNextNode_entail_wit_1"
+                  ],
+                  "premises": [
+                    {
+                      "premise": "In p (xizi_sll_next_ptrs l)",
+                      "discharged_by": "PreH1"
+                    },
+                    {
+                      "premise": "Whole payload list at root",
+                      "discharged_by": "Entire spatial antecedent"
+                    }
+                  ],
+                  "proof_strategy": "Induct on l generalized over root. Nil contradicts membership. Cons exposes nonzero root, root=ptr, payload, next field, tail. Compare ptr with p; equal chooses empty prefix. Unequal applies IH to tail membership and prepends current logical node, framing its payload/link and folding a segment step. The comparison and IH ensure prefix nonmembership.",
+                  "destination": "group-local case_lib with helper_namespace.suffix"
+                },
+                {
+                  "name_hint": "payload_first_value_eq",
+                  "statement_shape": "forall A storeA x l, xizi_sll_payload storeA x l |-- pure (x = xizi_sll_first_value (xizi_sll_next_ptrs l)).",
+                  "used_by_witnesses": [
+                    "proof_of_SingleLinkListGetNextNode_return_wit_1"
+                  ],
+                  "premises": [
+                    {
+                      "premise": "Suffix payload list at next",
+                      "discharged_by": "Final spatial conjunct of return witness"
+                    }
+                  ],
+                  "proof_strategy": "Destruct l; nil gives x=0; cons gives x=ptr head. Use this pure consequence while retaining the spatial resource.",
+                  "destination": "group-local case_lib with helper_namespace.suffix"
+                },
+                {
+                  "name_hint": "payload_segment_append",
+                  "statement_shape": "forall A storeA x y prefix tail, xizi_sllseg_payload storeA x y prefix ** xizi_sll_payload storeA y tail |-- xizi_sll_payload storeA x (prefix ++ tail).",
+                  "used_by_witnesses": [
+                    "proof_of_SingleLinkListGetNextNode_return_wit_1"
+                  ],
+                  "premises": [
+                    {
+                      "premise": "Prefix segment",
+                      "discharged_by": "First spatial conjunct of return witness"
+                    },
+                    {
+                      "premise": "Whole target::suffix at p",
+                      "discharged_by": "xizi_sll_payload_cons using PreH1 p<>0 and target payload/link/suffix resources"
+                    }
+                  ],
+                  "proof_strategy": "Induct on prefix generalized over x; nil gives x=y and emp; cons exposes its intermediate address and payload/link, then apply IH and fold one generic_sll step.",
+                  "destination": "group-local case_lib with helper_namespace.suffix"
+                }
+              ],
+              "proof_strategy": "Prove suffixed payload-member split, first-pointer, and segment-append helpers in case_lib. Entail uses split; return uses next_value_app plus payload cons/append restoration. Use permitted structured spatial tactics, with no forbidden lemmas or black-box entailment shortcut.",
+              "natural_language_proof_strategy": "Conserve all arbitrary storeA resources during extraction and restoration; first-occurrence pointer projection links to existing next_value.",
+              "grouping_reason": "Two witnesses of the same query share one generic payload split/fold pattern and fit the maximum of 12.",
+              "proof_group_ready": true,
+              "shared_proof_pattern": "payload list extraction/restoration",
+              "shared_space_plan": "Frame storeA through list induction",
+              "shared_pure_plan": "First occurrence and next_value_app",
+              "shared_refinement_plan": "None"
+            }
+          ],
+          "blockers": []
+        },
+        "blockers": []
+      },
+      "natural_language_analysis": {
+        "status": "passed",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_SingleLinkListGetNextNode_entail_wit_1",
+            "judgment": "needs-helper",
+            "vc_shape": {
+              "pre_spatial": "Whole payload SLL rooted at first projected address",
+              "pre_pure": "p in projected logical node list",
+              "pre_exists": "None at VC surface",
+              "post_spatial": "Prefix segment ** exact target payload ** target next field ** suffix list",
+              "post_pure": "p<>0; l=prefix++target::suffix; p absent from projected prefix",
+              "post_exists": "next, prefix, a, suffix"
+            },
+            "witness_instantiation": "First matching logical node gives a, prefix, suffix; unfolding its stored next field gives next.",
+            "space_plan": "Induct on l generalized over root. Nil contradicts membership. Cons exposes nonzero root, root=ptr, payload, next field, tail. Compare ptr with p; equal chooses empty prefix. Unequal applies IH to tail membership and prepends current logical node, framing its payload/link and folding a segment step. The comparison and IH ensure prefix nonmembership.",
+            "pure_plan": "Membership eliminates nil. Root-pointer equality binds the logical node. Generic_sll cons gives nonzero; first-occurrence selection yields prefix nonmembership without NoDup.",
+            "refinement_plan": "None; choose either identical disjunct in the goal definition.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "payload_member_split",
+                "statement_shape": "For arbitrary A/storeA/root/l/p, In p (xizi_sll_next_ptrs l) implies xizi_sll_payload storeA root l entails exists next prefix a suffix, p<>0, l=prefix++Build_sll_payload_node a p::suffix, ~In p (xizi_sll_next_ptrs prefix), and prefix segment ** storeA p a ** target next field ** suffix list.",
+                "used_by_witnesses": [
+                  "proof_of_SingleLinkListGetNextNode_entail_wit_1"
+                ],
+                "premises": [
+                  {
+                    "premise": "In p (xizi_sll_next_ptrs l)",
+                    "discharged_by": "PreH1"
+                  },
+                  {
+                    "premise": "Whole payload list at root",
+                    "discharged_by": "Entire spatial antecedent"
+                  }
+                ],
+                "proof_strategy": "Induct on l generalized over root. Nil contradicts membership. Cons exposes nonzero root, root=ptr, payload, next field, tail. Compare ptr with p; equal chooses empty prefix. Unequal applies IH to tail membership and prepends current logical node, framing its payload/link and folding a segment step. The comparison and IH ensure prefix nonmembership.",
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "premise_discharge": [
+              {
+                "premise": "In p (xizi_sll_next_ptrs l)",
+                "discharged_by": "PreH1"
+              },
+              {
+                "premise": "Whole payload list at root",
+                "discharged_by": "Entire spatial antecedent"
+              }
+            ],
+            "failure_signal": "None",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "payload_next",
+            "grouping_reason": "Same function and generic payload split/fold pattern."
+          },
+          {
+            "witness_name": "proof_of_SingleLinkListGetNextNode_return_wit_1",
+            "judgment": "needs-helper",
+            "vc_shape": {
+              "pre_spatial": "Prefix segment ** storeA p a ** next field p|->next ** suffix list at next",
+              "pre_pure": "p<>0; l=prefix++Build_sll_payload_node a p::suffix; p absent from projected prefix",
+              "pre_exists": "All split components universally quantified",
+              "post_spatial": "Original whole list and all identical logical nodes/payloads",
+              "post_pure": "next=next_value(project l,p)",
+              "post_exists": "None"
+            },
+            "witness_instantiation": "Fold the supplied target logical node and exact suffix, then prefix.",
+            "space_plan": "Use xizi_sll_payload_cons with p<>0 and the target payload/link/suffix. Concatenate the prefix using payload_segment_append.",
+            "pure_plan": "Suffix predicate yields next=first_value(project suffix). Rewrite list decomposition through map_app/map_cons and apply existing xizi_sll_next_value_app with PreH3. Empty suffix gives next=0.",
+            "refinement_plan": "None; choose either identical goal disjunct.",
+            "used_existing_lemmas": [
+              "xizi_sll_payload_cons",
+              "xizi_sll_next_value_app",
+              "map_app"
+            ],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "payload_first_value_eq",
+                "statement_shape": "forall A storeA x l, xizi_sll_payload storeA x l |-- pure (x = xizi_sll_first_value (xizi_sll_next_ptrs l)).",
+                "used_by_witnesses": [
+                  "proof_of_SingleLinkListGetNextNode_return_wit_1"
+                ],
+                "premises": [
+                  {
+                    "premise": "Suffix payload list at next",
+                    "discharged_by": "Final spatial conjunct of return witness"
+                  }
+                ],
+                "proof_strategy": "Destruct l; nil gives x=0; cons gives x=ptr head. Use this pure consequence while retaining the spatial resource.",
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              },
+              {
+                "name_hint": "payload_segment_append",
+                "statement_shape": "forall A storeA x y prefix tail, xizi_sllseg_payload storeA x y prefix ** xizi_sll_payload storeA y tail |-- xizi_sll_payload storeA x (prefix ++ tail).",
+                "used_by_witnesses": [
+                  "proof_of_SingleLinkListGetNextNode_return_wit_1"
+                ],
+                "premises": [
+                  {
+                    "premise": "Prefix segment",
+                    "discharged_by": "First spatial conjunct of return witness"
+                  },
+                  {
+                    "premise": "Whole target::suffix at p",
+                    "discharged_by": "xizi_sll_payload_cons using PreH1 p<>0 and target payload/link/suffix resources"
+                  }
+                ],
+                "proof_strategy": "Induct on prefix generalized over x; nil gives x=y and emp; cons exposes its intermediate address and payload/link, then apply IH and fold one generic_sll step.",
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "premise_discharge": [
+              {
+                "premise": "Suffix payload list at next",
+                "discharged_by": "Final spatial conjunct of return witness"
+              },
+              {
+                "premise": "Prefix segment",
+                "discharged_by": "First spatial conjunct of return witness"
+              },
+              {
+                "premise": "Whole target::suffix at p",
+                "discharged_by": "xizi_sll_payload_cons using PreH1 p<>0 and target payload/link/suffix resources"
+              }
+            ],
+            "failure_signal": "None",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "payload_next",
+            "grouping_reason": "Same split/restore helper family as entail witness."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "payload_next",
+            "witness_names": [
+              "proof_of_SingleLinkListGetNextNode_entail_wit_1",
+              "proof_of_SingleLinkListGetNextNode_return_wit_1"
+            ],
+            "representative_witness": "proof_of_SingleLinkListGetNextNode_entail_wit_1",
+            "dependencies": [],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "payload_member_split",
+                "statement_shape": "For arbitrary A/storeA/root/l/p, In p (xizi_sll_next_ptrs l) implies xizi_sll_payload storeA root l entails exists next prefix a suffix, p<>0, l=prefix++Build_sll_payload_node a p::suffix, ~In p (xizi_sll_next_ptrs prefix), and prefix segment ** storeA p a ** target next field ** suffix list.",
+                "used_by_witnesses": [
+                  "proof_of_SingleLinkListGetNextNode_entail_wit_1"
+                ],
+                "premises": [
+                  {
+                    "premise": "In p (xizi_sll_next_ptrs l)",
+                    "discharged_by": "PreH1"
+                  },
+                  {
+                    "premise": "Whole payload list at root",
+                    "discharged_by": "Entire spatial antecedent"
+                  }
+                ],
+                "proof_strategy": "Induct on l generalized over root. Nil contradicts membership. Cons exposes nonzero root, root=ptr, payload, next field, tail. Compare ptr with p; equal chooses empty prefix. Unequal applies IH to tail membership and prepends current logical node, framing its payload/link and folding a segment step. The comparison and IH ensure prefix nonmembership.",
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              },
+              {
+                "name_hint": "payload_first_value_eq",
+                "statement_shape": "forall A storeA x l, xizi_sll_payload storeA x l |-- pure (x = xizi_sll_first_value (xizi_sll_next_ptrs l)).",
+                "used_by_witnesses": [
+                  "proof_of_SingleLinkListGetNextNode_return_wit_1"
+                ],
+                "premises": [
+                  {
+                    "premise": "Suffix payload list at next",
+                    "discharged_by": "Final spatial conjunct of return witness"
+                  }
+                ],
+                "proof_strategy": "Destruct l; nil gives x=0; cons gives x=ptr head. Use this pure consequence while retaining the spatial resource.",
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              },
+              {
+                "name_hint": "payload_segment_append",
+                "statement_shape": "forall A storeA x y prefix tail, xizi_sllseg_payload storeA x y prefix ** xizi_sll_payload storeA y tail |-- xizi_sll_payload storeA x (prefix ++ tail).",
+                "used_by_witnesses": [
+                  "proof_of_SingleLinkListGetNextNode_return_wit_1"
+                ],
+                "premises": [
+                  {
+                    "premise": "Prefix segment",
+                    "discharged_by": "First spatial conjunct of return witness"
+                  },
+                  {
+                    "premise": "Whole target::suffix at p",
+                    "discharged_by": "xizi_sll_payload_cons using PreH1 p<>0 and target payload/link/suffix resources"
+                  }
+                ],
+                "proof_strategy": "Induct on prefix generalized over x; nil gives x=y and emp; cons exposes its intermediate address and payload/link, then apply IH and fold one generic_sll step.",
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "likely_helper_declarations": [
+              {
+                "name_hint": "payload_member_split",
+                "statement_shape": "For arbitrary A/storeA/root/l/p, In p (xizi_sll_next_ptrs l) implies xizi_sll_payload storeA root l entails exists next prefix a suffix, p<>0, l=prefix++Build_sll_payload_node a p::suffix, ~In p (xizi_sll_next_ptrs prefix), and prefix segment ** storeA p a ** target next field ** suffix list.",
+                "used_by_witnesses": [
+                  "proof_of_SingleLinkListGetNextNode_entail_wit_1"
+                ],
+                "premises": [
+                  {
+                    "premise": "In p (xizi_sll_next_ptrs l)",
+                    "discharged_by": "PreH1"
+                  },
+                  {
+                    "premise": "Whole payload list at root",
+                    "discharged_by": "Entire spatial antecedent"
+                  }
+                ],
+                "proof_strategy": "Induct on l generalized over root. Nil contradicts membership. Cons exposes nonzero root, root=ptr, payload, next field, tail. Compare ptr with p; equal chooses empty prefix. Unequal applies IH to tail membership and prepends current logical node, framing its payload/link and folding a segment step. The comparison and IH ensure prefix nonmembership.",
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              },
+              {
+                "name_hint": "payload_first_value_eq",
+                "statement_shape": "forall A storeA x l, xizi_sll_payload storeA x l |-- pure (x = xizi_sll_first_value (xizi_sll_next_ptrs l)).",
+                "used_by_witnesses": [
+                  "proof_of_SingleLinkListGetNextNode_return_wit_1"
+                ],
+                "premises": [
+                  {
+                    "premise": "Suffix payload list at next",
+                    "discharged_by": "Final spatial conjunct of return witness"
+                  }
+                ],
+                "proof_strategy": "Destruct l; nil gives x=0; cons gives x=ptr head. Use this pure consequence while retaining the spatial resource.",
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              },
+              {
+                "name_hint": "payload_segment_append",
+                "statement_shape": "forall A storeA x y prefix tail, xizi_sllseg_payload storeA x y prefix ** xizi_sll_payload storeA y tail |-- xizi_sll_payload storeA x (prefix ++ tail).",
+                "used_by_witnesses": [
+                  "proof_of_SingleLinkListGetNextNode_return_wit_1"
+                ],
+                "premises": [
+                  {
+                    "premise": "Prefix segment",
+                    "discharged_by": "First spatial conjunct of return witness"
+                  },
+                  {
+                    "premise": "Whole target::suffix at p",
+                    "discharged_by": "xizi_sll_payload_cons using PreH1 p<>0 and target payload/link/suffix resources"
+                  }
+                ],
+                "proof_strategy": "Induct on prefix generalized over x; nil gives x=y and emp; cons exposes its intermediate address and payload/link, then apply IH and fold one generic_sll step.",
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "proof_strategy": "Prove suffixed payload-member split, first-pointer, and segment-append helpers in case_lib. Entail uses split; return uses next_value_app plus payload cons/append restoration. Use permitted structured spatial tactics, with no forbidden lemmas or black-box entailment shortcut.",
+            "natural_language_proof_strategy": "Conserve all arbitrary storeA resources during extraction and restoration; first-occurrence pointer projection links to existing next_value.",
+            "grouping_reason": "Two witnesses of the same query share one generic payload split/fold pattern and fit the maximum of 12.",
+            "proof_group_ready": true,
+            "shared_proof_pattern": "payload list extraction/restoration",
+            "shared_space_plan": "Frame storeA through list induction",
+            "shared_pure_plan": "First occurrence and next_value_app",
+            "shared_refinement_plan": "None"
+          }
+        ],
+        "blockers": []
+      },
+      "evidence": {
+        "version_file_checks": [
+          {
+            "relative_path": "OUTPUT/xizi/xizi_single_link_next/source/xizi_single_link_next.c",
+            "sha256": "9d741871731e78d6e9d441de3c67b1e04f7c41bdb5427d7117937bb6d8e5a2c0",
+            "status": "passed"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_next/source/xizi_single_link_next_lib.v",
+            "sha256": "89337e173558cc2bb8af9cdd437aafc52b591f4ba2c546b893ef6be8fdb174e6",
+            "status": "passed"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_next/source/xizi_single_link_next_goal.v",
+            "sha256": "14055147024162bb5d311d96919d0af887631156bdd84a3a9ad1d4802d629196",
+            "status": "passed"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_next/source/xizi_single_link_next_proof_auto.v",
+            "sha256": "b22d8a4873f32394562d0a394da1645203542e2438caa5a2e21a697e7b08cbdc",
+            "status": "passed"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_next/source/xizi_single_link_next_proof_manual.v",
+            "sha256": "0c945cc53a2d706796f1973ae1a12538b560d656bdbe48a2b8ed8459743841d8",
+            "status": "passed"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_next/source/xizi_single_link_next_goal_check.v",
+            "sha256": "bfddabf5797d6d51c0090a37d9adb0160d74d80b7f718da500ee4af8e5093d1a",
+            "status": "passed"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_next/source/xizi_single_link_next_proof_diagnostics.v",
+            "sha256": "7b963dfaf70388e5ed4a28af4e6c0467b684a9a93db37bc0cfd19f17defdcc4b",
+            "status": "passed"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_next/source/diagnostics_snapshot.json",
+            "sha256": "f59a0013cc10a7ab1485580234136595117c855134c0eae5c7c5fb8a711370ea",
+            "status": "passed"
+          }
+        ],
+        "manual_witness_names": [
+          "proof_of_SingleLinkListGetNextNode_entail_wit_1",
+          "proof_of_SingleLinkListGetNextNode_return_wit_1"
+        ],
+        "manual_target_match": "passed",
+        "manual_cleaned": "passed",
+        "formal_write_actions": 0,
+        "coq_feedback": "Not run: semantic planning phase; group and parent checks remain required",
+        "recoverable_feedback": "An attempted generic git-status cleanliness assertion was invalid because git environment reported unrelated main-workspace changes. No files were modified; all eight declared formal/source artifact hashes match handoff. No git-clean claim is used."
+      },
+      "recommended_next_phase": "vc-proving-preparing",
+      "completed_at": "2026-09-09T15:35:59.677080+00:00"
+    }
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-09-09T15:40:00Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_single_link_next-20260909231243/rounds/xizi_single_link_next-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    },
+    "controller_simple_repairs": [
+      {
+        "kind": "materialized-inline-group-plan",
+        "source": "/home/yangfp/QCIP/reports/xizi_single_link_next-20260909231243/rounds/xizi_single_link_next-vc-checking-r1/agent_report.json",
+        "target": "/home/yangfp/QCIP/reports/xizi_single_link_next-20260909231243/rounds/xizi_single_link_next-vc-checking-r1/group_plan.json",
+        "reason": "vc-checking report included an inline group_plan but the default group_plan.json artifact was missing"
+      }
+    ],
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-09-09T15:40:00Z",
+      "source_version": {
+        "digest": "cf39cdc23754588091b0dd885877086f8cc6b02c1f6a5fb36420438123f9d6e4",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_single_link_next-20260909231243/xizi_single_link_next-annotation-r1/OUTPUT/xizi/xizi_single_link_next/source/xizi_single_link_next.c",
+            "relative_path": "OUTPUT/xizi/xizi_single_link_next/source/xizi_single_link_next.c",
+            "role": "target-c-annotated",
+            "sha256": "9d741871731e78d6e9d441de3c67b1e04f7c41bdb5427d7117937bb6d8e5a2c0",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_single_link_next-20260909231243/xizi_single_link_next-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_next/source/xizi_single_link_next_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_next/source/xizi_single_link_next_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "89337e173558cc2bb8af9cdd437aafc52b591f4ba2c546b893ef6be8fdb174e6",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "7b67615c8d9745ee11edee5da6ab022bd869fd780778d51505515f2c46a6540f",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_next/source/xizi_single_link_next_goal.v",
+            "role": "generated-goal",
+            "sha256": "14055147024162bb5d311d96919d0af887631156bdd84a3a9ad1d4802d629196",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_next/source/xizi_single_link_next_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "b22d8a4873f32394562d0a394da1645203542e2438caa5a2e21a697e7b08cbdc",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_next/source/xizi_single_link_next_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "0c945cc53a2d706796f1973ae1a12538b560d656bdbe48a2b8ed8459743841d8",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_next/source/xizi_single_link_next_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "bfddabf5797d6d51c0090a37d9adb0160d74d80b7f718da500ee4af8e5093d1a",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_next/source/xizi_single_link_next_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "7b963dfaf70388e5ed4a28af4e6c0467b684a9a93db37bc0cfd19f17defdcc4b",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_next/source/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "f59a0013cc10a7ab1485580234136595117c855134c0eae5c7c5fb8a711370ea",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_SingleLinkListGetNextNode_entail_wit_1",
+          "proof_of_SingleLinkListGetNextNode_return_wit_1"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_SingleLinkListGetNextNode_entail_wit_1": "1924f177cd8ded0ff838ffaf86eee071165a3bc37d1b071f9cc713470818d599",
+          "proof_of_SingleLinkListGetNextNode_return_wit_1": "fc4c9f188b10237dc0bb3efbc0a48533e9f290984b39c97279c69b923fa70070"
+        },
+        "witnesses": [
+          {
+            "end_line": 27,
+            "name": "proof_of_SingleLinkListGetNextNode_entail_wit_1",
+            "start_line": 25,
+            "statement_hash": "1924f177cd8ded0ff838ffaf86eee071165a3bc37d1b071f9cc713470818d599",
+            "target_symbol": "SingleLinkListGetNextNode_entail_wit_1"
+          },
+          {
+            "end_line": 30,
+            "name": "proof_of_SingleLinkListGetNextNode_return_wit_1",
+            "start_line": 28,
+            "statement_hash": "fc4c9f188b10237dc0bb3efbc0a48533e9f290984b39c97279c69b923fa70070",
+            "target_symbol": "SingleLinkListGetNextNode_return_wit_1"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_single_link_next-20260909231243/rounds/xizi_single_link_next-vc-checking-r1/group_plan.json",
+      "target_witnesses": [
+        "proof_of_SingleLinkListGetNextNode_entail_wit_1",
+        "proof_of_SingleLinkListGetNextNode_return_wit_1"
+      ]
+    }
+  },
+  "blockers": []
+}

@@ -17,8 +17,11 @@ Local Open Scope Z_scope.
 Local Open Scope sets.
 Local Open Scope string_scope.
 Local Open Scope list.
-Import naive_C_Rules.
+Import CRules.
 From QCIPLib.xizi.xizi_double_link_common Require Import xizi_double_link_lib.
 From SimpleC.EE.OUTPUT.xizi.xizi_double_link_remove_node.source Require Import xizi_double_link_remove_node_lib.
 Local Open Scope sac.
+
+Lemma proof_of_DoubleLinkListRmNode_return_wit_1_split_goal_spatial : DoubleLinkListRmNode_return_wit_1_split_goal_spatial.
+Proof. Abort.
 

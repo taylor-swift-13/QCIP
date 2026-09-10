@@ -1,0 +1,1364 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_version": {
+    "digest": "f6f27a70d54fd0b0134caa9e398f3f20e8d62c7f49508dcd3e3d42ae8a74fb05",
+    "digest_input_policy": "relative_path+sha256+state+role only",
+    "files": [
+      {
+        "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_insert_before-20260909234720/xizi_double_link_insert_before-annotation-r1/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before.c",
+        "relative_path": "OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before.c",
+        "role": "target-c-annotated",
+        "sha256": "add1a72d36535333d5b5fbc4a4dd03b22e214682c9b5b697c0134706dac2a643",
+        "state": "present"
+      },
+      {
+        "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_insert_before-20260909234720/xizi_double_link_insert_before-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_lib.v",
+        "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_lib.v",
+        "role": "case-lib-seed",
+        "sha256": "812cc3b4ab77803f423df694d612d705a8465d1a67cc07fe99b9800f6a99c791",
+        "state": "present"
+      }
+    ],
+    "schema_version": "qcp-source-version/v1"
+  },
+  "source_goal_version": "9e8d606336ba084cb482c91ebe95545623c4c0dd81df5f5027cb55a053868362",
+  "target_witnesses": [
+    "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+    "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+    "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+    "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+    "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4",
+    "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case",
+    "proof_of_DoubleLinkListInsertNodeBefore_derive_member_case_by_dispatch_case"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "insert_before_payload",
+      "witness_names": [
+        "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4",
+        "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case",
+        "proof_of_DoubleLinkListInsertNodeBefore_derive_member_case_by_dispatch_case"
+      ],
+      "representative_witness": "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "insert_before_payload_first_split",
+          "statement_shape": "forall A nodes anchor, In anchor (xizi_dll_ptrs nodes) -> exists prefix current suffix, nodes = prefix ++ current :: suffix /\\ getPtr current = anchor /\\ ~ In anchor (xizi_dll_ptrs prefix).",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1"
+          ],
+          "premises": [
+            {
+              "premise": "In anchor (xizi_dll_ptrs nodes)",
+              "discharged_by": "member disjunct of xizi_double_link_insert_before_anchor",
+              "needs_unfold": [
+                "xizi_double_link_insert_before_anchor",
+                "xizi_dll_ptrs"
+              ],
+              "arithmetic": "none",
+              "spatial_resource": "none"
+            }
+          ],
+          "proof_route": "Induct on the logical node list, selecting the first pointer match. This is a logical list split, not a new executable algorithm.",
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "insert_before_payload_frame",
+          "statement_shape": "For result = prefix ++ inserted :: suffix, payloads storeA (prefix ++ suffix) ** storeA (getPtr inserted) (getData inserted) |-- payloads storeA result. Includes prefix=nodes,suffix=[] for append.",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1"
+          ],
+          "premises": [
+            {
+              "premise": "nodes = prefix ++ suffix and result is the same split with inserted added",
+              "discharged_by": "logical first split in member branch; choose suffix=[] for sentinel branch",
+              "needs_unfold": [
+                "xizi_dll_payloads"
+              ],
+              "arithmetic": "none",
+              "spatial_resource": "dll_decompose__storeA_shared supplies old payloads; entry VC supplies storeA linklist_node data"
+            }
+          ],
+          "proof_route": "Use payloads_split__storeA_shared and payloads_join__storeA_shared; insert the one existing storeA resource by spatial rearrangement. Do not assume any property of storeA.",
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "insert_before_structural_cuts_and_reassembly",
+          "statement_shape": "Structural DLL head ptrs admits a first-anchor predecessor cut (prefix empty/nonempty) or a sentinel tail cut (ptrs empty/nonempty). Conversely updated predecessor/inserted/anchor links with matching prefix and suffix segments entail DLL head (prefix ++ inserted :: anchor :: suffix), or DLL head (ptrs ++ [inserted]) in the sentinel case. Keep all needed head/node links framed when changing segment endpoints.",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+            "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+            "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+            "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+            "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4"
+          ],
+          "premises": [
+            {
+              "premise": "head != 0 and inserted != 0",
+              "discharged_by": "entry DLL and xizi_dll_node definitions; return PreH facts",
+              "needs_unfold": [
+                "xizi_dll_node",
+                "xizi_dll",
+                "XiziDLL.dll"
+              ],
+              "arithmetic": "none",
+              "spatial_resource": "owned head fields and fresh node fields"
+            },
+            {
+              "premise": "member decomposition and first occurrence; alternatively anchor=head",
+              "discharged_by": "anchor disjunction, pure first-split lemma and branch equalities",
+              "needs_unfold": [
+                "xizi_double_link_insert_before_anchor"
+              ],
+              "arithmetic": "list app/cons equalities",
+              "spatial_resource": "DLL segments determine actual predecessor, next, first and last"
+            },
+            {
+              "premise": "new segment node differs from stop and head",
+              "discharged_by": "original segment guards for old nodes; for inserted/head or retargeted endpoints, separated next-field ownership rules out equal addresses via dup_store_ptr",
+              "needs_unfold": [
+                "xizi_dll_links",
+                "XiziDLL.links"
+              ],
+              "arithmetic": "address equality substitution only",
+              "spatial_resource": "retain sentinel and relevant node links as a frame; do not consume them merely to retain a pure disequality"
+            }
+          ],
+          "proof_route": "Induct over prefix/tail for cut or append; fold updated links; use existing DLL open/close, segment unfold, and snoc patterns. Helpers may be specialized to the four structural cases.",
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "insert_before_head_absent",
+          "statement_shape": "xizi_store_dll storeA head nodes |-- pure (~ In head (xizi_dll_ptrs nodes)) && xizi_store_dll storeA head nodes; plus pure absence implies xizi_insert_before_payload nodes head inserted result -> result = nodes ++ [inserted].",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+            "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case"
+          ],
+          "premises": [
+            {
+              "premise": "owned DLL with stop=head",
+              "discharged_by": "entry/sentinel VC precondition",
+              "needs_unfold": [
+                "xizi_store_dll",
+                "XiziStoreADLL.store_dll",
+                "XiziStoreADLL.dllseg"
+              ],
+              "arithmetic": "none",
+              "spatial_resource": "each DLL segment element explicitly differs from stop; inductively extract the pure absence fact while preserving all resources"
+            },
+            {
+              "premise": "~In head (xizi_dll_ptrs nodes)",
+              "discharged_by": "previous spatial fact, extracted before constructing the dispatch wand",
+              "needs_unfold": [
+                "xizi_insert_before_payload",
+                "xizi_dll_ptrs"
+              ],
+              "arithmetic": "map_app/in_app_iff membership contradiction",
+              "spatial_resource": "none"
+            }
+          ],
+          "proof_route": "Segment induction gives head exclusion. In the payload relation the matching branch contradicts absence; the append branch gives exact logical node equality, stronger than pointer equality.",
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        }
+      ],
+      "likely_helper_declarations": [
+        {
+          "name_hint": "insert_before_payload_first_split",
+          "statement_shape": "forall A nodes anchor, In anchor (xizi_dll_ptrs nodes) -> exists prefix current suffix, nodes = prefix ++ current :: suffix /\\ getPtr current = anchor /\\ ~ In anchor (xizi_dll_ptrs prefix).",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1"
+          ],
+          "premises": [
+            {
+              "premise": "In anchor (xizi_dll_ptrs nodes)",
+              "discharged_by": "member disjunct of xizi_double_link_insert_before_anchor",
+              "needs_unfold": [
+                "xizi_double_link_insert_before_anchor",
+                "xizi_dll_ptrs"
+              ],
+              "arithmetic": "none",
+              "spatial_resource": "none"
+            }
+          ],
+          "proof_route": "Induct on the logical node list, selecting the first pointer match. This is a logical list split, not a new executable algorithm.",
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "insert_before_payload_frame",
+          "statement_shape": "For result = prefix ++ inserted :: suffix, payloads storeA (prefix ++ suffix) ** storeA (getPtr inserted) (getData inserted) |-- payloads storeA result. Includes prefix=nodes,suffix=[] for append.",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1"
+          ],
+          "premises": [
+            {
+              "premise": "nodes = prefix ++ suffix and result is the same split with inserted added",
+              "discharged_by": "logical first split in member branch; choose suffix=[] for sentinel branch",
+              "needs_unfold": [
+                "xizi_dll_payloads"
+              ],
+              "arithmetic": "none",
+              "spatial_resource": "dll_decompose__storeA_shared supplies old payloads; entry VC supplies storeA linklist_node data"
+            }
+          ],
+          "proof_route": "Use payloads_split__storeA_shared and payloads_join__storeA_shared; insert the one existing storeA resource by spatial rearrangement. Do not assume any property of storeA.",
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "insert_before_structural_cuts_and_reassembly",
+          "statement_shape": "Structural DLL head ptrs admits a first-anchor predecessor cut (prefix empty/nonempty) or a sentinel tail cut (ptrs empty/nonempty). Conversely updated predecessor/inserted/anchor links with matching prefix and suffix segments entail DLL head (prefix ++ inserted :: anchor :: suffix), or DLL head (ptrs ++ [inserted]) in the sentinel case. Keep all needed head/node links framed when changing segment endpoints.",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+            "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+            "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+            "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+            "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4"
+          ],
+          "premises": [
+            {
+              "premise": "head != 0 and inserted != 0",
+              "discharged_by": "entry DLL and xizi_dll_node definitions; return PreH facts",
+              "needs_unfold": [
+                "xizi_dll_node",
+                "xizi_dll",
+                "XiziDLL.dll"
+              ],
+              "arithmetic": "none",
+              "spatial_resource": "owned head fields and fresh node fields"
+            },
+            {
+              "premise": "member decomposition and first occurrence; alternatively anchor=head",
+              "discharged_by": "anchor disjunction, pure first-split lemma and branch equalities",
+              "needs_unfold": [
+                "xizi_double_link_insert_before_anchor"
+              ],
+              "arithmetic": "list app/cons equalities",
+              "spatial_resource": "DLL segments determine actual predecessor, next, first and last"
+            },
+            {
+              "premise": "new segment node differs from stop and head",
+              "discharged_by": "original segment guards for old nodes; for inserted/head or retargeted endpoints, separated next-field ownership rules out equal addresses via dup_store_ptr",
+              "needs_unfold": [
+                "xizi_dll_links",
+                "XiziDLL.links"
+              ],
+              "arithmetic": "address equality substitution only",
+              "spatial_resource": "retain sentinel and relevant node links as a frame; do not consume them merely to retain a pure disequality"
+            }
+          ],
+          "proof_route": "Induct over prefix/tail for cut or append; fold updated links; use existing DLL open/close, segment unfold, and snoc patterns. Helpers may be specialized to the four structural cases.",
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "insert_before_head_absent",
+          "statement_shape": "xizi_store_dll storeA head nodes |-- pure (~ In head (xizi_dll_ptrs nodes)) && xizi_store_dll storeA head nodes; plus pure absence implies xizi_insert_before_payload nodes head inserted result -> result = nodes ++ [inserted].",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+            "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case"
+          ],
+          "premises": [
+            {
+              "premise": "owned DLL with stop=head",
+              "discharged_by": "entry/sentinel VC precondition",
+              "needs_unfold": [
+                "xizi_store_dll",
+                "XiziStoreADLL.store_dll",
+                "XiziStoreADLL.dllseg"
+              ],
+              "arithmetic": "none",
+              "spatial_resource": "each DLL segment element explicitly differs from stop; inductively extract the pure absence fact while preserving all resources"
+            },
+            {
+              "premise": "~In head (xizi_dll_ptrs nodes)",
+              "discharged_by": "previous spatial fact, extracted before constructing the dispatch wand",
+              "needs_unfold": [
+                "xizi_insert_before_payload",
+                "xizi_dll_ptrs"
+              ],
+              "arithmetic": "map_app/in_app_iff membership contradiction",
+              "spatial_resource": "none"
+            }
+          ],
+          "proof_route": "Segment induction gives head exclusion. In the payload relation the matching branch contradicts absence; the append branch gives exact logical node equality, stronger than pointer equality.",
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        }
+      ],
+      "proof_strategy": "Keep all seven witnesses in one group: extract and rebuild the generic payload frame using shared bridges, prove specialized structural first-anchor/sentinel cuts and reassembly, then close dispatch derivations. Return VCs are duplicate proposition disjunctions; prove their left disjunct. Use suffix __insert_before_payload for every new helper. All helpers live only in case_lib; preserve seed declarations and shared common library.",
+      "grouping_reason": "Single function with one shared structural cut/reassembly and payload preservation family; 7 <= 12 targets, no cross-group dependency or distinct refinement strategy. This keeps helper development local and avoids duplication.",
+      "requires_generated_file_changes": "no",
+      "requires_witness_statement_changes": "no"
+    }
+  ],
+  "natural_language_analysis": {
+    "schema_version": "qcp-vc-natural-language-analysis/v1",
+    "source_goal_version": {
+      "digest": "9e8d606336ba084cb482c91ebe95545623c4c0dd81df5f5027cb55a053868362",
+      "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+      "generated_files": [
+        {
+          "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_goal.v",
+          "role": "generated-goal",
+          "sha256": "f743c45b19212533cb7c11f278cd99a52cb74e2a1aa55ba5cc6650cfa102d592",
+          "state": "present"
+        },
+        {
+          "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_proof_auto.v",
+          "role": "generated-proof-auto",
+          "sha256": "c361956fe9792e2af72e4e929ad65a7ec8c4dfcca0b598a93b4ee7bb015f15cd",
+          "state": "present"
+        },
+        {
+          "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_proof_manual.v",
+          "role": "generated-proof-manual",
+          "sha256": "000a061a6b5c8d1144988f03f78ec36b0594401e74a3760d7e3f0c70213e2d75",
+          "state": "present"
+        },
+        {
+          "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_goal_check.v",
+          "role": "generated-goal-check",
+          "sha256": "e2336fe02b87005ddbf0edc260360ded3999fc3412544643ad07a033e52b18e2",
+          "state": "present"
+        },
+        {
+          "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_proof_diagnostics.v",
+          "role": "generated-diagnostics",
+          "sha256": "8d40e95b6fc55d1000e793c6b3982a4f89a8f5575396931e0dc397287a29184d",
+          "state": "present"
+        },
+        {
+          "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/diagnostics_snapshot.json",
+          "role": "generated-diagnostics-snapshot",
+          "sha256": "b5c6213465be80fc7039542c0b39d79c8683500acdb5d8cc7bfc6e9d16df5793",
+          "state": "present"
+        }
+      ],
+      "schema_version": "qcp-source-goal-version/v1",
+      "target_witnesses": [
+        "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4",
+        "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case",
+        "proof_of_DoubleLinkListInsertNodeBefore_derive_member_case_by_dispatch_case"
+      ],
+      "witness_statement_hashes": {
+        "proof_of_DoubleLinkListInsertNodeBefore_derive_member_case_by_dispatch_case": "581c6363a143ff209ecd985d332320c65c8dcb41da94dcbf022e4f30cdc4dde8",
+        "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case": "d17e649e88f35c61cfe80c653be91cd6b0e948d04d7fc589322d5661d87d973d",
+        "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1": "5de472d40a7d870fae5aaac77fc3f736e8e3215c466ac84fdd520a8ed4a422b9",
+        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1": "7f15997ce6ff67e0d799e9cb1ab6c1eb2b10dc494e14ac00cd8e21ea440b3761",
+        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2": "dd472b4d9848e211c6702e1c180eb9933ee2077fb41e27f3fc9e4d2afd98a63a",
+        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3": "927b70d1f61130e73a96189cd13fb13556c58e81e30d640fa9fe4b0bad022745",
+        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4": "6f4fdc82470ed3dfccd465c132589a5565c813a9fa79f00dddc8a08aa6f23e5d"
+      },
+      "witnesses": [
+        {
+          "end_line": 27,
+          "name": "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+          "start_line": 25,
+          "statement_hash": "5de472d40a7d870fae5aaac77fc3f736e8e3215c466ac84fdd520a8ed4a422b9",
+          "target_symbol": "DoubleLinkListInsertNodeBefore_entail_wit_1"
+        },
+        {
+          "end_line": 30,
+          "name": "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+          "start_line": 28,
+          "statement_hash": "7f15997ce6ff67e0d799e9cb1ab6c1eb2b10dc494e14ac00cd8e21ea440b3761",
+          "target_symbol": "DoubleLinkListInsertNodeBefore_return_wit_1"
+        },
+        {
+          "end_line": 33,
+          "name": "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+          "start_line": 31,
+          "statement_hash": "dd472b4d9848e211c6702e1c180eb9933ee2077fb41e27f3fc9e4d2afd98a63a",
+          "target_symbol": "DoubleLinkListInsertNodeBefore_return_wit_2"
+        },
+        {
+          "end_line": 36,
+          "name": "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+          "start_line": 34,
+          "statement_hash": "927b70d1f61130e73a96189cd13fb13556c58e81e30d640fa9fe4b0bad022745",
+          "target_symbol": "DoubleLinkListInsertNodeBefore_return_wit_3"
+        },
+        {
+          "end_line": 39,
+          "name": "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4",
+          "start_line": 37,
+          "statement_hash": "6f4fdc82470ed3dfccd465c132589a5565c813a9fa79f00dddc8a08aa6f23e5d",
+          "target_symbol": "DoubleLinkListInsertNodeBefore_return_wit_4"
+        },
+        {
+          "end_line": 42,
+          "name": "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case",
+          "start_line": 40,
+          "statement_hash": "d17e649e88f35c61cfe80c653be91cd6b0e948d04d7fc589322d5661d87d973d",
+          "target_symbol": "DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case"
+        },
+        {
+          "end_line": 45,
+          "name": "proof_of_DoubleLinkListInsertNodeBefore_derive_member_case_by_dispatch_case",
+          "start_line": 43,
+          "statement_hash": "581c6363a143ff209ecd985d332320c65c8dcb41da94dcbf022e4f30cdc4dde8",
+          "target_symbol": "DoubleLinkListInsertNodeBefore_derive_member_case_by_dispatch_case"
+        }
+      ]
+    },
+    "witnesses": [
+      {
+        "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+        "judgment": "needs-helper",
+        "vc_shape": {
+          "pre_spatial": "local linklist cell ** generic DLL head nodes ** detached inserted structural node ** storeA inserted data",
+          "pre_pure": "anchor is member of ptrs(nodes) or equals head",
+          "pre_exists": "all generated forall binders remain unchanged; segment internals supply next/first/last addresses when unfolded",
+          "post_spatial": "one of four explicit structural cuts, unchanged local cell and detached structural node, plus payloads storeA result",
+          "post_pure": "result satisfies exact logical insertion; ptrs result equals old address operation; head/inserted nonnull; first occurrence and predecessor case equations",
+          "post_exists": "Choose ptrs=map getPtr nodes. Member: logical first split prefix/current/suffix, result=prefix++inserted::current::suffix. Sentinel: result=nodes++[inserted]. Choose concrete cut pointers by unfolding original DLL."
+        },
+        "witness_instantiation": "Choose ptrs=map getPtr nodes. Member: logical first split prefix/current/suffix, result=prefix++inserted::current::suffix. Sentinel: result=nodes++[inserted]. Choose concrete cut pointers by unfolding original DLL.",
+        "space_plan": "First dll_decompose; rearrange old payloads and inserted payload into result. Independently expose member anchor plus predecessor, splitting empty/nonempty prefix; or expose sentinel tail, splitting empty/nonempty list. Choose the matching generated spatial disjunct. Preserve all structural ownership.",
+        "pure_plan": "Membership first split establishes ~In anchor prefix. Sentinel exclusion follows every DLL segment node differs from stop=head. Existing address semantics lemma yields ptrs equation; existing first-occurrence/absent-append lemmas yield branch equations. Nonnull facts come from DLL and detached-node predicates.",
+        "refinement_plan": "Direct separation-logic contract; no safeExec/refinement state.",
+        "used_existing_lemmas": [
+          "dll_decompose__storeA_shared",
+          "dll_compose__storeA_shared",
+          "payloads_split__storeA_shared",
+          "payloads_join__storeA_shared",
+          "xizi_dll_open",
+          "xizi_dll_close",
+          "xizi_dllseg_unfold",
+          "xizi_dllseg_snoc__dll_len_payload_cycle",
+          "xizi_dll_links_fold__dll_len_payload_cycle",
+          "xizi_in_first_split__insert_before_dispatch_and_reassembly",
+          "xizi_insert_before_first_occurrence__insert_before_dispatch_and_reassembly",
+          "xizi_insert_before_absent_append__insert_before_dispatch_and_reassembly",
+          "xizi_insert_before_payload_address_semantics"
+        ],
+        "candidate_helper_declarations": [
+          {
+            "name_hint": "insert_before_payload_first_split",
+            "statement_shape": "forall A nodes anchor, In anchor (xizi_dll_ptrs nodes) -> exists prefix current suffix, nodes = prefix ++ current :: suffix /\\ getPtr current = anchor /\\ ~ In anchor (xizi_dll_ptrs prefix).",
+            "used_by_witnesses": [
+              "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1"
+            ],
+            "premises": [
+              {
+                "premise": "In anchor (xizi_dll_ptrs nodes)",
+                "discharged_by": "member disjunct of xizi_double_link_insert_before_anchor",
+                "needs_unfold": [
+                  "xizi_double_link_insert_before_anchor",
+                  "xizi_dll_ptrs"
+                ],
+                "arithmetic": "none",
+                "spatial_resource": "none"
+              }
+            ],
+            "proof_route": "Induct on the logical node list, selecting the first pointer match. This is a logical list split, not a new executable algorithm.",
+            "destination": "group-local case_lib with helper_namespace.suffix"
+          },
+          {
+            "name_hint": "insert_before_payload_frame",
+            "statement_shape": "For result = prefix ++ inserted :: suffix, payloads storeA (prefix ++ suffix) ** storeA (getPtr inserted) (getData inserted) |-- payloads storeA result. Includes prefix=nodes,suffix=[] for append.",
+            "used_by_witnesses": [
+              "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1"
+            ],
+            "premises": [
+              {
+                "premise": "nodes = prefix ++ suffix and result is the same split with inserted added",
+                "discharged_by": "logical first split in member branch; choose suffix=[] for sentinel branch",
+                "needs_unfold": [
+                  "xizi_dll_payloads"
+                ],
+                "arithmetic": "none",
+                "spatial_resource": "dll_decompose__storeA_shared supplies old payloads; entry VC supplies storeA linklist_node data"
+              }
+            ],
+            "proof_route": "Use payloads_split__storeA_shared and payloads_join__storeA_shared; insert the one existing storeA resource by spatial rearrangement. Do not assume any property of storeA.",
+            "destination": "group-local case_lib with helper_namespace.suffix"
+          },
+          {
+            "name_hint": "insert_before_structural_cuts_and_reassembly",
+            "statement_shape": "Structural DLL head ptrs admits a first-anchor predecessor cut (prefix empty/nonempty) or a sentinel tail cut (ptrs empty/nonempty). Conversely updated predecessor/inserted/anchor links with matching prefix and suffix segments entail DLL head (prefix ++ inserted :: anchor :: suffix), or DLL head (ptrs ++ [inserted]) in the sentinel case. Keep all needed head/node links framed when changing segment endpoints.",
+            "used_by_witnesses": [
+              "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4"
+            ],
+            "premises": [
+              {
+                "premise": "head != 0 and inserted != 0",
+                "discharged_by": "entry DLL and xizi_dll_node definitions; return PreH facts",
+                "needs_unfold": [
+                  "xizi_dll_node",
+                  "xizi_dll",
+                  "XiziDLL.dll"
+                ],
+                "arithmetic": "none",
+                "spatial_resource": "owned head fields and fresh node fields"
+              },
+              {
+                "premise": "member decomposition and first occurrence; alternatively anchor=head",
+                "discharged_by": "anchor disjunction, pure first-split lemma and branch equalities",
+                "needs_unfold": [
+                  "xizi_double_link_insert_before_anchor"
+                ],
+                "arithmetic": "list app/cons equalities",
+                "spatial_resource": "DLL segments determine actual predecessor, next, first and last"
+              },
+              {
+                "premise": "new segment node differs from stop and head",
+                "discharged_by": "original segment guards for old nodes; for inserted/head or retargeted endpoints, separated next-field ownership rules out equal addresses via dup_store_ptr",
+                "needs_unfold": [
+                  "xizi_dll_links",
+                  "XiziDLL.links"
+                ],
+                "arithmetic": "address equality substitution only",
+                "spatial_resource": "retain sentinel and relevant node links as a frame; do not consume them merely to retain a pure disequality"
+              }
+            ],
+            "proof_route": "Induct over prefix/tail for cut or append; fold updated links; use existing DLL open/close, segment unfold, and snoc patterns. Helpers may be specialized to the four structural cases.",
+            "destination": "group-local case_lib with helper_namespace.suffix"
+          },
+          {
+            "name_hint": "insert_before_head_absent",
+            "statement_shape": "xizi_store_dll storeA head nodes |-- pure (~ In head (xizi_dll_ptrs nodes)) && xizi_store_dll storeA head nodes; plus pure absence implies xizi_insert_before_payload nodes head inserted result -> result = nodes ++ [inserted].",
+            "used_by_witnesses": [
+              "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+              "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case"
+            ],
+            "premises": [
+              {
+                "premise": "owned DLL with stop=head",
+                "discharged_by": "entry/sentinel VC precondition",
+                "needs_unfold": [
+                  "xizi_store_dll",
+                  "XiziStoreADLL.store_dll",
+                  "XiziStoreADLL.dllseg"
+                ],
+                "arithmetic": "none",
+                "spatial_resource": "each DLL segment element explicitly differs from stop; inductively extract the pure absence fact while preserving all resources"
+              },
+              {
+                "premise": "~In head (xizi_dll_ptrs nodes)",
+                "discharged_by": "previous spatial fact, extracted before constructing the dispatch wand",
+                "needs_unfold": [
+                  "xizi_insert_before_payload",
+                  "xizi_dll_ptrs"
+                ],
+                "arithmetic": "map_app/in_app_iff membership contradiction",
+                "spatial_resource": "none"
+              }
+            ],
+            "proof_route": "Segment induction gives head exclusion. In the payload relation the matching branch contradicts absence; the append branch gives exact logical node equality, stronger than pointer equality.",
+            "destination": "group-local case_lib with helper_namespace.suffix"
+          }
+        ],
+        "premise_discharge": [
+          {
+            "premise": "In anchor (xizi_dll_ptrs nodes)",
+            "discharged_by": "member disjunct of xizi_double_link_insert_before_anchor",
+            "needs_unfold": [
+              "xizi_double_link_insert_before_anchor",
+              "xizi_dll_ptrs"
+            ],
+            "arithmetic": "none",
+            "spatial_resource": "none"
+          },
+          {
+            "premise": "nodes = prefix ++ suffix and result is the same split with inserted added",
+            "discharged_by": "logical first split in member branch; choose suffix=[] for sentinel branch",
+            "needs_unfold": [
+              "xizi_dll_payloads"
+            ],
+            "arithmetic": "none",
+            "spatial_resource": "dll_decompose__storeA_shared supplies old payloads; entry VC supplies storeA linklist_node data"
+          },
+          {
+            "premise": "head != 0 and inserted != 0",
+            "discharged_by": "entry DLL and xizi_dll_node definitions; return PreH facts",
+            "needs_unfold": [
+              "xizi_dll_node",
+              "xizi_dll",
+              "XiziDLL.dll"
+            ],
+            "arithmetic": "none",
+            "spatial_resource": "owned head fields and fresh node fields"
+          },
+          {
+            "premise": "member decomposition and first occurrence; alternatively anchor=head",
+            "discharged_by": "anchor disjunction, pure first-split lemma and branch equalities",
+            "needs_unfold": [
+              "xizi_double_link_insert_before_anchor"
+            ],
+            "arithmetic": "list app/cons equalities",
+            "spatial_resource": "DLL segments determine actual predecessor, next, first and last"
+          },
+          {
+            "premise": "new segment node differs from stop and head",
+            "discharged_by": "original segment guards for old nodes; for inserted/head or retargeted endpoints, separated next-field ownership rules out equal addresses via dup_store_ptr",
+            "needs_unfold": [
+              "xizi_dll_links",
+              "XiziDLL.links"
+            ],
+            "arithmetic": "address equality substitution only",
+            "spatial_resource": "retain sentinel and relevant node links as a frame; do not consume them merely to retain a pure disequality"
+          },
+          {
+            "premise": "owned DLL with stop=head",
+            "discharged_by": "entry/sentinel VC precondition",
+            "needs_unfold": [
+              "xizi_store_dll",
+              "XiziStoreADLL.store_dll",
+              "XiziStoreADLL.dllseg"
+            ],
+            "arithmetic": "none",
+            "spatial_resource": "each DLL segment element explicitly differs from stop; inductively extract the pure absence fact while preserving all resources"
+          },
+          {
+            "premise": "~In head (xizi_dll_ptrs nodes)",
+            "discharged_by": "previous spatial fact, extracted before constructing the dispatch wand",
+            "needs_unfold": [
+              "xizi_insert_before_payload",
+              "xizi_dll_ptrs"
+            ],
+            "arithmetic": "map_app/in_app_iff membership contradiction",
+            "spatial_resource": "none"
+          }
+        ],
+        "failure_signal": "No missing resource or unsupported pure premise identified. Generated statements must stay unchanged.",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "insert_before_payload",
+        "proof_group_candidate": "insert_before_payload",
+        "grouping_reason": "Same function, payload frame and structural insertion decomposition/reassembly; 7 witnesses are within the 12-witness limit."
+      },
+      {
+        "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+        "judgment": "needs-helper",
+        "vc_shape": {
+          "pre_spatial": "inserted links(head,head), head links(inserted,inserted), payloads storeA result_2",
+          "pre_pure": "ptrs=[]; head=linklist; ptrs(result_2)=[inserted]; existing payload insertion relation; head and inserted nonzero",
+          "pre_exists": "all generated forall binders remain unchanged; segment internals supply next/first/last addresses when unfolded",
+          "post_spatial": "generic DLL head result_2",
+          "post_pure": "same insertion relation at linklist",
+          "post_exists": "result=result_2; choose singleton structural list [inserted] before dll_compose"
+        },
+        "witness_instantiation": "result=result_2; choose singleton structural list [inserted] before dll_compose",
+        "space_plan": "Choose left disjunct of the generated duplicate forall disjunction. Fold inserted and head links; use separated fields to establish inserted<>head, close one-node structural DLL, rewrite ptrs(result_2), combine existing payload frame with dll_compose.",
+        "pure_plan": "Use PreH5 and PreH8/PreH9 for pointer projection; PreH2 changes relation anchor from head to linklist. No need to reconstruct or guess logical payload data.",
+        "refinement_plan": "Direct separation-logic contract; no safeExec/refinement state.",
+        "used_existing_lemmas": [
+          "dll_decompose__storeA_shared",
+          "dll_compose__storeA_shared",
+          "payloads_split__storeA_shared",
+          "payloads_join__storeA_shared",
+          "xizi_dll_open",
+          "xizi_dll_close",
+          "xizi_dllseg_unfold",
+          "xizi_dllseg_snoc__dll_len_payload_cycle",
+          "xizi_dll_links_fold__dll_len_payload_cycle",
+          "xizi_in_first_split__insert_before_dispatch_and_reassembly",
+          "xizi_insert_before_first_occurrence__insert_before_dispatch_and_reassembly",
+          "xizi_insert_before_absent_append__insert_before_dispatch_and_reassembly",
+          "xizi_insert_before_payload_address_semantics"
+        ],
+        "candidate_helper_declarations": [
+          {
+            "name_hint": "insert_before_structural_cuts_and_reassembly",
+            "statement_shape": "Structural DLL head ptrs admits a first-anchor predecessor cut (prefix empty/nonempty) or a sentinel tail cut (ptrs empty/nonempty). Conversely updated predecessor/inserted/anchor links with matching prefix and suffix segments entail DLL head (prefix ++ inserted :: anchor :: suffix), or DLL head (ptrs ++ [inserted]) in the sentinel case. Keep all needed head/node links framed when changing segment endpoints.",
+            "used_by_witnesses": [
+              "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4"
+            ],
+            "premises": [
+              {
+                "premise": "head != 0 and inserted != 0",
+                "discharged_by": "entry DLL and xizi_dll_node definitions; return PreH facts",
+                "needs_unfold": [
+                  "xizi_dll_node",
+                  "xizi_dll",
+                  "XiziDLL.dll"
+                ],
+                "arithmetic": "none",
+                "spatial_resource": "owned head fields and fresh node fields"
+              },
+              {
+                "premise": "member decomposition and first occurrence; alternatively anchor=head",
+                "discharged_by": "anchor disjunction, pure first-split lemma and branch equalities",
+                "needs_unfold": [
+                  "xizi_double_link_insert_before_anchor"
+                ],
+                "arithmetic": "list app/cons equalities",
+                "spatial_resource": "DLL segments determine actual predecessor, next, first and last"
+              },
+              {
+                "premise": "new segment node differs from stop and head",
+                "discharged_by": "original segment guards for old nodes; for inserted/head or retargeted endpoints, separated next-field ownership rules out equal addresses via dup_store_ptr",
+                "needs_unfold": [
+                  "xizi_dll_links",
+                  "XiziDLL.links"
+                ],
+                "arithmetic": "address equality substitution only",
+                "spatial_resource": "retain sentinel and relevant node links as a frame; do not consume them merely to retain a pure disequality"
+              }
+            ],
+            "proof_route": "Induct over prefix/tail for cut or append; fold updated links; use existing DLL open/close, segment unfold, and snoc patterns. Helpers may be specialized to the four structural cases.",
+            "destination": "group-local case_lib with helper_namespace.suffix"
+          }
+        ],
+        "premise_discharge": [
+          {
+            "premise": "head != 0 and inserted != 0",
+            "discharged_by": "entry DLL and xizi_dll_node definitions; return PreH facts",
+            "needs_unfold": [
+              "xizi_dll_node",
+              "xizi_dll",
+              "XiziDLL.dll"
+            ],
+            "arithmetic": "none",
+            "spatial_resource": "owned head fields and fresh node fields"
+          },
+          {
+            "premise": "member decomposition and first occurrence; alternatively anchor=head",
+            "discharged_by": "anchor disjunction, pure first-split lemma and branch equalities",
+            "needs_unfold": [
+              "xizi_double_link_insert_before_anchor"
+            ],
+            "arithmetic": "list app/cons equalities",
+            "spatial_resource": "DLL segments determine actual predecessor, next, first and last"
+          },
+          {
+            "premise": "new segment node differs from stop and head",
+            "discharged_by": "original segment guards for old nodes; for inserted/head or retargeted endpoints, separated next-field ownership rules out equal addresses via dup_store_ptr",
+            "needs_unfold": [
+              "xizi_dll_links",
+              "XiziDLL.links"
+            ],
+            "arithmetic": "address equality substitution only",
+            "spatial_resource": "retain sentinel and relevant node links as a frame; do not consume them merely to retain a pure disequality"
+          }
+        ],
+        "failure_signal": "No missing resource or unsupported pure premise identified. Generated statements must stay unchanged.",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "insert_before_payload",
+        "proof_group_candidate": "insert_before_payload",
+        "grouping_reason": "Same function, payload frame and structural insertion decomposition/reassembly; 7 witnesses are within the 12-witness limit."
+      },
+      {
+        "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+        "judgment": "needs-helper",
+        "vc_shape": {
+          "pre_spatial": "prefix segment first/head to prev/before_prev; prev links(inserted,before_prev); inserted links(head,prev); head links(first,inserted); payloads result_2",
+          "pre_pure": "ptrs=prefix0++[prev]; ptrs(result_2)=ptrs++[inserted]; head=linklist; nonzero facts",
+          "pre_exists": "all generated forall binders remain unchanged; segment internals supply next/first/last addresses when unfolded",
+          "post_spatial": "generic DLL head result_2",
+          "post_pure": "same insertion relation",
+          "post_exists": "result=result_2; structural result prefix0++[prev;inserted]"
+        },
+        "witness_instantiation": "result=result_2; structural result prefix0++[prev;inserted]",
+        "space_plan": "Choose left duplicate disjunct. Fold adjacent tail links; extend/retarget prefix to stop=head while retaining sentinel ownership for disequalities. Close DLL with last=inserted; apply dll_compose to result_2.",
+        "pure_plan": "Reassociate append using PreH9 and the address-operation equations. PreH2 rewrites anchor. Return resource layout accounts for every changed field and unchanged prefix.",
+        "refinement_plan": "Direct separation-logic contract; no safeExec/refinement state.",
+        "used_existing_lemmas": [
+          "dll_decompose__storeA_shared",
+          "dll_compose__storeA_shared",
+          "payloads_split__storeA_shared",
+          "payloads_join__storeA_shared",
+          "xizi_dll_open",
+          "xizi_dll_close",
+          "xizi_dllseg_unfold",
+          "xizi_dllseg_snoc__dll_len_payload_cycle",
+          "xizi_dll_links_fold__dll_len_payload_cycle",
+          "xizi_in_first_split__insert_before_dispatch_and_reassembly",
+          "xizi_insert_before_first_occurrence__insert_before_dispatch_and_reassembly",
+          "xizi_insert_before_absent_append__insert_before_dispatch_and_reassembly",
+          "xizi_insert_before_payload_address_semantics"
+        ],
+        "candidate_helper_declarations": [
+          {
+            "name_hint": "insert_before_structural_cuts_and_reassembly",
+            "statement_shape": "Structural DLL head ptrs admits a first-anchor predecessor cut (prefix empty/nonempty) or a sentinel tail cut (ptrs empty/nonempty). Conversely updated predecessor/inserted/anchor links with matching prefix and suffix segments entail DLL head (prefix ++ inserted :: anchor :: suffix), or DLL head (ptrs ++ [inserted]) in the sentinel case. Keep all needed head/node links framed when changing segment endpoints.",
+            "used_by_witnesses": [
+              "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4"
+            ],
+            "premises": [
+              {
+                "premise": "head != 0 and inserted != 0",
+                "discharged_by": "entry DLL and xizi_dll_node definitions; return PreH facts",
+                "needs_unfold": [
+                  "xizi_dll_node",
+                  "xizi_dll",
+                  "XiziDLL.dll"
+                ],
+                "arithmetic": "none",
+                "spatial_resource": "owned head fields and fresh node fields"
+              },
+              {
+                "premise": "member decomposition and first occurrence; alternatively anchor=head",
+                "discharged_by": "anchor disjunction, pure first-split lemma and branch equalities",
+                "needs_unfold": [
+                  "xizi_double_link_insert_before_anchor"
+                ],
+                "arithmetic": "list app/cons equalities",
+                "spatial_resource": "DLL segments determine actual predecessor, next, first and last"
+              },
+              {
+                "premise": "new segment node differs from stop and head",
+                "discharged_by": "original segment guards for old nodes; for inserted/head or retargeted endpoints, separated next-field ownership rules out equal addresses via dup_store_ptr",
+                "needs_unfold": [
+                  "xizi_dll_links",
+                  "XiziDLL.links"
+                ],
+                "arithmetic": "address equality substitution only",
+                "spatial_resource": "retain sentinel and relevant node links as a frame; do not consume them merely to retain a pure disequality"
+              }
+            ],
+            "proof_route": "Induct over prefix/tail for cut or append; fold updated links; use existing DLL open/close, segment unfold, and snoc patterns. Helpers may be specialized to the four structural cases.",
+            "destination": "group-local case_lib with helper_namespace.suffix"
+          }
+        ],
+        "premise_discharge": [
+          {
+            "premise": "head != 0 and inserted != 0",
+            "discharged_by": "entry DLL and xizi_dll_node definitions; return PreH facts",
+            "needs_unfold": [
+              "xizi_dll_node",
+              "xizi_dll",
+              "XiziDLL.dll"
+            ],
+            "arithmetic": "none",
+            "spatial_resource": "owned head fields and fresh node fields"
+          },
+          {
+            "premise": "member decomposition and first occurrence; alternatively anchor=head",
+            "discharged_by": "anchor disjunction, pure first-split lemma and branch equalities",
+            "needs_unfold": [
+              "xizi_double_link_insert_before_anchor"
+            ],
+            "arithmetic": "list app/cons equalities",
+            "spatial_resource": "DLL segments determine actual predecessor, next, first and last"
+          },
+          {
+            "premise": "new segment node differs from stop and head",
+            "discharged_by": "original segment guards for old nodes; for inserted/head or retargeted endpoints, separated next-field ownership rules out equal addresses via dup_store_ptr",
+            "needs_unfold": [
+              "xizi_dll_links",
+              "XiziDLL.links"
+            ],
+            "arithmetic": "address equality substitution only",
+            "spatial_resource": "retain sentinel and relevant node links as a frame; do not consume them merely to retain a pure disequality"
+          }
+        ],
+        "failure_signal": "No missing resource or unsupported pure premise identified. Generated statements must stay unchanged.",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "insert_before_payload",
+        "proof_group_candidate": "insert_before_payload",
+        "grouping_reason": "Same function, payload frame and structural insertion decomposition/reassembly; 7 witnesses are within the 12-witness limit."
+      },
+      {
+        "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+        "judgment": "needs-helper",
+        "vc_shape": {
+          "pre_spatial": "head links(first,last); prefix0 segment to prev/before_prev; prev links(inserted,before_prev); inserted links(anchor,prev); anchor links(next,inserted); suffix segment next/anchor to head/last; payloads result_2",
+          "pre_pure": "nodes_before=prefix0++[prev]; ptrs result_2=nodes_before++inserted::anchor::nodes_after; anchor and prev nonzero and not head",
+          "pre_exists": "all generated forall binders remain unchanged; segment internals supply next/first/last addresses when unfolded",
+          "post_spatial": "generic DLL head result_2",
+          "post_pure": "same insertion relation",
+          "post_exists": "result=result_2; preserve first and last"
+        },
+        "witness_instantiation": "result=result_2; preserve first and last",
+        "space_plan": "Choose left duplicate disjunct. Build the suffix starting at anchor, prepend inserted and prev links, then combine the prefix segment with the new suffix. Retarget prefix safely with sentinel frame; close structural DLL and compose with unchanged result payloads.",
+        "pure_plan": "Existing PreH equations determine exact structural order. Distinct inserted/head follows separated head/inserted fields, not any new precondition.",
+        "refinement_plan": "Direct separation-logic contract; no safeExec/refinement state.",
+        "used_existing_lemmas": [
+          "dll_decompose__storeA_shared",
+          "dll_compose__storeA_shared",
+          "payloads_split__storeA_shared",
+          "payloads_join__storeA_shared",
+          "xizi_dll_open",
+          "xizi_dll_close",
+          "xizi_dllseg_unfold",
+          "xizi_dllseg_snoc__dll_len_payload_cycle",
+          "xizi_dll_links_fold__dll_len_payload_cycle",
+          "xizi_in_first_split__insert_before_dispatch_and_reassembly",
+          "xizi_insert_before_first_occurrence__insert_before_dispatch_and_reassembly",
+          "xizi_insert_before_absent_append__insert_before_dispatch_and_reassembly",
+          "xizi_insert_before_payload_address_semantics"
+        ],
+        "candidate_helper_declarations": [
+          {
+            "name_hint": "insert_before_structural_cuts_and_reassembly",
+            "statement_shape": "Structural DLL head ptrs admits a first-anchor predecessor cut (prefix empty/nonempty) or a sentinel tail cut (ptrs empty/nonempty). Conversely updated predecessor/inserted/anchor links with matching prefix and suffix segments entail DLL head (prefix ++ inserted :: anchor :: suffix), or DLL head (ptrs ++ [inserted]) in the sentinel case. Keep all needed head/node links framed when changing segment endpoints.",
+            "used_by_witnesses": [
+              "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4"
+            ],
+            "premises": [
+              {
+                "premise": "head != 0 and inserted != 0",
+                "discharged_by": "entry DLL and xizi_dll_node definitions; return PreH facts",
+                "needs_unfold": [
+                  "xizi_dll_node",
+                  "xizi_dll",
+                  "XiziDLL.dll"
+                ],
+                "arithmetic": "none",
+                "spatial_resource": "owned head fields and fresh node fields"
+              },
+              {
+                "premise": "member decomposition and first occurrence; alternatively anchor=head",
+                "discharged_by": "anchor disjunction, pure first-split lemma and branch equalities",
+                "needs_unfold": [
+                  "xizi_double_link_insert_before_anchor"
+                ],
+                "arithmetic": "list app/cons equalities",
+                "spatial_resource": "DLL segments determine actual predecessor, next, first and last"
+              },
+              {
+                "premise": "new segment node differs from stop and head",
+                "discharged_by": "original segment guards for old nodes; for inserted/head or retargeted endpoints, separated next-field ownership rules out equal addresses via dup_store_ptr",
+                "needs_unfold": [
+                  "xizi_dll_links",
+                  "XiziDLL.links"
+                ],
+                "arithmetic": "address equality substitution only",
+                "spatial_resource": "retain sentinel and relevant node links as a frame; do not consume them merely to retain a pure disequality"
+              }
+            ],
+            "proof_route": "Induct over prefix/tail for cut or append; fold updated links; use existing DLL open/close, segment unfold, and snoc patterns. Helpers may be specialized to the four structural cases.",
+            "destination": "group-local case_lib with helper_namespace.suffix"
+          }
+        ],
+        "premise_discharge": [
+          {
+            "premise": "head != 0 and inserted != 0",
+            "discharged_by": "entry DLL and xizi_dll_node definitions; return PreH facts",
+            "needs_unfold": [
+              "xizi_dll_node",
+              "xizi_dll",
+              "XiziDLL.dll"
+            ],
+            "arithmetic": "none",
+            "spatial_resource": "owned head fields and fresh node fields"
+          },
+          {
+            "premise": "member decomposition and first occurrence; alternatively anchor=head",
+            "discharged_by": "anchor disjunction, pure first-split lemma and branch equalities",
+            "needs_unfold": [
+              "xizi_double_link_insert_before_anchor"
+            ],
+            "arithmetic": "list app/cons equalities",
+            "spatial_resource": "DLL segments determine actual predecessor, next, first and last"
+          },
+          {
+            "premise": "new segment node differs from stop and head",
+            "discharged_by": "original segment guards for old nodes; for inserted/head or retargeted endpoints, separated next-field ownership rules out equal addresses via dup_store_ptr",
+            "needs_unfold": [
+              "xizi_dll_links",
+              "XiziDLL.links"
+            ],
+            "arithmetic": "address equality substitution only",
+            "spatial_resource": "retain sentinel and relevant node links as a frame; do not consume them merely to retain a pure disequality"
+          }
+        ],
+        "failure_signal": "No missing resource or unsupported pure premise identified. Generated statements must stay unchanged.",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "insert_before_payload",
+        "proof_group_candidate": "insert_before_payload",
+        "grouping_reason": "Same function, payload frame and structural insertion decomposition/reassembly; 7 witnesses are within the 12-witness limit."
+      },
+      {
+        "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4",
+        "judgment": "needs-helper",
+        "vc_shape": {
+          "pre_spatial": "head(previously prev) links(inserted,last); inserted links(first,head); old first links(next,inserted); unchanged suffix next/first to head/last; payloads result_2",
+          "pre_pure": "nodes_before=[]; prev=head; before_prev=last; first=linklist; ptrs result_2=inserted::first::nodes_after; head,inserted,first nonzero and first!=head",
+          "pre_exists": "all generated forall binders remain unchanged; segment internals supply next/first/last addresses when unfolded",
+          "post_spatial": "generic DLL head result_2",
+          "post_pure": "same insertion relation at linklist",
+          "post_exists": "result=result_2; new structural first=inserted, last unchanged"
+        },
+        "witness_instantiation": "result=result_2; new structural first=inserted, last unchanged",
+        "space_plan": "Choose left duplicate disjunct. Substitute prev=head and before_prev=last; fold old first over suffix, then inserted, then head. Preserve payloads result_2 and apply dll_compose.",
+        "pure_plan": "PreH13 removes empty prefix; PreH2 rewrites relation anchor. Separated inserted/head links discharge inserted != head.",
+        "refinement_plan": "Direct separation-logic contract; no safeExec/refinement state.",
+        "used_existing_lemmas": [
+          "dll_decompose__storeA_shared",
+          "dll_compose__storeA_shared",
+          "payloads_split__storeA_shared",
+          "payloads_join__storeA_shared",
+          "xizi_dll_open",
+          "xizi_dll_close",
+          "xizi_dllseg_unfold",
+          "xizi_dllseg_snoc__dll_len_payload_cycle",
+          "xizi_dll_links_fold__dll_len_payload_cycle",
+          "xizi_in_first_split__insert_before_dispatch_and_reassembly",
+          "xizi_insert_before_first_occurrence__insert_before_dispatch_and_reassembly",
+          "xizi_insert_before_absent_append__insert_before_dispatch_and_reassembly",
+          "xizi_insert_before_payload_address_semantics"
+        ],
+        "candidate_helper_declarations": [
+          {
+            "name_hint": "insert_before_structural_cuts_and_reassembly",
+            "statement_shape": "Structural DLL head ptrs admits a first-anchor predecessor cut (prefix empty/nonempty) or a sentinel tail cut (ptrs empty/nonempty). Conversely updated predecessor/inserted/anchor links with matching prefix and suffix segments entail DLL head (prefix ++ inserted :: anchor :: suffix), or DLL head (ptrs ++ [inserted]) in the sentinel case. Keep all needed head/node links framed when changing segment endpoints.",
+            "used_by_witnesses": [
+              "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4"
+            ],
+            "premises": [
+              {
+                "premise": "head != 0 and inserted != 0",
+                "discharged_by": "entry DLL and xizi_dll_node definitions; return PreH facts",
+                "needs_unfold": [
+                  "xizi_dll_node",
+                  "xizi_dll",
+                  "XiziDLL.dll"
+                ],
+                "arithmetic": "none",
+                "spatial_resource": "owned head fields and fresh node fields"
+              },
+              {
+                "premise": "member decomposition and first occurrence; alternatively anchor=head",
+                "discharged_by": "anchor disjunction, pure first-split lemma and branch equalities",
+                "needs_unfold": [
+                  "xizi_double_link_insert_before_anchor"
+                ],
+                "arithmetic": "list app/cons equalities",
+                "spatial_resource": "DLL segments determine actual predecessor, next, first and last"
+              },
+              {
+                "premise": "new segment node differs from stop and head",
+                "discharged_by": "original segment guards for old nodes; for inserted/head or retargeted endpoints, separated next-field ownership rules out equal addresses via dup_store_ptr",
+                "needs_unfold": [
+                  "xizi_dll_links",
+                  "XiziDLL.links"
+                ],
+                "arithmetic": "address equality substitution only",
+                "spatial_resource": "retain sentinel and relevant node links as a frame; do not consume them merely to retain a pure disequality"
+              }
+            ],
+            "proof_route": "Induct over prefix/tail for cut or append; fold updated links; use existing DLL open/close, segment unfold, and snoc patterns. Helpers may be specialized to the four structural cases.",
+            "destination": "group-local case_lib with helper_namespace.suffix"
+          }
+        ],
+        "premise_discharge": [
+          {
+            "premise": "head != 0 and inserted != 0",
+            "discharged_by": "entry DLL and xizi_dll_node definitions; return PreH facts",
+            "needs_unfold": [
+              "xizi_dll_node",
+              "xizi_dll",
+              "XiziDLL.dll"
+            ],
+            "arithmetic": "none",
+            "spatial_resource": "owned head fields and fresh node fields"
+          },
+          {
+            "premise": "member decomposition and first occurrence; alternatively anchor=head",
+            "discharged_by": "anchor disjunction, pure first-split lemma and branch equalities",
+            "needs_unfold": [
+              "xizi_double_link_insert_before_anchor"
+            ],
+            "arithmetic": "list app/cons equalities",
+            "spatial_resource": "DLL segments determine actual predecessor, next, first and last"
+          },
+          {
+            "premise": "new segment node differs from stop and head",
+            "discharged_by": "original segment guards for old nodes; for inserted/head or retargeted endpoints, separated next-field ownership rules out equal addresses via dup_store_ptr",
+            "needs_unfold": [
+              "xizi_dll_links",
+              "XiziDLL.links"
+            ],
+            "arithmetic": "address equality substitution only",
+            "spatial_resource": "retain sentinel and relevant node links as a frame; do not consume them merely to retain a pure disequality"
+          }
+        ],
+        "failure_signal": "No missing resource or unsupported pure premise identified. Generated statements must stay unchanged.",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "insert_before_payload",
+        "proof_group_candidate": "insert_before_payload",
+        "grouping_reason": "Same function, payload frame and structural insertion decomposition/reassembly; 7 witnesses are within the 12-witness limit."
+      },
+      {
+        "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case",
+        "judgment": "needs-helper",
+        "vc_shape": {
+          "pre_spatial": "generic DLL linklist nodes ** detached inserted node ** inserted payload",
+          "pre_pure": "no extra member precondition",
+          "pre_exists": "all generated forall binders remain unchanged; segment internals supply next/first/last addresses when unfolded",
+          "post_spatial": "dispatch precondition ** wand(dispatch result, generic DLL linklist (nodes++[inserted]))",
+          "post_pure": "dispatch anchor condition true by sentinel equality; logical append identity follows original head exclusion",
+          "post_exists": "dispatch A/storeA/data/nodes are exactly original binders; dispatch head=linklist; retain emp for the wand after all spatial resources go to dispatch precondition"
+        },
+        "witness_instantiation": "dispatch A/storeA/data/nodes are exactly original binders; dispatch head=linklist; retain emp for the wand after all spatial resources go to dispatch precondition",
+        "space_plan": "First extract ~In linklist (ptrs nodes) while preserving pre resources. Instantiate dispatch contract unchanged. Inside wand, unpack result, derive result=nodes++[inserted] from payload relation and saved pure absence, then reuse the result DLL exactly.",
+        "pure_plan": "In anchor definition choose the equality disjunct. The matched relation disjunct contradicts saved absence by map_app; absent relation gives logical list equality. Pointer equality alone is insufficient; use logical relation.",
+        "refinement_plan": "Direct separation-logic contract; no safeExec/refinement state.",
+        "used_existing_lemmas": [
+          "dll_decompose__storeA_shared"
+        ],
+        "candidate_helper_declarations": [
+          {
+            "name_hint": "insert_before_head_absent",
+            "statement_shape": "xizi_store_dll storeA head nodes |-- pure (~ In head (xizi_dll_ptrs nodes)) && xizi_store_dll storeA head nodes; plus pure absence implies xizi_insert_before_payload nodes head inserted result -> result = nodes ++ [inserted].",
+            "used_by_witnesses": [
+              "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+              "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case"
+            ],
+            "premises": [
+              {
+                "premise": "owned DLL with stop=head",
+                "discharged_by": "entry/sentinel VC precondition",
+                "needs_unfold": [
+                  "xizi_store_dll",
+                  "XiziStoreADLL.store_dll",
+                  "XiziStoreADLL.dllseg"
+                ],
+                "arithmetic": "none",
+                "spatial_resource": "each DLL segment element explicitly differs from stop; inductively extract the pure absence fact while preserving all resources"
+              },
+              {
+                "premise": "~In head (xizi_dll_ptrs nodes)",
+                "discharged_by": "previous spatial fact, extracted before constructing the dispatch wand",
+                "needs_unfold": [
+                  "xizi_insert_before_payload",
+                  "xizi_dll_ptrs"
+                ],
+                "arithmetic": "map_app/in_app_iff membership contradiction",
+                "spatial_resource": "none"
+              }
+            ],
+            "proof_route": "Segment induction gives head exclusion. In the payload relation the matching branch contradicts absence; the append branch gives exact logical node equality, stronger than pointer equality.",
+            "destination": "group-local case_lib with helper_namespace.suffix"
+          }
+        ],
+        "premise_discharge": [
+          {
+            "premise": "owned DLL with stop=head",
+            "discharged_by": "entry/sentinel VC precondition",
+            "needs_unfold": [
+              "xizi_store_dll",
+              "XiziStoreADLL.store_dll",
+              "XiziStoreADLL.dllseg"
+            ],
+            "arithmetic": "none",
+            "spatial_resource": "each DLL segment element explicitly differs from stop; inductively extract the pure absence fact while preserving all resources"
+          },
+          {
+            "premise": "~In head (xizi_dll_ptrs nodes)",
+            "discharged_by": "previous spatial fact, extracted before constructing the dispatch wand",
+            "needs_unfold": [
+              "xizi_insert_before_payload",
+              "xizi_dll_ptrs"
+            ],
+            "arithmetic": "map_app/in_app_iff membership contradiction",
+            "spatial_resource": "none"
+          }
+        ],
+        "failure_signal": "No missing resource or unsupported pure premise identified. Generated statements must stay unchanged.",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "insert_before_payload",
+        "proof_group_candidate": "insert_before_payload",
+        "grouping_reason": "Same function, payload frame and structural insertion decomposition/reassembly; 7 witnesses are within the 12-witness limit."
+      },
+      {
+        "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_derive_member_case_by_dispatch_case",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "generic DLL head nodes ** detached inserted node ** inserted payload",
+          "pre_pure": "In linklist (ptrs nodes)",
+          "pre_exists": "all generated forall binders remain unchanged; segment internals supply next/first/last addresses when unfolded",
+          "post_spatial": "same dispatch precondition ** identity result wand",
+          "post_pure": "dispatch anchor holds by member disjunct",
+          "post_exists": "A/storeA/data/head/nodes unchanged; returned existential result reused unchanged"
+        },
+        "witness_instantiation": "A/storeA/data/head/nodes unchanged; returned existential result reused unchanged",
+        "space_plan": "Allocate original resources to dispatch precondition and prove the wand by introducing the exact same existential postcondition. No structural or payload transformations needed.",
+        "pure_plan": "Unfold anchor and choose membership disjunct. Both instantiated existential postconditions coincide.",
+        "refinement_plan": "Direct separation-logic contract; no safeExec/refinement state.",
+        "used_existing_lemmas": [
+          "dll_decompose__storeA_shared"
+        ],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [],
+        "failure_signal": "No missing resource or unsupported pure premise identified. Generated statements must stay unchanged.",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "insert_before_payload",
+        "proof_group_candidate": "insert_before_payload",
+        "grouping_reason": "Same function, payload frame and structural insertion decomposition/reassembly; 7 witnesses are within the 12-witness limit."
+      }
+    ],
+    "analysis_groups": [
+      {
+        "group_id": "insert_before_payload",
+        "witness_names": [
+          "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+          "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+          "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+          "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+          "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4",
+          "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case",
+          "proof_of_DoubleLinkListInsertNodeBefore_derive_member_case_by_dispatch_case"
+        ],
+        "representative_witness": "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+        "shared_proof_pattern": "Keep all seven witnesses in one group: extract and rebuild the generic payload frame using shared bridges, prove specialized structural first-anchor/sentinel cuts and reassembly, then close dispatch derivations. Return VCs are duplicate proposition disjunctions; prove their left disjunct. Use suffix __insert_before_payload for every new helper. All helpers live only in case_lib; preserve seed declarations and shared common library.",
+        "shared_space_plan": "Decompose generic DLL, rearrange payload frame, cut/reassemble structural DLL, compose generic DLL.",
+        "shared_pure_plan": "First occurrence or sentinel absence determines exact logical result; existing address-operation equations reconstruct pointer order.",
+        "shared_refinement_plan": "No refinement state.",
+        "candidate_helper_declarations": [
+          {
+            "name_hint": "insert_before_payload_first_split",
+            "statement_shape": "forall A nodes anchor, In anchor (xizi_dll_ptrs nodes) -> exists prefix current suffix, nodes = prefix ++ current :: suffix /\\ getPtr current = anchor /\\ ~ In anchor (xizi_dll_ptrs prefix).",
+            "used_by_witnesses": [
+              "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1"
+            ],
+            "premises": [
+              {
+                "premise": "In anchor (xizi_dll_ptrs nodes)",
+                "discharged_by": "member disjunct of xizi_double_link_insert_before_anchor",
+                "needs_unfold": [
+                  "xizi_double_link_insert_before_anchor",
+                  "xizi_dll_ptrs"
+                ],
+                "arithmetic": "none",
+                "spatial_resource": "none"
+              }
+            ],
+            "proof_route": "Induct on the logical node list, selecting the first pointer match. This is a logical list split, not a new executable algorithm.",
+            "destination": "group-local case_lib with helper_namespace.suffix"
+          },
+          {
+            "name_hint": "insert_before_payload_frame",
+            "statement_shape": "For result = prefix ++ inserted :: suffix, payloads storeA (prefix ++ suffix) ** storeA (getPtr inserted) (getData inserted) |-- payloads storeA result. Includes prefix=nodes,suffix=[] for append.",
+            "used_by_witnesses": [
+              "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1"
+            ],
+            "premises": [
+              {
+                "premise": "nodes = prefix ++ suffix and result is the same split with inserted added",
+                "discharged_by": "logical first split in member branch; choose suffix=[] for sentinel branch",
+                "needs_unfold": [
+                  "xizi_dll_payloads"
+                ],
+                "arithmetic": "none",
+                "spatial_resource": "dll_decompose__storeA_shared supplies old payloads; entry VC supplies storeA linklist_node data"
+              }
+            ],
+            "proof_route": "Use payloads_split__storeA_shared and payloads_join__storeA_shared; insert the one existing storeA resource by spatial rearrangement. Do not assume any property of storeA.",
+            "destination": "group-local case_lib with helper_namespace.suffix"
+          },
+          {
+            "name_hint": "insert_before_structural_cuts_and_reassembly",
+            "statement_shape": "Structural DLL head ptrs admits a first-anchor predecessor cut (prefix empty/nonempty) or a sentinel tail cut (ptrs empty/nonempty). Conversely updated predecessor/inserted/anchor links with matching prefix and suffix segments entail DLL head (prefix ++ inserted :: anchor :: suffix), or DLL head (ptrs ++ [inserted]) in the sentinel case. Keep all needed head/node links framed when changing segment endpoints.",
+            "used_by_witnesses": [
+              "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4"
+            ],
+            "premises": [
+              {
+                "premise": "head != 0 and inserted != 0",
+                "discharged_by": "entry DLL and xizi_dll_node definitions; return PreH facts",
+                "needs_unfold": [
+                  "xizi_dll_node",
+                  "xizi_dll",
+                  "XiziDLL.dll"
+                ],
+                "arithmetic": "none",
+                "spatial_resource": "owned head fields and fresh node fields"
+              },
+              {
+                "premise": "member decomposition and first occurrence; alternatively anchor=head",
+                "discharged_by": "anchor disjunction, pure first-split lemma and branch equalities",
+                "needs_unfold": [
+                  "xizi_double_link_insert_before_anchor"
+                ],
+                "arithmetic": "list app/cons equalities",
+                "spatial_resource": "DLL segments determine actual predecessor, next, first and last"
+              },
+              {
+                "premise": "new segment node differs from stop and head",
+                "discharged_by": "original segment guards for old nodes; for inserted/head or retargeted endpoints, separated next-field ownership rules out equal addresses via dup_store_ptr",
+                "needs_unfold": [
+                  "xizi_dll_links",
+                  "XiziDLL.links"
+                ],
+                "arithmetic": "address equality substitution only",
+                "spatial_resource": "retain sentinel and relevant node links as a frame; do not consume them merely to retain a pure disequality"
+              }
+            ],
+            "proof_route": "Induct over prefix/tail for cut or append; fold updated links; use existing DLL open/close, segment unfold, and snoc patterns. Helpers may be specialized to the four structural cases.",
+            "destination": "group-local case_lib with helper_namespace.suffix"
+          },
+          {
+            "name_hint": "insert_before_head_absent",
+            "statement_shape": "xizi_store_dll storeA head nodes |-- pure (~ In head (xizi_dll_ptrs nodes)) && xizi_store_dll storeA head nodes; plus pure absence implies xizi_insert_before_payload nodes head inserted result -> result = nodes ++ [inserted].",
+            "used_by_witnesses": [
+              "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+              "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case"
+            ],
+            "premises": [
+              {
+                "premise": "owned DLL with stop=head",
+                "discharged_by": "entry/sentinel VC precondition",
+                "needs_unfold": [
+                  "xizi_store_dll",
+                  "XiziStoreADLL.store_dll",
+                  "XiziStoreADLL.dllseg"
+                ],
+                "arithmetic": "none",
+                "spatial_resource": "each DLL segment element explicitly differs from stop; inductively extract the pure absence fact while preserving all resources"
+              },
+              {
+                "premise": "~In head (xizi_dll_ptrs nodes)",
+                "discharged_by": "previous spatial fact, extracted before constructing the dispatch wand",
+                "needs_unfold": [
+                  "xizi_insert_before_payload",
+                  "xizi_dll_ptrs"
+                ],
+                "arithmetic": "map_app/in_app_iff membership contradiction",
+                "spatial_resource": "none"
+              }
+            ],
+            "proof_route": "Segment induction gives head exclusion. In the payload relation the matching branch contradicts absence; the append branch gives exact logical node equality, stronger than pointer equality.",
+            "destination": "group-local case_lib with helper_namespace.suffix"
+          }
+        ],
+        "dependencies": [],
+        "grouping_reason": "Single function with one shared structural cut/reassembly and payload preservation family; 7 <= 12 targets, no cross-group dependency or distinct refinement strategy. This keeps helper development local and avoids duplication.",
+        "proof_group_ready": true
+      }
+    ]
+  },
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 7,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

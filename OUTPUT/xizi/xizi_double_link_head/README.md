@@ -1,39 +1,32 @@
 # xizi_double_link_head 验证交付
 
-本目录保存 xizi_double_link_head 的最终 accepted 交付。source/ 是带 annotation 的 C 源码，rocq/ 包含 generated goal、auto/manual proof、goal check、唯一 case lib 与 diagnostics 快照，reports/ 保存本 case 的 checkpoint 和复用入口。
+本次验证已通过 controller final-check，run 为 `xizi_double_link_head-20260910183958`。保持此前已对齐的原函数体，并在 CRules 下重新生成目标和证明；与原源码的函数名、参数和函数体 token 比对通过。详见 executable_c_comparison.json。 本次指定的 8 个双链表与 9 个单链表函数已完成当前依赖下的统一复验。
 
-验证状态：controller run `xizi_double_link_head-20260809003517` 已到 `done`，final-check 已通过；本 case 的 `source_goal_version` 为 `a23a57064b3c11a1c031e50514283e7ed25d94182b4041b9f8b5fbc21cde71bb`，manual witness 数为 2。
+泛型 storeA : addr -> A -> Assertion 表示嵌入 link 对应的业务资源；结构指针字段由链表谓词持有。公共 DLL 谓词保留参考逻辑条件，实际 C 用例与 idmanager 共用 CRules 模型；XiziLocalDLL 是 XiziIdmanagerDLL 同一实例的别名。
 
-复现顺序：
+- `source/`：正式带标注 C 与头文件。
+- `rocq/`：本版本生成目标与已完成证明。
+- 唯一 active case_lib：`SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_head/source/xizi_double_link_head_lib.v`；归档：`OUTPUT/xizi/xizi_double_link_head/rocq/xizi_double_link_head_lib.v`。
+- `reports/controller/`：本 run 的 controller、round、group 与最终证据。
+- `reports/before_crules_unification/`：迁移前历史报告，不作为当前验收证据。
 
-1. 在仓库根目录使用 linux-binary/symexec，保留 -IQCP_examples/QCP_demos_LLM/，并同时传入 QCP_examples/QCP_demos_LLM/ 到 SimpleC.EE.QCP_demos_LLM 与 QCIPLib/xizi/xizi_double_link_common/ 到 QCIPLib.xizi.xizi_double_link_common 两组 -slp。
-2. 不覆盖已经证明的 manual；fresh 输出写到临时目录，再比较 generated 文件和 target witness statement。
-3. 使用 .agents/skills/vc-proving/scripts/coq_tooling.py check 编译对应 *_goal_check.v。
-4. 套件级复现和精确比对证据见 ../xizi_double_link_common/reports/。
+source_goal_version：`adac07e4e3553b257bc78bc989863f54a9ee8c797740de7b15363bb9c240a956`；manual witness 数：5。symbolic execution freshness、固定 Coq 检查、manual 结构、case_lib 合同及 forbidden lemma 检查均通过。
 
-公共 spec：../xizi_double_link_common/rocq/xizi_double_link_lib.v。
+验证边界：当前 QCP 自动生成的 `proof_auto.v` 有 4 个 `Admitted` 占位。按仓库生成文件边界保留并单独记录；本轮完成证明的是 manual witnesses 和维护库中的引理，不能据此宣称整套证明完全没有假设。
 
-## C 语义摘要
+在仓库根目录复现 symbolic execution（输出到临时目录，保留正式 manual）：
 
-读取首节点；空表返回 `NULL`，非空表返回第一个数据节点。循环 sentinel 只属于内部表示，不暴露为 API 返回值。
+```sh
+mkdir -p /tmp/xizi_double_link_head-storeA-refresh
+/home/yangfp/QCIP/linux-binary/symexec --goal-file=/tmp/xizi_double_link_head-storeA-refresh/xizi_double_link_head_goal.v --proof-auto-file=/tmp/xizi_double_link_head-storeA-refresh/xizi_double_link_head_proof_auto.v --proof-manual-file=/tmp/xizi_double_link_head-storeA-refresh/xizi_double_link_head_proof_manual.v -IQCP_examples/QCP_demos_LLM/ -slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM -slp QCIPLib/xizi/xizi_double_link_common/ QCIPLib.xizi.xizi_double_link_common --CRules CRules --coq-logic-path=SimpleC.EE.OUTPUT.xizi.xizi_double_link_head.source --input-file=OUTPUT/xizi/xizi_double_link_head/source/xizi_double_link_head.c --no-exec-info
+```
 
-## Rocq 规格摘要
+通过固定入口编译：
 
-公开规格与 `xizi_single_link_first` 对齐：只要求 `xizi_dll(linklist,nodes)`，返回 `xizi_double_link_first_value(nodes)`，并原样归还同一 ownership。`xizi_dll` 已蕴含 sentinel 非空，因此不重复公开 `linklist != 0`；case_lib 只定义抽象首元素函数，manual 只保存 target witness proofs。
+```sh
+python3 /home/yangfp/QCIP/.agents/skills/vc-proving/scripts/coq_tooling.py check --workspace-root /home/yangfp/QCIP --build-workspace /tmp/xizi_double_link_head-storeA-coq-build --target-file SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_head/source/xizi_double_link_head_goal_check.v --target-kind check --source-goal-version adac07e4e3553b257bc78bc989863f54a9ee8c797740de7b15363bb9c240a956
+```
 
-## 可复现命令
+修改源码、规约或目标后应重新执行 controller 流程。快照与 OUTPUT 副本的字节比对见 `reports/archive_comparison.json`。
 
-在仓库根目录创建独立临时输出目录后运行 canonical symbolic execution：
-
-    mkdir -p /tmp/xizi_double_link_head-symexec
-    linux-binary/symexec --goal-file=/tmp/xizi_double_link_head-symexec/xizi_double_link_head_goal.v --proof-auto-file=/tmp/xizi_double_link_head-symexec/xizi_double_link_head_proof_auto.v --proof-manual-file=/tmp/xizi_double_link_head-symexec/xizi_double_link_head_proof_manual.v -IQCP_examples/QCP_demos_LLM/ -slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM -slp QCIPLib/xizi/xizi_double_link_common/ QCIPLib.xizi.xizi_double_link_common --coq-logic-path=SimpleC.EE.OUTPUT.xizi.xizi_double_link_head.source --input-file=OUTPUT/xizi/xizi_double_link_head/source/xizi_double_link_head.c --no-exec-info
-
-不要用该命令覆盖已证明的 manual；final-check 应把 fresh 输出写入临时目录再做比较。
-
-通过唯一固定 Rocq 入口编译：
-
-    python3 .agents/skills/vc-proving/scripts/coq_tooling.py check --workspace-root /home/yangfp/QCIP --build-workspace /tmp/xizi_double_link_head-coq-build --target-file SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_head/source/xizi_double_link_head_goal_check.v --target-kind check --source-goal-version a23a57064b3c11a1c031e50514283e7ed25d94182b4041b9f8b5fbc21cde71bb
-
-## 报告与维护
-
-reports/ 中包含 Case Brief、Witness Ledger、Final Checklist、Timing Summary、phase 摘要、输入/生成物快照和标准 checkpoint/reuse artifacts。diagnostics split goals 只用于规划，不能作为 target witness。任何 C annotation、case_lib seed 或 witness statement 变化都会使 checkpoint stale，必须重新执行 controller 流程。
+本次双链表 CRules 统一后的当前依赖复验：canonical symbolic execution freshness、manual/case_lib 结构与禁用项检查、固定 Coq 编译均通过。统一证据：`OUTPUT/xizi/xizi_double_link_common/reports/crules_unification/suite_audits/20260910113338/audit.json`。历史报告仍按原版本保留。

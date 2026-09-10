@@ -10,6 +10,7 @@ Require Import Permutation.
 From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
 Require Import SetsClass.SetsClass. Import SetsNotation.
 From compcert.lib Require Import Integers.
+From SimpleC.SL Require Import CArch.
 
 
 Definition NULL : Z := 0.
@@ -20,6 +21,7 @@ Inductive front_end_type: Type :=
   | FET_union (x: string): front_end_type
   | FET_enum (x: string): front_end_type
   | FET_alias (x: string): front_end_type
+  | FET_bool: front_end_type
   | FET_int: front_end_type
   | FET_char : front_end_type
   | FET_int64 : front_end_type
@@ -27,9 +29,12 @@ Inductive front_end_type: Type :=
   | FET_uint: front_end_type
   | FET_uchar : front_end_type
   | FET_uint64 : front_end_type
+  | FET_int128 : front_end_type
+  | FET_uint128 : front_end_type
   | FET_ushort : front_end_type
   | FET_float : front_end_type
   | FET_double : front_end_type
+  | FET_long_double : front_end_type
   | FET_ptr: front_end_type.
 
 Inductive rvalue_expr: Type :=
@@ -49,12 +54,13 @@ Parameter sizeof_union_type: string -> Z.
 Parameter sizeof_enum_type: string -> Z.
 Parameter sizeof_alias_type: string -> Z.
 
-Definition sizeof_front_end_type (ty : front_end_type) : Z :=
+Definition sizeof_front_end_type_of_ptr_size (ptr_size : Z) (ty : front_end_type) : Z :=
   match ty with
   | FET_struct x => sizeof_struct_type x
   | FET_union x => sizeof_union_type x
   | FET_enum x => sizeof_enum_type x
   | FET_alias x => sizeof_alias_type x
+  | FET_bool => 1
   | FET_int => 4
   | FET_char => 1
   | FET_int64 => 8
@@ -62,46 +68,15 @@ Definition sizeof_front_end_type (ty : front_end_type) : Z :=
   | FET_uint => 4
   | FET_uchar => 1
   | FET_uint64 => 8
+  | FET_int128 => 16
+  | FET_uint128 => 16
   | FET_ushort => 2
   | FET_float => 4
   | FET_double => 8
-  | FET_ptr => 4
+  | FET_long_double => 16
+  | FET_ptr => ptr_size
   end.
 
-Lemma sizeof_int: sizeof_front_end_type FET_int = 4.
-Proof. reflexivity. Qed.
-
-Lemma sizeof_char: sizeof_front_end_type FET_char = 1.
-Proof. reflexivity. Qed.
-
-Lemma sizeof_int64: sizeof_front_end_type FET_int64 = 8.
-Proof. reflexivity. Qed.
-
-Lemma sizeof_short: sizeof_front_end_type FET_short = 2.
-Proof. reflexivity. Qed.
-
-Lemma sizeof_uint: sizeof_front_end_type FET_uint = 4.
-Proof. reflexivity. Qed.
-
-Lemma sizeof_uchar: sizeof_front_end_type FET_uchar = 1.
-Proof. reflexivity. Qed.
-
-Lemma sizeof_uint64: sizeof_front_end_type FET_uint64 = 8.
-Proof. reflexivity. Qed.
-
-Lemma sizeof_ushort: sizeof_front_end_type FET_ushort = 2.
-Proof. reflexivity. Qed.
-
-Lemma sizeof_float: sizeof_front_end_type FET_float = 4.
-Proof. reflexivity. Qed.
-
-Lemma sizeof_double: sizeof_front_end_type FET_double = 8.
-Proof. reflexivity. Qed.
-
-Lemma sizeof_ptr: sizeof_front_end_type FET_ptr = 4.
-Proof. reflexivity. Qed.
-
-Global Opaque sizeof_front_end_type.
 Declare Custom Entry addr_expr_entry.
 Declare Custom Entry lvalue_expr_entry.
 Declare Custom Entry rvalue_expr_entry.
@@ -179,6 +154,11 @@ Notation "p # 'INT'" := (RE_const p FET_int)
   (in custom rvalue_expr_entry at level 40,
    p custom rvalue_expr_entry,
    no associativity).
+
+Notation "p # 'BOOL'" := (RE_const p FET_bool)
+  (in custom rvalue_expr_entry at level 40,
+   p custom rvalue_expr_entry,
+   no associativity).
   
 Notation "p # 'CHAR'" := (RE_const p FET_char)
   (in custom rvalue_expr_entry at level 40,
@@ -210,6 +190,16 @@ Notation "p # 'UINT64'" := (RE_const p FET_uint64)
    p custom rvalue_expr_entry,
    no associativity).
 
+Notation "p # 'INT128'" := (RE_const p FET_int128)
+  (in custom rvalue_expr_entry at level 40,
+   p custom rvalue_expr_entry,
+   no associativity).
+
+Notation "p # 'UINT128'" := (RE_const p FET_uint128)
+  (in custom rvalue_expr_entry at level 40,
+   p custom rvalue_expr_entry,
+   no associativity).
+
 Notation "p # 'USHORT'" := (RE_const p FET_ushort)
   (in custom rvalue_expr_entry at level 40,
    p custom rvalue_expr_entry,
@@ -221,6 +211,11 @@ Notation "p # 'FLOAT'" := (RE_const p FET_float)
    no associativity).
 
 Notation "p # 'DOUBLE'" := (RE_const p FET_double)
+  (in custom rvalue_expr_entry at level 40,
+   p custom rvalue_expr_entry,
+   no associativity).
+
+Notation "p # 'LONGDOUBLE'" := (RE_const p FET_long_double)
   (in custom rvalue_expr_entry at level 40,
    p custom rvalue_expr_entry,
    no associativity).
@@ -245,6 +240,11 @@ Notation "p # 'INT'" := (RE_const p FET_int)
    p custom lvalue_expr_entry,
    no associativity).
 
+Notation "p # 'BOOL'" := (RE_const p FET_bool)
+  (in custom lvalue_expr_entry at level 40,
+   p custom lvalue_expr_entry,
+   no associativity).
+
 Notation "p # 'CHAR'" := (RE_const p FET_char)
   (in custom lvalue_expr_entry at level 40,
    p custom lvalue_expr_entry,
@@ -275,6 +275,16 @@ Notation "p # 'UINT64'" := (RE_const p FET_uint64)
    p custom lvalue_expr_entry,
    no associativity).
 
+Notation "p # 'INT128'" := (RE_const p FET_int128)
+  (in custom lvalue_expr_entry at level 40,
+   p custom lvalue_expr_entry,
+   no associativity).
+
+Notation "p # 'UINT128'" := (RE_const p FET_uint128)
+  (in custom lvalue_expr_entry at level 40,
+   p custom lvalue_expr_entry,
+   no associativity).
+
 Notation "p # 'USHORT'" := (RE_const p FET_ushort)
   (in custom lvalue_expr_entry at level 40,
    p custom lvalue_expr_entry,
@@ -286,6 +296,11 @@ Notation "p # 'FLOAT'" := (RE_const p FET_float)
    no associativity).
 
 Notation "p # 'DOUBLE'" := (RE_const p FET_double)
+  (in custom lvalue_expr_entry at level 40,
+   p custom lvalue_expr_entry,
+   no associativity).
+
+Notation "p # 'LONGDOUBLE'" := (RE_const p FET_long_double)
   (in custom lvalue_expr_entry at level 40,
    p custom lvalue_expr_entry,
    no associativity).
@@ -338,48 +353,6 @@ Notation "&( s )" := (RE_addr_of (LE_var s))
    s constr,
    no associativity).
 *)
-Notation "'sizeof' ( 'INT' )" := (sizeof_front_end_type FET_int)
-  (at level 1).
-
-Notation "'sizeof' ( 'CHAR' )" := (sizeof_front_end_type FET_char)
-  (at level 1).
-
-Notation "'sizeof' ( 'INT64' )" := (sizeof_front_end_type FET_int64)
-  (at level 1).
-
-Notation "'sizeof' ( 'SHORT' )" := (sizeof_front_end_type FET_short)
-  (at level 1).
-
-Notation "'sizeof' ( 'UINT' )" := (sizeof_front_end_type FET_uint)
-  (at level 1).
-
-Notation "'sizeof' ( 'UCHAR' )" := (sizeof_front_end_type FET_uchar)
-  (at level 1).
-
-Notation "'sizeof' ( 'UINT64' )" := (sizeof_front_end_type FET_uint64)
-  (at level 1).
-
-Notation "'sizeof' ( 'USHORT' )" := (sizeof_front_end_type FET_ushort)
-  (at level 1).
-
-Notation "'sizeof' ( 'FLOAT' )" := (sizeof_front_end_type FET_float)
-  (at level 1).
-
-Notation "'sizeof' ( 'DOUBLE' )" := (sizeof_front_end_type FET_double)
-  (at level 1).
-
-Notation "'sizeof' ( 'PTR' )" := (sizeof_front_end_type FET_ptr)
-  (at level 1).
-
-Notation "'sizeof' ( 'struct' s )" := (sizeof_front_end_type (FET_struct s))
-  (at level 1).
-
-Notation "'sizeof' ( 'union' s )" := (sizeof_front_end_type (FET_union s))
-  (at level 1).
-
-Notation "'sizeof' ( s )" := (sizeof_front_end_type (FET_alias s))
-  (at level 1).
-
 Parameter rvalue_expr_equiv : rvalue_expr -> rvalue_expr -> Prop.
 
 Parameter lvalue_expr_equiv : lvalue_expr -> lvalue_expr -> Prop.
@@ -444,6 +417,110 @@ Axiom eval_addr_expr_congr:
 #[export] Existing Instance RE_addr_of_congr.
 #[export] Existing Instance eval_addr_expr_congr.
 
+Module CNotationSig (Arch : CArchSig).
+
+Definition sizeof_front_end_type (ty : front_end_type) : Z :=
+  sizeof_front_end_type_of_ptr_size Arch.ptr_size_Z ty.
+
+Lemma sizeof_bool: sizeof_front_end_type FET_bool = 1.
+Proof. reflexivity. Qed.
+
+Lemma sizeof_int: sizeof_front_end_type FET_int = 4.
+Proof. reflexivity. Qed.
+
+Lemma sizeof_char: sizeof_front_end_type FET_char = 1.
+Proof. reflexivity. Qed.
+
+Lemma sizeof_int64: sizeof_front_end_type FET_int64 = 8.
+Proof. reflexivity. Qed.
+
+Lemma sizeof_short: sizeof_front_end_type FET_short = 2.
+Proof. reflexivity. Qed.
+
+Lemma sizeof_uint: sizeof_front_end_type FET_uint = 4.
+Proof. reflexivity. Qed.
+
+Lemma sizeof_uchar: sizeof_front_end_type FET_uchar = 1.
+Proof. reflexivity. Qed.
+
+Lemma sizeof_uint64: sizeof_front_end_type FET_uint64 = 8.
+Proof. reflexivity. Qed.
+
+Lemma sizeof_int128: sizeof_front_end_type FET_int128 = 16.
+Proof. reflexivity. Qed.
+
+Lemma sizeof_uint128: sizeof_front_end_type FET_uint128 = 16.
+Proof. reflexivity. Qed.
+
+Lemma sizeof_ushort: sizeof_front_end_type FET_ushort = 2.
+Proof. reflexivity. Qed.
+
+Lemma sizeof_float: sizeof_front_end_type FET_float = 4.
+Proof. reflexivity. Qed.
+
+Lemma sizeof_double: sizeof_front_end_type FET_double = 8.
+Proof. reflexivity. Qed.
+
+Lemma sizeof_long_double: sizeof_front_end_type FET_long_double = 16.
+Proof. reflexivity. Qed.
+
+Lemma sizeof_ptr: sizeof_front_end_type FET_ptr = Arch.ptr_size_Z.
+Proof. reflexivity. Qed.
+
+Notation "'sizeof' ( 'INT' )" := (sizeof_front_end_type FET_int)
+  (at level 1).
+
+Notation "'sizeof' ( 'BOOL' )" := (sizeof_front_end_type FET_bool)
+  (at level 1).
+
+Notation "'sizeof' ( 'CHAR' )" := (sizeof_front_end_type FET_char)
+  (at level 1).
+
+Notation "'sizeof' ( 'INT64' )" := (sizeof_front_end_type FET_int64)
+  (at level 1).
+
+Notation "'sizeof' ( 'SHORT' )" := (sizeof_front_end_type FET_short)
+  (at level 1).
+
+Notation "'sizeof' ( 'UINT' )" := (sizeof_front_end_type FET_uint)
+  (at level 1).
+
+Notation "'sizeof' ( 'UCHAR' )" := (sizeof_front_end_type FET_uchar)
+  (at level 1).
+
+Notation "'sizeof' ( 'UINT64' )" := (sizeof_front_end_type FET_uint64)
+  (at level 1).
+
+Notation "'sizeof' ( 'INT128' )" := (sizeof_front_end_type FET_int128)
+  (at level 1).
+
+Notation "'sizeof' ( 'UINT128' )" := (sizeof_front_end_type FET_uint128)
+  (at level 1).
+
+Notation "'sizeof' ( 'USHORT' )" := (sizeof_front_end_type FET_ushort)
+  (at level 1).
+
+Notation "'sizeof' ( 'FLOAT' )" := (sizeof_front_end_type FET_float)
+  (at level 1).
+
+Notation "'sizeof' ( 'DOUBLE' )" := (sizeof_front_end_type FET_double)
+  (at level 1).
+
+Notation "'sizeof' ( 'LONGDOUBLE' )" := (sizeof_front_end_type FET_long_double)
+  (at level 1).
+
+Notation "'sizeof' ( 'PTR' )" := (sizeof_front_end_type FET_ptr)
+  (at level 1).
+
+Notation "'sizeof' ( 'struct' s )" := (sizeof_front_end_type (FET_struct s))
+  (at level 1).
+
+Notation "'sizeof' ( 'union' s )" := (sizeof_front_end_type (FET_union s))
+  (at level 1).
+
+Notation "'sizeof' ( s )" := (sizeof_front_end_type (FET_alias s))
+  (at level 1).
+
 Axiom eval_addr: forall R t,
   rvalue_expr_equiv
     (RE_const (eval_addr_expr R) t) R.
@@ -479,21 +556,16 @@ Axiom addr_of_arrow_field : forall L x,
     (RE_addr_of (LE_arrow_field (RE_addr_of L) x)).
 
 Ltac const_array_simpl :=
-  match goal with 
-    | |- context [eval_addr_expr (RE_addr_of (LE_arrow_field
-(RE_const (Z.add ?g_allQueue (Z.mul ?index (sizeof_front_end_type (FET_alias ?name))))
-(FET_alias ?name)) ?field_name))] =>
-             let ConstArraySimple := fresh "ConstArraySimple" in
-             assert (ConstArraySimple: &( ((g_allQueue + index * sizeof (name))) # name ->ₛ field_name) =
-&( ((g_allQueue) # (name) + index) ->ₛ field_name)) ; [ rewrite const_array_pi; reflexivity | rewrite ConstArraySimple; clear ConstArraySimple ]
-    | |- context [eval_addr_expr (RE_addr_of (LE_arrow_field
-(RE_const (Z.add ?g_allQueue (Z.mul (sizeof_front_end_type (FET_alias ?name)) ?index))
-(FET_alias ?name)) ?field_name))] =>
-              let ConstArraySimple' := fresh "ConstArraySimple'" in
-             assert (ConstArraySimple': &( ((g_allQueue + sizeof (name) * index)) # name ->ₛ field_name) =
-&( ((g_allQueue) # (name) + index) ->ₛ field_name)) ; [ rewrite const_array_pi'; reflexivity | rewrite ConstArraySimple'; clear ConstArraySimple' ]
+  match goal with
+  | |- context [eval_addr_expr (RE_addr_of (LE_arrow_field
+      (RE_const (Z.add ?p (Z.mul ?i (sizeof_front_end_type (FET_alias ?name))))
+      (FET_alias ?name)) ?field_name))] =>
+      rewrite (const_array_pi p i (FET_alias name))
+  | |- context [eval_addr_expr (RE_addr_of (LE_arrow_field
+      (RE_const (Z.add ?p (Z.mul (sizeof_front_end_type (FET_alias ?name)) ?i))
+      (FET_alias ?name)) ?field_name))] =>
+      rewrite (const_array_pi' p i (FET_alias name))
   end.
-
 Ltac csimpl :=
   repeat progress
     rewrite ?eval_addr at 1;
@@ -501,6 +573,8 @@ Ltac csimpl :=
     rewrite ?addr_of_array_subst' at 1;
     rewrite ?addr_of_arrow_field at 1;
     try const_array_simpl.
+
+End CNotationSig.
           
 Axiom addr_of_arrow_field_inv : forall x y F, 
   eval_addr_expr (RE_addr_of (LE_arrow_field x F)) = eval_addr_expr (RE_addr_of (LE_arrow_field y F)) -> x = y.
@@ -521,9 +595,10 @@ Axiom RE_sub_pi_inv_r : forall x a b,
 
 Module TestNotations.
 
+Include CNotationSig Arch32.
+
 Local Open Scope string.
-
-
+Local Open Scope Z_scope.
 
 Goal forall (p: addr) (q: rvalue_expr),
   p = &((q + 1) ->ₛ "pstPrev").
@@ -549,7 +624,6 @@ Goal forall (p: addr),
   p = &(p # "LOS_TaskCB" ->ₛ "readWriteCnt" [ 0 + 1 ] ).
 Abort.
 
-(** 这个需要双括号不优美 *)
 Goal forall (p: addr),
   p = &(((p + 1)) # "LOS_TaskCB" ->ₛ "readWriteCnt" [ 0 + 1 ] ).
 Abort.
@@ -558,13 +632,12 @@ Goal forall (p: addr),
   p = &("g_TaskCB").
 Abort.
 
-(** 这表示整数加法而不是有类型的加法 *)
 Goal forall (p: addr),
-  p = &("g_TaskCB") + sizeof("TaskCB") * 1.
+  p = &("g_TaskCB") + sizeof ("TaskCB") * 1.
 Abort.
 
 Goal forall (p: addr),
-  p = &("g_X") + sizeof(INT) * 1.
+  p = &("g_X") + sizeof (INT) * 1.
 Abort.
 
 Goal forall (p: addr) (n: Z),
@@ -576,7 +649,8 @@ Goal forall (p: addr) (n: Z),
 Abort.
 
 Goal forall (p: addr),
-  &(&(p # "TaskCB" ->ₛ "pend_list") ->ₛ "pstPrev") = &(p # "TaskCB" ->ₛ "pend_list" .ₛ "pstPrev").
+  &(&(p # "TaskCB" ->ₛ "pend_list") ->ₛ "pstPrev") =
+  &(p # "TaskCB" ->ₛ "pend_list" .ₛ "pstPrev").
 Proof.
   intros. csimpl. reflexivity.
 Qed.
@@ -601,7 +675,6 @@ Proof.
   reflexivity.
 Qed.
 
-
 Goal forall (p: addr),
   let q := (p + sizeof ("TaskCB") * 10)%Z in
   &(q # "TaskCB" ->ₛ "pend_list") =
@@ -613,10 +686,9 @@ Proof.
   reflexivity.
 Qed.
 
-
 Goal forall (p q: addr),
   &(q # "TaskCB" ->ₛ "pend_list") =
-  &((p # "TaskCB" + 10) ->ₛ "pend_list") -> 
+  &((p # "TaskCB" + 10) ->ₛ "pend_list") ->
   q = (p + sizeof ("TaskCB") * 10)%Z.
 Proof.
   intros.

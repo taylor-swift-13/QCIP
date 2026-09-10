@@ -21,54 +21,66 @@ Import naive_C_Rules.
 From QCIPLib.xizi.xizi_double_link_common Require Import xizi_double_link_lib.
 Local Open Scope sac.
 
-Lemma proof_of_xizi_double_link_empty_rec_return_wit_1_general : xizi_double_link_empty_rec_return_wit_1_general.
-Proof.
-  unfold xizi_double_link_empty_rec_return_wit_1_general.
-  left.
-  intros linklist_pre nodes_general first last PreH1 PreH2.
-  destruct nodes_general as [| expected rest].
-  - unfold xizi_dllseg, XiziDLL.dllseg.
-    simpl.
-    Intros.
-    intuition.
-  - unfold xizi_dll, XiziDLL.dll.
-    Exists first last.
-    unfold XiziDLL.links.
-    entailer!.
-    discriminate.
-Qed.
-
-Lemma proof_of_xizi_double_link_empty_rec_return_wit_2_general : xizi_double_link_empty_rec_return_wit_2_general.
-Proof.
-  unfold xizi_double_link_empty_rec_return_wit_2_general.
-  right.
-  intros linklist_pre nodes_general first last PreH1 PreH2.
-  destruct nodes_general as [| expected rest].
-  - entailer!.
-  - unfold xizi_dllseg, XiziDLL.dllseg.
-    simpl.
-    Intros next.
-    Intros.
-    intuition.
-Qed.
-
-Lemma proof_of_xizi_double_link_empty_rec_derive_nil_case_by_general : xizi_double_link_empty_rec_derive_nil_case_by_general.
+Lemma proof_of_IsDoubleLinkListEmpty_entail_wit_1 : IsDoubleLinkListEmpty_entail_wit_1.
 Proof.
   pre_process.
-  Exists (@nil Z).
-  sep_apply_r_atomic
-    (derivable1_orp_intros2
-       (xizi_dll linklist_pre (@nil Z))
-       (xizi_dll linklist_pre (@nil Z))).
-  rewrite <- sepcon_emp_equiv at 1.
-  cancel (xizi_dll linklist_pre nil).
-  rewrite <- derivable1_wand_sepcon_adjoint.
-  Split.
-  - Intros retval_2.
-    Intros.
-    entailer!.
-  - Intros retval_2.
-    Intros.
-    Exists retval_2.
-    entailer!.
-Qed.
+  unfold xizi_store_dll, XiziStoreADLL.store_dll.
+  Intros first last.
+  Exists last first.
+  unfold xizi_dll_links, XiziDLL.links.
+  split_pure_spatial.
+  - cancel.
+  - dump_pre_spatial. assumption.
+Qed. 
+
+Lemma proof_of_IsDoubleLinkListEmpty_return_wit_1 : IsDoubleLinkListEmpty_return_wit_1.
+Proof.
+  pre_process.
+  split_pure_spatial.
+  - unfold xizi_store_dll, XiziStoreADLL.store_dll.
+    Exists first last.
+    unfold xizi_dll_links, XiziDLL.links.
+    split_pure_spatial.
+    + repeat progress cancel.
+    + dump_pre_spatial. assumption.
+  - split_pures.
+    + destruct nodes_general as [|a rest].
+      * simpl XiziStoreADLL.dllseg. Intros. tauto.
+      * dump_pre_spatial. discriminate.
+    + dump_pre_spatial. reflexivity.
+Qed. 
+
+Lemma proof_of_IsDoubleLinkListEmpty_return_wit_2 : IsDoubleLinkListEmpty_return_wit_2.
+Proof.
+  pre_process.
+  split_pure_spatial.
+  - unfold xizi_store_dll, XiziStoreADLL.store_dll.
+    Exists first last.
+    unfold xizi_dll_links, XiziDLL.links.
+    split_pure_spatial.
+    + repeat progress cancel.
+    + dump_pre_spatial. assumption.
+  - split_pures.
+    + destruct nodes_general as [|a rest].
+      * dump_pre_spatial. reflexivity.
+      * simpl XiziStoreADLL.dllseg. Intros next. Intros. congruence.
+    + dump_pre_spatial. reflexivity.
+Qed. 
+
+Lemma proof_of_IsDoubleLinkListEmpty_derive_nil_case_by_general : IsDoubleLinkListEmpty_derive_nil_case_by_general.
+Proof.
+  pre_process.
+  Exists A storeA_nil_case (@nil (XiziStoreADLL.DL_Node A)).
+  apply sepcon_cancel_end.
+  - cancel.
+  - apply derivable1_wand_sepcon_adjoint.
+    cancel.
+    Split.
+    + Intros retval_2. Intros. contradiction.
+    + Intros retval_2. Intros.
+      Exists 1.
+      split_pure_spatial.
+      * cancel.
+      * dump_pre_spatial. reflexivity.
+Qed. 
+

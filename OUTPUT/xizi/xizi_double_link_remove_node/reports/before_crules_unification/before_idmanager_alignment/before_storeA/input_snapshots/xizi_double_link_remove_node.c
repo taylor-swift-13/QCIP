@@ -1,0 +1,71 @@
+#include "xizi_double_link_def.h"
+
+/*@ Import Coq From SimpleC.EE.OUTPUT.xizi.xizi_double_link_remove_node.source Require Import xizi_double_link_remove_node_lib */
+/*@ Extern Coq (xizi_dllseg_shift : Z -> Z -> list Z -> Assertion)
+               (xizi_dllseg_shift_rev : Z -> Z -> list Z -> Assertion)
+               (xizi_dll_remove_first : Z -> list Z -> list Z)
+               (In : {A} -> A -> list A -> Prop)
+ */
+
+void DoubleLinkListRmNode(DoubleLinklistType *linklist_node)
+/*@ remove_member_spec <= strong_spec
+    With (head : Z) (nodes : list Z)
+    Require In(linklist_node, nodes) &&
+            xizi_dll(head, nodes)
+    Ensure xizi_dll(
+             head,
+             xizi_dll_remove_first(linklist_node, nodes)) *
+           xizi_dll(linklist_node, nil)
+*/;
+
+void DoubleLinkListRmNode(DoubleLinklistType *linklist_node)
+/*@ remove_front_spec <= strong_spec
+    With (head : Z) (suffix : list Z)
+    Require xizi_dll(head, cons(linklist_node, suffix))
+    Ensure xizi_dll(head, suffix) *
+           xizi_dll(linklist_node, nil)
+*/;
+
+void DoubleLinkListRmNode(DoubleLinklistType *linklist_node)
+/*@ remove_tail_spec <= strong_spec
+    With (head : Z) (prefix : list Z)
+    Require xizi_dll(head, app(prefix, cons(linklist_node, nil)))
+    Ensure xizi_dll(head, prefix) *
+           xizi_dll(linklist_node, nil)
+*/;
+
+void DoubleLinkListRmNode(DoubleLinklistType *linklist_node)
+/*@ remove_self_loop_spec <= strong_spec
+    Require xizi_dll(linklist_node, nil)
+    Ensure xizi_dll(linklist_node, nil)
+*/;
+
+void DoubleLinkListRmNode(DoubleLinklistType *linklist_node)
+/*@ strong_spec
+    With (dispatch_case head node_next node_prev: Z)
+         (prefix suffix: list Z)
+    Require (dispatch_case == 0 &&
+             linklist_node != 0 &&
+             xizi_dllseg_shift(head, node_prev, prefix) *
+             store(&(node_prev -> node_next), linklist_node) *
+             store(&(linklist_node -> node_next), node_next) *
+             store(&(linklist_node -> node_prev), node_prev) *
+             store(&(node_next -> node_prev), linklist_node) *
+             xizi_dllseg_shift_rev(node_next, head, suffix)) ||
+            (dispatch_case == 1 &&
+             linklist_node != 0 &&
+             store(&(linklist_node -> node_next), linklist_node) *
+             store(&(linklist_node -> node_prev), linklist_node))
+    Ensure (dispatch_case == 0 &&
+            xizi_dll(head, app(prefix, suffix)) *
+            xizi_dll(linklist_node, nil)) ||
+           (dispatch_case == 1 &&
+            xizi_dll(linklist_node, nil))
+*/
+{
+    linklist_node->node_next->node_prev = linklist_node->node_prev;
+    linklist_node->node_prev->node_next = linklist_node->node_next;
+
+    linklist_node->node_next = linklist_node;
+    linklist_node->node_prev = linklist_node;
+}

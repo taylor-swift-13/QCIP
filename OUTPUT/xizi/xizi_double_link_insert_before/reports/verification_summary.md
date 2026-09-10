@@ -1,22 +1,30 @@
-# Verification Summary
+# xizi_double_link_insert_before 验证交付
 
-- Case: `xizi_double_link_insert_before`
-- Accepted run: `xizi_double_link_insert_before-20260817190000`
-- Controller phase: `done`
-- Source goal version: `5dfcd902197d89db68e123f0f89d2998aeb2be3792c2e0c207a64ad3cabec848`
-- Target manual witnesses: 7/7 solved
-- Parent full fixed check: passed
-- Final fixed `goal_check.v`: passed, Coq 8.20.1, fixed flags hash `75b2bdd1edb990c20e7514694fa4303e8d948c120bc1e5ac3813d06caabc3dff`
-- Manual structure, case-lib contract, forbidden-lemma scan and cleanup scan: passed
+本次验证已通过 controller final-check，run 为 `xizi_double_link_insert_before-20260910183709`。所有非注释 token 与迁移前一致。 完整套件仍在迁移中，旧套件检查不作为本版本证据。
 
-## Spec outcome
+泛型 storeA : addr -> A -> Assertion 表示嵌入 link 对应的业务资源；结构指针字段由链表谓词持有。公共 DLL 谓词保留参考逻辑条件，实际 C 用例与 idmanager 共用 CRules 模型；XiziLocalDLL 是 XiziIdmanagerDLL 同一实例的别名。
 
-`member_case` keeps the normal-node membership premise. `sentinel_case` deliberately does not require `In(head, nodes)`, so a caller may use it when `linklist == head`, including the empty list immediately produced by `init`.
+- `source/`：正式带标注 C 与头文件。
+- `rocq/`：本版本生成目标与已完成证明。
+- 唯一 active case_lib：`SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_lib.v`；归档：`OUTPUT/xizi/xizi_double_link_insert_before/rocq/xizi_double_link_insert_before_lib.v`。
+- `reports/controller/`：本 run 的 controller、round、group 与最终证据。
+- `reports/before_crules_unification/`：迁移前历史报告，不作为当前验收证据。
 
-The implementation proof covers dispatch, member, sentinel, empty/nonempty and reassembly branches. The separate callpoint case `xizi_double_link_init_then_insert_before` proves that `where (sentinel_case)` is actually usable after `init`.
+source_goal_version：`7dacec39d9fabfa349f8b6c1d7059496442e53267f1e9aef1f7f5cf9f1ba9754`；manual witness 数：7。symbolic execution freshness、固定 Coq 检查、manual 结构、case_lib 合同及 forbidden lemma 检查均通过。
 
-## Freshness note
+验证边界：当前 QCP 自动生成的 `proof_auto.v` 有 0 个 `Admitted` 占位。按仓库生成文件边界保留并单独记录；本轮完成证明的是 manual witnesses 和维护库中的引理，不能据此宣称整套证明完全没有假设。
 
-The accepted annotation round ran canonical symbolic execution to EOF and forced generation of a fresh manual skeleton before calculating `source_goal_version`. Final-check's optional isolated refresh is recorded as `skipped` because that repository layout is not configured; freshness is instead established by the accepted canonical run plus exact generated-file and witness-statement hashes.
+在仓库根目录复现 symbolic execution（输出到临时目录，保留正式 manual）：
 
-The authoritative evidence is under `controller_run/`.
+```sh
+mkdir -p /tmp/xizi_double_link_insert_before-storeA-refresh
+/home/yangfp/QCIP/linux-binary/symexec --goal-file=/tmp/xizi_double_link_insert_before-storeA-refresh/xizi_double_link_insert_before_goal.v --proof-auto-file=/tmp/xizi_double_link_insert_before-storeA-refresh/xizi_double_link_insert_before_proof_auto.v --proof-manual-file=/tmp/xizi_double_link_insert_before-storeA-refresh/xizi_double_link_insert_before_proof_manual.v -IQCP_examples/QCP_demos_LLM/ -slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM -slp QCIPLib/xizi/xizi_double_link_common/ QCIPLib.xizi.xizi_double_link_common --CRules CRules --coq-logic-path=SimpleC.EE.OUTPUT.xizi.xizi_double_link_insert_before.source --input-file=OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before.c --no-exec-info
+```
+
+通过固定入口编译：
+
+```sh
+python3 /home/yangfp/QCIP/.agents/skills/vc-proving/scripts/coq_tooling.py check --workspace-root /home/yangfp/QCIP --build-workspace /tmp/xizi_double_link_insert_before-storeA-coq-build --target-file SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_goal_check.v --target-kind check --source-goal-version 7dacec39d9fabfa349f8b6c1d7059496442e53267f1e9aef1f7f5cf9f1ba9754
+```
+
+修改源码、规约或目标后应重新执行 controller 流程。快照与 OUTPUT 副本的字节比对见 `reports/archive_comparison.json`。

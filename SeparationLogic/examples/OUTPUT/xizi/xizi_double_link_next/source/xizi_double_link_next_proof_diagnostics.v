@@ -17,20 +17,32 @@ Local Open Scope Z_scope.
 Local Open Scope sets.
 Local Open Scope string_scope.
 Local Open Scope list.
-Import naive_C_Rules.
+Import CRules.
 From QCIPLib.xizi.xizi_double_link_common Require Import xizi_double_link_lib.
 From SimpleC.EE.OUTPUT.xizi.xizi_double_link_next.source Require Import xizi_double_link_next_lib.
 Local Open Scope sac.
 
-Lemma proof_of_xizi_double_link_next_return_wit_2_split_goal_1 : xizi_double_link_next_return_wit_2_split_goal_1.
+Lemma proof_of_DoubleLinkListGetNext_return_wit_1_split_goal_1 : DoubleLinkListGetNext_return_wit_1_split_goal_1.
 Proof. Abort.
 
-Lemma proof_of_xizi_double_link_next_return_wit_2_split_goal_spatial : xizi_double_link_next_return_wit_2_split_goal_spatial.
+Lemma proof_of_DoubleLinkListGetNext_return_wit_1_split_goal_spatial : DoubleLinkListGetNext_return_wit_1_split_goal_spatial.
 Proof. Abort.
 
-Lemma proof_of_xizi_double_link_next_return_wit_3_split_goal_1 : xizi_double_link_next_return_wit_3_split_goal_1.
+Lemma proof_of_DoubleLinkListGetNext_return_wit_2_split_goal_1 : DoubleLinkListGetNext_return_wit_2_split_goal_1.
 Proof. Abort.
 
-Lemma proof_of_xizi_double_link_next_return_wit_3_split_goal_spatial : xizi_double_link_next_return_wit_3_split_goal_spatial.
+Lemma proof_of_DoubleLinkListGetNext_return_wit_2_split_goal_spatial : DoubleLinkListGetNext_return_wit_2_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_DoubleLinkListGetNext_return_wit_3_split_goal_1 : DoubleLinkListGetNext_return_wit_3_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_DoubleLinkListGetNext_return_wit_3_split_goal_spatial : DoubleLinkListGetNext_return_wit_3_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_DoubleLinkListGetNext_return_wit_4_split_goal_1 : DoubleLinkListGetNext_return_wit_4_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_DoubleLinkListGetNext_return_wit_4_split_goal_spatial : DoubleLinkListGetNext_return_wit_4_split_goal_spatial.
 Proof. Abort.
 

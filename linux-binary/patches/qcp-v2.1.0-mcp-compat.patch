@@ -1,0 +1,130 @@
+--- a/SymExec/SymExec/AICommand.c
++++ b/SymExec/SymExec/AICommand.c
+@@ -33,6 +33,28 @@
+ 
+ static struct CurrentAssertionDisplay *ai_current_display = NULL;
+ 
++/* Interactive execution starts from the already parsed PSTree, so its fresh
++ * function scope must import the C parameters stored in func_info directly.
++ * Calling cpd_define_param(info->name, NULL, ...) incorrectly treats the
++ * function as a new zero-parameter declaration and rejects every function
++ * that actually has parameters. */
++static void ai_import_function_parameters(struct func_info *info,
++                                          struct environment *env) {
++  for (struct prog_var_info_list *parameter = info->param;
++       parameter != NULL; parameter = parameter->tail) {
++    if (parameter->head == NULL || parameter->head->name == NULL) {
++      failwith("Malformed existing function parameter while importing "
++               "interactive scope");
++    }
++    struct var_scope_union *binding =
++        (struct var_scope_union *)malloc(sizeof(struct var_scope_union));
++    binding->t = IS_PROG_VAR;
++    binding->d.prog_var = parameter->head;
++    hashtbl_add(&env->ephemer.ephs->cur->se.var_scope,
++                strdup(parameter->head->name), binding);
++  }
++}
++
+ static void ensure_ai_current_display(void) {
+   if (ai_current_display == NULL) {
+     ai_current_display = CurrentAssertionDisplayCreate();
+@@ -354,7 +376,7 @@
+     }
+     env->ephemer.ephs->cur->symexec_state.defined_vars =
+        param_to_PSVarDefList(info->param);
+-    cpd_define_param(info->name, NULL, env);
++    ai_import_function_parameters(info, env);
+     precond = ToAddressable(precond, env);
+     add_assertion("pre", AsrtListDeepCopy(precond), &env->ephemer);
+     if (counter == 1) {
+--- a/smt_solver/src/lia_theory.c
++++ b/smt_solver/src/lia_theory.c
+@@ -282,39 +282,24 @@
+             res[i] = r2[i];
+         return res;
+     }
+-   int an = r1[num];
++    int an = r1[num];
+     int bn = -r2[num];
+-    int lcm = (an*bn)/gcd(an, bn);
+-    int m1 = lcm/an;
+-    int m2 = lcm/bn; 
++    long long lcm = ((long long)an * (long long)bn) / gcd(an, bn);
++    int m1 = (int)(lcm / an);
++    int m2 = (int)(lcm / bn);
+     if(m2 < 0) {
+         m2 = -m2;
+         m1 = -m1;
+     }
+     for(int i = 0; i <= size; i++){
+-        if(m1 != -1 && (r1[i] < LIA_INT_MIN / m1 || r2[i] > LIA_INT_MAX / m1) ) {
+-            printf("mul overflow\n");
+-            free(res);
+-            exit(-1);
+-        }
+-        else if(m1 == -1 && r1[i] == LIA_INT_MIN){
+-            printf("mul overflow\n");
++        __int128 combined = (__int128)m2 * (__int128)r2[i] +
++                            (__int128)m1 * (__int128)r1[i];
++        if (combined < LIA_INT_MIN || combined > LIA_INT_MAX) {
++            printf("linear combination overflow\n");
+             free(res);
+             exit(-1);
+         }
+-        if(r2[i] < LIA_INT_MIN / m2 || r2[i] > LIA_INT_MAX / m2) {
+-            printf("mul overflow\n");
+-            free(res);
+-            exit(-1);
+-        }
+-        int x = m2 * r2[i];
+-        int y = m1 * r1[i];
+-        if (! check_add_safe(x, y)) {
+-            printf("add overflow\n");
+-            free(res);
+-            exit(-1);
+-        }
+-        res[i] = x + y;
++        res[i] = (int)combined;
+     }
+     return res;
+ }
+@@ -330,33 +315,18 @@
+     int g = gcd(an, bn);
+     int m1 = bn/g;
+     int m2 = an/g;
+-    int ub1, ub2, lb1, lb2;
+-    ub1 = LIA_INT_MAX / m1;
+-    lb1 = LIA_INT_MIN / m1;
+-    ub2 = LIA_INT_MAX / m2;
+-    lb2 = LIA_INT_MIN / m2;
+-    for(int i = 0; i <= num; i++){
+-        if (r1[i] < lb1 || r1[i] > ub1) {
+-            printf("mul overflow\n");
+-            exit(-1);
+-        }
+-        if (r2[i] < lb2 || r2[i] > ub2) {
+-            printf("mul overflow\n");
+-            exit(-1);
+-        }
+-    }
+     int* res = (int*)malloc(sizeof(int)*(num+1));
+     memset(res, 0, sizeof(int)*(num+1));
+     for(int i = 0; i <= num; i++){
+         //ci = m1*ai + m2*bi
+-        int x = m2 * r2[i];
+-        int y = m1 * r1[i];
+-        if (! check_add_safe(x, y)) {
+-            printf("add overflow\n");
++        __int128 combined = (__int128)m2 * (__int128)r2[i] +
++                            (__int128)m1 * (__int128)r1[i];
++        if (combined < LIA_INT_MIN || combined > LIA_INT_MAX) {
++            printf("linear combination overflow\n");
+             free(res);
+             exit(-1);
+         }
+-        res[i] = x + y;
++        res[i] = (int)combined;
+     }
+     return res;
+ }

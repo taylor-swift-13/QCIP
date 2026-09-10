@@ -21,16 +21,13 @@ From QCIPLib.xizi.xizi_double_link_common Require Import xizi_double_link_lib.
 From SimpleC.EE.OUTPUT.xizi.xizi_double_link_init_then_len.source Require Import xizi_double_link_init_then_len_lib.
 Local Open Scope sac.
 
-Lemma proof_of_xizi_double_link_init_return_wit_1 : xizi_double_link_init_return_wit_1.
+Lemma proof_of_InitDoubleLinkList_partial_solve_wit_1 : InitDoubleLinkList_partial_solve_wit_1.
 Proof. Admitted. 
 
-Lemma proof_of_xizi_double_link_init_partial_solve_wit_1 : xizi_double_link_init_partial_solve_wit_1.
+Lemma proof_of_DoubleLinkListLenGet_safety_wit_1 : DoubleLinkListLenGet_safety_wit_1.
 Proof. Admitted. 
 
-Lemma proof_of_xizi_double_link_len_safety_wit_1 : xizi_double_link_len_safety_wit_1.
-Proof. Admitted. 
-
-Lemma proof_of_xizi_double_link_len_partial_solve_wit_1 : xizi_double_link_len_partial_solve_wit_1.
+Lemma proof_of_DoubleLinkListLenGet_partial_solve_wit_1 : DoubleLinkListLenGet_partial_solve_wit_1.
 Proof. Admitted. 
 
 Lemma proof_of_xizi_double_link_init_then_len_partial_solve_wit_1 : xizi_double_link_init_then_len_partial_solve_wit_1.

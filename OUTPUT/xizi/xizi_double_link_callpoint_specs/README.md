@@ -1,32 +1,32 @@
-# 双链表弱规约调用点验证
+# xizi_double_link_callpoint_specs 验证交付
 
-本 case 不重复验证各函数实现，而是在真实 C wrapper 中检查已证明的弱规约能否从调用点拥有的最小资源直接实例化。controller run `xizi_double_link_callpoint_specs-20260818033857` 已到 `done`，`source_goal_version` 为 `f730768681659fb55dc2fe8cdef974a79ba19ba137c70a32797e244b792e5a93`。
+本次 storeA 迁移已通过 controller final-check，run 为 `xizi_double_link_callpoint_specs-20260910004321`。可执行 C 未改动；迁移规约与证明。所有非注释 token 与迁移前一致。 本次单双链表套件已全部完成，并通过当前公共库依赖下的整套回归。旧版套件报告仅供历史参考。
 
-## 覆盖
+泛型 `storeA : addr -> A -> Assertion` 与 idmanager 使用的 `dll.v` 对齐，表示内嵌 link 对应外部对象的业务资源；结构指针字段由链表谓词持有。保留已有非空、哨兵与函数行为条件。
 
-- 11 个 wrapper，13 个显式 `where(case_name)` 调用。
-- `init -> empty/empty_rec/head/head_rec/len`。
-- `init -> next/next_rec_last/next_rec_middle(head,head)`，使用无 `In(head,nodes)` 前置的 `sentinel_case`。
-- `init -> insert_after(head,node)`，使用 `sentinel_case` 构造 singleton。
-- singleton 上分别使用 `remove_front_spec` 和 `remove_tail_spec`，返回空表与独立已移除节点。
+- `source/`：正式带标注 C 与头文件。
+- `rocq/`：本版本生成目标与已完成证明。
+- 唯一 active case_lib：`SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_callpoint_specs/source/xizi_double_link_callpoint_specs_lib.v`；归档：`OUTPUT/xizi/xizi_double_link_callpoint_specs/rocq/xizi_double_link_callpoint_specs_lib.v`。
+- `reports/controller/`：本 run 的 controller、round、group 与最终证据。
+- `reports/before_storeA/`：迁移前历史报告，不作为当前验收证据。
 
-wrapper 公开前置只包含一个或两个 `xizi_dll_node` ownership。`nodes=nil`、singleton prefix/suffix 和 sentinel 别名都只在前序调用建立后作为局部 Assert 出现。
+source_goal_version：`3667801c6a00f2cce5cd118b178cdcff2f6ac75727675e3073ecf08d2552c13c`；manual witness 数：14。symbolic execution freshness、固定 Coq 检查、manual 结构、case_lib 合同及 forbidden lemma 检查均通过。
 
-## 结果
+验证边界：当前 QCP 自动生成的 `proof_auto.v` 有 34 个 `Admitted` 占位。按仓库生成文件边界保留并单独记录；本轮完成证明的是 manual witnesses 和维护库中的引理，不能据此宣称整套证明完全没有假设。
 
-- canonical symbolic execution 到 11 个 wrapper 文件尾，3 次 qcp-mcp 交互轮次均成功。
-- 13/13 manual witnesses 已证明；parent merge 通过。
-- fixed `coqc_check` return code 0，Coq 8.20.1，fixed flags hash `75b2bdd1edb990c20e7514694fa4303e8d948c120bc1e5ac3813d06caabc3dff`。
-- final-check 的 manual 结构、case-lib contract、forbidden lemma 和 cleanup scan 全部通过。
+在仓库根目录复现 symbolic execution（输出到临时目录，保留正式 manual）：
 
-## 复现
+```sh
+mkdir -p /tmp/xizi_double_link_callpoint_specs-storeA-refresh
+/home/yangfp/QCIP/linux-binary/symexec --goal-file=/tmp/xizi_double_link_callpoint_specs-storeA-refresh/xizi_double_link_callpoint_specs_goal.v --proof-auto-file=/tmp/xizi_double_link_callpoint_specs-storeA-refresh/xizi_double_link_callpoint_specs_proof_auto.v --proof-manual-file=/tmp/xizi_double_link_callpoint_specs-storeA-refresh/xizi_double_link_callpoint_specs_proof_manual.v -IQCP_examples/QCP_demos_LLM/ -slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM -slp QCIPLib/xizi/xizi_double_link_common/ QCIPLib.xizi.xizi_double_link_common --coq-logic-path=SimpleC.EE.OUTPUT.xizi.xizi_double_link_callpoint_specs.source --input-file=OUTPUT/xizi/xizi_double_link_callpoint_specs/source/xizi_double_link_callpoint_specs.c --no-exec-info
+```
 
-在仓库根目录运行 canonical symbolic execution，但将 fresh manual 输出到临时目录，不覆盖已证明文件：
+通过固定入口编译：
 
-    linux-binary/symexec --goal-file=/tmp/xizi_double_link_callpoint_specs_goal.v --proof-auto-file=/tmp/xizi_double_link_callpoint_specs_proof_auto.v --proof-manual-file=/tmp/xizi_double_link_callpoint_specs_proof_manual.v -IQCP_examples/QCP_demos_LLM/ -slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM -slp QCIPLib/xizi/xizi_double_link_common/ QCIPLib.xizi.xizi_double_link_common --coq-logic-path=SimpleC.EE.OUTPUT.xizi.xizi_double_link_callpoint_specs.source --input-file=OUTPUT/xizi/xizi_double_link_callpoint_specs/source/xizi_double_link_callpoint_specs.c --no-exec-info
+```sh
+python3 /home/yangfp/QCIP/.agents/skills/vc-proving/scripts/coq_tooling.py check --workspace-root /home/yangfp/QCIP --build-workspace /tmp/xizi_double_link_callpoint_specs-storeA-coq-build --target-file SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_callpoint_specs/source/xizi_double_link_callpoint_specs_goal_check.v --target-kind check --source-goal-version 3667801c6a00f2cce5cd118b178cdcff2f6ac75727675e3073ecf08d2552c13c
+```
 
-使用唯一固定 Rocq 入口编译：
+修改源码、规约或目标后应重新执行 controller 流程。快照与 OUTPUT 副本的字节比对见 `reports/archive_comparison.json`。
 
-    python3 .agents/skills/vc-proving/scripts/coq_tooling.py check --workspace-root /home/yangfp/QCIP --build-workspace /tmp/xizi_double_link_callpoint_specs-coq-build --target-file SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_callpoint_specs/source/xizi_double_link_callpoint_specs_goal_check.v --target-kind check --source-goal-version f730768681659fb55dc2fe8cdef974a79ba19ba137c70a32797e244b792e5a93
-
-`reports/workflow/20260818-current/` 保存本轮 annotation、vc-checking、group-worker、parent merge 和 final-check 证据；`rocq/` 为已通过的正式快照。
+当前依赖回归证据：`OUTPUT/xizi/xizi_double_link_common/reports/storeA_migration_reference/suite_audits/20260909181337/audit.json`；不替换本 case 原始 controller 接受记录。

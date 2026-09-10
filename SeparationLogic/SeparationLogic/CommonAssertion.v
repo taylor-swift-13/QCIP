@@ -4,6 +4,8 @@ Require Import Coq.Lists.List.
 Require Import Coq.Classes.RelationClasses.
 Require Import Coq.Classes.Morphisms.
 Require Import Coq.micromega.Psatz.
+Set Warnings "-warn-library-file-stdlib-vector".
+Require Coq.Vectors.Vector.
 Require Import String.
 Require Import Permutation.
 
@@ -14,6 +16,7 @@ From compcert.lib Require Import Coqlib Integers.
 From SimpleC.SL Require Import Mem.
 From SimpleC.SL Require Export IntLib.
 From SimpleC.SL Require Export FloatLib.
+From SimpleC.SL Require Export CArch.
 From AUXLib Require Export ListLib.
 From SimpleC.SL Require Export CNotation.
 
@@ -55,144 +58,263 @@ Definition aligned_4 (x : Z) : Prop := x mod 4 = 0.
 
 Definition aligned_8 (x : Z) : Prop := x mod 8 = 0.
 
-Definition isvalidptr_char (x : Z) : Prop :=
-  x >= 0 /\ x <= Int.max_unsigned.
-
-Definition isvalidptr_short (x : Z) : Prop := 
-  x >= 0 /\ x + 1 <= Int.max_unsigned /\ aligned_2 x.  
-
-Definition isvalidptr_int (x : Z) : Prop :=
-  x >= 0 /\ x + 3 <= Int.max_unsigned /\ aligned_4 x.
-
-Definition isvalidptr_int64 (x : Z) : Prop :=
-  x >= 0 /\ x + 7 <= Int.max_unsigned /\ aligned_4 x.
-
-Definition isvalidptr_float (x : Z) : Prop :=
-  x >= 0 /\ x + 3 <= Int.max_unsigned /\ aligned_4 x.
-
-Definition isvalidptr_double (x : Z) : Prop :=
-  x >= 0 /\ x + 7 <= Int.max_unsigned /\ aligned_8 x.
-
-Definition isvalidptr (x : Z) : Prop :=
-  x >= 0 /\ x + 3 <= Int.max_unsigned /\ aligned_4 x.
-
-(* In the folloing definition, "mod" is the math modulo,
-   a mod b always has the same sign with b (see Z.mod_bound_pos
-   and Z.mod_neg_bound). In comparison, "%" is the C/C++
-   modulo, a % b always has the same sign with a.*)
-
-Definition merge_short (x1 x2 y: Z): Prop :=
-  y mod (2^16) =
-  x1 mod (2^8) * (2^8) +
-  x2 mod (2^8).
-
-Example merge_short_255_255_neg_1:
-  merge_short 255 255 (-1).
-Proof. reflexivity. Qed.
-
-Example merge_short_255_neg1_neg_1:
-  merge_short 255 (-1) (-1).
-Proof. reflexivity. Qed.
-
-Definition merge_int (x1 x2 x3 x4 y: Z): Prop :=
-  y mod (2^32) =
-  x1 mod (2^8) * (2^24) +
-  x2 mod (2^8) * (2^16) +
-  x3 mod (2^8) * (2^8) +
-  x4 mod (2^8).
-
-Definition merge_int64 (x1 x2 x3 x4 x5 x6 x7 x8 y: Z): Prop :=
-  y mod (2^64) =
-  x1 mod (2^8) * (2^56) +
-  x2 mod (2^8) * (2^48) +
-  x3 mod (2^8) * (2^40) +
-  x4 mod (2^8) * (2^32) +
-  x5 mod (2^8) * (2^24) +
-  x6 mod (2^8) * (2^16) +
-  x7 mod (2^8) * (2^8) +
-  x8 mod (2^8).
-
-Theorem merge_int_equiv : 
-forall (x1 x2 x3 x4 : Z) (v1 v2 v3 v4 : Z), forall z, 
--128 <= x1 < 128 -> -128 <= x2 < 128 ->
--128 <= x3 < 128 -> -128 <= x4 < 128 ->
--128 <= v1 < 128 -> -128 <= v2 < 128 ->
--128 <= v3 < 128 -> -128 <= v4 < 128 ->
-merge_int x1 x2 x3 x4 z -> merge_int v1 v2 v3 v4 z ->
-x1 = v1 /\ x2 = v2 /\ x3 = v3 /\ x4 = v4.
-Proof.
-  intros.
-  unfold merge_int in *. 
-  replace (2 ^ 8) with 256 in * by (unfold Z.pow; simpl; auto).
-  rewrite H7 in H8. clear H7.
-  rewrite <-! Z.add_assoc in H8.
-  pose proof (Z.mod_pos_bound v2 256 (ltac : (lia))) as valid_v2.
-  pose proof (Z.mod_pos_bound v3 256 (ltac : (lia))) as valid_v3.
-  pose proof (Z.mod_pos_bound v4 256 (ltac : (lia))) as valid_v4.
-  pose proof (Z.mod_pos_bound x2 256 (ltac : (lia))) as valid_x2.
-  pose proof (Z.mod_pos_bound x3 256 (ltac : (lia))) as valid_x3.
-  pose proof (Z.mod_pos_bound x4 256 (ltac : (lia))) as valid_x4.
-  assert (x1 mod 256 = v1 mod 256).
-  {
-    assert ((x1 mod 256 * 2 ^ 24 + (x2 mod 256 * 2 ^ 16 + (x3 mod 256 * 256 + x4 mod 256))) / 2 ^ 24 = (v1 mod 256 * 2 ^ 24 + (v2 mod 256 * 2 ^ 16 + (v3 mod 256 * 256 + v4 mod 256))) / 2 ^ 24) by (rewrite H8 ; reflexivity).
-    rewrite !Z.div_add_l in H7 ; try lia.
-  }
-  assert (x1 = v1).
-  { 
-    rewrite Zmod_eq_full in H7 ; try lia.
-    rewrite Zmod_eq_full in H7 ; try lia.
-  }
-  subst.
-  apply Z.add_reg_l in H8. clear H7.
-  assert (x2 mod 256 = v2 mod 256).
-  {
-    assert ((x2 mod 256 * 2 ^ 16 + (x3 mod 256 * 256 + x4 mod 256)) / 2 ^ 16 = (v2 mod 256 * 2 ^ 16 + (v3 mod 256 * 256 + v4 mod 256)) / 2 ^ 16) by (rewrite H8 ; reflexivity).
-    rewrite !Z.div_add_l in H7 ; try lia.
-  }
-  assert (x2 = v2).
-  { 
-    rewrite Zmod_eq_full in H7 ; try lia.
-    rewrite Zmod_eq_full in H7 ; try lia.
-  }
-  subst.
-  apply Z.add_reg_l in H8. clear H7.
-  assert (x3 mod 256 = v3 mod 256).
-  {
-    assert ((x3 mod 256 * 256 + x4 mod 256) / 256 = (v3 mod 256 * 256 + v4 mod 256) / 256) by (rewrite H8 ; reflexivity).
-    rewrite !Z.div_add_l in H7 ; try lia.
-  }
-  assert (x3 = v3).
-  { 
-    rewrite Zmod_eq_full in H7 ; try lia.
-    rewrite Zmod_eq_full in H7 ; try lia.
-  }
-  subst.
-  apply Z.add_reg_l in H8. clear H7.
-  repeat split ; try lia.
-  rewrite Zmod_eq_full in H8 ; try lia.
-  rewrite Zmod_eq_full in H8 ; try lia.
-Qed.
-
-Theorem merge_uint_equiv : 
-forall (x1 x2 x3 x4 : Z) (v1 v2 v3 v4 : Z), forall z, 
-0 <= x1 < 256 -> 0 <= x2 < 256 ->
-0 <= x3 < 256 -> 0 <= x4 < 256 ->
-0 <= v1 < 256 -> 0 <= v2 < 256 ->
-0 <= v3 < 256 -> 0 <= v4 < 256 ->
-merge_int x1 x2 x3 x4 z -> merge_int v1 v2 v3 v4 z ->
-x1 = v1 /\ x2 = v2 /\ x3 = v3 /\ x4 = v4.
-Proof.
-  intros.
-  unfold merge_int in *. 
-  replace (2 ^ 8) with 256 in * by (unfold Z.pow; simpl; auto).
-  rewrite H7 in H8. clear H7.
-  rewrite <-! Z.add_assoc in H8.
-  rewrite ! Z.mod_small in H8 ; try lia.
-Qed.
-
-Module Type DerivedPredSig (CRules: SeparationLogicSig). 
+Module Type DerivedPredSig (Arch : CArchSig) (Endian : CEndianSig) (CRules: SeparationLogicSig).
 
 Arguments CRules.exp {A}.
+
+Local Set Warnings "-notation-overridden".
+Include CNotationSig Arch.
+Local Set Warnings "notation-overridden".
+
+Definition addr_max_unsigned : Z := Arch.addr_max_unsigned.
+Definition ptr_size : nat := Arch.ptr_size.
+Definition ptr_align : Z := Arch.ptr_align.
+Definition ptr_size_Z : Z := Arch.ptr_size_Z.
+Definition ptr_width_Z : Z := Arch.ptr_width_Z.
+Definition aligned (align x : Z) : Prop := Arch.aligned align x.
+Definition bytes_eqm := Endian.bytes_eqm.
+Definition n_bytes_to_Z := Endian.n_bytes_to_Z.
+Definition Z_to_n_bytes := Endian.Z_to_n_bytes.
+Definition merge_n_bytes := Endian.merge_n_bytes.
+Definition merge_short := Endian.merge_short.
+Definition merge_int := Endian.merge_int.
+Definition merge_int64 := Endian.merge_int64.
+Definition vec1 (x : Z) : Vector.t Z 1 :=
+  Vector.cons Z x 0 (Vector.nil Z).
+Definition vec2 (x1 x2 : Z) : Vector.t Z 2 :=
+  Vector.cons Z x1 1 (Vector.cons Z x2 0 (Vector.nil Z)).
+Definition vec4 (x1 x2 x3 x4 : Z) : Vector.t Z 4 :=
+  Vector.cons Z x1 3
+    (Vector.cons Z x2 2
+      (Vector.cons Z x3 1
+        (Vector.cons Z x4 0 (Vector.nil Z)))).
+Definition vec8 (x1 x2 x3 x4 x5 x6 x7 x8 : Z) : Vector.t Z 8 :=
+  Vector.cons Z x1 7
+    (Vector.cons Z x2 6
+      (Vector.cons Z x3 5
+        (Vector.cons Z x4 4
+          (Vector.cons Z x5 3
+            (Vector.cons Z x6 2
+              (Vector.cons Z x7 1
+                (Vector.cons Z x8 0 (Vector.nil Z)))))))).
+
+Ltac unfold_arch :=
+  unfold ptr_width_Z, ptr_size_Z, ptr_size, ptr_align, addr_max_unsigned, aligned in *;
+  cbn in *.
+
+Ltac fold_arch :=
+  fold ptr_width_Z ptr_size_Z ptr_size ptr_align addr_max_unsigned aligned in *.
+
+Ltac solve_arch :=
+  unfold_arch; try reflexivity; try lia.
+
+Lemma ptr_size_32_or_64 : ptr_size = 4%nat \/ ptr_size = 8%nat.
+Proof.
+  unfold ptr_size.
+  apply Arch.ptr_size_32_or_64.
+Qed.
+
+Lemma ptr_size_pos : 0 < ptr_size_Z.
+Proof.
+  unfold ptr_size_Z.
+  apply Arch.ptr_size_pos.
+Qed.
+
+Lemma ptr_align_pos : 0 < ptr_align.
+Proof.
+  unfold ptr_align.
+  apply Arch.ptr_align_pos.
+Qed.
+
+Lemma ptr_aligned_aligned_4 :
+  forall x, aligned ptr_align x -> x mod 4 = 0.
+Proof.
+  unfold aligned, ptr_align.
+  apply Arch.ptr_aligned_aligned_4.
+Qed.
+
+Lemma addr_max_unsigned_ge_7 : 7 <= addr_max_unsigned.
+Proof.
+  unfold addr_max_unsigned.
+  apply Arch.addr_max_unsigned_ge_7.
+Qed.
+
+Lemma ptr_size_fits_addr : ptr_size_Z - 1 <= addr_max_unsigned.
+Proof.
+  unfold ptr_size_Z, addr_max_unsigned.
+  apply Arch.ptr_size_fits_addr.
+Qed.
+
+Lemma int_max_fits_addr : Int.max_unsigned <= addr_max_unsigned.
+Proof.
+  unfold addr_max_unsigned.
+  apply Arch.int_max_fits_addr.
+Qed.
+
+Lemma eqm_bytes_to_Z_eq :
+  forall n (v1 v2 : Vector.t Z n),
+    bytes_eqm n v1 v2 -> n_bytes_to_Z n v1 = n_bytes_to_Z n v2.
+Proof.
+  unfold bytes_eqm, n_bytes_to_Z.
+  apply Endian.eqm_bytes_to_Z_eq.
+Qed.
+
+Lemma Z_to_n_bytes_to_Z :
+  forall length v,
+    n_bytes_to_Z length (Z_to_n_bytes v length) =
+    v mod (2 ^ (8 * Z.of_nat length)).
+Proof.
+  unfold n_bytes_to_Z, Z_to_n_bytes.
+  apply Endian.Z_to_n_bytes_to_Z.
+Qed.
+
+Lemma merge_n_bytes_self :
+  forall n (v : Vector.t Z n),
+    merge_n_bytes n v (n_bytes_to_Z n v).
+Proof.
+  unfold merge_n_bytes, n_bytes_to_Z.
+  apply Endian.merge_n_bytes_self.
+Qed.
+
+Lemma merge_byte_equiv_merge_n_bytes :
+  forall x y,
+    Byte.eqm x y <-> merge_n_bytes 1 (Vector.cons Z x 0 (Vector.nil Z)) y.
+Proof.
+  unfold merge_n_bytes.
+  apply Endian.merge_byte_equiv_merge_n_bytes.
+Qed.
+
+Lemma merge_short_equiv_merge_n_bytes :
+  forall x1 x2 y,
+    merge_short x1 x2 y <->
+    merge_n_bytes 2 (Vector.cons Z x1 1 (Vector.cons Z x2 0 (Vector.nil Z))) y.
+Proof.
+  unfold merge_short, merge_n_bytes.
+  apply Endian.merge_short_equiv_merge_n_bytes.
+Qed.
+
+Lemma merge_int_equiv_merge_n_bytes :
+  forall x1 x2 x3 x4 y,
+    merge_int x1 x2 x3 x4 y <->
+    merge_n_bytes 4
+      (Vector.cons Z x1 3
+        (Vector.cons Z x2 2
+          (Vector.cons Z x3 1
+            (Vector.cons Z x4 0 (Vector.nil Z))))) y.
+Proof.
+  unfold merge_int, merge_n_bytes.
+  apply Endian.merge_int_equiv_merge_n_bytes.
+Qed.
+
+Lemma merge_int64_equiv_merge_n_bytes :
+  forall x1 x2 x3 x4 x5 x6 x7 x8 y,
+    merge_int64 x1 x2 x3 x4 x5 x6 x7 x8 y <->
+    merge_n_bytes 8
+      (Vector.cons Z x1 7
+        (Vector.cons Z x2 6
+          (Vector.cons Z x3 5
+            (Vector.cons Z x4 4
+              (Vector.cons Z x5 3
+                (Vector.cons Z x6 2
+                  (Vector.cons Z x7 1
+                    (Vector.cons Z x8 0 (Vector.nil Z))))))))) y.
+Proof.
+  unfold merge_int64, merge_n_bytes.
+  apply Endian.merge_int64_equiv_merge_n_bytes.
+Qed.
+
+Lemma merge_short_eqm :
+  forall x1 x2 y1 y2 v,
+    Byte.eqm x1 y1 -> Byte.eqm x2 y2 ->
+    merge_short x1 x2 v -> merge_short y1 y2 v.
+Proof.
+  unfold merge_short.
+  apply Endian.merge_short_eqm.
+Qed.
+
+Lemma merge_int_eqm :
+  forall x1 x2 x3 x4 y1 y2 y3 y4 v,
+    Byte.eqm x1 y1 -> Byte.eqm x2 y2 -> Byte.eqm x3 y3 -> Byte.eqm x4 y4 ->
+    merge_int x1 x2 x3 x4 v -> merge_int y1 y2 y3 y4 v.
+Proof.
+  unfold merge_int.
+  apply Endian.merge_int_eqm.
+Qed.
+
+Lemma merge_int64_eqm :
+  forall x1 x2 x3 x4 x5 x6 x7 x8 y1 y2 y3 y4 y5 y6 y7 y8 v,
+    Byte.eqm x1 y1 -> Byte.eqm x2 y2 -> Byte.eqm x3 y3 -> Byte.eqm x4 y4 ->
+    Byte.eqm x5 y5 -> Byte.eqm x6 y6 -> Byte.eqm x7 y7 -> Byte.eqm x8 y8 ->
+    merge_int64 x1 x2 x3 x4 x5 x6 x7 x8 v ->
+    merge_int64 y1 y2 y3 y4 y5 y6 y7 y8 v.
+Proof.
+  unfold merge_int64.
+  apply Endian.merge_int64_eqm.
+Qed.
+
+Lemma merge_short_value_eqm :
+  forall x1 x2 v v',
+    v mod 2^16 = v' mod 2^16 ->
+    merge_short x1 x2 v -> merge_short x1 x2 v'.
+Proof.
+  unfold merge_short.
+  apply Endian.merge_short_value_eqm.
+Qed.
+
+Lemma merge_int_value_eqm :
+  forall x1 x2 x3 x4 v v',
+    v mod 2^32 = v' mod 2^32 ->
+    merge_int x1 x2 x3 x4 v -> merge_int x1 x2 x3 x4 v'.
+Proof.
+  unfold merge_int.
+  apply Endian.merge_int_value_eqm.
+Qed.
+
+Lemma merge_int64_value_eqm :
+  forall x1 x2 x3 x4 x5 x6 x7 x8 v v',
+    v mod 2^64 = v' mod 2^64 ->
+    merge_int64 x1 x2 x3 x4 x5 x6 x7 x8 v ->
+    merge_int64 x1 x2 x3 x4 x5 x6 x7 x8 v'.
+Proof.
+  unfold merge_int64.
+  apply Endian.merge_int64_value_eqm.
+Qed.
+
+Definition valid_addr_range (p len : Z) : Prop :=
+  Arch.valid_addr_range p len.
+
+Definition valid_object (p len align : Z) : Prop :=
+  Arch.valid_object p len align.
+
+Definition isvalidptr_char (x : Z) : Prop :=
+  x >= 0 /\ x <= addr_max_unsigned.
+
+Definition isvalidptr_short (x : Z) : Prop := 
+  x >= 0 /\ x + 1 <= addr_max_unsigned /\ aligned_2 x.  
+
+Definition isvalidptr_int (x : Z) : Prop :=
+  x >= 0 /\ x + 3 <= addr_max_unsigned /\ aligned_4 x.
+
+Definition isvalidptr_int64 (x : Z) : Prop :=
+  x >= 0 /\ x + 7 <= addr_max_unsigned /\ aligned_4 x.
+
+Definition isvalidptr_int128 (x : Z) : Prop :=
+  x >= 0 /\ x + 15 <= addr_max_unsigned /\ aligned_4 x.
+
+Definition isvalidptr_float (x : Z) : Prop :=
+  x >= 0 /\ x + 3 <= addr_max_unsigned /\ aligned_4 x.
+
+Definition isvalidptr_double (x : Z) : Prop :=
+  x >= 0 /\ x + 7 <= addr_max_unsigned /\ aligned_8 x.
+
+Definition isvalidptr_long_double (x : Z) : Prop :=
+  x >= 0 /\ x + 15 <= addr_max_unsigned /\ aligned_8 x.
+
+Definition isvalidptr (x : Z) : Prop :=
+  x >= 0 /\ x + ptr_size_Z - 1 <= addr_max_unsigned /\ Arch.aligned Arch.ptr_align x.
+
+Definition valid_ptr_value (v : Z) : Prop :=
+  0 <= v /\ v <= addr_max_unsigned.
 
 Definition store_byte : addr -> Z -> CRules.expr := CRules.mstore.
 
@@ -243,6 +365,20 @@ Definition store_8byte (x : addr) (v : Z) : CRules.expr :=
     )
   )))))))).
 
+Fixpoint store_bytes (x : addr) (n : nat) : Vector.t Z n -> CRules.expr :=
+  match n with
+  | O => fun _ => CRules.emp
+  | S n' => fun bytes =>
+      CRules.sepcon (store_byte x (Vector.hd bytes))
+        (store_bytes (x + 1) n' (Vector.tl bytes))
+  end.
+
+Definition store_16byte (x : addr) (v : Z) : CRules.expr :=
+  CRules.exp (fun bytes : Vector.t Z 16 =>
+    CRules.andp
+      (CRules.coq_prop (merge_n_bytes 16 bytes v))
+      (store_bytes x 16 bytes)).
+
 Definition store_byte_noninit : addr -> CRules.expr := CRules.mstore_noninit.
 
 Definition store_2byte_noninit (x : addr) : CRules.expr := 
@@ -261,6 +397,15 @@ Definition store_8byte_noninit (x : addr) : CRules.expr :=
         (CRules.sepcon (store_byte_noninit (x+4))
           (CRules.sepcon (store_byte_noninit (x+5))
             (CRules.sepcon (store_byte_noninit (x+6)) (store_byte_noninit (x+7))))))))).
+
+Fixpoint store_bytes_noninit (x : addr) (n : nat) : CRules.expr :=
+  match n with
+  | O => CRules.emp
+  | S n' => CRules.sepcon (store_byte_noninit x) (store_bytes_noninit (x + 1) n')
+  end.
+
+Definition store_16byte_noninit (x : addr) : CRules.expr :=
+  store_bytes_noninit x 16.
   
 (* The following are notations *)  
 Declare Scope sac_scope.
@@ -309,6 +454,14 @@ Definition store_uchar (x : addr) (v : Z) :=
 Definition undef_store_uchar (x : addr) :=
   “ isvalidptr_char x ” && store_byte_noninit x.
 
+Definition store_bool (x : addr) (v : Z) :=
+  CRules.andp
+    (CRules.coq_prop (isvalidptr_char x /\ (v = 0 \/ v = 1)))
+    (store_byte x v).
+
+Definition undef_store_bool (x : addr) :=
+  CRules.andp (CRules.coq_prop (isvalidptr_char x)) (store_byte_noninit x).
+
 Definition store_short (x : addr) (v : Z) :=
   “ isvalidptr_short x /\ v <= 32767 /\ v >= -32768 ” && store_2byte x v.
 
@@ -348,6 +501,22 @@ Definition store_uint64 (x : addr) (v : Z) :=
 Definition undef_store_uint64 (x : addr) :=
   “ isvalidptr_int64 x ” && store_8byte_noninit x.
 
+Definition store_int128 (x : addr) (v : Z) :=
+  CRules.andp
+    (CRules.coq_prop (isvalidptr_int128 x /\ v <= Int128.max_signed /\ v >= Int128.min_signed))
+    (store_16byte x v).
+
+Definition undef_store_int128 (x : addr) :=
+  CRules.andp (CRules.coq_prop (isvalidptr_int128 x)) (store_16byte_noninit x).
+
+Definition store_uint128 (x : addr) (v : Z) :=
+  CRules.andp
+    (CRules.coq_prop (isvalidptr_int128 x /\ v >= 0 /\ v <= Int128.max_unsigned))
+    (store_16byte x v).
+
+Definition undef_store_uint128 (x : addr) :=
+  CRules.andp (CRules.coq_prop (isvalidptr_int128 x)) (store_16byte_noninit x).
+
 Definition store_float (x : addr) (v : fp32) :=
   match bits_of_float_value v with
   | Some z =>
@@ -364,11 +533,24 @@ Definition store_double (x : addr) (v : fp64) :=
       “ False ”
   end.
 
+Definition store_long_double (x : addr) (v : fp128) :=
+  match bits_of_long_double_value v with
+  | Some z =>
+      CRules.andp
+        (CRules.coq_prop (isvalidptr_long_double x /\ 0 <= z <= max_unsigned_128))
+        (store_16byte x z)
+  | None =>
+      CRules.coq_prop False
+  end.
+
 Definition store_finite_float (x : addr) (v : fp32) :=
   “ fp32_isFinite v ” && store_float x v.
 
 Definition store_finite_double (x : addr) (v : fp64) :=
   “ fp64_isFinite v ” && store_double x v.
+
+Definition store_finite_long_double (x : addr) (v : fp128) :=
+  CRules.andp (CRules.coq_prop (fp128_isFinite v)) (store_long_double x v).
 
 Definition undef_store_float (x : addr) :=
   “ isvalidptr_float x ” && store_4byte_noninit x.
@@ -376,18 +558,33 @@ Definition undef_store_float (x : addr) :=
 Definition undef_store_double (x : addr) :=
   “ isvalidptr_double x ” && store_8byte_noninit x.
 
+Definition undef_store_long_double (x : addr) :=
+  CRules.andp (CRules.coq_prop (isvalidptr_long_double x)) (store_16byte_noninit x).
+
 Definition undef_store_finite_float : addr -> CRules.expr :=
   undef_store_float.
 
 Definition undef_store_finite_double : addr -> CRules.expr :=
   undef_store_double.
 
+Definition undef_store_finite_long_double : addr -> CRules.expr :=
+  undef_store_long_double.
+
 Definition store_ptr (x : addr) (v : Z) := 
-  “ isvalidptr x /\ v >= 0 /\ v <= Int.max_unsigned ” && 
-  store_4byte x v.
+  “ isvalidptr x /\ valid_ptr_value v ” && 
+  match ptr_size with
+  | 4%nat => store_4byte x v
+  | 8%nat => store_8byte x v
+  | _ => “ False ”
+  end.
 
 Definition undef_store_ptr (x : addr) :=
-  “ isvalidptr x ” && store_4byte_noninit x.
+  “ isvalidptr x ” &&
+  match ptr_size with
+  | 4%nat => store_4byte_noninit x
+  | 8%nat => store_8byte_noninit x
+  | _ => “ False ”
+  end.
 
 Definition Invalid_store {A : Type} (x : addr) (v : A) :=
   “ False ”.
@@ -435,11 +632,11 @@ Definition store_undef_array (storeA : addr -> Z -> CRules.expr) (x: addr) (n: Z
 Fixpoint store_align4_list (l : list Z) := 
   match l with 
     | nil => emp
-    | x :: l' => “ isvalidptr x ” && store_4byte_noninit x ** store_align4_list l'
+    | x :: l' => “ isvalidptr_int x ” && store_4byte_noninit x ** store_align4_list l'
   end.
 
 Definition store_align4_n (n : Z) :=
-  EX l, “ Zlength l = n /\ interval_list 3 0 Int.max_unsigned l ” && store_align4_list l.
+  EX l, “ Zlength l = n /\ interval_list 3 0 addr_max_unsigned l ” && store_align4_list l.
 
 Fixpoint store_align_list (l : list Z) := 
   match l with 
@@ -448,9 +645,10 @@ Fixpoint store_align_list (l : list Z) :=
   end.
 
 Definition store_align_n (n : Z) :=
-  EX l, “ Zlength l = n /\ interval_list 0 0 Int.max_unsigned l ” && store_align_list l.
+  EX l, “ Zlength l = n /\ interval_list 0 0 addr_max_unsigned l ” && store_align_list l.
 
 Notation "x # 'Char' |-> v" := (store_char x v) (at level 25, no associativity) : sac_scope.
+Notation "x # 'Bool' |-> v" := (store_bool x v) (at level 25, no associativity) : sac_scope.
 Notation "x # 'UChar' |-> v" := (store_uchar x v ) (at level 25, no associativity):sac_scope.
 Notation "x # 'Short' |-> v" := (store_short x v) (at level 25, no associativity) : sac_scope.
 Notation "x # 'UShort' |-> v" := (store_ushort x v) (at level 25, no associativity):sac_scope.
@@ -458,13 +656,18 @@ Notation "x # 'Int' |-> v" := ( store_int x v) (at level 25, no associativity) :
 Notation "x # 'UInt' |-> v" := ( store_uint x v ) (at level 25, no associativity):sac_scope.
 Notation "x # 'Int64' |-> v" := ( store_int64 x v) (at level 25, no associativity):sac_scope.
 Notation "x # 'UInt64' |-> v" := ( store_uint64 x v) (at level 25, no associativity):sac_scope.
+Notation "x # 'Int128' |-> v" := (store_int128 x v) (at level 25, no associativity):sac_scope.
+Notation "x # 'UInt128' |-> v" := (store_uint128 x v) (at level 25, no associativity):sac_scope.
 Notation "x # 'Float' |-> v" := (store_float x v) (at level 25, no associativity) : sac_scope.
 Notation "x # 'Double' |-> v" := (store_double x v) (at level 25, no associativity) : sac_scope.
+Notation "x # 'LongDouble' |-> v" := (store_long_double x v) (at level 25, no associativity) : sac_scope.
 Notation "x # 'FiniteFloat' |-> v" := (store_finite_float x v) (at level 25, no associativity) : sac_scope.
 Notation "x # 'FiniteDouble' |-> v" := (store_finite_double x v) (at level 25, no associativity) : sac_scope.
+Notation "x # 'FiniteLongDouble' |-> v" := (store_finite_long_double x v) (at level 25, no associativity) : sac_scope.
 Notation "x # 'Ptr' |-> v" := (store_ptr x v) (at level 25, no associativity):sac_scope.
 
 Notation " x # 'Char' |->_" := (undef_store_char x) (at level 25, no associativity) : sac_scope.
+Notation "x # 'Bool' |->_" := (undef_store_bool x) (at level 25, no associativity) : sac_scope.
 Notation "x # 'UChar' |->_" := (undef_store_uchar x) (at level 25, no associativity):sac_scope.
 Notation "x # 'Short' |->_" := (undef_store_short x) (at level 25, no associativity) : sac_scope.
 Notation "x # 'UShort' |->_" := (undef_store_ushort x) (at level 25, no associativity):sac_scope.
@@ -472,22 +675,28 @@ Notation "x # 'Int' |->_" := (undef_store_int x) (at level 25, no associativity)
 Notation "x # 'UInt' |->_" := (undef_store_uint x) (at level 25, no associativity):sac_scope.
 Notation "x # 'Int64' |->_" := (undef_store_int64 x) (at level 25, no associativity):sac_scope.
 Notation "x # 'UInt64' |->_" := (undef_store_uint64 x) (at level 25, no associativity):sac_scope.
+Notation "x # 'Int128' |->_" := (undef_store_int128 x) (at level 25, no associativity):sac_scope.
+Notation "x # 'UInt128' |->_" := (undef_store_uint128 x) (at level 25, no associativity):sac_scope.
 Notation "x # 'Float' |->_" := (undef_store_float x) (at level 25, no associativity) : sac_scope.
 Notation "x # 'Double' |->_" := (undef_store_double x) (at level 25, no associativity) : sac_scope.
+Notation "x # 'LongDouble' |->_" := (undef_store_long_double x) (at level 25, no associativity) : sac_scope.
 Notation "x # 'FiniteFloat' |->_" := (undef_store_finite_float x) (at level 25, no associativity) : sac_scope.
 Notation "x # 'FiniteDouble' |->_" := (undef_store_finite_double x) (at level 25, no associativity) : sac_scope.
+Notation "x # 'FiniteLongDouble' |->_" := (undef_store_finite_long_double x) (at level 25, no associativity) : sac_scope.
 Notation "x # 'Ptr' |->_" := (undef_store_ptr x) (at level 25, no associativity):sac_scope.
 
 Definition front_end_type_value (ty : front_end_type) : Type :=
   match ty with
   | FET_float => fp32
   | FET_double => fp64
+  | FET_long_double => fp128
   | _ => Z
   end.
 
 Definition typed_poly_store (ty : front_end_type) :
   addr -> front_end_type_value ty -> CRules.expr :=
   match ty as ty0 return addr -> front_end_type_value ty0 -> CRules.expr with
+    | FET_bool => store_bool
     | FET_int => store_int
     | FET_char => store_char
     | FET_int64 => store_int64
@@ -495,15 +704,19 @@ Definition typed_poly_store (ty : front_end_type) :
     | FET_uint => store_uint
     | FET_uchar => store_uchar
     | FET_uint64 => store_uint64
+    | FET_int128 => store_int128
+    | FET_uint128 => store_uint128
     | FET_ushort => store_ushort
     | FET_float => store_float
     | FET_double => store_double
+    | FET_long_double => store_long_double
     | FET_ptr => store_ptr
     | _ => @Invalid_store Z
   end.
 
 Definition poly_store (ty : front_end_type) : addr -> Z -> CRules.expr :=
   match ty with
+    | FET_bool => store_bool
     | FET_int => store_int
     | FET_char => store_char
     | FET_int64 => store_int64
@@ -511,15 +724,19 @@ Definition poly_store (ty : front_end_type) : addr -> Z -> CRules.expr :=
     | FET_uint => store_uint
     | FET_uchar => store_uchar
     | FET_uint64 => store_uint64
+    | FET_int128 => store_int128
+    | FET_uint128 => store_uint128
     | FET_ushort => store_ushort
     | FET_float => fun x z => store_float x (fp32_of_bits z)
     | FET_double => fun x z => store_double x (fp64_of_bits z)
+    | FET_long_double => fun x z => store_long_double x (fp128_of_bits z)
     | FET_ptr => store_ptr
     | _ => @Invalid_store Z
   end.
 
 Definition poly_undef_store (ty : front_end_type) := 
   match ty with 
+    | FET_bool => undef_store_bool
     | FET_int => undef_store_int
     | FET_char => undef_store_char
     | FET_int64 => undef_store_int64
@@ -527,9 +744,12 @@ Definition poly_undef_store (ty : front_end_type) :=
     | FET_uint => undef_store_uint
     | FET_uchar => undef_store_uchar
     | FET_uint64 => undef_store_uint64
+    | FET_int128 => undef_store_int128
+    | FET_uint128 => undef_store_uint128
     | FET_ushort => undef_store_ushort
     | FET_float => undef_store_float
     | FET_double => undef_store_double
+    | FET_long_double => undef_store_long_double
     | FET_ptr => undef_store_ptr
     | _ => Invalid_undef_store
   end.
@@ -989,6 +1209,7 @@ Ltac unfold_term t :=
 
 Ltac poly_store_unfold :=
   match goal with 
+    | |- context [@typed_poly_store FET_bool] => unfold_term (@typed_poly_store FET_bool)
     | |- context [@typed_poly_store FET_int] => unfold_term (@typed_poly_store FET_int)
     | |- context [@typed_poly_store FET_char] => unfold_term (@typed_poly_store FET_char)
     | |- context [@typed_poly_store FET_int64] => unfold_term (@typed_poly_store FET_int64)
@@ -996,10 +1217,14 @@ Ltac poly_store_unfold :=
     | |- context [@typed_poly_store FET_uint] => unfold_term (@typed_poly_store FET_uint)
     | |- context [@typed_poly_store FET_uchar] => unfold_term (@typed_poly_store FET_uchar)
     | |- context [@typed_poly_store FET_uint64] => unfold_term (@typed_poly_store FET_uint64)
+    | |- context [@typed_poly_store FET_int128] => unfold_term (@typed_poly_store FET_int128)
+    | |- context [@typed_poly_store FET_uint128] => unfold_term (@typed_poly_store FET_uint128)
     | |- context [@typed_poly_store FET_ushort] => unfold_term (@typed_poly_store FET_ushort)
     | |- context [@typed_poly_store FET_float] => unfold_term (@typed_poly_store FET_float)
     | |- context [@typed_poly_store FET_double] => unfold_term (@typed_poly_store FET_double)
+    | |- context [@typed_poly_store FET_long_double] => unfold_term (@typed_poly_store FET_long_double)
     | |- context [@typed_poly_store FET_ptr] => unfold_term (@typed_poly_store FET_ptr)
+    | |- context [@poly_store FET_bool] => unfold_term (@poly_store FET_bool)
     | |- context [@poly_store FET_int] => unfold_term (@poly_store FET_int)
     | |- context [@poly_store FET_char] => unfold_term (@poly_store FET_char)
     | |- context [@poly_store FET_int64] => unfold_term (@poly_store FET_int64)
@@ -1007,10 +1232,14 @@ Ltac poly_store_unfold :=
     | |- context [@poly_store FET_uint] => unfold_term (@poly_store FET_uint)
     | |- context [@poly_store FET_uchar] => unfold_term (@poly_store FET_uchar)
     | |- context [@poly_store FET_uint64] => unfold_term (@poly_store FET_uint64)
+    | |- context [@poly_store FET_int128] => unfold_term (@poly_store FET_int128)
+    | |- context [@poly_store FET_uint128] => unfold_term (@poly_store FET_uint128)
     | |- context [@poly_store FET_ushort] => unfold_term (@poly_store FET_ushort)
     | |- context [@poly_store FET_float] => unfold_term (@poly_store FET_float)
     | |- context [@poly_store FET_double] => unfold_term (@poly_store FET_double)
+    | |- context [@poly_store FET_long_double] => unfold_term (@poly_store FET_long_double)
     | |- context [@poly_store FET_ptr] => unfold_term (@poly_store FET_ptr)
+    | |- context [@poly_undef_store FET_bool] => unfold_term (@poly_undef_store FET_bool)
     | |- context [@poly_undef_store FET_int] => unfold_term (@poly_undef_store FET_int)
     | |- context [@poly_undef_store FET_char] => unfold_term (@poly_undef_store FET_char)
     | |- context [@poly_undef_store FET_int64] => unfold_term (@poly_undef_store FET_int64)
@@ -1018,9 +1247,12 @@ Ltac poly_store_unfold :=
     | |- context [@poly_undef_store FET_uint] => unfold_term (@poly_undef_store FET_uint)
     | |- context [@poly_undef_store FET_uchar] => unfold_term (@poly_undef_store FET_uchar)
     | |- context [@poly_undef_store FET_uint64] => unfold_term (@poly_undef_store FET_uint64)
+    | |- context [@poly_undef_store FET_int128] => unfold_term (@poly_undef_store FET_int128)
+    | |- context [@poly_undef_store FET_uint128] => unfold_term (@poly_undef_store FET_uint128)
     | |- context [@poly_undef_store FET_ushort] => unfold_term (@poly_undef_store FET_ushort)
     | |- context [@poly_undef_store FET_float] => unfold_term (@poly_undef_store FET_float)
     | |- context [@poly_undef_store FET_double] => unfold_term (@poly_undef_store FET_double)
+    | |- context [@poly_undef_store FET_long_double] => unfold_term (@poly_undef_store FET_long_double)
     | |- context [@poly_undef_store FET_ptr] => unfold_term (@poly_undef_store FET_ptr)
     | |- _ => idtac
     end.
@@ -1182,17 +1414,31 @@ Ltac lexists v :=
   end.
   
 
-Ltac simpl_auto := 
-  solve [auto | lia | nia | int_auto].
+Ltac simpl_auto_with tac :=
+  solve [auto | tac].
 
-Ltac simpl_entail := match goal with
-  | |- ?Q /\ ?R => split;[simpl_entail| simpl_entail]
-  | |-  _ =>  simpl_auto || idtac  end.
+Ltac simpl_auto :=
+  simpl_auto_with ltac:(lia || nia || int_auto).
+
+Ltac simpl_entail_with tac := match goal with
+  | |- ?Q /\ ?R => split; [simpl_entail_with tac | simpl_entail_with tac]
+  | |- _ => simpl_auto_with tac || idtac
+  end.
+
+Ltac simpl_entail :=
+  simpl_entail_with ltac:(lia || nia || int_auto).
 
 Ltac entailer_pure := asrt_simpl_pure; sepcon_assoc_change; andp_cancel.
 
+Ltac entailer_with tac :=
+  set_String_name;
+  try poly_store_unfold;
+  Rename entailer_pure;
+  simpl_entail_with tac;
+  subst_all_strings.
+
 Tactic Notation "cancel" := set_String_name ; Rename sepcon_cancel ; subst_all_strings.
-Tactic Notation "entailer!"  := set_String_name ; try poly_store_unfold ; Rename entailer_pure; simpl_entail ; subst_all_strings.
+Tactic Notation "entailer!" := entailer_with ltac:(lia || nia || int_auto).
 Tactic Notation "Intros" := set_String_name ; pureIntros ; subst_all_strings.
 Tactic Notation "Intros" simple_intropattern(x0) := set_String_name ; pureIntros ; left_intro x0; pureIntros ; subst_all_strings.
 Tactic Notation "Intros" simple_intropattern(x0) simple_intropattern(x1) := set_String_name ; pureIntros ; left_intro x0; left_intro x1; pureIntros ; subst_all_strings.
@@ -1462,7 +1708,7 @@ Ltac pre_process_pure :=
   wand_elim;
   asrt_simpl_pure.
 
-Ltac pre_process :=
+Ltac LLM_pre_process_tac tac :=
   try Unfold;
   match goal with 
     | |-  _ \/ _ => left 
@@ -1470,7 +1716,12 @@ Ltac pre_process :=
   end;
   intros; poly_store_unfold;
   Rename pre_process_pure ;
-  try (solve [entailer!]).
+  try (solve [entailer_with tac]).
+
+Tactic Notation "LLM_pre_process" tactic(tac) := LLM_pre_process_tac tac.
+
+Ltac pre_process :=
+  LLM_pre_process_tac ltac:(lia || nia || int_auto).
 
 Tactic Notation "pre_process_default" := pre_process.
 
@@ -1898,28 +2149,32 @@ Ltac aggressive_pre_process :=
   intros; poly_store_unfold;
   Rename pre_process_pure ;
   repeat (split_pure_spatial || split_pures);
-  try solve [entailer!];
+  try solve [cancel];
   try match goal with
       | |- emp |-- “ _ ” => dump_pre_spatial
+      | |- emp |-- emp => cancel
       end.
+
+Ltac Goal_apply_finish H :=
+  let H_inst := fresh "H_goal_inst" in
+  pose proof H as H_inst;
+  repeat rewrite truep_andp_left_equiv in H_inst;
+  repeat rewrite truep_andp_right_equiv in H_inst;
+  first [ exact H_inst | sep_apply H_inst; entailer! ].
 
 Ltac Goal_apply_used H used :=
   lazymatch type of H with
   | forall x : ?A, _ =>
-      match reverse goal with
-      | h : A |- _ =>
-          first
-            [ lazymatch used with
-              | context[h] => fail 1
+      first
+        [ match reverse goal with
+          | h : A |- _ =>
+              lazymatch used with
+              | context[h] => fail
+              | _ => Goal_apply_used (H h) (h, used)
               end
-            | Goal_apply_used (H h) (h, used) ]
-      end
-  | _ =>
-      let H_inst := fresh "H_goal_inst" in
-      pose proof H as H_inst;
-      repeat rewrite truep_andp_left_equiv in H_inst;
-      repeat rewrite truep_andp_right_equiv in H_inst;
-      first [ exact H_inst | sep_apply H_inst; entailer! ]
+          end
+        | Goal_apply_finish H ]
+  | _ => Goal_apply_finish H
   end.
 
 Ltac Goal_apply H := 
@@ -1927,90 +2182,9 @@ Ltac Goal_apply H :=
   match type of H_goal with
   | ?P => try unfold P in H_goal
   end;
-  Goal_apply_used H_goal tt.
-  
-(* ----- Experimental / disabled ideas kept for reference ----- *)
-
-(* Lemma split_pure_right : forall P Q R, P |-- R -> P |-- “ Q ” -> P |-- R && “ Q ”.
-Proof.
-  intros. split.
-  - apply H. assumption.
-  - apply H0. assumption.
-Qed. *)
-
-(* Ltac pre_process_pure_solve :=
-  pre_process;
-  repeat progress rewrite <- logic_equiv_andp_assoc;
-  repeat progress apply split_pure_right;
-  pre_process. *)
-
-(* Theorem false_wit: False.
-Admitted.
-
-Set Primitive Projections.
-Class Solved (G : Prop) := solved : G.
-#[global] Hint Mode Solved ! : typeclass_instances.
-Ltac safe_solve := exact solved; idtac "Safely solved!".
-Ltac danger_solve := pose proof false_wit; exfalso; assumption; idtac "Dangerously solved!".
-
-Ltac pure_solve :=
-  asrt_simpl_pure;
+  once (Goal_apply_used H_goal tt);
   match goal with
-  | |- _ |-- ?RHS =>
-      _assert_pure RHS;
-      tryif (solve [ pre_process_pure_solve; entailer! ])
-      then idtac "[[[PURE DONE]]]"
-      else idtac "[[[PURE NOT DONE]]]";
-        repeat match goal with H : _ |- _ => revert H end;
-        lazymatch goal with
-        | |- ?G =>
-            idtac "[[[PURE START]]]";
-            idtac G;
-            idtac "[[[PURE END]]]";
-            first [safe_solve | danger_solve]
-        end
-  | _ => fail 1 "pure_solve: goal is not an entailment"
-  end. *)
-
-(* Ltac _consume_props_only t k :=
-  lazymatch type of t with
-  | forall (x : ?T), ?Rest =>
-      lazymatch type of T with
-      | Prop =>
-          let Hp := fresh "Hp" in
-          add_pure T as Hp;
-          [ pure_solve
-          | let t' := constr:(t Hp) in
-            let t'' := eval cbv beta in t' in
-            _consume_props_only t'' ltac:(fun tf =>
-              k tf; try clear Hp)
-          ]
-      | _ =>
-          k t
-      end
-  | ?T -> ?Rest =>
-      lazymatch type of T with
-      | Prop =>
-          let Hp := fresh "Hp" in
-          add_pure T as Hp;
-          [ pure_solve
-          | let t' := constr:(t Hp) in
-            let t'' := eval cbv beta in t' in
-            _consume_props_only t'' ltac:(fun tf =>
-              k tf; try clear Hp)
-          ]
-      | _ =>
-          k t
-      end
-  | _ => k t
-  end. *)
-
-(* Tactic Notation "sep_apply_l" uconstr(t) :=
-  _consume_props_only t ltac:(fun tfin =>
-    _try_sep_apply_l tfin).
-
-Tactic Notation "sep_apply_r" uconstr(t) :=
-  _consume_props_only t ltac:(fun tfin =>
-    _try_sep_apply_r tfin). *)
+  | |- _ => fail 1 "Goal_apply: greedy instantiation did not completely solve the goal; use explicit sep_apply/exact with manually supplied parameters"
+  end.
   
 End DerivedPredSig.

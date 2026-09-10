@@ -1,16 +1,9 @@
 # xizi_single_link_common
 
-这是 XiZi 单链表 case 共用分离逻辑库的 OUTPUT 交付。active source
-位于 `QCIPLib/xizi/xizi_single_link_common/`；当前不修改或同步
-`crtosverify`。
+本模块验证用户指定 single_link.c 的 9 个原函数，沿用任意 A/storeA 的 NULL 终止单链表规约。SingleLinkListGetTailNode 已恢复原文件中的遍历循环，并重新生成 VC、完成证明和 final-check；其余 8 个原函数也已通过本次 canonical freshness 与固定 Coq 统一依赖复验。
 
-- `source/`：共享 C 结构定义和 strategy 源文件。
-- `rocq/xizi_single_link_lib.v`：唯一 public lib，同时包含通用
-  `generic_sll*`、`SLL_LAYOUT` / `SLLLib`、XiZi 具体实例和既有引理。
-- `rocq/xizi_single_link_strategy_goal.v` 与
-  `xizi_single_link_strategy_proof.v`：strategy VC 及证明。
-- `reports/`：布局分析、编译路径和兼容性证据。
+`sll_payload_node A` 与 payload adapter 复用原 generic_sll 递归，公开谓词接收 storeA : addr -> A -> Assertion。保留单个 next 字段、原哨兵语义及业务资源。active source 位于 `QCIPLib/xizi/xizi_single_link_common/`，`rocq/` 保存交付副本。
 
-本次改造只合并原 `core` 文件，保留全部公开符号名和数学语义。
-9 个现有单链表 `goal_check` 均通过 fixed `coq_tooling.py check`，
-无需修改旧 manual proof。
+[本次范围与验证结果](../xizi_double_link_common/reports/idmanager_dll_alignment/README.md)、[逐函数状态](../xizi_double_link_common/reports/idmanager_dll_alignment/migration_inventory.json)。历史验证保留于 storeA_migration_reference，不替代当前复验。维护库和 manual proofs 严格检查；生成 auto Admitted 的既有信任边界单独记录。
+
+当前双链表 CRules 统一任务不修改单链表规约与证明，另做这 9 个原函数的当前依赖回归；进度与证据见 [CRules 统一报告](../xizi_double_link_common/reports/crules_unification/README.md)。上文 idmanager_dll_alignment 为上一轮验收。

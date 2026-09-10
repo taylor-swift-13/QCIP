@@ -553,3 +553,47 @@ sentinel、prev field、删除后节点重置等实际 C 语义差异必须保�
 - 经验结论：“调用友好”必须用实际 C callsite 中的 `where(...)` 证明，不能
   仅根据规约形状或 standalone derive witness 推断。对 sentinel 容器，任何
   `In(head,nodes)` 的公开前置都应视为必须用空表调用点验证的风险项。
+
+## 2026-08-25：`remove_node` 增加幂等自环规格
+
+- 真实问题来自非周期软定时器路径：`softtimer.c:286` 第一次摘除
+  `t->sortlist` 后，`DoubleLinkListRmNode` 把该节点的 `node_next` 和
+  `node_prev` 都写回自身；随后 `softtimer.c:295` 调用 `QuitRun(t)`，并在
+  `_QuitRun` 的 `softtimer.c:122` 对同一节点再次删除。第二次调用的输入因此是
+  已经隔离的自环，而不是某个非空数据序列中的普通成员。
+- C 实现对自环输入是内存安全且幂等的：两次邻接字段写入与最后两次自链接写入
+  都把同一个节点的两个已拥有字段写回原值。旧 `remove_member_spec` 不能覆盖此
+  状态，因为 `xizi_dll(node,nil)` 把 `node` 作为空循环链表的 sentinel；不能伪造
+  `In(node,nil)` 把 sentinel 当数据成员。
+- 新公开规格为
+  `remove_self_loop_spec <= strong_spec`，精确要求并归还
+  `xizi_dll(linklist_node,nil)`。现有 `remove_member_spec`、`remove_front_spec`、
+  `remove_tail_spec` 均原样保留，函数名、签名和可执行 C 函数体未改变。
+- QCP 直接检查一个 body spec，因此 `strong_spec` 使用 existential
+  `dispatch_case`：0 表示普通成员的 cut/reconnect 布局，1 表示两个字段都指向
+  自身的精确自环布局；四个调用规格分别由 generated derive witness 从该 body
+  spec 派生。直接把高层 disjunction 放在 Require 后再 Assert 的首版候选会触发
+  QCP “pre is not determined”，有效修复是把两种精确 raw ownership 布局直接放入
+  带 tag 的 body precondition，而不是削弱公开规格。
+- controller run `xizi_double_link_remove_node-20260825172438` 最终进入 `done`。
+  canonical symexec driver 为 `/home/yangfp/QCIP/linux-binary/symexec`，annotation
+  worktree 为 cwd，实际参数包含 `-IQCP_examples/QCP_demos_LLM/`、
+  `-slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM` 和
+  `-slp QCIPLib/xizi/xizi_double_link_common/
+  QCIPLib.xizi.xizi_double_link_common`，执行到文件尾。
+- 当前 `source_goal_version` 为
+  `44819d3a6d3a8a320ab0fc5991cf7b48b003190802e321db2b573d59dcc1f464`；
+  5/5 manual witnesses 覆盖 body return、自环、tail、front、member 四个派生条件。
+  parent full check 与 final fixed `coq_tooling.py check` 均通过，fixed flags hash 为
+  `24021e94f65d7fcb0014dc119baf8b1f9efef2bcb2cf5fbeb875549a843dbeb8`。
+- 第一轮 proof 虽然 Coq 编译通过，但 final-check 扫描到
+  `derivable1_trans`、`logic_equiv_sepcon_emp` 和
+  `derivable1_sepcon_mono`，controller 正确回滚主工作区。第二轮 worker 初报完成时
+  仍残留 4 处 `derivable1_sepcon_mono`；主 agent 的独立 23 项扫描拒绝验收，要求同一
+  worker 用直接 wand 构造和 `sep_apply_r_atomic` 重写。终态 manual/case_lib 对完整
+  forbidden 列表零命中，也没有 `Admitted.` 或额外 `Axiom`。
+- final-check controller 尚未内建该 OUTPUT 布局的 isolated symexec replay，因此
+  主 agent 另在 report root 重放相同 canonical 命令：fresh `goal.v`、
+  `proof_auto.v` 与正式文件逐字节一致，fresh manual 的 5 个 witness 顺序和 statement
+  hash 与正式已证明 manual 完全一致。以后不能把 controller 的 `skipped` 当作
+  freshness 证据，必须保留这类独立重放与比较结果。

@@ -26,132 +26,128 @@ Local Open Scope sac.
 Lemma proof_of_xizi_double_link_call_empty_after_init_return_wit_1 : xizi_double_link_call_empty_after_init_return_wit_1.
 Proof.
   unfold xizi_double_link_call_empty_after_init_return_wit_1.
-  left.
-  intros head_pre retval Hret Hhead1 Hhead2.
-  subst retval.
-  unfold xizi_double_link_call_empty_result.
-  entailer!.
-Qed.
+  left. intros A head storeA retval Hret Hhead.
+  apply split_pure_and_spatial_goals.
+  - cancel (xizi_store_dll storeA head (@nil (XiziStoreADLL.DL_Node A))).
+  - dump_pre_spatial. unfold xizi_double_link_call_empty_result.
+    exact Hret.
+Qed. 
 
 Lemma proof_of_xizi_double_link_call_empty_rec_after_init_return_wit_1 : xizi_double_link_call_empty_rec_after_init_return_wit_1.
 Proof.
   unfold xizi_double_link_call_empty_rec_after_init_return_wit_1.
-  left.
-  intros head_pre retval Hret Hhead1 Hhead2.
-  subst retval.
-  unfold xizi_double_link_call_empty_result.
-  entailer!.
-Qed.
+  left. intros A head storeA retval Hret Hhead.
+  apply split_pure_and_spatial_goals.
+  - cancel (xizi_store_dll storeA head (@nil (XiziStoreADLL.DL_Node A))).
+  - dump_pre_spatial. unfold xizi_double_link_call_empty_result.
+    exact Hret.
+Qed. 
 
 Lemma proof_of_xizi_double_link_call_head_after_init_return_wit_1 : xizi_double_link_call_head_after_init_return_wit_1.
 Proof.
   unfold xizi_double_link_call_head_after_init_return_wit_1.
-  left.
-  intros head_pre retval Hret Hhead1 Hhead2.
-  subst retval.
-  unfold xizi_double_link_call_null_result.
-  entailer!.
-Qed.
+  left. intros A head storeA retval Hret Hhead.
+  apply split_pure_and_spatial_goals.
+  - cancel (xizi_store_dll storeA head (@nil (XiziStoreADLL.DL_Node A))).
+  - dump_pre_spatial. unfold xizi_double_link_call_null_result.
+    exact Hret.
+Qed. 
 
 Lemma proof_of_xizi_double_link_call_head_rec_after_init_return_wit_1 : xizi_double_link_call_head_rec_after_init_return_wit_1.
 Proof.
   unfold xizi_double_link_call_head_rec_after_init_return_wit_1.
-  left.
-  intros head_pre retval Hret Hhead1 Hhead2.
-  subst retval.
-  unfold xizi_double_link_call_null_result.
-  entailer!.
-Qed.
+  left. intros A head storeA retval Hret Hhead.
+  apply split_pure_and_spatial_goals.
+  - cancel (xizi_store_dll storeA head (@nil (XiziStoreADLL.DL_Node A))).
+  - dump_pre_spatial. unfold xizi_double_link_call_null_result.
+    exact Hret.
+Qed. 
 
 Lemma proof_of_xizi_double_link_call_len_after_init_return_wit_1 : xizi_double_link_call_len_after_init_return_wit_1.
 Proof.
   unfold xizi_double_link_call_len_after_init_return_wit_1.
-  left.
-  intros head_pre retval Hret Hhead1 Hhead2.
-  subst retval.
-  unfold xizi_double_link_call_len_result.
-  entailer!.
-Qed.
+  left. intros A head storeA retval Hret Hhead.
+  apply split_pure_and_spatial_goals.
+  - cancel (xizi_store_dll storeA head (@nil (XiziStoreADLL.DL_Node A))).
+  - dump_pre_spatial. unfold xizi_double_link_call_len_result.
+    exact Hret.
+Qed. 
 
 Lemma proof_of_xizi_double_link_call_next_after_init_return_wit_1 : xizi_double_link_call_next_after_init_return_wit_1.
 Proof.
   unfold xizi_double_link_call_next_after_init_return_wit_1.
-  left.
-  intros head_pre nodes retval Hret Hhead Hnodes.
-  subst nodes.
-  subst retval.
-  unfold xizi_double_link_call_null_result, xizi_double_link_first_value.
-  entailer!.
-Qed.
+  left. intros A head storeA retval Hret.
+  apply split_pure_and_spatial_goals.
+  - cancel (xizi_store_dll storeA head (@nil (XiziStoreADLL.DL_Node A))).
+  - dump_pre_spatial. unfold xizi_double_link_call_null_result.
+    exact Hret.
+Qed. 
 
 Lemma proof_of_xizi_double_link_call_next_rec_last_after_init_return_wit_1 : xizi_double_link_call_next_rec_last_after_init_return_wit_1.
 Proof.
   unfold xizi_double_link_call_next_rec_last_after_init_return_wit_1.
-  left.
-  intros head_pre nodes retval Hret Hhead Hnodes.
-  subst nodes.
-  subst retval.
-  unfold xizi_double_link_call_null_result, xizi_double_link_first_value.
-  entailer!.
-Qed.
+  left. intros A head storeA retval Hret.
+  apply split_pure_and_spatial_goals.
+  - cancel (xizi_store_dll storeA head (@nil (XiziStoreADLL.DL_Node A))).
+  - dump_pre_spatial. unfold xizi_double_link_call_null_result.
+    exact Hret.
+Qed. 
 
 Lemma proof_of_xizi_double_link_call_next_rec_middle_after_init_return_wit_1 : xizi_double_link_call_next_rec_middle_after_init_return_wit_1.
 Proof.
   unfold xizi_double_link_call_next_rec_middle_after_init_return_wit_1.
-  left.
-  intros head_pre nodes retval Hret Hhead Hnodes.
-  subst nodes.
-  subst retval.
-  unfold xizi_double_link_call_null_result, xizi_double_link_first_value.
-  entailer!.
-Qed.
+  left. intros A head storeA retval Hret.
+  apply split_pure_and_spatial_goals.
+  - cancel (xizi_store_dll storeA head (@nil (XiziStoreADLL.DL_Node A))).
+  - dump_pre_spatial. unfold xizi_double_link_call_null_result.
+    exact Hret.
+Qed. 
 
 Lemma proof_of_xizi_double_link_call_insert_after_init_return_wit_1 : xizi_double_link_call_insert_after_init_return_wit_1.
 Proof.
   unfold xizi_double_link_call_insert_after_init_return_wit_1.
-  left.
-  intros node_pre head_pre nodes Hnode Hhead Hnodes.
-  subst nodes.
-  unfold xizi_double_link_singleton_nodes.
-  entailer!.
-Qed.
-
-Lemma proof_of_xizi_double_link_call_remove_front_singleton_entail_wit_2 : xizi_double_link_call_remove_front_singleton_entail_wit_2.
-Proof.
-  pre_process.
-  subst nodes.
-  Exists (@nil Z).
-  simpl app.
-  split_pure_spatial.
-  - cancel (xizi_dll head_pre (node_pre :: nil)).
-  - dump_pre_spatial.
-    reflexivity.
-Qed.
+  left. intros.
+  cbn [xizi_double_link_singleton_nodes XiziStoreADLL.getData app].
+  reflexivity.
+Qed. 
 
 Lemma proof_of_xizi_double_link_call_remove_front_singleton_return_wit_1 : xizi_double_link_call_remove_front_singleton_return_wit_1.
 Proof.
-  pre_process.
-  subst suffix.
-  cancel (xizi_dll head_pre nil).
-  cancel (xizi_dll node_pre nil).
-Qed.
+  unfold xizi_double_link_call_remove_front_singleton_return_wit_1.
+  left. intros.
+  cbn [xizi_double_link_singleton_nodes XiziStoreADLL.getData app].
+  reflexivity.
+Qed. 
+
+Lemma proof_of_xizi_double_link_call_remove_front_singleton_partial_solve_wit_3_pure : xizi_double_link_call_remove_front_singleton_partial_solve_wit_3_pure.
+Proof.
+  unfold xizi_double_link_call_remove_front_singleton_partial_solve_wit_3_pure.
+  left. intros.
+  cbn [XiziStoreADLL.getPtr].
+  dump_pre_spatial. reflexivity.
+Qed. 
 
 Lemma proof_of_xizi_double_link_call_remove_tail_singleton_entail_wit_2 : xizi_double_link_call_remove_tail_singleton_entail_wit_2.
 Proof.
-  pre_process.
-  subst nodes.
-  Exists (@nil Z).
-  simpl app.
-  split_pure_spatial.
-  - cancel (xizi_dll head_pre (node_pre :: nil)).
-  - dump_pre_spatial.
-    reflexivity.
-Qed.
+  unfold xizi_double_link_call_remove_tail_singleton_entail_wit_2.
+  left. intros.
+  cbn [xizi_double_link_singleton_nodes XiziStoreADLL.getData app].
+  reflexivity.
+Qed. 
 
 Lemma proof_of_xizi_double_link_call_remove_tail_singleton_return_wit_1 : xizi_double_link_call_remove_tail_singleton_return_wit_1.
 Proof.
-  pre_process.
-  subst prefix.
-  cancel (xizi_dll head_pre nil).
-  cancel (xizi_dll node_pre nil).
-Qed.
+  unfold xizi_double_link_call_remove_tail_singleton_return_wit_1.
+  left. intros.
+  cbn [xizi_double_link_singleton_nodes XiziStoreADLL.getData app].
+  reflexivity.
+Qed. 
+
+Lemma proof_of_xizi_double_link_call_remove_tail_singleton_partial_solve_wit_3_pure : xizi_double_link_call_remove_tail_singleton_partial_solve_wit_3_pure.
+Proof.
+  unfold xizi_double_link_call_remove_tail_singleton_partial_solve_wit_3_pure.
+  left. intros.
+  cbn [XiziStoreADLL.getPtr].
+  dump_pre_spatial. reflexivity.
+Qed. 
+

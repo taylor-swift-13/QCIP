@@ -1,0 +1,11 @@
+# Reuse Note
+Note kind: non-authoritative reuse note
+This file is not acceptance evidence.
+
+Both general and nil_case declarations now use XiziLocalDLL.store_dll and DLL.DL_Node. The internal assertion exposes XiziLocalDLL.dllseg and actual SysDoubleLinklistNode fields with an @pre bridge. No extra nonnull premise is needed. Executable C is unchanged.
+
+Canonical qcp-mcp check/symbolic, canonical symexec, fixed case_lib coqc and annotation-checking passed; authoritative evidence is in agent_report.json. The first symexec left the old manual in place; removing that generated skeleton and rerunning produced current targets. Controller must run annotation-check-round and deterministic splitter before using manual targets.
+
+For the return proof, nil unfolding contradicts first <> head. For first = head and a cons node list, unfold one segment node and use duplicate node_next (or node_prev) store ownership to reject that case. No legacy endpoint guard follows merely from dllseg. Both sentinel fields remain in the assertion and provide the needed resource conflict. Fold fields plus dllseg to recover store_dll. Keep arbitrary storeA payloads framed.
+
+Four generated target witnesses: entail_wit_1, return_wit_1, return_wit_2, derive_nil_case_by_general. Generated split goals are diagnostics only. No case-local helper declarations were introduced. Current formal files and input JSON override these notes. Acceptance remains controller-owned.
