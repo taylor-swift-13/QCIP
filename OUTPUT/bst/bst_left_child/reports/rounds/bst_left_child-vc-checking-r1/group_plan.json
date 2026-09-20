@@ -1,0 +1,43 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "2127b4f3e5d07cf445e8110f49702d9de9cab3cf6d6923db9d3e8de2a1f390f4",
+  "target_witnesses": [
+    "proof_of_bst_left_child_return_wit_1"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "left_child_identity_frame",
+      "witness_names": [
+        "proof_of_bst_left_child_return_wit_1"
+      ],
+      "representative_witness": "proof_of_bst_left_child_return_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "Unfold bst_left_child_return_wit_1 and choose its first Coq-level disjunct. Introduce root_pre, g, and the three pure precondition hypotheses. Unfold bst_left_child_result, split the pure-and-spatial postcondition, cancel the unchanged root->left points-to cell for the spatial conjunct, and prove ptr_of (bst_left g root_pre) = ptr_of (bst_left g root_pre) by reflexivity for the pure conjunct. No property of bst_gvalid or bst_vvalid and no helper lemma is needed.",
+      "natural_language_proof_pattern": "Identity framing: preserve an unchanged points-to cell while discharging a result predicate that unfolds to a reflexive equality.",
+      "shared_helper_candidates": [],
+      "proving_hints": [
+        "The outer witness is a Coq disjunction; proving the first branch is sufficient and directly reflects the concrete field-preserving execution.",
+        "A likely short route is unfold bst_left_child_return_wit_1; Left; intros; unfold bst_left_child_result; split_pure_spatial, followed by cancel for the spatial goal and dump_pre_spatial/reflexivity for the pure goal.",
+        "Do not use the diagnostic split-goal theorem as the target and do not modify the generated witness statement."
+      ],
+      "grouping_reason": "There is exactly one target witness. It is a single direct field-read return obligation with one identity-frame proof pattern, has no dependency, and is within the controller limit of twelve witnesses per group.",
+      "difficulty": "low",
+      "confidence": "high",
+      "grouping_confidence": "high"
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 1,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

@@ -138,6 +138,15 @@ def main() -> int:
     round_reports = work_dir
     round_case_dir = manual_path.parent
     coq_config = infer_case_config(round_worktree, round_case_dir)
+    manual_suffix = "_proof_manual.v"
+    if not manual_path.name.endswith(manual_suffix):
+        raise SystemExit(f"proof manual must end with {manual_suffix}: {manual_path}")
+    # A formal directory may contain many cases (for example
+    # SeparationLogic/examples/QCP_demos_LLM).  infer_case_config can only
+    # infer the case from the directory when there is a single manual file, so
+    # bind the vc-proving case name to the explicit target manual instead.
+    case_name = manual_path.name[: -len(manual_suffix)]
+    round_check_file = manual_rel.with_name(f"{case_name}_goal_check.v")
     diagnostics_path = diagnostics_file_for_manual(manual_rel)
     diagnostics_snapshot_path = diagnostics_snapshot_for_manual(manual_rel)
 
@@ -156,10 +165,10 @@ def main() -> int:
         "case_lib": str(case_lib_rel),
         "main_workspace_root": str(main_workspace_root),
         "round_coq_workspace_root": str(round_worktree),
-        "case_name": coq_config["case_name"],
+        "case_name": case_name,
         "active_case_theory": coq_config["active_theory"],
         "round_case_dir": str(round_case_dir),
-        "round_check_file": coq_config["check_file"],
+        "round_check_file": str(round_check_file),
         "proof_manual_target_file": str(manual_rel),
         "proof_diagnostics_file": str(diagnostics_path),
         "diagnostics_snapshot": str(diagnostics_snapshot_path),

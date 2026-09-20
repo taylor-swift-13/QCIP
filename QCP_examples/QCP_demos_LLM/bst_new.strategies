@@ -1,0 +1,1148 @@
+#include "bst_def_new.h"
+
+id : 0
+priority : core(1)
+left : tree_node_store(?g, ?p) at 0
+right : tree_node_store(g, p) at 1
+action : left_erase(0);
+         right_erase(1);
+
+id : 1
+priority : core(0)
+left : tree_nodes_store(?g, ?xs) at 0
+right : tree_nodes_store(g, xs) at 1
+action : left_erase(0);
+         right_erase(1);
+
+id : 2
+priority : core(0)
+left : tree_store(?g0) at 0
+right : tree_store(?g1) at 1
+action : left_erase(0);
+         right_erase(1);
+         right_add(g0 == g1);
+
+id : 3
+priority : core(0)
+right : ptr_of(?x) == ptr_of(?y) at 0
+action : right_erase(0);
+         right_add(x == y);
+
+id : 4
+priority : core(0)
+right : bst_root(?g) == bst_root(g) at 0
+action : right_erase(0);
+
+id : 5
+priority : core(0)
+right : bst_nodes(?g) == bst_nodes(g) at 0
+action : right_erase(0);
+
+id : 6
+priority : core(0)
+left : bst_gvalid(?g) at 0
+right : bst_gvalid(g) at 1
+action : left_erase(0);
+         right_erase(1);
+
+id : 7
+priority : core(0)
+left : bst_vvalid(?g, ?v) at 0
+right : bst_vvalid(g, v) at 1
+action : left_erase(0);
+         right_erase(1);
+
+id : 8
+priority : core(5)
+left : tree_node_store(?g, ?p) at 0
+action : left_erase(0);
+         left_add(bst_vvalid(g, p));
+         left_add(p != NULL);
+         left_add(INT_MIN() <= bst_key_of(g, p));
+         left_add(bst_key_of(g, p) <= INT_MAX());
+         left_add(store(field_addr(p, tree, key), I32, bst_key_of(g, p)));
+         left_add(store(field_addr(p, tree, left), PTR(struct tree), ptr_of(bst_left(g, p))));
+         left_add(store(field_addr(p, tree, right), PTR(struct tree), ptr_of(bst_right(g, p))));
+
+id : 9
+priority : post(1)
+left : bst_vvalid(?g, ?p) at 0
+       store(field_addr(p, tree, key), I32, bst_key_of(g, p)) at 1
+       store(field_addr(p, tree, left), PTR(struct tree), ptr_of(bst_left(g, p))) at 2
+       store(field_addr(p, tree, right), PTR(struct tree), ptr_of(bst_right(g, p))) at 3
+       INT_MIN() <= bst_key_of(g, p) at 4
+       bst_key_of(g, p) <= INT_MAX() at 5
+check : infer(p != 0);
+action : left_erase(0);
+         left_erase(1);
+         left_erase(2);
+         left_erase(3);
+         left_erase(4);
+         left_erase(5);
+         left_add(tree_node_store(g, p));
+
+id : 10
+priority : core(2)
+left : tree_nodes_store(?g, nil{Z}) at 0
+action : left_erase(0);
+
+id : 11
+priority : core(2)
+right : tree_nodes_store(?g, nil{Z}) at 0
+action : right_erase(0);
+
+id : 12
+priority : post(2)
+left : tree_node_store(?g, ?p) at 0
+       tree_nodes_store(g, ?xs) at 1
+action : left_erase(0);
+         left_erase(1);
+         left_add(tree_nodes_store(g, cons{Z}(p, xs)));
+
+id : 13
+priority : post(2)
+right : tree_node_store(?g, ?p) at 0
+        tree_nodes_store(g, ?xs) at 1
+action : right_erase(0);
+         right_erase(1);
+         right_add(tree_nodes_store(g, cons{Z}(p, xs)));
+
+id : 14
+priority : post(1)
+left : tree_node_store(?g, ?p) at 0
+       tree_nodes_store(g, ?xs) at 1
+       Permutation{Z}(?l, cons{Z}(p, xs)) at 2
+action : left_erase(0);
+         left_erase(1);
+         left_add(tree_nodes_store(g, l));
+
+id : 15
+priority : post(1)
+right : tree_node_store(?g, ?p) at 0
+       tree_nodes_store(g, ?xs) at 1
+       Permutation{Z}(?l, cons{Z}(p, xs)) at 2
+action : right_erase(0);
+         right_erase(1);
+         right_add(tree_nodes_store(g, l));
+
+id : 16
+priority : core(2)
+right : tree_store(?g) at 0
+action : right_erase(0);
+         right_add(tree_nodes_store(g, bst_nodes(g)));
+
+id : 17
+priority : core(2)
+left : tree_store(?g) at 0
+action : left_erase(0);
+         left_add(tree_nodes_store(g, bst_nodes(g)));
+
+id : 18
+priority : core(1)
+left : has_cur_source(?g, ?root, ?src, ?cur0) at 0
+right : has_cur_source(g, root, src, ?cur1) at 1
+action : left_erase(0);
+         right_erase(1);
+         right_add(cur0 == cur1);
+
+id : 19
+priority : core(1)
+left : has_cur_source2(?rootp, ?root, ?g, ?src0, ?cur0) at 0
+right : has_cur_source2(rootp, root, g, src0, ?cur1) at 1
+action : left_erase(0);
+         right_erase(1);
+         right_add(cur0 == cur1);
+
+id : 20
+priority : core(2)
+left : tree_nodes_store(?g, bst_nodes(g)) at 0
+       bst_gvalid(g) at 1
+check : absense(bst_node_domain_valid(g, bst_nodes(g)));
+action : left_add(bst_node_domain_valid(g, bst_nodes(g)));
+
+id : 21
+priority : core(3)
+left : tree_nodes_store(?g, ?l) at 0
+       bst_node_domain_valid(g, l) at 1
+       has_cur_source(g, ?root, ?src, option_ptr(?p)) at 2
+check : infer(p != NULL);
+action : left_erase(0);
+         left_exist_add(rest : list{Z});
+         left_add(Permutation{Z}(l, cons{Z}(p, rest)));
+         left_add(tree_node_store(g, p));
+         left_add(tree_nodes_store(g, rest));
+
+id : 22
+priority : core(2)
+left : ptr_of(bst_root(?g)) != 0 at 0
+       bst_gvalid(g) at 1
+check : absense(bst_vvalid(g, ptr_of(bst_root(g))));
+action : left_add(bst_vvalid(g, ptr_of(bst_root(g))));
+
+id : 23
+priority : core(2)
+left : ?p == ptr_of(bst_root(?g)) at 0
+       bst_gvalid(g) at 1
+check : absense(bst_vvalid(g, p));
+        infer(p != NULL);
+action : left_add(bst_vvalid(g, p));
+
+id : 24
+priority : core(1)
+left : tree_nodes_store(?g, ?l1) at 0
+       (Permutation{Z}(l1, ?l2) || Permutation{Z}(?l2, l1)) at 1
+right : tree_nodes_store(g, l2) at 2
+action: left_erase(0);
+        right_erase(2);
+
+id : 25
+priority : core(4)
+left : tree_nodes_store(?g, ?l) at 0
+       bst_node_domain_valid(g, l) at 1
+       bst_vvalid(g, ?v) at 3
+right : tree_node_store(?g1, v) at 2
+action : left_erase(0);
+         right_erase(2);
+         left_exist_add(l1);
+         left_add(Permutation{Z}(l, cons{Z}(v, l1)));
+         left_add(tree_nodes_store(g, l1));
+         right_add(g == g1);
+
+id : 78
+priority : core(3)
+left : tree_nodes_store(?g, ?l) at 0
+       bst_node_domain_valid(g, l) at 1
+       bst_vvalid(g, ?q) at 3
+right : (store(field_addr(q, tree, left), PTR(struct tree), ?lt) ||
+         has_permission(field_addr(q, tree, left), PTR(struct tree))) at 2
+check : infer(ptr_of(bst_left(g, q)) != NULL);
+        absense(bst_vvalid(g, ptr_of(bst_left(g, q))));
+action : left_erase(0);
+         left_exist_add(rest : list{Z});
+         left_add(Permutation{Z}(l, cons{Z}(q, rest)));
+         left_add(tree_nodes_store(g, rest));
+         left_add(tree_node_store(g, q));
+         left_add(bst_vvalid(g, ptr_of(bst_left(g, q))));
+
+id : 79
+priority : core(3)
+left : tree_nodes_store(?g, ?l) at 0
+       bst_node_domain_valid(g, l) at 1
+       bst_vvalid(g, ?q) at 3
+right : (store(field_addr(q, tree, right), PTR(struct tree), ?rt) ||
+         has_permission(field_addr(q, tree, right), PTR(struct tree))) at 2
+check : infer(ptr_of(bst_right(g, q)) != NULL);
+        absense(bst_vvalid(g, ptr_of(bst_right(g, q))));
+action : left_erase(0);
+         left_exist_add(rest : list{Z});
+         left_add(Permutation{Z}(l, cons{Z}(q, rest)));
+         left_add(tree_nodes_store(g, rest));
+         left_add(tree_node_store(g, q));
+         left_add(bst_vvalid(g, ptr_of(bst_right(g, q))));
+
+id : 26
+priority : core(4)
+left : tree_nodes_store(?g, ?l) at 0
+       bst_node_domain_valid(g, l) at 1
+       bst_vvalid(g, ?q) at 3
+right : (store(field_addr(q, tree, right), PTR(struct tree), ?rt) ||
+         store(field_addr(q, tree, left), PTR(struct tree), ?lt) ||
+         store(field_addr(q, tree, key), I32, ?k) ||
+         has_permission(field_addr(q, tree, right), PTR(struct tree))||
+         has_permission(field_addr(q, tree, left), PTR(struct tree))||
+         has_permission(field_addr(q, tree, key), I32)) at 2
+action : left_erase(0);
+         left_exist_add(l1);
+         left_add(Permutation{Z}(l, cons{Z}(q, l1)));
+         left_add(tree_nodes_store(g, l1));
+         left_add(tree_node_store(g, q));
+
+id : 27
+priority : core(2)
+left : has_cur_source2(?rootp, ?root, ?g, ?src, ?p) at 0
+       store(rootp, PTR(struct tree), ptr_of(?root1)) at 1
+       tree_nodes_store(g, ?l) at 2
+       bst_node_domain_valid(g, l) at 3
+right : store(p, PTR(struct tree), ?pv)|| has_permission(p, PTR(struct tree)) at 4
+check : infer(root == root1);
+action : left_erase(1);
+         left_erase(2);
+         left_add(store(p, PTR(struct tree), ptr_of(cur_source_value(g, src, root))));
+         left_add(tree_nodes_without_pointer2(rootp, root, g, src, l));
+
+id : 28
+priority : post(2)
+left : store(?p, PTR(struct tree), ptr_of(cur_source_value(?g, ?src, ?root))) at 0
+       tree_nodes_without_pointer2(?rootp, root, g, src, ?l) at 1
+       has_cur_source2(rootp, root, g, src, p) at 2
+       bst_node_domain_valid(g, l) at 3
+action : left_erase(0);
+         left_erase(1);
+         left_add(tree_nodes_store(g, l));
+         left_add(store(rootp, PTR(struct tree), ptr_of(root)));
+
+id : 29
+priority : core(3)
+left : has_cur_source2(?rootp, ?root, ?g, ?src, ?p) at 0
+       tree_nodes_store(g, ?l) at 1
+       bst_node_domain_valid(g, l) at 2
+       Permutation{Z}(l, cons{Z}(?q, ?rest)) at 3
+right : (store(field_addr(q, tree, right), PTR(struct tree), ?rt) ||
+         store(field_addr(q, tree, left), PTR(struct tree), ?lt) ||
+         store(field_addr(q, tree, key), I32, ?k) ||
+         has_permission(field_addr(q, tree, right), PTR(struct tree))||
+         has_permission(field_addr(q, tree, left), PTR(struct tree))||
+         has_permission(field_addr(q, tree, key), I32) ||
+         tree_node_store(g, ?q)) at 3
+check : infer(q == ptr_of(cur_source_value(g, src, root)));
+        infer(q != NULL);
+action : left_erase(1);
+         left_add(bst_vvalid(g, q));
+         left_add(tree_node_store(g, q));
+         left_add(tree_nodes_store(g, rest));
+
+id : 30
+priority : core(4)
+left : has_cur_source2(?rootp, ?root, ?g, ?src, ?p) at 0
+       tree_nodes_store(g, ?l) at 1
+       bst_node_domain_valid(g, l) at 2
+right : (store(field_addr(?q, tree, right), PTR(struct tree), ?rt) ||
+         store(field_addr(?q, tree, left), PTR(struct tree), ?lt) ||
+         store(field_addr(?q, tree, key), I32, ?k) ||
+         has_permission(field_addr(?q, tree, right), PTR(struct tree))||
+         has_permission(field_addr(?q, tree, left), PTR(struct tree))||
+         has_permission(field_addr(?q, tree, key), I32) ||
+         tree_node_store(g, ?q)) at 3
+check : infer(q == ptr_of(cur_source_value(g, src, root)));
+        infer(q != NULL);
+action : left_erase(1);
+         left_exist_add(rest : list{Z});
+         left_add(Permutation{Z}(l, cons{Z}(q, rest)));
+         left_add(bst_vvalid(g, q));
+         left_add(tree_node_store(g, q));
+         left_add(tree_nodes_store(g, rest));
+
+id : 31
+priority : core(3)
+left : has_cur_source2(?rootp, ?root, ?g, ?src, ?p) at 0
+       tree_nodes_store(g, ?l) at 1
+       bst_node_domain_valid(g, l) at 2
+       ?q == ptr_of(cur_source_value(g, src, root)) at 3
+       Permutation{Z}(l, cons{Z}(q, ?rest)) at 4
+right : (store(field_addr(q, tree, right), PTR(struct tree), ?rt) ||
+         store(field_addr(q, tree, left), PTR(struct tree), ?lt) ||
+         store(field_addr(q, tree, key), I32, ?k) ||
+         has_permission(field_addr(q, tree, right), PTR(struct tree)) ||
+         has_permission(field_addr(q, tree, left), PTR(struct tree)) ||
+         has_permission(field_addr(q, tree, key), I32) ||
+         tree_node_store(g, q)) at 3
+check : infer(ptr_of(cur_source_value(g, src, root)) != NULL);
+action : left_erase(1);
+         left_add(bst_vvalid(g, q));
+         left_add(tree_node_store(g, q));
+         left_add(tree_nodes_store(g, rest));
+
+id : 32
+priority : core(4)
+left : has_cur_source2(?rootp, ?root, ?g, ?src, ?p) at 0
+       tree_nodes_store(g, ?l) at 1
+       bst_node_domain_valid(g, l) at 2
+       ?q == ptr_of(cur_source_value(g, src, root)) at 3
+right : (store(field_addr(q, tree, right), PTR(struct tree), ?rt) ||
+         store(field_addr(q, tree, left), PTR(struct tree), ?lt) ||
+         store(field_addr(q, tree, key), I32, ?k) ||
+         has_permission(field_addr(q, tree, right), PTR(struct tree)) ||
+         has_permission(field_addr(q, tree, left), PTR(struct tree)) ||
+         has_permission(field_addr(q, tree, key), I32) ||
+         tree_node_store(g, q)) at 3
+check : infer(ptr_of(cur_source_value(g, src, root)) != NULL);
+action : left_erase(1);
+         left_exist_add(rest : list{Z});
+         left_add(Permutation{Z}(l, cons{Z}(q, rest)));
+         left_add(bst_vvalid(g, q));
+         left_add(tree_node_store(g, q));
+         left_add(tree_nodes_store(g, rest));
+
+id : 33
+priority : core(3)
+left : bst_insert_valid(?g, ?g1, ?v, ?x) at 0
+       has_cur_source(g, ?root, ?src, option_ptr(?p)) at 1
+check : infer(p != NULL);
+        absense(has_cur_source(g1, root, src, option_ptr(p)));
+action : left_add(has_cur_source(g1, root, src, option_ptr(p)));
+
+id : 34
+priority : post(2)
+left : bst_vvalid(?g, ?p) at 0
+       store(field_addr(p, tree, key), I32, ?k) at 1
+       store(field_addr(p, tree, left), PTR(struct tree), ptr_of(bst_left(g, p))) at 2
+       store(field_addr(p, tree, right), PTR(struct tree), ptr_of(bst_right(g, p))) at 3
+       INT_MIN() <= k at 4
+       k <= INT_MAX() at 5
+check : infer(p != 0);
+action : left_erase(0);
+         left_erase(1);
+         left_erase(2);
+         left_erase(3);
+         left_erase(4);
+         left_erase(5);
+         left_add(tree_node_update_key(g, p, k));
+
+id : 35
+priority : post(1)
+left : tree_nodes_store(?g, ?rest) at 0
+       tree_node_update_key(g, ?p, ?k) at 1
+       bst_node_domain_valid(g, ?l) at 2
+       Permutation{Z}(l, cons{Z}(p, rest)) at 3
+action : left_erase(0);
+         left_erase(1);
+         left_erase(2);
+         left_erase(3);
+         left_exist_add(g1);
+         left_add(bst_node_domain_valid(g1, l));
+         left_add(tree_nodes_store(g1, l));
+         left_add(bst_key_update(g, g1, p, k));
+
+id : 36
+priority : post(1)
+left : bst_key_update(?g, ?g1, ?p, ?k) at 0
+       has_cur_source2(?rootp, ?root, g, ?cur, ?q) at 1
+check : absense(has_cur_source2(rootp, root, g1, cur, q));
+action : left_add(has_cur_source2(rootp, root, g1, cur, q));
+
+id : 37
+priority : post(1)
+left : bst_key_update(?g, ?g1, ?p, ?k) at 0
+       has_cur_source(g, ?root, ?src, ?cur) at 1
+check : absense(has_cur_source(g1, root, src, cur));
+action : left_add(has_cur_source(g1, root, src, cur));
+
+id : 38
+priority : post(1)
+left : bst_key_update(?g, ?g1, ?p, ?k) at 0
+       bst_vvalid(g, ?v) at 1
+check : absense(bst_vvalid(g1, v));
+action : left_add(bst_vvalid(g1, v));
+         left_erase(0);
+
+id : 39
+priority : core(1)
+left : ?q == ptr_of(cur_source_value(?g, ?src, ?root)) at 0
+       has_cur_source2(?rootp, root, g, src, ?cur) || has_cur_source(g, root, src, ?value) at 0
+       bst_node_domain_valid(g, ?l) at 2
+check : infer(q != NULL);
+        absense(bst_vvalid(g, q));
+action : left_add(bst_vvalid(g, q));
+
+id : 40
+priority : post(2)
+left : tree_nodes_without_pointer2(?rootp, ?root, ?g, ?src, ?l) at 0
+       has_cur_source2(rootp, root, g, src, ?cur) at 1
+       store(cur, PTR(struct tree), ptr_of(bst_left(g, ?v))) at 2
+       bst_vvalid(g, v) at 3
+       bst_node_domain_valid(g, l) at 4
+action : left_erase(0);
+         left_erase(2);
+         left_exist_add(g1);
+         left_add(bst_node_domain_valid(g1, l));
+         left_add(store(rootp, PTR(struct tree), ptr_of(update_root(root, src, bst_left(g, v)))));
+         left_add(tree_nodes_store(g1, l));
+         left_add(bst_redirect(g, g1, src, bst_left(g, v)));
+
+id : 41
+priority : post(2)
+left : tree_nodes_without_pointer2(?rootp, ?root, ?g, ?src, ?l) at 0
+       has_cur_source2(rootp, root, g, src, ?cur) at 1
+       store(cur, PTR(struct tree), ptr_of(bst_right(g, ?v))) at 2
+       bst_vvalid(g, v) at 3
+       bst_node_domain_valid(g, l) at 4
+action : left_erase(0);
+         left_erase(2);
+         left_exist_add(g1);
+         left_add(bst_node_domain_valid(g1, l));
+         left_add(store(rootp, PTR(struct tree), ptr_of(update_root(root, src, bst_right(g, v)))));
+         left_add(tree_nodes_store(g1, l));
+         left_add(bst_redirect(g, g1, src, bst_right(g, v)));
+
+id : 42
+priority : post(3)
+left : tree_nodes_without_pointer2(?rootp, ?root, ?g, ?src, ?l) at 0
+       has_cur_source2(rootp, root, g, src, ?cur) at 1
+       store(cur, PTR(struct tree), ptr_of(?v)) at 2
+       bst_vvalid(g, ptr_of(?v1)) at 3
+       bst_node_domain_valid(g, l) at 4
+check : infer(v == v1);
+action : left_erase(0);
+         left_erase(2);
+         left_exist_add(g1);
+         left_add(bst_node_domain_valid(g1, l));
+         left_add(store(rootp, PTR(struct tree), ptr_of(update_root(root, src, v))));
+         left_add(tree_nodes_store(g1, l));
+         left_add(bst_redirect(g, g1, src, v));
+
+id : 43
+priority : post(3)
+left : tree_nodes_without_pointer2(?rootp, ?root, ?g, ?src, ?l) at 0
+       has_cur_source2(rootp, root, g, src, ?cur) at 1
+       store(cur, PTR(struct tree), ?p) at 2
+       bst_node_domain_valid(g, l) at 4
+check : infer(p == 0);
+action : left_erase(0);
+         left_erase(2);
+         left_exist_add(g1);
+         left_add(bst_node_domain_valid(g1, l));
+         left_add(store(rootp, PTR(struct tree), ptr_of(update_root(root, src, None{Z}()))));
+         left_add(tree_nodes_store(g1, l));
+         left_add(bst_redirect(g, g1, src, None{Z}()));
+
+id : 44
+priority : post(2)
+left : tree_nodes_store(?g, ?l) at 0
+       store(field_addr(?p, tree, key), I32, bst_key_of(g, p)) at 1
+       store(field_addr(p, tree, left), PTR(struct tree), ptr_of(bst_left(g, ?v))) at 2
+       store(field_addr(p, tree, right), PTR(struct tree), ptr_of(bst_right(g, p))) at 3
+       bst_vvalid(g, p) at 4
+       bst_vvalid(g, v) at 5
+       bst_node_domain_valid(g, ?l1) at 6
+       Permutation{Z}(l1,cons{Z}(p, l)) at 7
+       INT_MIN() <= bst_key_of(g, p) at 8
+       bst_key_of(g, p) <= INT_MAX() at 9
+check : infer(p != 0);
+action : left_erase(0);
+         left_erase(1);
+         left_erase(2);
+         left_erase(3);
+         left_erase(6);
+         left_erase(8);
+         left_erase(9);
+         left_exist_add(g1);
+         left_add(bst_node_domain_valid(g1, l1));
+         left_add(tree_nodes_store(g1, l1));
+         left_add(bst_redirect(g, g1, source_left_child(p), bst_left(g, v)));
+
+id : 45
+priority : post(2)
+left : tree_nodes_store(?g, ?l) at 0
+       store(field_addr(?p, tree, key), I32, bst_key_of(g, p)) at 1
+       store(field_addr(p, tree, left), PTR(struct tree), ptr_of(bst_right(g, ?v))) at 2
+       store(field_addr(p, tree, right), PTR(struct tree), ptr_of(bst_right(g, p))) at 3
+       bst_vvalid(g, p) at 4
+       bst_vvalid(g, v) at 5
+       bst_node_domain_valid(g, ?l1) at 6
+       Permutation{Z}(l1,cons{Z}(p, l)) at 7
+       INT_MIN() <= bst_key_of(g, p) at 8
+       bst_key_of(g, p) <= INT_MAX() at 9
+check : infer(p != 0);
+action : left_erase(0);
+         left_erase(1);
+         left_erase(2);
+         left_erase(3);
+         left_erase(6);
+         left_erase(8);
+         left_erase(9);
+         left_exist_add(g1);
+         left_add(bst_node_domain_valid(g1, l1));
+         left_add(tree_nodes_store(g1, l1));
+         left_add(bst_redirect(g, g1, source_left_child(p), bst_right(g, v)));
+
+id : 46
+priority : post(3)
+left : tree_nodes_store(?g, ?l) at 0
+       store(field_addr(?p, tree, key), I32, bst_key_of(g, p)) at 1
+       store(field_addr(p, tree, left), PTR(struct tree), ptr_of(?v)) at 2
+       store(field_addr(p, tree, right), PTR(struct tree), ptr_of(bst_right(g, p))) at 3
+       bst_vvalid(g, p) at 4
+       bst_vvalid(g, ptr_of(?v1)) at 5
+       bst_node_domain_valid(g, ?l1) at 6
+       Permutation{Z}(l1,cons{Z}(p, l)) at 7
+       INT_MIN() <= bst_key_of(g, p) at 8
+       bst_key_of(g, p) <= INT_MAX() at 9
+check : infer(p != 0);
+        infer(v == v1);
+action : left_erase(0);
+         left_erase(1);
+         left_erase(2);
+         left_erase(3);
+         left_erase(6);
+         left_erase(8);
+         left_erase(9);
+         left_exist_add(g1);
+         left_add(bst_node_domain_valid(g1, l1));
+         left_add(tree_nodes_store(g1, l1));
+         left_add(bst_redirect(g, g1, source_left_child(p), v));
+
+id : 47
+priority : post(3)
+left : tree_nodes_store(?g, ?l) at 0
+       store(field_addr(?p, tree, key), I32, bst_key_of(g, p)) at 1
+       store(field_addr(p, tree, left), PTR(struct tree), ?p) at 2
+       store(field_addr(p, tree, right), PTR(struct tree), ptr_of(bst_right(g, p))) at 3
+       bst_vvalid(g, p) at 4
+       bst_node_domain_valid(g, ?l1) at 6
+       Permutation{Z}(l1,cons{Z}(p, l)) at 7
+       INT_MIN() <= bst_key_of(g, p) at 8
+       bst_key_of(g, p) <= INT_MAX() at 9
+check : infer(p != 0);
+        infer(p == 0);
+action : left_erase(0);
+         left_erase(1);
+         left_erase(2);
+         left_erase(3);
+         left_erase(6);
+         left_erase(8);
+         left_erase(9);
+         left_exist_add(g1);
+         left_add(bst_node_domain_valid(g1, l1));
+         left_add(tree_nodes_store(g1, l1));
+         left_add(bst_redirect(g, g1, source_left_child(p), None{Z}()));
+
+id : 48
+priority : post(2)
+left : tree_nodes_store(?g, ?l) at 0
+       store(field_addr(?p, tree, key), I32, bst_key_of(g, p)) at 1
+       store(field_addr(p, tree, left), PTR(struct tree), ptr_of(bst_left(g, p))) at 2
+       store(field_addr(p, tree, right), PTR(struct tree), ptr_of(bst_left(g, ?v))) at 3
+       bst_vvalid(g, p) at 4
+       bst_vvalid(g, v) at 5
+       bst_node_domain_valid(g, ?l1) at 6
+       Permutation{Z}(l1, cons{Z}(p, l)) at 7
+       INT_MIN() <= bst_key_of(g, p) at 8
+       bst_key_of(g, p) <= INT_MAX() at 9
+check : infer(p != 0);
+action : left_erase(0);
+         left_erase(1);
+         left_erase(2);
+         left_erase(3);
+         left_erase(6);
+         left_erase(8);
+         left_erase(9);
+         left_exist_add(g1);
+         left_add(bst_node_domain_valid(g1, l1));
+         left_add(tree_nodes_store(g1, l1));
+         left_add(bst_redirect(g, g1, source_right_child(p), bst_left(g, v)));
+
+id : 49
+priority : post(2)
+left : tree_nodes_store(?g, ?l) at 0
+       store(field_addr(?p, tree, key), I32, bst_key_of(g, p)) at 1
+       store(field_addr(p, tree, left), PTR(struct tree), ptr_of(bst_left(g, p))) at 2
+       store(field_addr(p, tree, right), PTR(struct tree), ptr_of(bst_right(g, ?v))) at 3
+       bst_vvalid(g, p) at 4
+       bst_vvalid(g, v) at 5
+       bst_node_domain_valid(g, ?l1) at 6
+       Permutation{Z}(l1, cons{Z}(p, l)) at 7
+       INT_MIN() <= bst_key_of(g, p) at 8
+       bst_key_of(g, p) <= INT_MAX() at 9
+check : infer(p != 0);
+action : left_erase(0);
+         left_erase(1);
+         left_erase(2);
+         left_erase(3);
+         left_erase(6);
+         left_erase(8);
+         left_erase(9);
+         left_exist_add(g1);
+         left_add(bst_node_domain_valid(g1, l1));
+         left_add(tree_nodes_store(g1, l1));
+         left_add(bst_redirect(g, g1, source_right_child(p), bst_right(g, v)));
+
+id : 50
+priority : post(3)
+left : tree_nodes_store(?g, ?l) at 0
+       store(field_addr(?p, tree, key), I32, bst_key_of(g, p)) at 1
+       store(field_addr(p, tree, left), PTR(struct tree), ptr_of(bst_left(g, p))) at 2
+       store(field_addr(p, tree, right), PTR(struct tree), ptr_of(?v)) at 3
+       bst_vvalid(g, p) at 4
+       bst_vvalid(g, ptr_of(?v1)) at 5
+       bst_node_domain_valid(g, ?l1) at 6
+       Permutation{Z}(l1, cons{Z}(p, l)) at 7
+       INT_MIN() <= bst_key_of(g, p) at 8
+       bst_key_of(g, p) <= INT_MAX() at 9
+check : infer(p != 0);
+        infer(v == v1);
+action : left_erase(0);
+         left_erase(1);
+         left_erase(2);
+         left_erase(3);
+         left_erase(6);
+         left_erase(8);
+         left_erase(9);
+         left_exist_add(g1);
+         left_add(bst_node_domain_valid(g1, l1));
+         left_add(tree_nodes_store(g1, l1));
+         left_add(bst_redirect(g, g1, source_right_child(p), v));
+
+id : 51
+priority : post(3)
+left : tree_nodes_store(?g, ?l) at 0
+       store(field_addr(?p, tree, key), I32, bst_key_of(g, p)) at 1
+       store(field_addr(p, tree, left), PTR(struct tree), ptr_of(bst_left(g, p))) at 2
+       store(field_addr(p, tree, right), PTR(struct tree), ?p) at 3
+       bst_vvalid(g, p) at 4
+       bst_node_domain_valid(g, ?l1) at 6
+       Permutation{Z}(l1, cons{Z}(p, l)) at 7
+       INT_MIN() <= bst_key_of(g, p) at 8
+       bst_key_of(g, p) <= INT_MAX() at 9
+check : infer(p != 0);
+        infer(p == 0);
+action : left_erase(0);
+         left_erase(1);
+         left_erase(2);
+         left_erase(3);
+         left_erase(6);
+         left_erase(7);
+         left_erase(8);
+         left_erase(9);
+         left_exist_add(g1);
+         left_add(bst_node_domain_valid(g1, l1));
+         left_add(tree_nodes_store(g1, l1));
+         left_add(bst_redirect(g, g1, source_right_child(p), None{Z}()));
+
+id : 52
+priority : post(2)
+left : tree_nodes_without_pointer2(?rootp, ?root, ?g, ?src, ?l) at 0
+       has_cur_source2(rootp, root, g, src, ?cur) at 1
+       store(cur, PTR(struct tree), ptr_of(?v)) at 2
+       tree_nodes_store(?h, ?l1) at 3
+       has_cur_source2(?rootp1, ?root1, h, ?src1, ?cur1) at 4
+       bst_node_domain_valid(g, l) at 6
+       bst_node_domain_valid(h, l1) at 7
+check : infer(ptr_of(v) != 0);
+        infer(ptr_of(v) == ptr_of(cur_source_value(h, src1, root1)));
+action : left_erase(0);
+         left_erase(2);
+         left_erase(3);
+         left_erase(6);
+         left_erase(7);
+         left_exist_add(g1);
+         left_exist_add(l2);
+         left_add(tree_nodes_store(g1, l2));
+         left_add(bst_node_domain_valid(g1, l2));
+         left_add(Permutation{Z}(l2, app{Z}(l, l1)));
+         left_add(bst_keyed_insert(g, h, g1, src, ptr_of(v)));
+         left_add(store(rootp, PTR(struct tree), ptr_of(update_root(root, src, option_ptr(ptr_of(v))))));
+
+id : 53
+priority : post(2)
+left : tree_nodes_store(?g, ?l) at 0
+       store(field_addr(?p, tree, key), I32, bst_key_of(g, p)) at 1
+       store(field_addr(p, tree, left), PTR(struct tree), ptr_of(?v)) at 2
+       store(field_addr(p, tree, right), PTR(struct tree), ptr_of(bst_right(g, p))) at 3
+       bst_vvalid(g, p) at 4
+       tree_nodes_store(?h, ?lh) at 5
+       has_cur_source2(?rootp1, ?root1, h, ?src1, ?cur1) at 6
+       bst_node_domain_valid(g, ?lg) at 7
+       Permutation{Z}(lg, cons{Z}(p, l)) at 8
+       bst_node_domain_valid(h, lh) at 9
+       INT_MIN() <= bst_key_of(g, p) at 10
+       bst_key_of(g, p) <= INT_MAX() at 11
+check : infer(p != 0);
+        infer(ptr_of(v) != 0);
+        infer(ptr_of(v) == ptr_of(cur_source_value(h, src1, root1)));
+action : left_erase(0);
+         left_erase(1);
+         left_erase(2);
+         left_erase(3);
+         left_erase(5);
+         left_erase(7);
+         left_erase(9);
+         left_erase(10);
+         left_erase(11);
+         left_exist_add(g1);
+         left_exist_add(l2);
+         left_add(tree_nodes_store(g1, l2));
+         left_add(bst_node_domain_valid(g1, l2));
+         left_add(Permutation{Z}(l2, app{Z}(lg, lh)));
+         left_add(bst_keyed_insert(g, h, g1, source_left_child(p), ptr_of(v)));
+
+id : 54
+priority : post(2)
+left : tree_nodes_store(?g, ?l) at 0
+       store(field_addr(?p, tree, key), I32, bst_key_of(g, p)) at 1
+       store(field_addr(p, tree, left), PTR(struct tree), ptr_of(bst_left(g, p))) at 2
+       store(field_addr(p, tree, right), PTR(struct tree), ptr_of(?v)) at 3
+       bst_vvalid(g, p) at 4
+       tree_nodes_store(?h, ?lh) at 5
+       has_cur_source2(?rootp1, ?root1, h, ?src1, ?cur1) at 6
+       bst_node_domain_valid(g, ?lg) at 7
+       Permutation{Z}(lg, cons{Z}(p, l)) at 8
+       bst_node_domain_valid(h, lh) at 9
+       INT_MIN() <= bst_key_of(g, p) at 10
+       bst_key_of(g, p) <= INT_MAX() at 11
+check : infer(p != 0);
+        infer(ptr_of(v) != 0);
+        infer(ptr_of(v) == ptr_of(cur_source_value(h, src1, root1)));
+action : left_erase(0);
+         left_erase(1);
+         left_erase(2);
+         left_erase(3);
+         left_erase(5);
+         left_erase(7);
+         left_erase(9);
+         left_erase(10);
+         left_erase(11);
+         left_exist_add(g1);
+         left_exist_add(l2);
+         left_add(tree_nodes_store(g1, l2));
+         left_add(bst_node_domain_valid(g1, l2));
+         left_add(Permutation{Z}(l2, app{Z}(lg, lh)));
+         left_add(bst_keyed_insert(g, h, g1, source_right_child(p), ptr_of(v)));
+
+id : 80
+priority : post(2)
+left : tree_nodes_without_pointer2(?rootp, ?root, ?g, ?src, ?l) at 0
+       has_cur_source2(rootp, root, g, src, ?cur) at 1
+       store(cur, PTR(struct tree), ?target) at 2
+       tree_nodes_store(?h, ?l1) at 3
+       bst_vvalid(h, target) at 4
+       bst_node_domain_valid(g, l) at 5
+       bst_node_domain_valid(h, l1) at 6
+action : left_erase(0);
+         left_erase(2);
+         left_erase(3);
+         left_erase(5);
+         left_erase(6);
+         left_exist_add(g1);
+         left_exist_add(l2);
+         left_add(tree_nodes_store(g1, l2));
+         left_add(bst_node_domain_valid(g1, l2));
+         left_add(Permutation{Z}(l2, app{Z}(l, l1)));
+         left_add(bst_keyed_insert(g, h, g1, src, target));
+         left_add(store(rootp, PTR(struct tree), ptr_of(update_root(root, src, option_ptr(target)))));
+
+id : 81
+priority : post(2)
+left : tree_nodes_store(?g, ?l) at 0
+       store(field_addr(?p, tree, key), I32, bst_key_of(g, p)) at 1
+       store(field_addr(p, tree, left), PTR(struct tree), ?target) at 2
+       store(field_addr(p, tree, right), PTR(struct tree), ptr_of(bst_right(g, p))) at 3
+       bst_vvalid(g, p) at 4
+       tree_nodes_store(?h, ?lh) at 5
+       bst_vvalid(h, target) at 6
+       bst_node_domain_valid(g, ?lg) at 7
+       Permutation{Z}(lg, cons{Z}(p, l)) at 8
+       bst_node_domain_valid(h, lh) at 9
+       INT_MIN() <= bst_key_of(g, p) at 10
+       bst_key_of(g, p) <= INT_MAX() at 11
+       p != NULL at 12
+action : left_erase(0);
+         left_erase(1);
+         left_erase(2);
+         left_erase(3);
+         left_erase(5);
+         left_erase(7);
+         left_erase(9);
+         left_erase(10);
+         left_erase(11);
+         left_exist_add(g1);
+         left_exist_add(l2);
+         left_add(tree_nodes_store(g1, l2));
+         left_add(bst_node_domain_valid(g1, l2));
+         left_add(Permutation{Z}(l2, app{Z}(lg, lh)));
+         left_add(bst_keyed_insert(g, h, g1, source_left_child(p), target));
+
+id : 82
+priority : post(2)
+left : tree_nodes_store(?g, ?l) at 0
+       store(field_addr(?p, tree, key), I32, bst_key_of(g, p)) at 1
+       store(field_addr(p, tree, left), PTR(struct tree), ptr_of(bst_left(g, p))) at 2
+       store(field_addr(p, tree, right), PTR(struct tree), ?target) at 3
+       bst_vvalid(g, p) at 4
+       tree_nodes_store(?h, ?lh) at 5
+       bst_vvalid(h, target) at 6
+       bst_node_domain_valid(g, ?lg) at 7
+       Permutation{Z}(lg, cons{Z}(p, l)) at 8
+       bst_node_domain_valid(h, lh) at 9
+       INT_MIN() <= bst_key_of(g, p) at 10
+       bst_key_of(g, p) <= INT_MAX() at 11
+       p != NULL at 12
+action : left_erase(0);
+         left_erase(1);
+         left_erase(2);
+         left_erase(3);
+         left_erase(5);
+         left_erase(7);
+         left_erase(9);
+         left_erase(10);
+         left_erase(11);
+         left_exist_add(g1);
+         left_exist_add(l2);
+         left_add(tree_nodes_store(g1, l2));
+         left_add(bst_node_domain_valid(g1, l2));
+         left_add(Permutation{Z}(l2, app{Z}(lg, lh)));
+         left_add(bst_keyed_insert(g, h, g1, source_right_child(p), target));
+
+id : 55
+priority : post(3)
+left : tree_nodes_without_pointer2(?rootp, ?root, ?g, ?src, ?l) at 0
+       has_cur_source2(rootp, root, g, src, ?cur) at 1
+       store(cur, PTR(struct tree), ?target) at 2
+       store(field_addr(target, tree, key), I32, ?k) at 3
+       store(field_addr(target, tree, left), PTR(struct tree), 0) at 4
+       store(field_addr(target, tree, right), PTR(struct tree), 0) at 5
+       bst_node_domain_valid(g, l) at 6
+       INT_MIN() <= k at 7
+       k <= INT_MAX() at 8
+check : infer(target != 0);
+action : left_erase(0);
+         left_erase(2);
+         left_erase(3);
+         left_erase(4);
+         left_erase(5);
+         left_erase(6);
+         left_erase(7);
+         left_erase(8);
+         left_exist_add(h);
+         left_exist_add(g1);
+         left_exist_add(lout);
+         left_add(tree_nodes_store(g1, lout));
+         left_add(bst_node_domain_valid(g1, lout));
+         left_add(Permutation{Z}(lout, cons{Z}(target, l)));
+         left_add(bst_keyed_insert(g, h, g1, src, target));
+         left_add(bst_key_of(g1, target) == k);
+         left_add(bst_left(g1, target) == None{Z}());
+         left_add(bst_right(g1, target) == None{Z}());
+         left_add(store(rootp, PTR(struct tree), ptr_of(update_root(root, src, option_ptr(target)))));
+
+id : 56
+priority : post(3)
+left : tree_nodes_store(?g, ?rest) at 0
+       store(field_addr(?p, tree, key), I32, bst_key_of(g, p)) at 1
+       store(field_addr(p, tree, left), PTR(struct tree), ?target) at 2
+       store(field_addr(p, tree, right), PTR(struct tree), ptr_of(bst_right(g, p))) at 3
+       bst_vvalid(g, p) at 4
+       store(field_addr(target, tree, key), I32, ?k) at 5
+       store(field_addr(target, tree, left), PTR(struct tree), 0) at 6
+       store(field_addr(target, tree, right), PTR(struct tree), 0) at 7
+       bst_node_domain_valid(g, ?lg) at 8
+       Permutation{Z}(lg, cons{Z}(p, rest)) at 9
+       INT_MIN() <= bst_key_of(g, p) at 10
+       bst_key_of(g, p) <= INT_MAX() at 11
+       INT_MIN() <= k at 12
+       k <= INT_MAX() at 13
+check : infer(p != 0);
+        infer(target != 0);
+action : left_erase(0);
+         left_erase(1);
+         left_erase(2);
+         left_erase(3);
+         left_erase(5);
+         left_erase(6);
+         left_erase(7);
+         left_erase(8);
+         left_erase(10);
+         left_erase(11);
+         left_erase(12);
+         left_erase(13);
+         left_exist_add(h);
+         left_exist_add(g1);
+         left_exist_add(lout : list{Z});
+         left_add(tree_nodes_store(g1, lout));
+         left_add(bst_node_domain_valid(g1, lout));
+         left_add(Permutation{Z}(lout, cons{Z}(target, lg)));
+         left_add(bst_keyed_insert(g, h, g1, source_left_child(p), target));
+         left_add(bst_key_of(g1, target) == k);
+         left_add(bst_left(g1, target) == None{Z}());
+         left_add(bst_right(g1, target) == None{Z}());
+
+id : 57
+priority : post(3)
+left : tree_nodes_store(?g, ?rest) at 0
+       store(field_addr(?p, tree, key), I32, bst_key_of(g, p)) at 1
+       store(field_addr(p, tree, left), PTR(struct tree), ptr_of(bst_left(g, p))) at 2
+       store(field_addr(p, tree, right), PTR(struct tree), ?target) at 3
+       bst_vvalid(g, p) at 4
+       store(field_addr(target, tree, key), I32, ?k) at 5
+       store(field_addr(target, tree, left), PTR(struct tree), 0) at 6
+       store(field_addr(target, tree, right), PTR(struct tree), 0) at 7
+       bst_node_domain_valid(g, ?lg) at 8
+       Permutation{Z}(lg, cons{Z}(p, rest)) at 9
+       INT_MIN() <= bst_key_of(g, p) at 10
+       bst_key_of(g, p) <= INT_MAX() at 11
+       INT_MIN() <= k at 12
+       k <= INT_MAX() at 13
+check : infer(p != 0);
+        infer(target != 0);
+        infer(INT_MIN() <= bst_key_of(g, p));
+        infer(bst_key_of(g, p) <= INT_MAX());
+        infer(INT_MIN() <= k);
+        infer(k <= INT_MAX());
+action : left_erase(0);
+         left_erase(1);
+         left_erase(2);
+         left_erase(3);
+         left_erase(5);
+         left_erase(6);
+         left_erase(7);
+         left_erase(8);
+         left_erase(10);
+         left_erase(11);
+         left_erase(12);
+         left_erase(13);
+         left_exist_add(h);
+         left_exist_add(g1);
+         left_exist_add(lout : list{Z});
+         left_add(tree_nodes_store(g1, lout));
+         left_add(bst_node_domain_valid(g1, lout));
+         left_add(Permutation{Z}(lout, cons{Z}(target, lg)));
+         left_add(bst_keyed_insert(g, h, g1, source_right_child(p), target));
+         left_add(bst_key_of(g1, target) == k);
+         left_add(bst_left(g1, target) == None{Z}());
+         left_add(bst_right(g1, target) == None{Z}());
+
+id : 58
+priority : post(1)
+left : bst_redirect(?g, ?g1, source_left_child(?p), ?new) at 0
+       has_cur_source2(?rootp, ?root, g, ?src1, ?cur) at 1
+check : absense(has_cur_source2(rootp, root, g1, src1, cur));
+action : left_add(has_cur_source2(rootp, root, g1, src1, cur));
+
+id : 59
+priority : post(1)
+left : bst_redirect(?g, ?g1, source_right_child(?p), ?new) at 0
+       has_cur_source2(?rootp, ?root, g, ?src1, ?cur) at 1
+check : absense(has_cur_source2(rootp, root, g1, src1, cur));
+action : left_add(has_cur_source2(rootp, root, g1, src1, cur));
+
+id : 60
+priority : post(2)
+left : bst_redirect(?g, ?g1, ?src, ?new) at 0
+       has_cur_source2(?rootp, ?root, g, ?src1, ?cur) at 1
+check : absense(has_cur_source2(rootp, update_root(root, src, new), g1, src1, cur));
+        absense(has_cur_source2(rootp, root, g1, src1, cur));
+action : left_add(has_cur_source2(rootp, update_root(root, src, new), g1, src1, cur));
+
+id : 61
+priority : post(1)
+left : bst_redirect(?g, ?g1, source_left_child(?p), ?new) at 0
+       has_cur_source(g, ?root, source_left_child(p), ?value) at 1
+check : absense(has_cur_source(g1, root, source_left_child(p), new));
+action : left_add(has_cur_source(g1, root, source_left_child(p), new));
+
+id : 62
+priority : post(1)
+left : bst_redirect(?g, ?g1, source_right_child(?p), ?new) at 0
+       has_cur_source(g, ?root, source_right_child(p), ?value) at 1
+check : absense(has_cur_source(g1, root, source_right_child(p), new));
+action : left_add(has_cur_source(g1, root, source_right_child(p), new));
+
+id : 63
+priority : post(2)
+left : bst_redirect(?g, ?g1, ?src, ?new) at 0
+       has_cur_source(g, ?root, src, ?value) at 1
+check : absense(has_cur_source(g1, update_root(root, src, new), src, new));
+        absense(has_cur_source(g1, root, src, new));
+action : left_add(has_cur_source(g1, update_root(root, src, new), src, new));
+
+id : 64
+priority : post(2)
+left : bst_redirect(?g, ?g1, source_left_child(?p), ?new) at 0
+       has_cur_source(g, ?root, ?src1, ?value) at 1
+check : infer(source_left_child(p) != src1);
+        absense(has_cur_source(g1, root, src1, value));
+action : left_add(has_cur_source(g1, root, src1, value));
+
+id : 65
+priority : post(2)
+left : bst_redirect(?g, ?g1, source_right_child(?p), ?new) at 0
+       has_cur_source(g, ?root, ?src1, ?value) at 1
+check : infer(source_right_child(p) != src1);
+        absense(has_cur_source(g1, root, src1, value));
+action : left_add(has_cur_source(g1, root, src1, value));
+
+id : 66
+priority : post(3)
+left : bst_redirect(?g, ?g1, ?src, ?new) at 0
+       has_cur_source(g, ?root, ?src1, ?value) at 1
+check : infer(src != src1);
+        absense(has_cur_source(g1, update_root(root, src, new), src1, value));
+        absense(has_cur_source(g1, root, src1, value));
+action : left_add(has_cur_source(g1, update_root(root, src, new), src1, value));
+
+id : 67
+priority : post(1)
+left : bst_redirect(?g, ?g1, ?src, ?new) at 0
+       bst_vvalid(g, ?v) at 1
+check : absense(bst_vvalid(g1, v));
+action : left_add(bst_vvalid(g1, v));
+         left_erase(1);
+
+id : 68
+priority : post(1)
+left : bst_keyed_insert(?g, ?h, ?g1, source_left_child(?p), ?target) at 0
+       (has_cur_source2(?rootp, ?root, g, ?src1, ?cur) || has_cur_source2(?rootp, ?root, h, ?src1, ?cur)) at 1
+check : absense(has_cur_source2(rootp, root, g1, src1, cur));
+action : left_add(has_cur_source2(rootp, root, g1, src1, cur));
+
+id : 69
+priority : post(1)
+left : bst_keyed_insert(?g, ?h, ?g1, source_right_child(?p), ?target) at 0
+       (has_cur_source2(?rootp, ?root, g, ?src1, ?cur) || has_cur_source2(?rootp, ?root, h, ?src1, ?cur)) at 1
+check : absense(has_cur_source2(rootp, root, g1, src1, cur));
+action : left_add(has_cur_source2(rootp, root, g1, src1, cur));
+
+id : 70
+priority : post(2)
+left : bst_keyed_insert(?g, ?h, ?g1, ?src, ?target) at 0
+       (has_cur_source2(?rootp, ?root, g, ?src1, ?cur) || has_cur_source2(?rootp, ?root, h, ?src1, ?cur)) at 1
+check : absense(has_cur_source2(rootp, update_root(root, src, option_ptr(target)), g1, src1, cur));
+        absense(has_cur_source2(rootp, root, g1, src1, cur));
+action : left_add(has_cur_source2(rootp, update_root(root, src, option_ptr(target)), g1, src1, cur));
+
+id : 71
+priority : post(1)
+left : bst_keyed_insert(?g, ?h, ?g1, source_left_child(?p), ?target) at 0
+       (has_cur_source(g, ?root, source_left_child(p), ?value) || has_cur_source(h, ?root, source_left_child(p), ?value)) at 1
+check : infer(target != NULL);
+        absense(has_cur_source(g1, root, source_left_child(p), option_ptr(target)));
+action : left_add(has_cur_source(g1, root, source_left_child(p), option_ptr(target)));
+
+id : 72
+priority : post(1)
+left : bst_keyed_insert(?g, ?h, ?g1, source_right_child(?p), ?target) at 0
+       (has_cur_source(g, ?root, source_right_child(p), ?value) || has_cur_source(h, ?root, source_right_child(p), ?value)) at 1
+check : infer(target != NULL);
+        absense(has_cur_source(g1, root, source_right_child(p), option_ptr(target)));
+action : left_add(has_cur_source(g1, root, source_right_child(p), option_ptr(target)));
+
+id : 73
+priority : post(2)
+left : bst_keyed_insert(?g, ?h, ?g1, ?src, ?target) at 0
+       (has_cur_source(g, ?root, src, ?value) || has_cur_source(h, ?root, src, ?value)) at 1
+check : infer(target != NULL);
+        absense(has_cur_source(g1, update_root(root, src, option_ptr(target)), src, option_ptr(target)));
+        absense(has_cur_source(g1, root, src, option_ptr(target)));
+action : left_add(has_cur_source(g1, update_root(root, src, option_ptr(target)), src, option_ptr(target)));
+
+id : 74
+priority : post(1)
+left : bst_keyed_insert(?g, ?h, ?g1, source_left_child(?p), ?target) at 0
+       (has_cur_source(g, ?root, ?src1, ?value) || has_cur_source(h, ?root, ?src1, ?value)) at 1
+check : infer(source_left_child(p) != src1);
+        absense(has_cur_source(g1, root, src1, value));
+action : left_add(has_cur_source(g1, root, src1, value));
+
+id : 75
+priority : post(1)
+left : bst_keyed_insert(?g, ?h, ?g1, source_right_child(?p), ?target) at 0
+       (has_cur_source(g, ?root, ?src1, ?value) || has_cur_source(h, ?root, ?src1, ?value)) at 1
+check : infer(source_right_child(p) != src1);
+        absense(has_cur_source(g1, root, src1, value));
+action : left_add(has_cur_source(g1, root, src1, value));
+
+id : 76
+priority : post(3)
+left : bst_keyed_insert(?g, ?h, ?g1, ?src, ?target) at 0
+       (has_cur_source(g, ?root, ?src1, ?value) || has_cur_source(h, ?root, ?src1, ?value)) at 1
+check : infer(src != src1);
+        absense(has_cur_source(g1, update_root(root, src, option_ptr(target)), src1, value));
+        absense(has_cur_source(g1, root, src1, value));
+action : left_add(has_cur_source(g1, update_root(root, src, option_ptr(target)), src1, value));
+
+id : 77
+priority : post(1)
+left : bst_keyed_insert(?g, ?h, ?g1, ?src, ?target) at 0
+       (bst_vvalid(g, ?v) || bst_vvalid(h, ?v)) at 1
+check : absense(bst_vvalid(g1, v));
+action : left_add(bst_vvalid(g1, v));
+         left_erase(1);

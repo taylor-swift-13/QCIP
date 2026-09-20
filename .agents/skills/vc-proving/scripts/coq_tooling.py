@@ -312,9 +312,17 @@ def relative_to_logical_module(rel: Path) -> str | None:
 
 
 def _local_alias_wrapper(build_workspace: Path, current_rel: Path, module: str) -> Path | None:
-    if "." in module or module.startswith(STANDARD_PREFIXES):
+    if module.startswith(STANDARD_PREFIXES):
         return None
-    sibling = current_rel.parent / f"{module}.v"
+    requested_rel = logical_module_to_relative(module)
+    if "." in module:
+        if requested_rel is None or (build_workspace / requested_rel).is_file():
+            return None
+        sibling = requested_rel
+        module_basename = module.rsplit(".", 1)[-1]
+    else:
+        sibling = current_rel.parent / f"{module}.v"
+        module_basename = module
     if not (build_workspace / sibling).is_file():
         candidates: list[Path] = []
         for physical, _logical in (*FIXED_R_MAPPINGS, *FIXED_Q_MAPPINGS):
@@ -324,7 +332,7 @@ def _local_alias_wrapper(build_workspace: Path, current_rel: Path, module: str) 
                 continue
             candidates.extend(
                 path.relative_to(build_workspace)
-                for path in source_root.rglob(f"{module}.v")
+                for path in source_root.rglob(f"{module_basename}.v")
             )
         candidates = sorted(set(candidates))
         if len(candidates) != 1:
@@ -333,7 +341,7 @@ def _local_alias_wrapper(build_workspace: Path, current_rel: Path, module: str) 
     logical = relative_to_logical_module(sibling)
     if logical is None:
         return None
-    wrapper = Path(f"{module}.v")
+    wrapper = requested_rel if requested_rel is not None else Path(f"{module}.v")
     wrapper_path = build_workspace / wrapper
     if module.endswith(("_strategy_goal", "_strategy_proof")):
         wrapper_text = (build_workspace / sibling).read_text(encoding="utf-8")
@@ -417,8 +425,10 @@ def _compile_order(build_workspace: Path, target_rel: Path) -> tuple[list[Path],
         visiting.add(rel)
         for module in _required_modules(path.read_text(encoding="utf-8")):
             dep = logical_module_to_relative(module)
-            if dep is None:
-                dep = _local_alias_wrapper(build_workspace, rel, module)
+            if dep is None or not (build_workspace / dep).is_file():
+                alias = _local_alias_wrapper(build_workspace, rel, module)
+                if alias is not None:
+                    dep = alias
             if dep is not None and (build_workspace / dep).is_file():
                 visit(dep)
         visiting.remove(rel)

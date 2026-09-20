@@ -2880,6 +2880,11 @@ def _materialize_inline_vc_checking_group_plan(report: dict[str, Any], report_pa
     if not isinstance(plan, dict):
         plan = vc_checking.get("proof_group_plan")
     if not isinstance(plan, dict):
+        nested = vc_checking.get("vc_checking") if isinstance(vc_checking.get("vc_checking"), dict) else {}
+        plan = nested.get("group_plan")
+        if not isinstance(plan, dict):
+            plan = nested.get("proof_group_plan")
+    if not isinstance(plan, dict):
         return None
     plan_path = report_path.parent / "group_plan.json"
     if plan_path.is_file():
