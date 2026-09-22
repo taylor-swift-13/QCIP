@@ -1,0 +1,29 @@
+# Reuse Note
+
+Note kind: non-authoritative reuse note
+
+This file is not acceptance evidence. If it conflicts with JSON reports, handoff files, source versions, manifests, or current worktree files, ignore this file.
+
+## Result
+
+The common `xizi_dll` semantics are composable: it owns the sentinel links and includes `head <> NULL`, so `xizi_dll(head,nil)` supplies the non-null fact expected by query operations. The case-lib fixed compile passed.
+
+The real `init` call is nevertheless blocked in QCP strategy rewriting. At the call, the symbolic state contains `xizi_dll_node(linklist_head@pre)`. Shared rule 405 unfolds this predicate only on the left; there is no right-side rule for the callee precondition. QCP reports `Cannot derive the precondition of function xizi_double_link_init`.
+
+## Useful Method
+
+- Add a right-side `xizi_dll_node` strategy mirroring rule 405 in the shared common strategy.
+- Regenerate and prove the shared strategy artifacts with StrategyCheck.
+- Start a fresh annotation round because the shared strategy version is upstream of this source snapshot.
+- Re-run qcp-mcp with the canonical `-IQCP_examples/QCP_demos_LLM/` and both required `-slp` mappings.
+
+## Files Touched
+
+- No formal candidate changes remain; all experimental C changes were reverted.
+- The report and this reuse note record the failure evidence.
+
+## Failed Attempts
+
+- Plain forward declarations did not change the failure.
+- Named call/implementation specs plus explicit `where` clauses did not change the failure.
+- A raw-field implementation spec did not help because the public call precondition still remained opaque on the right.

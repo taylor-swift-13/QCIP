@@ -1,0 +1,163 @@
+{
+  "schema_version": "qcp-vc-group-plan/v1",
+  "source_goal_version": "6c5b110a5de68846380881653ae72677a90f6cb9b7d506a962ee12f6f90a68ce",
+  "target_witnesses": [
+    "proof_of_SingleLinkListGetTailNode_entail_wit_1",
+    "proof_of_SingleLinkListGetTailNode_entail_wit_2",
+    "proof_of_SingleLinkListGetTailNode_return_wit_1",
+    "proof_of_SingleLinkListGetTailNode_return_wit_2"
+  ],
+  "target_witness_count": 4,
+  "target_witness_statement_hashes": {
+    "proof_of_SingleLinkListGetTailNode_entail_wit_1": "60ccb1d56a0aac8c7b4506dac23a0bc406b92a7294d8ec1d96574663338e80cf",
+    "proof_of_SingleLinkListGetTailNode_entail_wit_2": "bbf6b298839c165494330c0942b9b840efe5bd79940afefb38ede310dadb749e",
+    "proof_of_SingleLinkListGetTailNode_return_wit_1": "58e74d85c664be4b2fa6d6a7d90126d5e39ba18422cb34e90b8f763a96ee01a7",
+    "proof_of_SingleLinkListGetTailNode_return_wit_2": "efb9d77a8a96dfb3178e127836d66ee7b8bee5e355d7e13832b9c3b67c2650af"
+  },
+  "manual_file": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail_proof_manual.v",
+  "case_lib": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail_lib.v",
+  "grouping_decision": {
+    "proof_group_count": 1,
+    "max_witnesses_per_group": 12,
+    "within_bound": true,
+    "minimal_grouping": true,
+    "reason": "All four witnesses belong to the same function and the same xizi_sll/xizi_sllseg decomposition family. One worker can reuse the same unfolding, existential-instantiation, segment-composition, zero-list, and tail-value context without any cross-group helper dependency."
+  },
+  "proof_groups": [
+    {
+      "group_id": "single_link_tail_all",
+      "witness_names": [
+        "proof_of_SingleLinkListGetTailNode_entail_wit_1",
+        "proof_of_SingleLinkListGetTailNode_entail_wit_2",
+        "proof_of_SingleLinkListGetTailNode_return_wit_1",
+        "proof_of_SingleLinkListGetTailNode_return_wit_2"
+      ],
+      "representative_witness": "proof_of_SingleLinkListGetTailNode_entail_wit_1",
+      "dependencies": [],
+      "difficulty": "medium",
+      "confidence": "high",
+      "grouping_reason": "The target count is four, below the controller bound of twelve, and all obligations use one single-link-list proof vocabulary. Keeping the initialization, loop-step, loop-exit, and empty-tail cases together gives one worker the full invariant lifecycle and avoids duplicated predicate setup.",
+      "shared_proof_pattern": "For each generated top-level disjunction, select the semantically sufficient right branch. Normalize list equalities, instantiate existentials with the existing suffix/prefix variables, use xizi_sllseg_len1 plus xizi_sllseg_sllseg for the loop step, and use xizi_sll_zero plus xizi_sll_len1/xizi_sllseg_sll and xizi_sll_tail_value_app_last for returns.",
+      "proof_strategy": "Prove the four witnesses in manual order. Use the right disjunct of each target. The first entailment is direct existential instantiation. The second extends l1_2 by [current]. The nonempty return derives l2 = nil and rebuilds the whole list ending at current. The empty return derives l = nil from q = 0 and discharges last nil linklist_pre = linklist_pre while reconstructing or framing xizi_sll q l.",
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "likely_helper_declarations": [],
+      "per_witness_plan": {
+        "proof_of_SingleLinkListGetTailNode_entail_wit_1": {
+          "judgment": "proofable",
+          "selected_disjunct": "right",
+          "witness_instantiation": {
+            "l2": "l0"
+          },
+          "space_plan": "Keep xizi_sll q_2 l0 unchanged and use it as xizi_sll q_2 l2 after choosing l2 = l0.",
+          "pure_plan": "Simplify app nil (q :: l0) and use PreH1: l = q :: l0; reuse PreH2 and PreH3.",
+          "used_existing_lemmas": []
+        },
+        "proof_of_SingleLinkListGetTailNode_entail_wit_2": {
+          "judgment": "proofable",
+          "selected_disjunct": "right",
+          "witness_instantiation": {
+            "l1": "l1_2 ++ [current]",
+            "l2": "l0"
+          },
+          "space_plan": "Turn current |-> next_2 into xizi_sllseg current next_2 [current] using xizi_sllseg_len1 and PreH3, then compose it with xizi_sllseg first_2 current l1_2 using xizi_sllseg_sllseg; retain xizi_sll q l0.",
+          "pure_plan": "Rewrite l2_2 by PreH1 and l by PreH2; associativity and simplification show l = (l1_2 ++ [current]) ++ next_2 :: l0. Reuse PreH4 and PreH5.",
+          "used_existing_lemmas": [
+            "xizi_sllseg_len1",
+            "xizi_sllseg_sllseg"
+          ]
+        },
+        "proof_of_SingleLinkListGetTailNode_return_wit_1": {
+          "judgment": "proofable",
+          "selected_disjunct": "right",
+          "witness_instantiation": "No post existential. Normalize next = 0 and l2 = nil, so l = l1 ++ [current].",
+          "space_plan": "Use xizi_sll_zero with PreH4 to derive l2 = nil. Convert current |-> 0 to xizi_sll current [current] by xizi_sll_len1 using PreH2 and PreH4, then compose with xizi_sllseg first current l1 using xizi_sllseg_sll to obtain xizi_sll first (l1 ++ [current]), rewritten to xizi_sll first l by PreH1.",
+          "pure_plan": "After l2 = nil, PreH1 gives l = l1 ++ [current]. Apply xizi_sll_tail_value_app_last l1 current linklist_pre to obtain current = xizi_sll_tail_value l linklist_pre.",
+          "used_existing_lemmas": [
+            "xizi_sll_zero",
+            "xizi_sll_len1",
+            "xizi_sllseg_sll",
+            "xizi_sll_tail_value_app_last"
+          ]
+        },
+        "proof_of_SingleLinkListGetTailNode_return_wit_2": {
+          "judgment": "proofable",
+          "selected_disjunct": "right",
+          "witness_instantiation": "No post existential. Derive q = 0 and l = nil.",
+          "space_plan": "Use xizi_sll_zero after PreH1 to derive l = nil. The required xizi_sll q l is the same assertion as the antecedent and may be framed; equivalently, after substituting q = 0 and l = nil it unfolds to the empty-list assertion and can be reconstructed.",
+          "pure_plan": "With l = nil, unfold xizi_sll_tail_value and simplify last nil linklist_pre to linklist_pre, proving linklist_pre = xizi_sll_tail_value l linklist_pre.",
+          "used_existing_lemmas": [
+            "xizi_sll_zero"
+          ]
+        }
+      },
+      "premise_discharge": {
+        "xizi_sllseg_len1.current_nonnull": "PreH3 of entail_wit_2",
+        "xizi_sll_len1.current_nonnull": "PreH2 of return_wit_1",
+        "xizi_sll_len1.next_is_null": "PreH4 of return_wit_1",
+        "xizi_sll_zero.null_root": "PreH4 of return_wit_1 or PreH1 of return_wit_2",
+        "xizi_sll_tail_value_app_last": "Unconditional existing lemma after PreH1 and l2 = nil normalize l to l1 ++ [current]"
+      },
+      "forbidden_lemma_scan": {
+        "required": "yes",
+        "policy": "scan-all-23-exact-names",
+        "scan_scopes": [
+          {
+            "kind": "assigned-manual-proof-bodies",
+            "file": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail_proof_manual.v",
+            "assigned_witnesses": [
+              "proof_of_SingleLinkListGetTailNode_entail_wit_1",
+              "proof_of_SingleLinkListGetTailNode_entail_wit_2",
+              "proof_of_SingleLinkListGetTailNode_return_wit_1",
+              "proof_of_SingleLinkListGetTailNode_return_wit_2"
+            ]
+          },
+          {
+            "kind": "case-lib-entire-file",
+            "file": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail_lib.v"
+          }
+        ],
+        "exact_names": [
+          "logic_equiv_refl",
+          "elim_wand_emp_emp",
+          "logic_equiv_symm",
+          "sepcon_emp_logic_equiv'",
+          "logic_equiv_andp_comm",
+          "logic_equiv_sepcon_comm",
+          "logic_equiv_sepcon_emp",
+          "logic_equiv_andp_truep",
+          "logic_equiv_truep_andp",
+          "truep_andp_right_equiv",
+          "logic_equiv_orp_comm",
+          "logic_equiv_trans",
+          "logic_equiv_orp_assoc",
+          "logic_equiv_sepcon_assoc",
+          "logic_equiv_andp_assoc",
+          "logic_equiv_sepcon_orp",
+          "logic_equiv_sepcon_orp_distr",
+          "logic_equiv_orp_sepcon",
+          "derivable1_trans",
+          "derivable1_refl",
+          "derivable1_sepcon_comm",
+          "coq_prop_andp_right",
+          "derivable1_sepcon_mono"
+        ],
+        "exact_name_count": 23,
+        "required_result": "zero-hits",
+        "required_hit_count": 0,
+        "on_nonzero_hit": "Group worker must reject the candidate, rewrite the affected proof/helper, and rerun the full 23-name scan before reporting completion."
+      }
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 4,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

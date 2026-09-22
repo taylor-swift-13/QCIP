@@ -1,0 +1,418 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "status": "completed",
+    "terminal": "yes",
+    "phase": "vc-checking",
+    "round": "xizi_double_link_remove_node-vc-checking-r1",
+    "attempt_id": "xizi_double_link_remove_node-vc-checking-r1-attempt-1",
+    "round_outcome": "proofable",
+    "source_version": "c46a2829b3d874660b09e27ebe70a7030d9209780336edf38af4c370acc84c75",
+    "source_goal_version": "2cf1d760d4d20e05de286fbebafba6557219198fb8c25364e1e1ed81f212b0d6",
+    "changed_files": [],
+    "blockers": [],
+    "vc_checking": {
+      "status": "completed",
+      "overall_judgment": "proofable",
+      "vc_proving_ready": "yes",
+      "source_version": "c46a2829b3d874660b09e27ebe70a7030d9209780336edf38af4c370acc84c75",
+      "source_goal_version": "2cf1d760d4d20e05de286fbebafba6557219198fb8c25364e1e1ed81f212b0d6",
+      "summary": "All five manual obligations are semantically derivable from the current DLL predicates and annotation-approved case_lib. Import DLL preserves the constants used by the tracked proof structure. No annotation repair or new helper is required.",
+      "version_evidence": {
+        "source_version_verified_current": true,
+        "source_goal_version_verified_current": true,
+        "all_declared_sha256_matches": true,
+        "manual_target_set_exact_match": true,
+        "manual_target_order_exact_match": true,
+        "diagnostics_excluded_from_targets": [
+          "proof_of_DoubleLinkListRmNode_return_wit_1_split_goal_spatial"
+        ]
+      },
+      "natural_language_analysis": {
+        "schema_version": "qcp-natural-language-analysis/v1",
+        "source_goal_version": "2cf1d760d4d20e05de286fbebafba6557219198fb8c25364e1e1ed81f212b0d6",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_DoubleLinkListRmNode_entail_wit_1",
+            "statement_hash": "70908f37e5d247663d45a687d47e693aff651113cb928aa88244325310924c38",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "store_dll storeA head nodes",
+              "pre_pure": "getPtr removed=node; nodes=prefix++removed::suffix",
+              "pre_exists": "store_dll boundary pointers",
+              "post_spatial": "shifted prefix, four removed-boundary fields, reverse-shifted suffix, removed payload",
+              "post_pure": "segment endpoint equalities",
+              "post_exists": "node_next and node_prev"
+            },
+            "witness_instantiation": "Split at prefix; choose the split predecessor and exposed removed successor.",
+            "space_plan": "Unfold store_dll, apply dllseg_split, expose removed, rewrite getPtr, then apply dllseg_to_dllseg_shift and dllseg_to_dllseg_shift_rev.",
+            "pure_plan": "PreH2 rewrites nodes; PreH1 identifies the exposed midpoint with node.",
+            "refinement_plan": "No safeExec state.",
+            "used_existing_lemmas": [
+              "DLL.dllseg_split",
+              "DLL.dllseg_to_dllseg_shift",
+              "DLL.dllseg_to_dllseg_shift_rev"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "list split from PreH2",
+              "removed address from PreH1 and the unfolded dllseg head equality"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "remove_node_full",
+            "grouping_reason": "Uses the same canonical DLL resources as return reconstruction."
+          },
+          {
+            "witness_name": "proof_of_DoubleLinkListRmNode_return_wit_1",
+            "statement_hash": "ff3dfa6022f08a9b24775870690b46a16c0daf02ab833270e3b32c8f6625f4ba",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "shifted prefix/suffix, updated prev.next and next.prev, removed self-links, payload",
+              "pre_pure": "none",
+              "pre_exists": "shifted-segment internals",
+              "post_spatial": "store_dll over prefix++suffix, xizi_dll_detached removed, payload",
+              "post_pure": "none",
+              "post_exists": "store_dll boundaries"
+            },
+            "witness_instantiation": "Use self-links for detached; recover forward prefix/suffix segments and their boundaries.",
+            "space_plan": "Use store_dll_empty_rev, both shifted-to-dllseg conversions, dllseg_concat, then unfold/rebuild store_dll.",
+            "pure_plan": "Conversion lemmas supply endpoint equalities; no external pure premise.",
+            "refinement_plan": "No safeExec state.",
+            "used_existing_lemmas": [
+              "DLL.store_dll_empty_rev",
+              "DLL.dllseg_shift_to_dllseg",
+              "DLL.dllseg_shift_rev_to_dllseg",
+              "DLL.dllseg_concat"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "self-link resources establish xizi_dll_detached",
+              "updated boundary fields join prefix and suffix"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "remove_node_full",
+            "grouping_reason": "Reverses the entry decomposition using the same DLL lemma family."
+          },
+          {
+            "witness_name": "proof_of_DoubleLinkListRmNode_derive_remove_tail_spec_by_strong_spec",
+            "statement_hash": "a3265eeccdc2b9e05a48bb440573f6c9a8154b2d2a4681797d94e436f317bcda",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "store_dll storeA head (prefix++removed::nil)",
+              "pre_pure": "getPtr removed=node",
+              "pre_exists": "none",
+              "post_spatial": "selected strong precondition and continuation wand to tail post",
+              "post_pure": "strong list split",
+              "post_exists": "same parameters, strong prefix=prefix, suffix=nil"
+            },
+            "witness_instantiation": "Choose original parameters, nodes=prefix++removed::nil, prefix=prefix, suffix=nil.",
+            "space_plan": "Cancel the strong precondition; under wand adjunction cancel identical detached/payload resources and simplify the result list.",
+            "pure_plan": "Input supplies getPtr equality; reflexivity supplies split; app_nil_r supplies result equality.",
+            "refinement_plan": "Direct strong-contract specialization.",
+            "used_existing_lemmas": [
+              "sepcon_cancel_end",
+              "derivable1_wand_sepcon_adjoint",
+              "app_nil_r"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "pointer equality from input",
+              "prefix++nil=prefix by app_nil_r"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "remove_node_full",
+            "grouping_reason": "Same strong-contract and wand pattern as front/member derivations."
+          },
+          {
+            "witness_name": "proof_of_DoubleLinkListRmNode_derive_remove_front_spec_by_strong_spec",
+            "statement_hash": "21739016ae674225f2c3da4b29e7e3ee95fa5e54c4e976d496871a7b10373dc3",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "store_dll storeA head (removed::suffix)",
+              "pre_pure": "getPtr removed=node",
+              "pre_exists": "none",
+              "post_spatial": "selected strong precondition and continuation wand to front post",
+              "post_pure": "strong list split",
+              "post_exists": "same parameters, strong prefix=nil, suffix=suffix"
+            },
+            "witness_instantiation": "Choose original parameters, nodes=removed::suffix, prefix=nil, suffix=suffix.",
+            "space_plan": "Cancel the strong precondition; use wand adjunction and cancel identical resources.",
+            "pure_plan": "Input supplies pointer equality; nil append simplifies both selected precondition and result.",
+            "refinement_plan": "Direct strong-contract specialization.",
+            "used_existing_lemmas": [
+              "sepcon_cancel_end",
+              "derivable1_wand_sepcon_adjoint"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "pointer equality from input",
+              "nil++suffix=suffix by simplification"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "remove_node_full",
+            "grouping_reason": "Front analogue of tail specialization."
+          },
+          {
+            "witness_name": "proof_of_DoubleLinkListRmNode_derive_remove_member_spec_by_strong_spec",
+            "statement_hash": "22fc54388535d748460ab2e57a673ff6b5f1b61eaec64be3450f5694c3dc76e6",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "store_dll storeA head nodes",
+              "pre_pure": "In node (xizi_dll_ptrs nodes)",
+              "pre_exists": "none",
+              "post_spatial": "selected strong precondition and continuation wand to member-removal post",
+              "post_pure": "selected split and xizi_dll_remove_node_rel",
+              "post_exists": "prefix, removed, suffix, remaining=prefix++suffix"
+            },
+            "witness_instantiation": "Use first_split__storeA_remove; choose its prefix/removed/suffix and remaining=prefix++suffix.",
+            "space_plan": "Cancel unchanged store_dll into the strong precondition; under wand adjunction reuse all strong-post resources.",
+            "pure_plan": "The seed lemma supplies nodes split, getPtr equality, and pointer-list removal equality; these prove xizi_dll_remove_node_rel.",
+            "refinement_plan": "Exact-removal relation follows from the annotation-approved seed lemma.",
+            "used_existing_lemmas": [
+              "first_split__storeA_remove",
+              "sepcon_cancel_end",
+              "derivable1_wand_sepcon_adjoint"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "membership is the seed lemma premise",
+              "both relation conjuncts are seed lemma conclusions"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "remove_node_full",
+            "grouping_reason": "Same strong-contract continuation pattern with one existing seed split lemma."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "remove_node_full",
+            "witness_names": [
+              "proof_of_DoubleLinkListRmNode_entail_wit_1",
+              "proof_of_DoubleLinkListRmNode_return_wit_1",
+              "proof_of_DoubleLinkListRmNode_derive_remove_tail_spec_by_strong_spec",
+              "proof_of_DoubleLinkListRmNode_derive_remove_front_spec_by_strong_spec",
+              "proof_of_DoubleLinkListRmNode_derive_remove_member_spec_by_strong_spec"
+            ],
+            "representative_witness": "proof_of_DoubleLinkListRmNode_return_wit_1",
+            "shared_proof_pattern": "DLL decomposition/reassembly followed by direct specializations of the same strong removal contract.",
+            "shared_space_plan": "DLL segment conversions for body VCs; cancellation and wand adjunction for derived contracts.",
+            "shared_pure_plan": "Given pointer/list equalities, nil append simplification, and first_split__storeA_remove.",
+            "shared_refinement_plan": "Direct contract specialization; no safeExec state.",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "One function, coherent existing proof structure, no new helper, and 5 witnesses below the limit 12.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "2cf1d760d4d20e05de286fbebafba6557219198fb8c25364e1e1ed81f212b0d6",
+        "target_witnesses": [
+          "proof_of_DoubleLinkListRmNode_entail_wit_1",
+          "proof_of_DoubleLinkListRmNode_return_wit_1",
+          "proof_of_DoubleLinkListRmNode_derive_remove_tail_spec_by_strong_spec",
+          "proof_of_DoubleLinkListRmNode_derive_remove_front_spec_by_strong_spec",
+          "proof_of_DoubleLinkListRmNode_derive_remove_member_spec_by_strong_spec"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "remove_node_full",
+            "witness_names": [
+              "proof_of_DoubleLinkListRmNode_entail_wit_1",
+              "proof_of_DoubleLinkListRmNode_return_wit_1",
+              "proof_of_DoubleLinkListRmNode_derive_remove_tail_spec_by_strong_spec",
+              "proof_of_DoubleLinkListRmNode_derive_remove_front_spec_by_strong_spec",
+              "proof_of_DoubleLinkListRmNode_derive_remove_member_spec_by_strong_spec"
+            ],
+            "representative_witness": "proof_of_DoubleLinkListRmNode_return_wit_1",
+            "dependencies": [],
+            "candidate_helper_declarations": [],
+            "expected_helpers": [],
+            "proof_strategy": "Under Import DLL, split/expose/convert store_dll for entail_wit_1; form detached, convert back, concatenate and rebuild for return_wit_1; instantiate suffix=nil or prefix=nil for tail/front; use first_split__storeA_remove and unfold xizi_dll_remove_node_rel for member. Keep manual helper-free.",
+            "grouping_reason": "All five are one small function-local chain over the same DLL predicates and strong contract; 5 <= 12.",
+            "confidence": "high",
+            "difficulty": "Direct tracked proof structure modulo transparent qualification; no new mathematical argument.",
+            "per_witness_plan": {
+              "proof_of_DoubleLinkListRmNode_entail_wit_1": "Split store_dll at prefix, expose removed, rewrite getPtr, convert both sides.",
+              "proof_of_DoubleLinkListRmNode_return_wit_1": "Build detached, convert shifted segments, concatenate, rebuild store_dll.",
+              "proof_of_DoubleLinkListRmNode_derive_remove_tail_spec_by_strong_spec": "Instantiate suffix=nil and simplify app_nil_r.",
+              "proof_of_DoubleLinkListRmNode_derive_remove_front_spec_by_strong_spec": "Instantiate prefix=nil and simplify nil append.",
+              "proof_of_DoubleLinkListRmNode_derive_remove_member_spec_by_strong_spec": "Apply first_split__storeA_remove and prove the exact-removal relation."
+            }
+          }
+        ],
+        "blockers": []
+      },
+      "validation_evidence": {
+        "source_hashes": "passed: all eight declared hashes match",
+        "manual_witness_set": "passed: five targets match in order and by statement hash",
+        "diagnostic_exclusion": "passed: one Abort split diagnostic excluded",
+        "group_coverage": "passed: every target exactly once; one acyclic group of size 5",
+        "semantic_proofability": "passed: every post resource and pure relation has an explicit source",
+        "formal_file_edits": "none"
+      },
+      "blockers": [],
+      "changed_files": [],
+      "recommended_next_phase": "vc-proving-preparing"
+    },
+    "completed_at": "2026-09-22T06:27:31Z",
+    "controller_acceptance": "pending-controller-only"
+  },
+  "verification_result": {
+    "vc_checking_semantic_analysis": "passed",
+    "controller_acceptance": "pending-controller-only",
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-09-22T06:31:33Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_double_link_remove_node-20260922120008/rounds/xizi_double_link_remove_node-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    },
+    "controller_simple_repairs": [
+      {
+        "kind": "materialized-inline-group-plan",
+        "source": "/home/yangfp/QCIP/reports/xizi_double_link_remove_node-20260922120008/rounds/xizi_double_link_remove_node-vc-checking-r1/agent_report.json",
+        "target": "/home/yangfp/QCIP/reports/xizi_double_link_remove_node-20260922120008/rounds/xizi_double_link_remove_node-vc-checking-r1/group_plan.json",
+        "reason": "vc-checking report included an inline group_plan but the default group_plan.json artifact was missing"
+      }
+    ],
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-09-22T06:31:33Z",
+      "source_version": {
+        "digest": "c46a2829b3d874660b09e27ebe70a7030d9209780336edf38af4c370acc84c75",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_remove_node-20260922120008/xizi_double_link_remove_node-annotation-r1/OUTPUT/xizi/xizi_double_link_remove_node/source/xizi_double_link_remove_node.c",
+            "relative_path": "OUTPUT/xizi/xizi_double_link_remove_node/source/xizi_double_link_remove_node.c",
+            "role": "target-c-annotated",
+            "sha256": "192d0ecb7ca29c193a26117ac4afcaa1adfbcca557b4f3592131963e7be3a459",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_remove_node-20260922120008/xizi_double_link_remove_node-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_remove_node/source/xizi_double_link_remove_node_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_remove_node/source/xizi_double_link_remove_node_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "9632f7b7be20bb712d7ce00b770cb74cf0be0cc1118b40f320922aaac7d70a31",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "2cf1d760d4d20e05de286fbebafba6557219198fb8c25364e1e1ed81f212b0d6",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_remove_node/source/xizi_double_link_remove_node_goal.v",
+            "role": "generated-goal",
+            "sha256": "8385d0bab5539e027c22f633c84303339abdcd7311d811e74ec7a2a3ea877149",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_remove_node/source/xizi_double_link_remove_node_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "3e496635bf1606accaf15c2786aa3367cc01679cae921dd8b4301fdeb1a2000d",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_remove_node/source/xizi_double_link_remove_node_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "d66db2c5a91483e34843a87a5d3e02a197735c0c5208e01f90d5ba7f84587fe2",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_remove_node/source/xizi_double_link_remove_node_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "d400436bec4bffe24e0bda0c12b76f81a13c8a8ec567e09d0550278a3dfaa5ff",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_remove_node/source/xizi_double_link_remove_node_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "eb25c0a9a1d5fde8bfd2510506c0dea9ad28278caf2a52e2554f270bbce848b4",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_remove_node/source/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "25c54a656ea2d8be6b5d5453ae68246a1e2fcaeb06e27536327c007a33da7554",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_DoubleLinkListRmNode_entail_wit_1",
+          "proof_of_DoubleLinkListRmNode_return_wit_1",
+          "proof_of_DoubleLinkListRmNode_derive_remove_tail_spec_by_strong_spec",
+          "proof_of_DoubleLinkListRmNode_derive_remove_front_spec_by_strong_spec",
+          "proof_of_DoubleLinkListRmNode_derive_remove_member_spec_by_strong_spec"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_DoubleLinkListRmNode_derive_remove_front_spec_by_strong_spec": "21739016ae674225f2c3da4b29e7e3ee95fa5e54c4e976d496871a7b10373dc3",
+          "proof_of_DoubleLinkListRmNode_derive_remove_member_spec_by_strong_spec": "22fc54388535d748460ab2e57a673ff6b5f1b61eaec64be3450f5694c3dc76e6",
+          "proof_of_DoubleLinkListRmNode_derive_remove_tail_spec_by_strong_spec": "a3265eeccdc2b9e05a48bb440573f6c9a8154b2d2a4681797d94e436f317bcda",
+          "proof_of_DoubleLinkListRmNode_entail_wit_1": "70908f37e5d247663d45a687d47e693aff651113cb928aa88244325310924c38",
+          "proof_of_DoubleLinkListRmNode_return_wit_1": "ff3dfa6022f08a9b24775870690b46a16c0daf02ab833270e3b32c8f6625f4ba"
+        },
+        "witnesses": [
+          {
+            "end_line": 28,
+            "name": "proof_of_DoubleLinkListRmNode_entail_wit_1",
+            "start_line": 26,
+            "statement_hash": "70908f37e5d247663d45a687d47e693aff651113cb928aa88244325310924c38",
+            "target_symbol": "DoubleLinkListRmNode_entail_wit_1"
+          },
+          {
+            "end_line": 31,
+            "name": "proof_of_DoubleLinkListRmNode_return_wit_1",
+            "start_line": 29,
+            "statement_hash": "ff3dfa6022f08a9b24775870690b46a16c0daf02ab833270e3b32c8f6625f4ba",
+            "target_symbol": "DoubleLinkListRmNode_return_wit_1"
+          },
+          {
+            "end_line": 34,
+            "name": "proof_of_DoubleLinkListRmNode_derive_remove_tail_spec_by_strong_spec",
+            "start_line": 32,
+            "statement_hash": "a3265eeccdc2b9e05a48bb440573f6c9a8154b2d2a4681797d94e436f317bcda",
+            "target_symbol": "DoubleLinkListRmNode_derive_remove_tail_spec_by_strong_spec"
+          },
+          {
+            "end_line": 37,
+            "name": "proof_of_DoubleLinkListRmNode_derive_remove_front_spec_by_strong_spec",
+            "start_line": 35,
+            "statement_hash": "21739016ae674225f2c3da4b29e7e3ee95fa5e54c4e976d496871a7b10373dc3",
+            "target_symbol": "DoubleLinkListRmNode_derive_remove_front_spec_by_strong_spec"
+          },
+          {
+            "end_line": 40,
+            "name": "proof_of_DoubleLinkListRmNode_derive_remove_member_spec_by_strong_spec",
+            "start_line": 38,
+            "statement_hash": "22fc54388535d748460ab2e57a673ff6b5f1b61eaec64be3450f5694c3dc76e6",
+            "target_symbol": "DoubleLinkListRmNode_derive_remove_member_spec_by_strong_spec"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_double_link_remove_node-20260922120008/rounds/xizi_double_link_remove_node-vc-checking-r1/group_plan.json",
+      "target_witnesses": [
+        "proof_of_DoubleLinkListRmNode_entail_wit_1",
+        "proof_of_DoubleLinkListRmNode_return_wit_1",
+        "proof_of_DoubleLinkListRmNode_derive_remove_tail_spec_by_strong_spec",
+        "proof_of_DoubleLinkListRmNode_derive_remove_front_spec_by_strong_spec",
+        "proof_of_DoubleLinkListRmNode_derive_remove_member_spec_by_strong_spec"
+      ]
+    }
+  },
+  "blockers": []
+}

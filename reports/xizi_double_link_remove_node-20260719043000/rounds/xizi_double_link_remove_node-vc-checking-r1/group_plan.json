@@ -1,0 +1,91 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "5a493c9fa8536fcfd03617025b41c7d585e6dadbf0fa5e15b05592beb1e0ae7a",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_remove_node_entail_wit_1",
+    "proof_of_xizi_double_link_remove_node_return_wit_1"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "remove_focus_and_reclose",
+      "witness_names": [
+        "proof_of_xizi_double_link_remove_node_entail_wit_1",
+        "proof_of_xizi_double_link_remove_node_return_wit_1"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_remove_node_entail_wit_1",
+      "dependencies": [],
+      "difficulty": "medium",
+      "confidence": "high",
+      "grouping_reason": "Both witnesses are the two directions of the same circular-DLL focus transformation over prefix ++ node :: suffix: decompose xizi_dll into the forward/reverse shift predicates, then reclose those predicates after bypassing the focused node. Keeping both witnesses together lets one worker prove and reuse the same induction pattern and helper family; the group has 2 witnesses, below the limit of 12.",
+      "proof_strategy": "For the entail witness choose the left disjunct, introduce head/prefix/node/suffix, and apply a case-lib helper proved by induction on prefix (with suffix recursion at the focus) that exposes predecessor and successor plus the four boundary fields. For the return witness choose the left disjunct, frame the two self-link fields of the removed node, fold them with xizi_dll_empty_rev, and apply the inverse reclose helper to the shifted prefix/suffix and rewired predecessor/successor boundary fields.",
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "xizi_dll_focus_decompose",
+          "statement_shape": "forall head prefix node suffix, xizi_dll head (prefix ++ node :: suffix) |-- EX next prev, node <> NULL /\\ xizi_dllseg_shift head prev prefix ** prev.next |-> node ** node.next |-> next ** node.prev |-> prev ** next.prev |-> node ** xizi_dllseg_shift_rev next head suffix",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_remove_node_entail_wit_1"
+          ],
+          "premises": [
+            {
+              "premise": "The focused logical node is the element immediately after prefix in prefix ++ node :: suffix.",
+              "discharged_by": "The exact list expression in the witness precondition; induction on prefix peels xizi_dllseg links until node is exposed.",
+              "needs_unfold": [
+                "xizi_dll",
+                "xizi_dllseg",
+                "xizi_dllseg_shift",
+                "xizi_dllseg_shift_rev"
+              ],
+              "arithmetic": "none",
+              "spatial_resource": "The common dll links partition exactly into prefix predecessor-next/node-prev fields, four focus boundary fields, and suffix node-next/successor-prev fields."
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "xizi_dll_shift_reclose",
+          "statement_shape": "forall head prefix suffix prev next, xizi_dllseg_shift head prev prefix ** prev.next |-> next ** next.prev |-> prev ** xizi_dllseg_shift_rev next head suffix |-- xizi_dll head (prefix ++ suffix)",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_remove_node_return_wit_1"
+          ],
+          "premises": [
+            {
+              "premise": "The predecessor-next and successor-prev boundary stores already contain the bypassed links.",
+              "discharged_by": "They occur literally in the return witness precondition after the two C rewiring assignments.",
+              "needs_unfold": [
+                "xizi_dllseg_shift",
+                "xizi_dllseg_shift_rev",
+                "xizi_dll"
+              ],
+              "arithmetic": "none",
+              "spatial_resource": "Induction on prefix combines shift resources with the reverse suffix resources into xizi_dllseg and the sentinel links."
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        }
+      ],
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_remove_node_entail_wit_1": {
+          "judgment": "needs-helper",
+          "disjunct": "left",
+          "strategy": "Apply the focus-decomposition helper; instantiate node_prev and node_next with the predecessor and successor produced by the helper, then finish pure/spatial normalization."
+        },
+        "proof_of_xizi_double_link_remove_node_return_wit_1": {
+          "judgment": "needs-helper",
+          "disjunct": "left",
+          "strategy": "Use the reclose helper for the remaining list, unfold xizi_dll_links for the removed node's two self-fields, apply xizi_dll_empty_rev, and frame the two results."
+        }
+      }
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 2,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

@@ -1,0 +1,324 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "vc_checking": {
+      "schema_version": "qcp-vc-checking-agent-result/v1",
+      "status": "completed",
+      "terminal": "yes",
+      "round": "xizi_single_link_next-vc-checking-r1",
+      "attempt_id": "xizi_single_link_next-vc-checking-r1-attempt-1",
+      "source_version": "d780286b38e13429ee79f84816aebdadc9d52171961f06aff9b7b3e563d5fed7",
+      "source_goal_version": "a3651ca9db99222276cda893e32c362ba57cde0db160fa66befa6112a4b93722",
+      "summary": "The sole manual return witness is semantically proofable from the current VC. The pure next-value equality follows from the list decomposition, prefix non-membership, and the suffix xizi_sll resource; the spatial postcondition follows by constructing the current node with xizi_sll_cons and composing it with the prefix segment via xizi_sllseg_sll. No helper declaration or annotation/spec change is needed.",
+      "ready_for_vc_proving_preparing": true,
+      "target_witnesses": [
+        "proof_of_SingleLinkListGetNextNode_return_wit_1"
+      ],
+      "checked_witnesses": [
+        "proof_of_SingleLinkListGetNextNode_return_wit_1"
+      ],
+      "witness_statement_hashes": {
+        "proof_of_SingleLinkListGetNextNode_return_wit_1": "fc4c9f188b10237dc0bb3efbc0a48533e9f290984b39c97279c69b923fa70070"
+      },
+      "version_evidence": {
+        "status": "passed",
+        "source_version_match": true,
+        "source_goal_version_match": true,
+        "current_file_sha256": {
+          "OUTPUT/xizi/xizi_single_link_next/source/xizi_single_link_next.c": "b41214ee5b95bdf60ab0ab6c04ac12e910547830100cd0b9774c604217ace5c7",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_next/source/xizi_single_link_next_lib.v": "27dce0c34cd9cdecc5748b9cdbc38841bd26cc4362fe0336db19f8ac09ac00ad",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_next/source/xizi_single_link_next_goal.v": "a4307c52a4abffbfc3c95caefd89704755806067ee23d784b418405024ed36d2",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_next/source/xizi_single_link_next_proof_auto.v": "42249c9c91b3ce74a05f271584511fafb63856ca9413c76d80951d7c6b41b490",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_next/source/xizi_single_link_next_proof_manual.v": "cf740622435015cdc9d733c3a53a86c4e218a1bdbe103e8d68c1ba919eff7f38",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_next/source/xizi_single_link_next_goal_check.v": "bfddabf5797d6d51c0090a37d9adb0160d74d80b7f718da500ee4af8e5093d1a",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_next/source/xizi_single_link_next_proof_diagnostics.v": "df2823cbb3e8bfdf8567560dc8ca16a50601e2c362f31fed5675ca8fb024fa1b",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_next/source/diagnostics_snapshot.json": "a2ece3b97914b3fb9a8c1ca27c4386a580be8668996c52370d903aa7c12c36b3"
+        },
+        "manual_target_set_matches_handoff": true,
+        "diagnostics_used_as_hint_only": true,
+        "diagnostic_split_goals_excluded_from_target_witnesses": [
+          "proof_of_SingleLinkListGetNextNode_return_wit_1_split_goal_1",
+          "proof_of_SingleLinkListGetNextNode_return_wit_1_split_goal_spatial"
+        ]
+      },
+      "natural_language_analysis": {
+        "schema_version": "qcp-vc-natural-language-analysis/v1",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_SingleLinkListGetNextNode_return_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "The current node's node_next field stores next, xizi_sll next suffix owns the suffix list, and xizi_sllseg (xizi_sll_first_value l) linklist_node_pre prefix owns the prefix segment up to the current node.",
+              "pre_pure": "linklist_node_pre <> 0; linklist_node_pre is not in prefix; l = prefix ++ linklist_node_pre :: suffix.",
+              "pre_exists": "none",
+              "post_spatial": "xizi_sll (xizi_sll_first_value l) l",
+              "post_pure": "next = xizi_sll_next_value l linklist_node_pre",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "No right-side existential witnesses occur. Choose the left branch of the duplicated disjunction; all universally quantified values are introduced unchanged.",
+            "space_plan": "Fold xizi_struct_name and xizi_next_field so the concrete node_next cell matches the common-library lemma. Combine that cell with xizi_sll next suffix using xizi_sll_cons and PreH1 to obtain xizi_sll linklist_node_pre (linklist_node_pre :: suffix). Then combine the unchanged prefix xizi_sllseg with this list using xizi_sllseg_sll, yielding xizi_sll (xizi_sll_first_value l) (prefix ++ linklist_node_pre :: suffix); rewrite with PreH3 to obtain the requested xizi_sll resource. No resource is discarded or duplicated.",
+            "pure_plan": "Rewrite l with PreH3. Apply xizi_sll_next_value_app using PreH2, reducing xizi_sll_next_value (prefix ++ linklist_node_pre :: suffix) linklist_node_pre to xizi_sll_first_value suffix. Extract next = xizi_sll_first_value suffix from the existing xizi_sll next suffix resource with xizi_sll_first_value_eq, then close the equality. No arithmetic automation is needed beyond recognizing NULL as 0 for PreH1.",
+            "refinement_plan": "not applicable; this is a direct separation-logic entailment with no safeExec or abstract-program-state obligation",
+            "used_existing_lemmas": [
+              "xizi_sll_next_value_app",
+              "xizi_sll_first_value_eq",
+              "xizi_sll_cons",
+              "xizi_sllseg_sll"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "lemma": "xizi_sll_next_value_app",
+                "premise": "~ In linklist_node_pre prefix",
+                "discharged_by": "PreH2"
+              },
+              {
+                "lemma": "xizi_sll_first_value_eq",
+                "premise": "xizi_sll next suffix spatial resource",
+                "discharged_by": "the second spatial conjunct of the VC precondition"
+              },
+              {
+                "lemma": "xizi_sll_cons",
+                "premise": "linklist_node_pre <> NULL",
+                "discharged_by": "PreH1, because NULL is 0 in this address model"
+              },
+              {
+                "lemma": "xizi_sllseg_sll",
+                "premise": "matching endpoint linklist_node_pre between prefix segment and constructed list",
+                "discharged_by": "the two spatial resources already use the identical endpoint linklist_node_pre"
+              }
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "single_link_next_return",
+            "proof_group_candidate": "single_link_next_return",
+            "grouping_reason": "This is the only target witness and its pure and spatial halves use one coherent linked-list reconstruction pattern."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "single_link_next_return",
+            "witness_names": [
+              "proof_of_SingleLinkListGetNextNode_return_wit_1"
+            ],
+            "representative_witness": "proof_of_SingleLinkListGetNextNode_return_wit_1",
+            "shared_proof_pattern": "Choose one identical disjunct, split the pure/spatial conjunction, derive the next-value equality from the suffix list, then reconstruct the whole list from node and prefix segment.",
+            "shared_space_plan": "xizi_sll_cons followed by xizi_sllseg_sll",
+            "shared_pure_plan": "PreH3 rewrite, xizi_sll_next_value_app with PreH2, and xizi_sll_first_value_eq on the suffix resource",
+            "shared_refinement_plan": "not applicable",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "One target witness, one function, and one linked-list reconstruction proof pattern; the group size 1 is within the controller maximum 12.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "group_plan_path": "/home/yangfp/QCIP/reports/xizi_single_link_next-20260820032424/rounds/xizi_single_link_next-vc-checking-r1/group_plan.json",
+      "group_plan": {
+        "schema_version": "qcp-vc-checking-group-plan/v1",
+        "source_version": "d780286b38e13429ee79f84816aebdadc9d52171961f06aff9b7b3e563d5fed7",
+        "source_goal_version": "a3651ca9db99222276cda893e32c362ba57cde0db160fa66befa6112a4b93722",
+        "target_witnesses": [
+          "proof_of_SingleLinkListGetNextNode_return_wit_1"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "single_link_next_return",
+            "witness_names": [
+              "proof_of_SingleLinkListGetNextNode_return_wit_1"
+            ],
+            "representative_witness": "proof_of_SingleLinkListGetNextNode_return_wit_1",
+            "dependencies": [],
+            "likely_helper_declarations": [],
+            "candidate_helper_declarations": [],
+            "proof_strategy": "Choose the left branch of the duplicated disjunction and introduce the quantified values. Split the postcondition conjunction. For the pure half, rewrite l using PreH3, use xizi_sll_next_value_app with PreH2, and obtain next = xizi_sll_first_value suffix from xizi_sll_first_value_eq on the suffix resource. For the spatial half, fold the Xizi field names, use xizi_sll_cons with PreH1 on the current node and suffix, then xizi_sllseg_sll with the prefix segment, and rewrite by PreH3.",
+            "per_witness_plan": {
+              "proof_of_SingleLinkListGetNextNode_return_wit_1": {
+                "judgment": "proofable",
+                "select_disjunct": "left",
+                "used_existing_lemmas": [
+                  "xizi_sll_next_value_app",
+                  "xizi_sll_first_value_eq",
+                  "xizi_sll_cons",
+                  "xizi_sllseg_sll"
+                ],
+                "helper_required": false
+              }
+            },
+            "vc_shape": {
+              "pre_spatial": "node_next cell ** xizi_sll next suffix ** xizi_sllseg first(l) node prefix",
+              "pre_pure": "node <> 0, node not in prefix, l = prefix ++ node :: suffix",
+              "pre_exists": "none",
+              "post_spatial": "xizi_sll first(l) l",
+              "post_pure": "next = xizi_sll_next_value l node",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "No existential instantiation; choose the left identical disjunct.",
+            "space_plan": "Build xizi_sll node (node :: suffix) with xizi_sll_cons, then append the prefix segment with xizi_sllseg_sll and rewrite the list by PreH3.",
+            "pure_plan": "Rewrite by PreH3; reduce next-value lookup with xizi_sll_next_value_app/PreH2; derive the suffix first pointer with xizi_sll_first_value_eq.",
+            "refinement_plan": "not applicable",
+            "premise_discharge": {
+              "xizi_sll_next_value_app": "PreH2",
+              "xizi_sll_first_value_eq": "xizi_sll next suffix pre-resource",
+              "xizi_sll_cons": "PreH1 (NULL = 0)",
+              "xizi_sllseg_sll": "matching linklist_node_pre endpoint in the pre-resources"
+            },
+            "difficulty": "low",
+            "confidence": "high",
+            "grouping_reason": "The sole witness is below the 12-witness limit and its pure and spatial obligations form one tightly coupled linked-list proof pattern.",
+            "forbidden_lemma_scan": {
+              "required": "yes",
+              "result_requirement": "zero-hit",
+              "scope": [
+                "assigned witness proof bodies",
+                "group-local case_lib additions"
+              ],
+              "exact_names": [
+                "logic_equiv_refl",
+                "elim_wand_emp_emp",
+                "logic_equiv_symm",
+                "sepcon_emp_logic_equiv'",
+                "logic_equiv_andp_comm",
+                "logic_equiv_sepcon_comm",
+                "logic_equiv_sepcon_emp",
+                "logic_equiv_andp_truep",
+                "logic_equiv_truep_andp",
+                "truep_andp_right_equiv",
+                "logic_equiv_orp_comm",
+                "logic_equiv_trans",
+                "logic_equiv_orp_assoc",
+                "logic_equiv_sepcon_assoc",
+                "logic_equiv_andp_assoc",
+                "logic_equiv_sepcon_orp",
+                "logic_equiv_sepcon_orp_distr",
+                "logic_equiv_orp_sepcon",
+                "derivable1_trans",
+                "derivable1_refl",
+                "derivable1_sepcon_comm",
+                "coq_prop_andp_right",
+                "derivable1_sepcon_mono"
+              ]
+            }
+          }
+        ],
+        "blockers": []
+      },
+      "formal_changed_files": [],
+      "report_artifacts": [
+        "/home/yangfp/QCIP/reports/xizi_single_link_next-20260820032424/rounds/xizi_single_link_next-vc-checking-r1/agent_report.json",
+        "/home/yangfp/QCIP/reports/xizi_single_link_next-20260820032424/rounds/xizi_single_link_next-vc-checking-r1/agent_output.txt",
+        "/home/yangfp/QCIP/reports/xizi_single_link_next-20260820032424/rounds/xizi_single_link_next-vc-checking-r1/group_plan.json"
+      ],
+      "timing_summary": {
+        "measured_command_seconds": "not-recorded",
+        "manual_analysis_and_rule_reading_seconds": "unknown",
+        "slowest_analysis_scope": "the single return witness",
+        "timing_gaps": [
+          "The handoff did not declare a separate activity-ledger path and no formal start timer was captured before rule reading; no elapsed value was invented."
+        ]
+      },
+      "blockers": []
+    }
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-08-19T19:36:52Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_single_link_next-20260820032424/rounds/xizi_single_link_next-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    },
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-08-19T19:36:52Z",
+      "source_version": {
+        "digest": "d780286b38e13429ee79f84816aebdadc9d52171961f06aff9b7b3e563d5fed7",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_single_link_next-20260820032424/xizi_single_link_next-annotation-r1/OUTPUT/xizi/xizi_single_link_next/source/xizi_single_link_next.c",
+            "relative_path": "OUTPUT/xizi/xizi_single_link_next/source/xizi_single_link_next.c",
+            "role": "target-c-annotated",
+            "sha256": "b41214ee5b95bdf60ab0ab6c04ac12e910547830100cd0b9774c604217ace5c7",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_single_link_next-20260820032424/xizi_single_link_next-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_next/source/xizi_single_link_next_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_next/source/xizi_single_link_next_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "27dce0c34cd9cdecc5748b9cdbc38841bd26cc4362fe0336db19f8ac09ac00ad",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "a3651ca9db99222276cda893e32c362ba57cde0db160fa66befa6112a4b93722",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_next/source/xizi_single_link_next_goal.v",
+            "role": "generated-goal",
+            "sha256": "a4307c52a4abffbfc3c95caefd89704755806067ee23d784b418405024ed36d2",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_next/source/xizi_single_link_next_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "42249c9c91b3ce74a05f271584511fafb63856ca9413c76d80951d7c6b41b490",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_next/source/xizi_single_link_next_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "cf740622435015cdc9d733c3a53a86c4e218a1bdbe103e8d68c1ba919eff7f38",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_next/source/xizi_single_link_next_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "bfddabf5797d6d51c0090a37d9adb0160d74d80b7f718da500ee4af8e5093d1a",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_next/source/xizi_single_link_next_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "df2823cbb3e8bfdf8567560dc8ca16a50601e2c362f31fed5675ca8fb024fa1b",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_next/source/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "a2ece3b97914b3fb9a8c1ca27c4386a580be8668996c52370d903aa7c12c36b3",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_SingleLinkListGetNextNode_return_wit_1"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_SingleLinkListGetNextNode_return_wit_1": "fc4c9f188b10237dc0bb3efbc0a48533e9f290984b39c97279c69b923fa70070"
+        },
+        "witnesses": [
+          {
+            "end_line": 26,
+            "name": "proof_of_SingleLinkListGetNextNode_return_wit_1",
+            "start_line": 24,
+            "statement_hash": "fc4c9f188b10237dc0bb3efbc0a48533e9f290984b39c97279c69b923fa70070",
+            "target_symbol": "SingleLinkListGetNextNode_return_wit_1"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_single_link_next-20260820032424/rounds/xizi_single_link_next-vc-checking-r1/group_plan.json",
+      "target_witnesses": [
+        "proof_of_SingleLinkListGetNextNode_return_wit_1"
+      ]
+    }
+  },
+  "blockers": []
+}

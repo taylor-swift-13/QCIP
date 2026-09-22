@@ -1,0 +1,84 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "4dcb7386d35cd076e880c214ea67b8894353cd75bb0220355d1c4bfa99eb54db",
+  "target_witnesses": [
+    "proof_of_IsSingleLinkListEmpty_return_wit_1",
+    "proof_of_IsSingleLinkListEmpty_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "return_sll_nullness",
+      "witness_names": [
+        "proof_of_IsSingleLinkListEmpty_return_wit_1",
+        "proof_of_IsSingleLinkListEmpty_return_wit_2"
+      ],
+      "representative_witness": "proof_of_IsSingleLinkListEmpty_return_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "Select the right disjunct for both witnesses. For return_wit_1, rewrite l = q :: l0, prove nonemptiness, and reconstruct xizi_sll q (q :: l0) with xizi_sll_cons from the node-next cell and xizi_sll tail. For return_wit_2, rewrite q = 0, destruct l, preserve xizi_sll in the nil case, and eliminate the cons case using the predicate's q <> NULL conjunct.",
+      "grouping_reason": "The two complementary return branches use one xizi_sll root-nullness proof family, require no helpers or dependencies, and fit within max_witnesses_per_group=12.",
+      "confidence": "high",
+      "per_witness_plan": {
+        "proof_of_IsSingleLinkListEmpty_return_wit_1": {
+          "judgment": "proofable",
+          "witness_instantiation": "Select the second outer disjunct and rewrite l with PreH1 to q :: l0.",
+          "space_plan": "Apply existing xizi_sll_cons to the field cell and tail xizi_sll after resource reordering.",
+          "pure_plan": "Use PreH2 for q <> NULL and constructor discrimination for q :: l0 <> nil.",
+          "refinement_plan": "not applicable"
+        },
+        "proof_of_IsSingleLinkListEmpty_return_wit_2": {
+          "judgment": "proofable",
+          "witness_instantiation": "Select the second outer disjunct; no existential witness is needed.",
+          "space_plan": "Rewrite q = 0, destruct l, preserve xizi_sll in the nil branch, and unfold it to contradict the cons branch.",
+          "pure_plan": "The nil branch gives l = nil; the cons branch's root-nonnull fact contradicts q = 0.",
+          "refinement_plan": "not applicable"
+        }
+      },
+      "forbidden_lemma_scan_requirement": {
+        "required": "yes",
+        "policy": "exact-name-zero-hit",
+        "required_hit_count": 0,
+        "scope": [
+          "assigned witness proof bodies in *_proof_manual.v",
+          "any group-local case_lib additions"
+        ],
+        "exact_forbidden_lemma_names": [
+          "logic_equiv_refl",
+          "elim_wand_emp_emp",
+          "logic_equiv_symm",
+          "sepcon_emp_logic_equiv'",
+          "logic_equiv_andp_comm",
+          "logic_equiv_sepcon_comm",
+          "logic_equiv_sepcon_emp",
+          "logic_equiv_andp_truep",
+          "logic_equiv_truep_andp",
+          "truep_andp_right_equiv",
+          "logic_equiv_orp_comm",
+          "logic_equiv_trans",
+          "logic_equiv_orp_assoc",
+          "logic_equiv_sepcon_assoc",
+          "logic_equiv_andp_assoc",
+          "logic_equiv_sepcon_orp",
+          "logic_equiv_sepcon_orp_distr",
+          "logic_equiv_orp_sepcon",
+          "derivable1_trans",
+          "derivable1_refl",
+          "derivable1_sepcon_comm",
+          "coq_prop_andp_right",
+          "derivable1_sepcon_mono"
+        ]
+      }
+    }
+  ],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 2,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

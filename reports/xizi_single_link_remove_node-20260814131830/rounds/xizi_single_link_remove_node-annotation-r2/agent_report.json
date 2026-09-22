@@ -1,0 +1,325 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "annotation",
+  "status": "pending",
+  "terminal": "no",
+  "agent_result": {
+    "phase": "annotation",
+    "annotation": {
+      "status": "blocked",
+      "round": "xizi_single_link_remove_node-annotation-r2",
+      "attempt_id": "xizi_single_link_remove_node-annotation-r2-attempt-1",
+      "summary": "Repaired the loop invariant by preserving both immutable function-argument aliases across the loop. Canonical symbolic execution then completed to end-of-function and regenerated a goal in which the loop/return resources are consistently expressed at linklist_pre and linklist_node_pre, removing the concrete four-distinct-address counterexample from vc-checking-r1. The case_lib compile gate passed. The result cannot be marked ready because the mandatory qcp-mcp service is not exposed in this agent session and no qcp-mcp executable or repository entry point exists; direct symexec is recorded separately and is not presented as qcp-mcp evidence.",
+      "source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "d17d83f3169891ad26cacc65f3d2b41e6090bfa805b0fbaef1bf87be04278f55",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_single_link_remove_node-20260814131830/xizi_single_link_remove_node-annotation-r2/OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node.c",
+            "relative_path": "OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node.c",
+            "sha256": "377064b7c8a64c4be168707f26a25865561a3f5fdd8d2fc95a32271e51e0757c",
+            "state": "present",
+            "role": "target-c-annotated"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_single_link_remove_node-20260814131830/xizi_single_link_remove_node-annotation-r2/SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node_lib.v",
+            "sha256": "e01abea3e441dc38f5d4c054e126c357e644ee626d8dad30f6fcbef69f58bdd1",
+            "state": "present",
+            "role": "case-lib-seed"
+          }
+        ]
+      },
+      "input_source_version": "8fa67c36672fe21d065e697fc949e9761133d9a9c034ab270524b701b5ef744f",
+      "input_source_goal_version": "5964eec461fd7ecda1ad63db712b35ea0838021759ab248d067ba485bfcaf330",
+      "source_goal_version_status": "invalidated-by-annotation-change; controller must recompute after canonical regeneration and diagnostics split",
+      "ready_for_annotation_check_round": false,
+      "previous_attempts_reviewed": [
+        {
+          "round": "xizi_single_link_remove_node-vc-checking-r1",
+          "report": "/home/yangfp/QCIP/reports/xizi_single_link_remove_node-20260814131830/rounds/xizi_single_link_remove_node-vc-checking-r1/agent_report.json",
+          "output": "/home/yangfp/QCIP/reports/xizi_single_link_remove_node-20260814131830/rounds/xizi_single_link_remove_node-vc-checking-r1/agent_output.txt",
+          "allowed_use": "read-only-analysis",
+          "lessons_applied": [
+            "xizi_single_link_remove_node-vc-checking-r1-vc-checking-blocker-1"
+          ]
+        }
+      ],
+      "prior_blockers_addressed": [
+        {
+          "id": "xizi_single_link_remove_node-vc-checking-r1-vc-checking-blocker-1",
+          "status": "addressed",
+          "repair": "Added linklist == linklist@pre and linklist_node == linklist_node@pre to the complete loop invariant without changing strong_spec, any client spec, the C implementation, or case_lib.",
+          "evidence": "Canonical regenerated xizi_single_link_remove_node_goal.v quantifies only linklist_pre/linklist_node_pre at return_wit_1; its antecedent resources and postcondition resources now use those same snapshot addresses. The prior counterexample depended on independent current linklist/linklist_node variables and is therefore eliminated."
+        }
+      ],
+      "annotation_changes": [
+        {
+          "file": "OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node.c",
+          "scope": "loop invariant only",
+          "change": "Preserve the immutable parameter aliases linklist == linklist@pre and linklist_node == linklist_node@pre.",
+          "implementation_changed": false,
+          "spec_weakened": false
+        }
+      ],
+      "case_lib_changes": [],
+      "spec_definition_review": {
+        "status": "passed-semantically",
+        "target_definition": "xizi_sll_remove_first",
+        "assessment": "The existing Fixpoint is the requested mathematical first-occurrence removal operator: Z.eq_dec selects equality and the matching head returns the suffix immediately. It is not Coq.Lists.List.remove and does not remove later equal occurrences. No case_lib change was needed.",
+        "algorithm_mirror_antipattern": false
+      },
+      "function_spec_review": {
+        "status": "passed-semantically",
+        "assessment": "strong_spec remains exact; remove_member_spec, remove_front_spec, and remove_tail_spec remain named client views derived from strong_spec and preserve the required detached-node ownership. No specification was weakened."
+      },
+      "invariant_review": {
+        "status": "passed-semantically",
+        "assessment": "The invariant retains the prefix/current-node decomposition, spatial prefix/target/suffix resources, detached successor value, and now the two required @pre alias bridges. The new facts are true immutable-parameter relationships, not reflexive x == x assertions."
+      },
+      "canonical_symexec_evidence": {
+        "schema_version": "qcp-canonical-symexec-evidence/v1",
+        "status": "passed",
+        "driver": "/home/yangfp/QCIP/linux-binary/symexec",
+        "cwd": "/home/yangfp/QCIP/worktrees/xizi_single_link_remove_node-20260814131830/xizi_single_link_remove_node-annotation-r2",
+        "argv": [
+          "/home/yangfp/QCIP/linux-binary/symexec",
+          "--goal-file=SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node_goal.v",
+          "--proof-auto-file=SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node_proof_auto.v",
+          "--proof-manual-file=SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node_proof_manual.v",
+          "-IQCP_examples/QCP_demos_LLM/",
+          "-slp",
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM",
+          "--coq-logic-path=SimpleC.EE.OUTPUT.xizi.xizi_single_link_remove_node.source",
+          "--input-file=OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node.c",
+          "--no-exec-info"
+        ],
+        "include_args": [
+          "QCP_examples/QCP_demos_LLM/"
+        ],
+        "slp_args": [
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM"
+        ],
+        "returncode": 0,
+        "elapsed_seconds": 0.2,
+        "stdout_summary": "End of symbolic execution of function xizi_single_link_remove_node; Successfully finished symbolic execution",
+        "warning": "The existing proof_manual file was preserved by symexec, as reported by the driver. Controller-owned annotation-check-round remains responsible for canonical regeneration/diagnostics normalization."
+      },
+      "qcp_mcp_interactive_evidence": {
+        "status": "unavailable",
+        "qcp_mcp_requirement_satisfied": "no",
+        "attempts": [
+          {
+            "method": "agent tool inventory",
+            "result": "No callable tool name or description matched qcp or qcp-mcp."
+          },
+          {
+            "method": "MCP resource and resource-template inventory",
+            "result": "No qcp server, resource, or resource template was exposed."
+          },
+          {
+            "method": "PATH lookup",
+            "commands": [
+              "command -v qcp-mcp",
+              "command -v qcp_mcp"
+            ],
+            "result": "No executable found."
+          },
+          {
+            "method": "bounded repository entry-point search",
+            "result": "No file matching *qcp*mcp* or *mcp*qcp* was found within repository depth 4."
+          }
+        ],
+        "direct_symexec_substitution_used": false,
+        "reason": "annotation-filling and annotation-checking explicitly forbid treating direct symexec as satisfaction of the qcp-mcp requirement."
+      },
+      "case_lib_coqc_evidence": {
+        "schema_version": "qcp-coqc-check-evidence/v1",
+        "status": "passed",
+        "tool": "coqc",
+        "kind": "coqc_check",
+        "target_kind": "case_lib",
+        "target_file": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node_lib.v",
+        "source_goal_version": "5964eec461fd7ecda1ad63db712b35ea0838021759ab248d067ba485bfcaf330",
+        "workspace_root": "/home/yangfp/QCIP/worktrees/xizi_single_link_remove_node-20260814131830/xizi_single_link_remove_node-annotation-r2",
+        "build_workspace": "/home/yangfp/QCIP/worktrees/xizi_single_link_remove_node-20260814131830/_coq_builds/xizi_single_link_remove_node-annotation-r2-case-lib",
+        "fixed_flags_hash": "75b2bdd1edb990c20e7514694fa4303e8d948c120bc1e5ac3813d06caabc3dff",
+        "coq_version": "The Coq Proof Assistant, version 8.20.1",
+        "returncode": 0,
+        "elapsed_seconds": 17.59,
+        "first_diagnostic": null
+      },
+      "annotation_checking_evidence": {
+        "status": "blocked",
+        "checked_scope": [
+          "xizi_sll_remove_first definition",
+          "strong_spec and three derived named specifications",
+          "complete loop invariant including @pre bridges",
+          "canonical symexec result",
+          "case_lib fixed coqc compile gate",
+          "mandatory qcp-mcp requirement"
+        ],
+        "qcp_mcp_requirement_satisfied": "no",
+        "annotation_scratch_lib_coqc_status": "passed",
+        "spec_definition_status": "passed-semantically",
+        "function_spec_status": "passed-semantically",
+        "invariant_status": "passed-semantically-and-canonical-symexec-passed",
+        "annotation_scratch_lib_changes": "empty",
+        "summary": "All semantic and available compile/symexec checks pass, including the alias-gap repair, but annotation-checking cannot return passed without an actual qcp-mcp run to file end.",
+        "failed_checks": [
+          "mandatory qcp-mcp service/tool availability and run-to-file-end evidence"
+        ],
+        "required_annotation_rework": [],
+        "required_annotation_scratch_lib_rework": [],
+        "ready_for_main_common_case_formal_lib_update": "no-change-needed",
+        "ready_for_main_symexec": "no",
+        "rework_plan": [
+          {
+            "failure_class": "required-toolchain-unavailable",
+            "message": "Retry this annotation attempt in an annotation-subagent session exposing qcp-mcp; run the current candidate to file end, then repeat annotation-checking. No further C or case_lib semantic rework is currently indicated."
+          }
+        ]
+      },
+      "self_repair_budget": {
+        "required_min_complete_cycles": 3,
+        "required_min_wall_clock_minutes": 30,
+        "complete_cycles_performed": 1,
+        "budget_exhausted": false,
+        "stopped_for_phase_hard_blocker": true,
+        "note": "Additional direct-symexec repetitions cannot satisfy the missing qcp-mcp quality gate and would not constitute honest complete filling/checking cycles."
+      },
+      "iterations": [
+        {
+          "index": 1,
+          "failure_class": "missing-immutable-argument-aliases",
+          "repair": "Added both @pre bridge equalities to the loop invariant.",
+          "qcp_result": "canonical direct symexec passed; qcp-mcp unavailable",
+          "case_lib_result": "passed",
+          "annotation_checking_result": "blocked solely on mandatory qcp-mcp availability"
+        }
+      ],
+      "self_reworkable_failures": [],
+      "changed_files": [
+        {
+          "path": "OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node.c",
+          "change_kind": "annotation-only",
+          "sha256": "377064b7c8a64c4be168707f26a25865561a3f5fdd8d2fc95a32271e51e0757c"
+        },
+        {
+          "path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node_goal.v",
+          "change_kind": "canonical-symexec-refresh-relative-to-handoff-source-goal-version",
+          "sha256": "58d2753a4b54c543182874d1e8e57d724434b52b493dfe3404b9a111e3784489"
+        }
+      ],
+      "formal_files_modified": true,
+      "file_access_summary": {
+        "must_log_file_reads": "yes",
+        "read_categories": {
+          "handoff": [
+            "/home/yangfp/QCIP/reports/xizi_single_link_remove_node-20260814131830/rounds/xizi_single_link_remove_node-annotation-r2/agent_input.json"
+          ],
+          "rules_and_skill_docs": [
+            ".agents/skills/verification-orchestrator/SKILL.md",
+            ".agents/skills/verification-orchestrator/docs/use-notes.md",
+            ".agents/skills/verification-orchestrator/docs/phase-ownership.md",
+            ".agents/skills/verification-orchestrator/docs/state-machine.md",
+            ".agents/skills/verification-orchestrator/docs/artifact-templates.md",
+            ".agents/skills/verification-orchestrator/docs/delegation-contracts.md",
+            ".agents/skills/verification-orchestrator/docs/invalidation-rules.md",
+            ".agents/skills/verification-orchestrator/docs/forbidden_lemma.md",
+            ".agents/skills/annotation-filling/SKILL.md",
+            ".agents/skills/annotation-filling/docs/use-notes.md",
+            ".agents/skills/annotation-filling/docs/annotation-rules.md",
+            ".agents/skills/annotation-filling/docs/common-annotation-errors.md",
+            ".agents/skills/annotation-filling/docs/predicate-first-annotation.md",
+            ".agents/skills/annotation-filling/docs/reference-cases.md",
+            ".agents/skills/annotation-filling/docs/symexec-refresh.md",
+            ".agents/skills/annotation-checking/SKILL.md",
+            ".agents/skills/annotation-checking/docs/spec-quality-checklist.md"
+          ],
+          "current_case": [
+            "OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node.c",
+            "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node_lib.v",
+            "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node_goal.v"
+          ],
+          "declared_previous_attempt": [
+            "/home/yangfp/QCIP/reports/xizi_single_link_remove_node-20260814131830/rounds/xizi_single_link_remove_node-vc-checking-r1/agent_report.json",
+            "/home/yangfp/QCIP/reports/xizi_single_link_remove_node-20260814131830/rounds/xizi_single_link_remove_node-vc-checking-r1/agent_output.txt"
+          ],
+          "tooling_contract_inspection": [
+            ".agents/skills/verification-orchestrator/scripts/controller.py",
+            ".agents/skills/vc-proving/scripts/coq_tooling.py"
+          ]
+        },
+        "searches": [
+          {
+            "scope": ".agents",
+            "pattern": "qcp-mcp|qcp_mcp",
+            "purpose": "locate an authorized qcp-mcp entry point"
+          },
+          {
+            "scope": ".agents/skills/verification-orchestrator/scripts",
+            "pattern": "canonical_symexec_evidence|qcp_mcp_interactive_evidence|annotation_checking_evidence|file_access_summary|self_repair",
+            "purpose": "verify report/controller contract fields"
+          },
+          {
+            "scope": "repository maxdepth 4",
+            "pattern": "*qcp*mcp* or *mcp*qcp*",
+            "purpose": "bounded qcp-mcp entry-point discovery"
+          }
+        ],
+        "denied_globs_touched": []
+      },
+      "blockers": [
+        {
+          "failure_class": "required-toolchain-unavailable",
+          "kind": "qcp-mcp-unavailable",
+          "message": "The mandatory qcp-mcp tool/service is not exposed to this annotation-subagent session and no local executable/entry point exists. annotation-checking therefore cannot pass even though direct canonical symexec and case_lib coqc pass.",
+          "recoverable_by": "Retry the annotation round with qcp-mcp exposed to the annotation-subagent.",
+          "recommended_next_phase": "annotation"
+        }
+      ],
+      "errors": [],
+      "recommended_next_phase": "annotation",
+      "controller_acceptance": "not-claimed",
+      "timing": {
+        "timing_source": "command wall-clock plus unmeasured non-command analysis",
+        "command_timings": [
+          {
+            "command": "canonical symexec",
+            "elapsed_seconds": 0.2,
+            "status": "passed"
+          },
+          {
+            "command": "coq_tooling.py check --target-kind case_lib",
+            "elapsed_seconds": 17.59,
+            "status": "passed"
+          }
+        ],
+        "major_time_sinks": [
+          "required skill/rule reading and handoff audit",
+          "case_lib dependency compilation",
+          "qcp-mcp availability investigation"
+        ],
+        "timing_gaps": [
+          "The new JSON handoff does not declare an activity-ledger output path, and non-command analysis/edit intervals were not independently timestamped; no duration is guessed."
+        ],
+        "open_or_incomplete_timing_events": []
+      }
+    }
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-08-14T05:45:25Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_single_link_remove_node-20260814131830/rounds/xizi_single_link_remove_node-annotation-r2/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    }
+  },
+  "blockers": []
+}

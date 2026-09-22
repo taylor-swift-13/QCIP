@@ -1,0 +1,252 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "status": "completed",
+    "terminal": "yes",
+    "round_outcome": "completed",
+    "phase": "vc-checking",
+    "round": "xizi_single_link_insert_after-vc-checking-r2",
+    "attempt_id": "xizi_single_link_insert_after-vc-checking-r2-attempt-1",
+    "source_version": {
+      "schema_version": "qcp-source-version/v1",
+      "digest": "2dd2b2231eba8156ec6501a9e5ea750a3591ff8c6f9da194faf831c4d20fe584",
+      "verified_current": true
+    },
+    "source_goal_version": {
+      "schema_version": "qcp-source-goal-version/v1",
+      "digest": "c802491d973b892847cdae7b025317dd85943c1c1dd5c70175e5e383b2be39b7",
+      "verified_current": true,
+      "target_witnesses": [
+        "proof_of_xizi_single_link_insert_after_return_wit_1"
+      ],
+      "witness_statement_hashes": {
+        "proof_of_xizi_single_link_insert_after_return_wit_1": "49a3173b1289a051460a4f51c62d4e3e8b39aafffb1ba5884a7466678bd856cc"
+      }
+    },
+    "vc_checking": {
+      "status": "completed",
+      "source_goal_version": "c802491d973b892847cdae7b025317dd85943c1c1dd5c70175e5e383b2be39b7",
+      "summary": "The regenerated return witness is semantically provable. Its second disjunct is precisely the existing xizi_sll_cons entailment: the inserted node's node_next field points to first, xizi_sll first l supplies the unchanged suffix, and PreH2 supplies the required non-null premise for linklist_node_pre. The first disjunct adds the unchanged predecessor node_next cell as a frame, so it is also valid, but selecting the second disjunct gives the shortest proof route.",
+      "target_witnesses": [
+        "proof_of_xizi_single_link_insert_after_return_wit_1"
+      ],
+      "natural_language_analysis": {
+        "schema_version": "qcp-vc-natural-language-analysis/v1",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_xizi_single_link_insert_after_return_wit_1",
+            "statement_hash": "49a3173b1289a051460a4f51c62d4e3e8b39aafffb1ba5884a7466678bd856cc",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "The selected second disjunct owns xizi_sll first l and the inserted node field &(linklist_node_pre.node_next) |-> first. The alternative first disjunct additionally owns the unchanged predecessor field &(linklist_pre.node_next) |-> linklist_node_pre.",
+              "pre_pure": "PreH1 states linklist_pre <> 0 and PreH2 states linklist_node_pre <> 0. Only PreH2 is needed on the shortest route.",
+              "pre_exists": "The existential successor addresses internal to xizi_sll first l remain encapsulated; no target-level existential must be chosen.",
+              "post_spatial": "xizi_sll linklist_node_pre (linklist_node_pre :: l), with the predecessor field also preserved if the first disjunct is selected.",
+              "post_pure": "No explicit pure postcondition remains after folding the nonempty xizi_sll node; its required non-null fact is PreH2.",
+              "post_exists": "The head-node successor witness is instantiated with first by xizi_sll_cons."
+            },
+            "witness_instantiation": "Select the second disjunct of the generated witness. The existing xizi_sll_cons lemma instantiates the new head node's successor with first and retains l as the exact logical suffix.",
+            "space_plan": "Apply xizi_sll_cons to the two spatial conjuncts. Its antecedent is syntactically the inserted node's node_next points-to first separated from xizi_sll first l, modulo separation-conjunction normalization. If using the first disjunct instead, frame/cancel the predecessor node_next points-to unchanged around the same application.",
+            "pure_plan": "Discharge xizi_sll_cons's sole premise linklist_node_pre <> NULL directly from PreH2, since NULL is address 0. PreH1 is unused on the second-disjunct route.",
+            "refinement_plan": "Not applicable; this is a direct local separation-logic splice proof.",
+            "used_existing_lemmas": [
+              {
+                "lemma_name": "xizi_sll_cons",
+                "source": "QCIPLib.xizi.xizi_single_link_common.xizi_single_link_lib",
+                "statement_shape": "forall x y l, x <> NULL -> &(x.node_next) |-> y ** xizi_sll y l |-- xizi_sll x (x :: l)",
+                "premises": [
+                  {
+                    "premise": "linklist_node_pre <> NULL",
+                    "discharged_by": "PreH2: linklist_node_pre <> 0",
+                    "needs_unfold": [],
+                    "arithmetic": "NULL is 0; tauto/congruence is sufficient",
+                    "spatial_resource": "none"
+                  },
+                  {
+                    "premise": "inserted-node next field plus suffix ownership",
+                    "discharged_by": "The two spatial conjuncts in the selected second-disjunct antecedent",
+                    "needs_unfold": [],
+                    "arithmetic": "none",
+                    "spatial_resource": "&(linklist_node_pre.node_next) |-> first ** xizi_sll first l"
+                  }
+                ]
+              }
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "PreH2 discharges the non-null premise of xizi_sll_cons.",
+              "The inserted node field and xizi_sll first l are literal antecedent resources.",
+              "No fact about first, l, or linklist_pre is required to preserve the suffix."
+            ],
+            "failure_signal": "None. Unlike an empty-target VC, this regenerated statement explicitly requires xizi_sll linklist_node_pre (linklist_node_pre :: l), which follows from the owned inserted-node field and original suffix.",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "insert_after_fold_new_head",
+            "grouping_reason": "The sole witness is a direct application of one existing list-construction lemma with no helper dependency."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "insert_after_fold_new_head",
+            "witness_names": [
+              "proof_of_xizi_single_link_insert_after_return_wit_1"
+            ],
+            "representative_witness": "proof_of_xizi_single_link_insert_after_return_wit_1",
+            "shared_proof_pattern": "Select the core return disjunct and fold one xizi_sll head node using xizi_sll_cons.",
+            "shared_space_plan": "Consume the inserted node field and preserve the original xizi_sll suffix exactly.",
+            "shared_pure_plan": "Use PreH2 for the new head's non-null premise.",
+            "shared_refinement_plan": "not applicable",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "There is exactly one target witness, below max_witnesses_per_group=12, and it has one self-contained fold pattern.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "c802491d973b892847cdae7b025317dd85943c1c1dd5c70175e5e383b2be39b7",
+        "target_witnesses": [
+          "proof_of_xizi_single_link_insert_after_return_wit_1"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "insert_after_fold_new_head",
+            "witness_names": [
+              "proof_of_xizi_single_link_insert_after_return_wit_1"
+            ],
+            "representative_witness": "proof_of_xizi_single_link_insert_after_return_wit_1",
+            "dependencies": [],
+            "candidate_helper_declarations": [],
+            "likely_helper_declarations": [],
+            "expected_helpers": [],
+            "proof_strategy": "Unfold xizi_single_link_insert_after_return_wit_1, select the second disjunct, introduce linklist_node_pre, linklist_pre, l, first, PreH1, and PreH2, then apply xizi_sll_cons to the inserted-node field and xizi_sll first l. Discharge linklist_node_pre <> NULL from PreH2. No case split, recursive unfolding, new helper, or specification change is required.",
+            "per_witness_plan": {
+              "proof_of_xizi_single_link_insert_after_return_wit_1": "right; intros; apply/sep_apply xizi_sll_cons using PreH2; normalize/cancel the two antecedent resources"
+            },
+            "premise_discharge": {
+              "xizi_sll_cons_non_null": "PreH2: linklist_node_pre <> 0",
+              "new_head_field": "&(linklist_node_pre.node_next) |-> first is in P",
+              "preserved_suffix": "xizi_sll first l is in P"
+            },
+            "grouping_reason": "The target set contains one witness, which is within the maximum group size 12; it is a single direct xizi_sll fold with no dependencies or helper family to separate.",
+            "difficulty": "low",
+            "confidence": "high"
+          }
+        ],
+        "blockers": []
+      },
+      "group_plan_ready": true,
+      "ready_for_vc_proving": true,
+      "version_evidence": {
+        "all_declared_file_hashes_match_round_worktree": true,
+        "source_version_digest_matches": true,
+        "source_goal_version_digest_matches": true,
+        "manual_witnesses_match_target_witnesses_exactly": true,
+        "manual_witness_count": 1,
+        "diagnostic_split_goals_excluded_from_targets": true,
+        "witness_statement_hashes_match": true,
+        "observed_generated_goal_sha256": "815d76dfb84c7a8b94ca0edcb887eaf9fb610c2aa0b5bb9b47b7f5047a68b057",
+        "observed_manual_sha256": "a0e0003bcc7dab44eb5e4496da4db904ed6803d33f7b7c57c5aede35c9a6fbe9"
+      },
+      "changed_files": [],
+      "formal_files_modified": false,
+      "blockers": [],
+      "recommended_next_phase": "vc-proving-preparing"
+    },
+    "changed_files": [],
+    "blockers": []
+  },
+  "verification_result": {
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-07-22T05:17:52Z",
+      "source_version": {
+        "digest": "2dd2b2231eba8156ec6501a9e5ea750a3591ff8c6f9da194faf831c4d20fe584",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_single_link_insert_after-20260722131500/xizi_single_link_insert_after-annotation-r2/OUTPUT/xizi/xizi_single_link_insert_after/source/xizi_single_link_insert_after.c",
+            "relative_path": "OUTPUT/xizi/xizi_single_link_insert_after/source/xizi_single_link_insert_after.c",
+            "role": "target-c-annotated",
+            "sha256": "eb6bdc03ce5b3d717e6eb3ca48730c2101c214ebea4fa35d555823026602e3fa",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_single_link_insert_after-20260722131500/xizi_single_link_insert_after-annotation-r2/SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_insert_after/source/xizi_single_link_insert_after_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_insert_after/source/xizi_single_link_insert_after_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "27dce0c34cd9cdecc5748b9cdbc38841bd26cc4362fe0336db19f8ac09ac00ad",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "c802491d973b892847cdae7b025317dd85943c1c1dd5c70175e5e383b2be39b7",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_insert_after/source/xizi_single_link_insert_after_goal.v",
+            "role": "generated-goal",
+            "sha256": "815d76dfb84c7a8b94ca0edcb887eaf9fb610c2aa0b5bb9b47b7f5047a68b057",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_insert_after/source/xizi_single_link_insert_after_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "c3e3d08a66bd22b6f50b49073ac0d7ceeade9fe40c4c1b7a00854985b6626c56",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_insert_after/source/xizi_single_link_insert_after_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "a0e0003bcc7dab44eb5e4496da4db904ed6803d33f7b7c57c5aede35c9a6fbe9",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_insert_after/source/xizi_single_link_insert_after_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "a3584785e42c4f8d5aa35ba6b7fde5d493abaceda0faa94c696d7c84e142da96",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_insert_after/source/xizi_single_link_insert_after_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "d82fd27ab40f790cf46318f2b0e540fd49a5a5ef6d2e07db3f14a53a6a92814d",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_insert_after/source/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "f18ecf61425a0d9eabf01853427eedc19159ac333338d40f02c2bff70d945249",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_xizi_single_link_insert_after_return_wit_1"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_xizi_single_link_insert_after_return_wit_1": "49a3173b1289a051460a4f51c62d4e3e8b39aafffb1ba5884a7466678bd856cc"
+        },
+        "witnesses": [
+          {
+            "end_line": 26,
+            "name": "proof_of_xizi_single_link_insert_after_return_wit_1",
+            "start_line": 24,
+            "statement_hash": "49a3173b1289a051460a4f51c62d4e3e8b39aafffb1ba5884a7466678bd856cc",
+            "target_symbol": "xizi_single_link_insert_after_return_wit_1"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_single_link_insert_after-20260722131500/rounds/xizi_single_link_insert_after-vc-checking-r2/group_plan.json",
+      "target_witnesses": [
+        "proof_of_xizi_single_link_insert_after_return_wit_1"
+      ]
+    }
+  },
+  "blockers": []
+}

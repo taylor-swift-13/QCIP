@@ -1,0 +1,54 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "fd09faeb041e6640ea2700425659d11c879d7f463f3a7e09ac2afeacfb8295d6",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_next_rec_middle_entail_wit_1",
+    "proof_of_xizi_double_link_next_rec_middle_return_wit_1",
+    "proof_of_xizi_double_link_next_rec_middle_return_wit_2"
+  ],
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  },
+  "proof_groups": [
+    {
+      "group_id": "middle_segment_split_rebuild",
+      "witness_names": [
+        "proof_of_xizi_double_link_next_rec_middle_entail_wit_1",
+        "proof_of_xizi_double_link_next_rec_middle_return_wit_1",
+        "proof_of_xizi_double_link_next_rec_middle_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_next_rec_middle_entail_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [
+        "xizi_dllseg_split_middle_with_head_frame",
+        "xizi_dllseg_rebuild_middle_with_head_frame"
+      ],
+      "expected_helpers": [
+        "xizi_dllseg_split_middle_with_head_frame__middle_segment_split_rebuild",
+        "xizi_dllseg_rebuild_middle_with_head_frame__middle_segment_split_rebuild"
+      ],
+      "proof_strategy": "Select the natural disjunct for each generated OR. For entail_wit_1, open xizi_dll and split its full segment at node by induction on nodes_before. For both return witnesses, rebuild that segment with the shared reverse helper. In return_wit_1, node_next = head forces nodes_after = nil; in return_wit_2, node_next <> head and xizi_dllseg_unfold force nodes_after to begin with node_next. Use the second expanded return-post disjunct to reuse first/last directly.",
+      "grouping_reason": "The three witnesses are a single middle-node decomposition lifecycle: one creates the split shape and two consume/reassemble it. They share the same helper family and proof context, have no dependency on another group, and the group size 3 is within the limit 12.",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_next_rec_middle_entail_wit_1": "Choose the first OR branch, open xizi_dll, apply the split helper, and instantiate node_next/node_prev/first/last.",
+        "proof_of_xizi_double_link_next_rec_middle_return_wit_1": "Choose the expanded second OR branch, prove nodes_after=nil from the sentinel-start suffix, simplify next_value, rebuild, and instantiate first_2/last_2.",
+        "proof_of_xizi_double_link_next_rec_middle_return_wit_2": "Choose the expanded second OR branch, obtain the suffix-head equation with xizi_dllseg_unfold, simplify next_value, rebuild, and instantiate first_2/last_2."
+      },
+      "premise_discharge": {
+        "head_nonnull": "PreH4 in both return VCs; the leading xizi_dll conjunct in the entail VC.",
+        "suffix_equal_branch": "PreH1 and PreH2 rewrite node_next to head; unfolding a nonempty xizi_dllseg at stop contradicts its node <> stop guard.",
+        "suffix_unequal_branch": "PreH1 and PreH2 give node_next <> head, exactly the premise of xizi_dllseg_unfold.",
+        "middle_rebuild": "All prefix, selected-node, suffix, and sentinel link resources are present under separating conjunction."
+      },
+      "confidence": "high"
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true
+}

@@ -1,0 +1,266 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "blocked",
+  "terminal": "yes",
+  "round": "xizi_double_link_remove_node-vc-checking-r1",
+  "attempt_id": "xizi_double_link_remove_node-vc-checking-r1-attempt-1",
+  "agent_result": {
+    "status": "blocked",
+    "source_version": {
+      "schema_version": "qcp-source-version/v1",
+      "digest": "23b5cf4549dd2bad9c2061ca2cbc72dae6ffa382dfca9a48ca23cfedaccaa03c"
+    },
+    "source_goal_version": {
+      "schema_version": "qcp-source-goal-version/v1",
+      "digest": "ca78ba253e6abdafb1848ad5a6460f1dbed9b27b43f6c2bd658da5a6b2d74d0a"
+    },
+    "changed_files": [],
+    "blockers": [
+      {
+        "blocker_class": "annotation-bug",
+        "witnesses": [
+          "proof_of_DoubleLinkListRmNode_return_wit_1",
+          "proof_of_DoubleLinkListRmNode_return_wit_2"
+        ],
+        "missing_fact": "linklist_node = linklist_node_pre",
+        "summary": "Both return VCs own updated resources at linklist_node but require them at independently quantified linklist_node_pre.",
+        "recommended_next_phase": "annotation"
+      }
+    ],
+    "vc_checking": {
+      "status": "blocked",
+      "source_version": "23b5cf4549dd2bad9c2061ca2cbc72dae6ffa382dfca9a48ca23cfedaccaa03c",
+      "source_goal_version": "ca78ba253e6abdafb1848ad5a6460f1dbed9b27b43f6c2bd658da5a6b2d74d0a",
+      "target_witnesses": [
+        "proof_of_DoubleLinkListRmNode_entail_wit_1_1",
+        "proof_of_DoubleLinkListRmNode_return_wit_1",
+        "proof_of_DoubleLinkListRmNode_return_wit_2",
+        "proof_of_DoubleLinkListRmNode_derive_remove_detached_spec_by_strong_spec",
+        "proof_of_DoubleLinkListRmNode_derive_remove_member_spec_by_strong_spec"
+      ],
+      "target_witness_coverage": {
+        "manual_order_matches_handoff": "yes",
+        "analyzed_exactly_once": "yes",
+        "diagnostic_split_goals_excluded": "yes"
+      },
+      "version_evidence": {
+        "status": "matched",
+        "all_declared_file_sha256_values_matched": "yes"
+      },
+      "natural_language_analysis": {
+        "schema_version": "qcp-vc-natural-language-analysis/v1",
+        "overall_judgment": "annotation-bug",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_DoubleLinkListRmNode_entail_wit_1_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "DLL.store_dll storeA head nodes",
+              "pre_pure": "mode=0; getPtr removed=linklist_node_pre; nodes=prefix++removed::suffix",
+              "pre_exists": "store_dll first/last endpoints",
+              "post_spatial": "shift prefix, four boundary/node links, reverse-shift suffix, removed payload",
+              "post_pure": "mode=0",
+              "post_exists": "node_next and node_prev"
+            },
+            "witness_instantiation": "Choose either identical disjunct; split the segment at prefix, open the removed cons, and use its adjacent endpoints.",
+            "space_plan": "Apply DLL.dllseg_split then DLL.dllseg_to_dllseg_shift and DLL.dllseg_to_dllseg_shift_rev, framing removed links/payload.",
+            "pure_plan": "PreH3 supplies list decomposition, PreH2 pointer identity, and PreH1 mode.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [
+              "DLL.dllseg_split",
+              "DLL.dllseg_to_dllseg_shift",
+              "DLL.dllseg_to_dllseg_shift_rev"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "PreH1",
+              "PreH2",
+              "PreH3"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing after annotation repair",
+            "analysis_group_candidate": "remove_node_spatial_and_specs",
+            "grouping_reason": "Same prefix/removed/suffix family as member derivation."
+          },
+          {
+            "witness_name": "proof_of_DoubleLinkListRmNode_return_wit_1",
+            "judgment": "annotation-bug",
+            "vc_shape": {
+              "pre_spatial": "shift prefix and reverse-shift suffix with updated cross-links; self-links and payload at linklist_node",
+              "pre_pure": "mode=0 only",
+              "pre_exists": "none",
+              "post_spatial": "store_dll(prefix++suffix), detached linklist_node_pre, payload at linklist_node_pre",
+              "post_pure": "detached entails linklist_node_pre<>0",
+              "post_exists": "store_dll endpoints"
+            },
+            "witness_instantiation": "The remaining list endpoints can be reconstructed, but resources cannot move from linklist_node to unrelated linklist_node_pre.",
+            "space_plan": "DLL.dllseg_shift_to_dllseg, DLL.dllseg_shift_rev_to_dllseg and concat close the remaining list; self-links only establish detached(linklist_node).",
+            "pure_plan": "No equality or linklist_node_pre non-null premise exists. Taking linklist_node_pre=0 and a distinct nonzero linklist_node satisfies P but falsifies Q.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [
+              "DLL.dllseg_shift_to_dllseg",
+              "DLL.dllseg_shift_rev_to_dllseg",
+              "DLL.dllseg_concat"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "mode is PreH1",
+              "linklist_node=linklist_node_pre has no source",
+              "linklist_node_pre<>0 has no source"
+            ],
+            "failure_signal": "return_wit_1_split_goal_spatial demands resources at linklist_node_pre from resources at linklist_node.",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": "not-ready",
+            "grouping_reason": "Parameter identity must first be preserved."
+          },
+          {
+            "witness_name": "proof_of_DoubleLinkListRmNode_return_wit_2",
+            "judgment": "annotation-bug",
+            "vc_shape": {
+              "pre_spatial": "self-links at linklist_node",
+              "pre_pure": "mode=1; linklist_node<>0",
+              "pre_exists": "none",
+              "post_spatial": "self-links at linklist_node_pre",
+              "post_pure": "linklist_node_pre<>0",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "No existential choice repairs the address mismatch.",
+            "space_plan": "P proves detached(linklist_node), not detached(linklist_node_pre).",
+            "pure_plan": "PreH2 only proves linklist_node<>0; linklist_node_pre=0 is consistent because no address equality is present.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "mode is PreH1",
+              "current pointer non-null is PreH2",
+              "current=pre pointer has no source"
+            ],
+            "failure_signal": "Diagnostics isolate both missing non-null and spatial address goals.",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": "not-ready",
+            "grouping_reason": "Parameter identity must first be preserved."
+          },
+          {
+            "witness_name": "proof_of_DoubleLinkListRmNode_derive_remove_detached_spec_by_strong_spec",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "xizi_dll_detached linklist_node_pre",
+              "pre_pure": "linklist_node_pre<>0",
+              "pre_exists": "none",
+              "post_spatial": "mode-1 strong precondition plus identity wand to detached",
+              "post_pure": "mode=1 and non-null",
+              "post_exists": "strong-spec parameters"
+            },
+            "witness_instantiation": "Choose mode=1 and arbitrary unused mode-0 parameters.",
+            "space_plan": "Unfold detached; use its self-links as the mode-1 precondition and prove the identity wand.",
+            "pure_plan": "Non-null comes from detached; mode equality is reflexive.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "unfold xizi_dll_detached",
+              "choose mode=1"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing after annotation repair",
+            "analysis_group_candidate": "remove_node_spatial_and_specs",
+            "grouping_reason": "Direct mode-1 specialization."
+          },
+          {
+            "witness_name": "proof_of_DoubleLinkListRmNode_derive_remove_member_spec_by_strong_spec",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "DLL.store_dll storeA head nodes",
+              "pre_pure": "In linklist_node_pre (xizi_dll_ptrs nodes)",
+              "pre_exists": "none",
+              "post_spatial": "mode-0 strong precondition plus wand to member-removal postcondition",
+              "post_pure": "removed pointer identity, list decomposition, and remove relation",
+              "post_exists": "removed/prefix/suffix/remaining and strong parameters"
+            },
+            "witness_instantiation": "Use first_split__storeA_remove; choose original A/storeA/head/nodes, mode=0, and remaining=prefix++suffix.",
+            "space_plan": "Place original store_dll in strong precondition and reuse strong post resources in the wand consequent.",
+            "pure_plan": "first_split__storeA_remove supplies decomposition, pointer identity and remove-first equality; unfold xizi_dll_remove_node_rel.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [
+              "first_split__storeA_remove"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "membership is the input pure fact",
+              "split lemma supplies relation equations"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing after annotation repair",
+            "analysis_group_candidate": "remove_node_spatial_and_specs",
+            "grouping_reason": "Same list split and strong contract."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "remove_node_spatial_and_specs",
+            "witness_names": [
+              "proof_of_DoubleLinkListRmNode_entail_wit_1_1",
+              "proof_of_DoubleLinkListRmNode_derive_remove_detached_spec_by_strong_spec",
+              "proof_of_DoubleLinkListRmNode_derive_remove_member_spec_by_strong_spec"
+            ],
+            "representative_witness": "proof_of_DoubleLinkListRmNode_entail_wit_1_1",
+            "shared_proof_pattern": "DLL segment split/conversion and direct internal-spec specialization.",
+            "shared_space_plan": "Use canonical DLL lemmas and exact resource reuse through the wand.",
+            "shared_pure_plan": "Use list split equations and explicit mode choice.",
+            "shared_refinement_plan": "not applicable",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "Only these witnesses close semantically in the current version.",
+            "proof_group_ready": false
+          }
+        ]
+      },
+      "group_plan_ready": false,
+      "group_plan": null,
+      "group_plan_omitted_reason": "Two target witnesses are annotation-bug; no proving plan may be emitted.",
+      "blockers": [
+        {
+          "blocker_class": "annotation-bug",
+          "witnesses": [
+            "proof_of_DoubleLinkListRmNode_return_wit_1",
+            "proof_of_DoubleLinkListRmNode_return_wit_2"
+          ],
+          "missing_fact": "linklist_node = linklist_node_pre",
+          "evidence": [
+            "return_wit_1 owns self-links/payload at linklist_node but requires them at linklist_node_pre.",
+            "return_wit_2 has linklist_node<>0 but requires linklist_node_pre<>0 and fields at that address.",
+            "The three diagnostic split goals isolate exactly these pure/spatial gaps."
+          ],
+          "countermodel_shape": "Choose linklist_node_pre=0 and a distinct nonzero self-linked linklist_node; P can hold while Q cannot.",
+          "recommended_fix": "Preserve the unchanged formal parameter identity across each internal Assert disjunct, or state Assert resources at the same pre-state address consumed by strong Ensure; do not weaken public specs. Regenerate symbolic execution outputs.",
+          "recommended_next_phase": "annotation",
+          "source_goal_version": "ca78ba253e6abdafb1848ad5a6460f1dbed9b27b43f6c2bd658da5a6b2d74d0a"
+        }
+      ],
+      "changed_files": [],
+      "formal_files_modified": false,
+      "recommended_next_phase": "annotation"
+    }
+  },
+  "verification_result": {
+    "controller_acceptance": "not-requested-by-agent",
+    "formal_write_boundary": "respected",
+    "source_versions_current_at_report_time": true,
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-09-16T12:13:43Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_double_link_remove_node-20260916195348/rounds/xizi_double_link_remove_node-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    }
+  },
+  "blockers": [
+    {
+      "blocker_class": "annotation-bug",
+      "summary": "The two return VCs lost equality between current and pre-state names of the unchanged pointer parameter.",
+      "recommended_next_phase": "annotation"
+    }
+  ]
+}

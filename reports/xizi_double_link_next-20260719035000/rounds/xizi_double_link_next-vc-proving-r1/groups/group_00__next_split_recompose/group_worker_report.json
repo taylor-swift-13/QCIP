@@ -1,0 +1,91 @@
+{
+  "schema_version": "qcp-group-worker-report/v1",
+  "group_id": "next_split_recompose",
+  "agent_result": {
+    "vc_proving": {
+      "group": {
+        "status": "blocked",
+        "group_id": "next_split_recompose",
+        "assigned_witnesses": [
+          "proof_of_xizi_double_link_next_entail_wit_1",
+          "proof_of_xizi_double_link_next_return_wit_1",
+          "proof_of_xizi_double_link_next_return_wit_2"
+        ],
+        "helper_namespace": {
+          "policy": "group-id-suffixed",
+          "group_id": "next_split_recompose",
+          "suffix": "__next_split_recompose",
+          "required": "yes"
+        },
+        "source_goal_version": "ff4188e4547af4e48d8eb1a6c4d2f9e853d1c063e7ae0a5092e08b7111890251",
+        "solved_witnesses": [],
+        "unsolved_witnesses": [
+          "proof_of_xizi_double_link_next_entail_wit_1",
+          "proof_of_xizi_double_link_next_return_wit_1",
+          "proof_of_xizi_double_link_next_return_wit_2"
+        ],
+        "errors": [],
+        "blockers": [
+          {
+            "kind": "unprovable-current-vc-missing-premise",
+            "affected_witnesses": [
+              "proof_of_xizi_double_link_next_return_wit_1",
+              "proof_of_xizi_double_link_next_return_wit_2"
+            ],
+            "missing_premise": "linklist_node_pre <> NULL",
+            "evidence": "Recomposition must construct xizi_dllseg over nodes_before ++ linklist_node_pre :: nodes_after. In the base case nodes_before = nil, the nonempty xizi_dllseg constructor requires linklist_node_pre <> NULL. Both return witness statements quantify only a node_next/head branch fact and omit linklist_node_pre <> 0. The source heap owns xizi_dll_links for linklist_node_pre, but that predicate is only two field stores and carries no node-nonnull pure fact.",
+            "concrete_attempts": [
+              "A fixed coq_tooling.py debug run proved the group-suffixed split-lemma shape by induction and reached recomposition induction.",
+              "The recomposition base case required node <> NULL before the node constructor could be folded.",
+              "An attempted links-to-nonnull bridge using valid_store_ptr reduced to isvalidptr (&(node # SysDoubleLinklistNode ->s node_next)) -> node <> 0. No such implication exists: field_address is abstract and valid_store_ptr constrains the field address, not the base node address.",
+              "The return_wit_1 suffix pure result and return_wit_2 head-of-suffix pure result are independently derivable; the blocker is specifically restoration of the strengthened xizi_dll predicate."
+            ],
+            "required_upstream_repair": "Return to annotation/spec and preserve linklist_node_pre <> 0 in both return VCs (for example as an Ensure pure fact carried from the function precondition), then regenerate symbolic execution and source_goal_version."
+          }
+        ],
+        "candidate": {},
+        "changed_files": [],
+        "case_lib_added_declarations": [],
+        "proof_progress": {
+          "entail_wit_1": "A temporary debug proof established the required list split by induction, including a spatial distinctness bridge between owned node links; it was not written to the formal candidate because the group is blocked upstream.",
+          "return_wit_1": "Pure suffix-empty fact derived; spatial recomposition blocked on missing linklist_node_pre <> NULL.",
+          "return_wit_2": "Pure suffix-head fact derived using xizi_dllseg_unfold; spatial recomposition blocked on missing linklist_node_pre <> NULL."
+        },
+        "verification_result": {
+          "coqc_check": {
+            "status": "not-run-on-candidate",
+            "tool": "coqc",
+            "kind": "coqc_check",
+            "target_file": ".coq_group_checks/xizi_double_link_next_group_00__next_split_recompose_check.v",
+            "target_kind": "group-check",
+            "fixed_flags_hash": "1637faae25397c4c30221b8193a63d94b656cb2c56e2ccfd6b0cfa1f2bcf8771",
+            "source_goal_version": "ff4188e4547af4e48d8eb1a6c4d2f9e853d1c063e7ae0a5092e08b7111890251",
+            "reason": "No strict proof candidate exists. An initial fixed group-check passed only on the untouched generated manual file containing the original Admitted bodies and is explicitly not claimed as proof acceptance evidence."
+          },
+          "coqtop_debug": {
+            "status": "failed-with-semantic-proof-state",
+            "tool": "coqtop",
+            "kind": "coqtop_debug",
+            "debug_script": ".coq_debug/group_00__next_split_recompose.v",
+            "fixed_flags_hash": "1637faae25397c4c30221b8193a63d94b656cb2c56e2ccfd6b0cfa1f2bcf8771",
+            "source_goal_version": "ff4188e4547af4e48d8eb1a6c4d2f9e853d1c063e7ae0a5092e08b7111890251",
+            "returncode": 1,
+            "first_semantic_residual": "node <> NULL",
+            "secondary_semantic_residual": "isvalidptr (&(p # SysDoubleLinklistNode ->s node_next)) -> p <> 0",
+            "purpose": "Non-acceptance proof-state feedback; temporary debug script removed after diagnosis."
+          }
+        }
+      }
+    }
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-07-18T20:30:13Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_double_link_next-20260719035000/rounds/xizi_double_link_next-vc-proving-r1/groups/group_00__next_split_recompose/group_worker_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    }
+  }
+}

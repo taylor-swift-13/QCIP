@@ -1,0 +1,54 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "4e27b0efc3d2c036a7fda7e4151c561d619412becb6646c3935942de6cab9068",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_head_rec_return_wit_1",
+    "proof_of_xizi_double_link_head_rec_return_wit_2",
+    "proof_of_xizi_double_link_head_rec_derive_nil_case_by_general"
+  ],
+  "witness_statement_hashes": {
+    "proof_of_xizi_double_link_head_rec_return_wit_1": "55df97569b7a1c62ce5adaf1b224f329788d0a4cb465048cf7ec4e9bb693832b",
+    "proof_of_xizi_double_link_head_rec_return_wit_2": "8feec5680eb52306ccaaf99e34e49d543c8e12dafd8e63f01f69a67374242cfe",
+    "proof_of_xizi_double_link_head_rec_derive_nil_case_by_general": "b1db3b2b388a0513195c3eb8a7d27871207a45f09935435d43f66aae655dc82f"
+  },
+  "proof_groups": [
+    {
+      "group_id": "head_return_and_nil_specialization",
+      "witness_names": [
+        "proof_of_xizi_double_link_head_rec_return_wit_1",
+        "proof_of_xizi_double_link_head_rec_return_wit_2",
+        "proof_of_xizi_double_link_head_rec_derive_nil_case_by_general"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_head_rec_return_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "Prove return_wit_1 by selecting its segment-only disjunct and eliminating the impossible nonempty list case when first equals the sentinel. Prove return_wit_2 by selecting its full-sentinel-resource disjunct, closing xizi_dll with xizi_dll_close, and deriving the first-value equation from the segment case split. Prove the weak derivation by choosing nodes_general=nil and using sepcon/wand adjunction to turn the hypothetical general post into the nil_case post.",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_head_rec_return_wit_1": "Select the second disjunct; destruct nodes_general; simplify the nil case and derive contradiction in the cons case from xizi_dllseg's node<>stop guard plus first=linklist_pre.",
+        "proof_of_xizi_double_link_head_rec_return_wit_2": "Select the first disjunct; use xizi_dll_close for the spatial post; destruct nodes_general, eliminate nil via first<>linklist_pre, and simplify the cons first-value equation after unfolding the segment.",
+        "proof_of_xizi_double_link_head_rec_derive_nil_case_by_general": "Choose nodes_general=nil, frame the input DLL resource as the general precondition, introduce the wand by adjunction, destruct the hypothetical general post, simplify first_value nil, choose retval=0, and return its DLL resource."
+      },
+      "premise_discharge": {
+        "proof_of_xizi_double_link_head_rec_return_wit_1": "Endpoint equality is PreH1; the conflicting nonempty endpoint inequality comes from unfolding xizi_dllseg.",
+        "proof_of_xizi_double_link_head_rec_return_wit_2": "xizi_dll_close non-null is PreH2; the first-value equation comes from the segment list-shape conjunct.",
+        "proof_of_xizi_double_link_head_rec_derive_nil_case_by_general": "first_value nil=0 is definitional; the wand antecedent supplies the exact xizi_dll linklist_pre nil resource."
+      },
+      "grouping_reason": "A single group is permitted (3 <= 12) and preferred here because the witnesses share one function, one small imported context, the same abstract DLL ownership, and the same first-value specialization; there are no helper or ordering dependencies that justify another worker.",
+      "difficulty": "low",
+      "confidence": "high"
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

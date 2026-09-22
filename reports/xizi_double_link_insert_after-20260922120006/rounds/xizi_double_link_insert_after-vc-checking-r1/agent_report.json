@@ -1,0 +1,472 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "vc_checking": {
+      "status": "completed",
+      "terminal": true,
+      "source_version": "71fc49ec017852b01a0e62572d8493e2d49fe73d4c2b74cb6ecca51cd6109a0c",
+      "source_goal_version": "e0bd74218da55771e77d73e4972c3f6ab180ae3b9609d39cd0ce12c6be49d604",
+      "checked_at": "2026-09-22T14:24:24+08:00",
+      "summary": "All seven current manual obligations are semantically provable from the accepted annotation and seed case_lib. The existing DLL segment rules and case-local payload lemmas discharge every spatial and pure premise; no annotation repair or new helper declaration is required.",
+      "ready_for_vc_proving": true,
+      "group_plan_ready": true,
+      "recommended_next_phase": "vc-proving-preparing",
+      "target_witnesses": [
+        "proof_of_DoubleLinkListInsertNodeAfter_entail_wit_1",
+        "proof_of_DoubleLinkListInsertNodeAfter_return_wit_1",
+        "proof_of_DoubleLinkListInsertNodeAfter_return_wit_2",
+        "proof_of_DoubleLinkListInsertNodeAfter_return_wit_3",
+        "proof_of_DoubleLinkListInsertNodeAfter_return_wit_4",
+        "proof_of_DoubleLinkListInsertNodeAfter_derive_sentinel_case_by_dispatch_case",
+        "proof_of_DoubleLinkListInsertNodeAfter_derive_member_case_by_dispatch_case"
+      ],
+      "version_evidence": {
+        "source_files_match_handoff": true,
+        "generated_files_match_handoff": true,
+        "manual_witness_set_matches_source_goal_version": true,
+        "manual_obligation_count": 7,
+        "diagnostic_count": 0,
+        "manual_sha256": "07e1b5e9f42a15f0ffd04b7722b2cc1018ae5c31b0af6c3191411049ae148bd2",
+        "goal_sha256": "4cd0ec34f5e17bc2f31a6dc93f81258d69dec5fe05212d3bc5b0ba2debbbe75d",
+        "case_lib_sha256": "0b27f3fc853e69974d16eac31cfe95dfb1a78f342a590be8006b3aa238ec3d6d"
+      },
+      "natural_language_analysis": {
+        "status": "passed",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_DoubleLinkListInsertNodeAfter_entail_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "The linklist variable points to the public anchor, store_dll owns the complete circular DLL, and the new detached node contributes occupy_dll_node plus its payload cell.",
+              "pre_pure": "xizi_double_link_insert_after_anchor says the anchor is either a list member or the sentinel.",
+              "pre_exists": "store_dll and occupy_dll_node hide the DLL endpoints and the detached node's old next/prev values.",
+              "post_spatial": "One of four concrete pre-write layouts: member with empty suffix, member with nonempty suffix, sentinel with nonempty list, or sentinel with empty list.",
+              "post_pure": "The selected branch records the exact first-occurrence split or sentinel equality and the corresponding dispatch payload result.",
+              "post_exists": "Instantiate endpoints, prefix/anchor/suffix values, detached links, and (for a nonempty suffix) its first node and remaining segment."
+            },
+            "witness_instantiation": "Split anchor=head. In the sentinel branch destruct nodes_dispatch_case into nil/cons and expose store_dll. In the member branch use payload_first_split__payload_insert_after to obtain prefix, anchor payload and suffix, split dllseg at that first occurrence, then destruct suffix into nil/cons.",
+            "space_plan": "Unfold store_dll and occupy_dll_node; in the member branch apply dllseg_split on the left and unfold the anchor cell. Each resulting spatial heap is exactly one target disjunct and closes by structural entailment.",
+            "pure_plan": "For sentinel branches unfold xizi_insert_after_dispatch_payload and use anchor=head. For member branches use the Z.eq_dec negative branch, the first-occurrence non-membership fact returned by payload_first_split__payload_insert_after, and construct xizi_insert_after_payload with the same prefix, anchor node and suffix.",
+            "refinement_plan": "No safeExec or refinement state occurs.",
+            "used_existing_lemmas": [
+              "payload_first_split__payload_insert_after",
+              "dllseg_split"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "Anchor case split is supplied by xizi_double_link_insert_after_anchor.",
+              "First-occurrence prefix and its non-membership fact are supplied by payload_first_split__payload_insert_after.",
+              "All endpoint values are exposed by store_dll/dllseg unfolding and dllseg_split."
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "insert_after_all",
+            "grouping_reason": "This branch decomposition establishes the same DLL segment vocabulary used by all four return witnesses."
+          },
+          {
+            "witness_name": "proof_of_DoubleLinkListInsertNodeAfter_return_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "After the four pointer writes in the empty sentinel case, the head and inserted node point to each other and the inserted payload is owned.",
+              "pre_pure": "head=anchor, the original node list is nil, and PreH2 already states the dispatch payload relation for the singleton result.",
+              "pre_exists": "None beyond the postcondition result.",
+              "post_spatial": "store_dll for the singleton inserted node.",
+              "post_pure": "The dispatch payload relation for that singleton.",
+              "post_exists": "Choose [Build_DL_Node data_dispatch_case linklist_node_pre]."
+            },
+            "witness_instantiation": "result := Build_DL_Node data_dispatch_case linklist_node_pre :: nil.",
+            "space_plan": "Unfold store_dll, choose the inserted node as both first and last, and unfold the singleton dllseg followed by the empty segment.",
+            "pure_plan": "Substitute the sentinel and empty-list equalities; PreH2 is exactly the required pure relation.",
+            "refinement_plan": "No refinement state occurs.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "PreH1, PreH3-PreH6 normalize endpoints; PreH2 supplies the post relation."
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "insert_after_all",
+            "grouping_reason": "It is the base case of the shared store_dll reconstruction pattern."
+          },
+          {
+            "witness_name": "proof_of_DoubleLinkListInsertNodeAfter_return_wit_2",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "The inserted node is linked between the sentinel and the old first node; the untouched suffix remains a dllseg.",
+              "pre_pure": "head=anchor, nodes_dispatch_case is old_first::rest, and PreH2 states the dispatch result inserted::nodes_dispatch_case.",
+              "pre_exists": "Only the result list.",
+              "post_spatial": "store_dll for inserted::nodes_dispatch_case.",
+              "post_pure": "The existing dispatch payload relation.",
+              "post_exists": "Choose Build_DL_Node data_dispatch_case linklist_node_pre :: nodes_dispatch_case."
+            },
+            "witness_instantiation": "result := inserted :: nodes_dispatch_case.",
+            "space_plan": "Substitute the nonempty node-list equation, unfold store_dll, choose inserted as first and the existing last endpoint, then unfold the first two dllseg cells and frame the remaining segment.",
+            "pure_plan": "PreH1 and PreH3 normalize the shape; PreH2 supplies the required relation without additional arithmetic.",
+            "refinement_plan": "No refinement state occurs.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "The node-list constructor shape is PreH3; the abstract result relation is PreH2."
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "insert_after_all",
+            "grouping_reason": "It uses the same store_dll unfolding and endpoint instantiation as return_wit_1."
+          },
+          {
+            "witness_name": "proof_of_DoubleLinkListInsertNodeAfter_return_wit_3",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "A prefix dllseg reaches the anchor, the inserted node is linked after it, and the old successor plus rest form the trailing dllseg.",
+              "pre_pure": "PreH3 already states the exact inserted payload sequence; PreH4 identifies a nonempty suffix.",
+              "pre_exists": "Only the result list.",
+              "post_spatial": "store_dll for prefix ++ anchor :: inserted :: old_successor :: rest.",
+              "post_pure": "The exact payload relation from PreH3.",
+              "post_exists": "Choose nodes_before ++ anchor-node :: inserted-node :: nodes_after."
+            },
+            "witness_instantiation": "Use the sequence already named in PreH3; after substituting PreH4 it has a concrete old-successor head.",
+            "space_plan": "Unfold store_dll, choose the existing first/last endpoints, apply dllseg_concat on the right to combine the prefix segment with anchor, inserted, successor and rest, then unfold the three explicit cells.",
+            "pure_plan": "PreH4 rewrites nodes_after; PreH3 is exactly the postcondition's pure relation.",
+            "refinement_plan": "No refinement state occurs.",
+            "used_existing_lemmas": [
+              "dllseg_concat"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "The prefix/suffix list equation is PreH1, the chosen abstract result is PreH3, and the nonempty suffix shape is PreH4."
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "insert_after_all",
+            "grouping_reason": "It is the non-tail instance of the shared member-case dllseg concatenation pattern."
+          },
+          {
+            "witness_name": "proof_of_DoubleLinkListInsertNodeAfter_return_wit_4",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "A prefix dllseg reaches the anchor, the inserted node is linked to the sentinel, and the sentinel prev link points to the inserted node.",
+              "pre_pure": "PreH3 gives the exact inserted payload result and PreH4 says the old suffix is nil.",
+              "pre_exists": "Only the result list.",
+              "post_spatial": "store_dll for prefix ++ anchor :: inserted :: nil.",
+              "post_pure": "The exact payload relation from PreH3.",
+              "post_exists": "Choose nodes_before ++ anchor-node :: inserted-node :: nodes_after."
+            },
+            "witness_instantiation": "Use the sequence from PreH3 and rewrite nodes_after to nil using PreH4.",
+            "space_plan": "Unfold store_dll, choose first and the inserted node as last, apply dllseg_concat to append the anchor and inserted cells to the prefix, then close the terminal empty segment at the sentinel.",
+            "pure_plan": "PreH4 normalizes the suffix and PreH3 directly supplies the abstract post relation.",
+            "refinement_plan": "No refinement state occurs.",
+            "used_existing_lemmas": [
+              "dllseg_concat"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "PreH1 identifies the original split, PreH3 supplies the result relation, and PreH4 supplies the tail case."
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "insert_after_all",
+            "grouping_reason": "It is the tail instance of the same member-case dllseg concatenation pattern as return_wit_3."
+          },
+          {
+            "witness_name": "proof_of_DoubleLinkListInsertNodeAfter_derive_sentinel_case_by_dispatch_case",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "The original sentinel-owned store_dll plus the detached node resources.",
+              "pre_pure": "No additional guard; dispatch is instantiated with anchor=head.",
+              "pre_exists": "The post introduces dispatch type, store, data, head and nodes.",
+              "post_spatial": "The same resources framed with a wand from any dispatch result to store_dll of inserted::original_nodes.",
+              "post_pure": "The public anchor holds by sentinel equality; a dispatch result at anchor=head must equal inserted::nodes.",
+              "post_exists": "Choose the incoming A, store, data, linklist_pre and nodes_sentinel_case."
+            },
+            "witness_instantiation": "Instantiate dispatch parameters identically to the sentinel-case inputs; inside the wand use the supplied result and eliminate the impossible member branch.",
+            "space_plan": "Frame the original resources into the dispatch antecedent, apply sepcon adjunction, and use the supplied store_dll result directly after the pure result equality is substituted.",
+            "pure_plan": "Unfold xizi_double_link_insert_after_anchor and select anchor=head; unfold xizi_insert_after_dispatch_payload, where the sentinel branch yields result=inserted::nodes and the member branch contradicts anchor<>head.",
+            "refinement_plan": "No refinement state occurs.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "Anchor equality is reflexive after instantiation; the dispatch disjunction itself supplies either the required equality or a contradiction."
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "insert_after_all",
+            "grouping_reason": "It uses the same dispatch payload definition and store_dll result consumed by the return witnesses."
+          },
+          {
+            "witness_name": "proof_of_DoubleLinkListInsertNodeAfter_derive_member_case_by_dispatch_case",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "store_dll for the member-case list plus the detached node and its payload.",
+              "pre_pure": "The anchor address occurs in xizi_insert_after_ptrs nodes_member_case.",
+              "pre_exists": "The post introduces dispatch parameters and a final payload result.",
+              "post_spatial": "The same resources framed with a wand converting a dispatch result into a member payload result and store_dll.",
+              "post_pure": "The public anchor holds by membership; spatial uniqueness establishes member<>head so a dispatch result must use the member branch.",
+              "post_exists": "Choose the incoming A, store, data, head and node list, then reuse the dispatch result as the member result."
+            },
+            "witness_instantiation": "Instantiate dispatch parameters with the member-case inputs; obtain linklist_pre<>head_member_case from store_dll_member_not_sentinel__insert_after_payload and choose the wand's result unchanged.",
+            "space_plan": "Use the existing spatial lemma to derive the pure non-sentinel fact without consuming store_dll, frame the resources, apply sepcon adjunction, and reuse the store_dll supplied by the dispatch antecedent.",
+            "pure_plan": "Select the membership branch of xizi_double_link_insert_after_anchor. Unfold dispatch payload; the sentinel branch contradicts member<>head and the member branch is exactly xizi_insert_after_payload.",
+            "refinement_plan": "No refinement state occurs.",
+            "used_existing_lemmas": [
+              "store_dll_member_not_sentinel__insert_after_payload"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "Membership is the VC's pure precondition; the existing store_dll helper derives member<>head from that membership and the current store_dll resource."
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "insert_after_all",
+            "grouping_reason": "It closes the same dispatch/member distinction introduced by entail_wit_1 and consumed by return_wit_3/4."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "insert_after_all",
+            "witness_names": [
+              "proof_of_DoubleLinkListInsertNodeAfter_entail_wit_1",
+              "proof_of_DoubleLinkListInsertNodeAfter_return_wit_1",
+              "proof_of_DoubleLinkListInsertNodeAfter_return_wit_2",
+              "proof_of_DoubleLinkListInsertNodeAfter_return_wit_3",
+              "proof_of_DoubleLinkListInsertNodeAfter_return_wit_4",
+              "proof_of_DoubleLinkListInsertNodeAfter_derive_sentinel_case_by_dispatch_case",
+              "proof_of_DoubleLinkListInsertNodeAfter_derive_member_case_by_dispatch_case"
+            ],
+            "representative_witness": "proof_of_DoubleLinkListInsertNodeAfter_entail_wit_1",
+            "shared_proof_pattern": "Expose store_dll/dllseg structure, instantiate the payload sequence described by xizi_insert_after_dispatch_payload, and reconstruct or consume store_dll using the same sentinel/member split.",
+            "shared_space_plan": "Use store_dll/dllseg unfolding plus dllseg_split for the entry decomposition and dllseg_concat for member-case returns; dispatch witnesses frame the same resources through wand adjunction.",
+            "shared_pure_plan": "Use anchor membership-or-sentinel, first-occurrence payload splitting, and the existing member-not-sentinel lemma; no arithmetic facts are required.",
+            "shared_refinement_plan": "No witness contains refinement or safeExec state.",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "All seven obligations are from one function, use the same DLL model and payload relation, and can be handled sequentially by one worker; seven is within the controller limit of twelve.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-vc-checking-group-plan/v1",
+        "source_goal_version": "e0bd74218da55771e77d73e4972c3f6ab180ae3b9609d39cd0ce12c6be49d604",
+        "target_witnesses": [
+          "proof_of_DoubleLinkListInsertNodeAfter_entail_wit_1",
+          "proof_of_DoubleLinkListInsertNodeAfter_return_wit_1",
+          "proof_of_DoubleLinkListInsertNodeAfter_return_wit_2",
+          "proof_of_DoubleLinkListInsertNodeAfter_return_wit_3",
+          "proof_of_DoubleLinkListInsertNodeAfter_return_wit_4",
+          "proof_of_DoubleLinkListInsertNodeAfter_derive_sentinel_case_by_dispatch_case",
+          "proof_of_DoubleLinkListInsertNodeAfter_derive_member_case_by_dispatch_case"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "insert_after_all",
+            "witness_names": [
+              "proof_of_DoubleLinkListInsertNodeAfter_entail_wit_1",
+              "proof_of_DoubleLinkListInsertNodeAfter_return_wit_1",
+              "proof_of_DoubleLinkListInsertNodeAfter_return_wit_2",
+              "proof_of_DoubleLinkListInsertNodeAfter_return_wit_3",
+              "proof_of_DoubleLinkListInsertNodeAfter_return_wit_4",
+              "proof_of_DoubleLinkListInsertNodeAfter_derive_sentinel_case_by_dispatch_case",
+              "proof_of_DoubleLinkListInsertNodeAfter_derive_member_case_by_dispatch_case"
+            ],
+            "representative_witness": "proof_of_DoubleLinkListInsertNodeAfter_entail_wit_1",
+            "dependencies": [],
+            "candidate_helper_declarations": [],
+            "expected_helpers": [],
+            "proof_strategy": "Reuse the established proof structure with Import DLL and unqualified DLL names: first prove the four-way entry decomposition by sentinel/member and nil/cons splits; then reconstruct store_dll for the four return cases; finally discharge the sentinel/member dispatch wands. Use payload_first_split__payload_insert_after, dllseg_split, dllseg_concat, and store_dll_member_not_sentinel__insert_after_payload. No generated statement or seed declaration needs modification.",
+            "space_plan": {
+              "entry": "Unfold store_dll and occupy_dll_node; split the member dllseg at the first anchor occurrence.",
+              "returns": "Unfold store_dll and rebuild the circular list, using dllseg_concat for the two member cases.",
+              "dispatch": "Frame the existing resources and use sepcon adjunction to consume the dispatch result."
+            },
+            "pure_plan": {
+              "entry": "Construct sentinel or first-occurrence payload relations from the anchor case split.",
+              "returns": "Reuse the generated PreH payload relation after substituting the branch list equation.",
+              "dispatch": "Eliminate the impossible dispatch branch using anchor equality or member<>head."
+            },
+            "refinement_plan": "No refinement state.",
+            "premise_discharge": {
+              "payload_split": "payload_first_split__payload_insert_after from the entry membership hypothesis",
+              "member_not_head": "store_dll_member_not_sentinel__insert_after_payload from current membership and store_dll",
+              "segment_endpoints": "store_dll/dllseg existential structure and branch equalities"
+            },
+            "difficulty": "medium",
+            "confidence": "high",
+            "grouping_reason": "The witnesses belong to one function and one model, share the same payload and segment facts, and total 7 <= max_witnesses_per_group 12. Keeping them together minimizes worker spawns and lets one worker carry the entry split directly into the return and dispatch proof scripts."
+          }
+        ],
+        "blockers": []
+      },
+      "changed_files": [],
+      "blockers": []
+    }
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-09-22T06:31:16Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_double_link_insert_after-20260922120006/rounds/xizi_double_link_insert_after-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    },
+    "controller_simple_repairs": [
+      {
+        "kind": "materialized-inline-group-plan",
+        "source": "/home/yangfp/QCIP/reports/xizi_double_link_insert_after-20260922120006/rounds/xizi_double_link_insert_after-vc-checking-r1/agent_report.json",
+        "target": "/home/yangfp/QCIP/reports/xizi_double_link_insert_after-20260922120006/rounds/xizi_double_link_insert_after-vc-checking-r1/group_plan.json",
+        "reason": "vc-checking report included an inline group_plan but the default group_plan.json artifact was missing"
+      }
+    ],
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-09-22T06:31:16Z",
+      "source_version": {
+        "digest": "71fc49ec017852b01a0e62572d8493e2d49fe73d4c2b74cb6ecca51cd6109a0c",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_insert_after-20260922120006/xizi_double_link_insert_after-annotation-r1/OUTPUT/xizi/xizi_double_link_insert_after/source/xizi_double_link_insert_after.c",
+            "relative_path": "OUTPUT/xizi/xizi_double_link_insert_after/source/xizi_double_link_insert_after.c",
+            "role": "target-c-annotated",
+            "sha256": "a60bc73035707d1cf7f5144b41cfaaf78b0da264b7aa604ec2b8779f136dc077",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_insert_after-20260922120006/xizi_double_link_insert_after-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_after/source/xizi_double_link_insert_after_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_after/source/xizi_double_link_insert_after_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "0b27f3fc853e69974d16eac31cfe95dfb1a78f342a590be8006b3aa238ec3d6d",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "e0bd74218da55771e77d73e4972c3f6ab180ae3b9609d39cd0ce12c6be49d604",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_after/source/xizi_double_link_insert_after_goal.v",
+            "role": "generated-goal",
+            "sha256": "4cd0ec34f5e17bc2f31a6dc93f81258d69dec5fe05212d3bc5b0ba2debbbe75d",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_after/source/xizi_double_link_insert_after_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "527e4b2743051b92f3ad6ffa1b619112a6554bf83076e8937a8e1843816b8319",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_after/source/xizi_double_link_insert_after_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "07e1b5e9f42a15f0ffd04b7722b2cc1018ae5c31b0af6c3191411049ae148bd2",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_after/source/xizi_double_link_insert_after_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "da10886ba2feb2003f194ae1040ef6789c9ee4e010e4a2c5af01579e61c0ad19",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_after/source/xizi_double_link_insert_after_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "5c92bb62575b55da726894dfee4bbc51e1710851f98946be83735469fc06b962",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_after/source/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "331c14a9eba96e8c557c2e44c9cfe6629c5e08bc1baf8801d1b07362500aff11",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_DoubleLinkListInsertNodeAfter_entail_wit_1",
+          "proof_of_DoubleLinkListInsertNodeAfter_return_wit_1",
+          "proof_of_DoubleLinkListInsertNodeAfter_return_wit_2",
+          "proof_of_DoubleLinkListInsertNodeAfter_return_wit_3",
+          "proof_of_DoubleLinkListInsertNodeAfter_return_wit_4",
+          "proof_of_DoubleLinkListInsertNodeAfter_derive_sentinel_case_by_dispatch_case",
+          "proof_of_DoubleLinkListInsertNodeAfter_derive_member_case_by_dispatch_case"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_DoubleLinkListInsertNodeAfter_derive_member_case_by_dispatch_case": "af2d31414b0191820e60db3ab6639c0f75315af87652846d5adb7b53af25c3aa",
+          "proof_of_DoubleLinkListInsertNodeAfter_derive_sentinel_case_by_dispatch_case": "344e071f1c13b6c93149e0005b0f721fa74d6eb45b9890f9d8cd4e88ae6ba981",
+          "proof_of_DoubleLinkListInsertNodeAfter_entail_wit_1": "51fa632bdaa9cff2390be304ae48179d8f03bd1cd0418f158fe794cd7c3cbf26",
+          "proof_of_DoubleLinkListInsertNodeAfter_return_wit_1": "81fff0cb55524bb4895f505d8fc90a8b5261dc1694de6656b24f213976c3013c",
+          "proof_of_DoubleLinkListInsertNodeAfter_return_wit_2": "9ed52c1a127dedb98463fd34d699323eb63adbda266e86379166cbcfc57f3d7f",
+          "proof_of_DoubleLinkListInsertNodeAfter_return_wit_3": "2e215cafaf5b1661dde9f3d8349b5de69b105e26fe009979bf56a4c4b262455b",
+          "proof_of_DoubleLinkListInsertNodeAfter_return_wit_4": "c075635df4f3577a3e6daddf224ed5b78843523b8278b51cadb3fd431b74c714"
+        },
+        "witnesses": [
+          {
+            "end_line": 28,
+            "name": "proof_of_DoubleLinkListInsertNodeAfter_entail_wit_1",
+            "start_line": 26,
+            "statement_hash": "51fa632bdaa9cff2390be304ae48179d8f03bd1cd0418f158fe794cd7c3cbf26",
+            "target_symbol": "DoubleLinkListInsertNodeAfter_entail_wit_1"
+          },
+          {
+            "end_line": 31,
+            "name": "proof_of_DoubleLinkListInsertNodeAfter_return_wit_1",
+            "start_line": 29,
+            "statement_hash": "81fff0cb55524bb4895f505d8fc90a8b5261dc1694de6656b24f213976c3013c",
+            "target_symbol": "DoubleLinkListInsertNodeAfter_return_wit_1"
+          },
+          {
+            "end_line": 34,
+            "name": "proof_of_DoubleLinkListInsertNodeAfter_return_wit_2",
+            "start_line": 32,
+            "statement_hash": "9ed52c1a127dedb98463fd34d699323eb63adbda266e86379166cbcfc57f3d7f",
+            "target_symbol": "DoubleLinkListInsertNodeAfter_return_wit_2"
+          },
+          {
+            "end_line": 37,
+            "name": "proof_of_DoubleLinkListInsertNodeAfter_return_wit_3",
+            "start_line": 35,
+            "statement_hash": "2e215cafaf5b1661dde9f3d8349b5de69b105e26fe009979bf56a4c4b262455b",
+            "target_symbol": "DoubleLinkListInsertNodeAfter_return_wit_3"
+          },
+          {
+            "end_line": 40,
+            "name": "proof_of_DoubleLinkListInsertNodeAfter_return_wit_4",
+            "start_line": 38,
+            "statement_hash": "c075635df4f3577a3e6daddf224ed5b78843523b8278b51cadb3fd431b74c714",
+            "target_symbol": "DoubleLinkListInsertNodeAfter_return_wit_4"
+          },
+          {
+            "end_line": 43,
+            "name": "proof_of_DoubleLinkListInsertNodeAfter_derive_sentinel_case_by_dispatch_case",
+            "start_line": 41,
+            "statement_hash": "344e071f1c13b6c93149e0005b0f721fa74d6eb45b9890f9d8cd4e88ae6ba981",
+            "target_symbol": "DoubleLinkListInsertNodeAfter_derive_sentinel_case_by_dispatch_case"
+          },
+          {
+            "end_line": 46,
+            "name": "proof_of_DoubleLinkListInsertNodeAfter_derive_member_case_by_dispatch_case",
+            "start_line": 44,
+            "statement_hash": "af2d31414b0191820e60db3ab6639c0f75315af87652846d5adb7b53af25c3aa",
+            "target_symbol": "DoubleLinkListInsertNodeAfter_derive_member_case_by_dispatch_case"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_double_link_insert_after-20260922120006/rounds/xizi_double_link_insert_after-vc-checking-r1/group_plan.json",
+      "target_witnesses": [
+        "proof_of_DoubleLinkListInsertNodeAfter_entail_wit_1",
+        "proof_of_DoubleLinkListInsertNodeAfter_return_wit_1",
+        "proof_of_DoubleLinkListInsertNodeAfter_return_wit_2",
+        "proof_of_DoubleLinkListInsertNodeAfter_return_wit_3",
+        "proof_of_DoubleLinkListInsertNodeAfter_return_wit_4",
+        "proof_of_DoubleLinkListInsertNodeAfter_derive_sentinel_case_by_dispatch_case",
+        "proof_of_DoubleLinkListInsertNodeAfter_derive_member_case_by_dispatch_case"
+      ]
+    }
+  },
+  "blockers": []
+}

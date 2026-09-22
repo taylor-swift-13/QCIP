@@ -1,0 +1,61 @@
+{
+  "schema_version": "qcp-group-plan/v1",
+  "source_goal_version": "0a6fb7ffec09df2c7948aa15b21771d516727a8d2649a49765360ef7f445e9e0",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_insert_after_entail_wit_1",
+    "proof_of_xizi_double_link_insert_after_return_wit_1",
+    "proof_of_xizi_double_link_insert_after_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "dll_insert_after_first_occurrence_relink",
+      "witness_names": [
+        "proof_of_xizi_double_link_insert_after_entail_wit_1",
+        "proof_of_xizi_double_link_insert_after_return_wit_1",
+        "proof_of_xizi_double_link_insert_after_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_insert_after_entail_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "For entail_wit_1, derive the anchor's first-occurrence split from In, recursively split xizi_dllseg, prove the Fixpoint insertion equation across the no-anchor prefix, and destruct the suffix to expose either sentinel or old-successor fields. For return_wit_1, refold the nonempty successor cell, prepend anchor and inserted, join with the prefix, and close the DLL. For return_wit_2, use the same prepend/join route with the sentinel as successor and inserted as the last node. Derive address distinctness from separated field ownership using dup_store_ptr contradictions. Keep split/join helpers local to witness proof bodies; no case_lib helper is needed.",
+      "natural_language_proof_strategy": "Use the complete-sequence first-occurrence decomposition as the bridge between the pure API transform and heap ownership. The inserted node is independently owned, then spliced between the selected anchor and its old successor; empty and nonempty suffixes differ only in whether that successor is the sentinel or a data node.",
+      "grouping_reason": "Same function, first-occurrence transform, segment split/join, two-node prepend, spatial distinctness family, no dependencies, and three witnesses within max_witnesses_per_group=12.",
+      "confidence": "high",
+      "difficulty": "medium",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_insert_after_entail_wit_1": {
+          "judgment": "proofable",
+          "route": "first-occurrence decomposition, segment split, and suffix nil/cons case analysis"
+        },
+        "proof_of_xizi_double_link_insert_after_return_wit_1": {
+          "judgment": "proofable",
+          "route": "nonempty successor refold, anchor/inserted prepend, prefix join, and DLL close"
+        },
+        "proof_of_xizi_double_link_insert_after_return_wit_2": {
+          "judgment": "proofable",
+          "route": "sentinel successor, anchor/inserted prepend, prefix join, and tail DLL close"
+        }
+      },
+      "premise_discharge": {
+        "first_occurrence": "constructive decomposition from In with an anchor-free prefix",
+        "transform_equation": "unfold xizi_double_link_insert_after_nodes across the prefix and at the anchor",
+        "new_node_nonnull_and_distinct": "xizi_dll_node ownership separated from all existing DLL fields",
+        "non_tail_boundary": "nodes_after=old_next::rest plus one suffix-segment unfold",
+        "tail_boundary": "nodes_after=nil equates the old successor with head",
+        "ownership_preservation": "four updated boundary stores plus unchanged sentinel, prefix, and suffix resources"
+      }
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

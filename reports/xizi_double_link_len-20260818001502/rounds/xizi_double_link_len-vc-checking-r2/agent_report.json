@@ -1,0 +1,677 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "vc_checking": {
+      "status": "completed",
+      "ready_for_vc_checking_check_round": true,
+      "source_version": "4ee4bd082ace588c1ee97e2cad8dad92db3a5aae1beace7ff4058226494a0727",
+      "source_goal_version": "1206ce91d4e832532c9f0f533765dd54598e4c23fad4e8fffc37525d7ef3a4bf",
+      "checked_witness_scope": [
+        "proof_of_xizi_double_link_len_entail_wit_1",
+        "proof_of_xizi_double_link_len_entail_wit_2_1",
+        "proof_of_xizi_double_link_len_entail_wit_2_2",
+        "proof_of_xizi_double_link_len_return_wit_1",
+        "proof_of_xizi_double_link_len_return_wit_2",
+        "proof_of_xizi_double_link_len_derive_nil_case_by_general"
+      ],
+      "summary": "All six current manual obligations are semantically provable from the accepted annotation and existing xizi_dll/xizi_dllseg definitions. The target VC definitions are byte-for-byte identical at the Definition-block level to the same six obligations in the allowed xizi_double_link_init_then_len reference case, whose proof route supplies additional feasibility evidence. No annotation/specification gap was found. The plan avoids every lemma named by docs/forbidden_lemma.md.",
+      "version_evidence": {
+        "status": "matched",
+        "source_files": {
+          "OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len.c": "b3fea9d26d81239383a97ec022c7092c705321efb631cc3fc35bbbe86274e7c7",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_lib.v": "ae0cb522ec6ca92a2d0d9f1d4cb9d4daf3d148ae83c4de08888246714b93602a"
+        },
+        "generated_files": {
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_goal.v": "bc71d690e24e35416e063d53b57196f29fbc72962fffef2923d6248e5443d969",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_proof_auto.v": "cd999dda473c80981f52d6706b81bb2193ecfe7a4d85b06998eecee1a652fdd4",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_proof_manual.v": "979fb9147608bdbea3bdd2caad338229ae71893ee22c65af30baff342a32c6fe",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_goal_check.v": "09aa0d3005f283da7b061f2dec6225e1addec4f6e7d3e02fdcfb6349cf79951f",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_proof_diagnostics.v": "06fadfad4cdc040078f03d6bba128239dc26424c236bcc8025964f187dab7e60",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/diagnostics_snapshot.json": "a1f24bed4d26e896d27c288ce80950b934a750a12491aecef310f937ab042080"
+        },
+        "manual_target_set_matches_source_goal_version": true,
+        "manual_target_count": 6,
+        "diagnostic_split_goals_treated_as_targets": false,
+        "reference_case": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_init_then_len/source",
+        "reference_definition_comparison": "all six target Definition blocks are identical"
+      },
+      "forbidden_lemma_review": {
+        "policy_source": ".agents/skills/verification-orchestrator/docs/forbidden_lemma.md",
+        "status": "passed-for-plan",
+        "forbidden_lemmas_requested_by_plan": [],
+        "reference_proof_textual_hits": [],
+        "instruction": "Group workers must retain the structural tactic/helper route and must not replace it with any forbidden logic_equiv_*, derivable1_*, coq_prop_andp_right, elim_wand_emp_emp, or forbidden sepcon/andp equivalence lemma."
+      },
+      "natural_language_analysis": {
+        "schema_version": "qcp-natural-language-vc-analysis/v1",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_xizi_double_link_len_entail_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "xizi_dll linklist_pre nodes_general",
+              "pre_pure": "The unfolded xizi_dll supplies linklist_pre <> 0.",
+              "pre_exists": "Unfolding xizi_dll supplies first and last together with the sentinel links and xizi_dllseg first linklist_pre linklist_pre last nodes_general.",
+              "post_spatial": "The same two sentinel stores and the same xizi_dllseg, re-associated as the first invariant branch.",
+              "post_pure": "nodes_general = [] ++ nodes_general, 0 = Zlength [], Zlength nodes_general = Zlength [] + Zlength nodes_general, done = [], and reflexive linklist equality.",
+              "post_exists": "Choose last, first, done := nil, and todo := nodes_general."
+            },
+            "witness_instantiation": "last and first come from unfolding xizi_dll; done is nil; todo is the original nodes_general.",
+            "space_plan": "Unfold xizi_dll/XiziDLL.dll and xizi_dll_links/XiziDLL.links, preserve the sentinel next/prev stores and dllseg exactly, then close the existential with structural cancellation/entailer.",
+            "pure_plan": "List simplification establishes nil ++ nodes_general = nodes_general and Zlength nil = 0; linklist_pre <> 0 is supplied by xizi_dll.",
+            "refinement_plan": "Not a safeExec/refinement VC.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "linklist_pre <> 0: obtained by unfolding xizi_dll",
+              "all list equalities: simplification of app nil and Zlength nil",
+              "all spatial resources: reused from the unfolded predicate without loss"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "invariant_entry",
+            "grouping_reason": "Unique invariant-initialization shape: open xizi_dll and instantiate done/todo with nil and the original logical list."
+          },
+          {
+            "witness_name": "proof_of_xizi_double_link_len_entail_wit_2_1",
+            "judgment": "needs-helper",
+            "vc_shape": {
+              "pre_spatial": "Sentinel next/prev stores, a processed prefix dllseg ending at tmp_node, tmp_node links to next_2/prev_2, and a suffix dllseg from next_2 to the sentinel.",
+              "pre_pure": "next_2 <> linklist_pre; nodes_general = done_2 ++ todo_2; linklist_length = Zlength done_2; the length partition; done_2 = before_2 ++ [tmp_node]; tmp_node is non-null and not the sentinel.",
+              "pre_exists": "Unfolding the suffix dllseg after ruling out todo_2 = nil supplies rest and next_3, with todo_2 = next_2 :: rest and links for next_2.",
+              "post_spatial": "Invariant second branch at next_2: prefix dllseg extended by tmp_node, links of next_2, and the remaining suffix dllseg.",
+              "post_pure": "Updated partition done = before_2 ++ [tmp_node] ++ [next_2], todo = rest, plus unsigned_last_nbits(linklist_length+1,32) = Zlength done.",
+              "post_exists": "Choose next_3, tmp_node, last_2, first_2, before_2 ++ [tmp_node], (before_2 ++ [tmp_node]) ++ [next_2], and rest."
+            },
+            "witness_instantiation": "The new current node is next_2; next_3/rest come from unfolding todo_2's nonempty dllseg; the new done list is old before_2 snoc tmp_node and then snoc next_2.",
+            "space_plan": "Show todo_2 cannot be nil because an empty suffix would force next_2 = linklist_pre. Unfold one suffix node. Use a proved dllseg-snoc helper to move tmp_node and its link into the prefix while retaining next_2's links and the remaining suffix. A duplicate-store contradiction rules out tmp_node = next_2.",
+            "pure_plan": "A memory-capacity helper derives 0 <= Zlength(new_done) < 2^32 from the owned aligned pointer stores. Rewrite unsigned_last_nbits using that bound. Then use PreH2, PreH4, PreH6, Zlength_app/cons/nil, app_assoc, and ring-normal arithmetic for the updated partition and counter equation.",
+            "refinement_plan": "Not a safeExec/refinement VC.",
+            "used_existing_lemmas": [
+              "dup_store_ptr",
+              "store_ptr_align4",
+              "store_align4_merge",
+              "store_align4_n_valid",
+              "Zlength_nonneg",
+              "unsigned_last_nbits_eq"
+            ],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "xizi_dll_links_nodes_neq",
+                "statement_shape": "xizi_dll_links x nx px ** xizi_dll_links y ny py |-- pure (x <> y)",
+                "used_by_witnesses": [
+                  "proof_of_xizi_double_link_len_entail_wit_2_1",
+                  "proof_of_xizi_double_link_len_return_wit_1"
+                ],
+                "premises": [
+                  {
+                    "premise": "two separately owned link predicates",
+                    "discharged_by": "current spatial preconditions after regrouping; equality of node addresses would yield duplicate ownership of the same next-field store via dup_store_ptr",
+                    "needs_unfold": [
+                      "xizi_dll_links",
+                      "XiziDLL.links"
+                    ],
+                    "arithmetic": "none",
+                    "spatial_resource": "both nodes' next and prev stores"
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              },
+              {
+                "name_hint": "xizi_dllseg_snoc",
+                "statement_shape": "stop <> 0 -> stop <> next -> dllseg start previous stop last xs ** links stop next last ** links next after stop |-- dllseg start previous next stop (xs ++ [stop]) ** links next after stop",
+                "used_by_witnesses": [
+                  "proof_of_xizi_double_link_len_entail_wit_2_1",
+                  "proof_of_xizi_double_link_len_return_wit_1"
+                ],
+                "premises": [
+                  {
+                    "premise": "stop <> 0 and stop <> next",
+                    "discharged_by": "PreH7 and the links-nodes-neq consequence in entail_wit_2_1; PreH7 and PreH8 in return_wit_1",
+                    "needs_unfold": [
+                      "xizi_dllseg",
+                      "XiziDLL.dllseg"
+                    ],
+                    "arithmetic": "none",
+                    "spatial_resource": "prefix dllseg and the two adjacent node-link predicates"
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              },
+              {
+                "name_hint": "xizi_dllseg_links_length_bound_keep",
+                "statement_shape": "dllseg node previous stop last xs ** (links stop next after ** P) |-- pure (0 <= Zlength(xs ++ [stop]) < 2^32) && the unchanged spatial frame",
+                "used_by_witnesses": [
+                  "proof_of_xizi_double_link_len_entail_wit_2_1"
+                ],
+                "premises": [
+                  {
+                    "premise": "owned dllseg plus stop-node link stores",
+                    "discharged_by": "the post-snoc prefix and retained next_2 links in the current VC",
+                    "needs_unfold": [
+                      "xizi_dllseg",
+                      "xizi_dll_links"
+                    ],
+                    "arithmetic": "derive the pointer-store count bound with store_align4_n_valid, then bound Zlength xs + 1 below 2^32",
+                    "spatial_resource": "all pointer stores of the finite prefix plus the stop-node links"
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "premise_discharge": [
+              "todo_2 nonempty: empty dllseg implies next_2 = linklist_pre, contradicting PreH1",
+              "tmp_node <> next_2: separate ownership of both nodes' link fields and dup_store_ptr contradiction",
+              "counter does not wrap: store-alignment capacity bound on the extended prefix gives 0 <= linklist_length+1 < 2^32",
+              "updated list equations: PreH2, PreH4, PreH6 plus app_assoc and Zlength_app/cons/nil"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "dll_loop_shape",
+            "grouping_reason": "Shares dllseg unfolding/snoc, node-distinctness, and counter-length helper family with the loop return witness."
+          },
+          {
+            "witness_name": "proof_of_xizi_double_link_len_entail_wit_2_2",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "Sentinel next/prev stores and a dllseg from first_2 back to the sentinel.",
+              "pre_pure": "first_2 <> linklist_pre; nodes_general = done_2 ++ todo_2; linklist_length = Zlength done_2; done_2 = nil; tmp_node = linklist_pre.",
+              "pre_exists": "Unfolding the nonempty dllseg supplies next_2 and rest with todo_2 = first_2 :: rest.",
+              "post_spatial": "Second invariant branch with an empty prefix before first_2, first_2's two link stores, and suffix rest.",
+              "post_pure": "done becomes [first_2], todo becomes rest, and unsigned_last_nbits(0+1,32)=1.",
+              "post_exists": "Choose next_2, linklist_pre, last_2, first_2, nil, [first_2], and rest."
+            },
+            "witness_instantiation": "first_2 is the first processed real node; rest/next_2 come from one-step dllseg unfolding; before is nil and done is [first_2].",
+            "space_plan": "todo_2 cannot be nil because empty dllseg would force first_2 = linklist_pre. Unfold one node; use the resulting first_2 links as the current-node stores and fold an empty prefix dllseg from first_2 to itself.",
+            "pure_plan": "Substitute tmp_node, done_2, linklist_length, and nodes_general. Simplify unsigned_last_nbits 1 32 and use Zlength_app/cons/nil plus ring for the partition equation.",
+            "refinement_plan": "Not a safeExec/refinement VC.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "todo_2 nonempty: PreH1 contradicts the equality carried by an empty dllseg",
+              "first_2 <> 0 and first_2 <> linklist_pre: obtained from the nonempty dllseg branch and PreH1",
+              "all counter/list equations: substitutions and Zlength simplification"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "dll_loop_shape",
+            "grouping_reason": "Same loop-invariant transition and one-step dllseg unfolding as entail_wit_2_1, but it is the initial done=nil branch."
+          },
+          {
+            "witness_name": "proof_of_xizi_double_link_len_return_wit_1",
+            "judgment": "needs-helper",
+            "vc_shape": {
+              "pre_spatial": "Sentinel links, prefix dllseg through before, tmp_node links back to the sentinel, and suffix dllseg whose start equals the sentinel.",
+              "pre_pure": "next = linklist_pre; nodes_general = done ++ todo; linklist_length = Zlength done; done = before ++ [tmp_node]; tmp_node is non-null and not the sentinel.",
+              "pre_exists": "The empty suffix branch equates its last predecessor with tmp_node.",
+              "post_spatial": "xizi_dll linklist_pre nodes_general (or its opened dllseg form in the alternative generated branch).",
+              "post_pure": "linklist_length = Zlength nodes_general.",
+              "post_exists": "No new logical-list witness in the selected left branch."
+            },
+            "witness_instantiation": "The suffix must be nil because it starts at the stop sentinel; therefore nodes_general = before ++ [tmp_node] and the prefix can be closed into the original xizi_dll.",
+            "space_plan": "Select the left disjunct. Substitute next. Unfold the suffix dllseg: its nonempty branch contradicts node <> stop; its empty branch yields last = tmp_node. Regroup the prefix, tmp_node links, and sentinel links; apply the shared dllseg-snoc helper and then xizi_dll_close.",
+            "pure_plan": "Use todo = nil from the suffix case, PreH2, PreH4, PreH6, and app_nil_r to obtain linklist_length = Zlength nodes_general.",
+            "refinement_plan": "Not a safeExec/refinement VC.",
+            "used_existing_lemmas": [
+              "xizi_dll_close"
+            ],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "xizi_dllseg_snoc",
+                "statement_shape": "The same group-local snoc lemma described for entail_wit_2_1.",
+                "used_by_witnesses": [
+                  "proof_of_xizi_double_link_len_entail_wit_2_1",
+                  "proof_of_xizi_double_link_len_return_wit_1"
+                ],
+                "premises": [
+                  {
+                    "premise": "tmp_node <> 0 and tmp_node <> linklist_pre",
+                    "discharged_by": "PreH7 and PreH8",
+                    "needs_unfold": [
+                      "xizi_dllseg",
+                      "XiziDLL.dllseg"
+                    ],
+                    "arithmetic": "none",
+                    "spatial_resource": "prefix dllseg, tmp_node links, and sentinel links"
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "premise_discharge": [
+              "suffix is empty: after next = linklist_pre, a nonempty dllseg at its stop is contradictory",
+              "snoc helper side conditions: PreH7 and PreH8",
+              "xizi_dll_close head non-null premise: PreH3",
+              "result length equality: PreH2, PreH4, PreH6 and todo=nil"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "dll_loop_shape",
+            "grouping_reason": "Consumes the same dllseg-snoc/node-ownership helper family as entail_wit_2_1 and closes the loop invariant at exit."
+          },
+          {
+            "witness_name": "proof_of_xizi_double_link_len_return_wit_2",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "Sentinel next/prev stores and dllseg first linklist_pre linklist_pre last todo.",
+              "pre_pure": "first = linklist_pre; nodes_general = done ++ todo; linklist_length = Zlength done; done = nil; tmp_node = linklist_pre; linklist_pre <> 0.",
+              "pre_exists": "The empty dllseg branch gives last = linklist_pre.",
+              "post_spatial": "xizi_dll linklist_pre nodes_general.",
+              "post_pure": "linklist_length = Zlength nodes_general.",
+              "post_exists": "No new witness in the selected left branch."
+            },
+            "witness_instantiation": "first = linklist_pre forces todo=nil; together with done=nil, nodes_general=nil and linklist_length=0.",
+            "space_plan": "Select the left disjunct. Substitute first/tmp_node/done/linklist_length/nodes_general. A nonempty dllseg at node=stop is contradictory; in the empty branch substitute last and apply xizi_dll_empty_rev to the sentinel links.",
+            "pure_plan": "The substitutions reduce the length equation to 0 = Zlength nil.",
+            "refinement_plan": "Not a safeExec/refinement VC.",
+            "used_existing_lemmas": [
+              "xizi_dll_empty_rev"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "xizi_dll_empty_rev non-null premise: PreH3",
+              "todo=nil: empty/nonempty case analysis of dllseg with first=stop",
+              "length equality: done=nil, todo=nil, and Zlength nil=0"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "dll_loop_shape",
+            "grouping_reason": "Same loop-exit closure cluster as return_wit_1; uses the empty-list specialization of the common DLL predicate."
+          },
+          {
+            "witness_name": "proof_of_xizi_double_link_len_derive_nil_case_by_general",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "xizi_dll linklist_pre nil.",
+              "pre_pure": "none beyond facts hidden in xizi_dll.",
+              "pre_exists": "none.",
+              "post_spatial": "Existential general precondition xizi_dll linklist_pre nodes_general, framed with a wand from the general post to the nil_case post.",
+              "post_pure": "Inside the wand, retval_2 = Zlength nodes_general must yield an existential retval = 0 when nodes_general=nil.",
+              "post_exists": "Choose nodes_general := nil and, inside the wand, retval := 0."
+            },
+            "witness_instantiation": "Specialize the general logical list to nil; reuse the incoming xizi_dll resource for the general precondition and again through the wand premise/post transition.",
+            "space_plan": "Expose an emp frame with sepcon_emp_equiv, cancel the original xizi_dll into the existential precondition, apply sepcon/wand adjunction, introduce the general return existential, and rebuild the nil_case result with the preserved xizi_dll.",
+            "pure_plan": "After nodes_general=nil, simplification gives Zlength nil=0; choose retval=0 and discharge the equality by simplification/entailer.",
+            "refinement_plan": "This is specification derivation rather than safeExec refinement; the wand explicitly connects the general post to the specialized nil_case post.",
+            "used_existing_lemmas": [
+              "sepcon_emp_equiv",
+              "apply_sepcon_adjoint"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "general precondition: the input xizi_dll linklist_pre nil with nodes_general=nil",
+              "general return equation: introduced from the wand antecedent",
+              "nil return equation: Zlength nil=0 and retval=0",
+              "nil spatial postcondition: the xizi_dll resource preserved through cancellation/adjunction"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "nil_refinement",
+            "grouping_reason": "Distinct higher-order sepcon/wand specialization pattern; it shares neither the invariant-entry nor dllseg-loop proof context."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "invariant_entry",
+            "witness_names": [
+              "proof_of_xizi_double_link_len_entail_wit_1"
+            ],
+            "representative_witness": "proof_of_xizi_double_link_len_entail_wit_1",
+            "shared_proof_pattern": "Open xizi_dll and instantiate the initial done/todo partition.",
+            "shared_space_plan": "Reuse the opened sentinel links and full dllseg without transformation.",
+            "shared_pure_plan": "Simplify nil list append and Zlength.",
+            "shared_refinement_plan": "none",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "Kept separate because its only context is invariant initialization and it does not use the loop helper family.",
+            "proof_group_ready": true
+          },
+          {
+            "group_id": "dll_loop_shape",
+            "witness_names": [
+              "proof_of_xizi_double_link_len_entail_wit_2_1",
+              "proof_of_xizi_double_link_len_entail_wit_2_2",
+              "proof_of_xizi_double_link_len_return_wit_1",
+              "proof_of_xizi_double_link_len_return_wit_2"
+            ],
+            "representative_witness": "proof_of_xizi_double_link_len_entail_wit_2_1",
+            "shared_proof_pattern": "Unfold xizi_dllseg at the current boundary, rule out impossible empty/nonempty branches, update or close the done/todo decomposition, and reuse the same node-ownership/dllseg-snoc helper family.",
+            "shared_space_plan": "One-step dllseg unfolding plus structural cancellation; entail_wit_2_1 and return_wit_1 share the snoc helper, while the two edge cases use the empty/singleton folds.",
+            "shared_pure_plan": "Use invariant equalities, Zlength_app/cons/nil and non-wrap bound for the increment branch; use nil simplification for exits.",
+            "shared_refinement_plan": "none",
+            "candidate_helper_declarations": [
+              "xizi_dll_links_nodes_neq with group suffix",
+              "xizi_dllseg_snoc with group suffix",
+              "xizi_dllseg_links_length_bound_keep and its internal alignment/bound support helpers with group suffix"
+            ],
+            "dependencies": [],
+            "grouping_reason": "All four are the same loop invariant family and can be handled consecutively by one worker while sharing suffixed helpers; group size 4 is below the limit 12.",
+            "proof_group_ready": true
+          },
+          {
+            "group_id": "nil_refinement",
+            "witness_names": [
+              "proof_of_xizi_double_link_len_derive_nil_case_by_general"
+            ],
+            "representative_witness": "proof_of_xizi_double_link_len_derive_nil_case_by_general",
+            "shared_proof_pattern": "Specialize the general spec to nodes=nil and prove the postcondition conversion through sepcon/wand adjunction.",
+            "shared_space_plan": "Frame/cancel the xizi_dll resource around the wand.",
+            "shared_pure_plan": "Zlength nil=0.",
+            "shared_refinement_plan": "general-to-nil_case contract derivation",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "Kept separate because the higher-order wand proof strategy and context are unrelated to dllseg invariant manipulation.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "group_plan_path": "/home/yangfp/QCIP/reports/xizi_double_link_len-20260818001502/rounds/xizi_double_link_len-vc-checking-r2/group_plan.json",
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "1206ce91d4e832532c9f0f533765dd54598e4c23fad4e8fffc37525d7ef3a4bf",
+        "target_witnesses": [
+          "proof_of_xizi_double_link_len_entail_wit_1",
+          "proof_of_xizi_double_link_len_entail_wit_2_1",
+          "proof_of_xizi_double_link_len_entail_wit_2_2",
+          "proof_of_xizi_double_link_len_return_wit_1",
+          "proof_of_xizi_double_link_len_return_wit_2",
+          "proof_of_xizi_double_link_len_derive_nil_case_by_general"
+        ],
+        "grouping_policy": {
+          "controller_policy": "bounded-witness-groups/v1",
+          "max_witnesses_per_group": 12,
+          "target_witness_count": 6
+        },
+        "proof_groups": [
+          {
+            "group_id": "invariant_entry",
+            "witness_names": [
+              "proof_of_xizi_double_link_len_entail_wit_1"
+            ],
+            "representative_witness": "proof_of_xizi_double_link_len_entail_wit_1",
+            "dependencies": [],
+            "candidate_helper_declarations": [],
+            "likely_helper_declarations": [],
+            "proof_strategy": "Select the first disjunct, unfold xizi_dll/XiziDLL.dll, instantiate done=nil and todo=nodes_general using the opened first/last values, unfold xizi_dll_links, and finish list facts plus unchanged spatial resources with direct cancel/entailer steps. Explicitly do not use derivable1_trans or sepcon_emp_logic_equiv'; the compliant replacement is direct predicate unfolding followed by structural cancellation of the unchanged stores and dllseg.",
+            "forbidden_lemma_avoidance": {
+              "forbidden": [
+                "derivable1_trans",
+                "sepcon_emp_logic_equiv'"
+              ],
+              "compliant_alternative": "Directly unfold xizi_dll and xizi_dll_links, instantiate the existentials, then use cancel/entailer on the identical spatial resources."
+            },
+            "natural_language_proof_pattern": "Open the list predicate and initialize the loop partition with an empty processed prefix.",
+            "shared_helper_candidates": [],
+            "proving_hints": [
+              "Use left; intros before unfolding xizi_dll.",
+              "Choose existential order last, first, nil, nodes_general.",
+              "Do not invoke any forbidden equivalence/refl/trans lemma."
+            ],
+            "grouping_reason": "Single invariant-entry witness with a small, self-contained predicate-opening proof; no shared helper family with later loop or wand goals.",
+            "difficulty": "easy",
+            "confidence": "high",
+            "grouping_confidence": "high",
+            "per_witness_plan": {
+              "proof_of_xizi_double_link_len_entail_wit_1": "Unfold xizi_dll, instantiate nil/nodes_general, and preserve spatial resources."
+            }
+          },
+          {
+            "group_id": "dll_loop_shape",
+            "witness_names": [
+              "proof_of_xizi_double_link_len_entail_wit_2_1",
+              "proof_of_xizi_double_link_len_entail_wit_2_2",
+              "proof_of_xizi_double_link_len_return_wit_1",
+              "proof_of_xizi_double_link_len_return_wit_2"
+            ],
+            "representative_witness": "proof_of_xizi_double_link_len_entail_wit_2_1",
+            "dependencies": [],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "xizi_dll_links_nodes_neq",
+                "statement_shape": "separate xizi_dll_links ownership for x and y entails x <> y",
+                "used_by_witnesses": [
+                  "proof_of_xizi_double_link_len_entail_wit_2_1",
+                  "proof_of_xizi_double_link_len_return_wit_1"
+                ],
+                "destination": "group-local case_lib; actual declaration name must end with the manifest suffix"
+              },
+              {
+                "name_hint": "xizi_dllseg_snoc",
+                "statement_shape": "extend a dllseg by its stop node when stop is non-null/distinct from next, preserving next links",
+                "used_by_witnesses": [
+                  "proof_of_xizi_double_link_len_entail_wit_2_1",
+                  "proof_of_xizi_double_link_len_return_wit_1"
+                ],
+                "destination": "group-local case_lib; actual declaration name must end with the manifest suffix"
+              },
+              {
+                "name_hint": "xizi_dllseg_links_length_bound_keep",
+                "statement_shape": "derive and retain 0 <= Zlength(xs ++ [stop]) < 2^32 from dllseg plus stop links",
+                "used_by_witnesses": [
+                  "proof_of_xizi_double_link_len_entail_wit_2_1"
+                ],
+                "destination": "group-local case_lib; actual declaration name and any support helper names must end with the manifest suffix"
+              }
+            ],
+            "likely_helper_declarations": [
+              "xizi_dll_links_nodes_neq__dll_loop_shape",
+              "xizi_dllseg_snoc__dll_loop_shape",
+              "xizi_dllseg_links_length_bound_keep__dll_loop_shape",
+              "optional internal align/bound helpers, all ending __dll_loop_shape"
+            ],
+            "proof_strategy": "Prove the helper family once in the group-local case_lib. For each transition/return witness select the left generated alternative, unfold the boundary dllseg, reject the impossible empty/nonempty case from node=stop facts, then either extend the processed prefix by snoc or close it with xizi_dll_close/xizi_dll_empty_rev. For entail_wit_2_1 derive the 32-bit non-wrap bound from owned aligned stores before rewriting unsigned_last_nbits; finish list partitions using the explicit invariant equalities and Zlength lemmas. Explicitly do not use derivable1_trans or sepcon_emp_logic_equiv'; compose spatial steps through sep_apply/sep_apply_l_atomic and proved suffixed helpers, and perform resource rearrangement with direct cancel blocks.",
+            "forbidden_lemma_avoidance": {
+              "forbidden": [
+                "derivable1_trans",
+                "sepcon_emp_logic_equiv'"
+              ],
+              "compliant_alternative": "Use one-step dllseg unfolding, direct cancel-based regrouping, sep_apply/sep_apply_l_atomic with the proved group-suffixed snoc/bound helpers, then xizi_dll_close or xizi_dll_empty_rev."
+            },
+            "natural_language_proof_pattern": "Maintain or close the done/todo DLL decomposition by one-step dllseg unfolding and a shared snoc/ownership helper family.",
+            "shared_helper_candidates": [
+              "node address distinctness from disjoint links ownership",
+              "dllseg snoc extension",
+              "pointer-store capacity to 32-bit list-length bound"
+            ],
+            "proving_hints": [
+              "The allowed reference xizi_double_link_init_then_len contains identical Definition blocks for all four witnesses.",
+              "Prefer xizi_dll_close and xizi_dll_empty_rev from QCIPLib for return closure.",
+              "Use unsigned_last_nbits_eq only after proving 0 <= linklist_length+1 < 2^32.",
+              "Keep all reusable helpers in group-local case_lib with suffix __dll_loop_shape; manual remains witness-only.",
+              "Forbidden-lemma list is binding; structural cancel/sep_apply/entailer and the listed allowed library lemmas suffice."
+            ],
+            "grouping_reason": "Same function, same invariant and dllseg proof pattern, and shared snoc/node-distinctness helpers. Grouping all four avoids helper duplication and remains well below max_witnesses_per_group=12.",
+            "difficulty": "hard",
+            "confidence": "high",
+            "grouping_confidence": "high",
+            "per_witness_plan": {
+              "proof_of_xizi_double_link_len_entail_wit_2_1": "Unfold nonempty suffix, snoc tmp_node into prefix, prove non-wrap, instantiate updated invariant.",
+              "proof_of_xizi_double_link_len_entail_wit_2_2": "Unfold first suffix node from the done=nil branch and instantiate singleton done.",
+              "proof_of_xizi_double_link_len_return_wit_1": "Force suffix=nil, snoc tmp_node into prefix, close xizi_dll, derive final length.",
+              "proof_of_xizi_double_link_len_return_wit_2": "Force empty list at sentinel and close with xizi_dll_empty_rev."
+            }
+          },
+          {
+            "group_id": "nil_refinement",
+            "witness_names": [
+              "proof_of_xizi_double_link_len_derive_nil_case_by_general"
+            ],
+            "representative_witness": "proof_of_xizi_double_link_len_derive_nil_case_by_general",
+            "dependencies": [],
+            "candidate_helper_declarations": [],
+            "likely_helper_declarations": [],
+            "proof_strategy": "Unfold the derivation VC, choose nodes_general=nil, expose an emp frame with allowed sepcon_emp_equiv, cancel the incoming xizi_dll into the general precondition, apply allowed sepcon/wand adjunction, introduce the general return, choose retval=0, simplify Zlength nil, and preserve xizi_dll. Explicitly do not use derivable1_trans or sepcon_emp_logic_equiv'; sepcon_emp_equiv followed by direct cancel and apply_sepcon_adjoint is the compliant route.",
+            "forbidden_lemma_avoidance": {
+              "forbidden": [
+                "derivable1_trans",
+                "sepcon_emp_logic_equiv'"
+              ],
+              "compliant_alternative": "Use the allowed sepcon_emp_equiv rewrite, direct cancellation of xizi_dll, and apply_sepcon_adjoint to introduce the wand premise."
+            },
+            "natural_language_proof_pattern": "General-to-specialized contract derivation through a separating implication, with nodes fixed to nil.",
+            "shared_helper_candidates": [],
+            "proving_hints": [
+              "Use sepcon_emp_equiv and apply_sepcon_adjoint; neither is in the forbidden list.",
+              "Do not replace this route with elim_wand_emp_emp or forbidden logic-equivalence/transitivity lemmas.",
+              "The existential order is nodes_general=nil first, then retval=0 inside the wand."
+            ],
+            "grouping_reason": "Higher-order wand/specification specialization has a distinct context and proof strategy, so it is isolated from the four dllseg loop witnesses.",
+            "difficulty": "easy",
+            "confidence": "high",
+            "grouping_confidence": "high",
+            "per_witness_plan": {
+              "proof_of_xizi_double_link_len_derive_nil_case_by_general": "Specialize nodes to nil and discharge the general-post-to-nil-post wand."
+            }
+          }
+        ],
+        "blockers": []
+      },
+      "changed_files": [],
+      "blockers": [],
+      "recommended_next_phase": "vc-proving-preparing"
+    }
+  },
+  "verification_result": {
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-08-17T18:28:45Z",
+      "source_version": {
+        "digest": "4ee4bd082ace588c1ee97e2cad8dad92db3a5aae1beace7ff4058226494a0727",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_len-20260818001502/xizi_double_link_len-annotation-r1/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len.c",
+            "relative_path": "OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len.c",
+            "role": "target-c-annotated",
+            "sha256": "b3fea9d26d81239383a97ec022c7092c705321efb631cc3fc35bbbe86274e7c7",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_len-20260818001502/xizi_double_link_len-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "ae0cb522ec6ca92a2d0d9f1d4cb9d4daf3d148ae83c4de08888246714b93602a",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "1206ce91d4e832532c9f0f533765dd54598e4c23fad4e8fffc37525d7ef3a4bf",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_goal.v",
+            "role": "generated-goal",
+            "sha256": "bc71d690e24e35416e063d53b57196f29fbc72962fffef2923d6248e5443d969",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "cd999dda473c80981f52d6706b81bb2193ecfe7a4d85b06998eecee1a652fdd4",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "979fb9147608bdbea3bdd2caad338229ae71893ee22c65af30baff342a32c6fe",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "09aa0d3005f283da7b061f2dec6225e1addec4f6e7d3e02fdcfb6349cf79951f",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "06fadfad4cdc040078f03d6bba128239dc26424c236bcc8025964f187dab7e60",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "a1f24bed4d26e896d27c288ce80950b934a750a12491aecef310f937ab042080",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_xizi_double_link_len_entail_wit_1",
+          "proof_of_xizi_double_link_len_entail_wit_2_1",
+          "proof_of_xizi_double_link_len_entail_wit_2_2",
+          "proof_of_xizi_double_link_len_return_wit_1",
+          "proof_of_xizi_double_link_len_return_wit_2",
+          "proof_of_xizi_double_link_len_derive_nil_case_by_general"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_xizi_double_link_len_derive_nil_case_by_general": "99a9c0cf8d7f75ba03cf5ac331a8aaf1ed2cc2a5bd21590a36dd04cddd0d0aaa",
+          "proof_of_xizi_double_link_len_entail_wit_1": "501b17f401ef8b6bc65d967d2cb6a0d20caa2bd54457ecd3a5d1bee6ba6b034d",
+          "proof_of_xizi_double_link_len_entail_wit_2_1": "6e501bb503e5c54992e897c28376c1eb1d2d4a08c3ab4c2a31de9c7b371f17b9",
+          "proof_of_xizi_double_link_len_entail_wit_2_2": "1e8f0b8430e9dea3075870083a772b53fc829283e37e525f45264165ca644763",
+          "proof_of_xizi_double_link_len_return_wit_1": "2911228f1b7b5d932143ba6c665840f3c6532c039558a63394c3f48b1b338d9b",
+          "proof_of_xizi_double_link_len_return_wit_2": "2856bca0f76d06f0abfbd93a897baadee91559aa150e8522154e743016207fda"
+        },
+        "witnesses": [
+          {
+            "end_line": 27,
+            "name": "proof_of_xizi_double_link_len_entail_wit_1",
+            "start_line": 25,
+            "statement_hash": "501b17f401ef8b6bc65d967d2cb6a0d20caa2bd54457ecd3a5d1bee6ba6b034d",
+            "target_symbol": "xizi_double_link_len_entail_wit_1"
+          },
+          {
+            "end_line": 30,
+            "name": "proof_of_xizi_double_link_len_entail_wit_2_1",
+            "start_line": 28,
+            "statement_hash": "6e501bb503e5c54992e897c28376c1eb1d2d4a08c3ab4c2a31de9c7b371f17b9",
+            "target_symbol": "xizi_double_link_len_entail_wit_2_1"
+          },
+          {
+            "end_line": 33,
+            "name": "proof_of_xizi_double_link_len_entail_wit_2_2",
+            "start_line": 31,
+            "statement_hash": "1e8f0b8430e9dea3075870083a772b53fc829283e37e525f45264165ca644763",
+            "target_symbol": "xizi_double_link_len_entail_wit_2_2"
+          },
+          {
+            "end_line": 36,
+            "name": "proof_of_xizi_double_link_len_return_wit_1",
+            "start_line": 34,
+            "statement_hash": "2911228f1b7b5d932143ba6c665840f3c6532c039558a63394c3f48b1b338d9b",
+            "target_symbol": "xizi_double_link_len_return_wit_1"
+          },
+          {
+            "end_line": 39,
+            "name": "proof_of_xizi_double_link_len_return_wit_2",
+            "start_line": 37,
+            "statement_hash": "2856bca0f76d06f0abfbd93a897baadee91559aa150e8522154e743016207fda",
+            "target_symbol": "xizi_double_link_len_return_wit_2"
+          },
+          {
+            "end_line": 42,
+            "name": "proof_of_xizi_double_link_len_derive_nil_case_by_general",
+            "start_line": 40,
+            "statement_hash": "99a9c0cf8d7f75ba03cf5ac331a8aaf1ed2cc2a5bd21590a36dd04cddd0d0aaa",
+            "target_symbol": "xizi_double_link_len_derive_nil_case_by_general"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_double_link_len-20260818001502/rounds/xizi_double_link_len-vc-checking-r2/group_plan.json",
+      "target_witnesses": [
+        "proof_of_xizi_double_link_len_entail_wit_1",
+        "proof_of_xizi_double_link_len_entail_wit_2_1",
+        "proof_of_xizi_double_link_len_entail_wit_2_2",
+        "proof_of_xizi_double_link_len_return_wit_1",
+        "proof_of_xizi_double_link_len_return_wit_2",
+        "proof_of_xizi_double_link_len_derive_nil_case_by_general"
+      ]
+    }
+  },
+  "blockers": []
+}

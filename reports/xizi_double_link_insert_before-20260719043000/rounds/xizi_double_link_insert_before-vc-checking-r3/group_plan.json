@@ -1,0 +1,108 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "f37f04779a6ab9e65896e4e66711045fb6c84e5e5e199a01912a0550983c9ab0",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_insert_before_entail_wit_1",
+    "proof_of_xizi_double_link_insert_before_return_wit_1",
+    "proof_of_xizi_double_link_insert_before_return_wit_2"
+  ],
+  "coverage": {
+    "expected_count": 3,
+    "assigned_count": 3,
+    "exact_match": "yes",
+    "duplicates": [],
+    "unassigned": []
+  },
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  },
+  "proof_groups": [
+    {
+      "group_id": "dll_insert_before_split_splice",
+      "witness_names": [
+        "proof_of_xizi_double_link_insert_before_entail_wit_1",
+        "proof_of_xizi_double_link_insert_before_return_wit_1",
+        "proof_of_xizi_double_link_insert_before_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_insert_before_return_wit_1",
+      "dependencies": [],
+      "likely_helper_declarations": [
+        "xizi_dll_focus_before",
+        "xizi_dllseg_splice"
+      ],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "xizi_dll_focus_before",
+          "destination": "group-local case_lib with required group-id suffix",
+          "statement_shape": "Inductively partition xizi_dll head (prefix ++ target :: suffix) into either the empty-prefix sentinel/target/suffix layout or an existential predecessor-focused prefix0/prev/target/suffix layout."
+        },
+        {
+          "name_hint": "xizi_dllseg_splice",
+          "destination": "group-local case_lib with required group-id suffix",
+          "statement_shape": "forall first start pivot before next stop last prefix suffix, pivot<>0 -> pivot<>stop -> dllseg(first,start,pivot,before,prefix) ** links(pivot,next,before) ** dllseg(next,pivot,stop,last,suffix) |-- dllseg(first,start,stop,last,prefix++pivot::suffix)."
+        }
+      ],
+      "natural_language_proof_strategy": "Prove both group-suffixed helpers by structural induction on the logical prefix. For entail_wit_1 apply the focus helper, frame the fresh fields, and derive fresh-node non-alias conditions by explicit points-to exclusivity. For return_wit_1 select the second Coq disjunct, fold the fresh node and target into two dllseg constructors, splice at prev, and rewrite PreH7. For return_wit_2 select the first Coq disjunct, substitute the empty-prefix equalities, instantiate xizi_dll with first=linklist_node_pre and last=last, and fold two dllseg constructors directly.",
+      "proof_strategy": "Forbidden-free constructive separation proof using only structural induction, dll/dllseg unfold-fold, Intros/Exists, explicit pure rewrites, and audited sep_apply/direct cancellation steps. No generated file or witness statement may change.",
+      "forbidden_free_requirement": {
+        "required": "yes",
+        "forbidden_lemmas_must_not_appear": [
+          "logic_equiv_refl",
+          "elim_wand_emp_emp",
+          "logic_equiv_symm",
+          "sepcon_emp_logic_equiv'",
+          "logic_equiv_andp_comm",
+          "logic_equiv_sepcon_comm",
+          "logic_equiv_sepcon_emp",
+          "logic_equiv_andp_truep",
+          "logic_equiv_truep_andp",
+          "truep_andp_right_equiv",
+          "logic_equiv_orp_comm",
+          "logic_equiv_trans",
+          "logic_equiv_orp_assoc",
+          "logic_equiv_sepcon_assoc",
+          "logic_equiv_andp_assoc",
+          "logic_equiv_sepcon_orp",
+          "logic_equiv_sepcon_orp_distr",
+          "logic_equiv_orp_sepcon",
+          "derivable1_trans",
+          "derivable1_refl",
+          "derivable1_sepcon_comm",
+          "coq_prop_andp_right",
+          "derivable1_sepcon_mono"
+        ],
+        "black_box_entailment_shortcut_allowed": "no",
+        "admitted_or_axiom_allowed": "no",
+        "verification": "Scan every assigned proof body and the group-local case_lib; reject any forbidden hit."
+      },
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_insert_before_entail_wit_1": {
+          "judgment": "needs-helper",
+          "branch_plan": "destruct prefix and construct the matching assertion-level disjunct",
+          "helper": "xizi_dll_focus_before with group suffix"
+        },
+        "proof_of_xizi_double_link_insert_before_return_wit_1": {
+          "judgment": "needs-helper",
+          "branch_plan": "select second Coq disjunct",
+          "helper": "xizi_dllseg_splice with group suffix"
+        },
+        "proof_of_xizi_double_link_insert_before_return_wit_2": {
+          "judgment": "proofable",
+          "branch_plan": "select first Coq disjunct",
+          "helper": "none required"
+        }
+      },
+      "grouping_reason": "All targets are from one function and one inverse dll/dllseg split-splice family, share the same helper context, have no dependency ordering, and total only 3 witnesses under the bound of 12. One group is therefore exact minimal coverage.",
+      "difficulty": "medium",
+      "confidence": "high"
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true
+}

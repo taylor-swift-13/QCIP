@@ -1,0 +1,83 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "6cfeb9342053d5d6debdb9927da1d53ef61429623851cc37c17625414a3838c6",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_remove_node_entail_wit_1",
+    "proof_of_xizi_double_link_remove_node_return_wit_1",
+    "proof_of_xizi_double_link_remove_node_derive_remove_tail_spec_by_strong_spec",
+    "proof_of_xizi_double_link_remove_node_derive_remove_front_spec_by_strong_spec",
+    "proof_of_xizi_double_link_remove_node_derive_remove_member_spec_by_strong_spec"
+  ],
+  "witness_statement_hashes": {
+    "proof_of_xizi_double_link_remove_node_entail_wit_1": "15131f62a565c02c90bd9473c3762483be3eb1f3f0deda23f90b511bd367dc29",
+    "proof_of_xizi_double_link_remove_node_return_wit_1": "93c995779dcc67a2605d1aeacaf52a0c1720375c9a9624bde99556b4dc340b42",
+    "proof_of_xizi_double_link_remove_node_derive_remove_tail_spec_by_strong_spec": "b0e50761c2cfc4380736bbd0a1e4ad2ab1f44ee5dfef582c6410fbe50f05ddec",
+    "proof_of_xizi_double_link_remove_node_derive_remove_front_spec_by_strong_spec": "13d9fbc055416ff89474703515b9790494628fde5cda78f97da1fc444385553e",
+    "proof_of_xizi_double_link_remove_node_derive_remove_member_spec_by_strong_spec": "a04f4c957b70e93889b03e654dcd316857da2ca8205f20d07823bfa002c7b0a0"
+  },
+  "proof_groups": [
+    {
+      "group_id": "dll_cut_split_reconnect",
+      "witness_names": [
+        "proof_of_xizi_double_link_remove_node_entail_wit_1",
+        "proof_of_xizi_double_link_remove_node_return_wit_1"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_remove_node_entail_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "expected_helpers": [],
+      "difficulty": "low",
+      "confidence": "high",
+      "proof_strategy": "Prove the entry witness by selecting its first disjunct, rewriting nodes with PreH1, applying xizi_dll_split_at_node__dll_cut_split_reconnect, instantiating the returned node_next/node_prev, and unfolding xizi_dll_next/xizi_dll_prev to match raw stores. Prove the return witness by selecting its first disjunct, unfolding the same one-field views, and applying xizi_dll_remove_result__dll_cut_split_reconnect with PreH1 as node non-nullness. No group-local helper is expected; avoid forbidden structural-equivalence lemmas and use the existing approved helper family directly.",
+      "grouping_reason": "The two witnesses are entry/exit halves of one circular-DLL cut/reconnect argument and share exactly the same approved case_lib vocabulary. The group has 2 witnesses, below the maximum of 12.",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_remove_node_entail_wit_1": "Rewrite the strong list equation, apply xizi_dll_split_at_node__dll_cut_split_reconnect, instantiate its cut endpoints, and unfold one-field predicates.",
+        "proof_of_xizi_double_link_remove_node_return_wit_1": "Unfold one-field predicates and apply xizi_dll_remove_result__dll_cut_split_reconnect using the generated node non-null premise."
+      }
+    },
+    {
+      "group_id": "strong_spec_derivations",
+      "witness_names": [
+        "proof_of_xizi_double_link_remove_node_derive_remove_tail_spec_by_strong_spec",
+        "proof_of_xizi_double_link_remove_node_derive_remove_front_spec_by_strong_spec",
+        "proof_of_xizi_double_link_remove_node_derive_remove_member_spec_by_strong_spec"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_remove_node_derive_remove_member_spec_by_strong_spec",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "expected_helpers": [],
+      "difficulty": "low",
+      "confidence": "high",
+      "proof_strategy": "For tail choose strong head=head_tail, nodes=prefix++[node], prefix=prefix, suffix=nil; for front choose head=head_front, nodes=node::suffix, prefix=nil, suffix=suffix. Allocate P to the strong-pre conjunct, introduce the residual wand with derivable1_wand_sepcon_adjoint, and simplify nil append so the wand returns its supplied resources unchanged. For member, destruct xizi_dll_remove_first_split__spec_derivations_direct on the In premise, choose its prefix/suffix, introduce the same wand, rewrite by the returned remove_first equality, and cancel. No group-local helper is expected. Keep all reusable facts in the existing seed case_lib and avoid every forbidden lemma.",
+      "grouping_reason": "All three weak contracts are direct specializations of strong_spec and share the same existential-and-wand proof pattern; member differs only by invoking the already approved remove-first split lemma. The group has 3 witnesses, below the maximum of 12.",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_remove_node_derive_remove_tail_spec_by_strong_spec": "Instantiate suffix_strong_spec=nil, introduce the wand, simplify prefix++nil, and return both supplied DLL resources unchanged.",
+        "proof_of_xizi_double_link_remove_node_derive_remove_front_spec_by_strong_spec": "Instantiate prefix_strong_spec=nil, introduce the wand, simplify nil append, and return both supplied DLL resources unchanged.",
+        "proof_of_xizi_double_link_remove_node_derive_remove_member_spec_by_strong_spec": "Use xizi_dll_remove_first_split__spec_derivations_direct to choose prefix/suffix, then rewrite the wand conclusion by the remove_first equality and cancel."
+      }
+    }
+  ],
+  "dependencies": [],
+  "likely_helper_declarations": [],
+  "blockers": [],
+  "grouping_policy_evidence": {
+    "controller_policy": "bounded-witness-groups/v1",
+    "target_witness_count": 5,
+    "max_witnesses_per_group": 12,
+    "balanced_grouping_required": "yes",
+    "largest_group_size": 3,
+    "policy_satisfied": true
+  },
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 5,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

@@ -1,0 +1,181 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "pending",
+  "terminal": "yes",
+  "agent_result": {
+    "vc_checking": {
+      "status": "blocked",
+      "source_version": "fd7990195cba4f226377325e50ba6ff8dc80aa0c2fce96a878c27cea564cafdf",
+      "source_goal_version": "0a4a7e17fde42d51bb49097b6826053f119f0602c6a6c2a815fbd9efdf33ac7c",
+      "ready_for_main_check": false,
+      "semantic_judgment": "annotation-bug-in-return-witnesses",
+      "recommended_next_phase": "annotation",
+      "version_evidence": {
+        "status": "matched",
+        "checked_files": {
+          "OUTPUT/xizi/xizi_double_link_next_rec_last/xizi_double_link_next_rec_last.c": "4625bfd843f4dd2b5230c0d113bed35f74caafa00b96e761a289ceb27d07f5c6",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next_rec_last/xizi_double_link_next_rec_last_lib.v": "a5de9c3abdad503e848a10c8accec253b2ed157c1c84f3b0edc717e158550f58",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next_rec_last/xizi_double_link_next_rec_last_goal.v": "2cac50e979307e076dbc1b8f9e997ae1566371960858686d863803bd1367ff4f",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next_rec_last/xizi_double_link_next_rec_last_proof_auto.v": "7f1af37c3c596a58a7d7d0da61b183c5afabc594eae8c27083bd0385cfc94048",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next_rec_last/xizi_double_link_next_rec_last_proof_manual.v": "0f84db59e23f9c1fcd56d46d24cfe73f630f84ddee68afe97c37904f26c662db",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next_rec_last/xizi_double_link_next_rec_last_goal_check.v": "eb3b957f7503f26d4aa8433232b0b36f44ee02585a9185c60218b0f8651f415b",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next_rec_last/xizi_double_link_next_rec_last_proof_diagnostics.v": "ce988f6e9854257ab7f0175ac0251b77436375e7902ae040ac444838c3e154d2",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next_rec_last/diagnostics_snapshot.json": "27cdde429c8e64dcde84057d7785205635972d99fa6bcb2c085ed79e52f1fca3"
+        },
+        "manual_target_witnesses_match_source_goal_version": true,
+        "manual_target_witnesses": [
+          "proof_of_xizi_double_link_next_rec_last_entail_wit_1",
+          "proof_of_xizi_double_link_next_rec_last_return_wit_1",
+          "proof_of_xizi_double_link_next_rec_last_return_wit_2"
+        ]
+      },
+      "natural_language_analysis": {
+        "summary": "The entry split entailment is semantically valid, but each return witness contains a second disjunct that asks three local segment resources to reconstruct a segment ending at linklist_pre without retaining any fact/resource that excludes linklist_pre from nodes_before. A prefix may therefore start at (or pass through) the final stop while remaining a valid segment to linklist_node_pre. The requested combined nonempty segment then starts at its own stop and is false by the explicit node <> stop guard in xizi_dllseg. This is an annotation/generated-VC shape bug, not a missing provable helper.",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_xizi_double_link_next_rec_last_entail_wit_1",
+            "judgment": "needs-helper",
+            "vc_shape": {
+              "pre_spatial": "Either xizi_dll linklist_pre (nodes_before ++ linklist_node_pre :: nodes_after), or the corresponding single xizi_dllseg.",
+              "pre_pure": "linklist_pre <> 0 and linklist_node_pre <> 0.",
+              "pre_exists": "The split predecessor and successor are not yet named.",
+              "post_spatial": "Prefix segment, linklist_node_pre links, suffix segment, and sentinel links in the whole-list disjunct.",
+              "post_pure": "linklist_node_pre <> 0.",
+              "post_exists": "node_prev and node_next at the pivot, plus first/last when opening xizi_dll."
+            },
+            "witness_instantiation": "Split the encoded list nodes_before ++ linklist_node_pre :: nodes_after at linklist_node_pre and instantiate its predecessor/successor.",
+            "space_plan": "Open xizi_dll in the first disjunct and apply an inductive split-at-pivot lemma; apply the same split directly to the second disjunct.",
+            "pure_plan": "PreH2 supplies the requested non-null fact. Internal dllseg cons facts discharge the split induction.",
+            "refinement_plan": "No refinement state occurs.",
+            "used_existing_lemmas": [
+              "xizi_dll_open"
+            ],
+            "candidate_helper_declarations": [
+              "xizi_dllseg_split_pivot"
+            ],
+            "premise_discharge": [
+              "The source segment itself encodes the complete concatenated logical list."
+            ],
+            "failure_signal": "None for this witness in isolation.",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": "not-proving-ready-due-to-round-blocker",
+            "grouping_reason": "Although locally proofable, no witness may be scheduled while sibling target witnesses expose an annotation bug."
+          },
+          {
+            "witness_name": "proof_of_xizi_double_link_next_rec_last_return_wit_1",
+            "judgment": "annotation-bug",
+            "vc_shape": {
+              "pre_spatial": "In the second disjunct only: a prefix segment ending at linklist_node_pre, linklist_node_pre links with node_next = linklist_pre, and an empty suffix segment at linklist_pre; sentinel links are absent.",
+              "pre_pure": "node_next = linklist_pre and linklist_node_pre <> 0; no first <> linklist_pre and no no-wrap property for nodes_before.",
+              "pre_exists": "None relevant to the missing fact.",
+              "post_spatial": "One xizi_dllseg from first to linklist_pre over nodes_before ++ linklist_node_pre :: nodes_after.",
+              "post_pure": "0 = xizi_double_link_next_rec_last_value nodes_after.",
+              "post_exists": "None."
+            },
+            "witness_instantiation": "The suffix equality does force nodes_after = nil and proves the value equation, but it does not constrain the earlier prefix against linklist_pre.",
+            "space_plan": "A generic concat-pivot lemma is invalid without a no-wrap premise: the prefix segment may own linklist_pre as an ordinary node before reaching linklist_node_pre.",
+            "pure_plan": "Missing fact: the nodes_before path does not contain linklist_pre (at minimum first <> linklist_pre is necessary but may not be sufficient for longer prefixes). It cannot be derived from the second disjunct because sentinel links are not framed there.",
+            "refinement_plan": "No refinement state occurs.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [],
+            "failure_signal": "Countermodel schema: choose nodes_before = [linklist_pre], first = linklist_pre, linklist_node_pre distinct and nonzero, node_next = linklist_pre, node_prev = linklist_pre, last = linklist_node_pre, nodes_after = nil. The pre-spatial resources form a two-node cycle and are satisfiable, but the post xizi_dllseg begins with a nonempty list at node = stop, contradicting its node <> stop conjunct.",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": "none",
+            "grouping_reason": "Semantically invalid witness cannot enter a proof group."
+          },
+          {
+            "witness_name": "proof_of_xizi_double_link_next_rec_last_return_wit_2",
+            "judgment": "annotation-bug",
+            "vc_shape": {
+              "pre_spatial": "In the second disjunct only: remaining suffix from next to linklist_pre, node_next links, prefix to linklist_node_pre, and linklist_node_pre links; sentinel links are absent.",
+              "pre_pure": "nodes_after = node_next :: l0, node_next <> linklist_pre, linklist_node_pre <> 0; no fact excludes linklist_pre from nodes_before.",
+              "pre_exists": "next and l0 are explicit.",
+              "post_spatial": "One xizi_dllseg from first to linklist_pre over nodes_before ++ linklist_node_pre :: nodes_after.",
+              "post_pure": "node_next = xizi_double_link_next_rec_last_value nodes_after.",
+              "post_exists": "None."
+            },
+            "witness_instantiation": "PreH1 proves the value equality, but does not establish that concatenating the prefix and suffix is acyclic relative to the final stop.",
+            "space_plan": "The explicit three-node resources can form a cycle whose prefix already starts at linklist_pre. Separation prevents duplicate field ownership but does not forbid linklist_pre from being owned only in the prefix when sentinel links are absent.",
+            "pure_plan": "Missing fact: linklist_pre does not occur in nodes_before/the prefix traversal. No current hypothesis discharges it.",
+            "refinement_plan": "No refinement state occurs.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [],
+            "failure_signal": "Countermodel schema: choose distinct nonzero linklist_pre, linklist_node_pre, node_next; let nodes_before = [linklist_pre], nodes_after = [node_next], l0 = nil, first = linklist_pre, next = linklist_pre, and choose endpoint predecessors consistently. The pre owns a three-node cycle linklist_pre -> linklist_node_pre -> node_next -> linklist_pre and is satisfiable, while the target nonempty dllseg starts at its stop and is false.",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": "none",
+            "grouping_reason": "Semantically invalid witness cannot enter a proof group."
+          }
+        ],
+        "analysis_groups": []
+      },
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "0a4a7e17fde42d51bb49097b6826053f119f0602c6a6c2a815fbd9efdf33ac7c",
+        "target_witnesses": [
+          "proof_of_xizi_double_link_next_rec_last_entail_wit_1",
+          "proof_of_xizi_double_link_next_rec_last_return_wit_1",
+          "proof_of_xizi_double_link_next_rec_last_return_wit_2"
+        ],
+        "proof_groups": [],
+        "blockers": [
+          {
+            "kind": "annotation-bug",
+            "blocker_class": "annotation-bug",
+            "witnesses": [
+              "proof_of_xizi_double_link_next_rec_last_return_wit_1",
+              "proof_of_xizi_double_link_next_rec_last_return_wit_2"
+            ],
+            "missing_fact": "The second disjuncts do not preserve sentinel ownership or a pure no-wrap property excluding linklist_pre from nodes_before/the prefix traversal.",
+            "recommended_next_phase": "annotation"
+          }
+        ]
+      },
+      "changed_files": [],
+      "blockers": [
+        {
+          "kind": "annotation-bug",
+          "blocker_class": "annotation-bug",
+          "message": "The second disjuncts of both return witnesses are semantically unprovable because local segment pieces can wrap through the final sentinel before the pivot, while the requested combined xizi_dllseg forbids a nonempty segment whose start equals its stop.",
+          "blocked_witnesses": [
+            {
+              "witness_name": "proof_of_xizi_double_link_next_rec_last_return_wit_1",
+              "missing_resource_or_fact": "sentinel links as a separating frame, or an annotation-approved no-wrap property for nodes_before/prefix",
+              "countermodel": "nodes_before = [linklist_pre], first = linklist_pre, nodes_after = nil, and two distinct nonzero nodes arranged as linklist_pre -> linklist_node_pre -> linklist_pre",
+              "recommended_next_phase": "annotation"
+            },
+            {
+              "witness_name": "proof_of_xizi_double_link_next_rec_last_return_wit_2",
+              "missing_resource_or_fact": "sentinel links as a separating frame, or an annotation-approved no-wrap property for nodes_before/prefix",
+              "countermodel": "nodes_before = [linklist_pre], nodes_after = [node_next], and three distinct nonzero nodes arranged as linklist_pre -> linklist_node_pre -> node_next -> linklist_pre",
+              "recommended_next_phase": "annotation"
+            }
+          ],
+          "recommended_rework": "Revise the local assertion/annotation so generated return obligations retain the whole xizi_dll (including sentinel links) through reconstruction, or enrich the approved abstraction/spec with a provable no-wrap/sentinel-exclusion property. Then rerun canonical symbolic execution; do not add an unsound generic concat helper.",
+          "recommended_next_phase": "annotation",
+          "source_version": "fd7990195cba4f226377325e50ba6ff8dc80aa0c2fce96a878c27cea564cafdf",
+          "source_goal_version": "0a4a7e17fde42d51bb49097b6826053f119f0602c6a6c2a815fbd9efdf33ac7c"
+        }
+      ],
+      "errors": []
+    }
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-07-19T03:21:36Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_double_link_next_rec_last-20260719043000/rounds/xizi_double_link_next_rec_last-vc-checking-r4/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    }
+  },
+  "blockers": [
+    {
+      "kind": "annotation-bug",
+      "message": "Current return VC second disjuncts lose the no-wrap/sentinel ownership needed for segment reassembly; see agent_result.vc_checking.blockers."
+    }
+  ]
+}

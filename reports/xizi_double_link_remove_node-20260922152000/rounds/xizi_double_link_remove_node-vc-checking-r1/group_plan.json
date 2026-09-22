@@ -1,0 +1,74 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "2cf1d760d4d20e05de286fbebafba6557219198fb8c25364e1e1ed81f212b0d6",
+  "target_witnesses": [
+    "proof_of_DoubleLinkListRmNode_entail_wit_1",
+    "proof_of_DoubleLinkListRmNode_return_wit_1",
+    "proof_of_DoubleLinkListRmNode_derive_remove_tail_spec_by_strong_spec",
+    "proof_of_DoubleLinkListRmNode_derive_remove_front_spec_by_strong_spec",
+    "proof_of_DoubleLinkListRmNode_derive_remove_member_spec_by_strong_spec"
+  ],
+  "grouping_rationale": "Two groups separate genuinely different proof strategies while keeping related witnesses together. Sizes 2 and 3 are below the maximum 12.",
+  "proof_groups": [
+    {
+      "group_id": "dll_operational_rebuild",
+      "witness_names": [
+        "proof_of_DoubleLinkListRmNode_entail_wit_1",
+        "proof_of_DoubleLinkListRmNode_return_wit_1"
+      ],
+      "representative_witness": "proof_of_DoubleLinkListRmNode_entail_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "Use bare canonical names under Import DLL. Entail: choose the first disjunct, substitute the decomposition, unfold store_dll, split/open dllseg, rewrite the removed pointer, convert prefix/suffix to shift views, instantiate next/prev, and cancel. Return: choose the first disjunct, build detached as empty store_dll, convert shift views to dllseg, concatenate, fold store_dll, and frame payload.",
+      "natural_language_proof_strategy": "Entail exposes the removed node and both list halves; return consumes the rewired halves and self-linked removed node to rebuild the remaining circular list.",
+      "grouping_reason": "Same segment and boundary-resource family with inverse transformations.",
+      "difficulty": "medium",
+      "confidence": "high",
+      "premise_discharge": {
+        "dllseg_split": "explicit list decomposition",
+        "removed_pointer": "explicit getPtr equality",
+        "segment_conversions": "all boundary fields occur in P"
+      },
+      "qualification_requirement": "Keep Import DLL and use bare DLL identifiers; do not introduce DLL. or DLL::.",
+      "forbidden_lemma_requirement": "Direct split/convert/concat and cancellation suffice; no forbidden lemma is permitted."
+    },
+    {
+      "group_id": "strong_spec_derivations",
+      "witness_names": [
+        "proof_of_DoubleLinkListRmNode_derive_remove_tail_spec_by_strong_spec",
+        "proof_of_DoubleLinkListRmNode_derive_remove_front_spec_by_strong_spec",
+        "proof_of_DoubleLinkListRmNode_derive_remove_member_spec_by_strong_spec"
+      ],
+      "representative_witness": "proof_of_DoubleLinkListRmNode_derive_remove_member_spec_by_strong_spec",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "Instantiate tail as (prefix,nil), front as (nil,suffix), and member using first_split__storeA_remove. Preserve the input store_dll as strong pre, introduce each post wand with derivable1_wand_sepcon_adjoint, normalize app, and cancel. For member unfold xizi_dll_remove_node_rel and discharge its decomposition and projection equality from the split lemma.",
+      "natural_language_proof_strategy": "Each public spec is a direct specialization of the strong spec; member chooses the first logical node whose projected address matches the requested node.",
+      "grouping_reason": "All three share the existential strong-spec plus magic-wand shape; member adds only one existing pure lemma.",
+      "difficulty": "low-medium",
+      "confidence": "high",
+      "premise_discharge": {
+        "tail_front": "definitional app simplification and explicit pointer equality",
+        "member_split": "membership is exactly first_split__storeA_remove's premise",
+        "member_relation": "split lemma supplies decomposition and projected remove_first equality"
+      },
+      "qualification_requirement": "Use bare canonical DLL names under Import DLL.",
+      "forbidden_lemma_requirement": "derivable1_wand_sepcon_adjoint is allowed; no forbidden transitivity, monotonicity, or equivalence lemma."
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 5,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

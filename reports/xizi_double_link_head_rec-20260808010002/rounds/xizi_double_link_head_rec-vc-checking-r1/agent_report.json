@@ -1,0 +1,233 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "pending",
+  "terminal": "no",
+  "agent_result": {
+    "phase": "vc-checking",
+    "vc_checking": {
+      "status": "completed",
+      "round": "xizi_double_link_head_rec-vc-checking-r1",
+      "attempt_id": "xizi_double_link_head_rec-vc-checking-r1-attempt-1",
+      "source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "3d3786f98d252437933edeeef96a09588f1d1b7699990655da0c384cad9e0c9c"
+      },
+      "source_goal_version": {
+        "schema_version": "qcp-source-goal-version/v1",
+        "digest": "3ebfe8c7834a7ae8e5139721982171f53cf646a8a2267baadb3c7aff2ff7d798"
+      },
+      "summary": "Both generated return witnesses are semantically proofable under the current xizi_dll/xizi_dllseg definitions and xizi_double_link_head_rec_value spec. The empty witness uses the second disjunct and the fact that a segment whose start equals its stop can only describe nil; the nonempty witness uses the first disjunct, unfolds the segment once to identify nodes = first :: rest, establishes the return value, and closes the unchanged sentinel DLL. No annotation repair or new helper declaration is required.",
+      "checked_witness_scope": [
+        "proof_of_xizi_double_link_head_rec_return_wit_1",
+        "proof_of_xizi_double_link_head_rec_return_wit_2"
+      ],
+      "source_evidence": {
+        "declared_hashes_match_current_files": true,
+        "manual_target_set_matches_source_goal_version": true,
+        "manual_target_order": [
+          "proof_of_xizi_double_link_head_rec_return_wit_1",
+          "proof_of_xizi_double_link_head_rec_return_wit_2"
+        ],
+        "manual_file_sha256": "ec01639a47754eb9066f4cbd2a828c806d0fda4e2c267d5acc1fa3a7047137ec",
+        "goal_file_sha256": "2630f72caf2436874f7420f12199e1e4e4d8115c10fe377d460afa25e0802268",
+        "case_lib_sha256": "e8154a7df192e50d4b2c747e1e27f3691b5c70972f6f32efe0cee3722b56e3f2",
+        "diagnostics_role": "planning-hint-only",
+        "diagnostic_split_goals_used_as_targets": false
+      },
+      "natural_language_analysis": {
+        "status": "passed",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_xizi_double_link_head_rec_return_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "Choose the second disjunct: xizi_dllseg first linklist_pre linklist_pre last nodes.",
+              "pre_pure": "PreH1 gives first = linklist_pre; PreH2 and PreH3 both give linklist_pre <> 0 (the non-null facts are not needed for the selected disjunct).",
+              "pre_exists": "No top-level existential; any next address exists only in the impossible nonempty branch of xizi_dllseg.",
+              "post_spatial": "The same xizi_dllseg first linklist_pre linklist_pre last nodes, unchanged.",
+              "post_pure": "0 = xizi_double_link_head_rec_value nodes.",
+              "post_exists": "None."
+            },
+            "witness_instantiation": "Select the right disjunct. Destruct nodes. For nodes = nil, xizi_double_link_head_rec_value nil reduces to 0. For nodes = expected :: rest, unfolding xizi_dllseg yields first <> linklist_pre, contradicting PreH1.",
+            "space_plan": "Keep the segment as the post-state resource. In the nil branch its unfolding is a pure equality conjunction with emp and can be re-established directly; the cons branch is contradictory and therefore has no residual spatial obligation.",
+            "pure_plan": "Substitute first using PreH1, destruct nodes, and unfold xizi_double_link_head_rec_value plus xizi_dllseg/XiziDLL.dllseg. The nil equality is reflexive; the cons case closes from first <> linklist_pre versus first = linklist_pre.",
+            "refinement_plan": "Not applicable: this is a direct spatial/pure return obligation with no safeExec state.",
+            "used_existing_lemmas": [],
+            "used_existing_definitions": [
+              "xizi_dllseg",
+              "XiziDLL.dllseg",
+              "xizi_double_link_head_rec_value"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "first = linklist_pre",
+                "discharged_by": "PreH1"
+              },
+              {
+                "premise": "nodes = nil in the satisfiable start-equals-stop segment case",
+                "discharged_by": "destruct nodes; the cons unfolding contains first <> linklist_pre, contradicting PreH1"
+              }
+            ],
+            "failure_signal": "None. The diagnostic pure and spatial splits are consistent with this argument and do not reveal a missing premise.",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "return_observation_and_dll_preservation",
+            "proof_group_candidate": "return_observation_and_dll_preservation",
+            "grouping_reason": "Same function and the same xizi_dllseg/value-definition family as the nonempty return witness; both are short return-and-preservation proofs."
+          },
+          {
+            "witness_name": "proof_of_xizi_double_link_head_rec_return_wit_2",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "Choose the first disjunct: the sentinel node_next field points to first, the sentinel node_prev field points to last, and xizi_dllseg first linklist_pre linklist_pre last nodes holds.",
+              "pre_pure": "PreH1 gives first <> linklist_pre; PreH2 and PreH3 give linklist_pre <> 0.",
+              "pre_exists": "Unfolding the nonempty segment yields next and rest together with nodes = first :: rest, the first-node link fields, first <> 0, and first <> linklist_pre.",
+              "post_spatial": "xizi_dll linklist_pre nodes, built from the unchanged sentinel links and the re-folded segment.",
+              "post_pure": "first = xizi_double_link_head_rec_value nodes.",
+              "post_exists": "The existential first and last in xizi_dll are instantiated by the current first and last; the segment's next/rest witnesses come from xizi_dllseg_unfold."
+            },
+            "witness_instantiation": "Select the left disjunct. Apply xizi_dllseg_unfold using PreH1 to obtain next and rest and nodes = first :: rest. Instantiate the xizi_dll first/last witnesses with the existing first and last and retain next/rest when re-folding the segment.",
+            "space_plan": "Unfold xizi_dll_links to combine the two sentinel field resources. Use xizi_dllseg_unfold on the framed segment, then fold the first node back into xizi_dllseg. Finally apply xizi_dll_close with linklist_pre <> 0, preserving all original heap cells.",
+            "pure_plan": "Rewrite nodes with nodes = first :: rest from xizi_dllseg_unfold and simplify xizi_double_link_head_rec_value; the return equality becomes first = first. PreH1 discharges the unfold guard, and PreH2/PreH3 discharge xizi_dll_close's non-null-head premise.",
+            "refinement_plan": "Not applicable: this is a direct spatial/pure return obligation with no safeExec state.",
+            "used_existing_lemmas": [
+              "xizi_dllseg_unfold",
+              "xizi_dll_close"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "first <> linklist_pre for xizi_dllseg_unfold",
+                "discharged_by": "PreH1"
+              },
+              {
+                "premise": "linklist_pre <> 0 for xizi_dll_close",
+                "discharged_by": "PreH2 (also duplicated as PreH3)"
+              },
+              {
+                "premise": "nodes = first :: rest and first <> 0 for the folded nonempty segment",
+                "discharged_by": "the conclusion of xizi_dllseg_unfold, whose proof exposes the corresponding xizi_dllseg nonempty-branch facts"
+              },
+              {
+                "premise": "sentinel links head first last",
+                "discharged_by": "the two sentinel field points-to resources after unfolding xizi_dll_links/XiziDLL.links"
+              }
+            ],
+            "failure_signal": "None. All helper premises are supplied by PreH1/PreH2 and the existing segment resource; no assumption beyond the VC precondition is needed.",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "return_observation_and_dll_preservation",
+            "proof_group_candidate": "return_observation_and_dll_preservation",
+            "grouping_reason": "Same function and the same xizi_dllseg/value-definition family as the empty return witness; the shared worker context and imports are identical."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "return_observation_and_dll_preservation",
+            "witness_names": [
+              "proof_of_xizi_double_link_head_rec_return_wit_1",
+              "proof_of_xizi_double_link_head_rec_return_wit_2"
+            ],
+            "representative_witness": "proof_of_xizi_double_link_head_rec_return_wit_2",
+            "shared_proof_pattern": "Select the semantically convenient disjunct, expose the empty/nonempty shape of xizi_dllseg, simplify xizi_double_link_head_rec_value, and preserve or close the same DLL resources.",
+            "shared_space_plan": "Both witnesses preserve the input list representation. The empty witness retains the same segment; the nonempty witness unfolds one segment cell and re-folds it before xizi_dll_close.",
+            "shared_pure_plan": "The result equality follows by showing nodes is nil in the sentinel-start case or first :: rest in the distinct-first case, then simplifying the mathematical value definition.",
+            "shared_refinement_plan": "not-applicable",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "The two obligations are from the same branch split, share imports and definitions, use complementary empty/nonempty cases, and total only two witnesses, below the controller limit of 12.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "3ebfe8c7834a7ae8e5139721982171f53cf646a8a2267baadb3c7aff2ff7d798",
+        "target_witnesses": [
+          "proof_of_xizi_double_link_head_rec_return_wit_1",
+          "proof_of_xizi_double_link_head_rec_return_wit_2"
+        ],
+        "grouping_policy": {
+          "controller_policy": "bounded-witness-groups/v1",
+          "max_witnesses_per_group": 12,
+          "target_witness_count": 2
+        },
+        "proof_groups": [
+          {
+            "group_id": "return_observation_and_dll_preservation",
+            "proof_group_id": "return_observation_and_dll_preservation",
+            "witness_names": [
+              "proof_of_xizi_double_link_head_rec_return_wit_1",
+              "proof_of_xizi_double_link_head_rec_return_wit_2"
+            ],
+            "members": [
+              "proof_of_xizi_double_link_head_rec_return_wit_1",
+              "proof_of_xizi_double_link_head_rec_return_wit_2"
+            ],
+            "representative_witness": "proof_of_xizi_double_link_head_rec_return_wit_2",
+            "dependencies": [],
+            "candidate_helper_declarations": [],
+            "likely_helper_declarations": [],
+            "expected_helpers": [],
+            "shared_helper_candidates": [],
+            "proof_strategy": "For return_wit_1 choose the right disjunct, substitute first = sentinel, destruct nodes, and use the nonempty segment guard contradiction; simplify the value definition in the nil case. For return_wit_2 choose the left disjunct, use xizi_dllseg_unfold under first <> sentinel to obtain nodes = first :: rest, simplify the value definition, re-fold the segment, and close the preserved sentinel DLL with xizi_dll_close.",
+            "natural_language_proof_strategy": "Resolve the empty/nonempty abstract-sequence shape from xizi_dllseg, compute xizi_double_link_head_rec_value on that shape, and reuse exactly the input heap resources for the postcondition.",
+            "natural_language_proof_pattern": "empty/nonempty xizi_dllseg shape analysis followed by value simplification and DLL preservation",
+            "proving_hints": [
+              "The target is a Coq disjunction of entailments, so explicitly choose the easier disjunct before entering the entailment proof.",
+              "return_wit_1: choose the second disjunct; after substituting PreH1, destruct nodes and unfold xizi_dllseg/XiziDLL.dllseg plus xizi_double_link_head_rec_value.",
+              "return_wit_2: choose the first disjunct; xizi_dllseg_unfold is applicable from PreH1, and xizi_dll_close is applicable from PreH2.",
+              "No helper belongs in the manual file or case_lib for this group."
+            ],
+            "grouping_reason": "Same target function, identical imports and predicate family, complementary empty/nonempty return cases, no inter-group dependency, and 2 witnesses is within max_witnesses_per_group = 12.",
+            "difficulty": "low",
+            "confidence": "high",
+            "grouping_confidence": "high",
+            "per_witness_plan": {
+              "proof_of_xizi_double_link_head_rec_return_wit_1": "right disjunct; start=stop forces nodes=nil; simplify result and preserve segment",
+              "proof_of_xizi_double_link_head_rec_return_wit_2": "left disjunct; unfold segment to nodes=first::rest; simplify result; re-fold and close DLL"
+            }
+          }
+        ],
+        "blockers": []
+      },
+      "group_plan_ready": true,
+      "ready_for_vc_proving": true,
+      "recommended_next_phase": "vc-proving-preparing",
+      "changed_files": [],
+      "formal_files_modified": [],
+      "timing": {
+        "completed_at": "2026-08-07T17:07:07Z",
+        "timing_source": "command outputs plus unmeasured analysis wall-clock",
+        "command_timings": [
+          {
+            "step": "hash and file-presence validation",
+            "elapsed_seconds": 0.2,
+            "status": "passed"
+          }
+        ],
+        "human_activity_seconds": "not-recorded-as-exact-ledger",
+        "timing_gaps": [
+          "No activity_ledger_path was declared in agent_input.json; rules reading, semantic VC analysis, grouping, and report preparation wall time are not reconstructed as guessed values."
+        ],
+        "slowest_step": "semantic reduction of the two disjunctive DLL return obligations",
+        "major_time_sinks": [
+          "required rule-document audit",
+          "witness-local spatial and pure premise audit"
+        ]
+      },
+      "blockers": []
+    }
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-08-07T17:11:17Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_double_link_head_rec-20260808010002/rounds/xizi_double_link_head_rec-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    }
+  },
+  "blockers": []
+}

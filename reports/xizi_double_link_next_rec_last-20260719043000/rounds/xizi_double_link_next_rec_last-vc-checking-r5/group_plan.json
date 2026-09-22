@@ -1,0 +1,90 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "0a4a7e17fde42d51bb49097b6826053f119f0602c6a6c2a815fbd9efdf33ac7c",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_next_rec_last_entail_wit_1",
+    "proof_of_xizi_double_link_next_rec_last_return_wit_1",
+    "proof_of_xizi_double_link_next_rec_last_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "next_rec_last_split_and_reassemble",
+      "witness_names": [
+        "proof_of_xizi_double_link_next_rec_last_entail_wit_1",
+        "proof_of_xizi_double_link_next_rec_last_return_wit_1",
+        "proof_of_xizi_double_link_next_rec_last_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_next_rec_last_entail_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "xizi_dll_split_at",
+          "statement_shape": "For head, nodes_before, node and nodes_after, split xizi_dll head (nodes_before ++ node :: nodes_after) into sentinel links, a prefix xizi_dllseg ending at node, the node links, and a suffix xizi_dllseg ending at head.",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_next_rec_last_entail_wit_1"
+          ],
+          "premises": [
+            {
+              "premise": "node <> 0",
+              "discharged_by": "PreH2 and, structurally, the guarded nonempty node clause of the input xizi_dll"
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "xizi_dll_reassemble_at",
+          "statement_shape": "Reassemble sentinel links, the prefix segment, the selected-node links, and the suffix segment into xizi_dll head (nodes_before ++ node :: nodes_after).",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_next_rec_last_return_wit_1",
+            "proof_of_xizi_double_link_next_rec_last_return_wit_2"
+          ],
+          "premises": [
+            {
+              "premise": "node <> 0",
+              "discharged_by": "PreH2 in each selected left return branch"
+            },
+            {
+              "premise": "node <> head",
+              "discharged_by": "separation of the sentinel links from the selected-node links in each selected left return branch"
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        }
+      ],
+      "likely_helper_declarations": [
+        "xizi_dll_split_at__next_rec_last_split_and_reassemble",
+        "xizi_dll_reassemble_at__next_rec_last_split_and_reassemble"
+      ],
+      "expected_helpers": [
+        "A group-suffixed split-at lemma proved by induction on nodes_before.",
+        "A group-suffixed inverse reassembly lemma proved by induction on nodes_before."
+      ],
+      "proof_strategy": "For each theorem choose the full-list (left) Coq disjunct. Split the original xizi_dll at linklist_node for the entail witness. For return_wit_1, rewrite node_next=head, derive nodes_after=nil from the endpoint case of xizi_dllseg, unfold the value function to 0, and reassemble the unchanged list. For return_wit_2, use node_next<>head with xizi_dllseg_unfold to derive nodes_after=node_next::rest, unfold the value function to node_next, and reassemble the unchanged list.",
+      "natural_language_proof_pattern": "Bidirectional split/reassembly of the same circular-list segment around the selected node, with a two-case logical-successor observation on the suffix.",
+      "shared_helper_candidates": [
+        "xizi_dll_split_at",
+        "xizi_dll_reassemble_at"
+      ],
+      "proving_hints": [
+        "The witness definitions are Coq-level disjunctions; proving the full xizi_dll left disjunct is sufficient and preserves the sentinel ownership needed for a clean close.",
+        "Use xizi_dll_open/xizi_dll_close and xizi_dllseg_unfold; keep all new reusable induction lemmas in the group-local case_lib with the required group suffix.",
+        "Do not treat diagnostic _split_goal_ declarations as target witnesses."
+      ],
+      "grouping_reason": "All three witnesses are inverse phases of one xizi_dllseg split/fold transformation for the same function and use the same two helper candidates. Three witnesses are within the maximum group size of 12, no dependency ordering requires a split, and keeping the helper family in one group avoids cross-group helper sharing.",
+      "difficulty": "medium",
+      "confidence": "high",
+      "grouping_confidence": "high"
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

@@ -1,0 +1,337 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "pending",
+  "terminal": "no",
+  "agent_result": {
+    "vc_checking": {
+      "schema_version": "qcp-vc-checking-result/v1",
+      "status": "blocked",
+      "terminal": "yes",
+      "round": "xizi_single_link_append-vc-checking-r1",
+      "attempt_id": "xizi_single_link_append-vc-checking-r1-attempt-1",
+      "source_version": {
+        "digest": "8fd8fdf3dee27bc6ebc39a227d9bed1f203153ae80433b98db0a55c850c99fd7",
+        "verification": "matched-current-round-worktree-files"
+      },
+      "source_goal_version": {
+        "digest": "f7896061d43f0b9983e613257fd8097bb173fa217c17c0721fd8a229982553eb",
+        "verification": "all-six-generated-file-hashes-and-all-three-manual-witnesses-match-handoff"
+      },
+      "summary": "Two of the three current manual witnesses have complete semantic proof routes, but proof_of_AppendSingleLinkList_return_wit_1 is not entailed by either generated return-obligation alternative. The final heap in P is rooted at current values linklist and linklist_node, whereas Q requires the snapshot values linklist_pre and linklist_node_pre; no premise relates either pair. This admits a concrete satisfiable counterinstance and cannot be repaired by a helper whose premises come from P. The round must return to annotation before any proof group is scheduled.",
+      "target_witnesses": [
+        "proof_of_AppendSingleLinkList_entail_wit_1",
+        "proof_of_AppendSingleLinkList_entail_wit_2",
+        "proof_of_AppendSingleLinkList_return_wit_1"
+      ],
+      "version_validation": {
+        "source_version_matches": true,
+        "source_goal_version_matches": true,
+        "generated_file_hashes_match_handoff": true,
+        "manual_obligation_count": 3,
+        "manual_target_witnesses": [
+          "proof_of_AppendSingleLinkList_entail_wit_1",
+          "proof_of_AppendSingleLinkList_entail_wit_2",
+          "proof_of_AppendSingleLinkList_return_wit_1"
+        ],
+        "manual_targets_match_handoff_exactly": true,
+        "manual_statement_hashes_match_handoff": true,
+        "diagnostics_used_as_hint_only": true,
+        "diagnostic_count": 0,
+        "diagnostic_targets_excluded": true
+      },
+      "natural_language_analysis": {
+        "witnesses": [
+          {
+            "witness_name": "proof_of_AppendSingleLinkList_entail_wit_1",
+            "statement_hash": "5917c11134bfabee6f974bff9bf2bc59b120227446d4b8a37aaf7e22462d9320",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "For the first top-level disjunct, xizi_sll_head linklist_pre l ** xizi_sll_node linklist_node_pre.",
+              "pre_pure": "Opening xizi_sll_head yields linklist_pre <> 0; opening xizi_sll_node yields linklist_node_pre <> 0.",
+              "pre_exists": "Opening xizi_sll_head exposes the head-field successor next.",
+              "post_spatial": "head-field(next) ** xizi_sllseg linklist_pre linklist_pre l1a ** xizi_sll next l1b ** the unchanged standalone-node field permission.",
+              "post_pure": "cons linklist_pre l = l1a ++ linklist_pre :: l1b plus duplicated non-null facts.",
+              "post_exists": "next, l1a, and l1b."
+            },
+            "witness_instantiation": "Choose the successor exposed by xizi_sll_head, l1a = nil, and l1b = l.",
+            "space_plan": "Unfold xizi_sll_head/generic_sll_head/xizi_head_store and xizi_sll_node. Preserve the exposed head field, suffix xizi_sll, and standalone-node field; unfold xizi_sllseg at equal endpoints so the nil segment is emp.",
+            "pure_plan": "The app/cons equality reduces by simpl. Both required non-null facts are conjuncts of the unfolded input predicates, and duplicate occurrences reuse the same facts.",
+            "refinement_plan": "Not applicable; this is a direct separation-logic loop-entry obligation.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "linklist_pre <> 0 comes from xizi_sll_head",
+              "linklist_node_pre <> 0 comes from xizi_sll_node",
+              "the list equality is nil-app simplification"
+            ],
+            "failure_signal": "none",
+            "recommended_next_phase": "vc-proving-preparing only after the return-witness annotation bug is repaired and goals are regenerated",
+            "analysis_group_candidate": "append_invariant_entails",
+            "grouping_reason": "Shares the AppendSingleLinkList loop-invariant predicate family and list-prefix construction pattern with entail_wit_2."
+          },
+          {
+            "witness_name": "proof_of_AppendSingleLinkList_entail_wit_2",
+            "statement_hash": "4d106856c089a4c7988e70eaa443f3e1aa8a17afb416671fc584d0a610be2f42",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "For the first top-level disjunct, node.next |-> next_2 ** xizi_sllseg linklist node l1a_2 ** xizi_sll next_2 l1b_2 ** the unchanged linklist_node field permission.",
+              "pre_pure": "PreH1 gives linklist :: l = l1a_2 ++ node :: l1b_2; node, next_2, linklist_node, linklist_node_pre, and linklist_pre are non-null.",
+              "pre_exists": "Decomposing non-null xizi_sll next_2 l1b_2 exposes its successor next and tail list lnext with l1b_2 = next_2 :: lnext.",
+              "post_spatial": "next_2.next |-> next ** xizi_sllseg linklist next_2 l1a ** xizi_sll next l1b ** the unchanged linklist_node permission.",
+              "post_pure": "linklist :: l = l1a ++ next_2 :: l1b and the existing non-null facts.",
+              "post_exists": "next, l1a, and l1b."
+            },
+            "witness_instantiation": "After xizi_sll_not_zero, choose its successor next, l1a = l1a_2 ++ [node], and l1b = lnext.",
+            "space_plan": "Apply xizi_sll_not_zero using next_2 <> 0. Turn node.next |-> next_2 into xizi_sllseg node next_2 [node] with xizi_sllseg_len1, then compose with xizi_sllseg linklist node l1a_2 using xizi_sllseg_sllseg. Preserve the remaining resources.",
+            "pure_plan": "Substitute l1b_2 = next_2 :: lnext from the list decomposition, rewrite app_assoc, simplify the singleton segment, and finish from PreH1. All non-null goals are direct hypotheses.",
+            "refinement_plan": "Not applicable; this is the direct loop-step invariant preservation obligation.",
+            "used_existing_lemmas": [
+              "xizi_sll_not_zero",
+              "xizi_sllseg_len1",
+              "xizi_sllseg_sllseg"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "xizi_sll_not_zero receives PreH6: next_2 <> 0",
+              "xizi_sllseg_len1 receives PreH2: node <> 0",
+              "xizi_sllseg_sllseg consumes exactly the old prefix segment and the new singleton segment",
+              "the final list equality follows from the decomposition equality and PreH1"
+            ],
+            "failure_signal": "none",
+            "recommended_next_phase": "vc-proving-preparing only after the return-witness annotation bug is repaired and goals are regenerated",
+            "analysis_group_candidate": "append_invariant_entails",
+            "grouping_reason": "Same function, loop invariant, xizi_sll family, and prefix-extension proof flow as entail_wit_1."
+          },
+          {
+            "witness_name": "proof_of_AppendSingleLinkList_return_wit_1",
+            "statement_hash": "69557f299368c855c983ea1cd23c4257b3beac3448e3005d488e8bdf722c9458",
+            "judgment": "annotation-bug",
+            "vc_shape": {
+              "pre_spatial": "In both top-level disjuncts: node.next |-> linklist_node ** xizi_sllseg linklist node l1a ** xizi_sll next l1b ** linklist_node.next |-> 0.",
+              "pre_pure": "PreH1 relates linklist :: l to l1a ++ node :: l1b; node, linklist_node, linklist_node_pre, and linklist_pre are non-null; next = 0. There is no linklist = linklist_pre or linklist_node = linklist_node_pre.",
+              "pre_exists": "xizi_sll next l1b can force l1b = nil after next = 0, but it supplies no current/snapshot alias.",
+              "post_spatial": "First alternative requires xizi_sll_head linklist_pre (l ++ [linklist_node_pre]); second alternative requires linklist_pre.next |-> q ** xizi_sll q (l ++ [linklist_node_pre]).",
+              "post_pure": "The second alternative additionally repeats linklist_pre <> 0, which is available but does not bridge addresses.",
+              "post_exists": "The second alternative may choose q, but no q can manufacture the missing cell at linklist_pre or replace linklist_node by linklist_node_pre."
+            },
+            "witness_instantiation": "No valid instantiation exists under the current premises. The natural candidate constructs a list rooted at linklist and ending in linklist_node, not the required snapshot-rooted list ending in linklist_node_pre.",
+            "space_plan": "The existing lemmas xizi_sll_zero, xizi_sll_len1, xizi_sll_cons, and xizi_sllseg_sll can build xizi_sll_head linklist (l ++ [linklist_node]). They cannot change heap addresses to linklist_pre/linklist_node_pre without equalities. Both post alternatives therefore fail at the same ownership boundary.",
+            "pure_plan": "The missing facts are linklist = linklist_pre and linklist_node = linklist_node_pre. Non-nullness is insufficient. Any helper stating the desired address replacement would require exactly these absent premises and would be unsound as an unconditional lemma.",
+            "refinement_plan": "Not applicable. The defect is loss of immutable-parameter snapshot aliases across the loop invariant/contract boundary.",
+            "used_existing_lemmas": [
+              "xizi_sll_zero",
+              "xizi_sllseg_start_not_zero",
+              "xizi_sll_len1",
+              "xizi_sll_cons",
+              "xizi_sllseg_sll",
+              "xizi_sll_not_zero"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "next = 0 discharges xizi_sll_zero and forces l1b = nil",
+              "node <> 0 permits the segment start non-null consequence",
+              "linklist_node <> 0 permits construction of its singleton list node",
+              "missing and not dischargeable: linklist = linklist_pre",
+              "missing and not dischargeable: linklist_node = linklist_node_pre"
+            ],
+            "failure_signal": "The generated return VC introduced independent current variables linklist/linklist_node after the function contract stopped using pre-state parameter references, while the Ensure still denotes snapshot variables. The invariant carries only the current addresses.",
+            "counterexample": "Take l = l1a = l1b = nil, next = 0, node = linklist = 16, linklist_node = 32, linklist_pre = 48, and linklist_node_pre = 64. PreH1 and every non-null premise hold. A heap with 16.node_next = 32 and 32.node_next = 0 satisfies P, but neither Q alternative can hold because both require ownership rooted at the distinct address 48 and a logical tail node 64.",
+            "required_annotation_rework": "Preserve the immutable-parameter bridges linklist = linklist_pre and linklist_node = linklist_node_pre across the loop, or restore the intended pre-state contract references, then rerun canonical symbolic execution. Do not modify the generated witness, weaken Ensure, or add an unconditional alias helper.",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": null,
+            "grouping_reason": "An annotation-bug witness must not be assigned to or mixed into a proof group."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "append_invariant_entails",
+            "witness_names": [
+              "proof_of_AppendSingleLinkList_entail_wit_1",
+              "proof_of_AppendSingleLinkList_entail_wit_2"
+            ],
+            "representative_witness": "proof_of_AppendSingleLinkList_entail_wit_2",
+            "shared_proof_pattern": "Open or advance the xizi singly-linked-list representation and construct the loop invariant's prefix/suffix decomposition.",
+            "shared_space_plan": "Use predicate unfolding for initialization and xizi_sll_not_zero plus segment singleton/composition lemmas for the step.",
+            "shared_pure_plan": "Normalize nil/singleton append equations and reuse generated non-null hypotheses.",
+            "shared_refinement_plan": "Not applicable.",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "One minimal coherent group for all currently proofable targets: same function, invariant, list predicate family, and no helper dependency.",
+            "proof_group_ready": false,
+            "not_ready_reason": "The complete vc-checking result is blocked by return_wit_1 and all current planning hints become stale after annotation regeneration.",
+            "forbidden_lemma_scan_requirement": {
+              "names_checked": 23,
+              "exact_names_source": ".agents/skills/verification-orchestrator/docs/forbidden_lemma.md",
+              "scan_targets": [
+                "all assigned manual proof bodies",
+                "the complete group-local case_lib"
+              ],
+              "required_result": "zero_hits"
+            }
+          }
+        ],
+        "blocked_witnesses": [
+          "proof_of_AppendSingleLinkList_return_wit_1"
+        ]
+      },
+      "informal_proof_provability_report": {
+        "status": "blocked",
+        "candidate_lib_lemmas": [],
+        "existing_library_lemmas": [
+          {
+            "name": "xizi_sll_not_zero",
+            "source": "QCIPLib/xizi/xizi_single_link_common/xizi_single_link_lib.v",
+            "used_by": [
+              "proof_of_AppendSingleLinkList_entail_wit_2"
+            ]
+          },
+          {
+            "name": "xizi_sllseg_len1",
+            "source": "QCIPLib/xizi/xizi_single_link_common/xizi_single_link_lib.v",
+            "used_by": [
+              "proof_of_AppendSingleLinkList_entail_wit_2"
+            ]
+          },
+          {
+            "name": "xizi_sllseg_sllseg",
+            "source": "QCIPLib/xizi/xizi_single_link_common/xizi_single_link_lib.v",
+            "used_by": [
+              "proof_of_AppendSingleLinkList_entail_wit_2"
+            ]
+          }
+        ],
+        "failed_witnesses": [
+          "proof_of_AppendSingleLinkList_return_wit_1"
+        ],
+        "required_annotation_rework": [
+          "Preserve linklist = linklist_pre and linklist_node = linklist_node_pre through the loop invariant/contract boundary, or restore the intended pre-state references, then regenerate every VC."
+        ],
+        "required_lib_rework": [],
+        "ready_for_vc_proving": "no"
+      },
+      "reference_evidence": {
+        "allowed_reference_scope": "OUTPUT/QCIPCases only; QCP_demos_human was not read",
+        "reference_manual": "QCIPCases/xizi/xizi_single_link_append/xizi_single_link_append_proof_manual.v",
+        "reference_goal": "OUTPUT/xizi/xizi_single_link_append/rocq/xizi_single_link_append_goal.v",
+        "finding": "The pre-state-aligned reference proves all three witnesses with existing common-library lemmas. A goal diff shows that the current return VC replaced the antecedent roots and appended node by independent current variables while leaving the postcondition on snapshot variables, exactly isolating the alias regression. The reference is semantic/planning evidence only, not acceptance evidence for the current goal."
+      },
+      "group_plan_path": "/home/yangfp/QCIP/reports/xizi_single_link_append-20260820040100/rounds/xizi_single_link_append-vc-checking-r1/group_plan.json",
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "f7896061d43f0b9983e613257fd8097bb173fa217c17c0721fd8a229982553eb",
+        "target_witnesses": [
+          "proof_of_AppendSingleLinkList_entail_wit_1",
+          "proof_of_AppendSingleLinkList_entail_wit_2",
+          "proof_of_AppendSingleLinkList_return_wit_1"
+        ],
+        "proof_groups": [],
+        "dependencies": [],
+        "likely_helper_declarations": [],
+        "blockers": [
+          {
+            "blocker_class": "annotation-bug",
+            "witness_name": "proof_of_AppendSingleLinkList_return_wit_1",
+            "missing_facts": [
+              "linklist = linklist_pre",
+              "linklist_node = linklist_node_pre"
+            ],
+            "reason": "Current-address resources cannot entail snapshot-address resources without bridge equalities; both return alternatives have this defect.",
+            "recommended_next_phase": "annotation"
+          }
+        ],
+        "grouping_reason": "No runnable proof group is emitted because a target witness is an annotation-bug. The target list still matches all and only the cleaned manual witnesses.",
+        "forbidden_lemma_scan_requirement": "Every future proof group must scan all 23 exact forbidden names against all assigned manual proof bodies and the complete group-local case_lib, requiring zero hits."
+      },
+      "group_plan_ready": false,
+      "ready_for_vc_proving": false,
+      "grouping_policy_evidence": {
+        "controller_policy": "bounded-witness-groups/v1",
+        "target_witness_count": 3,
+        "max_witnesses_per_group": 12,
+        "all_groups_within_limit": true,
+        "proof_group_count": 0,
+        "complete_plan_withheld_due_to_blocker": true,
+        "target_witness_list_exact": true
+      },
+      "forbidden_lemma_scan": {
+        "status": "passed",
+        "source": ".agents/skills/verification-orchestrator/docs/forbidden_lemma.md",
+        "names_checked": 23,
+        "files": [
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_proof_manual.v",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_lib.v"
+        ],
+        "hits": [],
+        "note": "This current-skeleton scan does not replace the mandatory post-proof all-23-name scan encoded for every future proof group."
+      },
+      "formal_files_changed": [],
+      "changed_files": [
+        {
+          "path": "/home/yangfp/QCIP/reports/xizi_single_link_append-20260820040100/rounds/xizi_single_link_append-vc-checking-r1/group_plan.json",
+          "change": "created",
+          "role": "independent-blocked-proof-group-plan"
+        },
+        {
+          "path": "/home/yangfp/QCIP/reports/xizi_single_link_append-20260820040100/rounds/xizi_single_link_append-vc-checking-r1/agent_output.txt",
+          "change": "written",
+          "role": "non-authoritative-reuse-note"
+        },
+        {
+          "path": "/home/yangfp/QCIP/reports/xizi_single_link_append-20260820040100/rounds/xizi_single_link_append-vc-checking-r1/agent_report.json",
+          "change": "written",
+          "role": "phase-result-report"
+        }
+      ],
+      "blockers": [
+        {
+          "blocker_class": "annotation-bug",
+          "witness_name": "proof_of_AppendSingleLinkList_return_wit_1",
+          "missing_resource_or_fact": "The loop state owns list/root resources at linklist and linklist_node, but the postcondition uses linklist_pre and linklist_node_pre; neither required alias equality is present.",
+          "counterexample": "l = l1a = l1b = nil; next = 0; node = linklist = 16; linklist_node = 32; linklist_pre = 48; linklist_node_pre = 64; heap cells 16.node_next = 32 and 32.node_next = 0. P is satisfiable and both Q alternatives require absent ownership rooted at 48 and the distinct appended value 64.",
+          "required_annotation_rework": "Preserve immutable-parameter snapshot aliases in the invariant/contract, or restore the intended pre-state parameter references, then rerun canonical symbolic execution. This requested repair may conflict with the stated restriction against changing the invariant or retaining contract @pre, so the main agent should surface that semantic conflict rather than weaken the VC.",
+          "source_version": "8fd8fdf3dee27bc6ebc39a227d9bed1f203153ae80433b98db0a55c850c99fd7",
+          "source_goal_version": "f7896061d43f0b9983e613257fd8097bb173fa217c17c0721fd8a229982553eb",
+          "recommended_next_phase": "annotation"
+        }
+      ],
+      "errors": [],
+      "recommended_next_phase": "annotation",
+      "controller_acceptance": "not-claimed",
+      "timing": {
+        "phase_started_at": "2026-08-20T03:59:01+08:00",
+        "phase_finished_at": "2026-08-20T04:05:26+08:00",
+        "phase_elapsed_seconds": 385,
+        "timing_source": "input-file timestamp lower bound plus command wall-clock; non-command semantic-analysis subsegments were not separately persisted",
+        "major_time_sinks": [
+          "complete handoff, skill, and routed rule-document reading",
+          "source/version and exact target-witness verification",
+          "three-witness P |-- Q resource analysis",
+          "return witness current/snapshot alias countermodel construction",
+          "independent blocked group-plan and report preparation"
+        ],
+        "timing_gaps": [
+          "The handoff provides no activity-ledger path, and exact start/end timestamps for each non-command analysis subsegment were not recorded; no elapsed duration is guessed."
+        ],
+        "open_or_incomplete_timing_events": []
+      }
+    }
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-08-19T20:06:16Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_single_link_append-20260820040100/rounds/xizi_single_link_append-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    }
+  },
+  "blockers": [
+    {
+      "blocker_class": "annotation-bug",
+      "witness_name": "proof_of_AppendSingleLinkList_return_wit_1",
+      "recommended_next_phase": "annotation"
+    }
+  ]
+}

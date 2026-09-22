@@ -1,0 +1,20 @@
+# Reuse Note
+
+Note kind: non-authoritative reuse note
+
+This file is not acceptance evidence. If it conflicts with JSON handoffs, manifests, source versions, or current worktree files, ignore this file.
+
+Round: xizi_double_link_init_then_len-vc-checking-r2
+Source goal version: f432bf1bba9d2939995f36d1aec7da461a583b29c64bf5a4c8a8a0ba7b3abffb
+
+## Result
+
+VC checking is blocked on `proof_of_xizi_double_link_len_entail_wit_2_1`. Its transition target requires the 32-bit modulo increment to equal an unbounded mathematical `Zlength`; there is no upper-bound premise in the VC or in `xizi_dll`/`xizi_dllseg`.
+
+Concrete failure shape: with `Zlength done_2 = UINT_MAX` and nonempty `todo_2`, the next step has `unsigned_last_nbits (UINT_MAX + 1) 32 = 0`, but the new processed-list length is `2^32`.
+
+The other six manual witnesses have natural-language proof routes recorded in `agent_report.json`, but no executable proof group plan was emitted because the workflow forbids sending any target set containing a semantic annotation/spec bug to group workers.
+
+## Next Attempt Guidance
+
+Return to annotation/spec and resolve overflow semantics. An exact unbounded length result needs a hidden bound justified by the entry abstraction (not merely asserted in the loop invariant); otherwise the return contract must describe modulo-2^32 length. Regenerate the goal before re-running vc-checking.

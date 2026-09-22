@@ -1,0 +1,9 @@
+# Reuse Note
+Note kind: non-authoritative reuse note
+This file is not acceptance evidence.
+
+Annotation r2 keeps the public contract unchanged: `Require xizi_dll(linklist,nodes)` and `Ensure __return == Zlength(nodes) && xizi_dll(linklist,nodes)`. The sole source repair is the internal loop-invariant conjunct `linklist == linklist@pre`.
+
+Fresh qcp-mcp symbolic execution, using the declared QCP_demos_LLM include path and both strategy logical-path mappings, reaches the file end with five manual witnesses. Both return witnesses now root their premises and `xizi_dll` conclusion at the same `linklist@pre`; the prior independent-address counterexample is eliminated. The case lib is unchanged and passes the fixed `coq_tooling.py check --target-kind case_lib` gate.
+
+The stock qcp-mcp `load_target_file` wrapper initially omitted the case strategy mapping. The same qcp-mcp chain was restarted with the handoff-declared `-I` and `-slp` arguments and then passed `check` and full `symbolic`; no source include or strategy file was altered. Canonical direct symexec also reached the end successfully. Controller-owned annotation-check-round must regenerate/clean the manual and diagnostics artifacts and compute the new source_goal_version; any controller result supersedes this note.

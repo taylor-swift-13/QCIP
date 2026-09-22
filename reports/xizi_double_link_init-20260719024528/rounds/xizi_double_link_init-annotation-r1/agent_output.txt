@@ -1,0 +1,23 @@
+# Reuse Note
+
+Note kind: non-authoritative reuse note
+
+This file is not acceptance evidence. If it conflicts with the JSON handoff,
+manifest, source versions, or current worktree files, ignore this note.
+
+For an initializer that overwrites both sentinel links, use
+`undef_data_at(field, DoubleLinklistType *)` to express exclusive writable
+ownership without exposing irrelevant old pointer values. QCP's annotation
+grammar does not treat `store(field, _)` as a wildcard.
+
+Keep the mathematical postcondition at the reusable abstraction boundary:
+`xizi_dll(linklist_head@pre, nil)`. The case-local lib only imports the shared
+double-link contract; it does not duplicate the list predicate or mirror the C
+implementation.
+
+The live checks used the repository qcp-mcp SessionManager with the exact
+handoff `-I` and both `-slp` mappings. Three isolated sessions reached line 12,
+loaded `xizi_double_link`, reported one auto-solved return obligation and zero
+manual obligations, and were closed normally.
+
+Evidence and current source version are recorded in `agent_report.json`.

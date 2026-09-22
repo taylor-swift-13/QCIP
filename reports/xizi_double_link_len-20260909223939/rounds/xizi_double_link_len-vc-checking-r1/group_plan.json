@@ -1,0 +1,301 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "0cc51b01ffc68577d4fc02c0d7ceb1ddc08c0f00777afb2b852cc7592350a60b",
+  "source_version": {
+    "digest": "853d436c5e1de86dd6f26cc2920d00a9dcb0d56dd6dbbd924b57486a8558eeb4",
+    "digest_input_policy": "relative_path+sha256+state+role only",
+    "files": [
+      {
+        "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_len-20260909223939/xizi_double_link_len-annotation-r1/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len.c",
+        "relative_path": "OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len.c",
+        "role": "target-c-annotated",
+        "sha256": "53a45f9a82f460636642789d301f2d4062829608c0319a5acb04ea73e523aa1e",
+        "state": "present"
+      },
+      {
+        "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_len-20260909223939/xizi_double_link_len-annotation-r1/QCIPLib/xizi/xizi_double_link_common/xizi_double_link_lib.v",
+        "relative_path": "QCIPLib/xizi/xizi_double_link_common/xizi_double_link_lib.v",
+        "role": "case-lib-seed",
+        "sha256": "89c8a14d317ea9f0aad8ca7e6a472fc0acbbbcaf1d00bc2ed208afe7fd077f2c",
+        "state": "present"
+      }
+    ],
+    "schema_version": "qcp-source-version/v1"
+  },
+  "target_witnesses": [
+    "proof_of_DoubleLinkListLenGet_entail_wit_1",
+    "proof_of_DoubleLinkListLenGet_entail_wit_2_1",
+    "proof_of_DoubleLinkListLenGet_entail_wit_2_2",
+    "proof_of_DoubleLinkListLenGet_return_wit_1",
+    "proof_of_DoubleLinkListLenGet_return_wit_2",
+    "proof_of_DoubleLinkListLenGet_derive_nil_case_by_general"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "dll_len_payload_cycle",
+      "witness_names": [
+        "proof_of_DoubleLinkListLenGet_entail_wit_1",
+        "proof_of_DoubleLinkListLenGet_entail_wit_2_1",
+        "proof_of_DoubleLinkListLenGet_entail_wit_2_2",
+        "proof_of_DoubleLinkListLenGet_return_wit_1",
+        "proof_of_DoubleLinkListLenGet_return_wit_2",
+        "proof_of_DoubleLinkListLenGet_derive_nil_case_by_general"
+      ],
+      "representative_witness": "proof_of_DoubleLinkListLenGet_entail_wit_2_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "dll_ptrs_Zlength",
+          "statement_shape": "forall A (nodes:list (DL_Node A)), Zlength (xizi_dll_ptrs nodes) = Zlength nodes",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListLenGet_entail_wit_1"
+          ],
+          "premises": [
+            {
+              "premise": "arbitrary nodes",
+              "discharged_by": "input logical list"
+            }
+          ],
+          "proof_strategy": "Unfold xizi_dll_ptrs and use map length preservation / list induction.",
+          "destination": "group-local case_lib with suffix __dll_len_payload_cycle"
+        },
+        {
+          "name_hint": "dllseg_unfold_full",
+          "statement_shape": "node <> stop -> xizi_dllseg node prev stop last xs |-- EX next rest, pure(xs=node::rest /\\ node<>0) && links node next prev ** xizi_dllseg next node stop last rest",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListLenGet_entail_wit_2_1",
+            "proof_of_DoubleLinkListLenGet_entail_wit_2_2"
+          ],
+          "premises": [
+            {
+              "premise": "node<>stop",
+              "discharged_by": "loop guard next<>linklist_pre or first_2<>linklist_pre"
+            },
+            {
+              "premise": "segment ownership",
+              "discharged_by": "todo segment in invariant"
+            }
+          ],
+          "proof_strategy": "Case split xs; empty contradicts guard, cons exposes existing guards and links. Reuse old archived local assertion.",
+          "destination": "group-local case_lib with suffix __dll_len_payload_cycle"
+        },
+        {
+          "name_hint": "dll_links_neq",
+          "statement_shape": "links a an ap ** links b bn bp |-- pure(a<>b)",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListLenGet_entail_wit_2_1",
+            "proof_of_DoubleLinkListLenGet_return_wit_1"
+          ],
+          "premises": [
+            {
+              "premise": "two separated links",
+              "discharged_by": "prefix and next node (or sentinel) ownership in invariant"
+            }
+          ],
+          "proof_strategy": "If a=b, dup_store_ptr on next fields contradicts disjoint ownership; otherwise retain resources as required.",
+          "destination": "group-local case_lib with suffix __dll_len_payload_cycle"
+        },
+        {
+          "name_hint": "dllseg_snoc",
+          "statement_shape": "middle<>0 -> seg node prev middle middle_prev xs ** links middle next middle_prev ** links next next_after middle |-- seg node prev next middle (xs++[middle]) ** links next next_after middle",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListLenGet_entail_wit_2_1",
+            "proof_of_DoubleLinkListLenGet_return_wit_1"
+          ],
+          "premises": [
+            {
+              "premise": "middle<>0",
+              "discharged_by": "PreH7 in loop/return nonempty branch"
+            },
+            {
+              "premise": "segment and two nodes",
+              "discharged_by": "before segment, tmp links, and opened next links; return uses sentinel links as next links"
+            }
+          ],
+          "proof_strategy": "Reuse archived induction on xs. The second node links establish stop-exclusion at every induction step by duplicate next-field contradiction.",
+          "destination": "group-local case_lib with suffix __dll_len_payload_cycle"
+        },
+        {
+          "name_hint": "dllseg_align4",
+          "statement_shape": "seg node prev stop last xs |-- store_align4_n (2 * Zlength xs)",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListLenGet_entail_wit_2_1"
+          ],
+          "premises": [
+            {
+              "premise": "segment ownership",
+              "discharged_by": "before segment in invariant"
+            }
+          ],
+          "proof_strategy": "Induct xs; each pair of links yields two aligned units via store_ptr_align4_32; merge with recursive count. Adapt old store_ptr_align4 calls to _32 wrapper (or explicit ptr_size_eq_4).",
+          "destination": "group-local case_lib with suffix __dll_len_payload_cycle"
+        },
+        {
+          "name_hint": "dllseg_two_links_uint_bound",
+          "statement_shape": "seg node prev middle middle_prev xs ** links middle next middle_prev ** links next next_after middle |-- pure(Zlength xs+2 < 2^32)",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListLenGet_entail_wit_2_1"
+          ],
+          "premises": [
+            {
+              "premise": "segment and two separated node links",
+              "discharged_by": "before segment, tmp node and newly opened next node in left disjunct"
+            }
+          ],
+          "proof_strategy": "Count 2*Zlength xs+4 aligned units. store_align4_n_valid gives count <= addr_max_unsigned/4+1. Current naive_C_Rules=naive_C_Rules32 and addr_max_unsigned_eq_int yield 2*Zlength xs+4 <= 1073741824, hence Zlength xs+2 < 4294967296. Use prop_apply_p to retain original structural resources for snoc.",
+          "destination": "group-local case_lib with suffix __dll_len_payload_cycle"
+        },
+        {
+          "name_hint": "dllseg_stop",
+          "statement_shape": "seg stop prev stop last xs |-- pure(xs=nil) && pure(prev=last) && emp",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListLenGet_return_wit_1",
+            "proof_of_DoubleLinkListLenGet_return_wit_2"
+          ],
+          "premises": [
+            {
+              "premise": "segment starts at stop",
+              "discharged_by": "exit guard next=head or first=head"
+            }
+          ],
+          "proof_strategy": "Case split xs; nonempty explicitly asserts stop<>stop, empty exposes endpoint equality.",
+          "destination": "group-local case_lib with suffix __dll_len_payload_cycle"
+        }
+      ],
+      "likely_helper_declarations": [
+        {
+          "name_hint": "dll_ptrs_Zlength",
+          "statement_shape": "forall A (nodes:list (DL_Node A)), Zlength (xizi_dll_ptrs nodes) = Zlength nodes",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListLenGet_entail_wit_1"
+          ],
+          "premises": [
+            {
+              "premise": "arbitrary nodes",
+              "discharged_by": "input logical list"
+            }
+          ],
+          "proof_strategy": "Unfold xizi_dll_ptrs and use map length preservation / list induction.",
+          "destination": "group-local case_lib with suffix __dll_len_payload_cycle"
+        },
+        {
+          "name_hint": "dllseg_unfold_full",
+          "statement_shape": "node <> stop -> xizi_dllseg node prev stop last xs |-- EX next rest, pure(xs=node::rest /\\ node<>0) && links node next prev ** xizi_dllseg next node stop last rest",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListLenGet_entail_wit_2_1",
+            "proof_of_DoubleLinkListLenGet_entail_wit_2_2"
+          ],
+          "premises": [
+            {
+              "premise": "node<>stop",
+              "discharged_by": "loop guard next<>linklist_pre or first_2<>linklist_pre"
+            },
+            {
+              "premise": "segment ownership",
+              "discharged_by": "todo segment in invariant"
+            }
+          ],
+          "proof_strategy": "Case split xs; empty contradicts guard, cons exposes existing guards and links. Reuse old archived local assertion.",
+          "destination": "group-local case_lib with suffix __dll_len_payload_cycle"
+        },
+        {
+          "name_hint": "dll_links_neq",
+          "statement_shape": "links a an ap ** links b bn bp |-- pure(a<>b)",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListLenGet_entail_wit_2_1",
+            "proof_of_DoubleLinkListLenGet_return_wit_1"
+          ],
+          "premises": [
+            {
+              "premise": "two separated links",
+              "discharged_by": "prefix and next node (or sentinel) ownership in invariant"
+            }
+          ],
+          "proof_strategy": "If a=b, dup_store_ptr on next fields contradicts disjoint ownership; otherwise retain resources as required.",
+          "destination": "group-local case_lib with suffix __dll_len_payload_cycle"
+        },
+        {
+          "name_hint": "dllseg_snoc",
+          "statement_shape": "middle<>0 -> seg node prev middle middle_prev xs ** links middle next middle_prev ** links next next_after middle |-- seg node prev next middle (xs++[middle]) ** links next next_after middle",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListLenGet_entail_wit_2_1",
+            "proof_of_DoubleLinkListLenGet_return_wit_1"
+          ],
+          "premises": [
+            {
+              "premise": "middle<>0",
+              "discharged_by": "PreH7 in loop/return nonempty branch"
+            },
+            {
+              "premise": "segment and two nodes",
+              "discharged_by": "before segment, tmp links, and opened next links; return uses sentinel links as next links"
+            }
+          ],
+          "proof_strategy": "Reuse archived induction on xs. The second node links establish stop-exclusion at every induction step by duplicate next-field contradiction.",
+          "destination": "group-local case_lib with suffix __dll_len_payload_cycle"
+        },
+        {
+          "name_hint": "dllseg_align4",
+          "statement_shape": "seg node prev stop last xs |-- store_align4_n (2 * Zlength xs)",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListLenGet_entail_wit_2_1"
+          ],
+          "premises": [
+            {
+              "premise": "segment ownership",
+              "discharged_by": "before segment in invariant"
+            }
+          ],
+          "proof_strategy": "Induct xs; each pair of links yields two aligned units via store_ptr_align4_32; merge with recursive count. Adapt old store_ptr_align4 calls to _32 wrapper (or explicit ptr_size_eq_4).",
+          "destination": "group-local case_lib with suffix __dll_len_payload_cycle"
+        },
+        {
+          "name_hint": "dllseg_two_links_uint_bound",
+          "statement_shape": "seg node prev middle middle_prev xs ** links middle next middle_prev ** links next next_after middle |-- pure(Zlength xs+2 < 2^32)",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListLenGet_entail_wit_2_1"
+          ],
+          "premises": [
+            {
+              "premise": "segment and two separated node links",
+              "discharged_by": "before segment, tmp node and newly opened next node in left disjunct"
+            }
+          ],
+          "proof_strategy": "Count 2*Zlength xs+4 aligned units. store_align4_n_valid gives count <= addr_max_unsigned/4+1. Current naive_C_Rules=naive_C_Rules32 and addr_max_unsigned_eq_int yield 2*Zlength xs+4 <= 1073741824, hence Zlength xs+2 < 4294967296. Use prop_apply_p to retain original structural resources for snoc.",
+          "destination": "group-local case_lib with suffix __dll_len_payload_cycle"
+        },
+        {
+          "name_hint": "dllseg_stop",
+          "statement_shape": "seg stop prev stop last xs |-- pure(xs=nil) && pure(prev=last) && emp",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListLenGet_return_wit_1",
+            "proof_of_DoubleLinkListLenGet_return_wit_2"
+          ],
+          "premises": [
+            {
+              "premise": "segment starts at stop",
+              "discharged_by": "exit guard next=head or first=head"
+            }
+          ],
+          "proof_strategy": "Case split xs; nonempty explicitly asserts stop<>stop, empty exposes endpoint equality.",
+          "destination": "group-local case_lib with suffix __dll_len_payload_cycle"
+        }
+      ],
+      "natural_language_proof_strategy": "Reuse the old address-only length loop helper proofs in the common case_lib with current group suffix, adapting 32-bit architecture lemmas. For every witness frame arbitrary payloads; decompose only at initialization and compose only on return. Select the complete left disjunct of generated disjunctive VCs. Use finite-heap cardinality for the nonempty increment, never add an input length bound.",
+      "proof_strategy": "Shared segment unfold/snoc/stop and finite-heap bound; pointer projection length lemma; payload bridge composition.",
+      "grouping_reason": "All six witnesses belong to one function and share the same split invariant and structural helper family; 6 is below the 12-witness limit. Keeping them together avoids duplicating snoc/stop helpers and needs no inter-group dependency.",
+      "proof_group_ready": true
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 6,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "8ac4dff31b44675cd4691a64e480b2dc6f487139dc0f7a0ef6e2de137c4c6077",
+  "target_witnesses": [
+    "proof_of_AppendSingleLinkList_entail_wit_1",
+    "proof_of_AppendSingleLinkList_entail_wit_2",
+    "proof_of_AppendSingleLinkList_return_wit_1"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "append_single_link_all_manual",
+      "witness_names": [
+        "proof_of_AppendSingleLinkList_entail_wit_1",
+        "proof_of_AppendSingleLinkList_entail_wit_2",
+        "proof_of_AppendSingleLinkList_return_wit_1"
+      ],
+      "representative_witness": "proof_of_AppendSingleLinkList_entail_wit_2",
+      "dependencies": [],
+      "difficulty": "medium",
+      "confidence": "high",
+      "grouping_reason": "All three obligations are the ordered initialization, loop-step, and return phases of the same singly-linked-list append invariant. They use one coherent xizi_sll/xizi_sllseg lemma family, total only 3 witnesses (within the limit of 12), and can be proved sequentially by one worker without cross-group helpers; a single group is therefore the minimum valid grouping.",
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "proof_strategy": "Prove the initialization entailment by unfolding the head and fresh-node predicates and choosing the empty prefix; prove the loop entailment by decomposing the non-null suffix and extending the traversed segment by one node; prove return by reducing the null suffix, constructing the appended singleton node, composing it with the traversed segment, and rebuilding the head view. Use only existing proved declarations from QCIPLib.xizi.xizi_single_link_common.xizi_single_link_lib.",
+      "per_witness_plan": {
+        "proof_of_AppendSingleLinkList_entail_wit_1": {
+          "judgment": "proofable",
+          "witness_instantiation": "First branch: next is the head's stored successor, l1a := nil, l1b := l. Second branch: l1b := l.",
+          "space_plan": "Unfold xizi_sll_head/generic_sll_head and xizi_sll_node; retain the two next-field cells, use xizi_sllseg linklist_pre linklist_pre nil as emp, and frame xizi_sll next l plus the fresh node cell.",
+          "pure_plan": "The head and node predicate conjuncts supply linklist_pre <> 0 and linklist_node_pre <> 0; list identities reduce by simplification.",
+          "existing_lemmas": []
+        },
+        "proof_of_AppendSingleLinkList_entail_wit_2": {
+          "judgment": "proofable",
+          "witness_instantiation": "Decomposition branch: l1b_2 = next_2 :: lnext, choose next := successor(next_2), l1a := l1a_2 ++ [node], l1b := lnext. Already-decomposed branch: choose l1a := l1a_2 ++ [node], l1b := l0.",
+          "space_plan": "Apply xizi_sll_not_zero to the non-null suffix, create xizi_sllseg node next_2 [node] with xizi_sllseg_len1, then compose it with the old prefix using xizi_sllseg_sllseg; preserve the fresh-node cell by framing.",
+          "pure_plan": "PreH2/node <> 0 discharges xizi_sllseg_len1; PreH6/PreH7 discharges xizi_sll_not_zero. Substitute l1b_2 = next_2 :: lnext/l0 and use PreH1 plus app_assoc to establish the new list decomposition.",
+          "existing_lemmas": [
+            "xizi_sll_not_zero",
+            "xizi_sllseg_len1",
+            "xizi_sllseg_sllseg"
+          ]
+        },
+        "proof_of_AppendSingleLinkList_return_wit_1": {
+          "judgment": "proofable",
+          "witness_instantiation": "After rebuilding the complete list, decompose its non-null root and choose q as the stored successor of linklist_pre; the tail list is l ++ [linklist_node_pre].",
+          "space_plan": "Use next = 0 with xizi_sll_zero to derive l1b = nil; use xizi_sll_len1 for the new node ending at NULL, xizi_sll_cons for node -> linklist_node_pre, and xizi_sllseg_sll to combine the traversed prefix with [node; linklist_node_pre]. Apply xizi_sll_not_zero at the root and unfold xizi_sll_head to expose the required head cell and tail list.",
+          "pure_plan": "PreH2, PreH3/PreH4, and PreH5 discharge all non-null premises. PreH1, l1b = nil, the list equation returned by xizi_sll_not_zero, app_assoc, and constructor injectivity yield the tail equality l0 = l ++ [linklist_node_pre].",
+          "existing_lemmas": [
+            "xizi_sll_zero",
+            "xizi_sllseg_start_not_zero",
+            "xizi_sll_len1",
+            "xizi_sll_cons",
+            "xizi_sllseg_sll",
+            "xizi_sll_not_zero"
+          ]
+        }
+      },
+      "required_forbidden_lemma_scan": {
+        "policy": "exact-name-zero-match",
+        "scan_assigned_manual_proof_bodies": [
+          "proof_of_AppendSingleLinkList_entail_wit_1",
+          "proof_of_AppendSingleLinkList_entail_wit_2",
+          "proof_of_AppendSingleLinkList_return_wit_1"
+        ],
+        "scan_case_lib": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_lib.v",
+        "exact_names": [
+          "logic_equiv_refl",
+          "elim_wand_emp_emp",
+          "logic_equiv_symm",
+          "sepcon_emp_logic_equiv'",
+          "logic_equiv_andp_comm",
+          "logic_equiv_sepcon_comm",
+          "logic_equiv_sepcon_emp",
+          "logic_equiv_andp_truep",
+          "logic_equiv_truep_andp",
+          "truep_andp_right_equiv",
+          "logic_equiv_orp_comm",
+          "logic_equiv_trans",
+          "logic_equiv_orp_assoc",
+          "logic_equiv_sepcon_assoc",
+          "logic_equiv_andp_assoc",
+          "logic_equiv_sepcon_orp",
+          "logic_equiv_sepcon_orp_distr",
+          "logic_equiv_orp_sepcon",
+          "derivable1_trans",
+          "derivable1_refl",
+          "derivable1_sepcon_comm",
+          "coq_prop_andp_right",
+          "derivable1_sepcon_mono"
+        ],
+        "required_outcome": "zero-matches-in-assigned-manual-proof-bodies-and-case-lib",
+        "on_match": "reject group result and rework the affected proof before parent verification"
+      }
+    }
+  ],
+  "blockers": [],
+  "recommended_next_phase": "vc-proving-preparing",
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

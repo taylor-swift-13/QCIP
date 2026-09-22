@@ -1,0 +1,60 @@
+{
+  "schema_version": "qcp-group-plan/v1",
+  "source_goal_version": "92123a41ded746df15be5b1630a9a02e1ad1e77a5533851e60fdfe2548d96d62",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_empty_return_wit_1",
+    "proof_of_xizi_double_link_empty_return_wit_2",
+    "proof_of_xizi_double_link_empty_derive_nil_case_by_general"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "dll_empty_returns_and_nil_derivation",
+      "witness_names": [
+        "proof_of_xizi_double_link_empty_return_wit_1",
+        "proof_of_xizi_double_link_empty_return_wit_2",
+        "proof_of_xizi_double_link_empty_derive_nil_case_by_general"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_empty_return_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "For return_wit_1, select its first disjunct, split nodes_general, reject nil from first<>head and the segment endpoint equation, then fold/close the sentinel fields plus complete segment into xizi_dll. For return_wit_2, select its second disjunct, substitute first=head, split nodes_general, preserve the nil segment, and reject the cons case by unfolding xizi_dllseg at node=stop. For the derive witness, instantiate nodes_general=nil, frame xizi_dll head nil beside a wand, use separation adjunction, reject the general non-nil branch by contradiction, and in the nil branch instantiate retval=1 while retaining the supplied DLL. No helper declaration is needed.",
+      "natural_language_proof_strategy": "Use the circular segment's endpoint shape to decide whether the abstract node list is empty, then reuse the same xizi_dll ownership both in the function return proofs and in the nil-case contract derivation.",
+      "grouping_reason": "Same function, same xizi_dll/xizi_dllseg representation, same nil/non-nil list split, no helper family or dependency boundary, and three witnesses within the controller limit of 12.",
+      "confidence": "high",
+      "difficulty": "low",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_empty_return_wit_1": {
+          "judgment": "proofable",
+          "route": "nonempty list by segment endpoint contradiction, then DLL close"
+        },
+        "proof_of_xizi_double_link_empty_return_wit_2": {
+          "judgment": "proofable",
+          "route": "empty list forced by segment start=stop, with segment preservation"
+        },
+        "proof_of_xizi_double_link_empty_derive_nil_case_by_general": {
+          "judgment": "proofable",
+          "route": "instantiate general nodes with nil and discharge the postcondition wand by branch analysis"
+        }
+      },
+      "premise_discharge": {
+        "nonempty_return": "first<>head plus xizi_dllseg's nil endpoint equation rules out nodes_general=nil",
+        "empty_return": "first=head plus xizi_dllseg's step condition rules out nodes_general=cons _ _",
+        "dll_reconstruction": "owned sentinel next/prev stores and the complete segment are exactly xizi_dll's representation",
+        "nil_derivation": "choose nodes_general=nil; the non-nil general branch contradicts itself and the nil branch supplies retval_2=1 plus xizi_dll head nil",
+        "ownership_preservation": "all routes reuse or consume-and-return the existing spatial resource without duplication"
+      }
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

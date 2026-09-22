@@ -1,0 +1,217 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "phase": "vc-checking",
+  "status": "completed",
+  "source_goal_version": "5dcaa09df7ca6503b87f738963785acf9bad974a47cb41733578f212d23e868a",
+  "target_witnesses": [
+    "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+    "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+    "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+    "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+    "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4",
+    "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case",
+    "proof_of_DoubleLinkListInsertNodeBefore_derive_member_case_by_dispatch_case"
+  ],
+  "forbidden_lemma_scan_policy": {
+    "required_for_every_group": "yes",
+    "scan_scope": [
+      "assigned witness proof bodies",
+      "group-local case_lib helper declarations"
+    ],
+    "names": [
+      "logic_equiv_refl",
+      "elim_wand_emp_emp",
+      "logic_equiv_symm",
+      "sepcon_emp_logic_equiv'",
+      "logic_equiv_andp_comm",
+      "logic_equiv_sepcon_comm",
+      "logic_equiv_sepcon_emp",
+      "logic_equiv_andp_truep",
+      "logic_equiv_truep_andp",
+      "truep_andp_right_equiv",
+      "logic_equiv_orp_comm",
+      "logic_equiv_trans",
+      "logic_equiv_orp_assoc",
+      "logic_equiv_sepcon_assoc",
+      "logic_equiv_andp_assoc",
+      "logic_equiv_sepcon_orp",
+      "logic_equiv_sepcon_orp_distr",
+      "logic_equiv_orp_sepcon",
+      "derivable1_trans",
+      "derivable1_refl",
+      "derivable1_sepcon_comm",
+      "coq_prop_andp_right",
+      "derivable1_sepcon_mono"
+    ]
+  },
+  "proof_groups": [
+    {
+      "group_id": "entry_dispatch_decomposition",
+      "witness_names": [
+        "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1"
+      ],
+      "representative_witness": "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+      "dependencies": [],
+      "difficulty": "high",
+      "confidence": "high",
+      "vc_shape": {
+        "pre_spatial": "linklist cell |-> linklist_pre ** xizi_dll head_dispatch_case nodes_dispatch_case ** xizi_dll_node linklist_node_pre",
+        "pre_pure": "xizi_double_link_insert_before_anchor head_dispatch_case nodes_dispatch_case linklist_pre, i.e. In linklist_pre nodes_dispatch_case or linklist_pre = head_dispatch_case",
+        "pre_exists": "none",
+        "post_spatial": "one of four exposed circular-DLL cut layouts: first member, interior member, nonempty sentinel, or empty sentinel, with the standalone inserted node framed",
+        "post_pure": "first-occurrence decomposition or absent-sentinel append equation, non-null/distinct endpoint facts, and predecessor/list-prefix equations",
+        "post_exists": "branch-specific first/last/next/predecessor and list-prefix/suffix witnesses"
+      },
+      "witness_instantiation": {
+        "member_case": "Use xizi_in_first_split__insert_before_dispatch_and_reassembly to obtain nodes_before/nodes_after; split the DLL segment at linklist_pre. If nodes_before=nil, instantiate the first-member disjunct. Otherwise snoc-decompose nodes_before into prefix0 ++ [prev], split again at prev, and instantiate the interior-member disjunct.",
+        "sentinel_case": "Set linklist_pre=head_dispatch_case. Use stop-not-in to show the sentinel is absent from nodes_dispatch_case; snoc-decompose the list. Empty chooses the empty-sentinel disjunct; nonempty chooses the predecessor/sentinel disjunct.",
+        "list_result": "Member cases use xizi_insert_before_first_occurrence__insert_before_dispatch_and_reassembly; sentinel cases use xizi_insert_before_absent_append__insert_before_dispatch_and_reassembly."
+      },
+      "space_plan": "Apply xizi_dll_open, retain sentinel links, recursively split xizi_dllseg at the selected anchor and (for interior/nonempty-sentinel branches) its last prefix node, unfold only the boundary segment cells, then cancel unchanged link fields and suffix/prefix segments into the matching post disjunct.",
+      "pure_plan": "Extract head and inserted-node non-nullness from xizi_dll/xizi_dll_node. Derive stop-not-in by induction on xizi_dllseg. Ownership of two node_next fields discharges address inequality required while rebuilding segments. The case-lib first-split/first-occurrence/absent-append lemmas supply all list equations; no arithmetic hypothesis beyond pointer-field address injectivity is missing.",
+      "refinement_plan": "not applicable; this is a separation-logic shape/list decomposition VC with no safeExec state",
+      "candidate_helper_declarations": [],
+      "local_proof_fact_shapes": [
+        "next-field ownership at two nodes entails the base node addresses differ",
+        "xizi_dllseg over prefix ++ node :: suffix can be split at node",
+        "the stop address does not occur in the abstract node list of xizi_dllseg",
+        "xizi_dll and xizi_dll_node expose head/standalone-node non-nullness"
+      ],
+      "helper_policy": "No new case_lib declaration is required. Keep these derivations as local assertions inside the assigned witness proof so this rename-only task changes proof theorem names/bodies only and does not extend the mathematical spec.",
+      "premise_discharge": {
+        "head_nonnull": "unfold xizi_dll/XiziDLL.dll in the precondition",
+        "inserted_nonnull": "unfold xizi_dll_node",
+        "member_first_occurrence": "seed case-lib lemmas xizi_in_first_split__insert_before_dispatch_and_reassembly and xizi_insert_before_first_occurrence__insert_before_dispatch_and_reassembly",
+        "sentinel_absence": "xizi_dllseg_stop_not_in after xizi_dll_open",
+        "sentinel_append": "seed case-lib lemma xizi_insert_before_absent_append__insert_before_dispatch_and_reassembly"
+      },
+      "proof_strategy": "Unfold the anchor disjunction, open the DLL, prove stop-not-in and endpoint non-null facts, then split member/sentinel and empty/nonempty-prefix cases. Instantiate the exact one of four post disjuncts, rebuild only exposed boundary cells, and discharge list equations with the three existing seed lemmas.",
+      "grouping_reason": "This witness is the only large existential four-way decomposition and uses the segment-splitting helper family; it is intentionally isolated from post-update reassembly.",
+      "forbidden_lemma_scan": {
+        "required": "yes",
+        "must_scan_all_23_names": "yes",
+        "names_ref": "$.forbidden_lemma_scan_policy.names",
+        "completion_condition": "record zero exact-name hits after proof and helper edits; any hit requires in-group rewrite before reporting"
+      }
+    },
+    {
+      "group_id": "return_dll_reassembly",
+      "witness_names": [
+        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4"
+      ],
+      "representative_witness": "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+      "dependencies": [],
+      "difficulty": "high",
+      "confidence": "high",
+      "vc_shape": {
+        "pre_spatial": "updated concrete sentinel, predecessor, inserted-node, anchor-node link fields plus unchanged prefix/suffix xizi_dllseg resources; exact subset varies by branch",
+        "pre_pure": "branch-specific list decomposition and updated-list equation, head/inserted/member/predecessor non-nullness and inequality guards",
+        "pre_exists": "none",
+        "post_spatial": "xizi_dll head updated_nodes (or the equivalent diagnostic split-goal xizi_dllseg); each target theorem is the original unsplit disjunction",
+        "post_pure": "only the supplied updated-list equation and endpoint guards are needed",
+        "post_exists": "return_wit_4's equivalent open-DLL alternative chooses updated first/last endpoints; the full-DLL route can avoid exposing them"
+      },
+      "witness_instantiation": {
+        "return_wit_1": "Normalize nodes_dispatch_case=nil and linklist_pre=head; choose first=last=inserted for xizi_dll and next=head for its singleton xizi_dllseg.",
+        "return_wit_2": "Build segment [prev; inserted], append it to prefix0's segment, and close the DLL with first and inserted as final tail.",
+        "return_wit_3": "Build segment [prev; inserted; linklist_pre] followed by nodes_after, append to prefix0, and close with sentinel first/last. Rewrite PreH6 and nodes_before=prefix0++[prev].",
+        "return_wit_4": "After nodes_before=nil, build first::nodes_after under inserted, then apply xizi_dll_nonempty_rev with new first=inserted and tail=last; rewrite PreH7 for the updated abstract list."
+      },
+      "space_plan": "Normalize pure equalities first. Lift the relevant link fields and segments. Construct one-, two-, or three-node xizi_dllseg prefixes by unfolding the fixpoint, append them to existing prefix/suffix segments, then apply xizi_dll_close or xizi_dll_nonempty_rev. Exact field ownership on the left covers every link demanded by the updated circular DLL.",
+      "pure_plan": "return_wit_1 uses the given head/inserted non-null facts and derives inserted<>head from simultaneous ownership of their node_next fields. return_wit_2/3 use supplied predecessor/member guards plus the same inserted<>head fact. return_wit_4 uses first<>0 and first<>head directly and derives inserted<>head from the inserted/sentinel next fields. Rewriting PreH5/PreH6/PreH7 and app associativity yields each target node sequence.",
+      "refinement_plan": "not applicable; these are structural DLL reconstruction obligations",
+      "candidate_helper_declarations": [],
+      "local_proof_fact_shapes": [
+        "next-field ownership at inserted and sentinel entails inserted<>sentinel",
+        "compatible xizi_dllseg fragments concatenate over list append",
+        "one concrete links cell prepends a node to xizi_dllseg",
+        "two-/three-node updated fragments are built by direct xizi_dllseg unfolding"
+      ],
+      "helper_policy": "No new case_lib declaration is required. Repeat or locally assert the small structural facts inside each witness proof, preserving the rename-only/no-new-spec scope.",
+      "premise_discharge": {
+        "segment_endpoint_compatibility": "follows syntactically from prev/before_prev/head/last parameters in the precondition",
+        "nonnull_and_not_stop_guards": "PreH1/PreH2/PreH3/PreH7/PreH8/PreH10/PreH11 as applicable, plus xizi_next_fields_distinct for inserted<>head",
+        "updated_list_equalities": "PreH5 in return_wit_1/2, PreH6 in return_wit_3, and PreH7 in return_wit_4; normalize nodes_before/nodes_dispatch_case and app associativity"
+      },
+      "per_witness_plan": {
+        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1": "Direct singleton circular DLL construction after substitutions; no segment-append helper is needed.",
+        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2": "Construct [prev;inserted], append to prefix0, and close.",
+        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3": "Construct [prev;inserted;anchor]++nodes_after, append to prefix0, and close.",
+        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4": "Prepend first to the suffix segment, then close with inserted as the new first node."
+      },
+      "proof_strategy": "Prove the four related return branches sequentially, using local assertions for node-address distinctness and segment concatenation/cons. Normalize list equations only after reconstructing the spatial segment, then close xizi_dll. Diagnostic split goals are hints only and must not be added as assigned witnesses.",
+      "grouping_reason": "All four witnesses share the same concrete-link cancellation and xizi_dllseg composition/closure pattern and fit well below the 12-witness limit.",
+      "forbidden_lemma_scan": {
+        "required": "yes",
+        "must_scan_all_23_names": "yes",
+        "names_ref": "$.forbidden_lemma_scan_policy.names",
+        "completion_condition": "record zero exact-name hits after all four proofs and group-local helpers; any hit requires in-group rewrite before reporting"
+      }
+    },
+    {
+      "group_id": "dispatch_case_derivation",
+      "witness_names": [
+        "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case",
+        "proof_of_DoubleLinkListInsertNodeBefore_derive_member_case_by_dispatch_case"
+      ],
+      "representative_witness": "proof_of_DoubleLinkListInsertNodeBefore_derive_member_case_by_dispatch_case",
+      "dependencies": [],
+      "difficulty": "medium",
+      "confidence": "high",
+      "vc_shape": {
+        "pre_spatial": "input xizi_dll plus standalone inserted node",
+        "pre_pure": "sentinel case has no explicit pure fact; member case has In linklist_pre nodes_member_case",
+        "pre_exists": "none",
+        "post_spatial": "same dispatch-state DLL and node, framed with a wand from the dispatch postcondition to the case-specific postcondition",
+        "post_pure": "xizi_double_link_insert_before_anchor for the chosen dispatch state",
+        "post_exists": "head_dispatch_case and nodes_dispatch_case, both instantiated from the input state"
+      },
+      "witness_instantiation": {
+        "sentinel_case": "Choose head_dispatch_case=linklist_pre and nodes_dispatch_case=nodes_sentinel_case; prove anchor by its sentinel equality branch. Prove head is absent from its DLL node list, rewrite insertion as nodes_sentinel_case++[inserted], and make the wand consequent syntactically identical.",
+        "member_case": "Choose head_dispatch_case=head_member_case and nodes_dispatch_case=nodes_member_case; prove anchor from the supplied In fact. The wand antecedent and consequent are definitionally identical."
+      },
+      "space_plan": "Frame the input xizi_dll and xizi_dll_node into the existential dispatch state. Introduce the wand using the standard separation-logic adjunction and discharge it by cancellation/entailer once the abstract list expressions are equal.",
+      "pure_plan": "Member anchor is exactly the given In hypothesis. Sentinel anchor is the equality alternative. For sentinel result equality, open xizi_dll and induct on its segment to prove the stop/sentinel is not in nodes, then apply xizi_insert_before_absent_append__insert_before_dispatch_and_reassembly.",
+      "refinement_plan": "not applicable; continuation is a separation-logic wand, not a safeExec refinement state",
+      "candidate_helper_declarations": [],
+      "local_proof_fact_shapes": [
+        "the sentinel/head does not occur in the abstract node list represented by xizi_dll"
+      ],
+      "helper_policy": "No new case_lib declaration is required; derive head-not-in-nodes locally in the sentinel witness and leave the member witness as a direct instantiation proof.",
+      "premise_discharge": {
+        "member_anchor": "the input pure In hypothesis",
+        "sentinel_anchor": "right branch of xizi_double_link_insert_before_anchor by reflexivity",
+        "sentinel_absent": "xizi_dll_head_not_in_nodes helper proved from the input DLL",
+        "sentinel_list_result": "seed lemma xizi_insert_before_absent_append__insert_before_dispatch_and_reassembly",
+        "wand": "after the relevant list rewrite, antecedent and consequent are identical and the framed heap is unchanged"
+      },
+      "per_witness_plan": {
+        "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case": "Derive head-not-in-nodes, instantiate identical dispatch state, rewrite absent insertion to append, then introduce/cancel the wand.",
+        "proof_of_DoubleLinkListInsertNodeBefore_derive_member_case_by_dispatch_case": "Instantiate identical dispatch state from the In premise and introduce/cancel the identity wand."
+      },
+      "proof_strategy": "Instantiate dispatch variables with the input abstract state. Use the anchor's equality/In alternatives, derive sentinel absence only for the sentinel witness, simplify the abstract insertion result, and close the identity continuation wand without changing any generated statement.",
+      "grouping_reason": "Both witnesses are direct dispatch-state/continuation derivations; they share existential instantiation and wand handling and do not require the return group's segment-append helpers.",
+      "forbidden_lemma_scan": {
+        "required": "yes",
+        "must_scan_all_23_names": "yes",
+        "names_ref": "$.forbidden_lemma_scan_policy.names",
+        "completion_condition": "record zero exact-name hits after both proofs and the group-local helper; any hit requires in-group rewrite before reporting"
+      }
+    }
+  ],
+  "blockers": [],
+  "controller_acceptance": "pending-controller-only",
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 7,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

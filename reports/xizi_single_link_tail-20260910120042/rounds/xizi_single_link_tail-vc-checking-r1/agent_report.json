@@ -1,0 +1,771 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "status": "completed",
+    "source_version": "0a895d5369b638511ead55271aa3dd20a04fdbea2d3a652f0e63bb24060d2b11",
+    "source_goal_version": "ac6b605538e2cbcd0c4166cb53459c8e4a3855b9894ab72643e87189e564e4e3",
+    "changed_files": [],
+    "blockers": [],
+    "vc_checking": {
+      "status": "completed",
+      "source_version": "0a895d5369b638511ead55271aa3dd20a04fdbea2d3a652f0e63bb24060d2b11",
+      "source_goal_version": "ac6b605538e2cbcd0c4166cb53459c8e4a3855b9894ab72643e87189e564e4e3",
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "ac6b605538e2cbcd0c4166cb53459c8e4a3855b9894ab72643e87189e564e4e3",
+        "target_witnesses": [
+          "proof_of_SingleLinkListGetTailNode_entail_wit_1",
+          "proof_of_SingleLinkListGetTailNode_entail_wit_2",
+          "proof_of_SingleLinkListGetTailNode_entail_wit_3",
+          "proof_of_SingleLinkListGetTailNode_return_wit_1"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "tail_traversal",
+            "witness_names": [
+              "proof_of_SingleLinkListGetTailNode_entail_wit_1",
+              "proof_of_SingleLinkListGetTailNode_entail_wit_2",
+              "proof_of_SingleLinkListGetTailNode_entail_wit_3",
+              "proof_of_SingleLinkListGetTailNode_return_wit_1"
+            ],
+            "representative_witness": "proof_of_SingleLinkListGetTailNode_entail_wit_3",
+            "dependencies": [],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "tail_of_sentinel_decomposition",
+                "statement_shape": "forall (head tail : Z) (xs prefix : list Z), head :: xs = prefix ++ [tail] -> tail = xizi_sll_tail_value xs head",
+                "used_by_witnesses": [
+                  "proof_of_SingleLinkListGetTailNode_return_wit_1"
+                ],
+                "premises": [
+                  {
+                    "premise": "head :: xs = prefix ++ [tail]",
+                    "discharged_by": "loop invariant sequence equation after xizi_sll_zero shows l2 = nil",
+                    "needs_unfold": [
+                      "xizi_sll_tail_value"
+                    ],
+                    "arithmetic": "none",
+                    "spatial_resource": "xizi_sll 0 l2 supplies l2 = nil"
+                  }
+                ],
+                "proof_strategy": "Apply last with default head to the equation. The right side reduces to tail by last_last. On the left last (head :: xs) head = last xs head by destructing xs. Reverse the resulting equality.",
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "expected_helpers": [
+              "tail_of_sentinel_decomposition__tail_traversal"
+            ],
+            "proof_strategy": "Prove the left disjunct of each witness. Factor generic payloads once, initialize empty prefix, advance by singleton segment composition, and reassemble at NULL. Use the last-element equation on the sentinel-inclusive sequence for return. Any new helper must carry __tail_traversal suffix in the group-local case_lib.",
+            "grouping_reason": "All four witnesses belong to the original SingleLinkListGetTailNode loop and share prefix/suffix composition and preserved payload framing. Four witnesses fit the controller bound of twelve; no intergroup dependency warrants splitting.",
+            "confidence": "high",
+            "per_witness_plan": {
+              "proof_of_SingleLinkListGetTailNode_entail_wit_1": {
+                "witness_name": "proof_of_SingleLinkListGetTailNode_entail_wit_1",
+                "judgment": "proofable",
+                "vc_shape": {
+                  "pre_spatial": "xizi_sll_head_payload storeA head l",
+                  "pre_pure": "none",
+                  "pre_exists": "All parameters are universally quantified; predicate unfolding introduces the stored next pointer.",
+                  "post_spatial": "xizi_sll_head head (addresses l) ** remove_payloads storeA l",
+                  "post_pure": "none",
+                  "post_exists": "none for the first disjunct"
+                },
+                "witness_instantiation": "Choose left disjunct.",
+                "space_plan": "Apply payload_head_factor__remove_payloads with A, storeA, l, head.",
+                "pure_plan": "No pure side conditions.",
+                "refinement_plan": "No safeExec or abstract program refinement obligation. Preserve original address sequence and arbitrary payload frame.",
+                "used_existing_lemmas": [
+                  "payload_head_factor__remove_payloads"
+                ],
+                "candidate_helper_declarations": [],
+                "premise_discharge": [
+                  "none",
+                  "No pure side conditions."
+                ],
+                "failure_signal": "No semantic gap found.",
+                "recommended_next_phase": "vc-proving-preparing",
+                "analysis_group_candidate": "tail_traversal",
+                "proof_group_candidate": "tail_traversal",
+                "grouping_reason": "Same function, same prefix/suffix list invariant, same framed generic payload resource."
+              },
+              "proof_of_SingleLinkListGetTailNode_entail_wit_2": {
+                "witness_name": "proof_of_SingleLinkListGetTailNode_entail_wit_2",
+                "judgment": "proofable",
+                "vc_shape": {
+                  "pre_spatial": "xizi_sll_head head (addresses l) ** remove_payloads storeA l",
+                  "pre_pure": "none",
+                  "pre_exists": "All parameters are universally quantified; predicate unfolding introduces the stored next pointer.",
+                  "post_spatial": "sllseg head head [] ** head.next |-> next ** sll next (addresses l) ** remove_payloads storeA l",
+                  "post_pure": "head :: addresses l = [] ++ head :: addresses l; head <> 0 twice",
+                  "post_exists": "next, l1, l2"
+                },
+                "witness_instantiation": "Choose left disjunct. Unfold head predicate for next; choose l1 = [], l2 = addresses l.",
+                "space_plan": "Unfold xizi_sll_head/generic_sll_head, retaining next field and suffix. Empty xizi_sllseg is head=head and emp; frame payloads.",
+                "pure_plan": "head <> 0 comes from the head predicate; equation reduces definitionally.",
+                "refinement_plan": "No safeExec or abstract program refinement obligation. Preserve original address sequence and arbitrary payload frame.",
+                "used_existing_lemmas": [
+                  "generic_sll_head",
+                  "generic_sllseg"
+                ],
+                "candidate_helper_declarations": [],
+                "premise_discharge": [
+                  "none",
+                  "head <> 0 comes from the head predicate; equation reduces definitionally."
+                ],
+                "failure_signal": "No semantic gap found.",
+                "recommended_next_phase": "vc-proving-preparing",
+                "analysis_group_candidate": "tail_traversal",
+                "proof_group_candidate": "tail_traversal",
+                "grouping_reason": "Same function, same prefix/suffix list invariant, same framed generic payload resource."
+              },
+              "proof_of_SingleLinkListGetTailNode_entail_wit_3": {
+                "witness_name": "proof_of_SingleLinkListGetTailNode_entail_wit_3",
+                "judgment": "proofable",
+                "vc_shape": {
+                  "pre_spatial": "sllseg head current prefix ** current.next |-> n ** sll n rest ** remove_payloads storeA l",
+                  "pre_pure": "head :: addresses l = prefix ++ current :: rest; current <> 0; head <> 0; n <> 0",
+                  "pre_exists": "All parameters are universally quantified; predicate unfolding introduces the stored next pointer.",
+                  "post_spatial": "sllseg head n (prefix ++ [current]) ** n.next |-> q ** sll q suffix ** remove_payloads storeA l",
+                  "post_pure": "head :: addresses l = (prefix ++ [current]) ++ n :: suffix; n <> 0; head <> 0",
+                  "post_exists": "q, prefix ++ [current], suffix"
+                },
+                "witness_instantiation": "Choose left disjunct. xizi_sll_not_zero reveals rest = n :: suffix and next q.",
+                "space_plan": "Use xizi_sll_not_zero on sll n rest; use xizi_sllseg_len1 on current.next with current <> 0 and merge with prefix using xizi_sllseg_sllseg. Preserve n.next, suffix, and payloads by framing.",
+                "pure_plan": "Substitute rest = n :: suffix in old sequence equality. Associativity of append and singleton append establish the new equation. Nonzero facts come directly from guards/invariant.",
+                "refinement_plan": "No safeExec or abstract program refinement obligation. Preserve original address sequence and arbitrary payload frame.",
+                "used_existing_lemmas": [
+                  "xizi_sll_not_zero",
+                  "xizi_sllseg_len1",
+                  "xizi_sllseg_sllseg",
+                  "app_assoc"
+                ],
+                "candidate_helper_declarations": [],
+                "premise_discharge": [
+                  "head :: addresses l = prefix ++ current :: rest; current <> 0; head <> 0; n <> 0",
+                  "Substitute rest = n :: suffix in old sequence equality. Associativity of append and singleton append establish the new equation. Nonzero facts come directly from guards/invariant."
+                ],
+                "failure_signal": "No semantic gap found.",
+                "recommended_next_phase": "vc-proving-preparing",
+                "analysis_group_candidate": "tail_traversal",
+                "proof_group_candidate": "tail_traversal",
+                "grouping_reason": "Same function, same prefix/suffix list invariant, same framed generic payload resource."
+              },
+              "proof_of_SingleLinkListGetTailNode_return_wit_1": {
+                "witness_name": "proof_of_SingleLinkListGetTailNode_return_wit_1",
+                "judgment": "needs-helper",
+                "vc_shape": {
+                  "pre_spatial": "sllseg head current prefix ** current.next |-> next ** sll next suffix ** remove_payloads storeA l",
+                  "pre_pure": "head :: addresses l = prefix ++ current :: suffix; current <> 0; head <> 0; next = 0",
+                  "pre_exists": "All parameters are universally quantified; predicate unfolding introduces the stored next pointer.",
+                  "post_spatial": "xizi_sll_head_payload storeA head l",
+                  "post_pure": "current = xizi_sll_tail_value (addresses l) head",
+                  "post_exists": "none"
+                },
+                "witness_instantiation": "Choose left disjunct (both are identical).",
+                "space_plan": "Substitute next=0. xizi_sll_zero gives suffix=[] and emp. Build singleton sll current [current] from current.next |-> 0 using xizi_sll_len1. Merge with prefix using xizi_sllseg_sll. Rewrite prefix ++ [current] to head :: addresses l; apply xizi_sll_tail_cons_head, then payload_head_unfactor__remove_payloads.",
+                "pure_plan": "The sequence equation now ends in [current]. The proposed pure last-element helper proves exactly the returned tail equality, including addresses l=[] (the sentinel return case). No payload property is needed.",
+                "refinement_plan": "No safeExec or abstract program refinement obligation. Preserve original address sequence and arbitrary payload frame.",
+                "used_existing_lemmas": [
+                  "xizi_sll_zero",
+                  "xizi_sll_len1",
+                  "xizi_sllseg_sll",
+                  "xizi_sll_tail_cons_head",
+                  "payload_head_unfactor__remove_payloads",
+                  "last_last"
+                ],
+                "candidate_helper_declarations": [
+                  {
+                    "name_hint": "tail_of_sentinel_decomposition",
+                    "statement_shape": "forall (head tail : Z) (xs prefix : list Z), head :: xs = prefix ++ [tail] -> tail = xizi_sll_tail_value xs head",
+                    "used_by_witnesses": [
+                      "proof_of_SingleLinkListGetTailNode_return_wit_1"
+                    ],
+                    "premises": [
+                      {
+                        "premise": "head :: xs = prefix ++ [tail]",
+                        "discharged_by": "loop invariant sequence equation after xizi_sll_zero shows l2 = nil",
+                        "needs_unfold": [
+                          "xizi_sll_tail_value"
+                        ],
+                        "arithmetic": "none",
+                        "spatial_resource": "xizi_sll 0 l2 supplies l2 = nil"
+                      }
+                    ],
+                    "proof_strategy": "Apply last with default head to the equation. The right side reduces to tail by last_last. On the left last (head :: xs) head = last xs head by destructing xs. Reverse the resulting equality.",
+                    "destination": "group-local case_lib with helper_namespace.suffix"
+                  }
+                ],
+                "premise_discharge": [
+                  "head :: addresses l = prefix ++ current :: suffix; current <> 0; head <> 0; next = 0",
+                  "The sequence equation now ends in [current]. The proposed pure last-element helper proves exactly the returned tail equality, including addresses l=[] (the sentinel return case). No payload property is needed."
+                ],
+                "failure_signal": "No semantic gap found.",
+                "recommended_next_phase": "vc-proving-preparing",
+                "analysis_group_candidate": "tail_traversal",
+                "proof_group_candidate": "tail_traversal",
+                "grouping_reason": "Same function, same prefix/suffix list invariant, same framed generic payload resource."
+              }
+            }
+          }
+        ],
+        "grouping_policy": {
+          "controller_policy": "bounded-witness-groups/v1",
+          "balanced_grouping_required": "yes",
+          "max_witnesses_per_group": 12,
+          "single_group_allowed_only_if_target_witness_count_lte": 12,
+          "oversized_group_rejected_by_controller": "yes",
+          "grouping_basis": [
+            "same proof pattern or helper family",
+            "same loop/refinement phase",
+            "dependency ordering",
+            "manual witness order as deterministic tie-breaker"
+          ],
+          "split_required_when": [
+            "target witness count exceeds 12",
+            "any proposed group would exceed 12 witnesses",
+            "proof strategies are unrelated enough to confuse one worker"
+          ],
+          "same_function_related_witnesses": "keep-together-only-within-max-witnesses-per-group",
+          "reason_required_for_each_group": "yes"
+        },
+        "blockers": []
+      },
+      "natural_language_analysis": {
+        "schema_version": "qcp-vc-natural-language-analysis/v1",
+        "source_goal_version": "ac6b605538e2cbcd0c4166cb53459c8e4a3855b9894ab72643e87189e564e4e3",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_SingleLinkListGetTailNode_entail_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "xizi_sll_head_payload storeA head l",
+              "pre_pure": "none",
+              "pre_exists": "All parameters are universally quantified; predicate unfolding introduces the stored next pointer.",
+              "post_spatial": "xizi_sll_head head (addresses l) ** remove_payloads storeA l",
+              "post_pure": "none",
+              "post_exists": "none for the first disjunct"
+            },
+            "witness_instantiation": "Choose left disjunct.",
+            "space_plan": "Apply payload_head_factor__remove_payloads with A, storeA, l, head.",
+            "pure_plan": "No pure side conditions.",
+            "refinement_plan": "No safeExec or abstract program refinement obligation. Preserve original address sequence and arbitrary payload frame.",
+            "used_existing_lemmas": [
+              "payload_head_factor__remove_payloads"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "none",
+              "No pure side conditions."
+            ],
+            "failure_signal": "No semantic gap found.",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "tail_traversal",
+            "proof_group_candidate": "tail_traversal",
+            "grouping_reason": "Same function, same prefix/suffix list invariant, same framed generic payload resource."
+          },
+          {
+            "witness_name": "proof_of_SingleLinkListGetTailNode_entail_wit_2",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "xizi_sll_head head (addresses l) ** remove_payloads storeA l",
+              "pre_pure": "none",
+              "pre_exists": "All parameters are universally quantified; predicate unfolding introduces the stored next pointer.",
+              "post_spatial": "sllseg head head [] ** head.next |-> next ** sll next (addresses l) ** remove_payloads storeA l",
+              "post_pure": "head :: addresses l = [] ++ head :: addresses l; head <> 0 twice",
+              "post_exists": "next, l1, l2"
+            },
+            "witness_instantiation": "Choose left disjunct. Unfold head predicate for next; choose l1 = [], l2 = addresses l.",
+            "space_plan": "Unfold xizi_sll_head/generic_sll_head, retaining next field and suffix. Empty xizi_sllseg is head=head and emp; frame payloads.",
+            "pure_plan": "head <> 0 comes from the head predicate; equation reduces definitionally.",
+            "refinement_plan": "No safeExec or abstract program refinement obligation. Preserve original address sequence and arbitrary payload frame.",
+            "used_existing_lemmas": [
+              "generic_sll_head",
+              "generic_sllseg"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "none",
+              "head <> 0 comes from the head predicate; equation reduces definitionally."
+            ],
+            "failure_signal": "No semantic gap found.",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "tail_traversal",
+            "proof_group_candidate": "tail_traversal",
+            "grouping_reason": "Same function, same prefix/suffix list invariant, same framed generic payload resource."
+          },
+          {
+            "witness_name": "proof_of_SingleLinkListGetTailNode_entail_wit_3",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "sllseg head current prefix ** current.next |-> n ** sll n rest ** remove_payloads storeA l",
+              "pre_pure": "head :: addresses l = prefix ++ current :: rest; current <> 0; head <> 0; n <> 0",
+              "pre_exists": "All parameters are universally quantified; predicate unfolding introduces the stored next pointer.",
+              "post_spatial": "sllseg head n (prefix ++ [current]) ** n.next |-> q ** sll q suffix ** remove_payloads storeA l",
+              "post_pure": "head :: addresses l = (prefix ++ [current]) ++ n :: suffix; n <> 0; head <> 0",
+              "post_exists": "q, prefix ++ [current], suffix"
+            },
+            "witness_instantiation": "Choose left disjunct. xizi_sll_not_zero reveals rest = n :: suffix and next q.",
+            "space_plan": "Use xizi_sll_not_zero on sll n rest; use xizi_sllseg_len1 on current.next with current <> 0 and merge with prefix using xizi_sllseg_sllseg. Preserve n.next, suffix, and payloads by framing.",
+            "pure_plan": "Substitute rest = n :: suffix in old sequence equality. Associativity of append and singleton append establish the new equation. Nonzero facts come directly from guards/invariant.",
+            "refinement_plan": "No safeExec or abstract program refinement obligation. Preserve original address sequence and arbitrary payload frame.",
+            "used_existing_lemmas": [
+              "xizi_sll_not_zero",
+              "xizi_sllseg_len1",
+              "xizi_sllseg_sllseg",
+              "app_assoc"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "head :: addresses l = prefix ++ current :: rest; current <> 0; head <> 0; n <> 0",
+              "Substitute rest = n :: suffix in old sequence equality. Associativity of append and singleton append establish the new equation. Nonzero facts come directly from guards/invariant."
+            ],
+            "failure_signal": "No semantic gap found.",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "tail_traversal",
+            "proof_group_candidate": "tail_traversal",
+            "grouping_reason": "Same function, same prefix/suffix list invariant, same framed generic payload resource."
+          },
+          {
+            "witness_name": "proof_of_SingleLinkListGetTailNode_return_wit_1",
+            "judgment": "needs-helper",
+            "vc_shape": {
+              "pre_spatial": "sllseg head current prefix ** current.next |-> next ** sll next suffix ** remove_payloads storeA l",
+              "pre_pure": "head :: addresses l = prefix ++ current :: suffix; current <> 0; head <> 0; next = 0",
+              "pre_exists": "All parameters are universally quantified; predicate unfolding introduces the stored next pointer.",
+              "post_spatial": "xizi_sll_head_payload storeA head l",
+              "post_pure": "current = xizi_sll_tail_value (addresses l) head",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "Choose left disjunct (both are identical).",
+            "space_plan": "Substitute next=0. xizi_sll_zero gives suffix=[] and emp. Build singleton sll current [current] from current.next |-> 0 using xizi_sll_len1. Merge with prefix using xizi_sllseg_sll. Rewrite prefix ++ [current] to head :: addresses l; apply xizi_sll_tail_cons_head, then payload_head_unfactor__remove_payloads.",
+            "pure_plan": "The sequence equation now ends in [current]. The proposed pure last-element helper proves exactly the returned tail equality, including addresses l=[] (the sentinel return case). No payload property is needed.",
+            "refinement_plan": "No safeExec or abstract program refinement obligation. Preserve original address sequence and arbitrary payload frame.",
+            "used_existing_lemmas": [
+              "xizi_sll_zero",
+              "xizi_sll_len1",
+              "xizi_sllseg_sll",
+              "xizi_sll_tail_cons_head",
+              "payload_head_unfactor__remove_payloads",
+              "last_last"
+            ],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "tail_of_sentinel_decomposition",
+                "statement_shape": "forall (head tail : Z) (xs prefix : list Z), head :: xs = prefix ++ [tail] -> tail = xizi_sll_tail_value xs head",
+                "used_by_witnesses": [
+                  "proof_of_SingleLinkListGetTailNode_return_wit_1"
+                ],
+                "premises": [
+                  {
+                    "premise": "head :: xs = prefix ++ [tail]",
+                    "discharged_by": "loop invariant sequence equation after xizi_sll_zero shows l2 = nil",
+                    "needs_unfold": [
+                      "xizi_sll_tail_value"
+                    ],
+                    "arithmetic": "none",
+                    "spatial_resource": "xizi_sll 0 l2 supplies l2 = nil"
+                  }
+                ],
+                "proof_strategy": "Apply last with default head to the equation. The right side reduces to tail by last_last. On the left last (head :: xs) head = last xs head by destructing xs. Reverse the resulting equality.",
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "premise_discharge": [
+              "head :: addresses l = prefix ++ current :: suffix; current <> 0; head <> 0; next = 0",
+              "The sequence equation now ends in [current]. The proposed pure last-element helper proves exactly the returned tail equality, including addresses l=[] (the sentinel return case). No payload property is needed."
+            ],
+            "failure_signal": "No semantic gap found.",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "tail_traversal",
+            "proof_group_candidate": "tail_traversal",
+            "grouping_reason": "Same function, same prefix/suffix list invariant, same framed generic payload resource."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "tail_traversal",
+            "witness_names": [
+              "proof_of_SingleLinkListGetTailNode_entail_wit_1",
+              "proof_of_SingleLinkListGetTailNode_entail_wit_2",
+              "proof_of_SingleLinkListGetTailNode_entail_wit_3",
+              "proof_of_SingleLinkListGetTailNode_return_wit_1"
+            ],
+            "representative_witness": "proof_of_SingleLinkListGetTailNode_entail_wit_3",
+            "dependencies": [],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "tail_of_sentinel_decomposition",
+                "statement_shape": "forall (head tail : Z) (xs prefix : list Z), head :: xs = prefix ++ [tail] -> tail = xizi_sll_tail_value xs head",
+                "used_by_witnesses": [
+                  "proof_of_SingleLinkListGetTailNode_return_wit_1"
+                ],
+                "premises": [
+                  {
+                    "premise": "head :: xs = prefix ++ [tail]",
+                    "discharged_by": "loop invariant sequence equation after xizi_sll_zero shows l2 = nil",
+                    "needs_unfold": [
+                      "xizi_sll_tail_value"
+                    ],
+                    "arithmetic": "none",
+                    "spatial_resource": "xizi_sll 0 l2 supplies l2 = nil"
+                  }
+                ],
+                "proof_strategy": "Apply last with default head to the equation. The right side reduces to tail by last_last. On the left last (head :: xs) head = last xs head by destructing xs. Reverse the resulting equality.",
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "expected_helpers": [
+              "tail_of_sentinel_decomposition__tail_traversal"
+            ],
+            "proof_strategy": "Prove the left disjunct of each witness. Factor generic payloads once, initialize empty prefix, advance by singleton segment composition, and reassemble at NULL. Use the last-element equation on the sentinel-inclusive sequence for return. Any new helper must carry __tail_traversal suffix in the group-local case_lib.",
+            "grouping_reason": "All four witnesses belong to the original SingleLinkListGetTailNode loop and share prefix/suffix composition and preserved payload framing. Four witnesses fit the controller bound of twelve; no intergroup dependency warrants splitting.",
+            "confidence": "high",
+            "per_witness_plan": {
+              "proof_of_SingleLinkListGetTailNode_entail_wit_1": {
+                "witness_name": "proof_of_SingleLinkListGetTailNode_entail_wit_1",
+                "judgment": "proofable",
+                "vc_shape": {
+                  "pre_spatial": "xizi_sll_head_payload storeA head l",
+                  "pre_pure": "none",
+                  "pre_exists": "All parameters are universally quantified; predicate unfolding introduces the stored next pointer.",
+                  "post_spatial": "xizi_sll_head head (addresses l) ** remove_payloads storeA l",
+                  "post_pure": "none",
+                  "post_exists": "none for the first disjunct"
+                },
+                "witness_instantiation": "Choose left disjunct.",
+                "space_plan": "Apply payload_head_factor__remove_payloads with A, storeA, l, head.",
+                "pure_plan": "No pure side conditions.",
+                "refinement_plan": "No safeExec or abstract program refinement obligation. Preserve original address sequence and arbitrary payload frame.",
+                "used_existing_lemmas": [
+                  "payload_head_factor__remove_payloads"
+                ],
+                "candidate_helper_declarations": [],
+                "premise_discharge": [
+                  "none",
+                  "No pure side conditions."
+                ],
+                "failure_signal": "No semantic gap found.",
+                "recommended_next_phase": "vc-proving-preparing",
+                "analysis_group_candidate": "tail_traversal",
+                "proof_group_candidate": "tail_traversal",
+                "grouping_reason": "Same function, same prefix/suffix list invariant, same framed generic payload resource."
+              },
+              "proof_of_SingleLinkListGetTailNode_entail_wit_2": {
+                "witness_name": "proof_of_SingleLinkListGetTailNode_entail_wit_2",
+                "judgment": "proofable",
+                "vc_shape": {
+                  "pre_spatial": "xizi_sll_head head (addresses l) ** remove_payloads storeA l",
+                  "pre_pure": "none",
+                  "pre_exists": "All parameters are universally quantified; predicate unfolding introduces the stored next pointer.",
+                  "post_spatial": "sllseg head head [] ** head.next |-> next ** sll next (addresses l) ** remove_payloads storeA l",
+                  "post_pure": "head :: addresses l = [] ++ head :: addresses l; head <> 0 twice",
+                  "post_exists": "next, l1, l2"
+                },
+                "witness_instantiation": "Choose left disjunct. Unfold head predicate for next; choose l1 = [], l2 = addresses l.",
+                "space_plan": "Unfold xizi_sll_head/generic_sll_head, retaining next field and suffix. Empty xizi_sllseg is head=head and emp; frame payloads.",
+                "pure_plan": "head <> 0 comes from the head predicate; equation reduces definitionally.",
+                "refinement_plan": "No safeExec or abstract program refinement obligation. Preserve original address sequence and arbitrary payload frame.",
+                "used_existing_lemmas": [
+                  "generic_sll_head",
+                  "generic_sllseg"
+                ],
+                "candidate_helper_declarations": [],
+                "premise_discharge": [
+                  "none",
+                  "head <> 0 comes from the head predicate; equation reduces definitionally."
+                ],
+                "failure_signal": "No semantic gap found.",
+                "recommended_next_phase": "vc-proving-preparing",
+                "analysis_group_candidate": "tail_traversal",
+                "proof_group_candidate": "tail_traversal",
+                "grouping_reason": "Same function, same prefix/suffix list invariant, same framed generic payload resource."
+              },
+              "proof_of_SingleLinkListGetTailNode_entail_wit_3": {
+                "witness_name": "proof_of_SingleLinkListGetTailNode_entail_wit_3",
+                "judgment": "proofable",
+                "vc_shape": {
+                  "pre_spatial": "sllseg head current prefix ** current.next |-> n ** sll n rest ** remove_payloads storeA l",
+                  "pre_pure": "head :: addresses l = prefix ++ current :: rest; current <> 0; head <> 0; n <> 0",
+                  "pre_exists": "All parameters are universally quantified; predicate unfolding introduces the stored next pointer.",
+                  "post_spatial": "sllseg head n (prefix ++ [current]) ** n.next |-> q ** sll q suffix ** remove_payloads storeA l",
+                  "post_pure": "head :: addresses l = (prefix ++ [current]) ++ n :: suffix; n <> 0; head <> 0",
+                  "post_exists": "q, prefix ++ [current], suffix"
+                },
+                "witness_instantiation": "Choose left disjunct. xizi_sll_not_zero reveals rest = n :: suffix and next q.",
+                "space_plan": "Use xizi_sll_not_zero on sll n rest; use xizi_sllseg_len1 on current.next with current <> 0 and merge with prefix using xizi_sllseg_sllseg. Preserve n.next, suffix, and payloads by framing.",
+                "pure_plan": "Substitute rest = n :: suffix in old sequence equality. Associativity of append and singleton append establish the new equation. Nonzero facts come directly from guards/invariant.",
+                "refinement_plan": "No safeExec or abstract program refinement obligation. Preserve original address sequence and arbitrary payload frame.",
+                "used_existing_lemmas": [
+                  "xizi_sll_not_zero",
+                  "xizi_sllseg_len1",
+                  "xizi_sllseg_sllseg",
+                  "app_assoc"
+                ],
+                "candidate_helper_declarations": [],
+                "premise_discharge": [
+                  "head :: addresses l = prefix ++ current :: rest; current <> 0; head <> 0; n <> 0",
+                  "Substitute rest = n :: suffix in old sequence equality. Associativity of append and singleton append establish the new equation. Nonzero facts come directly from guards/invariant."
+                ],
+                "failure_signal": "No semantic gap found.",
+                "recommended_next_phase": "vc-proving-preparing",
+                "analysis_group_candidate": "tail_traversal",
+                "proof_group_candidate": "tail_traversal",
+                "grouping_reason": "Same function, same prefix/suffix list invariant, same framed generic payload resource."
+              },
+              "proof_of_SingleLinkListGetTailNode_return_wit_1": {
+                "witness_name": "proof_of_SingleLinkListGetTailNode_return_wit_1",
+                "judgment": "needs-helper",
+                "vc_shape": {
+                  "pre_spatial": "sllseg head current prefix ** current.next |-> next ** sll next suffix ** remove_payloads storeA l",
+                  "pre_pure": "head :: addresses l = prefix ++ current :: suffix; current <> 0; head <> 0; next = 0",
+                  "pre_exists": "All parameters are universally quantified; predicate unfolding introduces the stored next pointer.",
+                  "post_spatial": "xizi_sll_head_payload storeA head l",
+                  "post_pure": "current = xizi_sll_tail_value (addresses l) head",
+                  "post_exists": "none"
+                },
+                "witness_instantiation": "Choose left disjunct (both are identical).",
+                "space_plan": "Substitute next=0. xizi_sll_zero gives suffix=[] and emp. Build singleton sll current [current] from current.next |-> 0 using xizi_sll_len1. Merge with prefix using xizi_sllseg_sll. Rewrite prefix ++ [current] to head :: addresses l; apply xizi_sll_tail_cons_head, then payload_head_unfactor__remove_payloads.",
+                "pure_plan": "The sequence equation now ends in [current]. The proposed pure last-element helper proves exactly the returned tail equality, including addresses l=[] (the sentinel return case). No payload property is needed.",
+                "refinement_plan": "No safeExec or abstract program refinement obligation. Preserve original address sequence and arbitrary payload frame.",
+                "used_existing_lemmas": [
+                  "xizi_sll_zero",
+                  "xizi_sll_len1",
+                  "xizi_sllseg_sll",
+                  "xizi_sll_tail_cons_head",
+                  "payload_head_unfactor__remove_payloads",
+                  "last_last"
+                ],
+                "candidate_helper_declarations": [
+                  {
+                    "name_hint": "tail_of_sentinel_decomposition",
+                    "statement_shape": "forall (head tail : Z) (xs prefix : list Z), head :: xs = prefix ++ [tail] -> tail = xizi_sll_tail_value xs head",
+                    "used_by_witnesses": [
+                      "proof_of_SingleLinkListGetTailNode_return_wit_1"
+                    ],
+                    "premises": [
+                      {
+                        "premise": "head :: xs = prefix ++ [tail]",
+                        "discharged_by": "loop invariant sequence equation after xizi_sll_zero shows l2 = nil",
+                        "needs_unfold": [
+                          "xizi_sll_tail_value"
+                        ],
+                        "arithmetic": "none",
+                        "spatial_resource": "xizi_sll 0 l2 supplies l2 = nil"
+                      }
+                    ],
+                    "proof_strategy": "Apply last with default head to the equation. The right side reduces to tail by last_last. On the left last (head :: xs) head = last xs head by destructing xs. Reverse the resulting equality.",
+                    "destination": "group-local case_lib with helper_namespace.suffix"
+                  }
+                ],
+                "premise_discharge": [
+                  "head :: addresses l = prefix ++ current :: suffix; current <> 0; head <> 0; next = 0",
+                  "The sequence equation now ends in [current]. The proposed pure last-element helper proves exactly the returned tail equality, including addresses l=[] (the sentinel return case). No payload property is needed."
+                ],
+                "failure_signal": "No semantic gap found.",
+                "recommended_next_phase": "vc-proving-preparing",
+                "analysis_group_candidate": "tail_traversal",
+                "proof_group_candidate": "tail_traversal",
+                "grouping_reason": "Same function, same prefix/suffix list invariant, same framed generic payload resource."
+              }
+            },
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "blockers": [],
+      "changed_files": [],
+      "evidence": {
+        "version_checks": [
+          {
+            "relative_path": "OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail.c",
+            "sha256": "b1bee6cb533fa1e1e625278ab75d475a07e0a3d5fb614c3991c68ac52e94ff92",
+            "status": "passed"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail_lib.v",
+            "sha256": "cd6355d804f215573c50239fa6de95c08c7be05dddf00c177052464ef9966836",
+            "status": "passed"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail_goal.v",
+            "sha256": "31d1f670f48dc63ed5080d08c07867859ed4ecefd7c46cdd3af7c84497128ccb",
+            "status": "passed"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail_proof_auto.v",
+            "sha256": "970e6b7a882cab33e0fcef6f2667949f5c07f07890d144a4d8edeba05fdd8d40",
+            "status": "passed"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail_proof_manual.v",
+            "sha256": "aa3bb244966ebd8a30500aa0d9caba4cfbc67d34115ecefd649c1235346d346b",
+            "status": "passed"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail_goal_check.v",
+            "sha256": "67859192726664bd331e6a167ae1cfa0b456e71c49341cd8acf8c59fcba75e64",
+            "status": "passed"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail_proof_diagnostics.v",
+            "sha256": "6f7037085a04a8351c73712d28e30b8c69c991202f786e8f9a9036981c23a2ff",
+            "status": "passed"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/diagnostics_snapshot.json",
+            "sha256": "2368c9c82c887e17a138d8c61b88a102dd30be04ac9075d86265839f45539299",
+            "status": "passed"
+          }
+        ],
+        "target_witness_order_matches": true,
+        "diagnostics_are_hint_only": true,
+        "manual_contains_split_or_abort": false,
+        "semantic_analysis": "All four target witnesses have constructive P-to-Q resource and pure-fact plans.",
+        "coqc_check": {
+          "status": "not-run",
+          "reason": "Read-only semantic planning phase; proof compilation belongs to group-workers and parent checks."
+        }
+      }
+    },
+    "completed_at": "2026-09-10T04:15:50.181626+00:00"
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-09-10T04:16:20Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_single_link_tail-20260910120042/rounds/xizi_single_link_tail-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    },
+    "controller_simple_repairs": [
+      {
+        "kind": "materialized-inline-group-plan",
+        "source": "/home/yangfp/QCIP/reports/xizi_single_link_tail-20260910120042/rounds/xizi_single_link_tail-vc-checking-r1/agent_report.json",
+        "target": "/home/yangfp/QCIP/reports/xizi_single_link_tail-20260910120042/rounds/xizi_single_link_tail-vc-checking-r1/group_plan.json",
+        "reason": "vc-checking report included an inline group_plan but the default group_plan.json artifact was missing"
+      }
+    ],
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-09-10T04:16:20Z",
+      "source_version": {
+        "digest": "0a895d5369b638511ead55271aa3dd20a04fdbea2d3a652f0e63bb24060d2b11",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_single_link_tail-20260910120042/xizi_single_link_tail-annotation-r1/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail.c",
+            "relative_path": "OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail.c",
+            "role": "target-c-annotated",
+            "sha256": "b1bee6cb533fa1e1e625278ab75d475a07e0a3d5fb614c3991c68ac52e94ff92",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_single_link_tail-20260910120042/xizi_single_link_tail-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "cd6355d804f215573c50239fa6de95c08c7be05dddf00c177052464ef9966836",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "ac6b605538e2cbcd0c4166cb53459c8e4a3855b9894ab72643e87189e564e4e3",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail_goal.v",
+            "role": "generated-goal",
+            "sha256": "31d1f670f48dc63ed5080d08c07867859ed4ecefd7c46cdd3af7c84497128ccb",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "970e6b7a882cab33e0fcef6f2667949f5c07f07890d144a4d8edeba05fdd8d40",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "aa3bb244966ebd8a30500aa0d9caba4cfbc67d34115ecefd649c1235346d346b",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "67859192726664bd331e6a167ae1cfa0b456e71c49341cd8acf8c59fcba75e64",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "6f7037085a04a8351c73712d28e30b8c69c991202f786e8f9a9036981c23a2ff",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "2368c9c82c887e17a138d8c61b88a102dd30be04ac9075d86265839f45539299",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_SingleLinkListGetTailNode_entail_wit_1",
+          "proof_of_SingleLinkListGetTailNode_entail_wit_2",
+          "proof_of_SingleLinkListGetTailNode_entail_wit_3",
+          "proof_of_SingleLinkListGetTailNode_return_wit_1"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_SingleLinkListGetTailNode_entail_wit_1": "60ccb1d56a0aac8c7b4506dac23a0bc406b92a7294d8ec1d96574663338e80cf",
+          "proof_of_SingleLinkListGetTailNode_entail_wit_2": "bbf6b298839c165494330c0942b9b840efe5bd79940afefb38ede310dadb749e",
+          "proof_of_SingleLinkListGetTailNode_entail_wit_3": "ee848768be83283eac21f6e2793ab9412ac08db39dd9935ffc8842b223bb72a9",
+          "proof_of_SingleLinkListGetTailNode_return_wit_1": "58e74d85c664be4b2fa6d6a7d90126d5e39ba18422cb34e90b8f763a96ee01a7"
+        },
+        "witnesses": [
+          {
+            "end_line": 27,
+            "name": "proof_of_SingleLinkListGetTailNode_entail_wit_1",
+            "start_line": 25,
+            "statement_hash": "60ccb1d56a0aac8c7b4506dac23a0bc406b92a7294d8ec1d96574663338e80cf",
+            "target_symbol": "SingleLinkListGetTailNode_entail_wit_1"
+          },
+          {
+            "end_line": 30,
+            "name": "proof_of_SingleLinkListGetTailNode_entail_wit_2",
+            "start_line": 28,
+            "statement_hash": "bbf6b298839c165494330c0942b9b840efe5bd79940afefb38ede310dadb749e",
+            "target_symbol": "SingleLinkListGetTailNode_entail_wit_2"
+          },
+          {
+            "end_line": 33,
+            "name": "proof_of_SingleLinkListGetTailNode_entail_wit_3",
+            "start_line": 31,
+            "statement_hash": "ee848768be83283eac21f6e2793ab9412ac08db39dd9935ffc8842b223bb72a9",
+            "target_symbol": "SingleLinkListGetTailNode_entail_wit_3"
+          },
+          {
+            "end_line": 36,
+            "name": "proof_of_SingleLinkListGetTailNode_return_wit_1",
+            "start_line": 34,
+            "statement_hash": "58e74d85c664be4b2fa6d6a7d90126d5e39ba18422cb34e90b8f763a96ee01a7",
+            "target_symbol": "SingleLinkListGetTailNode_return_wit_1"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_single_link_tail-20260910120042/rounds/xizi_single_link_tail-vc-checking-r1/group_plan.json",
+      "target_witnesses": [
+        "proof_of_SingleLinkListGetTailNode_entail_wit_1",
+        "proof_of_SingleLinkListGetTailNode_entail_wit_2",
+        "proof_of_SingleLinkListGetTailNode_entail_wit_3",
+        "proof_of_SingleLinkListGetTailNode_return_wit_1"
+      ]
+    }
+  },
+  "blockers": []
+}

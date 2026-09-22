@@ -1,0 +1,69 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "f7896061d43f0b9983e613257fd8097bb173fa217c17c0721fd8a229982553eb",
+  "target_witnesses": [
+    "proof_of_AppendSingleLinkList_entail_wit_1",
+    "proof_of_AppendSingleLinkList_entail_wit_2",
+    "proof_of_AppendSingleLinkList_return_wit_1"
+  ],
+  "proof_groups": [],
+  "dependencies": [],
+  "likely_helper_declarations": [],
+  "blockers": [
+    {
+      "blocker_class": "annotation-bug",
+      "witness_name": "proof_of_AppendSingleLinkList_return_wit_1",
+      "missing_facts": [
+        "linklist = linklist_pre",
+        "linklist_node = linklist_node_pre"
+      ],
+      "reason": "Both return-obligation disjuncts own the final list resources at the current addresses linklist and linklist_node, while their postconditions require a head and appended node at the independent snapshot addresses linklist_pre and linklist_node_pre. The antecedent contains only non-nullness for these four addresses and no bridge equalities. A helper requiring either equality would have an undischarged premise, so this is not a group-local helper gap.",
+      "recommended_next_phase": "annotation"
+    }
+  ],
+  "grouping_reason": "No proof_groups are emitted because the cleaned manual contains an annotation-bug target witness, and vc-checking must not schedule a partial or mixed proving plan. The target_witnesses list nevertheless covers all and only the three cleaned-manual obligations in their manual order. One analysis group for the two proofable entail witnesses is recorded in agent_report.json; it is only a planning hint and will become stale after annotation regeneration.",
+  "grouping_policy_evidence": {
+    "controller_policy": "bounded-witness-groups/v1",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "policy_satisfied": true,
+    "minimal_group_preference": "A single group would be permitted by size, but a complete group is withheld because an annotation-bug witness may not be assigned to proving.",
+    "complete_plan_withheld_due_to_blocker": true,
+    "target_list_matches_cleaned_manual_exactly": true
+  },
+  "forbidden_lemma_scan_requirement_for_every_future_proof_group": {
+    "source": ".agents/skills/verification-orchestrator/docs/forbidden_lemma.md",
+    "names_checked": 23,
+    "exact_names": [
+      "logic_equiv_refl",
+      "elim_wand_emp_emp",
+      "logic_equiv_symm",
+      "sepcon_emp_logic_equiv'",
+      "logic_equiv_andp_comm",
+      "logic_equiv_sepcon_comm",
+      "logic_equiv_sepcon_emp",
+      "logic_equiv_andp_truep",
+      "logic_equiv_truep_andp",
+      "truep_andp_right_equiv",
+      "logic_equiv_orp_comm",
+      "logic_equiv_trans",
+      "logic_equiv_orp_assoc",
+      "logic_equiv_sepcon_assoc",
+      "logic_equiv_andp_assoc",
+      "logic_equiv_sepcon_orp",
+      "logic_equiv_sepcon_orp_distr",
+      "logic_equiv_orp_sepcon",
+      "derivable1_trans",
+      "derivable1_refl",
+      "derivable1_sepcon_comm",
+      "coq_prop_andp_right",
+      "derivable1_sepcon_mono"
+    ],
+    "scan_targets": [
+      "all assigned manual witness proof bodies in each group-local manual",
+      "the complete group-local case_lib"
+    ],
+    "required_result": "zero_hits",
+    "completion_gate": "Every proof group produced after annotation repair must explicitly scan all 23 exact names against both targets and may complete only with zero hits; any hit must be removed and group-check rerun."
+  }
+}

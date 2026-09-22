@@ -1,0 +1,130 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_version": "cd8a04457761a39f9bc362ed546b371b2ffd0555efa7f306e5e3d0161a5362ad",
+  "source_goal_version": "df71064fab5f815b902cfe4585b0872c9c741a0fc551dd64595cc04f181d8d27",
+  "manual_file": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_len/source/xizi_single_link_len_proof_manual.v",
+  "manual_sha256": "57771100ba2bf13f2b9fc409f7587752123fed966eac3ae7fa5ca44f8e72d5b4",
+  "target_witnesses": [
+    "proof_of_SingleLinkListGetLen_entail_wit_1",
+    "proof_of_SingleLinkListGetLen_entail_wit_2",
+    "proof_of_SingleLinkListGetLen_return_wit_1"
+  ],
+  "target_witness_count": 3,
+  "coverage": {
+    "manual_obligations": 3,
+    "planned_witnesses": 3,
+    "missing": [],
+    "extra": [],
+    "duplicates": [],
+    "exactly_once": true
+  },
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  },
+  "proof_groups": [
+    {
+      "group_id": "single_link_len_invariant_lifecycle",
+      "witness_names": [
+        "proof_of_SingleLinkListGetLen_entail_wit_1",
+        "proof_of_SingleLinkListGetLen_entail_wit_2",
+        "proof_of_SingleLinkListGetLen_return_wit_1"
+      ],
+      "representative_witness": "proof_of_SingleLinkListGetLen_entail_wit_2",
+      "dependencies": [],
+      "difficulty": "medium",
+      "confidence": "high",
+      "grouping_reason": "All three witnesses are the initialization, one-step preservation, and exit stages of the same SingleLinkListGetLen invariant. They use one coherent xizi_sll/xizi_sllseg proof family, share no inter-group dependency, total only three witnesses (below the limit 12), and can be handled sequentially by one worker with less context duplication than separate groups.",
+      "proof_strategy": "Prove the invariant lifecycle in manual order. Initialize with first=q, l1=nil, l2=l and unfold the empty segment. Preserve it by choosing the left disjunct, extending l1_2 with tmp_list, constructing the one-node segment tmp_list-to-q, composing segments, and using the existing list-length resource bound to show unsigned_last_nbits(length+1,32)=Zlength(l1_2)+1. At exit, use tmp_list=0 and xizi_sll_zero to derive l2=nil, convert xizi_sllseg first 0 l1 to xizi_sll first l1, and rebuild xizi_sll_head while closing the length equality.",
+      "natural_language_proof_pattern": "Maintain the decomposition l = l1 ++ l2 while moving exactly one non-null node from the suffix to the prefix; at termination the suffix is empty, so the prefix is the whole list.",
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "expected_helpers": [],
+      "existing_library_lemmas": [
+        "xizi_sllseg_len1",
+        "xizi_sllseg_sllseg",
+        "xizi_sll_loop_length_max",
+        "xizi_sll_zero",
+        "xizi_sllseg_0_sll",
+        "unsigned_last_nbits_eq",
+        "Zlength_app_cons",
+        "Zlength_nonneg"
+      ],
+      "per_witness_plan": {
+        "proof_of_SingleLinkListGetLen_entail_wit_1": {
+          "judgment": "proofable",
+          "witness_instantiation": "Choose the left disjunct with first=q, l1=nil, and l2=l.",
+          "space_plan": "Preserve the node_next cell and xizi_sll q l; unfold xizi_sllseg q q nil to emp and cancel the unchanged resources.",
+          "pure_plan": "Use PreH1 for linklist_pre<>0, app nil l=l, and Zlength nil=0.",
+          "candidate_helper_declarations": []
+        },
+        "proof_of_SingleLinkListGetLen_entail_wit_2": {
+          "judgment": "proofable",
+          "witness_instantiation": "Choose the left disjunct with first=first_2, l1=l1_2 ++ [tmp_list], and l2=l0.",
+          "space_plan": "Use xizi_sllseg_len1 on the tmp_list node cell and PreH2, then compose it with xizi_sllseg first_2 tmp_list l1_2 via xizi_sllseg_sllseg; frame the head node_next cell and xizi_sll q l0.",
+          "pure_plan": "Rewrite l2_2, l, and length using PreH1/PreH3/PreH4. Apply xizi_sll_loop_length_max with PreH2 to bound Zlength(l1_2 ++ tmp_list :: l0). From Zlength_nonneg and Int.max_unsigned=4294967295 derive 0<=Zlength l1_2+1<2^32, rewrite unsigned_last_nbits_eq, use Zlength_app_cons, and close list associativity.",
+          "candidate_helper_declarations": []
+        },
+        "proof_of_SingleLinkListGetLen_return_wit_1": {
+          "judgment": "proofable",
+          "witness_instantiation": "Choose the first disjunct, which retains the head node_next resource and targets xizi_sll_head linklist_pre l.",
+          "space_plan": "Substitute tmp_list=0; apply xizi_sll_zero to xizi_sll 0 l2 to obtain l2=nil; apply xizi_sllseg_0_sll to obtain xizi_sll first l1; unfold the head predicate and combine it with the preserved head node_next cell.",
+          "pure_plan": "Substitute l=l1++nil and length=Zlength l1, rewrite app_nil_r, and conclude length=Zlength l.",
+          "candidate_helper_declarations": []
+        }
+      },
+      "forbidden_lemma_scan": {
+        "required": "yes",
+        "rule_source": ".agents/skills/verification-orchestrator/docs/forbidden_lemma.md",
+        "exact_name_count": 23,
+        "exact_names": [
+          "logic_equiv_refl",
+          "elim_wand_emp_emp",
+          "logic_equiv_symm",
+          "sepcon_emp_logic_equiv'",
+          "logic_equiv_andp_comm",
+          "logic_equiv_sepcon_comm",
+          "logic_equiv_sepcon_emp",
+          "logic_equiv_andp_truep",
+          "logic_equiv_truep_andp",
+          "truep_andp_right_equiv",
+          "logic_equiv_orp_comm",
+          "logic_equiv_trans",
+          "logic_equiv_orp_assoc",
+          "logic_equiv_sepcon_assoc",
+          "logic_equiv_andp_assoc",
+          "logic_equiv_sepcon_orp",
+          "logic_equiv_sepcon_orp_distr",
+          "logic_equiv_orp_sepcon",
+          "derivable1_trans",
+          "derivable1_refl",
+          "derivable1_sepcon_comm",
+          "coq_prop_andp_right",
+          "derivable1_sepcon_mono"
+        ],
+        "scan_scope": {
+          "assigned_manual_proof_bodies": [
+            "proof_of_SingleLinkListGetLen_entail_wit_1",
+            "proof_of_SingleLinkListGetLen_entail_wit_2",
+            "proof_of_SingleLinkListGetLen_return_wit_1"
+          ],
+          "case_lib": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_len/source/xizi_single_link_len_lib.v"
+        },
+        "worker_requirement": "After all proof edits and before reporting completion, scan the assigned manual proof bodies and the complete case_lib for every one of the 23 exact identifier names. Completion requires zero hits; any hit must be removed and the scan rerun.",
+        "required_result": "zero-hits",
+        "current_baseline_result": {
+          "status": "passed",
+          "hit_count": 0,
+          "hits": []
+        }
+      }
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true
+}

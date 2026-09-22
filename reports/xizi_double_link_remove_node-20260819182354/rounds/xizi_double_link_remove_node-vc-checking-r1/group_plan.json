@@ -1,0 +1,80 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "cc5fa36bf3ebdb24f99ba33b295f7c09024d77b6ef503f42230deb5a9b315f5f",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_remove_node_return_wit_2_strong_spec",
+    "proof_of_xizi_double_link_remove_node_which_implies_wit_1",
+    "proof_of_xizi_double_link_remove_node_derive_remove_tail_spec_by_strong_spec",
+    "proof_of_xizi_double_link_remove_node_derive_remove_front_spec_by_strong_spec",
+    "proof_of_xizi_double_link_remove_node_derive_remove_member_spec_by_strong_spec"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "dll_cut_split_reconnect",
+      "witness_names": [
+        "proof_of_xizi_double_link_remove_node_return_wit_2_strong_spec",
+        "proof_of_xizi_double_link_remove_node_which_implies_wit_1"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_remove_node_which_implies_wit_1",
+      "dependencies": [],
+      "likely_helper_declarations": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [
+        "xizi_dll_split_at_node__dll_cut_split_reconnect",
+        "xizi_dll_remove_result__dll_cut_split_reconnect"
+      ],
+      "proof_strategy": "For which_implies, choose the first disjunct, rewrite nodes by the generated prefix/node/suffix equality, apply xizi_dll_split_at_node__dll_cut_split_reconnect, and expose the one-field views. For the return VC, choose the first disjunct and apply xizi_dll_remove_result__dll_cut_split_reconnect using PreH1 for node non-nullness.",
+      "grouping_reason": "The two strong-spec body witnesses use the same xizi_dllseg_shift/xizi_dllseg_shift_rev cut representation and existing split/reconnect helper family. Keeping them together lets one worker reuse the same unfold/alignment context.",
+      "difficulty": "medium",
+      "confidence": "high",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_remove_node_return_wit_2_strong_spec": "left; intros; unfold one-field views if needed; exact/apply xizi_dll_remove_result__dll_cut_split_reconnect with PreH1",
+        "proof_of_xizi_double_link_remove_node_which_implies_wit_1": "left; intros; rewrite PreH1; sep_apply xizi_dll_split_at_node__dll_cut_split_reconnect; instantiate node_next/node_prev; unfold views; entailer"
+      }
+    },
+    {
+      "group_id": "spec_derivations_direct",
+      "witness_names": [
+        "proof_of_xizi_double_link_remove_node_derive_remove_tail_spec_by_strong_spec",
+        "proof_of_xizi_double_link_remove_node_derive_remove_front_spec_by_strong_spec",
+        "proof_of_xizi_double_link_remove_node_derive_remove_member_spec_by_strong_spec"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_remove_node_derive_remove_member_spec_by_strong_spec",
+      "dependencies": [],
+      "likely_helper_declarations": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [
+        "xizi_dll_remove_first_split__spec_derivations_direct",
+        "derivable1_wand_sepcon_adjoint"
+      ],
+      "proof_strategy": "Instantiate strong_spec ghosts directly from each public precondition. Tail uses suffix=nil and app_nil_r; front uses prefix=nil; member uses xizi_dll_remove_first_split__spec_derivations_direct on In to obtain prefix/suffix and the remove_first equality. In every case preserve the pre-resource and discharge the transformer with derivable1_wand_sepcon_adjoint as an identity wand.",
+      "grouping_reason": "These three derived-spec witnesses share the same existential-instantiation and identity-wand pattern. The member case adds one existing list split helper but remains within the same proof context; this pattern is unrelated to the body cut/reconnect group.",
+      "difficulty": "low",
+      "confidence": "high",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_remove_node_derive_remove_tail_spec_by_strong_spec": "instantiate head/nodes/prefix/nil; entailer; introduce wand; rewrite app_nil_r; entailer",
+        "proof_of_xizi_double_link_remove_node_derive_remove_front_spec_by_strong_spec": "instantiate head/nodes/nil/suffix; entailer; introduce identity wand; entailer",
+        "proof_of_xizi_double_link_remove_node_derive_remove_member_spec_by_strong_spec": "split In with xizi_dll_remove_first_split__spec_derivations_direct; instantiate returned prefix/suffix; introduce wand; rewrite by remove_first equality; entailer"
+      }
+    }
+  ],
+  "grouping_policy_compliance": {
+    "controller_policy": "bounded-witness-groups/v1",
+    "max_witnesses_per_group": 12,
+    "target_witness_count": 5,
+    "largest_group_size": 3,
+    "all_witnesses_covered_exactly_once": "yes",
+    "dependency_graph_acyclic": "yes"
+  },
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 5,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

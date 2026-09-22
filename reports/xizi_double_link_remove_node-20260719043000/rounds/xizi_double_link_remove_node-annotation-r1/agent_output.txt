@@ -1,0 +1,23 @@
+# Reuse Note
+Note kind: non-authoritative reuse note
+This file is not acceptance evidence.
+
+The final public contract is the exact list transformation
+`prefix ++ node :: suffix` to `prefix ++ suffix`, plus `xizi_dll(node,nil)`.
+The original C statements are unchanged.
+
+The important repair was ownership orientation. A plain `xizi_dllseg` cannot
+expose both `successor->node_prev` and `predecessor->node_next` without endpoint
+case splits. The accepted candidate uses `xizi_dllseg_shift` for the prefix and
+`xizi_dllseg_shift_rev` for the suffix, with the two boundary stores explicit.
+This handles empty prefix/suffix and sentinel aliasing uniformly.
+
+Three qcp-mcp cycles succeeded with two manual semantic witnesses. Canonical
+symexec with the exact handoff mappings reached file end. The full fixed
+case-lib check passed with flags hash
+`1637faae25397c4c30221b8193a63d94b656cb2c56e2ccfd6b0cfa1f2bcf8771`.
+
+For later engineering cleanup, consider promoting the two generic shift views
+to the shared layout functor, matching the useful ownership orientations from
+the allowed crtosverify `dll.v`. JSON handoff, controller state, source versions,
+and current files override this note.

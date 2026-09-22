@@ -1,0 +1,56 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "3ebfe8c7834a7ae8e5139721982171f53cf646a8a2267baadb3c7aff2ff7d798",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_head_rec_return_wit_1",
+    "proof_of_xizi_double_link_head_rec_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "sentinel_head_return_cases",
+      "witness_names": [
+        "proof_of_xizi_double_link_head_rec_return_wit_1",
+        "proof_of_xizi_double_link_head_rec_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_head_rec_return_wit_2",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "For return_wit_1 choose the second disjunct, substitute first=sentinel, destruct nodes, preserve the empty segment, and eliminate the cons case via dllseg's node<>stop guard. For return_wit_2 choose the first disjunct, destruct nodes, eliminate nil using first<>sentinel, then unfold one dllseg layer, reduce the value definition, and fold xizi_dll from the sentinel fields plus the original segment.",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_head_rec_return_wit_1": "Select the segment-only disjunct; subst first; destruct nodes; simplify the value in nil; unfold xizi_dllseg in cons to derive a contradiction.",
+        "proof_of_xizi_double_link_head_rec_return_wit_2": "Select the full-DLL disjunct; destruct nodes; unfold xizi_dllseg to refute nil or expose next and first=node; reduce the value definition; instantiate and close xizi_dll."
+      },
+      "vc_shape": {
+        "kind": "sentinel DLL empty/nonempty return entailments",
+        "spatial_core": "sentinel link cells plus xizi_dllseg",
+        "pure_core": "the segment base/step equations relate list emptiness and first address"
+      },
+      "witness_instantiation": {
+        "return_wit_1": "none",
+        "return_wit_2": "first, last, and the next address exposed by the nonempty segment"
+      },
+      "space_plan": "Frame the segment in the empty-return witness; fold the sentinel link cells and segment into xizi_dll in the nonempty-return witness.",
+      "pure_plan": "Use explicit list case analysis and the definitional equalities/guards of xizi_dllseg; no arithmetic automation is required.",
+      "refinement_plan": "not applicable",
+      "premise_discharge": {
+        "return_wit_1": "PreH1 identifies first with stop, ruling out the nonempty segment branch.",
+        "return_wit_2": "PreH1 rules out the empty segment branch; the nonempty segment supplies first=list head and the next witness."
+      },
+      "difficulty": "low",
+      "confidence": "high",
+      "grouping_reason": "Same function, same case split, same xizi_dllseg/value definitions, and only two witnesses (within max_witnesses_per_group=12)."
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 2,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

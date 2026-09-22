@@ -1,0 +1,30 @@
+# Reuse Note
+
+Note kind: non-authoritative reuse note
+
+This file is not acceptance evidence. If it conflicts with JSON reports, handoff files, source versions, manifests, or current worktree files, ignore this file.
+
+## Result
+
+The annotation candidate treats the argument as a data node: `Require` owns `xizi_sll(linklist_node, cons(linklist_node, l))`, while `Ensure` exposes the stored `next` pointer and preserves both its field ownership and `xizi_sll(next, l)`. Tail nodes remain valid. Canonical QCP succeeded in three complete cycles, the case library compiled, and annotation checking passed.
+
+## Files Touched
+
+- `OUTPUT/xizi/xizi_single_link_next/source/xizi_single_link_next.c`
+- QCP-generated goal, goal-check, auto-proof, and manual-proof files under `SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_next/source/`
+
+## Useful Method
+
+- Use `xizi_sll` for a supplied data node, not `xizi_sll_head`.
+- Keep the complete chain predicate in `Require` and unfold exactly one node in `Ensure` to expose the getter result.
+- Use the permitted common definition header so the common `xizi_single_link.strategies` file resolves.
+
+## Tail Case
+
+When `l = nil`, `xizi_sll(next, nil)` forces `next = NULL`, so the same contract covers a tail node without a nonempty-suffix assumption.
+
+## Evidence Pointers
+
+- Authoritative structured candidate evidence is in `agent_report.json`.
+- Input source version: `b0cb7af08483ea10beebdffee01ecc7171d32b4d9dc495e5785f907349b4b97f`.
+- Controller acceptance has not been claimed.

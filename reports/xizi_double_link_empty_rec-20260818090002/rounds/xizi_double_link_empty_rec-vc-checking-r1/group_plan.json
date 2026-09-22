@@ -1,0 +1,51 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "c14d2a24c730e903308b2857426fee11f8d734294b1b2e25b3a61e44a51cce52",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_empty_rec_return_wit_1_general",
+    "proof_of_xizi_double_link_empty_rec_return_wit_2_general",
+    "proof_of_xizi_double_link_empty_rec_derive_nil_case_by_general"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "dll_empty_general_and_nil_refinement",
+      "witness_names": [
+        "proof_of_xizi_double_link_empty_rec_return_wit_1_general",
+        "proof_of_xizi_double_link_empty_rec_return_wit_2_general",
+        "proof_of_xizi_double_link_empty_rec_derive_nil_case_by_general"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_empty_rec_return_wit_1_general",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "Prove the two general return witnesses by selecting their first generated disjunct, destructing nodes_general, unfolding xizi_dllseg in the impossible branch, and folding with xizi_dll_close or xizi_dll_empty_rev in the feasible branch. Then prove the derived nil_case witness with nodes_general := nil, resource cancellation, sepcon adjunction, and elimination of the impossible nonempty general-result branch.",
+      "natural_language_proof_strategy": "The implementation only tests whether the first node equals the sentinel. xizi_dllseg makes this comparison equivalent to nodes_general being nil: an empty segment starts at its stop, while a nonempty segment carries a head-not-stop guard. The nil-only contract then follows by specializing the general result at nil and preserving the same xizi_dll resource through the wand.",
+      "grouping_reason": "A single group is permitted for three targets and is preferred because these are same-function, same-predicate obligations with no helper dependency; the wand derivation is short and consumes the result of the same nil-case reasoning.",
+      "difficulty": "low-to-medium",
+      "confidence": "high",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_empty_rec_return_wit_1_general": "Select left; destruct nodes_general; nil contradicts first <> linklist_pre after dllseg simplification; cons folds with xizi_dll_close and proves non-nil by discrimination.",
+        "proof_of_xizi_double_link_empty_rec_return_wit_2_general": "Select left; destruct nodes_general; nil supplies endpoint equalities and folds with xizi_dll_empty_rev; cons contradicts the dllseg head-not-stop guard and first = linklist_pre.",
+        "proof_of_xizi_double_link_empty_rec_derive_nil_case_by_general": "Instantiate nodes_general=nil, select the preserved nil resource, cancel it against the outer sepcon, apply wand adjunction, eliminate the nil<>nil general branch, and construct retval=1 from the feasible branch."
+      },
+      "premise_discharge": {
+        "non_null_head": "Generated PreH2 in both return witnesses; the derived witness does not need to unfold/fold the list.",
+        "nonempty_result": "The cons form of nodes_general.",
+        "empty_result": "The nil form plus dllseg endpoint equalities.",
+        "derived_return_one": "The general postcondition's nodes_general=nil branch."
+      }
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

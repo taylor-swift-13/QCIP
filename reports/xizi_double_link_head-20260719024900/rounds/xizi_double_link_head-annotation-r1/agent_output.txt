@@ -1,0 +1,13 @@
+# Reuse Note
+
+Note kind: non-authoritative reuse note
+
+This file is not acceptance evidence.
+
+The final candidate specifies `xizi_double_link_head` with the pure case-local observation `xizi_double_link_head_value`: `nil` maps to `0`, and `first :: rest` maps to `first`. The contract preserves `xizi_dll(linklist@pre, nodes)` and explicitly requires a non-null sentinel for field-access safety.
+
+The first candidate omitted the case-local `Import Coq` directive. The repaired candidate adds it before the `Extern Coq` declaration; the refreshed generated goal now imports `xizi_double_link_head_lib`. Three qcp-mcp cycles on the repaired candidate reached file end with 2 auto and 2 manual witnesses, followed by a successful canonical symexec and fixed case-lib compile.
+
+The two return witnesses should be proved by case analysis on `nodes`: the empty branch uses the `node <> stop` guard in nonempty `xizi_dllseg` to force `nodes = nil`; the nonempty branch exposes `nodes = first :: rest`, making the pure return equation immediate before folding `xizi_dll`.
+
+JSON handoff, manifests, current source versions, and current files override this note.

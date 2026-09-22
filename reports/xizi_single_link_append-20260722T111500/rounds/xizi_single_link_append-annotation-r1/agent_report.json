@@ -1,0 +1,506 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "annotation",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "schema_version": "qcp-agent-result/v1",
+    "phase": "annotation",
+    "round": "xizi_single_link_append-annotation-r1",
+    "attempt_id": "xizi_single_link_append-annotation-r1-attempt-1",
+    "status": "completed",
+    "terminal": "yes",
+    "round_outcome": "completed",
+    "source_version": {
+      "schema_version": "qcp-source-version/v1",
+      "digest": "677774e4e8810d4765112acbac8cef5c7d83b07d1e0f670fbb5a580e92222bbd",
+      "digest_input_policy": "relative_path+sha256+state+role only",
+      "verified_current": true,
+      "files": [
+        {
+          "path": "/home/yangfp/QCIP/worktrees/xizi_single_link_append-20260722T111500/xizi_single_link_append-annotation-r1/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append.c",
+          "relative_path": "OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append.c",
+          "sha256": "283ca868114206fd2f85c021457e5f43bababdb67d499e842d23f41aa1754b42",
+          "state": "present",
+          "role": "target-c-annotated"
+        },
+        {
+          "path": "/home/yangfp/QCIP/worktrees/xizi_single_link_append-20260722T111500/xizi_single_link_append-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_lib.v",
+          "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_lib.v",
+          "sha256": "27dce0c34cd9cdecc5748b9cdbc38841bd26cc4362fe0336db19f8ac09ac00ad",
+          "state": "present",
+          "role": "case-lib-seed"
+        }
+      ]
+    },
+    "source_goal_version": null,
+    "annotation": {
+      "status": "completed",
+      "ready_for_annotation_check_round": true,
+      "summary": "The repaired public contract uses xizi_sll_head(linklist,l), so l is exactly the data-chain after the sentinel, and appends the separately owned linklist_node. The full loop invariant decomposes the temporary logical chain cons(linklist,l) into a traversed xizi_sllseg, the current node, and the remaining xizi_sll suffix; this supports both the empty data-chain and nonempty traversals without putting the sentinel in public l.",
+      "previous_attempts_reviewed": [],
+      "prior_blockers_addressed": [],
+      "spec_design": {
+        "style": "predicate-first",
+        "mathematical_result": "The post-state data-chain is app(l, cons(linklist_node,nil)).",
+        "public_abstraction": "xizi_sll_head(linklist,l); l excludes the sentinel, including when l=nil.",
+        "ownership": "The precondition owns xizi_sll_head(linklist,l) separately from linklist_node->node_next, which makes the appended node disjoint from the existing sentinel/data chain.",
+        "loop_property": "cons(linklist,l) = app(l1a,cons(node,l1b)) with xizi_sllseg(linklist,node,l1a), the current next field, and xizi_sll(next,l1b).",
+        "algorithm_mirror_review": "passed: only existing representation predicates and list app/cons are used; no Rocq traversal algorithm or state machine was introduced.",
+        "empty_case": "For l=nil, xizi_sll_head owns linklist->node_next = NULL; the invariant initializes with l1a=nil, node=linklist, l1b=nil and exits immediately before linking the new node."
+      },
+      "annotation_design_summary": {
+        "schema_version": "qcp-annotation-design-summary/v1",
+        "case_lib_spec_declarations": [],
+        "case_lib_sha256": "27dce0c34cd9cdecc5748b9cdbc38841bd26cc4362fe0336db19f8ac09ac00ad",
+        "bootstrap_review": "The controller-created minimal case lib was compiled. No case-local declaration is necessary because the exact mathematical result is directly expressed by Coq.Lists.List.app and the strict shared xizi_sll_head representation predicate already imported through the declared XiZi common interface.",
+        "hidden_properties": [
+          "Decompose cons(linklist,l) into a traversed prefix, current node, and remaining suffix while retaining all sentinel/data-chain ownership.",
+          "Carry linklist_node != 0 and its separate writable next field through the invariant."
+        ],
+        "known_risks": [
+          "The round-local copy of xizi_single_link_def.h lacks its declared strategy file, so the target C now includes the authoritative OUTPUT common header by a relative path; both qcp-mcp and canonical symexec resolve the same xizi_single_link strategy from that common directory."
+        ],
+        "qcp_repair_history": [],
+        "changed_files": [
+          "OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append.c",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_goal.v",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_proof_auto.v",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_proof_manual.v",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_goal_check.v"
+        ]
+      },
+      "canonical_symexec_evidence": {
+        "schema_version": "qcp-canonical-symexec-evidence/v1",
+        "status": "passed",
+        "driver": "/home/yangfp/QCIP/linux-binary/symexec",
+        "cwd": "/home/yangfp/QCIP/worktrees/xizi_single_link_append-20260722T111500/xizi_single_link_append-annotation-r1",
+        "include_args": [
+          "QCP_examples/QCP_demos_LLM/"
+        ],
+        "slp_args": [
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM"
+        ],
+        "argv": [
+          "/home/yangfp/QCIP/linux-binary/symexec",
+          "--goal-file=SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_goal.v",
+          "--proof-auto-file=SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_proof_auto.v",
+          "--proof-manual-file=SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_proof_manual.v",
+          "-IQCP_examples/QCP_demos_LLM/",
+          "-slp",
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM",
+          "--coq-logic-path=SimpleC.EE.OUTPUT.xizi.xizi_single_link_append.source",
+          "--input-file=OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append.c",
+          "--no-exec-info"
+        ],
+        "exit_code": 0,
+        "reached_file_end": true,
+        "stdout_summary": "End of symbolic execution of function xizi_single_link_append; Successfully finished symbolic execution",
+        "elapsed_seconds": 0.02,
+        "generated_file_digests": {
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_goal.v": "884cdaa3c910ef501f3fd3d73c2b2be36c155124c0e232d866718a54de79aeb4",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_proof_auto.v": "185adc72224aa7992c10a9409994c4e13072eebb24da2926d0943a4983d3701b",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_proof_manual.v": "3379c0030b5684a4bc5e504f77b37d54d5fd2cd345829d30fdb6374017b688bd",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_goal_check.v": "426ef8170aac9a5b6d2bef407686fa9f3a493e1f08a79cfa5eb535466ae87b12"
+        }
+      },
+      "qcp_mcp_interactive_evidence": {
+        "schema_version": "qcp-mcp-interactive-evidence/v1",
+        "status": "passed",
+        "qcp_mcp_requirement_satisfied": "yes",
+        "wrapper": "qcp_mcp.server initialize/symbolic/close",
+        "backend_driver": "/home/yangfp/QCIP/linux-binary/mcp",
+        "cwd": "/home/yangfp/QCIP/worktrees/xizi_single_link_append-20260722T111500/xizi_single_link_append-annotation-r1",
+        "target_file": "/home/yangfp/QCIP/worktrees/xizi_single_link_append-20260722T111500/xizi_single_link_append-annotation-r1/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append.c",
+        "operations": [
+          "initialize",
+          "symbolic(999)",
+          "close"
+        ],
+        "complete_cycles": 3,
+        "cycle_results": [
+          "success: loaded xizi_single_link; 1 auto safety witness and 3 manual semantic witnesses; no error or warning",
+          "success: loaded xizi_single_link; 1 auto safety witness and 3 manual semantic witnesses; no error or warning",
+          "success: loaded xizi_single_link; 1 auto safety witness and 3 manual semantic witnesses; no error or warning"
+        ],
+        "reached_file_end": true,
+        "loaded_strategies": [
+          "xizi_single_link"
+        ],
+        "critical_goal_observation": "The three semantic obligations are exactly invariant initialization, invariant preservation by extending the prefix to node->node_next, and return refolding into xizi_sll_head(linklist, app(l,[linklist_node]))."
+      },
+      "case_lib_coqc_evidence": {
+        "schema_version": "qcp-coqc-check-evidence/v1",
+        "status": "passed",
+        "entrypoint": "/home/yangfp/QCIP/.agents/skills/vc-proving/scripts/coq_tooling.py check",
+        "target_kind": "case_lib",
+        "target_file": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_lib.v",
+        "workspace_root": "/home/yangfp/QCIP/worktrees/xizi_single_link_append-20260722T111500/xizi_single_link_append-annotation-r1",
+        "build_workspace": "/home/yangfp/QCIP/worktrees/xizi_single_link_append-20260722T111500/_coq_builds/annotation-r1-case-lib",
+        "fixed_flags_hash": "b6e5573415735fec9159c1cc3ce8cb8fe6f8818e85a322d61c1317cdf0617564",
+        "source_digest": "27dce0c34cd9cdecc5748b9cdbc38841bd26cc4362fe0336db19f8ac09ac00ad",
+        "returncode": 0,
+        "elapsed_seconds": 18.778,
+        "dependency_mode": "full-fixed-dependency-check"
+      },
+      "annotation_checking_evidence": {
+        "schema_version": "qcp-annotation-checking-evidence/v1",
+        "status": "passed",
+        "checked_scope": [
+          "shared xizi_sll_head sentinel abstraction",
+          "function Require/Ensure",
+          "empty data-chain behavior",
+          "loop prefix/current/suffix invariant",
+          "separate new-node ownership",
+          "three generated manual semantic obligations",
+          "case-lib fixed compilation"
+        ],
+        "qcp_mcp_requirement_satisfied": "yes",
+        "annotation_scratch_lib_coqc_status": "passed",
+        "spec_definition_status": "passed: xizi_sll_head and Coq list app/cons strictly express a sentinel-owned data-chain append; no case-local algorithm definition is needed.",
+        "function_spec_status": "passed: requires xizi_sll_head(linklist,l) plus separate writable ownership of linklist_node->node_next and ensures the exact appended data-chain.",
+        "invariant_status": "passed: cons(linklist,l)=l1a++node::l1b ties traversal progress to the postcondition while xizi_sllseg/current-field/xizi_sll preserve the full chain and the new-node field.",
+        "annotation_scratch_lib_changes": "empty: the minimal seed is sufficient because the strict representation predicate is in QCIPLib.xizi.xizi_single_link_common and the mathematical output is directly List.app.",
+        "summary": "passed after three qcp-mcp cycles, exact canonical symexec, full fixed case-lib compilation, and semantic review of the public sentinel abstraction and all generated obligations.",
+        "failed_checks": [],
+        "required_annotation_rework": [],
+        "required_annotation_scratch_lib_rework": [],
+        "ready_for_main_common_case_formal_lib_update": "yes",
+        "ready_for_main_symexec": "yes",
+        "timing_summary": "Three interactive cycles took about 1.2 seconds total; canonical symexec took 0.02 seconds; the full fixed case-lib dependency check took 18.778 seconds.",
+        "timing_gaps": "Rule reading, source/reference analysis, annotation design, edits, semantic review, and report construction were not independently metered."
+      },
+      "iteration_evidence": {
+        "complete_cycles": 3,
+        "failures": [
+          {
+            "failure_class": "missing-local-strategy-bootstrap",
+            "cause": "The case-local xizi_single_link_def.h declares xizi_single_link.strategies, but that strategy file is absent from the case source directory.",
+            "repair": "Changed only the allowed target C include to the authoritative OUTPUT common xizi_single_link_def.h, whose colocated strategy source exists; both interactive and canonical QCP loaded xizi_single_link successfully."
+          },
+          {
+            "failure_class": "qcp-annotation-precedence",
+            "cause": "An unparenthesized field store after separating conjunction was parsed with an Assertion/Z type mismatch.",
+            "repair": "Parenthesized linklist_node->node_next == old_next at both full-assertion sites, matching repository annotation grammar."
+          }
+        ],
+        "repairs_validated_by": [
+          "three fresh qcp-mcp symbolic successes",
+          "canonical symexec success with the exact handoff argv",
+          "full fixed case-lib compilation",
+          "inspection of all generated semantic witnesses"
+        ],
+        "self_reworkable_failures": [],
+        "self_repair_budget": {
+          "min_complete_cycles": 3,
+          "completed_cycles": 3,
+          "min_wall_clock_minutes": 30,
+          "exhausted": false,
+          "note": "All readiness gates passed in this focused round before the wall-clock maximum was needed."
+        }
+      },
+      "file_access_summary": {
+        "must_log_file_reads": "yes",
+        "read_categories": [
+          {
+            "category": "handoff-and-rules",
+            "paths": [
+              "/home/yangfp/QCIP/reports/xizi_single_link_append-20260722T111500/rounds/xizi_single_link_append-annotation-r1/agent_input.json",
+              ".agents/skills/verification-orchestrator/SKILL.md",
+              ".agents/skills/annotation-filling/SKILL.md",
+              ".agents/skills/annotation-checking/SKILL.md",
+              ".agents/skills/annotation-filling/docs/use-notes.md",
+              ".agents/skills/annotation-filling/docs/annotation-rules.md",
+              ".agents/skills/annotation-filling/docs/common-annotation-errors.md",
+              ".agents/skills/annotation-filling/docs/predicate-first-annotation.md",
+              ".agents/skills/annotation-filling/docs/reference-cases.md",
+              ".agents/skills/annotation-filling/docs/symexec-refresh.md",
+              ".agents/skills/annotation-checking/docs/spec-quality-checklist.md"
+            ]
+          },
+          {
+            "category": "current-case-and-common-interface",
+            "paths": [
+              "OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append.c",
+              "OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_def.h",
+              "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_lib.v",
+              "QCIPLib/xizi/xizi_single_link_common/xizi_single_link_lib.v",
+              "OUTPUT/xizi/xizi_single_link_common/source/xizi_single_link.strategies",
+              "OUTPUT/xizi/xizi_single_link_common/README.md",
+              "OUTPUT/xizi/xizi_single_link_common/reports/crtos_single_link_analysis.md",
+              "OUTPUT/xizi/xizi_single_link_common/reports/compile_path.md"
+            ]
+          },
+          {
+            "category": "declared-semantic-reference",
+            "paths": [
+              "/home/yangfp/OSV/LOS_Verify-capability/annotated_C/src/los_list_h_1.c"
+            ]
+          },
+          {
+            "category": "rule-directed-repository-example",
+            "paths": [
+              "QCP_examples/QCP_demos_LLM/sll.c"
+            ]
+          },
+          {
+            "category": "tooling",
+            "paths": [
+              "mcp/qcp-mcp/README.md",
+              "mcp/qcp-mcp/src/qcp_mcp/server.py",
+              "mcp/qcp-mcp/src/qcp_mcp/session_manager.py",
+              ".agents/skills/verification-orchestrator/scripts/controller.py",
+              ".agents/skills/vc-proving/scripts/coq_tooling.py"
+            ]
+          }
+        ],
+        "searches": [
+          "current XiZi representation predicate and strategy lookup",
+          "repository annotation grammar for spatial field ownership",
+          "controller report/source-version contract lookup",
+          "forbidden marker scan on hand-edited C and case lib"
+        ],
+        "denied_globs_touched": []
+      },
+      "changed_files": [
+        "OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append.c",
+        "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_goal.v",
+        "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_proof_auto.v",
+        "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_proof_manual.v",
+        "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_goal_check.v"
+      ],
+      "generated_files_modified_by_hand": false,
+      "blockers": [],
+      "recommended_next_phase": "controller annotation-check-round"
+    },
+    "changed_files": [
+      "OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append.c",
+      "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_goal.v",
+      "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_proof_auto.v",
+      "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_proof_manual.v",
+      "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_goal_check.v"
+    ],
+    "blockers": [],
+    "timing": {
+      "elapsed_seconds": 420,
+      "timing_gap_seconds": 400,
+      "timing_gap_reason": "No round activity-ledger path was supplied; the conservative wall-clock total includes complete rule reading, source/reference analysis, annotation design, two repair iterations, semantic checking, and report construction.",
+      "command_elapsed_seconds": 20.0,
+      "major_time_sinks": [
+        "rule and sentinel-abstraction analysis",
+        "repairing missing local strategy resolution without writing outside allowed paths",
+        "full fixed case-lib dependency compilation"
+      ]
+    },
+    "recommended_next_phase": "controller annotation-check-round"
+  },
+  "blockers": [],
+  "source_version": {
+    "schema_version": "qcp-source-version/v1",
+    "digest": "677774e4e8810d4765112acbac8cef5c7d83b07d1e0f670fbb5a580e92222bbd",
+    "digest_input_policy": "relative_path+sha256+state+role only"
+  },
+  "source_goal_version": null,
+  "changed_files": [
+    "OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append.c",
+    "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_goal.v",
+    "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_proof_auto.v",
+    "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_proof_manual.v",
+    "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_goal_check.v"
+  ],
+  "output_contract": {
+    "path": "/home/yangfp/QCIP/reports/xizi_single_link_append-20260722T111500/rounds/xizi_single_link_append-annotation-r1/agent_output.txt",
+    "kind": "non-authoritative-reuse-note",
+    "required": "yes",
+    "acceptance_evidence": "no"
+  },
+  "verification_result": {
+    "annotation_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-07-22T03:39:19Z",
+      "source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "677774e4e8810d4765112acbac8cef5c7d83b07d1e0f670fbb5a580e92222bbd",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_single_link_append-20260722T111500/xizi_single_link_append-annotation-r1/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append.c",
+            "relative_path": "OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append.c",
+            "sha256": "283ca868114206fd2f85c021457e5f43bababdb67d499e842d23f41aa1754b42",
+            "state": "present",
+            "role": "target-c-annotated"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_single_link_append-20260722T111500/xizi_single_link_append-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_lib.v",
+            "sha256": "27dce0c34cd9cdecc5748b9cdbc38841bd26cc4362fe0336db19f8ac09ac00ad",
+            "state": "present",
+            "role": "case-lib-seed"
+          }
+        ]
+      },
+      "source_goal_version": {
+        "schema_version": "qcp-source-goal-version/v1",
+        "digest": "dd720207afbeda3383b995fe2ffbf9d457c2536d40b0b0117690fffe2b3800a3",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_goal.v",
+            "sha256": "884cdaa3c910ef501f3fd3d73c2b2be36c155124c0e232d866718a54de79aeb4",
+            "state": "present",
+            "role": "generated-goal"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_proof_auto.v",
+            "sha256": "185adc72224aa7992c10a9409994c4e13072eebb24da2926d0943a4983d3701b",
+            "state": "present",
+            "role": "generated-proof-auto"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_proof_manual.v",
+            "sha256": "3379c0030b5684a4bc5e504f77b37d54d5fd2cd345829d30fdb6374017b688bd",
+            "state": "present",
+            "role": "generated-proof-manual"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_goal_check.v",
+            "sha256": "426ef8170aac9a5b6d2bef407686fa9f3a493e1f08a79cfa5eb535466ae87b12",
+            "state": "present",
+            "role": "generated-goal-check"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_proof_diagnostics.v",
+            "sha256": "560f9cf0a425e5d751b8ebfe56bed5bbe451fc64849c0f3570ce048d42f61c34",
+            "state": "present",
+            "role": "generated-diagnostics"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/diagnostics_snapshot.json",
+            "sha256": "9a61df8727ce9b1e5862f9f266d9854d86ef5475b542700bd13acce9570f6f08",
+            "state": "present",
+            "role": "generated-diagnostics-snapshot"
+          }
+        ],
+        "target_witnesses": [
+          "proof_of_xizi_single_link_append_entail_wit_1",
+          "proof_of_xizi_single_link_append_entail_wit_2",
+          "proof_of_xizi_single_link_append_return_wit_1"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_xizi_single_link_append_entail_wit_1": "c13c34236c3347c465ecc2bff6f6dcbc582c4f889d625a228b2df8c43458fe24",
+          "proof_of_xizi_single_link_append_entail_wit_2": "fdf07d63352a1325911d1fa3bd9023f05859e4f360313cbe04ff89397a7f4aa0",
+          "proof_of_xizi_single_link_append_return_wit_1": "0943b050d3e52f649d4ece994643b598a23ad568ac2fee1e50c7f99cf5f69369"
+        },
+        "witnesses": [
+          {
+            "name": "proof_of_xizi_single_link_append_entail_wit_1",
+            "target_symbol": "xizi_single_link_append_entail_wit_1",
+            "statement_hash": "c13c34236c3347c465ecc2bff6f6dcbc582c4f889d625a228b2df8c43458fe24",
+            "start_line": 24,
+            "end_line": 26
+          },
+          {
+            "name": "proof_of_xizi_single_link_append_entail_wit_2",
+            "target_symbol": "xizi_single_link_append_entail_wit_2",
+            "statement_hash": "fdf07d63352a1325911d1fa3bd9023f05859e4f360313cbe04ff89397a7f4aa0",
+            "start_line": 27,
+            "end_line": 29
+          },
+          {
+            "name": "proof_of_xizi_single_link_append_return_wit_1",
+            "target_symbol": "xizi_single_link_append_return_wit_1",
+            "statement_hash": "0943b050d3e52f649d4ece994643b598a23ad568ac2fee1e50c7f99cf5f69369",
+            "start_line": 30,
+            "end_line": 32
+          }
+        ]
+      },
+      "annotation_design_summary": {
+        "schema_version": "qcp-annotation-design-summary/v1",
+        "case_lib_spec_declarations": [],
+        "case_lib_sha256": "27dce0c34cd9cdecc5748b9cdbc38841bd26cc4362fe0336db19f8ac09ac00ad",
+        "bootstrap_review": "The controller-created minimal case lib was compiled. No case-local declaration is necessary because the exact mathematical result is directly expressed by Coq.Lists.List.app and the strict shared xizi_sll_head representation predicate already imported through the declared XiZi common interface.",
+        "hidden_properties": [
+          "Decompose cons(linklist,l) into a traversed prefix, current node, and remaining suffix while retaining all sentinel/data-chain ownership.",
+          "Carry linklist_node != 0 and its separate writable next field through the invariant."
+        ],
+        "known_risks": [
+          "The round-local copy of xizi_single_link_def.h lacks its declared strategy file, so the target C now includes the authoritative OUTPUT common header by a relative path; both qcp-mcp and canonical symexec resolve the same xizi_single_link strategy from that common directory."
+        ],
+        "qcp_repair_history": [],
+        "changed_files": [
+          "OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append.c",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_goal.v",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_proof_auto.v",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_proof_manual.v",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_goal_check.v"
+        ]
+      },
+      "canonical_symexec_evidence": {
+        "schema_version": "qcp-canonical-symexec-evidence/v1",
+        "driver": "/home/yangfp/QCIP/linux-binary/symexec",
+        "cwd": "/home/yangfp/QCIP/worktrees/xizi_single_link_append-20260722T111500/xizi_single_link_append-annotation-r1",
+        "argv": [
+          "/home/yangfp/QCIP/linux-binary/symexec",
+          "--goal-file=SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_goal.v",
+          "--proof-auto-file=SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_proof_auto.v",
+          "--proof-manual-file=SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_proof_manual.v",
+          "-IQCP_examples/QCP_demos_LLM/",
+          "-slp",
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM",
+          "--coq-logic-path=SimpleC.EE.OUTPUT.xizi.xizi_single_link_append.source",
+          "--input-file=OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append.c",
+          "--no-exec-info"
+        ],
+        "include_args": [
+          "QCP_examples/QCP_demos_LLM/"
+        ],
+        "slp_args": [
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM"
+        ],
+        "status": "passed",
+        "returncode": 0,
+        "stdout_tail": "Start to symbolic execution on program : OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append.c\nStart to parse strategies file xizi_single_link\nFile Path: /home/yangfp/QCIP/worktrees/xizi_single_link_append-20260722T111500/xizi_single_link_append-annotation-r1/OUTPUT/xizi/xizi_single_link_common/source/xizi_single_link.strategies\nFinish parsing strategies file xizi_single_link\nSymbolic Execution into function xizi_single_link_append\nEnd of symbolic execution of function xizi_single_link_append\nWarning: manual proof file not updated. file open failed or file already exists.\nSuccessfully finished symbolic execution\n",
+        "stderr_tail": ""
+      },
+      "diagnostics_split": {
+        "status": "passed",
+        "normalized_at": "2026-07-22T03:39:19Z",
+        "proof_manual_file": "/home/yangfp/QCIP/worktrees/xizi_single_link_append-20260722T111500/xizi_single_link_append-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_proof_manual.v",
+        "proof_diagnostics_file": "/home/yangfp/QCIP/worktrees/xizi_single_link_append-20260722T111500/xizi_single_link_append-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_proof_diagnostics.v",
+        "diagnostics_snapshot": "/home/yangfp/QCIP/worktrees/xizi_single_link_append-20260722T111500/xizi_single_link_append-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/diagnostics_snapshot.json",
+        "schema_version": "qcp-diagnostics-snapshot/v1",
+        "manual_obligations": [
+          {
+            "name": "proof_of_xizi_single_link_append_entail_wit_1",
+            "statement_hash": "c13c34236c3347c465ecc2bff6f6dcbc582c4f889d625a228b2df8c43458fe24",
+            "target_symbol": "xizi_single_link_append_entail_wit_1",
+            "start_line": 24,
+            "end_line": 26
+          },
+          {
+            "name": "proof_of_xizi_single_link_append_entail_wit_2",
+            "statement_hash": "fdf07d63352a1325911d1fa3bd9023f05859e4f360313cbe04ff89397a7f4aa0",
+            "target_symbol": "xizi_single_link_append_entail_wit_2",
+            "start_line": 27,
+            "end_line": 29
+          },
+          {
+            "name": "proof_of_xizi_single_link_append_return_wit_1",
+            "statement_hash": "0943b050d3e52f649d4ece994643b598a23ad568ac2fee1e50c7f99cf5f69369",
+            "target_symbol": "xizi_single_link_append_return_wit_1",
+            "start_line": 30,
+            "end_line": 32
+          }
+        ],
+        "diagnostics": [],
+        "manual_obligation_count": 3,
+        "diagnostic_count": 0
+      }
+    }
+  }
+}

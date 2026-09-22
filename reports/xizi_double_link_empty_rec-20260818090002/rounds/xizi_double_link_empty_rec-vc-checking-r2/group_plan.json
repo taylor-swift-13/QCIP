@@ -1,0 +1,72 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "c14d2a24c730e903308b2857426fee11f8d734294b1b2e25b3a61e44a51cce52",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_empty_rec_return_wit_1_general",
+    "proof_of_xizi_double_link_empty_rec_return_wit_2_general",
+    "proof_of_xizi_double_link_empty_rec_derive_nil_case_by_general"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "general_return_segment_cases",
+      "witness_names": [
+        "proof_of_xizi_double_link_empty_rec_return_wit_1_general",
+        "proof_of_xizi_double_link_empty_rec_return_wit_2_general"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_empty_rec_return_wit_1_general",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "expected_helpers": [],
+      "difficulty": "low",
+      "confidence": "high",
+      "grouping_reason": "Both witnesses use the same xizi_dllseg nil/cons classification and sentinel-resource preservation family; two witnesses are within max_witnesses_per_group = 12.",
+      "proof_strategy": "Select the semantically convenient outer disjunct in each theorem, destruct nodes_general, unfold/reduce xizi_dllseg, use first <> sentinel to exclude nil for return_wit_1 and first = sentinel to exclude cons for return_wit_2, then preserve the segment or close xizi_dll from the sentinel links and segment.",
+      "natural_language_proof_strategy": "Case-analyze the abstract node list and let the segment's endpoint guard decide the empty/nonempty result; the heap representation is unchanged throughout.",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_empty_rec_return_wit_1_general": "Choose the first disjunct; nil contradicts first <> sentinel; cons proves nodes <> nil and folds xizi_dll with current endpoints.",
+        "proof_of_xizi_double_link_empty_rec_return_wit_2_general": "Choose the second disjunct; cons contradicts first = sentinel and the segment's first <> stop guard; nil preserves the segment and proves nodes = nil."
+      },
+      "premise_discharge": {
+        "sentinel_nonnull": "PreH2 in return_wit_1_general",
+        "nonempty_or_empty_list_fact": "constructor case plus xizi_dllseg endpoint guard",
+        "spatial_resources": "antecedent links and segment are reused without mutation"
+      }
+    },
+    {
+      "group_id": "nil_case_spec_derivation",
+      "witness_names": [
+        "proof_of_xizi_double_link_empty_rec_derive_nil_case_by_general"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_empty_rec_derive_nil_case_by_general",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "expected_helpers": [],
+      "difficulty": "medium",
+      "confidence": "high",
+      "grouping_reason": "The witness is helper-free but uses a distinct existential-plus-wand spec-derivation pattern, so a separate one-witness group avoids mixing it with direct return VC tactics.",
+      "proof_strategy": "Instantiate nodes_general with nil, use the antecedent xizi_dll as the general precondition factor, establish the wand through derivable1_wand_sepcon_adjoint, discard the impossible nil <> nil result branch, and forward retval_2 = 1 plus xizi_dll nil from the successful branch to the nil_case postcondition.",
+      "natural_language_proof_strategy": "Specialize the general contract to the empty abstract list and show that every possible general result satisfying its postcondition entails the nil_case postcondition.",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_empty_rec_derive_nil_case_by_general": "Choose nodes_general=nil and prove the wand by result-disjunction elimination; no resource duplication or helper declaration is needed."
+      },
+      "premise_discharge": {
+        "general_precondition": "the original xizi_dll linklist_pre nil resource",
+        "impossible_branch": "nil <> nil",
+        "successful_branch": "retval_2 = 1 and the same xizi_dll linklist_pre nil"
+      }
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

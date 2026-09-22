@@ -1,0 +1,54 @@
+{
+  "schema_version": "qcp-group-plan/v1",
+  "source_goal_version": "a23a57064b3c11a1c031e50514283e7ed25d94182b4041b9f8b5fbc21cde71bb",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_head_return_wit_1",
+    "proof_of_xizi_double_link_head_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "dll_head_empty_nonempty_observation",
+      "witness_names": [
+        "proof_of_xizi_double_link_head_return_wit_1",
+        "proof_of_xizi_double_link_head_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_head_return_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "For return_wit_1, select the segment-preservation disjunct, destruct nodes, rule out cons using first = sentinel against the nonempty dllseg guard, reduce first_value nil to 0, and cancel the unchanged segment. For return_wit_2, select the full-DLL disjunct, rule out nil using first <> sentinel, obtain that first is the abstract head from the nonempty dllseg branch, prove the first_value equality, combine the sentinel fields as xizi_dll_links, and apply xizi_dll_close. No case_lib helper is needed.",
+      "natural_language_proof_strategy": "The circular sentinel implementation is abstracted by one predicate fact: an equal segment start/stop represents the empty sequence, while a distinct start/stop forces a nonempty sequence whose head is the start pointer. Use that fact directly, then preserve or close the ownership without mirroring the C conditional.",
+      "grouping_reason": "Same function, complementary sides of the same sentinel/segment case analysis, same case_lib observation, no dependencies, and only two witnesses within max_witnesses_per_group = 12.",
+      "confidence": "high",
+      "difficulty": "low",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_head_return_wit_1": {
+          "judgment": "proofable",
+          "route": "first = sentinel forces nodes = nil; first_value is 0; preserve segment"
+        },
+        "proof_of_xizi_double_link_head_return_wit_2": {
+          "judgment": "proofable",
+          "route": "first <> sentinel forces nodes nonempty with head first; first_value is first; apply xizi_dll_close"
+        }
+      },
+      "premise_discharge": {
+        "empty_sequence": "xizi_dllseg nonempty guard contradicts first = linklist_pre",
+        "nonempty_sequence": "xizi_dllseg nil equality contradicts first <> linklist_pre",
+        "head_value": "xizi_dllseg nonempty expected-node equality plus xizi_double_link_first_value definition",
+        "sentinel_nonnull": "generated pure precondition",
+        "ownership_preservation": "exact segment cancellation for empty branch; xizi_dll_close for nonempty branch"
+      }
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 2,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": "qcp-vc-checking-group-plan/v1",
+  "source_goal_version": "9b115cdecbb2839ee7008a3fc4b5596c1b030f9cb76d79c02a9bf044d0c0f0b9",
+  "target_witnesses": [
+    "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+    "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+    "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+    "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+    "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4",
+    "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case",
+    "proof_of_DoubleLinkListInsertNodeBefore_derive_member_case_by_dispatch_case"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "entail_dispatch_decomposition",
+      "witness_names": [
+        "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1"
+      ],
+      "representative_witness": "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "Split the anchor disjunction. Member: first-payload split, payload insertion, store decomposition, address split/open, then empty/nonempty prefix. Sentinel: derive head absence, append payload, decompose the old address segment, then empty/nonempty list.",
+      "grouping_reason": "The only full forward decomposition witness has a distinct, large proof context.",
+      "confidence": "high"
+    },
+    {
+      "group_id": "return_store_reassembly",
+      "witness_names": [
+        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4"
+      ],
+      "representative_witness": "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "Choose result_2, reuse the payload relation, apply store_dll_compose, rewrite ptrs(result_2) from PreH facts, and rebuild the circular address segment with addr_join and addr_cons.",
+      "grouping_reason": "All four differ only in boundary shape and share one reconstruction tactic/helper family; size four is below the bound twelve.",
+      "confidence": "high"
+    },
+    {
+      "group_id": "dispatch_case_derivations",
+      "witness_names": [
+        "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case",
+        "proof_of_DoubleLinkListInsertNodeBefore_derive_member_case_by_dispatch_case"
+      ],
+      "representative_witness": "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "Instantiate dispatch parameters with source values, establish anchor by equality or membership, frame shared resources, and apply wand/sepcon adjunction. Sentinel additionally uses head_absent to eliminate the member alternative.",
+      "grouping_reason": "Both are small case-to-dispatch entailments with the same existential and wand pattern.",
+      "confidence": "high"
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 7,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

@@ -1,0 +1,15 @@
+# Reuse Note
+
+Note kind: non-authoritative reuse note
+
+This file is not acceptance evidence.
+
+The current source/source-goal hashes matched the handoff. The cleaned manual contains exactly three target witnesses in handoff order.
+
+- `return_wit_1`: select the dllseg-only disjunct; `first = sentinel` forces `nodes_general = nil`, so `first_value` is 0 and the dllseg frames unchanged.
+- `return_wit_2`: select the full-DLL disjunct; apply `xizi_dll_close`, and use `first <> sentinel` to rule out the nil dllseg case before reducing `first_value`.
+- `derive_nil_case_by_general`: instantiate `nodes_general := nil`, use `rewrite <- sepcon_emp_equiv at 1` and `cancel` to retain the outer DLL, then use `apply_sepcon_adjoint`; `Intros`; `Exists 0`; `simpl in *`; `entailer!` to consume the general post and return the same `xizi_dll head nil` resource.
+
+The proof plan uses two independent groups: `return_observation` and `derive_nil_case`. No helper declaration is needed. Avoid every name in `forbidden_lemma.md`; the nil derivation explicitly must not use `derivable1_sepcon_mono` or `derivable1_refl`, and also does not need `elim_wand_emp_emp`, `derivable1_trans`, or forbidden sepcon equivalence shortcuts.
+
+If this note conflicts with the JSON handoff, current files, source versions, controller-verified group plan, or manifests, those authoritative sources win.

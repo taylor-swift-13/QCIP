@@ -1,0 +1,412 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "status": "completed",
+    "terminal": "yes",
+    "phase": "vc-checking",
+    "round": "xizi_double_link_len-vc-checking-r1",
+    "attempt_id": "xizi_double_link_len-vc-checking-r1-attempt-1",
+    "round_outcome": "proofable",
+    "source_version": "2665e54d196aae8a180a8adffa715de1060cb4a150dc9e1a3beea01b137ecc5c",
+    "source_goal_version": "1de1cb1dccc350f2c428f87d9e0d3308f433d6aff315a77ed580537cb2ed8608",
+    "changed_files": [],
+    "blockers": [],
+    "vc_checking": {
+      "status": "completed",
+      "overall_judgment": "proofable",
+      "vc_proving_ready": "yes",
+      "source_version": "2665e54d196aae8a180a8adffa715de1060cb4a150dc9e1a3beea01b137ecc5c",
+      "source_goal_version": "1de1cb1dccc350f2c428f87d9e0d3308f433d6aff315a77ed580537cb2ed8608",
+      "summary": "All five cleaned manual obligations are semantically derivable from the current DLL predicates and hypotheses. No annotation/spec repair or group-local top-level helper is required.",
+      "version_evidence": {
+        "source_version_verified_current": true,
+        "source_goal_version_verified_current": true,
+        "all_declared_sha256_matches": true,
+        "manual_target_set_exact_match": true,
+        "manual_target_order_exact_match": true,
+        "diagnostics_excluded_from_targets": [
+          "proof_of_DoubleLinkListLenGet_return_wit_1_split_goal_1",
+          "proof_of_DoubleLinkListLenGet_return_wit_1_split_goal_spatial"
+        ]
+      },
+      "natural_language_analysis": {
+        "schema_version": "qcp-natural-language-analysis/v1",
+        "source_goal_version": "1de1cb1dccc350f2c428f87d9e0d3308f433d6aff315a77ed580537cb2ed8608",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_DoubleLinkListLenGet_entail_wit_1",
+            "statement_hash": "bc3be9b3be7734982db1ec38a8975682f8170039248b56825e8d193554ec061c",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "store_dll storeA_general linklist_pre nodes_general",
+              "pre_pure": "none",
+              "pre_exists": "store_dll hides first and last sentinel boundary pointers",
+              "post_spatial": "sentinel fields, empty shifted prefix, and full suffix dllseg",
+              "post_pure": "nodes_general = done ++ todo, Zlength done = 0, and length additivity",
+              "post_exists": "next, last, done, todo"
+            },
+            "witness_instantiation": "Unfold store_dll; reuse first/last and choose done=nil, todo=nodes_general.",
+            "space_plan": "The unfolded resources are exactly the sentinel fields and full dllseg; dllseg_shift on nil simplifies to endpoint equality and emp.",
+            "pure_plan": "Simplify nil append and Zlength nil.",
+            "refinement_plan": "No safeExec/refinement state.",
+            "used_existing_lemmas": [
+              "store_dll definition",
+              "dllseg_shift nil equation"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "len_loop_contract",
+            "grouping_reason": "Initializes the done/todo loop decomposition used by the same function's later witnesses."
+          },
+          {
+            "witness_name": "proof_of_DoubleLinkListLenGet_entail_wit_2",
+            "statement_hash": "31f9cabf2d2b7371ca0a99a1bc55f3305c34a1ee949e28926069226cf8bfea40",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "sentinel prev field, shifted prefix done_2, cursor next field, and dllseg for todo",
+              "pre_pure": "next <> linklist_pre plus invariant list and length equations",
+              "pre_exists": "none beyond dllseg body",
+              "post_spatial": "same frame with todo head payload/links exposed and residual dllseg",
+              "post_pure": "todo=node::rest and updated app/length equations",
+              "post_exists": "after, last, done, node, rest"
+            },
+            "witness_instantiation": "Apply dllseg_neq with PreH1; choose its after/node/rest, last=last_2, done=done_2.",
+            "space_plan": "dllseg_neq exposes the nonempty suffix head; frame the shifted prefix and sentinel field.",
+            "pure_plan": "Substitute next and todo, then rewrite Zlength_cons in PreH4.",
+            "refinement_plan": "No safeExec/refinement state.",
+            "used_existing_lemmas": [
+              "dllseg_neq",
+              "Zlength_cons"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "next <> linklist_pre",
+                "discharged_by": "PreH1"
+              }
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "len_loop_contract",
+            "grouping_reason": "Exposes the node consumed by the next loop-step witness."
+          },
+          {
+            "witness_name": "proof_of_DoubleLinkListLenGet_entail_wit_3",
+            "statement_hash": "f75830b058f6ae7e51e312fef7dd2c7e9e1d635829e6a72786df020fe5f77f41",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "shifted prefix done_2, exposed node payload/prev/next fields, sentinel prev field, and residual dllseg",
+              "pre_pure": "nodes_general=done_2++node::rest and invariant length equations",
+              "pre_exists": "none",
+              "post_spatial": "shifted prefix extended by node, node.next exposed as new cursor field, and residual dllseg",
+              "post_pure": "updated app/length equations and unsigned_last_nbits(linklist_length+1,32)=Zlength done",
+              "post_exists": "next, last, done, todo"
+            },
+            "witness_instantiation": "Choose done=done_2++[node], todo=rest, next=after, last=last_2.",
+            "space_plan": "Apply dllseg_shift_contact_a to consume the node payload, node.prev, and old cursor.next into the extended shifted prefix; frame node.next and the residual dllseg.",
+            "pure_plan": "Use Zlength_app/cons. Derive 0 <= Zlength done_2 + 1 < 2^32 by induction over dllseg_shift: its two aligned pointer cells per node entail store_align4_n (2*Zlength done_2), and store_align4_n_valid gives the address-space bound. Then apply Z.mod_small.",
+            "refinement_plan": "No safeExec/refinement state.",
+            "used_existing_lemmas": [
+              "dllseg_shift_contact_a",
+              "store_ptr_align4_32",
+              "store_align4_merge",
+              "store_align4_n_valid",
+              "addr_max_unsigned_eq_int",
+              "Zlength_app",
+              "Zlength_cons",
+              "Z.mod_small"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "0 <= Zlength done_2 + 1",
+                "discharged_by": "Zlength_nonneg"
+              },
+              {
+                "premise": "Zlength done_2 + 1 < 2^32",
+                "discharged_by": "The owned shifted prefix's aligned pointer-cell footprint and store_align4_n_valid."
+              }
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "len_loop_contract",
+            "grouping_reason": "Advances the same done/todo invariant and canonical DLL resources."
+          },
+          {
+            "witness_name": "proof_of_DoubleLinkListLenGet_return_wit_1",
+            "statement_hash": "95c1049e2628e7d589f43acdac5c6dabb6328019c0aa515588dabe0c5b70aecf",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "sentinel prev field, shifted prefix done, cursor next field, and suffix dllseg",
+              "pre_pure": "next=linklist_pre and invariant list/length equations",
+              "pre_exists": "none",
+              "post_spatial": "store_dll storeA_general linklist_pre nodes_general",
+              "post_pure": "linklist_length=Zlength nodes_general",
+              "post_exists": "store_dll boundary pointers"
+            },
+            "witness_instantiation": "Substitute next and destruct todo. For nil, identify nodes_general=done and rebuild store_dll. The cons branch is spatially contradictory.",
+            "space_plan": "For nil, simplify dllseg and use dllseg_shift_to_dllseg with cursor.next to recover the full segment. For cons, unfolding dllseg at next=linklist_pre duplicates ownership of sentinel.prev; dup_store_ptr closes the branch.",
+            "pure_plan": "app_nil_r, PreH2, and PreH3 prove the result length in the nil branch.",
+            "refinement_plan": "No safeExec/refinement state.",
+            "used_existing_lemmas": [
+              "dllseg_shift_to_dllseg",
+              "dup_store_ptr",
+              "app_nil_r"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "exit suffix is empty or inconsistent",
+                "discharged_by": "Destruct todo; nonempty duplicates the sentinel previous-field cell under separation."
+              }
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "len_loop_contract",
+            "grouping_reason": "Closes the same loop decomposition using the shifted-prefix conversion family."
+          },
+          {
+            "witness_name": "proof_of_DoubleLinkListLenGet_derive_nil_case_by_general",
+            "statement_hash": "5069ef878182bd9222a4237bca602863ef2391f778213e252e59947e15349db7",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "store_dll storeA_nil_case linklist_pre nil",
+              "pre_pure": "none",
+              "pre_exists": "none",
+              "post_spatial": "selected general precondition plus a wand from its result to the nil result",
+              "post_pure": "general retval=Zlength nil implies nil-case retval=0",
+              "post_exists": "general A/store/nodes and return values"
+            },
+            "witness_instantiation": "Choose the same A/store and nodes_general=nil; inside the wand reuse the incoming retval.",
+            "space_plan": "Cancel the selected general precondition copy, use wand-sepcon adjunction, and reuse the supplied store_dll resource.",
+            "pure_plan": "Simplify Zlength nil to 0.",
+            "refinement_plan": "Direct contract instantiation; no safeExec state.",
+            "used_existing_lemmas": [
+              "sepcon_cancel_end",
+              "derivable1_wand_sepcon_adjoint"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "len_loop_contract",
+            "grouping_reason": "Small concluding refinement obligation over the same store_dll contract."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "len_loop_contract",
+            "witness_names": [
+              "proof_of_DoubleLinkListLenGet_entail_wit_1",
+              "proof_of_DoubleLinkListLenGet_entail_wit_2",
+              "proof_of_DoubleLinkListLenGet_entail_wit_3",
+              "proof_of_DoubleLinkListLenGet_return_wit_1",
+              "proof_of_DoubleLinkListLenGet_derive_nil_case_by_general"
+            ],
+            "representative_witness": "proof_of_DoubleLinkListLenGet_entail_wit_3",
+            "shared_proof_pattern": "Transform canonical DLL resources while preserving the done/todo decomposition, then discharge list-length equations.",
+            "shared_space_plan": "Use store_dll/dllseg/dllseg_shift definitions and existing DLL decomposition, extension, and conversion lemmas.",
+            "shared_pure_plan": "Instantiate nil, head/tail, or snoc list forms; entail_wit_3 additionally derives the no-wrap bound from owned aligned cells.",
+            "shared_refinement_plan": "The nil-case derivation is direct instantiation of the same store_dll contract.",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "All five witnesses belong to one small function, share the canonical DLL predicate and loop decomposition, fit under the limit of twelve, and need no cross-group helper.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "1de1cb1dccc350f2c428f87d9e0d3308f433d6aff315a77ed580537cb2ed8608",
+        "target_witnesses": [
+          "proof_of_DoubleLinkListLenGet_entail_wit_1",
+          "proof_of_DoubleLinkListLenGet_entail_wit_2",
+          "proof_of_DoubleLinkListLenGet_entail_wit_3",
+          "proof_of_DoubleLinkListLenGet_return_wit_1",
+          "proof_of_DoubleLinkListLenGet_derive_nil_case_by_general"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "len_loop_contract",
+            "witness_names": [
+              "proof_of_DoubleLinkListLenGet_entail_wit_1",
+              "proof_of_DoubleLinkListLenGet_entail_wit_2",
+              "proof_of_DoubleLinkListLenGet_entail_wit_3",
+              "proof_of_DoubleLinkListLenGet_return_wit_1",
+              "proof_of_DoubleLinkListLenGet_derive_nil_case_by_general"
+            ],
+            "representative_witness": "proof_of_DoubleLinkListLenGet_entail_wit_3",
+            "dependencies": [],
+            "candidate_helper_declarations": [],
+            "expected_helpers": [],
+            "proof_strategy": "Work under Import DLL and keep DLL model names unqualified. Initialize by unfolding store_dll with done=nil; expose the suffix with dllseg_neq; extend the prefix with dllseg_shift_contact_a; derive the unsigned increment bound from aligned cells owned by dllseg_shift; rebuild store_dll at exit with dllseg_shift_to_dllseg and eliminate the impossible nonempty branch by duplicate field ownership; finish nil_case <= general by direct instantiation and wand adjunction. Keep the manual file helper-free; bound facts may be local assertions inside entail_wit_3.",
+            "grouping_reason": "All five obligations are for DoubleLinkListLenGet, use the same DLL resource/list invariant, need no shared top-level helper, and group size 5 is below the controller maximum 12.",
+            "confidence": "high",
+            "difficulty": "entail_wit_3 needs a local spatial-capacity induction for the 32-bit increment; the other obligations are direct decomposition/reassembly or contract instantiation",
+            "per_witness_plan": {
+              "proof_of_DoubleLinkListLenGet_entail_wit_1": "Unfold store_dll; choose done=nil and todo=nodes_general.",
+              "proof_of_DoubleLinkListLenGet_entail_wit_2": "Apply dllseg_neq with PreH1 and rewrite Zlength_cons.",
+              "proof_of_DoubleLinkListLenGet_entail_wit_3": "Prove the aligned-cell capacity bound locally, append node, choose done_2++[node], and simplify unsigned_last_nbits.",
+              "proof_of_DoubleLinkListLenGet_return_wit_1": "Destruct todo; rebuild store_dll for nil and use duplicate sentinel-prev ownership for cons.",
+              "proof_of_DoubleLinkListLenGet_derive_nil_case_by_general": "Instantiate the general contract with the same type/store and nodes=nil, then use wand adjunction."
+            }
+          }
+        ],
+        "blockers": []
+      },
+      "blockers": [],
+      "changed_files": []
+    }
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-09-22T06:06:33Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_double_link_len-20260922120004/rounds/xizi_double_link_len-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    },
+    "controller_simple_repairs": [
+      {
+        "kind": "materialized-inline-group-plan",
+        "source": "/home/yangfp/QCIP/reports/xizi_double_link_len-20260922120004/rounds/xizi_double_link_len-vc-checking-r1/agent_report.json",
+        "target": "/home/yangfp/QCIP/reports/xizi_double_link_len-20260922120004/rounds/xizi_double_link_len-vc-checking-r1/group_plan.json",
+        "reason": "vc-checking report included an inline group_plan but the default group_plan.json artifact was missing"
+      }
+    ],
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-09-22T06:06:33Z",
+      "source_version": {
+        "digest": "2665e54d196aae8a180a8adffa715de1060cb4a150dc9e1a3beea01b137ecc5c",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_len-20260922120004/xizi_double_link_len-annotation-r1/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len.c",
+            "relative_path": "OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len.c",
+            "role": "target-c-annotated",
+            "sha256": "dbb394bac0c26217dc38406a79903e73c316a73a9d10141cf7545629901c2b58",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_len-20260922120004/xizi_double_link_len-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "05b254402ee92d72bcc212345ebebf97f4946b435cd8d2483c87d098130dc1f3",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "1de1cb1dccc350f2c428f87d9e0d3308f433d6aff315a77ed580537cb2ed8608",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_goal.v",
+            "role": "generated-goal",
+            "sha256": "88958c0245e964ab0773f9d9815acee6abde8698a3072fffecbf4a9f525197d0",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "a1f6ae946d0adcc1a08670596574db585b7ffbe3b648dd3e27171a396eda3b47",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "45d901f6fa82da226e81d7c3a66510ca4c831530e5dcbef9524436d1277025b7",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "09aa0d3005f283da7b061f2dec6225e1addec4f6e7d3e02fdcfb6349cf79951f",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "233abea7663aeeb6eeccb52d37281c40ccceceba765e9ed997baf1c650b783fc",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "459533f07ff1262b809a4a3d6c2b57e1c3712aeae7549e02030caeaa9a4bd85c",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_DoubleLinkListLenGet_entail_wit_1",
+          "proof_of_DoubleLinkListLenGet_entail_wit_2",
+          "proof_of_DoubleLinkListLenGet_entail_wit_3",
+          "proof_of_DoubleLinkListLenGet_return_wit_1",
+          "proof_of_DoubleLinkListLenGet_derive_nil_case_by_general"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_DoubleLinkListLenGet_derive_nil_case_by_general": "5069ef878182bd9222a4237bca602863ef2391f778213e252e59947e15349db7",
+          "proof_of_DoubleLinkListLenGet_entail_wit_1": "bc3be9b3be7734982db1ec38a8975682f8170039248b56825e8d193554ec061c",
+          "proof_of_DoubleLinkListLenGet_entail_wit_2": "31f9cabf2d2b7371ca0a99a1bc55f3305c34a1ee949e28926069226cf8bfea40",
+          "proof_of_DoubleLinkListLenGet_entail_wit_3": "f75830b058f6ae7e51e312fef7dd2c7e9e1d635829e6a72786df020fe5f77f41",
+          "proof_of_DoubleLinkListLenGet_return_wit_1": "95c1049e2628e7d589f43acdac5c6dabb6328019c0aa515588dabe0c5b70aecf"
+        },
+        "witnesses": [
+          {
+            "end_line": 28,
+            "name": "proof_of_DoubleLinkListLenGet_entail_wit_1",
+            "start_line": 26,
+            "statement_hash": "bc3be9b3be7734982db1ec38a8975682f8170039248b56825e8d193554ec061c",
+            "target_symbol": "DoubleLinkListLenGet_entail_wit_1"
+          },
+          {
+            "end_line": 31,
+            "name": "proof_of_DoubleLinkListLenGet_entail_wit_2",
+            "start_line": 29,
+            "statement_hash": "31f9cabf2d2b7371ca0a99a1bc55f3305c34a1ee949e28926069226cf8bfea40",
+            "target_symbol": "DoubleLinkListLenGet_entail_wit_2"
+          },
+          {
+            "end_line": 34,
+            "name": "proof_of_DoubleLinkListLenGet_entail_wit_3",
+            "start_line": 32,
+            "statement_hash": "f75830b058f6ae7e51e312fef7dd2c7e9e1d635829e6a72786df020fe5f77f41",
+            "target_symbol": "DoubleLinkListLenGet_entail_wit_3"
+          },
+          {
+            "end_line": 37,
+            "name": "proof_of_DoubleLinkListLenGet_return_wit_1",
+            "start_line": 35,
+            "statement_hash": "95c1049e2628e7d589f43acdac5c6dabb6328019c0aa515588dabe0c5b70aecf",
+            "target_symbol": "DoubleLinkListLenGet_return_wit_1"
+          },
+          {
+            "end_line": 40,
+            "name": "proof_of_DoubleLinkListLenGet_derive_nil_case_by_general",
+            "start_line": 38,
+            "statement_hash": "5069ef878182bd9222a4237bca602863ef2391f778213e252e59947e15349db7",
+            "target_symbol": "DoubleLinkListLenGet_derive_nil_case_by_general"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_double_link_len-20260922120004/rounds/xizi_double_link_len-vc-checking-r1/group_plan.json",
+      "target_witnesses": [
+        "proof_of_DoubleLinkListLenGet_entail_wit_1",
+        "proof_of_DoubleLinkListLenGet_entail_wit_2",
+        "proof_of_DoubleLinkListLenGet_entail_wit_3",
+        "proof_of_DoubleLinkListLenGet_return_wit_1",
+        "proof_of_DoubleLinkListLenGet_derive_nil_case_by_general"
+      ]
+    }
+  },
+  "blockers": []
+}

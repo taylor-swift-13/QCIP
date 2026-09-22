@@ -1,0 +1,87 @@
+{
+  "schema_version": "qcp-group-plan/v1",
+  "source_goal_version": "c412bce3411e30e93a5b9fc7b44dbd889adbbd0ed95437526f508f8cd6550e92",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_head_rec_return_wit_1",
+    "proof_of_xizi_double_link_head_rec_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "head_rec_return_by_segment_cases",
+      "witness_names": [
+        "proof_of_xizi_double_link_head_rec_return_wit_1",
+        "proof_of_xizi_double_link_head_rec_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_head_rec_return_wit_2",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "difficulty": "low",
+      "confidence": "high",
+      "grouping_reason": "Both return witnesses are the two list-shape cases of the same query and use the same xizi_dllseg nil/cons analysis plus unfolding of xizi_double_link_head_rec_value. The group contains 2 witnesses, below the controller maximum of 12.",
+      "proof_strategy": "Prove return_wit_1 through its second disjunct: destruct nodes while unfolding xizi_dllseg; first = stop makes the cons branch contradictory, while the nil branch reduces the result value to 0 and preserves the segment by cancellation. Prove return_wit_2 through its first disjunct: first <> stop excludes the nil segment; in the cons branch the segment equality identifies first as the list head, so the result definition reduces to first, and the unchanged sentinel links plus segment close with xizi_dll_close.",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_head_rec_return_wit_1": {
+          "judgment": "proofable",
+          "selected_disjunct": "second",
+          "proof_steps": [
+            "Introduce linklist_pre, nodes, first, last and the pure equalities.",
+            "Substitute first = linklist_pre and destruct nodes while unfolding xizi_dllseg.",
+            "For nodes = nil, unfold xizi_double_link_head_rec_value; prove 0 = 0 and cancel the unchanged dllseg resource.",
+            "For nodes = _ :: _, extract the dllseg condition node <> stop, contradicting node = stop."
+          ]
+        },
+        "proof_of_xizi_double_link_head_rec_return_wit_2": {
+          "judgment": "proofable",
+          "selected_disjunct": "first",
+          "proof_steps": [
+            "Introduce linklist_pre, nodes, first, last and first <> linklist_pre.",
+            "Destruct nodes while unfolding xizi_dllseg only as needed to expose its pure list-head facts.",
+            "The nil case gives first = linklist_pre and contradicts the branch guard.",
+            "In the cons case, dllseg identifies first with the abstract list head, so xizi_double_link_head_rec_value nodes reduces to first.",
+            "Keep the spatial resources unchanged and apply xizi_dll_close to the sentinel links and xizi_dllseg."
+          ]
+        }
+      },
+      "vc_shape": {
+        "shared_pre_spatial": "A circular-list segment xizi_dllseg first linklist_pre linklist_pre last nodes; return_wit_2 also carries the two sentinel link fields.",
+        "shared_pre_pure": "linklist_pre <> 0 plus either first = linklist_pre or first <> linklist_pre.",
+        "shared_post_spatial": "The same segment, or the same sentinel links and segment reclosed as xizi_dll linklist_pre nodes.",
+        "shared_post_pure": "The concrete return is xizi_double_link_head_rec_value nodes."
+      },
+      "witness_instantiation": {
+        "proof_of_xizi_double_link_head_rec_return_wit_1": "Choose the second outer disjunct; it has no existential post witness.",
+        "proof_of_xizi_double_link_head_rec_return_wit_2": "Choose the first outer disjunct; xizi_dll's existential first and last are instantiated with the current first and last values."
+      },
+      "space_plan": {
+        "proof_of_xizi_double_link_head_rec_return_wit_1": "Cancel the unchanged xizi_dllseg in the nil case; the cons case is spatially inconsistent with first = stop.",
+        "proof_of_xizi_double_link_head_rec_return_wit_2": "Apply existing lemma xizi_dll_close to the unchanged sentinel next/prev points-to resources and xizi_dllseg."
+      },
+      "pure_plan": {
+        "proof_of_xizi_double_link_head_rec_return_wit_1": "The nil segment is forced by first = stop; then the value definition computes to 0.",
+        "proof_of_xizi_double_link_head_rec_return_wit_2": "first <> stop excludes nodes = nil; the cons branch of dllseg supplies first = hd nodes, and the value definition computes to first."
+      },
+      "refinement_plan": {
+        "proof_of_xizi_double_link_head_rec_return_wit_1": "not applicable",
+        "proof_of_xizi_double_link_head_rec_return_wit_2": "not applicable"
+      },
+      "premise_discharge": {
+        "segment_case_split": "Directly from unfolding the current xizi_dllseg definition.",
+        "empty_result": "From nodes = nil and unfolding xizi_double_link_head_rec_value.",
+        "nonempty_result": "From the cons-branch equality node = expected in xizi_dllseg and unfolding xizi_double_link_head_rec_value.",
+        "list_closure": "Existing proved lemma xizi_dll_close; its spatial premises are exactly the current sentinel links and segment."
+      }
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 2,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

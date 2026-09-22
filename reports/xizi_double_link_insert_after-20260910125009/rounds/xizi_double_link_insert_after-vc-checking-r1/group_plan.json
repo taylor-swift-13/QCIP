@@ -1,0 +1,87 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "730bf50289559cf9e12ef6eec2caef70de9ec847e66e5122ecae4643b8fb805c",
+  "target_witnesses": [
+    "proof_of_DoubleLinkListInsertNodeAfter_entail_wit_1",
+    "proof_of_DoubleLinkListInsertNodeAfter_return_wit_1",
+    "proof_of_DoubleLinkListInsertNodeAfter_return_wit_2",
+    "proof_of_DoubleLinkListInsertNodeAfter_return_wit_3",
+    "proof_of_DoubleLinkListInsertNodeAfter_return_wit_4",
+    "proof_of_DoubleLinkListInsertNodeAfter_derive_sentinel_case_by_dispatch_case",
+    "proof_of_DoubleLinkListInsertNodeAfter_derive_member_case_by_dispatch_case"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "insert_after_payload",
+      "witness_names": [
+        "proof_of_DoubleLinkListInsertNodeAfter_entail_wit_1",
+        "proof_of_DoubleLinkListInsertNodeAfter_return_wit_1",
+        "proof_of_DoubleLinkListInsertNodeAfter_return_wit_2",
+        "proof_of_DoubleLinkListInsertNodeAfter_return_wit_3",
+        "proof_of_DoubleLinkListInsertNodeAfter_return_wit_4",
+        "proof_of_DoubleLinkListInsertNodeAfter_derive_sentinel_case_by_dispatch_case",
+        "proof_of_DoubleLinkListInsertNodeAfter_derive_member_case_by_dispatch_case"
+      ],
+      "representative_witness": "proof_of_DoubleLinkListInsertNodeAfter_entail_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "store_dll_member_not_sentinel",
+          "statement_shape": "forall A storeA head nodes member, In member (map DLL.getPtr nodes) -> XiziLocalDLL.store_dll storeA head nodes |-- !! (member <> head) && XiziLocalDLL.store_dll storeA head nodes",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListInsertNodeAfter_entail_wit_1",
+            "proof_of_DoubleLinkListInsertNodeAfter_derive_member_case_by_dispatch_case"
+          ],
+          "premises": [
+            {
+              "premise": "In member (map DLL.getPtr nodes)",
+              "discharged_by": "entail_wit_1: anchor premise after excluding anchor=head; derive_member: input membership",
+              "needs_unfold": [
+                "xizi_insert_after_ptrs"
+              ],
+              "spatial_resource": "XiziLocalDLL.store_dll provides sentinel node_prev ownership and member node_prev ownership in disjoint heaps"
+            }
+          ],
+          "proof_strategy": "Split the list at the selected occurrence using the seed payload_first_split lemma and XiziLocalDLL.dllseg_split. If member=head, two full pointer stores at the identical SysDoubleLinklistNode.node_prev address conflict. Extract the inequality while preserving and reconstructing the original store_dll heap. No nonzero assumption or cross-layout equality is needed. Alternatively generalize to a segment framed by an external field store and induct on the prefix.",
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        }
+      ],
+      "likely_helper_declarations": [
+        {
+          "name_hint": "store_dll_member_not_sentinel",
+          "statement_shape": "forall A storeA head nodes member, In member (map DLL.getPtr nodes) -> XiziLocalDLL.store_dll storeA head nodes |-- !! (member <> head) && XiziLocalDLL.store_dll storeA head nodes",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListInsertNodeAfter_entail_wit_1",
+            "proof_of_DoubleLinkListInsertNodeAfter_derive_member_case_by_dispatch_case"
+          ],
+          "premises": [
+            {
+              "premise": "In member (map DLL.getPtr nodes)",
+              "discharged_by": "entail_wit_1: anchor premise after excluding anchor=head; derive_member: input membership",
+              "needs_unfold": [
+                "xizi_insert_after_ptrs"
+              ],
+              "spatial_resource": "XiziLocalDLL.store_dll provides sentinel node_prev ownership and member node_prev ownership in disjoint heaps"
+            }
+          ],
+          "proof_strategy": "Split the list at the selected occurrence using the seed payload_first_split lemma and XiziLocalDLL.dllseg_split. If member=head, two full pointer stores at the identical SysDoubleLinklistNode.node_prev address conflict. Extract the inequality while preserving and reconstructing the original store_dll heap. No nonzero assumption or cross-layout equality is needed. Alternatively generalize to a segment framed by an external field store and induct on the prefix.",
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        }
+      ],
+      "natural_language_proof_strategy": "Open canonical XiziLocalDLL segments at the first anchor occurrence; expose the immediate successor; refold updated nodes and concatenate unchanged prefix. Derivation wands use identical payload type/assertion and pure dispatch elimination. Prove sentinel/member exclusion from duplicate field ownership where needed. Use allowed structured separation tactics; avoid forbidden named lemmas and black-box entailment tactics.",
+      "proof_strategy": "Open canonical XiziLocalDLL segments at the first anchor occurrence; expose the immediate successor; refold updated nodes and concatenate unchanged prefix. Derivation wands use identical payload type/assertion and pure dispatch elimination. Prove sentinel/member exclusion from duplicate field ownership where needed. Use allowed structured separation tactics; avoid forbidden named lemmas and black-box entailment tactics.",
+      "grouping_reason": "Same function, payload DLL segment opening/reassembly and shared sentinel exclusion fact; seven witnesses fit the bound of twelve."
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 7,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

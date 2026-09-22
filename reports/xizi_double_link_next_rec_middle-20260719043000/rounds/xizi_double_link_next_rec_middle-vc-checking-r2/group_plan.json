@@ -1,0 +1,87 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "ff8cec43c781c4ed8cf1ad90d742967d2a76a7f97ffefc8cc885cdb692959a0a",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_next_rec_middle_entail_wit_1",
+    "proof_of_xizi_double_link_next_rec_middle_return_wit_1",
+    "proof_of_xizi_double_link_next_rec_middle_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "middle_split_reassembly",
+      "witness_names": [
+        "proof_of_xizi_double_link_next_rec_middle_entail_wit_1",
+        "proof_of_xizi_double_link_next_rec_middle_return_wit_1",
+        "proof_of_xizi_double_link_next_rec_middle_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_next_rec_middle_entail_wit_1",
+      "dependencies": [],
+      "difficulty": "medium",
+      "confidence": "high",
+      "grouping_reason": "All three obligations use the same middle-node decomposition of xizi_dll and the same inverse reassembly of two xizi_dllseg fragments around node. Three witnesses are below the controller limit of 12, so one group is the exact minimal semantic grouping and avoids duplicating the induction helper family.",
+      "fresh_lineage_policy": {
+        "required": "yes",
+        "reuse_previous_or_foreign_helpers": "no",
+        "allowed_inputs": "current manual goals, current annotation-approved seed case_lib, xizi_double_link_common public definitions/lemmas, and Rocq official libraries",
+        "reason": "This retry must yield a forbidden-free repaired proof lineage."
+      },
+      "forbidden_lemma_policy": {
+        "required": "yes",
+        "rules_source": ".agents/skills/verification-orchestrator/docs/forbidden_lemma.md",
+        "direct_or_indirect_use_in_new_proofs": "forbidden",
+        "required_method": "Use structural induction on nodes_before, direct unfolding of xizi_dllseg/XiziDLL.dllseg, Exists/Intros, sep_apply, and entailer-style structured reassembly; do not use forbidden equivalence, reflexivity/transitivity, sepcon commutativity/associativity, or sepcon monotonicity lemmas.",
+        "scan_before_report": "required"
+      },
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "xizi_dllseg_split_middle",
+          "statement_shape": "forall start prev stop last nodes_before node nodes_after, xizi_dllseg start prev stop last (nodes_before ++ node :: nodes_after) |-- EX node_prev node_next, xizi_dllseg start prev node node_prev nodes_before ** xizi_dll_links node node_next node_prev ** xizi_dllseg node_next node stop last nodes_after",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_next_rec_middle_entail_wit_1"
+          ],
+          "premises": [],
+          "proof_requirement": "Prove directly by structural induction on nodes_before. In the base case unfold the nonempty dllseg once and instantiate node_prev=prev. In the step case unfold one prefix cell, apply the induction hypothesis to the tail segment, then fold the one-cell prefix back by direct simplification/Exists/entailer. No forbidden structural lemma is permitted.",
+          "destination": "group-local case_lib with helper_namespace suffix"
+        },
+        {
+          "name_hint": "xizi_dllseg_reassemble_middle",
+          "statement_shape": "forall start prev stop last nodes_before node nodes_after node_prev node_next, xizi_dllseg start prev node node_prev nodes_before ** xizi_dll_links node node_next node_prev ** xizi_dllseg node_next node stop last nodes_after |-- xizi_dllseg start prev stop last (nodes_before ++ node :: nodes_after)",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_next_rec_middle_return_wit_1",
+            "proof_of_xizi_double_link_next_rec_middle_return_wit_2"
+          ],
+          "premises": [],
+          "proof_requirement": "Prove directly by structural induction on nodes_before, unfolding/folding exactly one dllseg cell per step. This is the explicit allowed reassembly route; do not invoke forbidden sepcon equivalence/commutativity/associativity/monotonicity lemmas.",
+          "destination": "group-local case_lib with helper_namespace suffix"
+        }
+      ],
+      "premise_discharge": {
+        "split_helper": "No external premise: the nonempty clauses of the source dllseg supply node equality, non-nullness, non-stopness, links, and the recursive tail at every induction step.",
+        "reassembly_helper": "No external premise: the prefix dllseg supplies every prefix-cell guard and link; the explicit node links and suffix dllseg supply the pivot and remainder.",
+        "sentinel_branch": "node_next = linklist_pre and linklist_pre = head make the suffix segment start equal its stop; destructing nodes_after makes the nonempty case contradict the dllseg node <> stop guard.",
+        "non_sentinel_branch": "node_next <> linklist_pre and linklist_pre = head make the suffix start differ from its stop; destructing nodes_after makes nil contradict the empty dllseg equality, while the cons case supplies node_next = hd nodes_after."
+      },
+      "proof_strategy": "Always select the left Coq disjunct of each generated witness. For entail_wit_1, open xizi_dll, apply the suffixed split helper to the sentinel-bounded segment, expose xizi_dll_links, and instantiate first/last/node_prev/node_next. For return_wit_1, substitute head/node equalities, destruct nodes_after, reject the nonempty case using the same-endpoint dllseg guard, use the suffixed reassembly helper, and close xizi_dll; xizi_double_link_next_value nil reduces to 0. For return_wit_2, destruct nodes_after, reject nil using the empty dllseg equality plus node_next <> head, obtain node_next = the head element in the cons case by one direct dllseg unfold, reassemble, close xizi_dll, and simplify xizi_double_link_next_value. Keep all helpers suffixed and in group-local case_lib; the manual file contains witness proofs only.",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_next_rec_middle_entail_wit_1": "Choose the left disjunct; open the circular list, split its sentinel-bounded segment at node by induction on nodes_before, and instantiate the four existential link values.",
+        "proof_of_xizi_double_link_next_rec_middle_return_wit_1": "Choose the left disjunct; derive nodes_after=[] from a segment whose start and stop are both head, reassemble prefix-node-suffix, close xizi_dll, and reduce next_value [].",
+        "proof_of_xizi_double_link_next_rec_middle_return_wit_2": "Choose the left disjunct; derive nodes_after=node_next::rest from node_next<>head and one dllseg unfold, reassemble and close the list, then reduce next_value."
+      },
+      "expected_helpers": [
+        "xizi_dllseg_split_middle__middle_split_reassembly",
+        "xizi_dllseg_reassemble_middle__middle_split_reassembly"
+      ]
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

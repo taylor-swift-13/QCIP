@@ -1,0 +1,327 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "pending",
+  "terminal": "no",
+  "agent_result": {
+    "phase": "vc-checking",
+    "status": "blocked",
+    "terminal": "yes",
+    "round_outcome": "annotation-bug",
+    "round": "xizi_single_link_append-vc-checking-r1",
+    "attempt_id": "xizi_single_link_append-vc-checking-r1-attempt-1",
+    "source_version": {
+      "schema_version": "qcp-source-version/v1",
+      "digest": "5d8ce2758bbd477fb7b483f819d60ef0286779ba257a44b89756d6f2f3db3f4d",
+      "verified_current": true
+    },
+    "source_goal_version": {
+      "schema_version": "qcp-source-goal-version/v1",
+      "digest": "aa9eac35958a3078c88e1d0231d0a7d4b0b0d07aaea0d791cbb8ff440147ce1f",
+      "verified_current": true,
+      "target_witnesses": [
+        "proof_of_xizi_single_link_append_entail_wit_1",
+        "proof_of_xizi_single_link_append_entail_wit_2",
+        "proof_of_xizi_single_link_append_return_wit_1"
+      ],
+      "witness_statement_hashes": {
+        "proof_of_xizi_single_link_append_entail_wit_1": "c13c34236c3347c465ecc2bff6f6dcbc582c4f889d625a228b2df8c43458fe24",
+        "proof_of_xizi_single_link_append_entail_wit_2": "fdf07d63352a1325911d1fa3bd9023f05859e4f360313cbe04ff89397a7f4aa0",
+        "proof_of_xizi_single_link_append_return_wit_1": "0943b050d3e52f649d4ece994643b598a23ad568ac2fee1e50c7f99cf5f69369"
+      }
+    },
+    "vc_checking": {
+      "schema_version": "qcp-vc-checking-agent-result/v1",
+      "status": "blocked",
+      "terminal": "yes",
+      "overall_judgment": "annotation-bug",
+      "source_goal_version": "aa9eac35958a3078c88e1d0231d0a7d4b0b0d07aaea0d791cbb8ff440147ce1f",
+      "summary": "Two current manual VCs are semantically invalid. entail_wit_1 requires linklist_pre <> 0, but the current xizi_sll_head definition is only an existential head-field store plus xizi_sll and contains no head-nonnull pure conjunct. return_wit_1 requires constructing a nonempty xizi_sll ending in linklist_node_pre, but the loop invariant has dropped the public linklist_node_pre <> 0 fact. entail_wit_2 is proofable with the existing xizi_sll segment lemmas. The invalid witnesses require annotation/specification repair and regeneration before vc-proving.",
+      "target_witnesses": [
+        "proof_of_xizi_single_link_append_entail_wit_1",
+        "proof_of_xizi_single_link_append_entail_wit_2",
+        "proof_of_xizi_single_link_append_return_wit_1"
+      ],
+      "natural_language_analysis": {
+        "schema_version": "qcp-vc-natural-language-analysis/v1",
+        "summary": "The invariant lifecycle fails at initialization and closure for two independent missing non-null facts. These facts cannot be supplied by a sound group-local helper because neither is entailed by the corresponding antecedent under the current shared predicate definitions.",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_xizi_single_link_append_entail_wit_1",
+            "statement_hash": "c13c34236c3347c465ecc2bff6f6dcbc582c4f889d625a228b2df8c43458fe24",
+            "judgment": "annotation-bug",
+            "vc_shape": {
+              "pre_spatial": "The first outer disjunct owns xizi_sll_head linklist_pre l and the fresh node_next undef cell. Unfolding xizi_sll_head yields an existential successor, the head node_next cell, and xizi_sll successor l. The second outer disjunct owns only xizi_sll q l.",
+              "pre_pure": "Only linklist_node_pre <> 0 is present. There is no linklist_pre <> 0 premise.",
+              "pre_exists": "The first disjunct hides the current head successor inside xizi_sll_head.",
+              "post_spatial": "The intended first route preserves the head field and suffix, chooses an empty xizi_sllseg linklist_pre linklist_pre [], and frames the fresh-node undef cell.",
+              "post_pure": "Both outer alternatives require linklist_pre <> 0.",
+              "post_exists": "For the intended first route choose next as the head successor, l1a=[], and l1b=l."
+            },
+            "witness_instantiation": "The spatial and list parts admit next=head successor, l1a=nil, l1b=l, but no instantiation can manufacture the required linklist_pre <> 0 pure fact.",
+            "space_plan": "Unfold xizi_sll_head, retain its head field and xizi_sll suffix, and simplify xizi_sllseg linklist_pre linklist_pre nil. This closes all spatial goals but not the non-null pure goal.",
+            "pure_plan": "The equality cons(linklist_pre,l)=[]++cons(linklist_pre,l) is reflexive. linklist_pre<>0 has no discharge source: current xizi_sll_head is defined as generic_sll_head, and generic_sll_head contains no head-nonnull conjunct.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "linklist_node_pre<>0 is the public Require fact but does not imply linklist_pre<>0.",
+              "The head-field points-to resource does not, under the current predicate definition, expose a pure base-pointer non-null premise."
+            ],
+            "failure_signal": "goal.v lines 42-60 require linklist_pre<>0 while providing only linklist_node_pre<>0; QCIPLib/xizi/xizi_single_link_common/xizi_single_link_lib.v lines 150-151 define xizi_sll_head without the non-null property claimed by problem_context.",
+            "semantic_counterexample_shape": "Set linklist_pre=0, linklist_node_pre=1, l=nil, and choose the head successor 0. The antecedent can be represented by the head field at address 0 together with the disjoint fresh-node undef cell, while the consequent explicitly requires 0<>0. Both outer alternatives require the same impossible pure fact.",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": null,
+            "grouping_reason": "Excluded from proving because the frozen VC is semantically invalid."
+          },
+          {
+            "witness_name": "proof_of_xizi_single_link_append_entail_wit_2",
+            "statement_hash": "fdf07d63352a1325911d1fa3bd9023f05859e4f360313cbe04ff89397a7f4aa0",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "node.node_next |-> next_2 ** xizi_sllseg linklist_pre node l1a_2 ** xizi_sll next_2 l1b_2, with the first disjunct also framing the fresh-node undef cell.",
+              "pre_pure": "cons(linklist_pre,l)=l1a_2++node::l1b_2, node<>0, and next_2<>0.",
+              "pre_exists": "xizi_sll next_2 l1b_2 exposes its successor and tail after applying xizi_sll_not_zero.",
+              "post_spatial": "Extend the processed segment through node so that it ends at next_2, expose next_2.node_next, preserve the remaining xizi_sll suffix, and frame the fresh-node undef cell.",
+              "post_pure": "Preserve the whole-list decomposition with next_2 as the new current node and preserve next_2<>0.",
+              "post_exists": "Choose next as next_2's successor, l1a=l1a_2++[node], and l1b as the tail exposed by xizi_sll_not_zero."
+            },
+            "witness_instantiation": "Select the first outer disjunct. Apply xizi_sll_not_zero at next_2 to obtain next and lnext with l1b_2=next_2::lnext; instantiate l1a=l1a_2++[node] and l1b=lnext.",
+            "space_plan": "Build xizi_sllseg node next_2 [node] from node.node_next |-> next_2 using xizi_sllseg_len1 and node<>0, then compose it with xizi_sllseg linklist_pre node l1a_2 using xizi_sllseg_sllseg. Frame next_2's exposed suffix and the undef cell.",
+            "pure_plan": "Rewrite l1b_2=next_2::lnext in the original decomposition; app_assoc and list simplification produce cons(linklist_pre,l)=(l1a_2++[node])++next_2::lnext. next_2<>0 is literal PreH3.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [
+              "xizi_sll_not_zero",
+              "xizi_sllseg_len1",
+              "xizi_sllseg_sllseg",
+              "app_assoc"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "xizi_sll_not_zero requires next_2<>NULL, exactly PreH3.",
+              "xizi_sllseg_len1 requires node<>NULL, exactly PreH2.",
+              "The two segment resources are adjacent at node and next_2 by construction."
+            ],
+            "failure_signal": "None.",
+            "recommended_next_phase": "vc-proving only after the blocked witnesses are repaired and source_goal_version is regenerated",
+            "analysis_group_candidate": "sll_append_transition",
+            "grouping_reason": "This is the sole semantically valid witness and uses one existing list-segment extension family."
+          },
+          {
+            "witness_name": "proof_of_xizi_single_link_append_return_wit_1",
+            "statement_hash": "0943b050d3e52f649d4ece994643b598a23ad568ac2fee1e50c7f99cf5f69369",
+            "judgment": "annotation-bug",
+            "vc_shape": {
+              "pre_spatial": "node.node_next |-> linklist_node_pre ** xizi_sllseg linklist_pre node l1a ** xizi_sll next l1b ** linklist_node_pre.node_next |-> 0.",
+              "pre_pure": "cons(linklist_pre,l)=l1a++node::l1b, node<>0, and next=0. The original public linklist_node_pre<>0 fact is absent.",
+              "pre_exists": "No outer existential relevant to the missing fact.",
+              "post_spatial": "Either xizi_sll_head linklist_pre (l++[linklist_node_pre]), or an exposed head field plus xizi_sll successor (l++[linklist_node_pre]). Both contain a nonempty xizi_sll chain whose last node is linklist_node_pre.",
+              "post_pure": "The nonempty xizi_sll definition requires linklist_node_pre<>NULL when its singleton tail is constructed.",
+              "post_exists": "The second route chooses the original head successor q after rebuilding the complete xizi_sll chain."
+            },
+            "witness_instantiation": "First use next=0 and xizi_sll_zero to derive l1b=nil. The intended reconstruction extends the old segment with node and the new singleton node, but constructing xizi_sll linklist_node_pre [linklist_node_pre] requires linklist_node_pre<>0, which P does not provide.",
+            "space_plan": "The existing route would use xizi_sll_len1 for linklist_node_pre.node_next |-> 0, xizi_sll_cons for node.node_next |-> linklist_node_pre, xizi_sllseg_sll to close the full chain, and xizi_sll_not_zero to expose the head successor. xizi_sll_len1's non-null premise is undischarged.",
+            "pure_plan": "next=0 plus xizi_sll_zero forces l1b=nil, and PreH1 then supplies the list concatenation identity. No available equality or spatial predicate entails linklist_node_pre<>0.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [
+              "xizi_sll_zero",
+              "xizi_sll_len1",
+              "xizi_sll_cons",
+              "xizi_sllseg_sll",
+              "xizi_sll_not_zero"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "xizi_sll_zero is discharged by next=0.",
+              "xizi_sll_cons is discharged by node<>0.",
+              "xizi_sll_len1 requires linklist_node_pre<>0, but this public fact was not carried by the loop invariant."
+            ],
+            "failure_signal": "The C Require at lines 7-10 contains linklist_node != 0, but the loop invariant at lines 19-28 preserves only linklist_node==linklist_node@pre and its undef field; goal.v lines 95-112 therefore omit linklist_node_pre<>0.",
+            "semantic_counterexample_shape": "Choose linklist_pre=node=2, linklist_node_pre=0, next=0, l=l1a=l1b=nil. The antecedent is satisfiable with disjoint cells 2.node_next |-> 0 and 0.node_next |-> 0 and the empty segment/suffix. The target list is [0], so rebuilding its data-node xizi_sll requires the false pure fact 0<>0.",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": null,
+            "grouping_reason": "Excluded from proving because the frozen VC is semantically invalid."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "sll_append_transition",
+            "witness_names": [
+              "proof_of_xizi_single_link_append_entail_wit_2"
+            ],
+            "representative_witness": "proof_of_xizi_single_link_append_entail_wit_2",
+            "shared_proof_pattern": "Expose the non-null suffix head, append the current one-node link to the processed segment, and preserve the remaining suffix.",
+            "shared_space_plan": "Use xizi_sll_not_zero, xizi_sllseg_len1, and xizi_sllseg_sllseg.",
+            "shared_pure_plan": "Normalize list concatenation with the exposed suffix equation.",
+            "shared_refinement_plan": "not applicable",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "This is the only proofable witness; one witness is below max_witnesses_per_group=12.",
+            "proof_group_ready": false
+          }
+        ],
+        "blocked_witnesses": [
+          "proof_of_xizi_single_link_append_entail_wit_1",
+          "proof_of_xizi_single_link_append_return_wit_1"
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "aa9eac35958a3078c88e1d0231d0a7d4b0b0d07aaea0d791cbb8ff440147ce1f",
+        "target_witnesses": [
+          "proof_of_xizi_single_link_append_entail_wit_1",
+          "proof_of_xizi_single_link_append_entail_wit_2",
+          "proof_of_xizi_single_link_append_return_wit_1"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "sll_append_transition",
+            "witness_names": [
+              "proof_of_xizi_single_link_append_entail_wit_2"
+            ],
+            "representative_witness": "proof_of_xizi_single_link_append_entail_wit_2",
+            "dependencies": [],
+            "candidate_helper_declarations": [],
+            "likely_helper_declarations": [],
+            "proof_strategy": "Select the first outer disjunct, expose xizi_sll next_2 l1b_2 with xizi_sll_not_zero, build the one-node node-to-next_2 segment with xizi_sllseg_len1, compose segments with xizi_sllseg_sllseg, and normalize app_assoc.",
+            "per_witness_plan": {
+              "proof_of_xizi_single_link_append_entail_wit_2": "Instantiate next with next_2's exposed successor, l1a=l1a_2++[node], and l1b with the exposed suffix tail; compose the one-node segment and rewrite the list decomposition."
+            },
+            "grouping_reason": "This is the only semantically valid target and uses a single existing segment-extension proof family. Group size 1 is within the configured maximum 12.",
+            "confidence": "high"
+          }
+        ],
+        "excluded_from_proving": [
+          {
+            "witness": "proof_of_xizi_single_link_append_entail_wit_1",
+            "reason": "annotation/spec bug: xizi_sll_head does not entail the required linklist_pre<>0 fact under its current definition"
+          },
+          {
+            "witness": "proof_of_xizi_single_link_append_return_wit_1",
+            "reason": "annotation bug: the loop invariant drops the public linklist_node_pre<>0 fact required to construct the appended singleton node"
+          }
+        ],
+        "dependencies": [],
+        "likely_helper_declarations": [],
+        "blockers": [
+          {
+            "kind": "annotation-spec-bug",
+            "witness": "proof_of_xizi_single_link_append_entail_wit_1",
+            "missing_fact": "linklist_pre <> 0",
+            "evidence": "goal.v lines 42-60 require linklist_pre<>0, while QCIPLib xizi_sll_head lines 150-151 contain no such pure conjunct."
+          },
+          {
+            "kind": "annotation-bug",
+            "witness": "proof_of_xizi_single_link_append_return_wit_1",
+            "missing_fact": "linklist_node_pre <> 0",
+            "evidence": "The C Require has linklist_node!=0, but the loop invariant and generated return witness do not preserve it."
+          }
+        ],
+        "downstream_valid": "no",
+        "invalidation_reason": "Repairing the shared head predicate and/or C annotation and regenerating symbolic-execution artifacts changes source_version and source_goal_version, so this provisional group must not be consumed by vc-proving.",
+        "grouping_policy_evidence": {
+          "controller_policy": "bounded-witness-groups/v1",
+          "target_witness_count": 3,
+          "provisionally_grouped_witness_count": 1,
+          "excluded_semantically_invalid_witness_count": 2,
+          "max_witnesses_per_group": 12,
+          "policy_satisfied": true
+        }
+      },
+      "group_plan_ready": false,
+      "ready_for_vc_proving": false,
+      "annotation_repair_recommendation": {
+        "required_properties": [
+          "Make the intended invariant 'xizi_sll_head itself entails sentinel-head non-null' true in the shared mathematical predicate/spec, or conservatively restore explicit linklist != 0 if the shared predicate cannot be changed.",
+          "Carry linklist_node != 0 through the loop invariant together with linklist_node == linklist_node@pre so the return VC retains the public non-null fact."
+        ],
+        "conservative_pattern": "Preserve the existing prefix/current/suffix spatial invariant and add the stable new-node non-null pure fact. For the sentinel fact, align the shared xizi_sll_head definition with problem_context before removing the explicit C pure conjunct; do not add an unproved helper that asserts non-null from the current predicate.",
+        "must_preserve": [
+          "the public With l contract and append(l,[linklist_node]) postcondition",
+          "undef_data_at ownership for linklist_node.node_next",
+          "the prefix/current/suffix list decomposition",
+          "the existing xizi_sllseg and xizi_sll spatial resources"
+        ],
+        "next_checks": [
+          "rerun annotation-filling and annotation-checking in a fresh annotation round",
+          "regenerate all goal/proof artifacts with canonical symbolic execution",
+          "verify refreshed entail_wit_1 obtains linklist_pre<>0 from the aligned head predicate/spec",
+          "verify refreshed return_wit_1 contains linklist_node_pre<>0",
+          "rerun vc-checking against the new source_goal_version"
+        ]
+      },
+      "version_evidence": {
+        "all_declared_file_hashes_match_round_worktree": true,
+        "manual_witnesses_match_target_witnesses_exactly": true,
+        "manual_witness_count": 3,
+        "diagnostics_manual_obligation_count": 3,
+        "diagnostic_split_goals_excluded_from_targets": true,
+        "witness_statement_hashes_match": true,
+        "hash_mismatches": []
+      },
+      "evidence": {
+        "formal_files_modified": false,
+        "coq_check_run": false,
+        "coq_check_reason": "vc-checking is read-only semantic planning; missing antecedent facts cannot be repaired by proof search.",
+        "primary_files": [
+          "OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append.c",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_goal.v",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_proof_manual.v",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_lib.v",
+          "QCIPLib/xizi/xizi_single_link_common/xizi_single_link_lib.v",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/diagnostics_snapshot.json"
+        ],
+        "reference_scope": {
+          "conclusion_sources": [
+            "agent_input.json",
+            "declared vc-checking round worktree formal files"
+          ],
+          "parent_chat_used": "no"
+        }
+      },
+      "changed_files": [],
+      "formal_files_modified": false,
+      "blockers": [
+        {
+          "kind": "annotation-spec-bug",
+          "witness": "proof_of_xizi_single_link_append_entail_wit_1",
+          "reason": "The current xizi_sll_head definition does not provide the head non-null fact demanded by the generated invariant initialization VC."
+        },
+        {
+          "kind": "annotation-bug",
+          "witness": "proof_of_xizi_single_link_append_return_wit_1",
+          "reason": "The loop invariant fails to preserve the public new-node non-null fact needed to construct the appended singleton."
+        }
+      ],
+      "recommended_next_phase": "annotation",
+      "controller_acceptance": "not-claimed",
+      "timing": {
+        "timing_source": "command wall-clock plus unmeasured analysis",
+        "major_time_sinks": [
+          "mandatory handoff, routed skills, and vc-checking guide reading",
+          "source/source-goal hash and manual-target audit",
+          "semantic counterexample analysis for head and appended-node non-null obligations"
+        ],
+        "timing_gaps": [
+          "The spawn start and individual non-command analysis segments were not separately timestamped; no elapsed duration is guessed."
+        ],
+        "open_or_incomplete_timing_events": []
+      }
+    },
+    "changed_files": [],
+    "blockers": [
+      {
+        "kind": "annotation-spec-bug",
+        "witness": "proof_of_xizi_single_link_append_entail_wit_1",
+        "reason": "Missing linklist_pre<>0 under the current xizi_sll_head definition."
+      },
+      {
+        "kind": "annotation-bug",
+        "witness": "proof_of_xizi_single_link_append_return_wit_1",
+        "reason": "Missing preserved linklist_node_pre<>0 in the loop invariant."
+      }
+    ]
+  },
+  "verification_result": {},
+  "blockers": []
+}

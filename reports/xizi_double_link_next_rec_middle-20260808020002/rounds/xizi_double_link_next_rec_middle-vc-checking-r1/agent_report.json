@@ -1,0 +1,234 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "pending",
+  "terminal": "no",
+  "agent_result": {
+    "vc_checking": {
+      "schema_version": "qcp-vc-checking-result/v1",
+      "status": "blocked",
+      "terminal": "yes",
+      "round": "xizi_double_link_next_rec_middle-vc-checking-r1",
+      "attempt_id": "xizi_double_link_next_rec_middle-vc-checking-r1-attempt-1",
+      "source_version": {
+        "digest": "34e38c933e77fbca7dc556abb6b8d8212d235e3aef671eaa6068a9b25eebf414"
+      },
+      "source_goal_version": {
+        "digest": "c76a9ff590028328a9c656a0c33a587b05220c406e1db282fe816dc2151bb093"
+      },
+      "summary": "The entail witness is semantically provable using a middle-segment split lemma, but both return witnesses are not provable from the current local assertion because it drops the sentinel non-null fact head <> 0. Every return post disjunct requires that fact, either explicitly or through xizi_dll, while the return preconditions contain no premise that entails it. The case must return to annotation and preserve head/linklist non-null in the local Assert before symbolic execution is rerun.",
+      "ready_for_vc_proving_preparing": false,
+      "checked_witness_scope": [
+        "proof_of_xizi_double_link_next_rec_middle_entail_wit_1",
+        "proof_of_xizi_double_link_next_rec_middle_return_wit_1",
+        "proof_of_xizi_double_link_next_rec_middle_return_wit_2"
+      ],
+      "version_evidence": {
+        "source_files_match_handoff": true,
+        "generated_files_match_handoff": true,
+        "manual_target_witnesses_match_handoff": true,
+        "manual_obligation_count": 3,
+        "diagnostics_used_as_hint_only": true,
+        "diagnostic_count": 0,
+        "hashes_checked": {
+          "OUTPUT/xizi/xizi_double_link_next_rec_middle/source/xizi_double_link_next_rec_middle.c": "c58bbb59241d39322ad7f23e06ecb1ac9a0596b60009ef6abb8a0167050b74c9",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next_rec_middle/source/xizi_double_link_next_rec_middle_lib.v": "fa2e8946c1db98b44da2b97b37d4edbf9f45ad4f5ceab833333d13526fb10e99",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next_rec_middle/source/xizi_double_link_next_rec_middle_goal.v": "e23b425ae4b0fb051fce8da163e9790748b2f6b0762d0ecb84a46f3759438bfb",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next_rec_middle/source/xizi_double_link_next_rec_middle_proof_auto.v": "7cf34f1465e8aa12c64c790f1e6d3520569c61d67e7e6b6aa1f9e28e1b6a7d21",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next_rec_middle/source/xizi_double_link_next_rec_middle_proof_manual.v": "5a4d032d0462d51e370207a73f0eea120f10c98990d56ba8a4e0cf130840a76f",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next_rec_middle/source/xizi_double_link_next_rec_middle_goal_check.v": "66df3a846cc094892debd15c7b556d91c0c2fff490509603d9d7071804459b9d",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next_rec_middle/source/xizi_double_link_next_rec_middle_proof_diagnostics.v": "0e228b2a4e15981a76aab65e8ea388eac315befbd09dc1cd0ed2afe9c20499ea",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next_rec_middle/source/diagnostics_snapshot.json": "d287de341f42dd2b8241fefe9e1dc80b863cbffa609451695d24a9ad56af1642"
+        }
+      },
+      "semantic_blocker_evidence": {
+        "missing_fact": "head <> 0",
+        "lost_at": "OUTPUT/xizi/xizi_double_link_next_rec_middle/source/xizi_double_link_next_rec_middle.c local Assert at lines 21-34",
+        "origin_available_before_assert": "The function precondition xizi_dll(head, nodes_before ++ node :: nodes_after) unfolds to a conjunction containing head <> NULL.",
+        "return_precondition_observation": "Neither disjunct of return_wit_1 nor return_wit_2 has a head <> 0 hypothesis. They retain only node_next branch information, linklist_pre = head, linklist_node_pre = node, and linklist_node_pre <> 0.",
+        "return_postcondition_observation": "The first post disjunct requires xizi_dll head (...), whose definition contains head <> NULL. The second post disjunct requires head <> 0 explicitly. Therefore choosing a different Coq disjunct cannot avoid the missing fact.",
+        "spatial_resources_do_not_discharge_it": "A pointer field cell unfolds through store_ptr to isvalidptr(field_address ...) and byte ownership. CommonAssertion.isvalidptr is x >= 0 /\\ x + 3 <= Int.max_unsigned /\\ aligned_4 x, so validity does not exclude address 0. Also, xizi_dllseg constrains nonempty current nodes against NULL and stop, but never asserts that its stop parameter head is non-null.",
+        "countermodel_shape_return_wit_1": "Take head = linklist_pre = node_next = 0, node = linklist_node_pre nonzero, nodes_before = nil, and nodes_after = nil. Choose first = node, node_prev = 0, and last = node. The prefix/suffix dllseg equations and separated head/node link cells can satisfy the precondition in the model, but both post disjuncts demand the false proposition head <> 0.",
+        "countermodel_shape_return_wit_2": "Take head = linklist_pre = 0, node nonzero, node_next nonzero and distinct from head, nodes_before = nil, and nodes_after beginning with node_next; choose boundaries so the prefix and suffix dllseg predicates close at head. The precondition does not exclude this state, while both post disjuncts again require head <> 0."
+      },
+      "existing_library_lemmas": [
+        {
+          "name": "xizi_dllseg_unfold",
+          "source": "QCIPLib.xizi.xizi_double_link_common.xizi_double_link_lib",
+          "use": "Would expose the first suffix node for return_wit_2 after the annotation defect is repaired."
+        },
+        {
+          "name": "xizi_dll_close",
+          "source": "QCIPLib.xizi.xizi_double_link_common.xizi_double_link_lib",
+          "use": "Makes the missing premise explicit: closing a DLL requires head <> NULL."
+        }
+      ],
+      "candidate_lib_lemmas_after_annotation_repair": [
+        {
+          "name_hint": "xizi_dllseg_split_middle_with_head_frame",
+          "statement_shape": "forall head first last nodes_before node nodes_after, xizi_dll_links head first last ** xizi_dllseg first head head last (nodes_before ++ node :: nodes_after) |-- EX node_next node_prev, xizi_dll_links head first last ** xizi_dllseg first head node node_prev nodes_before ** xizi_dll_links node node_next node_prev ** xizi_dllseg node_next node head last nodes_after",
+          "use": "entail_wit_1",
+          "destination": "future group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "xizi_dllseg_rebuild_middle_with_head_frame",
+          "statement_shape": "forall head first last nodes_before node node_prev node_next nodes_after, xizi_dll_links head first last ** xizi_dllseg first head node node_prev nodes_before ** xizi_dll_links node node_next node_prev ** xizi_dllseg node_next node head last nodes_after |-- xizi_dll_links head first last ** xizi_dllseg first head head last (nodes_before ++ node :: nodes_after)",
+          "use": "return_wit_1 and return_wit_2 after head <> 0 is preserved separately",
+          "destination": "future group-local case_lib with helper_namespace.suffix"
+        }
+      ],
+      "natural_language_analysis": {
+        "schema_version": "qcp-natural-language-vc-analysis/v1",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_xizi_double_link_next_rec_middle_entail_wit_1",
+            "judgment": "needs-helper",
+            "vc_shape": {
+              "pre_spatial": "A complete xizi_dll, or in the selected expanded disjunct a full xizi_dllseg plus the two sentinel link cells.",
+              "pre_pure": "The expanded disjunct includes head <> 0, identity equalities, and node <> 0.",
+              "pre_exists": "none in the selected expanded disjunct",
+              "post_spatial": "Sentinel links, prefix dllseg, selected-node links, and suffix dllseg at the list decomposition point.",
+              "post_pure": "Identity equalities and node <> 0 are preserved.",
+              "post_exists": "node_next/node_prev come from the recursive point at node; first/last are the original sentinel boundaries."
+            },
+            "witness_instantiation": "Select the expanded right entailment proposition; instantiate first and last with the source boundaries and obtain node_next/node_prev by induction on nodes_before.",
+            "space_plan": "Normalize explicit sentinel cells to xizi_dll_links and apply a middle-split lemma proved by induction on nodes_before.",
+            "pure_plan": "All target pure facts are source hypotheses; recursive guards are supplied by xizi_dllseg.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [
+              "xizi_dllseg_unfold"
+            ],
+            "candidate_helper_declarations": [
+              "xizi_dllseg_split_middle_with_head_frame"
+            ],
+            "premise_discharge": [
+              "The source list is literally nodes_before ++ node :: nodes_after.",
+              "The full segment owns all link cells needed for the split.",
+              "The expanded source supplies head <> 0."
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": "middle_segment_split_rebuild_after_repair",
+            "grouping_reason": "Provable but withheld because the same round contains annotation-bug return witnesses."
+          },
+          {
+            "witness_name": "proof_of_xizi_double_link_next_rec_middle_return_wit_1",
+            "judgment": "annotation-bug",
+            "vc_shape": {
+              "pre_spatial": "Sentinel links, prefix dllseg, selected-node links, and suffix dllseg.",
+              "pre_pure": "node_next = linklist_pre; linklist_pre = head; linklist_node_pre = node; linklist_node_pre <> 0. No head <> 0 fact is present.",
+              "pre_exists": "none",
+              "post_spatial": "Either xizi_dll head (...) or an expanded full segment with sentinel links.",
+              "post_pure": "The closed DLL entails head <> 0; the expanded alternative asks for head <> 0 explicitly. It also asks for 0 = xizi_double_link_next_value nodes_after.",
+              "post_exists": "Expanded alternative chooses the existing first/last boundaries."
+            },
+            "witness_instantiation": "node_next = head makes the suffix segment start at its stop, so nodes_after = nil and the accessor value is 0. This solves the successor fact but cannot construct either post disjunct without head <> 0.",
+            "space_plan": "The middle-rebuild lemma can reconstruct the full segment, but xizi_dll_close still requires head <> 0 and the expanded post states the same requirement directly.",
+            "pure_plan": "The suffix nil equation proves the return value. No precondition fact proves head <> 0: field-store validity permits zero and dllseg does not constrain its stop parameter to be non-null.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "0 = xizi_double_link_next_value nodes_after is discharged after nodes_after = nil.",
+              "head <> 0 is not discharged by any current premise."
+            ],
+            "failure_signal": "Missing sentinel non-null fact after the local Assert.",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": "none",
+            "grouping_reason": "An annotation-bug witness cannot enter a proof group."
+          },
+          {
+            "witness_name": "proof_of_xizi_double_link_next_rec_middle_return_wit_2",
+            "judgment": "annotation-bug",
+            "vc_shape": {
+              "pre_spatial": "Sentinel links, prefix dllseg, selected-node links, and suffix dllseg.",
+              "pre_pure": "node_next <> linklist_pre; linklist_pre = head; linklist_node_pre = node; linklist_node_pre <> 0. No head <> 0 fact is present.",
+              "pre_exists": "none",
+              "post_spatial": "Either xizi_dll head (...) or an expanded full segment with sentinel links.",
+              "post_pure": "The closed DLL entails head <> 0; the expanded alternative asks for head <> 0 explicitly. It also asks for node_next = xizi_double_link_next_value nodes_after.",
+              "post_exists": "Expanded alternative chooses the existing first/last boundaries."
+            },
+            "witness_instantiation": "Rewriting linklist_pre = head gives node_next <> head. xizi_dllseg_unfold then yields nodes_after = node_next :: rest, so the accessor value is node_next. This still cannot construct either post disjunct without head <> 0.",
+            "space_plan": "Use xizi_dllseg_unfold for the suffix and the middle-rebuild lemma for the full segment after repair; the current spatial resources alone do not provide sentinel non-null.",
+            "pure_plan": "The list-head equation proves the return value. No current hypothesis proves head <> 0.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [
+              "xizi_dllseg_unfold"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "node_next <> head follows from the branch guard and linklist_pre = head.",
+              "node_next = xizi_double_link_next_value nodes_after follows after suffix unfolding.",
+              "head <> 0 is not discharged by any current premise."
+            ],
+            "failure_signal": "Missing sentinel non-null fact after the local Assert.",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": "none",
+            "grouping_reason": "An annotation-bug witness cannot enter a proof group."
+          }
+        ],
+        "analysis_groups": []
+      },
+      "witness_judgments": [
+        {
+          "witness_name": "proof_of_xizi_double_link_next_rec_middle_entail_wit_1",
+          "judgment": "needs-helper",
+          "next_action": "reuse the split-helper plan after annotation repair and regenerated VC checking"
+        },
+        {
+          "witness_name": "proof_of_xizi_double_link_next_rec_middle_return_wit_1",
+          "judgment": "annotation-bug",
+          "next_action": "preserve head <> 0 in the local Assert, regenerate goals, and rerun vc-checking"
+        },
+        {
+          "witness_name": "proof_of_xizi_double_link_next_rec_middle_return_wit_2",
+          "judgment": "annotation-bug",
+          "next_action": "preserve head <> 0 in the local Assert, regenerate goals, and rerun vc-checking"
+        }
+      ],
+      "required_annotation_rework": [
+        {
+          "file": "OUTPUT/xizi/xizi_double_link_next_rec_middle/source/xizi_double_link_next_rec_middle.c",
+          "location": "local Assert at lines 21-34",
+          "change": "Add and preserve linklist@pre != 0 (equivalently head != 0 under linklist@pre == head) in the assertion decomposition.",
+          "why_available": "The function Require contains xizi_dll(head, nodes_before ++ node :: nodes_after), whose definition includes head <> NULL, so the entail witness can legitimately carry this fact into the local assertion.",
+          "follow_up": "Run annotation filling/checking, canonical symbolic execution, diagnostics split, and a fresh vc-checking round bound to the new source_goal_version."
+        }
+      ],
+      "required_lib_rework": [],
+      "proving_group_plan_withheld_reason": "return_wit_1 and return_wit_2 are annotation-bug witnesses; they must not be assigned to group-workers under the current source_goal_version",
+      "changed_files": [],
+      "blockers": [
+        {
+          "blocker_class": "annotation-bug",
+          "witnesses": [
+            "proof_of_xizi_double_link_next_rec_middle_return_wit_1",
+            "proof_of_xizi_double_link_next_rec_middle_return_wit_2"
+          ],
+          "missing_fact": "head <> 0",
+          "recommended_next_phase": "annotation",
+          "recommended_repair": "Preserve linklist@pre != 0 / head != 0 in the local Assert before the return expression."
+        }
+      ],
+      "recommended_next_phase": "annotation",
+      "completed_at": "2026-08-07T18:32:12Z"
+    }
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-08-07T18:37:28Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_double_link_next_rec_middle-20260808020002/rounds/xizi_double_link_next_rec_middle-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    }
+  },
+  "blockers": [
+    {
+      "blocker_class": "annotation-bug",
+      "summary": "Both return witnesses lack the required head <> 0 premise after the local Assert.",
+      "recommended_next_phase": "annotation"
+    }
+  ]
+}

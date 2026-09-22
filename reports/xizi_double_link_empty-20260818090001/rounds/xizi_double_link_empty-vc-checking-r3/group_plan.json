@@ -1,0 +1,79 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "92123a41ded746df15be5b1630a9a02e1ad1e77a5533851e60fdfe2548d96d62",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_empty_return_wit_1",
+    "proof_of_xizi_double_link_empty_return_wit_2",
+    "proof_of_xizi_double_link_empty_derive_nil_case_by_general"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "dll_empty_general_and_nil_derivation",
+      "witness_names": [
+        "proof_of_xizi_double_link_empty_return_wit_1",
+        "proof_of_xizi_double_link_empty_return_wit_2",
+        "proof_of_xizi_double_link_empty_derive_nil_case_by_general"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_empty_return_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "For return_wit_1, select the first generated disjunct, destruct nodes_general, eliminate nil using first <> linklist_pre against the dllseg base equality, prove the cons list is non-nil, and fold sentinel links plus segment with xizi_dll_close. For return_wit_2, select the first disjunct, destruct nodes_general, eliminate cons using the dllseg node <> stop guard against first = linklist_pre, and fold the feasible nil ownership with xizi_dll_close. For derive_nil_case_by_general, choose nodes_general = nil, rewrite/frame the precondition as xizi_dll ** emp, cancel the DLL, apply sepcon/wand adjunction, eliminate the impossible nonempty general-result branch, preserve the feasible branch's DLL, and choose retval = 1. Do not use any lemma listed in verification-orchestrator/docs/forbidden_lemma.md; the route needs none of them.",
+      "natural_language_proof_strategy": "The implementation's sentinel comparison matches the abstract segment definition: an empty segment begins at its stop, while a nonempty segment carries node <> stop. Thus the two return cases preserve the same DLL and report 1 exactly for nil. The weak nil_case contract follows by selecting nil as the general contract's abstract list and transporting the unchanged DLL through the generated wand.",
+      "grouping_reason": "One group is permitted and preferred for 3 same-function targets under the limit of 12. They share xizi_dll/xizi_dllseg semantics and require no helper dependency; keeping the small wand derivation with the return cases minimizes context duplication.",
+      "difficulty": "low-to-medium",
+      "confidence": "high",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_empty_return_wit_1": {
+          "judgment": "proofable",
+          "route": "select first disjunct; nil contradicts first <> sentinel; cons proves non-nil; fold with xizi_dll_close"
+        },
+        "proof_of_xizi_double_link_empty_return_wit_2": {
+          "judgment": "proofable",
+          "route": "select first disjunct; cons contradicts first = sentinel via dllseg guard; nil proves the pure result; fold with xizi_dll_close"
+        },
+        "proof_of_xizi_double_link_empty_derive_nil_case_by_general": {
+          "judgment": "proofable",
+          "route": "choose nodes_general=nil; frame the DLL; construct the wand by adjunction; discard nil<>nil branch; choose retval=1"
+        }
+      },
+      "premise_discharge": {
+        "sentinel_nonnull": "PreH2 in each return witness",
+        "nonempty_result": "the cons case after the nil case contradicts first <> linklist_pre",
+        "empty_result": "the nil case after every cons case contradicts first = linklist_pre and dllseg's node <> stop guard",
+        "sentinel_links_and_segment": "the generated spatial antecedent, folded by xizi_dll_close",
+        "nil_specialization": "choose nodes_general = nil",
+        "derived_return_one": "the feasible general-result branch has retval_2 = 1; choose target retval = 1",
+        "ownership_preservation": "frame xizi_dll against emp and use sepcon/wand adjunction; no resource duplication"
+      },
+      "forbidden_lemma_constraints": {
+        "policy": "verification-orchestrator/docs/forbidden_lemma.md",
+        "required": "yes",
+        "plan_uses_forbidden_lemma": false,
+        "note": "Use folding, cancellation, branch contradiction, and apply_sepcon_adjoint; do not introduce forbidden reflexivity, transitivity, commutativity, associativity, emp-equivalence variants, or sepcon monotonicity lemmas."
+      },
+      "required_lessons": [
+        {
+          "id": "forbidden-sepcon-mono-and-refl",
+          "must_address": "The group worker must not use derivable1_sepcon_mono or derivable1_refl; both are forbidden lemmas, even if they appear to shorten framing or identity entailments."
+        },
+        {
+          "id": "derive-witness-compliant-route",
+          "must_address": "For proof_of_xizi_double_link_empty_derive_nil_case_by_general, choose nodes_general = nil, expose xizi_dll ** emp with sepcon_emp_equiv, cancel the outer xizi_dll, use apply_sepcon_adjoint, eliminate the nil <> nil branch, preserve the feasible branch's xizi_dll, and choose retval = 1. This route does not require derivable1_sepcon_mono or derivable1_refl."
+        }
+      ]
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

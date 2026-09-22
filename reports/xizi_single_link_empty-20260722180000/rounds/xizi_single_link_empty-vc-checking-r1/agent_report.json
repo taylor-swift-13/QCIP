@@ -1,0 +1,309 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "vc_checking": {
+      "status": "completed",
+      "source_version": "0f58ae9a61753a36087a421e9ab3f08037bf764dd05d9c8eda658986fbbd258e",
+      "source_goal_version": "0c8eb4f517256c2e6f7e6b6bfd2d38f71d37f732e33f40f8a96c0e37654ad34a",
+      "target_witnesses": [
+        "proof_of_xizi_single_link_empty_return_wit_1",
+        "proof_of_xizi_single_link_empty_return_wit_2"
+      ],
+      "summary": "Both generated return VCs are semantically provable under the frozen annotation and existing common single-link predicate library. The nonempty VC selects its second disjunct and rebuilds xizi_sll with xizi_sll_cons; the empty VC selects its second disjunct and uses q = 0 plus the definition of xizi_sll (equivalently the nullness fact exposed by xizi_sll_zero) to establish l = nil while retaining the same list assertion.",
+      "natural_language_analysis": {
+        "source_goal_version": "0c8eb4f517256c2e6f7e6b6bfd2d38f71d37f732e33f40f8a96c0e37654ad34a",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_xizi_single_link_empty_return_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "For the selected right disjunct: xizi_sll q_2 l0 ** (&(q.node_next) # Ptr |-> q_2).",
+              "pre_pure": "l = q :: l0, q <> 0, and linklist_pre <> 0.",
+              "pre_exists": "None; q_2 and l0 are universally bound inputs.",
+              "post_spatial": "xizi_sll q l.",
+              "post_pure": "l <> nil.",
+              "post_exists": "None."
+            },
+            "witness_instantiation": "Select the second disjunct of xizi_single_link_empty_return_wit_1; no existential witness is required. Rewrite l using PreH1 to q :: l0.",
+            "space_plan": "Normalize the sepcon order if needed, then apply existing lemma xizi_sll_cons q q_2 l0 using q <> 0. This combines the node_next cell and tail predicate into xizi_sll q (q :: l0); rewrite by l = q :: l0 to obtain the requested spatial postcondition.",
+            "pure_plan": "After rewriting l = q :: l0, discriminate proves q :: l0 <> nil. The equality 0 = 0 in the unused first disjunct is irrelevant because the proof selects the right disjunct.",
+            "refinement_plan": "Not applicable; this is a direct separation-logic return witness with no safeExec state.",
+            "used_existing_lemmas": [
+              {
+                "name": "xizi_sll_cons",
+                "source": "QCIPLib.xizi.xizi_single_link_common.xizi_single_link_lib",
+                "purpose": "Fold the concrete first-node cell and xizi_sll tail into the complete nonempty xizi_sll predicate."
+              }
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "q <> NULL for xizi_sll_cons",
+                "discharged_by": "PreH2 states q <> 0, and NULL is 0 in the imported memory model."
+              },
+              {
+                "premise": "l <> nil",
+                "discharged_by": "PreH1 rewrites l to q :: l0, and constructors discriminate."
+              }
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "return_sll_nullness",
+            "proof_group_candidate": "return_sll_nullness",
+            "grouping_reason": "Shares the same xizi_sll nullness/folding predicate family and direct-return proof style with return_wit_2."
+          },
+          {
+            "witness_name": "proof_of_xizi_single_link_empty_return_wit_2",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "For the selected right disjunct: xizi_sll q l.",
+              "pre_pure": "q = 0 and linklist_pre <> 0.",
+              "pre_exists": "None.",
+              "post_spatial": "The same xizi_sll q l assertion.",
+              "post_pure": "l = nil.",
+              "post_exists": "None."
+            },
+            "witness_instantiation": "Select the second disjunct of xizi_single_link_empty_return_wit_2; there are no existential witnesses.",
+            "space_plan": "Preserve xizi_sll q l as the spatial conjunct. Rewrite q = 0 and destruct l. In the nil case, unfolding xizi_sll reduces the predicate to the null pure fact and emp, so the same assertion is available for the postcondition. In the cons case, unfolding xizi_sll exposes q <> 0, contradicting q = 0. The existing xizi_sll_zero lemma expresses the same null-implies-empty fact and may be used to derive the pure conjunct before refolding/preserving the assertion.",
+            "pure_plan": "PreH1 fixes q to NULL. The nil branch establishes l = nil reflexively; the cons branch is impossible because a nonempty xizi_sll requires its root pointer to be non-null.",
+            "refinement_plan": "Not applicable; this is a direct separation-logic return witness with no safeExec state.",
+            "used_existing_lemmas": [
+              {
+                "name": "xizi_sll_zero",
+                "source": "QCIPLib.xizi.xizi_single_link_common.xizi_single_link_lib",
+                "purpose": "Existing library fact that a null-root xizi_sll entails that its abstract list is nil; direct unfolding is also sufficient."
+              }
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "q = NULL for the null-root argument",
+                "discharged_by": "PreH1 states q = 0, and NULL is 0."
+              },
+              {
+                "premise": "The original xizi_sll q l remains in the postcondition",
+                "discharged_by": "Use assertion conjunction introduction with the unchanged antecedent; derive only the pure l = nil fact by destructing l/unfolding xizi_sll, so no spatial ownership is discarded."
+              }
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "return_sll_nullness",
+            "proof_group_candidate": "return_sll_nullness",
+            "grouping_reason": "Shares the xizi_sll root-nullness reasoning and direct-return shape with return_wit_1."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "return_sll_nullness",
+            "witness_names": [
+              "proof_of_xizi_single_link_empty_return_wit_1",
+              "proof_of_xizi_single_link_empty_return_wit_2"
+            ],
+            "representative_witness": "proof_of_xizi_single_link_empty_return_wit_1",
+            "shared_proof_pattern": "Select the generated right disjunct, normalize pure equalities, and use the recursive xizi_sll definition to connect root-pointer nullness with abstract-list emptiness/nonemptiness.",
+            "shared_space_plan": "Fold a nonempty list with xizi_sll_cons in return_wit_1; preserve/unfold the null-root predicate in return_wit_2.",
+            "shared_pure_plan": "Constructor discrimination proves cons is non-nil; q = 0 contradicts the non-null condition of a cons-shaped xizi_sll.",
+            "shared_refinement_plan": "n/a",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "The two witnesses are the complementary outcomes of the same pointer-nullness test and use one predicate/lemma family; the group has 2 witnesses, below the controller limit of 12.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "0c8eb4f517256c2e6f7e6b6bfd2d38f71d37f732e33f40f8a96c0e37654ad34a",
+        "target_witnesses": [
+          "proof_of_xizi_single_link_empty_return_wit_1",
+          "proof_of_xizi_single_link_empty_return_wit_2"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "return_sll_nullness",
+            "witness_names": [
+              "proof_of_xizi_single_link_empty_return_wit_1",
+              "proof_of_xizi_single_link_empty_return_wit_2"
+            ],
+            "representative_witness": "proof_of_xizi_single_link_empty_return_wit_1",
+            "dependencies": [],
+            "candidate_helper_declarations": [],
+            "expected_helpers": [],
+            "proof_strategy": "For each disjunctive return witness, select the right generated alternative. For return_wit_1, rewrite l = q :: l0, prove nonemptiness by constructor discrimination, and fold the node cell plus xizi_sll tail with xizi_sll_cons. For return_wit_2, rewrite q = 0, destruct l, preserve the original assertion while deriving l = nil by unfolding xizi_sll; the cons case contradicts the predicate's q <> 0 condition. xizi_sll_zero is an available supporting lemma, but no new helper is required.",
+            "natural_language_proof_pattern": "Complementary nonnull/null branches of one xizi_sll predicate: fold cons in the nonnull branch and eliminate an impossible cons shape in the null branch.",
+            "shared_helper_candidates": [],
+            "proving_hints": [
+              "Unfold each witness and choose the second disjunct.",
+              "Use xizi_sll_cons for return_wit_1 after rewriting PreH1.",
+              "For return_wit_2, destruct l after rewriting q = 0; unfold xizi_sll in each branch so the cons branch closes by contradiction while the nil branch preserves the assertion."
+            ],
+            "grouping_confidence": "high",
+            "confidence": "high",
+            "grouping_reason": "Both witnesses arise from the same boolean emptiness test and use the same xizi_sll root-nullness/folding family. Keeping them together is coherent and respects max_witnesses_per_group = 12.",
+            "per_witness_plan": {
+              "proof_of_xizi_single_link_empty_return_wit_1": "Select right disjunct; rewrite l; fold with xizi_sll_cons; discriminate nil.",
+              "proof_of_xizi_single_link_empty_return_wit_2": "Select right disjunct; rewrite q; destruct l and unfold xizi_sll; retain the antecedent assertion in the assertion-conjunction postcondition."
+            }
+          }
+        ],
+        "blockers": []
+      },
+      "group_plan_ready": true,
+      "blockers": [],
+      "recommended_next_phase": "vc-proving",
+      "formal_changed_files": [],
+      "changed_files": [
+        "/home/yangfp/QCIP/reports/xizi_single_link_empty-20260722180000/rounds/xizi_single_link_empty-vc-checking-r1/agent_report.json",
+        "/home/yangfp/QCIP/reports/xizi_single_link_empty-20260722180000/rounds/xizi_single_link_empty-vc-checking-r1/agent_output.txt",
+        "/home/yangfp/QCIP/reports/xizi_single_link_empty-20260722180000/rounds/xizi_single_link_empty-vc-checking-r1/group_plan.json"
+      ]
+    }
+  },
+  "verification_result": {
+    "input_version_check": {
+      "status": "passed",
+      "source_version_digest": "0f58ae9a61753a36087a421e9ab3f08037bf764dd05d9c8eda658986fbbd258e",
+      "source_goal_version_digest": "0c8eb4f517256c2e6f7e6b6bfd2d38f71d37f732e33f40f8a96c0e37654ad34a",
+      "all_declared_file_sha256_values_match": true
+    },
+    "manual_witness_check": {
+      "status": "passed",
+      "manual_witnesses_in_order": [
+        "proof_of_xizi_single_link_empty_return_wit_1",
+        "proof_of_xizi_single_link_empty_return_wit_2"
+      ],
+      "matches_target_witnesses_exactly": true,
+      "statement_hashes_match": true,
+      "duplicate_assignments": [],
+      "unassigned_witnesses": []
+    },
+    "semantic_provability_check": {
+      "status": "passed",
+      "proofable_witnesses": [
+        "proof_of_xizi_single_link_empty_return_wit_1",
+        "proof_of_xizi_single_link_empty_return_wit_2"
+      ],
+      "annotation_bug_witnesses": [],
+      "candidate_helper_declarations": [],
+      "evidence": [
+        "xizi_sll_cons is present and proved in the imported common single-link library.",
+        "xizi_sll_zero is present and proved in the imported common single-link library.",
+        "The xizi_sll definition forces a null root for nil and a non-null root for cons, closing both branch-specific pure facts."
+      ]
+    },
+    "grouping_policy_check": {
+      "status": "passed",
+      "target_witness_count": 2,
+      "proof_group_count": 1,
+      "max_witnesses_per_group": 12,
+      "largest_group_size": 2,
+      "dependency_graph_acyclic": true
+    },
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-07-22T09:49:03Z",
+      "source_version": {
+        "digest": "0f58ae9a61753a36087a421e9ab3f08037bf764dd05d9c8eda658986fbbd258e",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_single_link_empty-20260722180000/xizi_single_link_empty-annotation-r1/OUTPUT/xizi/xizi_single_link_empty/source/xizi_single_link_empty.c",
+            "relative_path": "OUTPUT/xizi/xizi_single_link_empty/source/xizi_single_link_empty.c",
+            "role": "target-c-annotated",
+            "sha256": "bb6eec01fb6493265bfccced4335b2812a50665137a6349f878f839737cfd943",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_single_link_empty-20260722180000/xizi_single_link_empty-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_empty/source/xizi_single_link_empty_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_empty/source/xizi_single_link_empty_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "27dce0c34cd9cdecc5748b9cdbc38841bd26cc4362fe0336db19f8ac09ac00ad",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "0c8eb4f517256c2e6f7e6b6bfd2d38f71d37f732e33f40f8a96c0e37654ad34a",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_empty/source/xizi_single_link_empty_goal.v",
+            "role": "generated-goal",
+            "sha256": "f9337c827c77951f1cdfbc19e294617bbd3231aa91283458deb9c394cf5cf3d2",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_empty/source/xizi_single_link_empty_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "db7a14156f4474a47abec0d9e24c2ae7be59339e2a49c6e195d423f7b40c2a13",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_empty/source/xizi_single_link_empty_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "89b8589df78e5df2f63d14b7f8c347e147f2ed52b609f3b43e1403ccb9a9ac32",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_empty/source/xizi_single_link_empty_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "4c45ad74216fa3e8b89439d991c23a0a9dcefe647fb816d276d1c69118d46225",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_empty/source/xizi_single_link_empty_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "a2af9d389e3e70eddc8064278ab301f84104f55164219e2211c4ad0da7c0150e",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_empty/source/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "2657af62ac5513ecde626d87cdfdb6c23ada8ebcc49002b1444057a1b465d3e5",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_xizi_single_link_empty_return_wit_1",
+          "proof_of_xizi_single_link_empty_return_wit_2"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_xizi_single_link_empty_return_wit_1": "9669502ce4d913ec710374094eb49bab1beb005366f38cdcf38269fd8de17886",
+          "proof_of_xizi_single_link_empty_return_wit_2": "031f0e98b3bfee668e483e31e1e86ca9cb82e46ae39c351fd424aa1b9c524b45"
+        },
+        "witnesses": [
+          {
+            "end_line": 26,
+            "name": "proof_of_xizi_single_link_empty_return_wit_1",
+            "start_line": 24,
+            "statement_hash": "9669502ce4d913ec710374094eb49bab1beb005366f38cdcf38269fd8de17886",
+            "target_symbol": "xizi_single_link_empty_return_wit_1"
+          },
+          {
+            "end_line": 29,
+            "name": "proof_of_xizi_single_link_empty_return_wit_2",
+            "start_line": 27,
+            "statement_hash": "031f0e98b3bfee668e483e31e1e86ca9cb82e46ae39c351fd424aa1b9c524b45",
+            "target_symbol": "xizi_single_link_empty_return_wit_2"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_single_link_empty-20260722180000/rounds/xizi_single_link_empty-vc-checking-r1/group_plan.json",
+      "target_witnesses": [
+        "proof_of_xizi_single_link_empty_return_wit_1",
+        "proof_of_xizi_single_link_empty_return_wit_2"
+      ]
+    }
+  },
+  "changed_files": [
+    "/home/yangfp/QCIP/reports/xizi_single_link_empty-20260722180000/rounds/xizi_single_link_empty-vc-checking-r1/agent_report.json",
+    "/home/yangfp/QCIP/reports/xizi_single_link_empty-20260722180000/rounds/xizi_single_link_empty-vc-checking-r1/agent_output.txt",
+    "/home/yangfp/QCIP/reports/xizi_single_link_empty-20260722180000/rounds/xizi_single_link_empty-vc-checking-r1/group_plan.json"
+  ],
+  "blockers": []
+}

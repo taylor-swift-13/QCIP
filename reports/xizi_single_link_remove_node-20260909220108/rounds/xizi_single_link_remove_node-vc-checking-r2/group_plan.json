@@ -1,0 +1,608 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "15eb8b61442505928eb6c66fcbb1f3735125ef8de2fe6eb28ba69fa343e10f0f",
+  "source_version": "0570bf4f88e59781668e2e80996b3a61b7489f44b55d6f3eaf8f922da752dca0",
+  "target_witnesses": [
+    "proof_of_SingleLinkListRmNode_entail_wit_1",
+    "proof_of_SingleLinkListRmNode_entail_wit_2",
+    "proof_of_SingleLinkListRmNode_entail_wit_3",
+    "proof_of_SingleLinkListRmNode_return_wit_1",
+    "proof_of_SingleLinkListRmNode_return_wit_2",
+    "proof_of_SingleLinkListRmNode_derive_remove_tail_spec_by_strong_spec",
+    "proof_of_SingleLinkListRmNode_derive_remove_front_spec_by_strong_spec",
+    "proof_of_SingleLinkListRmNode_derive_remove_member_spec_by_strong_spec"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "remove_payloads",
+      "witness_names": [
+        "proof_of_SingleLinkListRmNode_entail_wit_1",
+        "proof_of_SingleLinkListRmNode_entail_wit_2",
+        "proof_of_SingleLinkListRmNode_entail_wit_3",
+        "proof_of_SingleLinkListRmNode_return_wit_1",
+        "proof_of_SingleLinkListRmNode_return_wit_2",
+        "proof_of_SingleLinkListRmNode_derive_remove_tail_spec_by_strong_spec",
+        "proof_of_SingleLinkListRmNode_derive_remove_front_spec_by_strong_spec",
+        "proof_of_SingleLinkListRmNode_derive_remove_member_spec_by_strong_spec"
+      ],
+      "representative_witness": "proof_of_SingleLinkListRmNode_return_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "payload_factor__remove_payloads",
+          "statement_shape": "For arbitrary A/storeA, xizi_sll_payload storeA x l |-- xizi_sll x (xizi_sll_payload_addresses l) ** xizi_sll_remove_payloads storeA l, and the converse entailment; lift both directions through the sentinel head.",
+          "used_by_witnesses": [
+            "proof_of_SingleLinkListRmNode_entail_wit_1",
+            "proof_of_SingleLinkListRmNode_return_wit_1"
+          ],
+          "premises": [
+            {
+              "premise": "Only the stated source spatial assertion; no purity, emp, precision or disjointness assumption on storeA.",
+              "discharged_by": "The generic payload cell contains exactly its address equation, storeA at that address/data, and the separate next-link field."
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix",
+          "proof_strategy": "Structural induction on the logical list, unfolding the existing shared generic recursion and preserving all separating resources; no new specification declarations."
+        },
+        {
+          "name_hint": "payloads_remove_split__remove_payloads",
+          "statement_shape": "xizi_sll_remove_payloads storeA (p ++ Build_sll_payload_node a n :: s) |-- xizi_sll_remove_payloads storeA (p ++ s) ** storeA n a.",
+          "used_by_witnesses": [
+            "proof_of_SingleLinkListRmNode_return_wit_1"
+          ],
+          "premises": [
+            {
+              "premise": "The original logical list equals p ++ Build_sll_payload_node a n :: s.",
+              "discharged_by": "return_wit_1 PreH4 and the untouched payload fold; prove by induction on p and resource rearrangement."
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix",
+          "proof_strategy": "Structural induction on the logical list, unfolding the existing shared generic recursion and preserving all separating resources; no new specification declarations."
+        },
+        {
+          "name_hint": "payload_first_occurrence__remove_payloads",
+          "statement_shape": "In n (xizi_sll_payload_addresses l) -> exists a p s, l = p ++ Build_sll_payload_node a n :: s /\\ ~ In n (xizi_sll_payload_addresses p) /\\ xizi_sll_payload_remove n a l (p ++ s).",
+          "used_by_witnesses": [
+            "proof_of_SingleLinkListRmNode_derive_remove_member_spec_by_strong_spec"
+          ],
+          "premises": [
+            {
+              "premise": "Membership of n in the projected input list.",
+              "discharged_by": "remove_member derivation precondition. Lift the existing remove_first_split lemma along map using list split/map inversion, or prove the pure lifting by induction; no heap premise needed."
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix",
+          "proof_strategy": "Structural induction on the logical list, unfolding the existing shared generic recursion and preserving all separating resources; no new specification declarations."
+        }
+      ],
+      "likely_helper_declarations": [
+        {
+          "name_hint": "payload_factor__remove_payloads",
+          "statement_shape": "For arbitrary A/storeA, xizi_sll_payload storeA x l |-- xizi_sll x (xizi_sll_payload_addresses l) ** xizi_sll_remove_payloads storeA l, and the converse entailment; lift both directions through the sentinel head.",
+          "used_by_witnesses": [
+            "proof_of_SingleLinkListRmNode_entail_wit_1",
+            "proof_of_SingleLinkListRmNode_return_wit_1"
+          ],
+          "premises": [
+            {
+              "premise": "Only the stated source spatial assertion; no purity, emp, precision or disjointness assumption on storeA.",
+              "discharged_by": "The generic payload cell contains exactly its address equation, storeA at that address/data, and the separate next-link field."
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix",
+          "proof_strategy": "Structural induction on the logical list, unfolding the existing shared generic recursion and preserving all separating resources; no new specification declarations."
+        },
+        {
+          "name_hint": "payloads_remove_split__remove_payloads",
+          "statement_shape": "xizi_sll_remove_payloads storeA (p ++ Build_sll_payload_node a n :: s) |-- xizi_sll_remove_payloads storeA (p ++ s) ** storeA n a.",
+          "used_by_witnesses": [
+            "proof_of_SingleLinkListRmNode_return_wit_1"
+          ],
+          "premises": [
+            {
+              "premise": "The original logical list equals p ++ Build_sll_payload_node a n :: s.",
+              "discharged_by": "return_wit_1 PreH4 and the untouched payload fold; prove by induction on p and resource rearrangement."
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix",
+          "proof_strategy": "Structural induction on the logical list, unfolding the existing shared generic recursion and preserving all separating resources; no new specification declarations."
+        },
+        {
+          "name_hint": "payload_first_occurrence__remove_payloads",
+          "statement_shape": "In n (xizi_sll_payload_addresses l) -> exists a p s, l = p ++ Build_sll_payload_node a n :: s /\\ ~ In n (xizi_sll_payload_addresses p) /\\ xizi_sll_payload_remove n a l (p ++ s).",
+          "used_by_witnesses": [
+            "proof_of_SingleLinkListRmNode_derive_remove_member_spec_by_strong_spec"
+          ],
+          "premises": [
+            {
+              "premise": "Membership of n in the projected input list.",
+              "discharged_by": "remove_member derivation precondition. Lift the existing remove_first_split lemma along map using list split/map inversion, or prove the pure lifting by induction; no heap premise needed."
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix",
+          "proof_strategy": "Structural induction on the logical list, unfolding the existing shared generic recursion and preserving all separating resources; no new specification declarations."
+        }
+      ],
+      "proof_strategy": "Prove generic payload factorization in both directions and fold removal locally, reuse the existing structural target/segment lemmas for initialization, traversal, and return, then discharge the three dependent-Type specification wands with original A/storeA. Member uses a pure first-occurrence lifting. All helper names must end __remove_payloads.",
+      "natural_language_proof_strategy": "The C algorithm touches only next fields. Split generic storeA resources away from those fields at entry, carry them unchanged through the address-based traversal, then reassemble the remaining generic list and return exactly the removed payload. Instantiate the existing strong specification to derive front/tail/member variants.",
+      "grouping_reason": "Eight witnesses are within the limit of 12 and belong to one function with one structural/payload model. The three small spec wands share the same node/payload resource presentation; a single worker can reuse its factorization vocabulary and prove them sequentially without cross-group helper duplication.",
+      "recommended_proof_order": [
+        "proof_of_SingleLinkListRmNode_entail_wit_1",
+        "proof_of_SingleLinkListRmNode_entail_wit_2",
+        "proof_of_SingleLinkListRmNode_entail_wit_3",
+        "proof_of_SingleLinkListRmNode_return_wit_1",
+        "proof_of_SingleLinkListRmNode_return_wit_2",
+        "proof_of_SingleLinkListRmNode_derive_remove_tail_spec_by_strong_spec",
+        "proof_of_SingleLinkListRmNode_derive_remove_front_spec_by_strong_spec",
+        "proof_of_SingleLinkListRmNode_derive_remove_member_spec_by_strong_spec"
+      ]
+    }
+  ],
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 8,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  },
+  "natural_language_analysis": {
+    "schema_version": "qcp-vc-natural-language-analysis/v1",
+    "judgment": "semantically-proofable",
+    "witnesses": [
+      {
+        "witness_name": "proof_of_SingleLinkListRmNode_entail_wit_1",
+        "judgment": "needs-helper",
+        "vc_shape": {
+          "pre_spatial": "head_payload storeA head l",
+          "pre_pure": "l = l1 ++ Build_sll_payload_node a target :: l2",
+          "pre_exists": "All displayed quantified logical values are available; expose only existential next pointers in the listed predicates.",
+          "post_spatial": "to_target head target (head :: addresses l1) ** target.next |-> first(addresses l2) ** sll(first(addresses l2), addresses l2) ** payloads storeA l",
+          "post_pure": "head and target nonzero; head differs from target; original split equation retained",
+          "post_exists": "Choose next = first(addresses l2), or prove the second disjunct."
+        },
+        "witness_instantiation": "Choose next = first(addresses l2), or prove the second disjunct.",
+        "space_plan": "Factor generic payload head into the legacy structural head and the complete payload fold. Rewrite map over the given append/cons, expose the sentinel link and apply xizi_sll_head_split_target. Frame the untouched payload fold. The shared split theorem derives target and head distinctness from separated field ownership.",
+        "pure_plan": "Use the given decomposition and map_app; the head guard is part of head_payload; the distinguished node guard and suffix first value follow from structural split.",
+        "refinement_plan": "No safeExec/refinement program; direct separation-logic resource transformation.",
+        "used_existing_lemmas": [
+          "xizi_sll_head_split_target",
+          "xizi_sll_first_value_eq"
+        ],
+        "candidate_helper_declarations": [
+          {
+            "name_hint": "payload_factor__remove_payloads",
+            "statement_shape": "For arbitrary A/storeA, xizi_sll_payload storeA x l |-- xizi_sll x (xizi_sll_payload_addresses l) ** xizi_sll_remove_payloads storeA l, and the converse entailment; lift both directions through the sentinel head.",
+            "used_by_witnesses": [
+              "proof_of_SingleLinkListRmNode_entail_wit_1",
+              "proof_of_SingleLinkListRmNode_return_wit_1"
+            ],
+            "premises": [
+              {
+                "premise": "Only the stated source spatial assertion; no purity, emp, precision or disjointness assumption on storeA.",
+                "discharged_by": "The generic payload cell contains exactly its address equation, storeA at that address/data, and the separate next-link field."
+              }
+            ],
+            "destination": "group-local case_lib with helper_namespace.suffix",
+            "proof_strategy": "Structural induction on the logical list, unfolding the existing shared generic recursion and preserving all separating resources; no new specification declarations."
+          }
+        ],
+        "premise_discharge": [
+          {
+            "premise": "l = l1 ++ Build_sll_payload_node a target :: l2",
+            "discharged_by": "Explicit VC hypotheses and stated predicate expansion; structural ownership yields required pointer inequalities."
+          }
+        ],
+        "failure_signal": "None found in current P |-- Q.",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "remove_payloads",
+        "proof_group_candidate": "remove_payloads",
+        "grouping_reason": "One removal function, common payload factorization and existing address-list segment family."
+      },
+      {
+        "witness_name": "proof_of_SingleLinkListRmNode_entail_wit_2",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "to_target head target (head :: addresses l1), target field, suffix list and original payload fold",
+          "pre_pure": "head <> 0; target <> 0; head <> target; target field value is first suffix",
+          "pre_exists": "All displayed quantified logical values are available; expose only existential next pointers in the listed predicates.",
+          "post_spatial": "loop invariant with current node=head, empty traversed segment, opened head field and residual to_target",
+          "post_pure": "head :: addresses l1 = [] ++ head :: addresses l1",
+          "post_exists": "Choose l1a=[], l1b=addresses l1, next from the opened to_target; retain target next. Alternatively choose the generated second disjunct."
+        },
+        "witness_instantiation": "Choose l1a=[], l1b=addresses l1, next from the opened to_target; retain target next. Alternatively choose the generated second disjunct.",
+        "space_plan": "Open the first to_target cell using the explicit head<>target. Empty sllseg is emp with head=head. Keep target field, suffix structure and payload fold framed.",
+        "pure_plan": "For the generated second disjunct, app_nil_l reduces its conclusion directly to PreH1, so no spatial transformation is needed.",
+        "refinement_plan": "No safeExec/refinement program; direct separation-logic resource transformation.",
+        "used_existing_lemmas": [
+          "xizi_sll_to_target_not_same"
+        ],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          {
+            "premise": "head <> 0; target <> 0; head <> target; target field value is first suffix",
+            "discharged_by": "Explicit VC hypotheses and stated predicate expansion; structural ownership yields required pointer inequalities."
+          }
+        ],
+        "failure_signal": "None found in current P |-- Q.",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "remove_payloads",
+        "proof_group_candidate": "remove_payloads",
+        "grouping_reason": "One removal function, common payload factorization and existing address-list segment family."
+      },
+      {
+        "witness_name": "proof_of_SingleLinkListRmNode_entail_wit_3",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "current.next |-> next; sllseg head current l1a; to_target next target l1b; target field, suffix list and payload fold",
+          "pre_pure": "next <> target; next <> 0; head :: addresses l1 = l1a ++ current :: l1b",
+          "pre_exists": "All displayed quantified logical values are available; expose only existential next pointers in the listed predicates.",
+          "post_spatial": "next iteration invariant at next, extending traversed segment by current",
+          "post_pure": "head :: addresses l1 = (l1a ++ [current]) ++ next :: remaining",
+          "post_exists": "Open to_target next target l1b as l1b=next::remaining and next.next=r. Choose new l1a=l1a++[current], l1b=remaining and next=r."
+        },
+        "witness_instantiation": "Open to_target next target l1b as l1b=next::remaining and next.next=r. Choose new l1a=l1a++[current], l1b=remaining and next=r.",
+        "space_plan": "Use xizi_sll_to_target_not_same under the guard. Build a one-cell sllseg from current.next using current<>0, then concatenate it to the old traversed segment. Preserve suffix structure, target field and payload fold. The second disjunct already exposes the residual to_target and needs only segment extension.",
+        "pure_plan": "The old list equation and the opened l1b equation give the new list equation by app associativity; nonzero facts come from guards and invariant.",
+        "refinement_plan": "No safeExec/refinement program; direct separation-logic resource transformation.",
+        "used_existing_lemmas": [
+          "xizi_sll_to_target_not_same",
+          "xizi_sllseg_len1",
+          "xizi_sllseg_sllseg"
+        ],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          {
+            "premise": "next <> target; next <> 0; head :: addresses l1 = l1a ++ current :: l1b",
+            "discharged_by": "Explicit VC hypotheses and stated predicate expansion; structural ownership yields required pointer inequalities."
+          }
+        ],
+        "failure_signal": "None found in current P |-- Q.",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "remove_payloads",
+        "proof_group_candidate": "remove_payloads",
+        "grouping_reason": "One removal function, common payload factorization and existing address-list segment family."
+      },
+      {
+        "witness_name": "proof_of_SingleLinkListRmNode_return_wit_1",
+        "judgment": "needs-helper",
+        "vc_shape": {
+          "pre_spatial": "target.next |-> first suffix; updated current.next |-> first suffix; sllseg head current l1a; to_target target target l1b; suffix structure; payloads storeA l",
+          "pre_pure": "next=target; target<>0; current<>0; head :: addresses l1 = l1a ++ current :: l1b; l=l1++target(a)::l2",
+          "pre_exists": "All displayed quantified logical values are available; expose only existential next pointers in the listed predicates.",
+          "post_spatial": "head_payload storeA head (l1++l2) ** target.next |-> first suffix ** storeA target a",
+          "post_pure": "Return=head and detached next=first suffix",
+          "post_exists": "Choose detached next=first(addresses l2), or prove second disjunct."
+        },
+        "witness_instantiation": "Choose detached next=first(addresses l2), or prove second disjunct.",
+        "space_plan": "to_target_same yields l1b=[] and emp. Combine updated current field with suffix sll, prepend traversed sllseg, and use the pure address equation to obtain sll head (head::addresses(l1++l2)); turn it into a structural head. Split the original payload fold into remaining fold and storeA target a, then use converse head factorization. Keep target.next separate throughout.",
+        "pure_plan": "Normalize append/map and l1b=[]; head nonzero follows from the constructed nonempty structural list, so no missing loop head guard is needed.",
+        "refinement_plan": "No safeExec/refinement program; direct separation-logic resource transformation.",
+        "used_existing_lemmas": [
+          "xizi_sll_to_target_same",
+          "xizi_sll_cons",
+          "xizi_sllseg_sll",
+          "xizi_sll_head_from_cons"
+        ],
+        "candidate_helper_declarations": [
+          {
+            "name_hint": "payload_factor__remove_payloads",
+            "statement_shape": "For arbitrary A/storeA, xizi_sll_payload storeA x l |-- xizi_sll x (xizi_sll_payload_addresses l) ** xizi_sll_remove_payloads storeA l, and the converse entailment; lift both directions through the sentinel head.",
+            "used_by_witnesses": [
+              "proof_of_SingleLinkListRmNode_entail_wit_1",
+              "proof_of_SingleLinkListRmNode_return_wit_1"
+            ],
+            "premises": [
+              {
+                "premise": "Only the stated source spatial assertion; no purity, emp, precision or disjointness assumption on storeA.",
+                "discharged_by": "The generic payload cell contains exactly its address equation, storeA at that address/data, and the separate next-link field."
+              }
+            ],
+            "destination": "group-local case_lib with helper_namespace.suffix",
+            "proof_strategy": "Structural induction on the logical list, unfolding the existing shared generic recursion and preserving all separating resources; no new specification declarations."
+          },
+          {
+            "name_hint": "payloads_remove_split__remove_payloads",
+            "statement_shape": "xizi_sll_remove_payloads storeA (p ++ Build_sll_payload_node a n :: s) |-- xizi_sll_remove_payloads storeA (p ++ s) ** storeA n a.",
+            "used_by_witnesses": [
+              "proof_of_SingleLinkListRmNode_return_wit_1"
+            ],
+            "premises": [
+              {
+                "premise": "The original logical list equals p ++ Build_sll_payload_node a n :: s.",
+                "discharged_by": "return_wit_1 PreH4 and the untouched payload fold; prove by induction on p and resource rearrangement."
+              }
+            ],
+            "destination": "group-local case_lib with helper_namespace.suffix",
+            "proof_strategy": "Structural induction on the logical list, unfolding the existing shared generic recursion and preserving all separating resources; no new specification declarations."
+          }
+        ],
+        "premise_discharge": [
+          {
+            "premise": "next=target; target<>0; current<>0; head :: addresses l1 = l1a ++ current :: l1b; l=l1++target(a)::l2",
+            "discharged_by": "Explicit VC hypotheses and stated predicate expansion; structural ownership yields required pointer inequalities."
+          }
+        ],
+        "failure_signal": "None found in current P |-- Q.",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "remove_payloads",
+        "proof_group_candidate": "remove_payloads",
+        "grouping_reason": "One removal function, common payload factorization and existing address-list segment family."
+      },
+      {
+        "witness_name": "proof_of_SingleLinkListRmNode_return_wit_2",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "to_target next target l1b plus the loop frame",
+          "pre_pure": "next=0 and target<>0",
+          "pre_exists": "All displayed quantified logical values are available; expose only existential next pointers in the listed predicates.",
+          "post_spatial": "Required return resources",
+          "post_pure": "Required return equalities",
+          "post_exists": "No constructive witness is needed after eliminating the impossible precondition."
+        },
+        "witness_instantiation": "No constructive witness is needed after eliminating the impossible precondition.",
+        "space_plan": "Apply xizi_sll_to_target_zero_nonzero after substituting next=0. This spatial predicate is false whether l1b is empty or nonempty: its empty case equates 0 and target, and its nonempty case requires 0<>0. Derive the desired postcondition by false elimination.",
+        "pure_plan": "The explicit target<>0 hypothesis discharges the shared lemma premise. This does not erase a supported not-found spec: all current public variants require the target in the list.",
+        "refinement_plan": "No safeExec/refinement program; direct separation-logic resource transformation.",
+        "used_existing_lemmas": [
+          "xizi_sll_to_target_zero_nonzero"
+        ],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          {
+            "premise": "next=0 and target<>0",
+            "discharged_by": "Explicit VC hypotheses and stated predicate expansion; structural ownership yields required pointer inequalities."
+          }
+        ],
+        "failure_signal": "None found in current P |-- Q.",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "remove_payloads",
+        "proof_group_candidate": "remove_payloads",
+        "grouping_reason": "One removal function, common payload factorization and existing address-list segment family."
+      },
+      {
+        "witness_name": "proof_of_SingleLinkListRmNode_derive_remove_tail_spec_by_strong_spec",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "head_payload with the distinguished tail node and its payload",
+          "pre_pure": "No additional precondition beyond the supplied generic payload head.",
+          "pre_exists": "All displayed quantified logical values are available; expose only existential next pointers in the listed predicates.",
+          "post_spatial": "Existential strong precondition separated from a wand converting its postcondition to the tail postcondition",
+          "post_pure": "Strong input split is reflexive",
+          "post_exists": "Use exactly the original A and storeA, original a, the input logical list, l1=prefix, l2=[]."
+        },
+        "witness_instantiation": "Use exactly the original A and storeA, original a, the input logical list, l1=prefix, l2=[].",
+        "space_plan": "Supply the existential Type witness A before the dependent storeA/a/l witnesses. Frame the original head into the strong precondition. Introduce the wand on emp, unpack the strong post, preserve the resulting head and storeA target a, and hide the detached next pointer into xizi_sll_node.",
+        "pure_plan": "Normalize []++suffix or prefix++[] as appropriate. The generated VC has no free caller-side callee return variable, and the wand locally binds retval, so there is no missing return-value premise.",
+        "refinement_plan": "No safeExec/refinement program; direct separation-logic resource transformation.",
+        "used_existing_lemmas": [
+          "app_nil_r"
+        ],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          {
+            "premise": "No additional precondition beyond the supplied generic payload head.",
+            "discharged_by": "Explicit VC hypotheses and stated predicate expansion; structural ownership yields required pointer inequalities."
+          }
+        ],
+        "failure_signal": "None found in current P |-- Q.",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "remove_payloads",
+        "proof_group_candidate": "remove_payloads",
+        "grouping_reason": "One removal function, common payload factorization and existing address-list segment family."
+      },
+      {
+        "witness_name": "proof_of_SingleLinkListRmNode_derive_remove_front_spec_by_strong_spec",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "head_payload with the distinguished front node and its payload",
+          "pre_pure": "No additional precondition beyond the supplied generic payload head.",
+          "pre_exists": "All displayed quantified logical values are available; expose only existential next pointers in the listed predicates.",
+          "post_spatial": "Existential strong precondition separated from a wand converting its postcondition to the front postcondition",
+          "post_pure": "Strong input split is reflexive",
+          "post_exists": "Use exactly the original A and storeA, original a, the input logical list, l1=[], l2=suffix."
+        },
+        "witness_instantiation": "Use exactly the original A and storeA, original a, the input logical list, l1=[], l2=suffix.",
+        "space_plan": "Supply the existential Type witness A before the dependent storeA/a/l witnesses. Frame the original head into the strong precondition. Introduce the wand on emp, unpack the strong post, preserve the resulting head and storeA target a, and hide the detached next pointer into xizi_sll_node.",
+        "pure_plan": "Normalize []++suffix or prefix++[] as appropriate. The generated VC has no free caller-side callee return variable, and the wand locally binds retval, so there is no missing return-value premise.",
+        "refinement_plan": "No safeExec/refinement program; direct separation-logic resource transformation.",
+        "used_existing_lemmas": [
+          "app_nil_r"
+        ],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          {
+            "premise": "No additional precondition beyond the supplied generic payload head.",
+            "discharged_by": "Explicit VC hypotheses and stated predicate expansion; structural ownership yields required pointer inequalities."
+          }
+        ],
+        "failure_signal": "None found in current P |-- Q.",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "remove_payloads",
+        "proof_group_candidate": "remove_payloads",
+        "grouping_reason": "One removal function, common payload factorization and existing address-list segment family."
+      },
+      {
+        "witness_name": "proof_of_SingleLinkListRmNode_derive_remove_member_spec_by_strong_spec",
+        "judgment": "needs-helper",
+        "vc_shape": {
+          "pre_spatial": "head_payload storeA head l",
+          "pre_pure": "In target (addresses l)",
+          "pre_exists": "All displayed quantified logical values are available; expose only existential next pointers in the listed predicates.",
+          "post_spatial": "Existential strong precondition and wand returning exists a output, payload_remove target a l output and the preserved head/removed node/payload resources",
+          "post_pure": "Input split and projected first-removal relation",
+          "post_exists": "Use pure first-occurrence splitting to choose a,prefix,suffix; instantiate the existential A with the original A, storeA with the original storeA, l with the original l, l1=prefix, l2=suffix. For output use prefix++suffix."
+        },
+        "witness_instantiation": "Use pure first-occurrence splitting to choose a,prefix,suffix; instantiate the existential A with the original A, storeA with the original storeA, l with the original l, l1=prefix, l2=suffix. For output use prefix++suffix.",
+        "space_plan": "The head is directly the strong precondition after rewriting the chosen split. Introduce the postcondition wand, unpack its locally quantified next/retval, retain the updated head and target payload, and hide the detached next into xizi_sll_node. All resource transformations are local to the wand.",
+        "pure_plan": "Choose the FIRST projected occurrence so remove_first agrees with prefix++suffix. Membership alone suffices for this pure split; no NoDup/heap property or added precondition is required. Destruct the selected payload record to identify its exact data and target pointer.",
+        "refinement_plan": "No safeExec/refinement program; direct separation-logic resource transformation.",
+        "used_existing_lemmas": [
+          "xizi_sll_remove_first_split__spec_derivations_direct",
+          "in_map_iff",
+          "in_split",
+          "map_app"
+        ],
+        "candidate_helper_declarations": [
+          {
+            "name_hint": "payload_first_occurrence__remove_payloads",
+            "statement_shape": "In n (xizi_sll_payload_addresses l) -> exists a p s, l = p ++ Build_sll_payload_node a n :: s /\\ ~ In n (xizi_sll_payload_addresses p) /\\ xizi_sll_payload_remove n a l (p ++ s).",
+            "used_by_witnesses": [
+              "proof_of_SingleLinkListRmNode_derive_remove_member_spec_by_strong_spec"
+            ],
+            "premises": [
+              {
+                "premise": "Membership of n in the projected input list.",
+                "discharged_by": "remove_member derivation precondition. Lift the existing remove_first_split lemma along map using list split/map inversion, or prove the pure lifting by induction; no heap premise needed."
+              }
+            ],
+            "destination": "group-local case_lib with helper_namespace.suffix",
+            "proof_strategy": "Structural induction on the logical list, unfolding the existing shared generic recursion and preserving all separating resources; no new specification declarations."
+          }
+        ],
+        "premise_discharge": [
+          {
+            "premise": "In target (addresses l)",
+            "discharged_by": "Explicit VC hypotheses and stated predicate expansion; structural ownership yields required pointer inequalities."
+          }
+        ],
+        "failure_signal": "None found in current P |-- Q.",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "remove_payloads",
+        "proof_group_candidate": "remove_payloads",
+        "grouping_reason": "One removal function, common payload factorization and existing address-list segment family."
+      }
+    ],
+    "analysis_groups": [
+      {
+        "group_id": "remove_payloads",
+        "witness_names": [
+          "proof_of_SingleLinkListRmNode_entail_wit_1",
+          "proof_of_SingleLinkListRmNode_entail_wit_2",
+          "proof_of_SingleLinkListRmNode_entail_wit_3",
+          "proof_of_SingleLinkListRmNode_return_wit_1",
+          "proof_of_SingleLinkListRmNode_return_wit_2",
+          "proof_of_SingleLinkListRmNode_derive_remove_tail_spec_by_strong_spec",
+          "proof_of_SingleLinkListRmNode_derive_remove_front_spec_by_strong_spec",
+          "proof_of_SingleLinkListRmNode_derive_remove_member_spec_by_strong_spec"
+        ],
+        "representative_witness": "proof_of_SingleLinkListRmNode_return_wit_1",
+        "dependencies": [],
+        "candidate_helper_declarations": [
+          {
+            "name_hint": "payload_factor__remove_payloads",
+            "statement_shape": "For arbitrary A/storeA, xizi_sll_payload storeA x l |-- xizi_sll x (xizi_sll_payload_addresses l) ** xizi_sll_remove_payloads storeA l, and the converse entailment; lift both directions through the sentinel head.",
+            "used_by_witnesses": [
+              "proof_of_SingleLinkListRmNode_entail_wit_1",
+              "proof_of_SingleLinkListRmNode_return_wit_1"
+            ],
+            "premises": [
+              {
+                "premise": "Only the stated source spatial assertion; no purity, emp, precision or disjointness assumption on storeA.",
+                "discharged_by": "The generic payload cell contains exactly its address equation, storeA at that address/data, and the separate next-link field."
+              }
+            ],
+            "destination": "group-local case_lib with helper_namespace.suffix",
+            "proof_strategy": "Structural induction on the logical list, unfolding the existing shared generic recursion and preserving all separating resources; no new specification declarations."
+          },
+          {
+            "name_hint": "payloads_remove_split__remove_payloads",
+            "statement_shape": "xizi_sll_remove_payloads storeA (p ++ Build_sll_payload_node a n :: s) |-- xizi_sll_remove_payloads storeA (p ++ s) ** storeA n a.",
+            "used_by_witnesses": [
+              "proof_of_SingleLinkListRmNode_return_wit_1"
+            ],
+            "premises": [
+              {
+                "premise": "The original logical list equals p ++ Build_sll_payload_node a n :: s.",
+                "discharged_by": "return_wit_1 PreH4 and the untouched payload fold; prove by induction on p and resource rearrangement."
+              }
+            ],
+            "destination": "group-local case_lib with helper_namespace.suffix",
+            "proof_strategy": "Structural induction on the logical list, unfolding the existing shared generic recursion and preserving all separating resources; no new specification declarations."
+          },
+          {
+            "name_hint": "payload_first_occurrence__remove_payloads",
+            "statement_shape": "In n (xizi_sll_payload_addresses l) -> exists a p s, l = p ++ Build_sll_payload_node a n :: s /\\ ~ In n (xizi_sll_payload_addresses p) /\\ xizi_sll_payload_remove n a l (p ++ s).",
+            "used_by_witnesses": [
+              "proof_of_SingleLinkListRmNode_derive_remove_member_spec_by_strong_spec"
+            ],
+            "premises": [
+              {
+                "premise": "Membership of n in the projected input list.",
+                "discharged_by": "remove_member derivation precondition. Lift the existing remove_first_split lemma along map using list split/map inversion, or prove the pure lifting by induction; no heap premise needed."
+              }
+            ],
+            "destination": "group-local case_lib with helper_namespace.suffix",
+            "proof_strategy": "Structural induction on the logical list, unfolding the existing shared generic recursion and preserving all separating resources; no new specification declarations."
+          }
+        ],
+        "likely_helper_declarations": [
+          {
+            "name_hint": "payload_factor__remove_payloads",
+            "statement_shape": "For arbitrary A/storeA, xizi_sll_payload storeA x l |-- xizi_sll x (xizi_sll_payload_addresses l) ** xizi_sll_remove_payloads storeA l, and the converse entailment; lift both directions through the sentinel head.",
+            "used_by_witnesses": [
+              "proof_of_SingleLinkListRmNode_entail_wit_1",
+              "proof_of_SingleLinkListRmNode_return_wit_1"
+            ],
+            "premises": [
+              {
+                "premise": "Only the stated source spatial assertion; no purity, emp, precision or disjointness assumption on storeA.",
+                "discharged_by": "The generic payload cell contains exactly its address equation, storeA at that address/data, and the separate next-link field."
+              }
+            ],
+            "destination": "group-local case_lib with helper_namespace.suffix",
+            "proof_strategy": "Structural induction on the logical list, unfolding the existing shared generic recursion and preserving all separating resources; no new specification declarations."
+          },
+          {
+            "name_hint": "payloads_remove_split__remove_payloads",
+            "statement_shape": "xizi_sll_remove_payloads storeA (p ++ Build_sll_payload_node a n :: s) |-- xizi_sll_remove_payloads storeA (p ++ s) ** storeA n a.",
+            "used_by_witnesses": [
+              "proof_of_SingleLinkListRmNode_return_wit_1"
+            ],
+            "premises": [
+              {
+                "premise": "The original logical list equals p ++ Build_sll_payload_node a n :: s.",
+                "discharged_by": "return_wit_1 PreH4 and the untouched payload fold; prove by induction on p and resource rearrangement."
+              }
+            ],
+            "destination": "group-local case_lib with helper_namespace.suffix",
+            "proof_strategy": "Structural induction on the logical list, unfolding the existing shared generic recursion and preserving all separating resources; no new specification declarations."
+          },
+          {
+            "name_hint": "payload_first_occurrence__remove_payloads",
+            "statement_shape": "In n (xizi_sll_payload_addresses l) -> exists a p s, l = p ++ Build_sll_payload_node a n :: s /\\ ~ In n (xizi_sll_payload_addresses p) /\\ xizi_sll_payload_remove n a l (p ++ s).",
+            "used_by_witnesses": [
+              "proof_of_SingleLinkListRmNode_derive_remove_member_spec_by_strong_spec"
+            ],
+            "premises": [
+              {
+                "premise": "Membership of n in the projected input list.",
+                "discharged_by": "remove_member derivation precondition. Lift the existing remove_first_split lemma along map using list split/map inversion, or prove the pure lifting by induction; no heap premise needed."
+              }
+            ],
+            "destination": "group-local case_lib with helper_namespace.suffix",
+            "proof_strategy": "Structural induction on the logical list, unfolding the existing shared generic recursion and preserving all separating resources; no new specification declarations."
+          }
+        ],
+        "proof_strategy": "Prove generic payload factorization in both directions and fold removal locally, reuse the existing structural target/segment lemmas for initialization, traversal, and return, then discharge the three dependent-Type specification wands with original A/storeA. Member uses a pure first-occurrence lifting. All helper names must end __remove_payloads.",
+        "natural_language_proof_strategy": "The C algorithm touches only next fields. Split generic storeA resources away from those fields at entry, carry them unchanged through the address-based traversal, then reassemble the remaining generic list and return exactly the removed payload. Instantiate the existing strong specification to derive front/tail/member variants.",
+        "grouping_reason": "Eight witnesses are within the limit of 12 and belong to one function with one structural/payload model. The three small spec wands share the same node/payload resource presentation; a single worker can reuse its factorization vocabulary and prove them sequentially without cross-group helper duplication.",
+        "recommended_proof_order": [
+          "proof_of_SingleLinkListRmNode_entail_wit_1",
+          "proof_of_SingleLinkListRmNode_entail_wit_2",
+          "proof_of_SingleLinkListRmNode_entail_wit_3",
+          "proof_of_SingleLinkListRmNode_return_wit_1",
+          "proof_of_SingleLinkListRmNode_return_wit_2",
+          "proof_of_SingleLinkListRmNode_derive_remove_tail_spec_by_strong_spec",
+          "proof_of_SingleLinkListRmNode_derive_remove_front_spec_by_strong_spec",
+          "proof_of_SingleLinkListRmNode_derive_remove_member_spec_by_strong_spec"
+        ],
+        "proof_group_ready": true
+      }
+    ],
+    "blockers": []
+  },
+  "blockers": [],
+  "controller_verified": true
+}

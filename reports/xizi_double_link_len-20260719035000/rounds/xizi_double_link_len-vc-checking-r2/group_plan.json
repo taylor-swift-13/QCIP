@@ -1,0 +1,69 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "2833adc702bf128574ffd0c29e1d0bdc31405b399b4d77ca48870c1919de0342",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_len_entail_wit_1",
+    "proof_of_xizi_double_link_len_entail_wit_2_1",
+    "proof_of_xizi_double_link_len_entail_wit_2_2",
+    "proof_of_xizi_double_link_len_return_wit_1",
+    "proof_of_xizi_double_link_len_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "dll_length_traversal",
+      "witness_names": [
+        "proof_of_xizi_double_link_len_entail_wit_1",
+        "proof_of_xizi_double_link_len_entail_wit_2_1",
+        "proof_of_xizi_double_link_len_entail_wit_2_2",
+        "proof_of_xizi_double_link_len_return_wit_1",
+        "proof_of_xizi_double_link_len_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_len_entail_wit_2_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "xizi_dllseg_extend_boundary",
+          "statement_shape": "A proved spatial entailment, specialized as needed, that extends xizi_dllseg first head current prev before across xizi_dll_links current next prev to xizi_dllseg first head next current (before ++ [current]); a full-resource variant may retain the suffix so separation internally discharges current<>next.",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_len_entail_wit_2_1",
+            "proof_of_xizi_double_link_len_entail_wit_2_2",
+            "proof_of_xizi_double_link_len_return_wit_1"
+          ],
+          "premises": [
+            {
+              "premise": "current is non-null and distinct from the new stop, or the supplied separated suffix resources entail that distinctness",
+              "discharged_by": "Explicit tmp_node non-null/non-sentinel facts cover return_wit_1; loop-step arms obtain node facts from the nonempty dllseg constructor and separation of adjacent node link cells",
+              "needs_unfold": [
+                "xizi_dllseg",
+                "XiziDLL.dllseg",
+                "xizi_dll_links",
+                "XiziDLL.links"
+              ],
+              "arithmetic": "none",
+              "spatial_resource": "prefix segment, current links, and when required the nonempty suffix"
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        }
+      ],
+      "expected_helpers": [
+        "xizi_dllseg_extend_boundary__dll_length_traversal"
+      ],
+      "proof_strategy": "Proceed in manual order. Open xizi_dll for entail_wit_1. Prove one group-suffixed dllseg boundary-extension helper by induction on the prefix list (or a full-resource variant if adjacency distinctness is easiest to derive from separation). For entail_wit_2_1 and entail_wit_2_2, unfold the nonempty suffix, extend the prefix, instantiate done/todo, and show unsigned_last_nbits is identity using Zlength_nonneg and the total bound. For return_wit_1, force todo=nil at the sentinel boundary, extend/close the list, and unfold xizi_double_link_size. For return_wit_2, force the whole logical list empty and apply xizi_dll_empty_rev.",
+      "grouping_reason": "Same function, same loop invariant, same xizi_dllseg boundary movement, and same length arithmetic family. One 5-witness group minimizes duplicated helper work and complies with max_witnesses_per_group=12.",
+      "difficulty": "medium-high",
+      "confidence": "high"
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 5,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "e1f4df0464931c1daa938d815a1f7bb88add12f20d6cdb596a4ef89fb1ab092b",
+  "target_witnesses": [
+    "proof_of_xizi_single_link_append_entail_wit_1",
+    "proof_of_xizi_single_link_append_entail_wit_2",
+    "proof_of_xizi_single_link_append_return_wit_1"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "append_segment_refolding",
+      "witness_names": [
+        "proof_of_xizi_single_link_append_entail_wit_1",
+        "proof_of_xizi_single_link_append_entail_wit_2",
+        "proof_of_xizi_single_link_append_return_wit_1"
+      ],
+      "representative_witness": "proof_of_xizi_single_link_append_entail_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "Prove the initialization by exposing the sentinel head successor and choosing an empty prefix; prove preservation by unfolding the non-null suffix and concatenating a singleton segment for the current node; prove return by forcing the NULL suffix list to nil, concatenating current and new-node singletons, and unfolding the rebuilt list at the sentinel to fold xizi_sll_head.",
+      "grouping_reason": "same function, same xizi_sll/xizi_sllseg representation family, and a sequential initialization-preservation-exit proof pattern; the group has 3 witnesses, within max_witnesses_per_group=12",
+      "difficulty": "medium",
+      "confidence": "high",
+      "per_witness_plan": {
+        "proof_of_xizi_single_link_append_entail_wit_1": "left disjunct; next=hidden head successor, l1a=nil, l1b=l; use xizi_sll_head_nonnull",
+        "proof_of_xizi_single_link_append_entail_wit_2": "left disjunct; unfold non-null suffix, extend segment with [node], normalize app",
+        "proof_of_xizi_single_link_append_return_wit_1": "derive l1b=nil, build the full list including the new singleton, unfold the sentinel node, use the right disjunct"
+      },
+      "premise_discharge": {
+        "sentinel_nonnull": "xizi_sll_head_nonnull",
+        "current_node_nonnull": "generated PreH3",
+        "new_node_nonnull": "generated PreH1/PreH2 depending on witness",
+        "next_nonnull": "generated loop-guard PreH4",
+        "exit_null": "generated exit equality PreH4"
+      }
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "0a4a7e17fde42d51bb49097b6826053f119f0602c6a6c2a815fbd9efdf33ac7c",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_next_rec_last_entail_wit_1",
+    "proof_of_xizi_double_link_next_rec_last_return_wit_1",
+    "proof_of_xizi_double_link_next_rec_last_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "dllseg_split_join",
+      "witness_names": [
+        "proof_of_xizi_double_link_next_rec_last_entail_wit_1",
+        "proof_of_xizi_double_link_next_rec_last_return_wit_1",
+        "proof_of_xizi_double_link_next_rec_last_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_next_rec_last_entail_wit_1",
+      "dependencies": [],
+      "difficulty": "medium",
+      "confidence": "high",
+      "proof_strategy": "Prove group-suffixed dllseg split/join helpers by induction on nodes_before, plus an at-stop-empty helper by destructing nodes_after. For entail_wit_1 choose the first disjunct, open xizi_dll, and split at linklist_node_pre. For each return witness choose the first disjunct, establish the suffix list shape, join the segments through linklist_node_pre, and close xizi_dll; unfold xizi_double_link_next_rec_last_value to discharge the return equality.",
+      "grouping_reason": "Same function, same dllseg boundary, same split/join helper family, and sequential proof context; the group size 3 is within max_witnesses_per_group 12.",
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "xizi_dllseg_split_at_node",
+          "statement_shape": "forall first prev pivot stop last prefix suffix, xizi_dllseg first prev stop last (prefix ++ pivot :: suffix) |-- EX pivot_prev next, xizi_dllseg first prev pivot pivot_prev prefix ** xizi_dll_links pivot next pivot_prev ** xizi_dllseg next pivot stop last suffix",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_next_rec_last_entail_wit_1"
+          ],
+          "premises": [],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "xizi_dllseg_join_at_node",
+          "statement_shape": "forall first prev pivot pivot_prev next stop last prefix suffix, pivot <> NULL -> pivot <> stop -> xizi_dllseg first prev pivot pivot_prev prefix ** xizi_dll_links pivot next pivot_prev ** xizi_dllseg next pivot stop last suffix |-- xizi_dllseg first prev stop last (prefix ++ pivot :: suffix)",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_next_rec_last_return_wit_1",
+            "proof_of_xizi_double_link_next_rec_last_return_wit_2"
+          ],
+          "premises": [
+            {
+              "premise": "pivot <> NULL",
+              "discharged_by": "PreH2 for pivot = linklist_node_pre",
+              "needs_unfold": [],
+              "arithmetic": "NULL is represented by 0",
+              "spatial_resource": "none"
+            },
+            {
+              "premise": "pivot <> stop",
+              "discharged_by": "The first-disjunct precondition separately owns sentinel and pivot next/prev fields; pivot = stop contradicts separation of overlapping points-to cells.",
+              "needs_unfold": [
+                "xizi_dll_links"
+              ],
+              "arithmetic": "none",
+              "spatial_resource": "sentinel next/prev cells and linklist_node_pre next/prev cells"
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "xizi_dllseg_at_stop_nil",
+          "statement_shape": "forall stop prev last nodes, xizi_dllseg stop prev stop last nodes |-- \u201c nodes = nil /\\ prev = last \u201d && emp",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_next_rec_last_return_wit_1"
+          ],
+          "premises": [],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        }
+      ],
+      "expected_helpers": [
+        "xizi_dllseg_split_at_node__dllseg_split_join",
+        "xizi_dllseg_join_at_node__dllseg_split_join",
+        "xizi_dllseg_at_stop_nil__dllseg_split_join"
+      ],
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_next_rec_last_entail_wit_1": "left disjunct; xizi_dll_open; segment split helper; instantiate four existentials; frame/cancel",
+        "proof_of_xizi_double_link_next_rec_last_return_wit_1": "left disjunct; substitute node_next; suffix-at-stop gives nodes_after=nil; join at linklist_node_pre; xizi_dll_close; unfold value",
+        "proof_of_xizi_double_link_next_rec_last_return_wit_2": "left disjunct; suffix nonempty from node_next<>head; recover nodes_after=node_next::rest; join at linklist_node_pre; xizi_dll_close; unfold value"
+      },
+      "premise_discharge": {
+        "linklist_node_pre_nonnull": "PreH2",
+        "linklist_node_pre_not_sentinel": "separation contradiction from duplicate sentinel/node field ownership if equal",
+        "return_wit_1_suffix_empty": "node_next=head and dllseg starts at stop",
+        "return_wit_2_suffix_nonempty": "node_next<>head rules out the nil dllseg clause"
+      }
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

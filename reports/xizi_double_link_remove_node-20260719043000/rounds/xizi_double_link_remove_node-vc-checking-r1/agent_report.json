@@ -1,0 +1,258 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "vc_checking": {
+      "status": "completed",
+      "source_version": "5a596d3f78b65ec9cc8fa905079d622194acb0a9c57a6459b1bc6d974fb59c64",
+      "source_goal_version": "5a493c9fa8536fcfd03617025b41c7d585e6dadbf0fa5e15b05592beb1e0ae7a",
+      "target_witnesses": [
+        "proof_of_xizi_double_link_remove_node_entail_wit_1",
+        "proof_of_xizi_double_link_remove_node_return_wit_1"
+      ],
+      "group_plan_path": "/home/yangfp/QCIP/reports/xizi_double_link_remove_node-20260719043000/rounds/xizi_double_link_remove_node-vc-checking-r1/group_plan.json",
+      "group_plan_ready": true,
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "5a493c9fa8536fcfd03617025b41c7d585e6dadbf0fa5e15b05592beb1e0ae7a",
+        "target_witnesses": [
+          "proof_of_xizi_double_link_remove_node_entail_wit_1",
+          "proof_of_xizi_double_link_remove_node_return_wit_1"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "remove_focus_and_reclose",
+            "witness_names": [
+              "proof_of_xizi_double_link_remove_node_entail_wit_1",
+              "proof_of_xizi_double_link_remove_node_return_wit_1"
+            ],
+            "representative_witness": "proof_of_xizi_double_link_remove_node_entail_wit_1",
+            "dependencies": [],
+            "candidate_helper_declarations": [
+              "xizi_dll_focus_decompose__remove_focus_and_reclose",
+              "xizi_dll_shift_reclose__remove_focus_and_reclose"
+            ],
+            "proof_strategy": "Choose the left disjunct in both generated VCs. Prove a prefix/suffix focus-decomposition helper for the entry entailment and its reclose direction for the return entailment; fold the removed node's two self-link fields with xizi_dll_empty_rev.",
+            "grouping_reason": "The witnesses share the same shift-predicate induction/helper family and are inverse phases of one removal transformation; one 2-witness group is minimal and remains below max_witnesses_per_group=12."
+          }
+        ],
+        "blockers": []
+      },
+      "natural_language_analysis": {
+        "witnesses": [
+          {
+            "witness_name": "proof_of_xizi_double_link_remove_node_entail_wit_1",
+            "judgment": "needs-helper",
+            "vc_shape": {
+              "pre_spatial": "Left disjunct: xizi_dll head (prefix ++ linklist_node_pre :: suffix).",
+              "pre_pure": "No explicit pure hypotheses; xizi_dll's nonempty focused cell supplies linklist_node_pre <> NULL.",
+              "pre_exists": "xizi_dll hides the sentinel first/last and every segment successor.",
+              "post_spatial": "xizi_dllseg_shift head node_prev prefix, the four predecessor/focus/successor boundary stores, and xizi_dllseg_shift_rev node_next head suffix.",
+              "post_pure": "linklist_node_pre <> 0.",
+              "post_exists": "node_prev and node_next."
+            },
+            "witness_instantiation": "Instantiate node_prev with the predecessor reached after consuming prefix and node_next with the successor stored in the focused node's next field.",
+            "space_plan": "Open xizi_dll into sentinel links and xizi_dllseg. Induct on prefix: each peeled common dll link contributes the current node_prev field and predecessor node_next field to xizi_dllseg_shift, leaving the next link as the induction boundary. At the focused node, expose its prev/next fields; recursively orient the remaining dllseg resources into xizi_dllseg_shift_rev through suffix. The resulting resources exactly match the four boundary stores and two shift predicates, including empty-prefix and empty-suffix cases via their pure equalities.",
+            "pure_plan": "The focused nonempty branch of xizi_dllseg supplies linklist_node_pre <> NULL (0). Equalities from nil branches of the shift predicates identify node_prev=head or node_next=head when the corresponding list part is empty; no arithmetic facts are needed.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [
+              "xizi_dll_open",
+              "xizi_dll_nonempty",
+              "xizi_dllseg_unfold"
+            ],
+            "candidate_helper_declarations": [
+              "xizi_dll_focus_decompose__remove_focus_and_reclose"
+            ],
+            "premise_discharge": [
+              "The list split is syntactically prefix ++ linklist_node_pre :: suffix in P.",
+              "The focused-node non-null fact follows from the nonempty xizi_dllseg branch.",
+              "All fields required by Q are a partition of the xizi_dll links/dllseg ownership in P."
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "remove_focus_and_reclose",
+            "grouping_reason": "Forward decomposition direction of the same shift-predicate equivalence used by the return witness."
+          },
+          {
+            "witness_name": "proof_of_xizi_double_link_remove_node_return_wit_1",
+            "judgment": "needs-helper",
+            "vc_shape": {
+              "pre_spatial": "Left disjunct: shifted prefix, rewired node_prev.next=node_next, two self-link fields of linklist_node_pre, rewired node_next.prev=node_prev, and shifted reverse suffix.",
+              "pre_pure": "linklist_node_pre <> 0 (not needed for spatial folding beyond consistency).",
+              "pre_exists": "none beyond addresses already universally bound.",
+              "post_spatial": "xizi_dll head (prefix ++ suffix) ** xizi_dll linklist_node_pre nil.",
+              "post_pure": "none.",
+              "post_exists": "The first/last addresses hidden by each xizi_dll."
+            },
+            "witness_instantiation": "The remaining list uses the same logical prefix and suffix; the removed singleton chooses first=last=linklist_node_pre in xizi_dll_empty_rev.",
+            "space_plan": "Frame the removed node's next/prev self-stores and fold them as xizi_dll_links linklist_node_pre linklist_node_pre linklist_node_pre, then apply xizi_dll_empty_rev. Independently, induct over xizi_dllseg_shift prefix and combine it with the bypass boundary stores plus xizi_dllseg_shift_rev suffix, rebuilding sentinel links and xizi_dllseg for prefix ++ suffix before xizi_dll_close. Empty prefix/suffix cases are handled by shift nil equalities.",
+            "pure_plan": "Use only the equality conjuncts produced by nil cases of xizi_dllseg_shift and xizi_dllseg_shift_rev to select the correct sentinel first/last boundaries; no numeric reasoning is required.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [
+              "xizi_dll_empty_rev",
+              "xizi_dll_close",
+              "xizi_dll_nonempty_rev"
+            ],
+            "candidate_helper_declarations": [
+              "xizi_dll_shift_reclose__remove_focus_and_reclose"
+            ],
+            "premise_discharge": [
+              "The bypass stores node_prev.next=node_next and node_next.prev=node_prev occur literally in P.",
+              "The two singleton self-stores occur literally in P and unfold to xizi_dll_links for xizi_dll_empty_rev.",
+              "The prefix/suffix shift predicates own all remaining node fields needed to reconstruct xizi_dll head (prefix ++ suffix)."
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "remove_focus_and_reclose",
+            "grouping_reason": "Inverse reclose direction of the same shift-predicate equivalence used by the entry entailment."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "remove_focus_and_reclose",
+            "witness_names": [
+              "proof_of_xizi_double_link_remove_node_entail_wit_1",
+              "proof_of_xizi_double_link_remove_node_return_wit_1"
+            ],
+            "representative_witness": "proof_of_xizi_double_link_remove_node_entail_wit_1",
+            "shared_proof_pattern": "Induction over the prefix-facing shift representation and normalization/folding of the suffix-facing reverse shift representation.",
+            "shared_space_plan": "Partition or recombine exactly the same predecessor-next/node-prev and node-next/successor-prev field ownership around a focused node.",
+            "shared_pure_plan": "Use non-null facts from nonempty dllseg branches and boundary equalities from empty shift branches; no arithmetic.",
+            "shared_refinement_plan": "not applicable",
+            "candidate_helper_declarations": [
+              "xizi_dll_focus_decompose__remove_focus_and_reclose",
+              "xizi_dll_shift_reclose__remove_focus_and_reclose"
+            ],
+            "dependencies": [],
+            "grouping_reason": "Same function, same two shift predicates, and inverse directions of one spatial equivalence; 2 <= 12.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "version_evidence": {
+        "source_version_match": "yes",
+        "source_goal_version_match": "yes",
+        "manual_target_coverage_match": "yes",
+        "verified_sha256": {
+          "OUTPUT/xizi/xizi_double_link_remove_node/xizi_double_link_remove_node.c": "387c703a124eff22bbbe580f600f03375b637b698e16a50cd7f0d49d0a75a838",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_remove_node/xizi_double_link_remove_node_lib.v": "6620bbf141a6c165ecd2612346bf1996dcc77fb9109452891a434e84d9dfb2e1",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_remove_node/xizi_double_link_remove_node_goal.v": "b1105998e5f1cbb48a1d9ff2436076ce2f6f0d63b5377f5bffbd7183d98a2bab",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_remove_node/xizi_double_link_remove_node_proof_auto.v": "3153be8c6db9abbf53a1a68da72571493a2fb37f8e4143811c695ca3fffc9573",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_remove_node/xizi_double_link_remove_node_proof_manual.v": "d05f01c5faa8728b6f3d6fb97e32aa130751c651c266d02c95db4e8ecaefb970",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_remove_node/xizi_double_link_remove_node_goal_check.v": "3071aaabb19225a8e2758e4d109401ae7ca81d073a3d0270b9bbe5159b30aed6",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_remove_node/xizi_double_link_remove_node_proof_diagnostics.v": "723a56e5c13890a86b74e265a2d688ce5456cb869aeb5cacbcbcd10cee82bae4",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_remove_node/diagnostics_snapshot.json": "3625571f4cb9c3bd2f52ee6e6b3b149ceedabd6ef042740c8007a2f99d338d95"
+        }
+      },
+      "formal_changed_files": [],
+      "changed_files": [
+        "/home/yangfp/QCIP/reports/xizi_double_link_remove_node-20260719043000/rounds/xizi_double_link_remove_node-vc-checking-r1/group_plan.json",
+        "/home/yangfp/QCIP/reports/xizi_double_link_remove_node-20260719043000/rounds/xizi_double_link_remove_node-vc-checking-r1/agent_report.json",
+        "/home/yangfp/QCIP/reports/xizi_double_link_remove_node-20260719043000/rounds/xizi_double_link_remove_node-vc-checking-r1/agent_output.txt"
+      ],
+      "blockers": []
+    }
+  },
+  "verification_result": {
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-07-18T22:36:34Z",
+      "source_version": {
+        "digest": "5a596d3f78b65ec9cc8fa905079d622194acb0a9c57a6459b1bc6d974fb59c64",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_remove_node-20260719043000/xizi_double_link_remove_node-annotation-r1/OUTPUT/xizi/xizi_double_link_remove_node/xizi_double_link_remove_node.c",
+            "relative_path": "OUTPUT/xizi/xizi_double_link_remove_node/xizi_double_link_remove_node.c",
+            "role": "target-c-annotated",
+            "sha256": "387c703a124eff22bbbe580f600f03375b637b698e16a50cd7f0d49d0a75a838",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_remove_node-20260719043000/xizi_double_link_remove_node-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_remove_node/xizi_double_link_remove_node_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_remove_node/xizi_double_link_remove_node_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "6620bbf141a6c165ecd2612346bf1996dcc77fb9109452891a434e84d9dfb2e1",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "5a493c9fa8536fcfd03617025b41c7d585e6dadbf0fa5e15b05592beb1e0ae7a",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_remove_node/xizi_double_link_remove_node_goal.v",
+            "role": "generated-goal",
+            "sha256": "b1105998e5f1cbb48a1d9ff2436076ce2f6f0d63b5377f5bffbd7183d98a2bab",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_remove_node/xizi_double_link_remove_node_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "3153be8c6db9abbf53a1a68da72571493a2fb37f8e4143811c695ca3fffc9573",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_remove_node/xizi_double_link_remove_node_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "d05f01c5faa8728b6f3d6fb97e32aa130751c651c266d02c95db4e8ecaefb970",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_remove_node/xizi_double_link_remove_node_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "3071aaabb19225a8e2758e4d109401ae7ca81d073a3d0270b9bbe5159b30aed6",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_remove_node/xizi_double_link_remove_node_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "723a56e5c13890a86b74e265a2d688ce5456cb869aeb5cacbcbcd10cee82bae4",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_remove_node/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "3625571f4cb9c3bd2f52ee6e6b3b149ceedabd6ef042740c8007a2f99d338d95",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_xizi_double_link_remove_node_entail_wit_1",
+          "proof_of_xizi_double_link_remove_node_return_wit_1"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_xizi_double_link_remove_node_entail_wit_1": "15131f62a565c02c90bd9473c3762483be3eb1f3f0deda23f90b511bd367dc29",
+          "proof_of_xizi_double_link_remove_node_return_wit_1": "93c995779dcc67a2605d1aeacaf52a0c1720375c9a9624bde99556b4dc340b42"
+        },
+        "witnesses": [
+          {
+            "end_line": 27,
+            "name": "proof_of_xizi_double_link_remove_node_entail_wit_1",
+            "start_line": 25,
+            "statement_hash": "15131f62a565c02c90bd9473c3762483be3eb1f3f0deda23f90b511bd367dc29",
+            "target_symbol": "xizi_double_link_remove_node_entail_wit_1"
+          },
+          {
+            "end_line": 30,
+            "name": "proof_of_xizi_double_link_remove_node_return_wit_1",
+            "start_line": 28,
+            "statement_hash": "93c995779dcc67a2605d1aeacaf52a0c1720375c9a9624bde99556b4dc340b42",
+            "target_symbol": "xizi_double_link_remove_node_return_wit_1"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_double_link_remove_node-20260719043000/rounds/xizi_double_link_remove_node-vc-checking-r1/group_plan.json",
+      "target_witnesses": [
+        "proof_of_xizi_double_link_remove_node_entail_wit_1",
+        "proof_of_xizi_double_link_remove_node_return_wit_1"
+      ]
+    }
+  },
+  "blockers": []
+}

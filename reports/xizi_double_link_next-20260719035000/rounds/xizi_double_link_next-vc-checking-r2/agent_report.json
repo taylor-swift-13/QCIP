@@ -1,0 +1,295 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "vc_checking": {
+      "schema_version": "qcp-vc-checking-result/v1",
+      "status": "completed",
+      "source_version": "0a2b31d92c99ace4e3cad78a493cd7334919b514b13cf1bd9307ec169137b603",
+      "source_goal_version": "ffcb5a4dd630a583472faf87d7348f88052bd341664e427058d5b75ba4bbfbe2",
+      "target_witnesses": [
+        "proof_of_xizi_double_link_next_entail_wit_1",
+        "proof_of_xizi_double_link_next_return_wit_1",
+        "proof_of_xizi_double_link_next_return_wit_2"
+      ],
+      "version_evidence": {
+        "all_declared_file_hashes_match": true,
+        "manual_target_set_matches": true,
+        "manual_target_order_matches": true,
+        "witness_statement_hashes_match": true,
+        "diagnostics_used_as_hint_only": true
+      },
+      "natural_language_analysis": {
+        "schema_version": "qcp-natural-language-vc-analysis/v1",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_xizi_double_link_next_entail_wit_1",
+            "judgment": "needs-helper",
+            "vc_shape": {
+              "pre_spatial": "Either xizi_dll linklist (nodes_before ++ linklist_node :: nodes_after), or its opened xizi_dllseg with the same logical list.",
+              "pre_pure": "linklist_node <> 0.",
+              "pre_exists": "The closed-list disjunct hides sentinel first/last; the segment itself recursively hides each next pointer.",
+              "post_spatial": "Sentinel links when present, prefix segment ending at linklist_node, both fields of linklist_node, and suffix segment beginning at node_next.",
+              "post_pure": "linklist_node <> 0.",
+              "post_exists": "node_next, node_prev, and for the closed-list disjunct first and last."
+            },
+            "witness_instantiation": "first/last come from xizi_dll_open; node_prev/node_next come from recursively focusing the segment at the logical decomposition nodes_before ++ linklist_node :: nodes_after.",
+            "space_plan": "Open xizi_dll, apply an inductive focus-at-node helper to the segment, unfold xizi_dll_links, and cancel the resulting sentinel/prefix/node/suffix resources. The open-segment disjunct applies the same helper directly.",
+            "pure_plan": "Retain PreH1 unchanged; no arithmetic is needed. The focus helper's cons case obtains node identity and non-null/stop facts from the dllseg definition.",
+            "refinement_plan": "No safeExec or refinement state occurs in this VC.",
+            "used_existing_lemmas": [
+              "xizi_dll_open"
+            ],
+            "candidate_helper_declarations": [
+              "xizi_dllseg_focus_node"
+            ],
+            "premise_discharge": [
+              "The exact app/cons logical-list equality is already the precondition's dll/dllseg index; the helper requires no external pure premise."
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "dll_focus_and_reassemble",
+            "grouping_reason": "This is the forward direction of the same focus/reassembly helper family used by both return VCs."
+          },
+          {
+            "witness_name": "proof_of_xizi_double_link_next_return_wit_1",
+            "judgment": "needs-helper",
+            "vc_shape": {
+              "pre_spatial": "Sentinel links if proving the closed-list disjunct, prefix segment to linklist_node, linklist_node's two fields, and suffix segment from node_next to the sentinel.",
+              "pre_pure": "node_next = linklist and linklist_node <> 0.",
+              "pre_exists": "All structural endpoints are universally named; the suffix segment internally hides recursion witnesses.",
+              "post_spatial": "The original xizi_dll, or its complete sentinel-to-sentinel xizi_dllseg, indexed by nodes_before ++ linklist_node :: nodes_after.",
+              "post_pure": "0 = xizi_double_link_next_value nodes_after.",
+              "post_exists": "None."
+            },
+            "witness_instantiation": "Rewriting node_next = linklist makes the suffix a same-stop segment; its only satisfiable logical list is nil, so the value definition selects 0.",
+            "space_plan": "Eliminate the same-stop suffix to emp, use the node field pair as xizi_dll_links, reassemble prefix ++ [linklist_node], then combine sentinel links with xizi_dll_close in the closed-list disjunct.",
+            "pure_plan": "The same-stop helper yields nodes_after = nil and node_prev = last. Rewrite nodes_after and unfold xizi_double_link_next_value; reflexivity proves 0 = 0.",
+            "refinement_plan": "No safeExec or refinement state occurs in this VC.",
+            "used_existing_lemmas": [
+              "xizi_dll_close"
+            ],
+            "candidate_helper_declarations": [
+              "xizi_dllseg_same_stop",
+              "xizi_dllseg_reassemble_node"
+            ],
+            "premise_discharge": [
+              "node_next = linklist is PreH1.",
+              "linklist_node <> 0 is PreH2 and is the non-null condition for folding its node cell.",
+              "same-stop elimination follows by destructing nodes_after in the current dllseg definition."
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "dll_focus_and_reassemble",
+            "grouping_reason": "Uses the inverse of entail_wit_1's focus transformation plus the tail-is-empty specialization."
+          },
+          {
+            "witness_name": "proof_of_xizi_double_link_next_return_wit_2",
+            "judgment": "needs-helper",
+            "vc_shape": {
+              "pre_spatial": "Either the complete focused list resources, or an explicitly unfolded successor cell followed by its suffix tail, plus the prefix and distinguished-node resources.",
+              "pre_pure": "node_next <> linklist, linklist_node <> 0, and in the unfolded disjunct nodes_after = node_next :: l0.",
+              "pre_exists": "The successor tail's recursive next pointers are internal to dllseg.",
+              "post_spatial": "The unchanged xizi_dll, or its complete sentinel-to-sentinel segment, indexed by nodes_before ++ linklist_node :: nodes_after.",
+              "post_pure": "node_next = xizi_double_link_next_value nodes_after.",
+              "post_exists": "None."
+            },
+            "witness_instantiation": "PreH1 identifies nodes_after with node_next :: l0, so xizi_double_link_next_value selects node_next. The named next and l0 rebuild the suffix segment's first cons cell.",
+            "space_plan": "Fold the successor's two fields and tail into xizi_dllseg node_next linklist_node linklist last nodes_after, apply the reassembly helper with the prefix and distinguished node, then close xizi_dll when sentinel links are present.",
+            "pure_plan": "Rewrite PreH1 and unfold xizi_double_link_next_value to obtain node_next = node_next. PreH2 supplies successor <> sentinel; non-null/address side conditions follow from the owned successor field stores through standard store-validity entailment, as in the existing double-link strategies.",
+            "refinement_plan": "No safeExec or refinement state occurs in this VC.",
+            "used_existing_lemmas": [
+              "xizi_dll_close"
+            ],
+            "candidate_helper_declarations": [
+              "xizi_dllseg_reassemble_node"
+            ],
+            "premise_discharge": [
+              "nodes_after = node_next :: l0 is PreH1 in the unfolded disjunct.",
+              "node_next <> linklist is PreH2.",
+              "linklist_node <> 0 is PreH3.",
+              "The points-to resources for node_next's fields provide the standard spatial validity needed to fold its nonempty cell."
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "dll_focus_and_reassemble",
+            "grouping_reason": "Uses the same reassembly helper as return_wit_1; its only extra step is cons-value simplification."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "dll_focus_and_reassemble",
+            "witness_names": [
+              "proof_of_xizi_double_link_next_entail_wit_1",
+              "proof_of_xizi_double_link_next_return_wit_1",
+              "proof_of_xizi_double_link_next_return_wit_2"
+            ],
+            "representative_witness": "proof_of_xizi_double_link_next_entail_wit_1",
+            "shared_proof_pattern": "Focus a circular dll segment at one logical node, preserve/read its successor, and reassemble the identical logical list.",
+            "shared_space_plan": "Use xizi_dll_open/close around a pair of inductive dllseg focus/reassembly helpers; unfold xizi_dll_links only at cancellation boundaries.",
+            "shared_pure_plan": "The last-node branch derives nodes_after = nil from a same-stop segment; the nonlast branch rewrites nodes_after = node_next :: l0; neither needs arithmetic.",
+            "shared_refinement_plan": "none",
+            "candidate_helper_declarations": [
+              "xizi_dllseg_focus_node",
+              "xizi_dllseg_reassemble_node",
+              "xizi_dllseg_same_stop"
+            ],
+            "dependencies": [],
+            "grouping_reason": "One helper family and one function context cover all three witnesses, and the group size 3 is below the bound 12.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "group_plan_path": "/home/yangfp/QCIP/reports/xizi_double_link_next-20260719035000/rounds/xizi_double_link_next-vc-checking-r2/group_plan.json",
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "ffcb5a4dd630a583472faf87d7348f88052bd341664e427058d5b75ba4bbfbe2",
+        "target_witnesses": [
+          "proof_of_xizi_double_link_next_entail_wit_1",
+          "proof_of_xizi_double_link_next_return_wit_1",
+          "proof_of_xizi_double_link_next_return_wit_2"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "dll_focus_and_reassemble",
+            "witness_names": [
+              "proof_of_xizi_double_link_next_entail_wit_1",
+              "proof_of_xizi_double_link_next_return_wit_1",
+              "proof_of_xizi_double_link_next_return_wit_2"
+            ],
+            "representative_witness": "proof_of_xizi_double_link_next_entail_wit_1",
+            "dependencies": [],
+            "candidate_helper_declarations": [
+              "xizi_dllseg_focus_node",
+              "xizi_dllseg_reassemble_node",
+              "xizi_dllseg_same_stop"
+            ],
+            "proof_strategy": "Inductively focus and reassemble xizi_dllseg around linklist_node; derive nil for a same-stop suffix in the last-node branch and cons simplification in the nonlast branch; close xizi_dll when sentinel links are present.",
+            "grouping_reason": "Same function, same inverse segment transformation, and shared helper family; 3 witnesses are within the maximum 12."
+          }
+        ],
+        "blockers": []
+      },
+      "ready_for_vc_proving_preparing": true,
+      "changed_files": [],
+      "report_artifacts": [
+        "/home/yangfp/QCIP/reports/xizi_double_link_next-20260719035000/rounds/xizi_double_link_next-vc-checking-r2/group_plan.json",
+        "/home/yangfp/QCIP/reports/xizi_double_link_next-20260719035000/rounds/xizi_double_link_next-vc-checking-r2/agent_report.json",
+        "/home/yangfp/QCIP/reports/xizi_double_link_next-20260719035000/rounds/xizi_double_link_next-vc-checking-r2/agent_output.txt"
+      ],
+      "blockers": []
+    }
+  },
+  "verification_result": {
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-07-18T20:42:26Z",
+      "source_version": {
+        "digest": "0a2b31d92c99ace4e3cad78a493cd7334919b514b13cf1bd9307ec169137b603",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_next-20260719035000/xizi_double_link_next-annotation-r2/OUTPUT/xizi/xizi_double_link_next/xizi_double_link_next.c",
+            "relative_path": "OUTPUT/xizi/xizi_double_link_next/xizi_double_link_next.c",
+            "role": "target-c-annotated",
+            "sha256": "876702ed311f2de0ea4dc1b12de7b18a05bcccda8fcb7da0c9443562b3235b1d",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_next-20260719035000/xizi_double_link_next-annotation-r2/SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next/xizi_double_link_next_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next/xizi_double_link_next_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "28359f939294513cb53336f547e6a54c5c8ea0dcc8e8e430fc6087f380495a7c",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "ffcb5a4dd630a583472faf87d7348f88052bd341664e427058d5b75ba4bbfbe2",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next/xizi_double_link_next_goal.v",
+            "role": "generated-goal",
+            "sha256": "f543d427545b98c628fe9546b58abfec9dc84bcd9dac70af6c57b1ab561ce3fa",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next/xizi_double_link_next_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "10970cbea9bb812c0ee5f01f47dddbe8def00450c261fe7f103997f6b8f8245e",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next/xizi_double_link_next_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "15ed55f14752bb3da6424aedfbe968146230ef8dda27df852608f107c1ebe0d0",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next/xizi_double_link_next_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "658fdb0995af30662532a9a437c61b7eb6071307e509fe8978e530f71d2a577c",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next/xizi_double_link_next_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "b6e15344820a9a7445a5666e2bfc8364085ae82960b1729802be729faaca32dc",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "ad499f9cc9cc298b936813e8d35040688e65b677bf1de8fb4447bb695947ffc5",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_xizi_double_link_next_entail_wit_1",
+          "proof_of_xizi_double_link_next_return_wit_1",
+          "proof_of_xizi_double_link_next_return_wit_2"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_xizi_double_link_next_entail_wit_1": "f1d38a914f0d330868e84b3ea011278a24bd0b438c28641286877e8bb17b4d3a",
+          "proof_of_xizi_double_link_next_return_wit_1": "28d5a817fe7d7510d370e2fe5ea851b60f679afae9ee3f976ff796037c527f8d",
+          "proof_of_xizi_double_link_next_return_wit_2": "e5a5fa9b9b9c810f9dff3028dd4aded362e3d4c434b9189673db8fdd3eb3e3c0"
+        },
+        "witnesses": [
+          {
+            "end_line": 27,
+            "name": "proof_of_xizi_double_link_next_entail_wit_1",
+            "start_line": 25,
+            "statement_hash": "f1d38a914f0d330868e84b3ea011278a24bd0b438c28641286877e8bb17b4d3a",
+            "target_symbol": "xizi_double_link_next_entail_wit_1"
+          },
+          {
+            "end_line": 30,
+            "name": "proof_of_xizi_double_link_next_return_wit_1",
+            "start_line": 28,
+            "statement_hash": "28d5a817fe7d7510d370e2fe5ea851b60f679afae9ee3f976ff796037c527f8d",
+            "target_symbol": "xizi_double_link_next_return_wit_1"
+          },
+          {
+            "end_line": 33,
+            "name": "proof_of_xizi_double_link_next_return_wit_2",
+            "start_line": 31,
+            "statement_hash": "e5a5fa9b9b9c810f9dff3028dd4aded362e3d4c434b9189673db8fdd3eb3e3c0",
+            "target_symbol": "xizi_double_link_next_return_wit_2"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_double_link_next-20260719035000/rounds/xizi_double_link_next-vc-checking-r2/group_plan.json",
+      "target_witnesses": [
+        "proof_of_xizi_double_link_next_entail_wit_1",
+        "proof_of_xizi_double_link_next_return_wit_1",
+        "proof_of_xizi_double_link_next_return_wit_2"
+      ]
+    }
+  },
+  "blockers": []
+}

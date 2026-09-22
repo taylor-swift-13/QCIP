@@ -1,0 +1,13 @@
+# Reuse Note
+
+Note kind: non-authoritative reuse note
+
+This file is not acceptance evidence.
+
+The candidate is an exact mechanical adaptation of the existing verified case: `xizi_double_link_init` became `InitDoubleLinkList`, and every declaration/call of `xizi_double_link_insert_before` became `DoubleLinkListInsertNodeBefore`. Contract parameter occurrences now use the parameter names directly; the two `@pre` bridges in the function-body `Assert` remain unchanged. The wrapper name, bodies, spec labels, predicates, and case directory are unchanged.
+
+The existing case lib requires no spec update. Its anchor predicate and pure list insertion transformation passed annotation-checking and fixed `coq_tooling.py check --target-kind case_lib` with flags hash `75b2bdd1edb990c20e7514694fa4303e8d948c120bc1e5ac3813d06caabc3dff`.
+
+The stock qcp-mcp `load_target_file` path failed because it did not pass the shared xizi strategy mapping. Reusing the same qcp-mcp backend/session-manager chain with `-IQCP_examples/QCP_demos_LLM/` and both handoff-declared `-slp` mappings produced three fresh successful symbolic cycles through line 76. Each cycle identified `InitDoubleLinkList` and the unchanged wrapper, both `DoubleLinkListInsertNodeBefore` derivations, and one wrapper manual return witness.
+
+The diagnostic canonical symexec refreshed goal/auto files but retained the pre-existing manual because the driver does not overwrite it. The controller must still perform its authoritative annotation-check-round, force a fresh manual skeleton, and run deterministic diagnostics splitting. JSON handoff, current files, source versions, and controller results override this note.

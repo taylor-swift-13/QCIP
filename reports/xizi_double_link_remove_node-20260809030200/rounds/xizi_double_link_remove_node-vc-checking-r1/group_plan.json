@@ -1,0 +1,54 @@
+{
+  "schema_version": "qcp-group-plan/v1",
+  "source_goal_version": "24bcafff1fb41779620e2d84a1e444b9f7edf31104cfada08f5e8a199fe3a46a",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_remove_node_entail_wit_1",
+    "proof_of_xizi_double_link_remove_node_return_wit_1"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "dll_remove_cut_split_and_reconnect",
+      "witness_names": [
+        "proof_of_xizi_double_link_remove_node_entail_wit_1",
+        "proof_of_xizi_double_link_remove_node_return_wit_1"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_remove_node_entail_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "For entail_wit_1, substitute nodes=prefix++linklist_node_pre::suffix and apply xizi_dll_split_at_node__dll_cut_split_reconnect, then unfold the one-field views into the generated stores. For return_wit_1, fold the rewired and self-loop stores into xizi_dll_next/xizi_dll_prev, apply xizi_dll_remove_result__dll_cut_split_reconnect with the generated removed-node non-null premise, then unfold the views for cancellation. The existing helper chain handles all empty/nonempty prefix and suffix boundary cases; add no group-local helper.",
+      "natural_language_proof_strategy": "Treat removal as one ownership cut followed by two products: reconnect the prefix and suffix to represent prefix++suffix, while framing the removed node's two self-loop fields as an independent empty circular DLL. This preserves the public complete-sequence specification and the required reset semantics.",
+      "grouping_reason": "Same function, same xizi_dllseg_shift/xizi_dllseg_shift_rev cut representation, same existing __dll_cut_split_reconnect helper family, no dependencies, and two witnesses within max_witnesses_per_group=12.",
+      "confidence": "high",
+      "difficulty": "low",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_remove_node_entail_wit_1": {
+          "judgment": "proofable",
+          "route": "complete DLL cut via xizi_dll_split_at_node__dll_cut_split_reconnect"
+        },
+        "proof_of_xizi_double_link_remove_node_return_wit_1": {
+          "judgment": "proofable",
+          "route": "reconnect survivors and close removed-node empty DLL via xizi_dll_remove_result__dll_cut_split_reconnect"
+        }
+      },
+      "premise_discharge": {
+        "sequence_cut": "generated equality nodes=prefix++linklist_node_pre::suffix",
+        "removed_node_nonnull": "selected nonempty DLL cell for entail and generated PreH1 for return",
+        "head_nonnull": "opened xizi_dll or xizi_dllseg_shift",
+        "reconnect_edges": "post-update node_prev.next and node_next.prev stores",
+        "removed_empty_dll": "post-update removed-node next/prev self-loop stores"
+      }
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 2,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

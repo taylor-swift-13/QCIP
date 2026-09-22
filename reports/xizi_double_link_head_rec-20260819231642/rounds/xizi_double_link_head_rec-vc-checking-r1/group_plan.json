@@ -1,0 +1,110 @@
+{
+  "schema_version": "qcp-vc-checking-group-plan/v1",
+  "source_goal_version": "702e65836e532405652d4c019af91b049d34b0a3ae0adb1e431a2c03245d24d0",
+  "target_witnesses": [
+    "proof_of_DoubleLinkListGetHead_return_wit_1",
+    "proof_of_DoubleLinkListGetHead_return_wit_2",
+    "proof_of_DoubleLinkListGetHead_derive_nil_case_by_general"
+  ],
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  },
+  "forbidden_lemma_policy": {
+    "source": ".agents/skills/verification-orchestrator/docs/forbidden_lemma.md",
+    "required": "avoid every listed lemma in manual proofs and case_lib proofs",
+    "names": [
+      "logic_equiv_refl",
+      "elim_wand_emp_emp",
+      "logic_equiv_symm",
+      "sepcon_emp_logic_equiv'",
+      "logic_equiv_andp_comm",
+      "logic_equiv_sepcon_comm",
+      "logic_equiv_sepcon_emp",
+      "logic_equiv_andp_truep",
+      "logic_equiv_truep_andp",
+      "truep_andp_right_equiv",
+      "logic_equiv_orp_comm",
+      "logic_equiv_trans",
+      "logic_equiv_orp_assoc",
+      "logic_equiv_sepcon_assoc",
+      "logic_equiv_andp_assoc",
+      "logic_equiv_sepcon_orp",
+      "logic_equiv_sepcon_orp_distr",
+      "logic_equiv_orp_sepcon",
+      "derivable1_trans",
+      "derivable1_refl",
+      "derivable1_sepcon_comm",
+      "coq_prop_andp_right",
+      "derivable1_sepcon_mono"
+    ],
+    "nil_case_route": "Instantiate nodes_general with nil, frame/cancel the retained xizi_dll resource, introduce the wand by apply_sepcon_adjoint, instantiate retval with 0, and close the pure equality plus retained resource directly. Do not use any forbidden reflexivity, transitivity, monotonicity, commutativity, associativity, emp-equivalence, truep-equivalence, or distributivity lemma."
+  },
+  "proof_groups": [
+    {
+      "group_id": "dll_head_direct_entailments",
+      "witness_names": [
+        "proof_of_DoubleLinkListGetHead_return_wit_1",
+        "proof_of_DoubleLinkListGetHead_return_wit_2",
+        "proof_of_DoubleLinkListGetHead_derive_nil_case_by_general"
+      ],
+      "representative_witness": "proof_of_DoubleLinkListGetHead_return_wit_2",
+      "dependencies": [],
+      "difficulty": "low-to-medium",
+      "confidence": "high",
+      "grouping_reason": "All three obligations are direct separation-logic entailments for the same function and frozen DLL predicate family. The two return witnesses share xizi_dllseg unfolding/folding, while the nil bridge is a short cancellation-plus-wand-adjunction tail proof; one worker can handle all three within the controller bound without cross-group helpers.",
+      "proof_strategy": "Use the second disjunct for return_wit_1 and the first disjunct for return_wit_2. For return_wit_1, substitute first = linklist_pre and destruct nodes_general; the nonempty xizi_dllseg branch contradicts its node <> stop guard, while the nil branch makes first_value definitionally 0 and preserves the identical segment. For return_wit_2, destruct nodes_general and unfold the precondition xizi_dllseg: the nil case contradicts first <> linklist_pre, while the cons case exposes first = expected, first <> NULL, first <> linklist_pre, the first-node links, and the recursive tail. Substitute expected and rebuild xizi_dll with the existing xizi_dll_nonempty_rev rule plus the sentinel links. For derive_nil_case_by_general, choose nodes_general = nil, frame/cancel xizi_dll linklist_pre nil, introduce the wand using apply_sepcon_adjoint, choose retval = 0, simplify first_value nil, and close the retained spatial resource plus equality directly.",
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "premise_discharge": {
+        "return_wit_1": [
+          "PreH1 rewrites first to linklist_pre.",
+          "The nonempty constructor of XiziDLL.dllseg contains node <> stop, which contradicts first = linklist_pre when stop = linklist_pre.",
+          "The remaining nil case reduces xizi_double_link_first_value nil to 0 and leaves the identical xizi_dllseg resource for cancellation."
+        ],
+        "return_wit_2": [
+          "The first-disjunct PreH1 supplies first <> linklist_pre, so the precondition segment cannot be its nil constructor.",
+          "Unfolding the cons constructor supplies nodes_general = first :: rest after substituting its expected head, first <> NULL, first <> linklist_pre, first-node links, and the recursive tail.",
+          "PreH2 supplies linklist_pre <> NULL for rebuilding the whole xizi_dll.",
+          "The two sentinel fields form xizi_dll_links linklist_pre first last; the unfolded first-node links and tail satisfy xizi_dll_nonempty_rev."
+        ],
+        "derive_nil_case_by_general": [
+          "The chosen nodes_general is nil, identical to the precondition list.",
+          "The antecedent of the wand carries xizi_dll linklist_pre nil; after wand adjunction that same resource is retained for the consequent.",
+          "Choosing retval = 0 discharges retval = 0 definitionally; no fact about retval_2 is needed beyond simplifying the antecedent."
+        ]
+      },
+      "per_witness_plan": {
+        "proof_of_DoubleLinkListGetHead_return_wit_1": {
+          "judgment": "proofable",
+          "branch_choice": "second disjunct",
+          "space_plan": "Preserve the identical xizi_dllseg resource; unfold it only to rule out the impossible nonempty list when node = stop.",
+          "pure_plan": "Substitute first = linklist_pre, destruct nodes_general, simplify xizi_double_link_first_value; the cons branch contradicts the segment's node <> stop guard.",
+          "candidate_helper_declarations": []
+        },
+        "proof_of_DoubleLinkListGetHead_return_wit_2": {
+          "judgment": "proofable",
+          "branch_choice": "first disjunct",
+          "space_plan": "Destruct nodes_general and unfold the precondition segment. Reject nil from first <> linklist_pre. In the cons case, use the exposed first-node links and recursive tail together with the sentinel links to apply xizi_dll_nonempty_rev.",
+          "pure_plan": "The segment cons constructor exposes first = expected and first <> NULL. Substitute expected so first_value (first :: rest) reduces to first; use the VC's first <> linklist_pre and linklist_pre <> NULL hypotheses for the remaining DLL guards.",
+          "candidate_helper_declarations": []
+        },
+        "proof_of_DoubleLinkListGetHead_derive_nil_case_by_general": {
+          "judgment": "proofable",
+          "witness_instantiation": "nodes_general := nil; retval := 0",
+          "space_plan": "Cancel/frame the outer xizi_dll linklist_pre nil, apply wand adjunction, and reuse the antecedent's xizi_dll linklist_pre nil in the consequent.",
+          "pure_plan": "Simplify xizi_double_link_first_value nil to 0 and discharge retval = 0 by the chosen witness.",
+          "candidate_helper_declarations": [],
+          "forbidden_route_excluded": "No forbidden transitivity, reflexivity, sepcon monotonicity/commutativity, emp-equivalence, truep-equivalence, associativity, or distributivity lemma is needed."
+        }
+      }
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true
+}

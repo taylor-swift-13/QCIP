@@ -1,0 +1,62 @@
+{
+  "schema_version": "qcp-group-plan/v1",
+  "source_goal_version": "7de2ad23d24573d38f714e604e3df052b5e73b269043ca51dc24b1de43d326f9",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_head_return_wit_1",
+    "proof_of_xizi_double_link_head_return_wit_2",
+    "proof_of_xizi_double_link_head_derive_nil_case_by_general"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "dll_head_observation_and_nil_derivation",
+      "witness_names": [
+        "proof_of_xizi_double_link_head_return_wit_1",
+        "proof_of_xizi_double_link_head_return_wit_2",
+        "proof_of_xizi_double_link_head_derive_nil_case_by_general"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_head_return_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "For return_wit_1, select the segment-preservation disjunct, destruct nodes_general, eliminate cons using first = sentinel against the nonempty dllseg guard, reduce first_value nil to 0, and retain the segment. For return_wit_2, select the full-DLL disjunct, eliminate nil using first <> sentinel, obtain the list-head equality from the nonempty dllseg branch, prove first_value = first, and apply xizi_dll_close to the sentinel fields and segment. For derive_nil_case_by_general, choose nodes_general = nil, frame xizi_dll linklist_pre nil, construct the wand from emp by adjunction, preserve the antecedent DLL resource, and choose retval = 0. No case_lib helper is needed.",
+      "natural_language_proof_strategy": "Reason only through the public abstract list predicates: equal segment start and stop forces the empty sequence, a distinct start forces a nonempty sequence headed by first, and specializing the general result relation to nil yields the weak nil_case via an ownership-preserving wand.",
+      "grouping_reason": "Same function and first-value spec family, shared xizi_dll/xizi_dllseg ownership reasoning, no cross-group dependency, and 3 witnesses within max_witnesses_per_group = 12. The derived wand step is small enough for the same worker to handle sequentially without adding a separate strategy context.",
+      "confidence": "high",
+      "difficulty": "low-to-medium",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_head_return_wit_1": {
+          "judgment": "proofable",
+          "route": "first = sentinel forces nodes_general = nil; first_value is 0; preserve the segment"
+        },
+        "proof_of_xizi_double_link_head_return_wit_2": {
+          "judgment": "proofable",
+          "route": "first <> sentinel forces a nonempty list headed by first; prove first_value equality and apply xizi_dll_close"
+        },
+        "proof_of_xizi_double_link_head_derive_nil_case_by_general": {
+          "judgment": "proofable",
+          "route": "choose nodes_general = nil; frame the DLL; build an identity-style wand and choose retval = 0"
+        }
+      },
+      "premise_discharge": {
+        "empty_sequence": "the xizi_dllseg nonempty guard contradicts first = linklist_pre",
+        "nonempty_sequence": "the xizi_dllseg nil equality contradicts first <> linklist_pre",
+        "head_value": "the nonempty xizi_dllseg expected-node equality plus xizi_double_link_first_value",
+        "sentinel_nonnull": "the generated pure precondition for return_wit_2",
+        "nil_specialization": "choose nodes_general = nil and reduce xizi_double_link_first_value nil",
+        "wand_consequent": "the antecedent owns the same empty DLL required by the consequent; choose retval = 0",
+        "ownership_preservation": "exact segment retention, xizi_dll_close, or wand adjunction respectively"
+      }
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

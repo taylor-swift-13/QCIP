@@ -1,0 +1,59 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "5a493c9fa8536fcfd03617025b41c7d585e6dadbf0fa5e15b05592beb1e0ae7a",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_remove_node_entail_wit_1",
+    "proof_of_xizi_double_link_remove_node_return_wit_1"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "dll_remove_focus_and_rebuild",
+      "witness_names": [
+        "proof_of_xizi_double_link_remove_node_entail_wit_1",
+        "proof_of_xizi_double_link_remove_node_return_wit_1"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_remove_node_entail_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "xizi_dll_remove_node_focus",
+          "statement_shape": "Split xizi_dll head (prefix ++ node :: suffix) into the two shift predicates and the four boundary/node link cells, deriving node <> 0 internally.",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_remove_node_entail_wit_1"
+          ],
+          "premises": [],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "xizi_dll_remove_node_rebuild",
+          "statement_shape": "Stitch xizi_dllseg_shift prefix, rewired predecessor/successor cells, and xizi_dllseg_shift_rev suffix into xizi_dll head (prefix ++ suffix).",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_remove_node_return_wit_1"
+          ],
+          "premises": [],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        }
+      ],
+      "premise_discharge": {
+        "focus_helper": "All resources and non-null facts come from unfolding xizi_dll and its dllseg at prefix ++ node :: suffix.",
+        "rebuild_helper": "All resources occur in the return VC premise; shift base cases supply boundary equalities.",
+        "singleton_fold": "The node.next=node and node.prev=node cells exactly form xizi_dll_links node node node for xizi_dll_empty_rev."
+      },
+      "proof_strategy": "Prove group-suffixed structural focus and rebuild helpers in the group-local case_lib. For entail_wit_1 select the first disjunct and apply the focus helper. For return_wit_1 select the first disjunct, apply the rebuild helper to the remaining-list resources, and apply xizi_dll_empty_rev to the removed node's self-links. Use direct structural unfolding/induction and avoid forbidden equivalence, reflexivity, transitivity, and sepcon-mono lemmas.",
+      "grouping_reason": "The two obligations are complementary stages of one remove-node ownership transformation and share the same shift predicate/helper family; one group of 2 respects the bounded-witness maximum of 12.",
+      "difficulty": "high",
+      "confidence": "medium-high"
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 2,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "schema_version": "qcp-vc-checking-group-plan/v1",
+  "source_goal_version": "0453a85f1f08ce09c53cef6a0dee0c7cab4d0c37a52c765fd597412cc661481b",
+  "target_witnesses": [
+    "proof_of_IsDoubleLinkListEmpty_return_wit_1_general",
+    "proof_of_IsDoubleLinkListEmpty_return_wit_2_general",
+    "proof_of_IsDoubleLinkListEmpty_derive_nil_case_by_general"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "empty_rec_semantics",
+      "witness_names": [
+        "proof_of_IsDoubleLinkListEmpty_return_wit_1_general",
+        "proof_of_IsDoubleLinkListEmpty_return_wit_2_general",
+        "proof_of_IsDoubleLinkListEmpty_derive_nil_case_by_general"
+      ],
+      "representative_witness": "proof_of_IsDoubleLinkListEmpty_return_wit_1_general",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "Prove return_wit_1 by selecting its whole-list branch, deriving nodes_general <> nil from dllseg plus first <> head, and closing xizi_dll with xizi_dll_close. Prove return_wit_2 by selecting its segment-only branch and deriving nodes_general = nil from first = head plus the nonempty dllseg guard. Prove derive_nil_case_by_general by choosing nodes_general := nil and discharging the general-result wand by disjunction case analysis.",
+      "natural_language_proof_pattern": "Direct nil/non-nil list-shape reasoning for xizi_dllseg followed by exact spatial cancellation; the derive witness is the nil specialization of the same postcondition.",
+      "space_plan": {
+        "return_wit_1": "reassociate sentinel links with dllseg and apply xizi_dll_close",
+        "return_wit_2": "retain identical dllseg resource",
+        "derive_nil_case": "frame the source xizi_dll nil into the chosen disjunct and prove the wand from emp"
+      },
+      "pure_plan": {
+        "return_wit_1": "nil dllseg contradicts first <> head",
+        "return_wit_2": "nonempty dllseg contradicts first = head",
+        "derive_nil_case": "nil <> nil branch is impossible; nil = nil/retval_2 = 1 branch supplies the desired return"
+      },
+      "refinement_plan": "not applicable",
+      "premise_discharge": {
+        "xizi_dll_close_head_nonnull": "PreH2",
+        "return_wit_1_nonempty": "dllseg nil equation contradicts PreH1",
+        "return_wit_2_empty": "dllseg cons guard contradicts PreH1",
+        "derive_specialization": "explicit nodes_general := nil and retval := 1 instantiations"
+      },
+      "per_witness_plan": {
+        "proof_of_IsDoubleLinkListEmpty_return_wit_1_general": "left disjunct; list destruct; xizi_dll_close",
+        "proof_of_IsDoubleLinkListEmpty_return_wit_2_general": "right disjunct; list destruct; unfold dllseg in impossible cons case; cancel",
+        "proof_of_IsDoubleLinkListEmpty_derive_nil_case_by_general": "Exists nil; choose list disjunct; wand adjunction; destruct result disjunction; contradiction/cancel"
+      },
+      "difficulty": "low-to-medium",
+      "confidence": "high",
+      "grouping_reason": "Same loop-free function and predicate family, no helper/dependency boundary, only three witnesses versus the limit of twelve, and a single worker can reuse the same unfolded dll semantics without excessive context."
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

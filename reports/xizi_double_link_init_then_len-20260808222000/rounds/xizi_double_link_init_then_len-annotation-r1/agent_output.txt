@@ -1,0 +1,15 @@
+# Reuse Note
+
+Note kind: non-authoritative reuse note
+
+This file is not acceptance evidence.
+
+The final annotation candidate is in the declared annotation-r1 worktree. The reusable `xizi_double_link_len` general contract remains `ret = Zlength(nodes)` with `xizi_dll(linklist,nodes)`. Its callable empty-list specialization is now declared as `nil_case <= general`, so QCP produces an explicit derivation obligation instead of trying to verify the loop body simultaneously under a branch with no `nodes` binder. The wrapper calls `xizi_double_link_len` with `where (nil_case)` after `xizi_double_link_init` establishes the exact precondition.
+
+The controller-created case lib was bootstrapped with `xizi_double_link_init_then_len_result(ret) := ret = 0`; the C file imports this active lib and uses the predicate in the wrapper postcondition. This is a strict mathematical property, not an algorithm mirror.
+
+Final evidence pointers are in `agent_report.json`: qcp-mcp symbolic reached the file end with the `xizi_double_link` strategy loaded; canonical symexec completed with the required `-I/-slp` arguments; the fixed case-lib Coq check passed. The manual skeleton was regenerated after the final spec change and contains seven target manual obligations (diagnostic split-goal stubs are not target witnesses).
+
+Resolved failure paths: the stock qcp-mcp `load_target_file` omitted the common strategy `-slp`; the same qcp-mcp session-manager/backend chain succeeded after applying the handoff arguments. The original direct dual-spec body failed with `pre at branch <unspecified>`; deriving `nil_case` from `general` repaired that semantic issue.
+
+JSON handoff, current files, controller versions, and manifests override this note on any conflict.

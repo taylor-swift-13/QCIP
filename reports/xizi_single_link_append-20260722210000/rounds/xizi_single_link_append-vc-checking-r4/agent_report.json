@@ -1,0 +1,236 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "blocked",
+  "terminal": "yes",
+  "agent_result": {
+    "status": "blocked",
+    "terminal": "yes",
+    "round_outcome": "blocked",
+    "phase": "vc-checking",
+    "round": "xizi_single_link_append-vc-checking-r4",
+    "attempt_id": "xizi_single_link_append-vc-checking-r4-attempt-1",
+    "source_version": {
+      "digest": "ee06eea2b22d92b6233d7db585fa96daa17b58f5658b1f6acf1ff5d857cef568",
+      "verified_current": true
+    },
+    "source_goal_version": {
+      "digest": "19776308bea8d3289011317ce5f4e3e282af9b02742be33daa4a030c7bc187e1",
+      "verified_current": true
+    },
+    "changed_files": [],
+    "vc_checking": {
+      "status": "blocked",
+      "source_goal_version": {
+        "digest": "19776308bea8d3289011317ce5f4e3e282af9b02742be33daa4a030c7bc187e1"
+      },
+      "target_witnesses": [
+        "proof_of_xizi_single_link_append_entail_wit_1",
+        "proof_of_xizi_single_link_append_entail_wit_2",
+        "proof_of_xizi_single_link_append_return_wit_1"
+      ],
+      "version_evidence": {
+        "source_files_match_handoff": true,
+        "generated_files_match_handoff": true,
+        "manual_witnesses_match_handoff": true,
+        "witness_statement_hashes_match_handoff": true,
+        "diagnostics_snapshot_manual_obligation_count": 3,
+        "diagnostic_count": 0
+      },
+      "natural_language_analysis": {
+        "summary": "The initialization witness is proofable, but the traversal-step and return witnesses are semantically invalid because the loop invariant does not retain node <> 0. A group-local helper cannot repair a missing premise. The specification should make sentinel non-nullness explicit in xizi_sll_head, after which the C invariant can soundly retain node <> 0 without restoring the redundant public linklist != 0 precondition.",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_xizi_single_link_append_entail_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "First disjunct: xizi_sll_head linklist_pre l and the framed undef node_next field of linklist_node_pre. Second disjunct: xizi_sll q l.",
+              "pre_pure": "linklist_node_pre <> 0.",
+              "pre_exists": "Unfolding xizi_sll_head exposes the sentinel successor next and xizi_sll next l.",
+              "post_spatial": "An empty self-segment at linklist_pre, the unchanged xizi_sll suffix, and the framed undef new-node field; the second disjunct preserves xizi_sll q l.",
+              "post_pure": "cons linklist_pre l = l1a ++ linklist_pre :: l1b and linklist_node_pre <> 0.",
+              "post_exists": "First disjunct: next, l1a, l1b. Second disjunct: l1b."
+            },
+            "witness_instantiation": "For the first disjunct choose the successor exposed by xizi_sll_head, l1a = nil, and l1b = l. For the second choose l1b = l.",
+            "space_plan": "Unfold xizi_sll_head/generic_sll_head and the sentinel store, instantiate xizi_sllseg linklist_pre linklist_pre nil by simplification, and frame the undef field. The second disjunct is direct framing.",
+            "pure_plan": "Both list equalities reduce by simplification/reflexivity; linklist_node_pre <> 0 is exactly the existing premise.",
+            "refinement_plan": "Not applicable.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "cons linklist_pre l = nil ++ cons linklist_pre l",
+                "discharged_by": "List simplification and reflexivity."
+              },
+              {
+                "premise": "linklist_node_pre <> 0",
+                "discharged_by": "PreH1 in each disjunct."
+              }
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": null,
+            "grouping_reason": "Individually proofable, but no proof group may be emitted while other target witnesses have annotation bugs."
+          },
+          {
+            "witness_name": "proof_of_xizi_single_link_append_entail_wit_2",
+            "judgment": "annotation-bug",
+            "vc_shape": {
+              "pre_spatial": "node's node_next points to non-null next_2, xizi_sllseg linklist_pre node l1a_2, xizi_sll next_2 l1b_2 (or its already-exposed tail in the second disjunct), and the framed undef new-node field where applicable.",
+              "pre_pure": "The list decomposition, linklist_node_pre <> 0, and next_2 <> 0. There is no node <> 0 premise.",
+              "pre_exists": "The first disjunct can expose next_2's successor and logical tail using xizi_sll_not_zero.",
+              "post_spatial": "xizi_sllseg linklist_pre next_2 l1a, which necessarily includes node as the last element of the extended prefix, plus the remaining suffix and frame.",
+              "post_pure": "cons linklist_pre l = l1a ++ next_2 :: l1b and linklist_node_pre <> 0.",
+              "post_exists": "First disjunct: next, l1a, l1b. Second disjunct: l1a, l1b."
+            },
+            "witness_instantiation": "The intended choices are l1a = l1a_2 ++ [node] and the logical tail exposed from l1b_2. These choices require folding node's points-to into xizi_sllseg node next_2 [node].",
+            "space_plan": "The intended route uses xizi_sllseg_len1 node next_2 followed by xizi_sllseg_sllseg. xizi_sllseg_len1 requires node <> NULL, and that premise is absent. Unfolding generic_sllseg confirms the same semantic requirement for every nonempty segment starting at node.",
+            "pure_plan": "The app equality follows from PreH1 after substituting l1b_2 = next_2 :: l0 and rewriting app_assoc. It does not imply node <> 0.",
+            "refinement_plan": "Not applicable.",
+            "used_existing_lemmas": [
+              "xizi_sll_not_zero",
+              "xizi_sllseg_len1",
+              "xizi_sllseg_sllseg"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "next_2 <> 0",
+                "discharged_by": "PreH3 in the first disjunct or PreH4 in the second."
+              },
+              {
+                "premise": "node <> 0",
+                "discharged_by": "Not dischargeable from the current invariant."
+              }
+            ],
+            "failure_signal": "A concrete assertion-level countermodel is obtained with linklist_pre = 8, node = 0, next_2 = 4, l1a_2 = [8], l1b_2 = [4], and l = [0;4], with disjoint pointer cells 8 |-> 0, 0 |-> 4, and 4 |-> 0. The precondition and list equality hold, but the only decomposition at next_2 requires the prefix [8;0]; generic_sllseg cannot contain 0 as a non-final node because its cons case requires the current address to be non-null.",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": null,
+            "grouping_reason": "Not eligible for a proof group because the current invariant admits node = 0."
+          },
+          {
+            "witness_name": "proof_of_xizi_single_link_append_return_wit_1",
+            "judgment": "annotation-bug",
+            "vc_shape": {
+              "pre_spatial": "node points to linklist_node_pre, xizi_sllseg linklist_pre node l1a, xizi_sll next l1b with next = 0, and the new node points to 0.",
+              "pre_pure": "cons linklist_pre l = l1a ++ node :: l1b, linklist_node_pre <> 0, and next = 0. There is no node <> 0 premise.",
+              "pre_exists": "xizi_sll_zero yields l1b = nil.",
+              "post_spatial": "Either xizi_sll_head linklist_pre (l ++ [linklist_node_pre]) directly, or its unfolded form with the sentinel successor q and xizi_sll q over that list.",
+              "post_pure": "No additional explicit pure postcondition, but folding the old tail node into the nonempty data suffix requires node <> 0.",
+              "post_exists": "The second disjunct existentially chooses the sentinel successor q."
+            },
+            "witness_instantiation": "After l1b = nil, the intended proof folds the new node into xizi_sll linklist_node_pre [linklist_node_pre], folds node in front of it, joins the prefix segment, and unfolds the resulting list at the sentinel. Folding node requires node <> 0.",
+            "space_plan": "Use xizi_sll_zero, xizi_sll_len1, xizi_sll_cons, xizi_sllseg_sll, then expose the sentinel successor. This route is blocked at xizi_sll_cons node ... because its non-null premise is absent; unfolding the definitions exposes the same semantic gap.",
+            "pure_plan": "PreH1 and l1b = nil establish cons linklist_pre l = l1a ++ [node]. They do not rule out node = 0.",
+            "refinement_plan": "Not applicable.",
+            "used_existing_lemmas": [
+              "xizi_sll_zero",
+              "xizi_sll_len1",
+              "xizi_sll_cons",
+              "xizi_sllseg_sll",
+              "xizi_sll_not_zero"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "linklist_node_pre <> 0",
+                "discharged_by": "PreH2."
+              },
+              {
+                "premise": "l1b = nil",
+                "discharged_by": "PreH3 rewrites next to 0, then xizi_sll_zero."
+              },
+              {
+                "premise": "node <> 0",
+                "discharged_by": "Not dischargeable from the current invariant."
+              }
+            ],
+            "failure_signal": "A concrete assertion-level countermodel is linklist_pre = 8, node = 0, l = [0], l1a = [8], l1b = nil, next = 0, and linklist_node_pre = 4, with disjoint cells 8 |-> 0, 0 |-> 4, and 4 |-> 0. The precondition holds, but the requested xizi_sll_head 8 [0;4] would require xizi_sll 0 [0;4], whose nonempty case contains the contradiction 0 <> NULL.",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": null,
+            "grouping_reason": "Not eligible for a proof group because the current invariant admits a null tail node."
+          }
+        ],
+        "analysis_groups": []
+      },
+      "group_plan_ready": false,
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "19776308bea8d3289011317ce5f4e3e282af9b02742be33daa4a030c7bc187e1",
+        "target_witnesses": [
+          "proof_of_xizi_single_link_append_entail_wit_1",
+          "proof_of_xizi_single_link_append_entail_wit_2",
+          "proof_of_xizi_single_link_append_return_wit_1"
+        ],
+        "proof_groups": [],
+        "blockers": [
+          {
+            "kind": "annotation-bug",
+            "witnesses": [
+              "proof_of_xizi_single_link_append_entail_wit_2",
+              "proof_of_xizi_single_link_append_return_wit_1"
+            ],
+            "reason": "The loop invariant omits node <> 0, so its assertion admits null current/tail nodes that cannot be folded into the required nonempty segment/list predicates.",
+            "recommended_next_phase": "annotation"
+          }
+        ]
+      },
+      "blockers": [
+        {
+          "kind": "annotation-bug",
+          "failure_class": "annotation-bug",
+          "blocker_class": "annotation-bug",
+          "message": "The current xizi_sll_head definition does not state sentinel non-nullness, so annotation initialization cannot soundly retain node <> 0; removing node <> 0 from the loop invariant makes two generated VCs semantically invalid.",
+          "blocked_witnesses": [
+            {
+              "witness_name": "proof_of_xizi_single_link_append_entail_wit_2",
+              "target_symbol": "xizi_single_link_append_entail_wit_2",
+              "missing_or_wrong_fact": "node <> 0 is missing from the loop invariant.",
+              "counterexample": "linklist_pre=8, node=0, next_2=4, l1a_2=[8], l1b_2=[4], l=[0;4], with pointer cells 8|->0, 0|->4, 4|->0.",
+              "recommended_next_phase": "annotation"
+            },
+            {
+              "witness_name": "proof_of_xizi_single_link_append_return_wit_1",
+              "target_symbol": "xizi_single_link_append_return_wit_1",
+              "missing_or_wrong_fact": "node <> 0 is missing from the loop invariant.",
+              "counterexample": "linklist_pre=8, node=0, l=[0], l1a=[8], l1b=nil, next=0, linklist_node_pre=4, with pointer cells 8|->0, 0|->4, 4|->0.",
+              "recommended_next_phase": "annotation"
+            }
+          ],
+          "recommended_next_phase": "annotation",
+          "recommended_repair": [
+            "At the specification layer, make xizi_sll_head explicitly include the pure fact head <> NULL, matching the intended sentinel contract.",
+            "Restore node <> 0 in the loop invariant and preserve it across traversal; initialization can then derive it from the strengthened xizi_sll_head rather than reintroducing a redundant public linklist != 0 requirement.",
+            "Regenerate all generated files and rerun vc-checking. Do not attempt to add a case_lib helper under the current predicate: the missing fact is not derivable."
+          ]
+        }
+      ],
+      "recommended_next_phase": "annotation"
+    }
+  },
+  "verification_result": {
+    "source_version_verified": true,
+    "source_goal_version_verified": true,
+    "manual_target_set_verified": true,
+    "semantic_vc_check": "blocked-by-annotation-bug",
+    "coq_tooling_invoked": false,
+    "coq_tooling_reason": "vc-checking is a read-only semantic planning phase; concrete semantic countermodels establish the blocker without modifying or compiling formal files.",
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-07-23T09:22:27Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_single_link_append-20260722210000/rounds/xizi_single_link_append-vc-checking-r4/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    }
+  },
+  "blockers": [
+    {
+      "kind": "annotation-bug",
+      "failure_class": "annotation-bug",
+      "blocker_class": "annotation-bug",
+      "message": "proof_of_xizi_single_link_append_entail_wit_2 and proof_of_xizi_single_link_append_return_wit_1 are not entailed by the current loop invariant because node <> 0 is absent.",
+      "recommended_next_phase": "annotation"
+    }
+  ]
+}

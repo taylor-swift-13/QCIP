@@ -1,0 +1,238 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "annotation",
+  "status": "pending",
+  "terminal": "yes",
+  "agent_result": {
+    "status": "blocked",
+    "terminal": "yes",
+    "round_outcome": "blocked",
+    "phase": "annotation",
+    "round": "xizi_double_link_init_then_empty-annotation-r1",
+    "attempt_id": "xizi_double_link_init_then_empty-annotation-r1-attempt-1",
+    "source_version": {
+      "schema_version": "qcp-source-version/v1",
+      "digest": "86608438828103d3e6382f29851ed2fa560d2ad82d3cf1d6ace763251c06f473",
+      "digest_input_policy": "relative_path+sha256+state+role only",
+      "verified_current": true,
+      "files": [
+        {
+          "relative_path": "OUTPUT/xizi/xizi_double_link_init_then_empty/xizi_double_link_init_then_empty.c",
+          "sha256": "1c9b45c3dac4b482c2a568b0d662c84ff44950e38dd27db97cbb7094d9c0cab9",
+          "state": "present",
+          "role": "target-c"
+        },
+        {
+          "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_init_then_empty/xizi_double_link_init_then_empty_lib.v",
+          "sha256": "27dce0c34cd9cdecc5748b9cdbc38841bd26cc4362fe0336db19f8ac09ac00ad",
+          "state": "present",
+          "role": "case-lib-seed"
+        }
+      ]
+    },
+    "source_goal_version": null,
+    "annotation": {
+      "status": "blocked",
+      "round_outcome": "blocked",
+      "summary": "The shared xizi_dll specification is mathematically composable, but the real init call cannot pass the QCP precondition gate because the shared strategy set unfolds xizi_dll_node only on the left and has no corresponding right-side rule. The missing shared strategy is outside this round's allowed write paths.",
+      "ready_for_annotation_check_round": false,
+      "ready_for_main_symexec": false,
+      "previous_attempts_reviewed": [],
+      "prior_blockers_addressed": [],
+      "spec_design": {
+        "style": "predicate-first",
+        "mathematical_result": "Initialization establishes xizi_dll(head,nil); empty returns 1 exactly for nil; the wrapper returns 1 and preserves xizi_dll(head,nil).",
+        "spatial_reuse": "xizi_dll carries head <> NULL and owns the sentinel links, so the init postcondition semantically entails the non-null fact needed by empty without a caller-supplied side condition.",
+        "layout_review": "The shared predicate uses the real SysDoubleLinklistNode node_next/node_prev layout and a finite dllseg closed at the sentinel.",
+        "algorithm_mirror_review": "passed: the common definitions are representation predicates, not a replay of the three C functions.",
+        "case_lib_bootstrap_review": "No redundant case-local result predicate was added: the strict reusable representation is the approved shared xizi_dll predicate, and the wrapper's mathematical result is the exact equality __return == 1. The minimal case_lib seed compiles."
+      },
+      "canonical_symexec_evidence": {
+        "schema_version": "qcp-canonical-symexec-evidence/v1",
+        "status": "skipped",
+        "reason": "qcp-mcp did not reach file end; formal canonical symbolic execution is controller/main-owned and must not be claimed by this subagent.",
+        "driver": "/home/yangfp/QCIP/linux-binary/symexec",
+        "cwd": "/home/yangfp/QCIP/worktrees/xizi_double_link_init_then_empty-20260807213000/xizi_double_link_init_then_empty-annotation-r1",
+        "include_args": [
+          "QCP_examples/QCP_demos_LLM/"
+        ],
+        "slp_mappings": [
+          [
+            "QCP_examples/QCP_demos_LLM/",
+            "SimpleC.EE.QCP_demos_LLM"
+          ],
+          [
+            "QCIPLib/xizi/xizi_double_link_common/",
+            "QCIPLib.xizi.xizi_double_link_common"
+          ]
+        ]
+      },
+      "qcp_mcp_interactive_evidence": {
+        "schema_version": "qcp-mcp-interactive-evidence/v1",
+        "status": "failed",
+        "qcp_mcp_requirement_satisfied": "no",
+        "wrapper": "qcp_mcp.server with qcp_mcp.session_manager",
+        "backend_driver": "/home/yangfp/QCIP/linux-binary/mcp",
+        "cwd": "/home/yangfp/QCIP/worktrees/xizi_double_link_init_then_empty-20260807213000/xizi_double_link_init_then_empty-annotation-r1",
+        "target_file": "OUTPUT/xizi/xizi_double_link_init_then_empty/xizi_double_link_init_then_empty.c",
+        "include_args": [
+          "-IQCP_examples/QCP_demos_LLM/"
+        ],
+        "slp_args": [
+          "-slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM",
+          "-slp QCIPLib/xizi/xizi_double_link_common/ QCIPLib.xizi.xizi_double_link_common"
+        ],
+        "operations": [
+          "qcp-mcp session initialize with explicit canonical include/slp mappings",
+          "symbolic(file-tail) four repair cycles"
+        ],
+        "complete_cycles": 4,
+        "reached_file_end": false,
+        "loaded_strategies": [
+          "xizi_double_link"
+        ],
+        "terminal_error": "fatal error: Cannot derive the precondition of function xizi_double_link_init for spec (null)",
+        "terminal_error_line": 36,
+        "critical_state": "store(linklist_head_addr, struct SysDoubleLinklistNode*, linklist_head@pre) * xizi_dll_node(linklist_head@pre)",
+        "repair_attempts": [
+          "Added ordinary forward declarations with identical public specs; the call still failed.",
+          "Added named call_spec/impl_spec declarations and explicit where clauses; the call still failed.",
+          "Tried a raw-field impl_spec while retaining the public xizi_dll_node call_spec; the call still failed before entering the callee.",
+          "Restored the handoff source exactly after isolating the missing shared right-side strategy rule."
+        ]
+      },
+      "case_lib_coqc_evidence": {
+        "schema_version": "qcp-coqc-check-evidence/v1",
+        "status": "passed",
+        "tool": "coqc",
+        "entrypoint": "/home/yangfp/QCIP/.agents/skills/vc-proving/scripts/coq_tooling.py check",
+        "target_kind": "case_lib",
+        "target_file": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_init_then_empty/xizi_double_link_init_then_empty_lib.v",
+        "workspace_root": "/home/yangfp/QCIP/worktrees/xizi_double_link_init_then_empty-20260807213000/xizi_double_link_init_then_empty-annotation-r1",
+        "build_workspace": "/home/yangfp/QCIP/worktrees/xizi_double_link_init_then_empty-20260807213000/_coq_builds/annotation-r1-case-lib",
+        "fixed_flags_hash": "599d9322d6e5a5d67fc5d91252359c8343507d4c6861dede3304f496e050f2de",
+        "coq_version": "The Coq Proof Assistant, version 8.20.1",
+        "returncode": 0,
+        "elapsed_seconds": 19.707,
+        "source_binding": "86608438828103d3e6382f29851ed2fa560d2ad82d3cf1d6ace763251c06f473"
+      },
+      "annotation_checking_evidence": {
+        "schema_version": "qcp-annotation-checking-evidence/v1",
+        "status": "failed",
+        "checked_scope": [
+          "shared xizi_dll/xizi_dllseg/xizi_dll_node mathematical and spatial semantics",
+          "init, empty, and wrapper Require/Ensure contracts",
+          "real init-to-empty call precondition discharge",
+          "minimal case_lib compile gate"
+        ],
+        "qcp_mcp_requirement_satisfied": "no",
+        "annotation_scratch_lib_coqc_status": "passed",
+        "spec_definition_status": "passed: xizi_dll includes head <> NULL, sentinel link ownership, and a closed finite doubly-linked segment over the real structure layout.",
+        "function_spec_status": "passed semantically: init establishes the exact empty representation, empty characterizes nil versus non-nil return values, and the wrapper requires node ownership and promises return 1 with the empty representation.",
+        "invariant_status": "not-applicable: no loops",
+        "failed_checks": [
+          "qcp-mcp cannot discharge the xizi_double_link_init public precondition at the real call site because xizi_dll_node has only a left-side expansion strategy."
+        ],
+        "required_annotation_rework": [],
+        "required_annotation_scratch_lib_rework": [],
+        "required_upstream_strategy_rework": [
+          "Add and verify a right-side xizi_dll_node expansion/matching rule mirroring rule 405 in QCIPLib/xizi/xizi_double_link_common/xizi_double_link.strategies.",
+          "Regenerate and prove the shared strategy goal with StrategyCheck before reopening this annotation round."
+        ],
+        "ready_for_main_common_case_formal_lib_update": "no",
+        "ready_for_main_symexec": "no",
+        "timing_summary": "Four fast qcp-mcp repair cycles isolated the shared strategy gap; the fixed case_lib compile took 19.707 seconds.",
+        "timing_gaps": "Rule reading, semantic review, and report preparation were not individually timed and are not estimated."
+      },
+      "iteration_evidence": {
+        "complete_cycles": 4,
+        "self_reworkable_failures": [],
+        "upstream_failures": [
+          {
+            "failure_class": "shared-strategy-contract",
+            "cause": "rule 405 consumes left xizi_dll_node into permissions, while no right rule can expose an equivalent callee precondition",
+            "boundary": "QCIPLib/xizi/xizi_double_link_common/xizi_double_link.strategies is outside allowed_write_paths"
+          }
+        ],
+        "self_repair_budget": {
+          "min_complete_cycles": 3,
+          "completed_cycles": 4,
+          "min_wall_clock_minutes": 30,
+          "exhausted": false,
+          "note": "The attempt terminated on a strict upstream write-boundary blocker after four distinct repair cycles; no artificial waiting was added."
+        }
+      },
+      "file_access_summary": {
+        "must_log_file_reads": "yes",
+        "read_categories": {
+          "handoff_and_rules": [
+            "agent_input.json",
+            "verification-orchestrator skill and linked rule documents",
+            "annotation-filling skill and relevant linked documents",
+            "annotation-checking skill and spec-quality checklist"
+          ],
+          "target_and_specs": [
+            "target C and local header",
+            "case_lib seed",
+            "QCIPLib/xizi/xizi_double_link_common/xizi_double_link_lib.v",
+            "QCIPLib/xizi/xizi_double_link_common/xizi_double_link.strategies",
+            "OUTPUT/xizi/xizi_single_link_common/rocq/xizi_single_link_lib.v"
+          ],
+          "tooling_and_language": [
+            "mcp/qcp-mcp README, server, session manager, and session implementation",
+            "tutorial/T8-function-call.md",
+            "declared coq_tooling.py interface"
+          ]
+        },
+        "searches": [
+          "rg for qcp-mcp implementation and invocation support",
+          "rg in QCP_examples/QCP_demos_LLM for has_permission annotation syntax",
+          "rg for controller annotation report validation fields"
+        ],
+        "reference_files_read": [
+          "OUTPUT/xizi/xizi_single_link_common/rocq/xizi_single_link_lib.v",
+          "QCIPLib/xizi/xizi_double_link_common/xizi_double_link_lib.v",
+          "QCIPLib/xizi/xizi_double_link_common/xizi_double_link.strategies",
+          "tutorial/T8-function-call.md"
+        ],
+        "missing_declared_reference": "crtosverify/lib/dll.v was not present in the round worktree and was not used as evidence.",
+        "denied_globs_touched": []
+      },
+      "changed_files": [],
+      "generated_files_modified_by_hand": false,
+      "blockers": [
+        {
+          "code": "shared-xizi-dll-node-right-strategy-missing",
+          "reason": "The real call site owns xizi_dll_node(head), but shared rule 405 unfolds that predicate only on the left; the callee precondition remains opaque on the right and QCP aborts precondition derivation.",
+          "evidence": "qcp-mcp symbolic error at the xizi_double_link_init call plus QCIPLib/xizi/xizi_double_link_common/xizi_double_link.strategies lines 41-47",
+          "required_owner": "main/controller upstream shared-spec integration",
+          "recommended_action": "Add a verified right-side xizi_dll_node rule, regenerate/prove shared strategy artifacts, invalidate this source snapshot, and start a fresh annotation round."
+        }
+      ],
+      "recommended_next_phase": "annotation after upstream shared strategy repair",
+      "cleanup_status": "All qcp-mcp sessions exited; temporary experimental C edits were reverted; C and case_lib hashes exactly match the handoff source_version; controller-owned _coq_builds retained."
+    },
+    "changed_files": [],
+    "blockers": [
+      {
+        "code": "shared-xizi-dll-node-right-strategy-missing",
+        "path": "QCIPLib/xizi/xizi_double_link_common/xizi_double_link.strategies"
+      }
+    ],
+    "timing": {
+      "tracked_command_seconds": 19.804,
+      "qcp_mcp_cycles": 4,
+      "case_lib_coqc_seconds": 19.707,
+      "timing_gap": "Rule reading, source analysis, repair editing, semantic review, and report preparation were not individually timestamped and are not estimated.",
+      "slowest_step": "fixed case_lib coqc dependency build",
+      "open_or_incomplete_timing_events": []
+    }
+  },
+  "verification_result": {},
+  "blockers": [
+    {
+      "code": "shared-xizi-dll-node-right-strategy-missing",
+      "path": "QCIPLib/xizi/xizi_double_link_common/xizi_double_link.strategies"
+    }
+  ]
+}

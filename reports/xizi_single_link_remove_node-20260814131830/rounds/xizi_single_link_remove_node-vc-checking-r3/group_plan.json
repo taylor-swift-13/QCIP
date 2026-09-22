@@ -1,0 +1,102 @@
+{
+  "schema_version": "qcp-vc-checking-group-plan/v1",
+  "source_goal_version": "9675b89a1c82e0e65105714364653bd81b00896e0d47a5cc425701378a2788de",
+  "target_witnesses": [
+    "proof_of_xizi_single_link_remove_node_entail_wit_1",
+    "proof_of_xizi_single_link_remove_node_entail_wit_2",
+    "proof_of_xizi_single_link_remove_node_return_wit_1",
+    "proof_of_xizi_single_link_remove_node_return_wit_2",
+    "proof_of_xizi_single_link_remove_node_which_implies_wit_1",
+    "proof_of_xizi_single_link_remove_node_derive_remove_tail_spec_by_strong_spec",
+    "proof_of_xizi_single_link_remove_node_derive_remove_front_spec_by_strong_spec",
+    "proof_of_xizi_single_link_remove_node_derive_remove_member_spec_by_strong_spec"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "core_traversal_and_return",
+      "witness_names": [
+        "proof_of_xizi_single_link_remove_node_entail_wit_1",
+        "proof_of_xizi_single_link_remove_node_entail_wit_2",
+        "proof_of_xizi_single_link_remove_node_return_wit_1",
+        "proof_of_xizi_single_link_remove_node_return_wit_2",
+        "proof_of_xizi_single_link_remove_node_which_implies_wit_1"
+      ],
+      "representative_witness": "proof_of_xizi_single_link_remove_node_entail_wit_2",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "proof_strategy": "Prove the loop-init and loop-step entailments by exposing and composing xizi_sll_to_target/xizi_sllseg cells with existing common-library lemmas; prove which_implies by splitting xizi_sll_head at the exact target decomposition; close the two return obligations from their generated contradictory path premises.",
+      "natural_language_proof_strategy": "The exact strong contract already carries every ownership resource needed by the loop and final result. Entailment witnesses only change the view of the prefix chain. The return witnesses correspond to impossible generated states: one duplicates ownership at an aliased next field, and one requires a nonempty target-bounded path starting at NULL.",
+      "expected_helpers": [],
+      "premise_discharge": {
+        "to_target_unfold": "generated pointer inequality guards",
+        "segment_composition": "generated node non-null fact and list split equation",
+        "return_1_contradiction": "next = target plus two separated exact stores at the same field",
+        "return_2_contradiction": "target <> 0 plus xizi_sll_to_target 0 target",
+        "which_implies_split": "head non-nullness and exact l1 ++ target :: l2 decomposition"
+      },
+      "grouping_reason": "same strong-spec implementation proof, common linked-list predicate family, and five witnesses within max_witnesses_per_group=12",
+      "difficulty": "medium",
+      "confidence": "high"
+    },
+    {
+      "group_id": "spec_derivations",
+      "witness_names": [
+        "proof_of_xizi_single_link_remove_node_derive_remove_tail_spec_by_strong_spec",
+        "proof_of_xizi_single_link_remove_node_derive_remove_front_spec_by_strong_spec",
+        "proof_of_xizi_single_link_remove_node_derive_remove_member_spec_by_strong_spec"
+      ],
+      "representative_witness": "proof_of_xizi_single_link_remove_node_derive_remove_member_spec_by_strong_spec",
+      "dependencies": [],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "xizi_sll_remove_first_app_first_hit",
+          "statement_shape": "forall node prefix suffix, ~ In node prefix -> xizi_sll_remove_first node (prefix ++ node :: suffix) = prefix ++ suffix",
+          "used_by_witnesses": [
+            "proof_of_xizi_single_link_remove_node_derive_remove_member_spec_by_strong_spec"
+          ],
+          "premises": [
+            {
+              "premise": "~ In node prefix",
+              "discharged_by": "xizi_sll_member_split returns the first-hit prefix with node absent",
+              "needs_unfold": [
+                "xizi_sll_remove_first"
+              ],
+              "arithmetic": "none",
+              "spatial_resource": "none"
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        }
+      ],
+      "likely_helper_declarations": [
+        "a group-id-suffixed proved version of xizi_sll_remove_first_app_first_hit"
+      ],
+      "proof_strategy": "Instantiate strong_spec with prefix/suffix choices matching each named view, preserve the call precondition, and prove the post wand by simplifying list append and converting detached exact next-field ownership to xizi_sll_node. For membership, use xizi_sll_member_split and a group-local suffixed first-hit remove helper.",
+      "natural_language_proof_strategy": "Tail chooses l2=nil, front chooses l1=nil, and membership chooses the first occurrence decomposition supplied by the concrete list predicate. In all three, the strong result owns exactly the shortened list and the detached node field needed by the weaker client postcondition.",
+      "expected_helpers": [
+        "xizi_sll_remove_first_app_first_hit with the current group suffix"
+      ],
+      "premise_discharge": {
+        "first_hit_helper": "~ In node prefix from xizi_sll_member_split",
+        "node_nonnull": "node occurrence in the concrete xizi_sll decomposition",
+        "node_resource": "strong post exact node.next ownership converted via store_ptr_undef_store_ptr",
+        "front_tail_list_equalities": "nil/app simplification"
+      },
+      "grouping_reason": "same generated strong-to-client wand shape and one helper used only inside this three-witness family; three witnesses within max_witnesses_per_group=12",
+      "difficulty": "medium",
+      "confidence": "high"
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 8,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

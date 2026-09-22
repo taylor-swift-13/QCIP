@@ -1,0 +1,99 @@
+{
+  "schema_version": "qcp-vc-checking-group-plan/v1",
+  "source_version": "d780286b38e13429ee79f84816aebdadc9d52171961f06aff9b7b3e563d5fed7",
+  "source_goal_version": "a3651ca9db99222276cda893e32c362ba57cde0db160fa66befa6112a4b93722",
+  "target_witnesses": [
+    "proof_of_SingleLinkListGetNextNode_return_wit_1"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "single_link_next_return",
+      "witness_names": [
+        "proof_of_SingleLinkListGetNextNode_return_wit_1"
+      ],
+      "representative_witness": "proof_of_SingleLinkListGetNextNode_return_wit_1",
+      "dependencies": [],
+      "likely_helper_declarations": [],
+      "candidate_helper_declarations": [],
+      "proof_strategy": "Choose the left branch of the duplicated disjunction and introduce the quantified values. Split the postcondition conjunction. For the pure half, rewrite l using PreH3, use xizi_sll_next_value_app with PreH2, and obtain next = xizi_sll_first_value suffix from xizi_sll_first_value_eq on the suffix resource. For the spatial half, fold the Xizi field names, use xizi_sll_cons with PreH1 on the current node and suffix, then xizi_sllseg_sll with the prefix segment, and rewrite by PreH3.",
+      "per_witness_plan": {
+        "proof_of_SingleLinkListGetNextNode_return_wit_1": {
+          "judgment": "proofable",
+          "select_disjunct": "left",
+          "used_existing_lemmas": [
+            "xizi_sll_next_value_app",
+            "xizi_sll_first_value_eq",
+            "xizi_sll_cons",
+            "xizi_sllseg_sll"
+          ],
+          "helper_required": false
+        }
+      },
+      "vc_shape": {
+        "pre_spatial": "node_next cell ** xizi_sll next suffix ** xizi_sllseg first(l) node prefix",
+        "pre_pure": "node <> 0, node not in prefix, l = prefix ++ node :: suffix",
+        "pre_exists": "none",
+        "post_spatial": "xizi_sll first(l) l",
+        "post_pure": "next = xizi_sll_next_value l node",
+        "post_exists": "none"
+      },
+      "witness_instantiation": "No existential instantiation; choose the left identical disjunct.",
+      "space_plan": "Build xizi_sll node (node :: suffix) with xizi_sll_cons, then append the prefix segment with xizi_sllseg_sll and rewrite the list by PreH3.",
+      "pure_plan": "Rewrite by PreH3; reduce next-value lookup with xizi_sll_next_value_app/PreH2; derive the suffix first pointer with xizi_sll_first_value_eq.",
+      "refinement_plan": "not applicable",
+      "premise_discharge": {
+        "xizi_sll_next_value_app": "PreH2",
+        "xizi_sll_first_value_eq": "xizi_sll next suffix pre-resource",
+        "xizi_sll_cons": "PreH1 (NULL = 0)",
+        "xizi_sllseg_sll": "matching linklist_node_pre endpoint in the pre-resources"
+      },
+      "difficulty": "low",
+      "confidence": "high",
+      "grouping_reason": "The sole witness is below the 12-witness limit and its pure and spatial obligations form one tightly coupled linked-list proof pattern.",
+      "forbidden_lemma_scan": {
+        "required": "yes",
+        "result_requirement": "zero-hit",
+        "scope": [
+          "assigned witness proof bodies",
+          "group-local case_lib additions"
+        ],
+        "exact_names": [
+          "logic_equiv_refl",
+          "elim_wand_emp_emp",
+          "logic_equiv_symm",
+          "sepcon_emp_logic_equiv'",
+          "logic_equiv_andp_comm",
+          "logic_equiv_sepcon_comm",
+          "logic_equiv_sepcon_emp",
+          "logic_equiv_andp_truep",
+          "logic_equiv_truep_andp",
+          "truep_andp_right_equiv",
+          "logic_equiv_orp_comm",
+          "logic_equiv_trans",
+          "logic_equiv_orp_assoc",
+          "logic_equiv_sepcon_assoc",
+          "logic_equiv_andp_assoc",
+          "logic_equiv_sepcon_orp",
+          "logic_equiv_sepcon_orp_distr",
+          "logic_equiv_orp_sepcon",
+          "derivable1_trans",
+          "derivable1_refl",
+          "derivable1_sepcon_comm",
+          "coq_prop_andp_right",
+          "derivable1_sepcon_mono"
+        ]
+      }
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 1,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

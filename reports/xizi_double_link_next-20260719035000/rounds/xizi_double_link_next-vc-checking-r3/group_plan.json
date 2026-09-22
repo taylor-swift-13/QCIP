@@ -1,0 +1,85 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "ffcb5a4dd630a583472faf87d7348f88052bd341664e427058d5b75ba4bbfbe2",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_next_entail_wit_1",
+    "proof_of_xizi_double_link_next_return_wit_1",
+    "proof_of_xizi_double_link_next_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "dll_middle_split_recompose",
+      "witness_names": [
+        "proof_of_xizi_double_link_next_entail_wit_1",
+        "proof_of_xizi_double_link_next_return_wit_1",
+        "proof_of_xizi_double_link_next_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_next_entail_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "xizi_dll_split_middle",
+          "statement_shape": "forall head before node after, node <> NULL -> xizi_dll head (before ++ node :: after) |-- EX first last next prev, xizi_dll_links head first last ** xizi_dllseg first head node prev before ** xizi_dll_links node next prev ** xizi_dllseg next node head last after",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_next_entail_wit_1"
+          ],
+          "premises": [
+            {
+              "premise": "node <> NULL",
+              "discharged_by": "PreH1 linklist_node_pre <> 0",
+              "spatial_resource": "xizi_dll head (before ++ node :: after)"
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "xizi_dll_recompose_middle",
+          "statement_shape": "forall head first last node prev next before after, xizi_dll_links head first last ** xizi_dllseg first head node prev before ** xizi_dll_links node next prev ** xizi_dllseg next node head last after |-- xizi_dll head (before ++ node :: after)",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_next_return_wit_1",
+            "proof_of_xizi_double_link_next_return_wit_2"
+          ],
+          "premises": [
+            {
+              "premise": "the separated sentinel/prefix/node/suffix decomposition",
+              "discharged_by": "the exact generated antecedent resources",
+              "spatial_resource": "all antecedent resources"
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        }
+      ],
+      "expected_helpers": [
+        "xizi_dll_split_middle__dll_middle_split_recompose",
+        "xizi_dll_recompose_middle__dll_middle_split_recompose"
+      ],
+      "proof_strategy": "Prove suffixed split/recomposition helpers by induction on nodes_before using direct predicate unfolding and structured cancellation, without any forbidden lemma. Apply split to entail_wit_1. For return_wit_1 derive nodes_after=nil from node_next=head, reduce the value to 0, and recompose. For return_wit_2 use nodes_after=node_next::l0, reduce the value to node_next, and recompose.",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_next_entail_wit_1": "select the full-list disjunct; apply the split helper; unfold xizi_dll_links to match generated field ownership",
+        "proof_of_xizi_double_link_next_return_wit_1": "select the full-resource disjunct; classify nodes_after under node_next=head; simplify value; apply recomposition helper",
+        "proof_of_xizi_double_link_next_return_wit_2": "select the exposed nonempty-suffix disjunct; rewrite nodes_after=node_next::l0; simplify value; apply recomposition helper"
+      },
+      "premise_discharge": {
+        "split_nonnull": "PreH1 linklist_node_pre <> 0",
+        "recomposition": "exact antecedent spatial resources",
+        "last_branch": "PreH1 node_next=linklist_pre",
+        "successor_branch": "PreH1 nodes_after=node_next::l0"
+      },
+      "forbidden_lemma_policy": "Do not use any lemma listed in verification-orchestrator/docs/forbidden_lemma.md; use direct unfold/induction/structured separation tactics.",
+      "grouping_reason": "All targets share one inverse structural helper family and suffix classification; one group of 3 is exact minimal coverage within max_witnesses_per_group=12.",
+      "difficulty": "medium",
+      "confidence": "high"
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

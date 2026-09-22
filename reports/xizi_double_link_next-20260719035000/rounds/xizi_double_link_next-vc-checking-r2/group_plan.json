@@ -1,0 +1,76 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "ffcb5a4dd630a583472faf87d7348f88052bd341664e427058d5b75ba4bbfbe2",
+  "controller_verified": true,
+  "target_witnesses": [
+    "proof_of_xizi_double_link_next_entail_wit_1",
+    "proof_of_xizi_double_link_next_return_wit_1",
+    "proof_of_xizi_double_link_next_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "dll_focus_and_reassemble",
+      "witness_names": [
+        "proof_of_xizi_double_link_next_entail_wit_1",
+        "proof_of_xizi_double_link_next_return_wit_1",
+        "proof_of_xizi_double_link_next_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_next_entail_wit_1",
+      "dependencies": [],
+      "difficulty": "medium",
+      "confidence": "high",
+      "grouping_reason": "All three obligations are for the same straight-line accessor and use one inverse helper family: split a dll segment at the distinguished node, then reassemble the same segment after reading node_next. Keeping the entail and both return branches together lets one worker prove and reuse the suffixed split/join/same-stop helpers. Three witnesses are within the controller limit of 12.",
+      "proof_strategy": "Prove group-suffixed dllseg focus and reassembly helpers by induction on nodes_before, plus a same-stop elimination helper by destructing the logical node list. Open xizi_dll and focus at linklist_node for the entailment. For return_wit_1, use node_next = linklist to eliminate nodes_after as nil, unfold xizi_double_link_next_value, reassemble the prefix and distinguished node, and close xizi_dll when sentinel links are present. For return_wit_2, rewrite nodes_after = node_next :: l0 where available, fold the successor segment from its links and tail, simplify xizi_double_link_next_value, reassemble, and close xizi_dll in the full-list disjunct.",
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "xizi_dllseg_focus_node",
+          "statement_shape": "forall first head last nodes_before node nodes_after, xizi_dllseg first head head last (nodes_before ++ node :: nodes_after) |-- EX node_prev node_next, xizi_dllseg first head node node_prev nodes_before ** xizi_dll_links node node_next node_prev ** xizi_dllseg node_next node head last nodes_after",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_next_entail_wit_1"
+          ],
+          "premises": [],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "xizi_dllseg_reassemble_node",
+          "statement_shape": "forall first head node node_prev node_next last nodes_before nodes_after, xizi_dllseg first head node node_prev nodes_before ** xizi_dll_links node node_next node_prev ** xizi_dllseg node_next node head last nodes_after |-- xizi_dllseg first head head last (nodes_before ++ node :: nodes_after)",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_next_return_wit_1",
+            "proof_of_xizi_double_link_next_return_wit_2"
+          ],
+          "premises": [],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "xizi_dllseg_same_stop",
+          "statement_shape": "forall stop prev last nodes, xizi_dllseg stop prev stop last nodes |-- \u201c nodes = nil /\\ prev = last \u201d && emp",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_next_return_wit_1"
+          ],
+          "premises": [],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        }
+      ],
+      "premise_discharge": {
+        "focus_node": "The input xizi_dll owns a segment whose logical list is exactly nodes_before ++ linklist_node :: nodes_after; induction on nodes_before exposes the distinguished node without extra assumptions.",
+        "same_stop": "After rewriting node_next = linklist, the suffix segment begins and ends at linklist; the nil branch of XiziDLL.dllseg yields nodes_after = nil, node_prev = last, and emp, while the cons branch contradicts node <> stop.",
+        "nonlast_successor": "PreH1 gives nodes_after = node_next :: l0 and PreH2 gives node_next <> linklist; the two node_next field stores and tail segment are exactly the nonempty dllseg fold resources. Any address-validity side condition is discharged from the owned field stores by the standard entailer/store facts used by the existing double-link strategy proofs."
+      },
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_next_entail_wit_1": "Open xizi_dll, apply the focus helper to its segment, instantiate node_prev/node_next and sentinel first/last, then unfold xizi_dll_links and cancel the six requested resources. The second disjunct is the same focus operation without sentinel links.",
+        "proof_of_xizi_double_link_next_return_wit_1": "Rewrite node_next = linklist; apply same-stop to obtain nodes_after = nil and emp; simplify xizi_double_link_next_value nil to 0; apply reassembly and xizi_dll_close for the first disjunct, and reassembly alone for the segment disjunct.",
+        "proof_of_xizi_double_link_next_return_wit_2": "For the explicit nonempty-suffix disjunct rewrite nodes_after = node_next :: l0, simplify the value function, fold node_next's links plus tail into the suffix segment, and apply reassembly. The full-list disjunct uses the already-owned suffix segment directly, then closes xizi_dll."
+      }
+    }
+  ],
+  "blockers": [],
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

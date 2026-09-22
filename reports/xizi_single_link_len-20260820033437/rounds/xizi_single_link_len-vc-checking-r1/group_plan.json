@@ -1,0 +1,102 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "status": "blocked",
+  "source_goal_version": "0e7f50bc6f3828bcfec4906e244f0887d70e4835f8addbcb4a8c3ad61e407ce9",
+  "target_witnesses": [
+    "proof_of_SingleLinkListGetLen_entail_wit_1",
+    "proof_of_SingleLinkListGetLen_entail_wit_2",
+    "proof_of_SingleLinkListGetLen_return_wit_1"
+  ],
+  "coverage_evidence": {
+    "cleaned_manual_witness_count": 3,
+    "assigned_witness_count": 3,
+    "missing_witnesses": [],
+    "unexpected_witnesses": [],
+    "duplicate_assignments": [],
+    "exact_coverage": true
+  },
+  "proof_groups": [
+    {
+      "group_id": "single_link_len_invariant_and_return_alias_audit",
+      "witness_names": [
+        "proof_of_SingleLinkListGetLen_entail_wit_1",
+        "proof_of_SingleLinkListGetLen_entail_wit_2",
+        "proof_of_SingleLinkListGetLen_return_wit_1"
+      ],
+      "representative_witness": "proof_of_SingleLinkListGetLen_entail_wit_2",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "The first initialization entailment chooses first=q, l1=nil, and l2=l, then simplifies the empty segment. The loop-step entailment chooses first=first_2, l1=l1_2++[tmp_list], and l2=l0, constructs the one-node segment with xizi_sllseg_len1, composes it with xizi_sllseg_sllseg, and derives the 32-bit no-wrap bound from xizi_sll_loop_length_max plus Zlength nonnegativity. The return witness cannot be closed at the current source_goal_version: its antecedent owns the head field at linklist, while both postcondition disjuncts require the independent snapshot root linklist_pre, and no premise relates those roots.",
+      "natural_language_proof_strategy": "All three obligations belong to one function and one prefix/suffix invariant, so one group is the minimum legal grouping. The group is recorded for exact target coverage but is not dispatchable: return_wit_1 has an annotation-level missing-alias counterexample and must be regenerated after an allowed source-level repair.",
+      "grouping_reason": "Exactly three same-function witnesses are below the controller limit of twelve. Keeping initialization, loop extension, and return reconstruction together is the minimum grouping and preserves their shared xizi_sllseg/list-length context. The semantic blocker makes the whole group non-dispatchable.",
+      "difficulty": "blocked",
+      "confidence": "high",
+      "proof_group_ready": false,
+      "dispatch_allowed": false,
+      "blocked_witnesses": [
+        "proof_of_SingleLinkListGetLen_return_wit_1"
+      ],
+      "per_witness_plan": {
+        "proof_of_SingleLinkListGetLen_entail_wit_1": "Select the first disjunct; instantiate q, nil, and l; unfold xizi_sllseg at nil and discharge list-length and framed resources by simplification.",
+        "proof_of_SingleLinkListGetLen_entail_wit_2": "Select the first disjunct; substitute l2_2, l, and length; obtain the total-list length bound from xizi_sll_loop_length_max; form tmp_list-to-q as a singleton segment and append it to the prefix; normalize app and unsigned_last_nbits using the derived range.",
+        "proof_of_SingleLinkListGetLen_return_wit_1": "Do not attempt proof at this version. The missing linklist_pre=linklist bridge prevents either disjunct from owning the required snapshot-root head resource; return to annotation/spec and regenerate."
+      },
+      "forbidden_lemma_scan": {
+        "policy": "exact-name-scan-required-before-group-completion-and-parent-merge",
+        "exact_names": [
+          "logic_equiv_refl",
+          "elim_wand_emp_emp",
+          "logic_equiv_symm",
+          "sepcon_emp_logic_equiv'",
+          "logic_equiv_andp_comm",
+          "logic_equiv_sepcon_comm",
+          "logic_equiv_sepcon_emp",
+          "logic_equiv_andp_truep",
+          "logic_equiv_truep_andp",
+          "truep_andp_right_equiv",
+          "logic_equiv_orp_comm",
+          "logic_equiv_trans",
+          "logic_equiv_orp_assoc",
+          "logic_equiv_sepcon_assoc",
+          "logic_equiv_andp_assoc",
+          "logic_equiv_sepcon_orp",
+          "logic_equiv_sepcon_orp_distr",
+          "logic_equiv_orp_sepcon",
+          "derivable1_trans",
+          "derivable1_refl",
+          "derivable1_sepcon_comm",
+          "coq_prop_andp_right",
+          "derivable1_sepcon_mono"
+        ],
+        "exact_name_count": 23,
+        "scan_targets": [
+          "assigned witness proof bodies in SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_len/source/xizi_single_link_len_proof_manual.v",
+          "the complete SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_len/source/xizi_single_link_len_lib.v"
+        ],
+        "required_outcome": "zero exact-name matches in both scan targets",
+        "on_match": "reject the group result and rewrite the proof without the forbidden lemma",
+        "current_vc_checking_scan": {
+          "manual_assigned_bodies_match_count": 0,
+          "case_lib_match_count": 0,
+          "outcome": "zero matches"
+        }
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "blocker_class": "annotation-bug",
+      "witness_name": "proof_of_SingleLinkListGetLen_return_wit_1",
+      "missing_fact": "linklist_pre = linklist",
+      "reason": "The antecedent owns linklist.node_next and the list rooted from that field, but both generated postcondition disjuncts require ownership rooted at linklist_pre. The universally quantified roots are unrelated.",
+      "counterexample": "Choose linklist_pre=0, linklist=16, tmp_list=first=0, length=0, and l=l1=l2=nil. The antecedent is satisfiable as the single cell 16.node_next |-> 0, while the first post disjunct requires xizi_sll_head 0 nil (which includes 0<>NULL) and the second explicitly requires linklist_pre<>0; both are false.",
+      "recommended_next_phase": "annotation",
+      "constraint_note": "Any repair must respect the user's prohibition on changing the loop invariant, contract semantics, predicates, labels, body, directory, and case name. If no permitted annotation or generator-level way can preserve the parameter snapshot/current alias, the run is blocked by those constraints rather than proof difficulty."
+    }
+  ],
+  "group_plan_ready": false,
+  "ready_for_vc_proving_preparing": false,
+  "recommended_next_phase": "annotation"
+}

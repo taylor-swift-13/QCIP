@@ -1,0 +1,82 @@
+{
+  "schema_version": "qcp-group-plan/v1",
+  "source_goal_version": "ff4188e4547af4e48d8eb1a6c4d2f9e853d1c063e7ae0a5092e08b7111890251",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_next_entail_wit_1",
+    "proof_of_xizi_double_link_next_return_wit_1",
+    "proof_of_xizi_double_link_next_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "next_split_recompose",
+      "witness_names": [
+        "proof_of_xizi_double_link_next_entail_wit_1",
+        "proof_of_xizi_double_link_next_return_wit_1",
+        "proof_of_xizi_double_link_next_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_next_return_wit_2",
+      "dependencies": [],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "xizi_dll_split_at_node",
+          "statement_shape": "For prefix, node and suffix, xizi_dll head (prefix ++ node :: suffix) entails sentinel links, the prefix segment ending at node, node links, and the suffix segment returning to head, with the boundary addresses existentially quantified.",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_next_entail_wit_1"
+          ],
+          "premises": [
+            {
+              "premise": "node <> NULL",
+              "discharged_by": "The entail witness supplies PreH1: linklist_node_pre <> 0; NULL is 0 in the address model.",
+              "needs_unfold": [
+                "xizi_dll",
+                "xizi_dllseg"
+              ],
+              "arithmetic": "none",
+              "spatial_resource": "xizi_dll head (prefix ++ node :: suffix)"
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "xizi_dll_recompose_at_node",
+          "statement_shape": "Sentinel links, a prefix segment ending at node, node links, and a suffix segment returning to the sentinel entail xizi_dll head (prefix ++ node :: suffix).",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_next_return_wit_1",
+            "proof_of_xizi_double_link_next_return_wit_2"
+          ],
+          "premises": [
+            {
+              "premise": "node is a valid non-sentinel owned node",
+              "discharged_by": "The first disjunct of each return VC owns both sentinel links and node links under separating conjunction; overlap would contradict separation, while node-link ownership supplies validity.",
+              "needs_unfold": [
+                "xizi_dllseg"
+              ],
+              "arithmetic": "none",
+              "spatial_resource": "xizi_dll_links head first last ** xizi_dllseg first head node node_prev prefix ** xizi_dll_links node node_next node_prev ** xizi_dllseg node_next node head last suffix"
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        }
+      ],
+      "expected_helpers": [
+        "xizi_dll_split_at_node__next_split_recompose",
+        "xizi_dll_recompose_at_node__next_split_recompose"
+      ],
+      "difficulty": "medium",
+      "confidence": "high",
+      "grouping_reason": "All three obligations are from the same function and use the same split/recompose boundary around linklist_node_pre. Keeping them together lets one worker prove the two suffixed segment helpers once and reuse them; 3 witnesses is within the controller maximum of 12.",
+      "proof_strategy": "Prove suffixed split and recomposition lemmas by induction on nodes_before. Use the split lemma for entail_wit_1. For both returns choose the complete-list first disjunct, derive the abstract result from the suffix segment (stop equality forces nil in return_wit_1; xizi_dllseg_unfold yields a node_next-headed suffix in return_wit_2), then apply the recomposition lemma to restore the unchanged list."
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

@@ -1,0 +1,186 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "annotation",
+  "status": "blocked",
+  "terminal": "yes",
+  "agent_result": {
+    "status": "blocked",
+    "terminal": "yes",
+    "round_outcome": "blocked",
+    "phase": "annotation",
+    "round": "xizi_single_link_len-annotation-r1",
+    "attempt_id": "xizi_single_link_len-annotation-r1-attempt-1",
+    "source_version": {
+      "schema_version": "qcp-source-version/v1",
+      "digest": "fac0df6ef99a6b7699c51cf103cfc11b68a72270670e2a6a128adad4451c29aa",
+      "verification": "matched handoff before edits",
+      "file_digest_matches": [
+        {
+          "relative_path": "OUTPUT/xizi/xizi_single_link_len/source/xizi_single_link_len.c",
+          "expected_sha256": "1b71aab46dbd0a0ee3532c2c4c2ef05414ccb08a61e2794cd89db27c7db84916",
+          "actual_sha256_before_edits": "1b71aab46dbd0a0ee3532c2c4c2ef05414ccb08a61e2794cd89db27c7db84916",
+          "match": true
+        },
+        {
+          "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_len/source/xizi_single_link_len_lib.v",
+          "expected_sha256": "27dce0c34cd9cdecc5748b9cdbc38841bd26cc4362fe0336db19f8ac09ac00ad",
+          "actual_sha256": "27dce0c34cd9cdecc5748b9cdbc38841bd26cc4362fe0336db19f8ac09ac00ad",
+          "match": true
+        }
+      ]
+    },
+    "source_goal_version": null,
+    "annotation": {
+      "status": "blocked",
+      "ready_for_annotation_check_round": false,
+      "summary": "A predicate-first candidate now uses the high-level rooted-list view at the public boundary and a prefix/suffix traversal invariant internally. Semantic review and case-lib compilation passed, but neither canonical QCP nor the mandatory QCP MCP EOF gate can run under the current handoff environment.",
+      "spec_design": {
+        "style": "predicate-first",
+        "mathematical_postcondition": "__return == Zlength(l)",
+        "public_memory_contract": "xizi_sll_head(linklist, l) is preserved",
+        "hidden_loop_property": "There exist first, l1, and l2 such that l = app(l1,l2), length = Zlength(l1), the root next field still points to first, and xizi_sllseg(first,tmp_list,l1) * xizi_sll(tmp_list,l2) owns the traversed prefix and remaining suffix.",
+        "algorithm_mirror": "no",
+        "case_lib_change": "empty; Coq's Zlength and the shared xizi rooted-list predicates already express the exact mathematical and spatial specification"
+      },
+      "candidate_file_sha256": {
+        "OUTPUT/xizi/xizi_single_link_len/source/xizi_single_link_len.c": "5ff0f0315ae7923ad74505ba0dcaa1bba206ba9f0b2923f64c4131773fb2f753",
+        "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_len/source/xizi_single_link_len_lib.v": "27dce0c34cd9cdecc5748b9cdbc38841bd26cc4362fe0336db19f8ac09ac00ad"
+      },
+      "canonical_symexec_evidence": {
+        "status": "blocked-required-input-missing",
+        "driver": "/home/yangfp/QCIP/linux-binary/symexec",
+        "working_directory": "/home/yangfp/QCIP/worktrees/xizi_single_link_len-20260722133500/xizi_single_link_len-annotation-r1",
+        "attempts": [
+          {
+            "mode": "canonical argv from handoff",
+            "exit_code": 1,
+            "diagnostic": "Fail to open .../OUTPUT/xizi/xizi_single_link_len/source/xizi_single_link.strategies at xizi_single_link_def.h:13"
+          },
+          {
+            "mode": "canonical argv plus --strategy-folder-path=OUTPUT/xizi/xizi_single_link_common/source",
+            "exit_code": 1,
+            "diagnostic": "same missing local xizi_single_link.strategies file"
+          },
+          {
+            "mode": "canonical argv plus --strategy-file=OUTPUT/xizi/xizi_single_link_common/source/xizi_single_link.strategies",
+            "exit_code": 1,
+            "diagnostic": "same missing local xizi_single_link.strategies file"
+          }
+        ],
+        "missing_file": "OUTPUT/xizi/xizi_single_link_len/source/xizi_single_link.strategies",
+        "known_seed": "OUTPUT/xizi/xizi_single_link_common/source/xizi_single_link.strategies",
+        "bootstrap_forbidden_by_handoff": true,
+        "reason": "The missing destination is not in allowed_write_paths; creating or copying it would violate the round's write boundary. Failed symexec-created zero-byte generated files were removed and are not presented as evidence."
+      },
+      "qcp_mcp_interactive_evidence": {
+        "status": "blocked-tool-unavailable",
+        "qcp_mcp_requirement_satisfied": "no",
+        "required_interface": "QCP MCP/session_manager",
+        "discovery_attempts": [
+          "ALL_TOOLS contains no QCP or symbolic-session tool",
+          "Neither qcp-mcp nor session_manager is available on PATH",
+          "Targeted .agents search found only workflow documentation/tests, not an executable or session capability"
+        ],
+        "direct_symexec_substitution_forbidden": true
+      },
+      "case_lib_coqc_evidence": {
+        "status": "passed",
+        "tool": "/home/yangfp/QCIP/.agents/skills/vc-proving/scripts/coq_tooling.py check",
+        "target_kind": "case_lib",
+        "target_file": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_len/source/xizi_single_link_len_lib.v",
+        "fixed_flags_hash": "b6e5573415735fec9159c1cc3ce8cb8fe6f8818e85a322d61c1317cdf0617564",
+        "coq_version": "8.20.1",
+        "returncode": 0,
+        "elapsed_seconds": 18.721
+      },
+      "annotation_checking_evidence": {
+        "status": "blocked",
+        "checked_scope": "case-lib definition sufficiency, function Require/Ensure, loop invariant semantics, fixed Coq compilation, canonical QCP availability, and QCP MCP requirement",
+        "qcp_mcp_requirement_satisfied": "no",
+        "annotation_scratch_lib_coqc_status": "passed",
+        "spec_definition_status": "passed-semantic-review; standard Zlength is an exact mathematical property and no case-specific algorithm definition is needed",
+        "function_spec_status": "passed-semantic-review",
+        "invariant_status": "passed-semantic-review-not-symbolically-validated",
+        "failed_checks": [
+          "Canonical QCP cannot parse the source because the required local strategy file is absent",
+          "Required QCP MCP execution to EOF cannot be performed because no session capability is exposed"
+        ],
+        "required_annotation_rework": [],
+        "required_annotation_scratch_lib_rework": [],
+        "ready_for_main_common_case_formal_lib_update": "no",
+        "ready_for_main_symexec": "no"
+      },
+      "changed_files": [
+        "OUTPUT/xizi/xizi_single_link_len/source/xizi_single_link_len.c"
+      ],
+      "self_reworkable_failures": [],
+      "iteration_summary": {
+        "formal_validation_cycles": 3,
+        "cycles": [
+          "canonical symexec attempt",
+          "strategy-folder override attempt",
+          "explicit strategy-file override attempt"
+        ],
+        "independent_successes": [
+          "fixed-flag case_lib coqc",
+          "predicate-first semantic annotation review"
+        ]
+      },
+      "self_repair_budget": {
+        "min_complete_cycles": 3,
+        "complete_validation_attempts": 3,
+        "min_wall_clock_minutes": 30,
+        "wall_clock_budget_exhausted": false,
+        "reason_stopped": "hard handoff write-boundary blocker plus unavailable mandatory QCP MCP tool, not a self-reworkable annotation failure"
+      },
+      "reference_read_log": {
+        "allowed_references": [
+          "/home/yangfp/OSV/LOS_Verify-capability/annotated_C/src/los_list_h_1.c",
+          "OUTPUT/xizi/xizi_single_link_common/reports/crtos_single_link_analysis.md",
+          "OUTPUT/xizi/xizi_single_link_common/source/xizi_single_link_def.h",
+          "OUTPUT/xizi/xizi_single_link_common/rocq/xizi_single_link_lib.v"
+        ],
+        "denied_globs_touched": false
+      },
+      "blockers": [
+        {
+          "code": "required-local-strategy-file-missing-outside-write-allowlist",
+          "message": "xizi_single_link_def.h requires a sibling xizi_single_link.strategies file, but it is absent and the handoff does not authorize writing that path.",
+          "recoverable_action": "Controller/bootstrap step should add OUTPUT/xizi/xizi_single_link_len/source/xizi_single_link.strategies from the declared common strategy source, add that path to allowed_write_paths, or provide a source snapshot that already contains it; then retry against a fresh/current source version."
+        },
+        {
+          "code": "required-qcp-mcp-session-manager-unavailable",
+          "message": "The annotation-checking pass condition requires QCP MCP itself to reach EOF, but no QCP MCP/session-manager tool or executable is exposed.",
+          "recoverable_action": "Expose/inject the QCP MCP session capability and retry the annotation gate."
+        }
+      ]
+    },
+    "changed_files": [
+      "OUTPUT/xizi/xizi_single_link_len/source/xizi_single_link_len.c"
+    ],
+    "blockers": [
+      "required-local-strategy-file-missing-outside-write-allowlist",
+      "required-qcp-mcp-session-manager-unavailable"
+    ]
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-07-22T05:38:30Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_single_link_len-20260722133500/rounds/xizi_single_link_len-annotation-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    }
+  },
+  "blockers": [
+    {
+      "code": "required-local-strategy-file-missing-outside-write-allowlist",
+      "message": "Canonical QCP cannot start until the local strategy file exists."
+    },
+    {
+      "code": "required-qcp-mcp-session-manager-unavailable",
+      "message": "Mandatory QCP MCP EOF validation cannot be executed in the available tool environment."
+    }
+  ]
+}

@@ -1,0 +1,688 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "vc_checking": {
+      "schema_version": "qcp-vc-checking-result/v1",
+      "status": "completed",
+      "terminal": "yes",
+      "round": "xizi_single_link_remove_node-vc-checking-r2",
+      "attempt_id": "xizi_single_link_remove_node-vc-checking-r2-attempt-1",
+      "summary": "All eight cleaned manual obligations are semantically provable under the frozen source_goal_version. The five implementation-side obligations close with the existing singly-linked-list decomposition/composition lemmas. The three strong-to-client specification derivations are valid; the member derivation needs one group-local proved helper characterizing xizi_sll_remove_first on a first-hit prefix decomposition. No annotation/specification defect was found.",
+      "source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "d17d83f3169891ad26cacc65f3d2b41e6090bfa805b0fbaef1bf87be04278f55",
+        "verified_current": true
+      },
+      "source_goal_version": {
+        "schema_version": "qcp-source-goal-version/v1",
+        "digest": "9675b89a1c82e0e65105714364653bd81b00896e0d47a5cc425701378a2788de",
+        "verified_current": true
+      },
+      "manual_witness_evidence": {
+        "manual_file": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node_proof_manual.v",
+        "manual_file_sha256": "79fba403ad2f6ab461bfd5b3bbd6ee9cebedb001cb8687bad04a0b03281a462b",
+        "diagnostics_snapshot": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_remove_node/source/diagnostics_snapshot.json",
+        "diagnostics_snapshot_sha256": "c801c841f6ae42752914f45a58b66de0e9fb71b76e6d24cb07c579d1e384033e",
+        "manual_obligation_count": 8,
+        "target_set_matches_handoff": true,
+        "target_order_matches_handoff": true,
+        "statement_hashes_match_handoff": true,
+        "diagnostics_used_as_hint_only": true
+      },
+      "target_witnesses": [
+        "proof_of_xizi_single_link_remove_node_entail_wit_1",
+        "proof_of_xizi_single_link_remove_node_entail_wit_2",
+        "proof_of_xizi_single_link_remove_node_return_wit_1",
+        "proof_of_xizi_single_link_remove_node_return_wit_2",
+        "proof_of_xizi_single_link_remove_node_which_implies_wit_1",
+        "proof_of_xizi_single_link_remove_node_derive_remove_tail_spec_by_strong_spec",
+        "proof_of_xizi_single_link_remove_node_derive_remove_front_spec_by_strong_spec",
+        "proof_of_xizi_single_link_remove_node_derive_remove_member_spec_by_strong_spec"
+      ],
+      "natural_language_analysis": {
+        "schema_version": "qcp-vc-natural-language-analysis/v1",
+        "summary": "Each target was treated as P |-- Q. Existing common-library predicates expose exactly the head, segment, target-bounded suffix, and detached-node ownership needed by Q. The only missing reusable mathematical fact is the custom first-removal equality for a prefix with no earlier occurrence.",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_xizi_single_link_remove_node_entail_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "xizi_sll_to_target linklist_pre linklist_node_pre (linklist_pre :: l1_strong_spec), the target node_next points-to, and the l2 tail xizi_sll; the alternative branch already exposes a residual xizi_sll_to_target and tail.",
+              "pre_pure": "linklist_pre and linklist_node_pre are non-null and distinct; the target successor equals xizi_sll_first_value l2; l_strong_spec = l1 ++ linklist_node_pre :: l2.",
+              "pre_exists": "The first branch has the hidden successor and residual target-bounded list inside xizi_sll_to_target; the alternative branch supplies r and l0_2 explicitly.",
+              "post_spatial": "Loop-invariant form: current node_next points-to next, an xizi_sllseg from linklist_pre to the current node, an xizi_sll_to_target from next to the target, the detached target field, and the l2 tail.",
+              "post_pure": "Initial prefix decomposition, non-null/distinctness facts, target-successor equality, and the frozen strong-spec list equation.",
+              "post_exists": "Choose l1a = nil, l1b = the residual target-bounded list, next = the first exposed successor, and copy the target successor; in the alternative branch choose l1b/l0 from l0_2."
+            },
+            "witness_instantiation": "Expose the head cell of xizi_sll_to_target using xizi_sll_to_target_not_same; instantiate next with its successor, l1a with nil, and l1b with the exposed residual list. For the already-exposed alternative, use the supplied residual list directly.",
+            "space_plan": "Apply xizi_sll_to_target_not_same to split the first target-bounded cell; xizi_sllseg linklist_pre linklist_pre nil is emp, so all remaining resources cancel unchanged.",
+            "pure_plan": "Invert the cons equalities to identify the residual list; reuse PreH non-nullness, distinctness, successor, and strong-list equations. No arithmetic fact is needed.",
+            "refinement_plan": "not applicable: direct separation-logic invariant initialization",
+            "used_existing_lemmas": [
+              "xizi_sll_to_target_not_same",
+              "xizi_sll_to_target_same"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "xizi_sll_to_target_not_same requires linklist_pre <> linklist_node_pre, supplied by PreH3.",
+              "All target successor and strong-list equalities are explicit preconditions."
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "implementation_shape_and_return",
+            "grouping_reason": "Same loop-invariant target-bounded-list decomposition family as entail_wit_2 and the return obligations."
+          },
+          {
+            "witness_name": "proof_of_xizi_single_link_remove_node_entail_wit_2",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "Current node points to next_2; xizi_sllseg linklist_pre node l1a_2; xizi_sll_to_target next_2 target l1b_2; target node_next points to first(l2); and xizi_sll first(l2) l2.",
+              "pre_pure": "next_2 is non-null and not the target, current node is non-null, plus the loop list decomposition and frozen strong-spec facts.",
+              "pre_exists": "The successor of next_2 and remaining l1b suffix are hidden by xizi_sll_to_target.",
+              "post_spatial": "The invariant advanced to current = next_2, with the old segment extended by node and a newly exposed next_2 cell.",
+              "post_pure": "cons(linklist_pre,l1) is re-associated as the extended prefix ++ next_2 :: residual suffix; all frozen facts persist.",
+              "post_exists": "Choose next as the successor exposed from xizi_sll_to_target, l1a = l1a_2 ++ [node], l1b = its residual suffix, and retain l0 from the precondition."
+            },
+            "witness_instantiation": "Use xizi_sll_to_target_not_same on next_2, then extend xizi_sllseg linklist_pre node l1a_2 by the node->next_2 cell.",
+            "space_plan": "Turn node->next_2 into xizi_sllseg node next_2 [node] with xizi_sllseg_len1, compose it with xizi_sllseg_sllseg, and cancel the target cell and l2 tail.",
+            "pure_plan": "From l1b_2 = next_2 :: residual and cons(linklist_pre,l1) = l1a_2 ++ node :: l1b_2, derive the reassociated prefix equation by list simplification/associativity; remaining facts are direct PreH values.",
+            "refinement_plan": "not applicable: direct loop-step invariant preservation",
+            "used_existing_lemmas": [
+              "xizi_sll_to_target_not_same",
+              "xizi_sllseg_len1",
+              "xizi_sllseg_sllseg"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "next_2 <> linklist_node_pre is PreH1/PreH2 of the respective branch.",
+              "node <> 0 is explicit and discharges xizi_sllseg_len1.",
+              "The residual-list equation comes from unfolding the nonempty xizi_sll_to_target."
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "implementation_shape_and_return",
+            "grouping_reason": "Same segment-extension and target-bounded suffix family as the other implementation obligations."
+          },
+          {
+            "witness_name": "proof_of_xizi_single_link_remove_node_return_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "At the found-target branch, next = linklist_node_pre; the updated predecessor cell and the detached target cell both point to first(l2), together with the prefix segment and l2 list.",
+              "pre_pure": "The current invariant decomposition, next = target, both roots non-null/distinct, and l = l1 ++ target :: l2.",
+              "pre_exists": "xizi_sll_to_target target target l1b forces l1b = nil.",
+              "post_spatial": "xizi_sll_head linklist_pre (l1 ++ l2) plus ownership of the detached target node_next field.",
+              "post_pure": "return root is linklist_pre and detached successor equals first(l2); the alternate presentation asks for the head successor existential.",
+              "post_exists": "Choose the detached successor as first(l2), or choose q as the first successor of the reconstructed list head."
+            },
+            "witness_instantiation": "Use xizi_sll_to_target_same to obtain l1b = nil; reconstruct xizi_sll linklist_pre (linklist_pre :: (l1 ++ l2)) from the prefix segment, updated predecessor cell, and l2 tail, then convert it to xizi_sll_head.",
+            "space_plan": "Compose the segment with the updated node cell and the l2 list via xizi_sllseg_sll/xizi_sll_cons, retain the disjoint target field, and apply xizi_sll_head_from_cons.",
+            "pure_plan": "Rewrite next = target and l1b = nil in the invariant list equation; reassociate app to identify the reconstructed list with linklist_pre :: (l1 ++ l2). Spatial disjointness resolves the predecessor/target address distinction if needed.",
+            "refinement_plan": "not applicable: direct strong postcondition construction",
+            "used_existing_lemmas": [
+              "xizi_sll_to_target_same",
+              "xizi_sllseg_len1",
+              "xizi_sllseg_sll",
+              "xizi_sll_cons",
+              "xizi_sll_head_from_cons"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "next = linklist_node_pre is explicit.",
+              "node <> 0 and linklist_pre <> 0 are explicit preconditions.",
+              "The target field and l2 tail are already present and match through linklist_node_node_next_2 = first(l2)."
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "implementation_shape_and_return",
+            "grouping_reason": "Consumes the same invariant resources built by the entailment obligations and uses the same segment/list composition lemmas."
+          },
+          {
+            "witness_name": "proof_of_xizi_single_link_remove_node_return_wit_2",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "node->NULL, a prefix segment, xizi_sll_to_target NULL linklist_node_pre l1b, the target field (in one alternative), and the l2 list.",
+              "pre_pure": "next = NULL while linklist_node_pre <> NULL, plus the frozen invariant and strong-spec facts.",
+              "pre_exists": "none needed; the target-bounded predicate starts at NULL.",
+              "post_spatial": "Strong postcondition head and detached target field, expressed in two generated alternatives.",
+              "post_pure": "return/linklist and successor equalities.",
+              "post_exists": "Arbitrary post existentials follow once the antecedent is shown inconsistent."
+            },
+            "witness_instantiation": "No constructive post witness is required: xizi_sll_to_target NULL target l1b contradicts target <> NULL.",
+            "space_plan": "Apply xizi_sll_to_target_zero_nonzero to derive False, then close either generated alternative by ex falso.",
+            "pure_plan": "Discharge the lemma premise with PreH8/PreH9 stating linklist_node_pre <> 0.",
+            "refinement_plan": "not applicable: unreachable strong-spec branch",
+            "used_existing_lemmas": [
+              "xizi_sll_to_target_zero_nonzero"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "linklist_node_pre <> NULL is explicit in both alternatives.",
+              "next = NULL rewrites the target-bounded predicate start to NULL."
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "implementation_shape_and_return",
+            "grouping_reason": "Unreachable terminal branch of the same loop invariant; the same worker has the relevant predicate context."
+          },
+          {
+            "witness_name": "proof_of_xizi_single_link_remove_node_which_implies_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "xizi_sll_head linklist l, or its unfolded head form xizi_sll q l ** linklist->q.",
+              "pre_pure": "l = l1 ++ linklist_node :: l2 and linklist <> NULL in the unfolded alternative.",
+              "pre_exists": "The head successor is hidden by xizi_sll_head in the first alternative.",
+              "post_spatial": "xizi_sll_to_target linklist target (linklist :: l1), target->first(l2), and xizi_sll first(l2) l2.",
+              "post_pure": "linklist and target are non-null and distinct; target successor equals first(l2).",
+              "post_exists": "Choose linklist_node_node_next = xizi_sll_first_value l2."
+            },
+            "witness_instantiation": "Unfold xizi_sll_head to obtain q, then instantiate xizi_sll_head_split_target with head=linklist, first=q, prefix=l1, node=linklist_node, suffix=l2.",
+            "space_plan": "The existing xizi_sll_head_split_target lemma performs the exact split and preserves all three required spatial components.",
+            "pure_plan": "Rewrite l using the supplied app decomposition; head non-nullness is carried by xizi_sll_head, and the split lemma yields target non-nullness and head-target distinctness.",
+            "refinement_plan": "not applicable: C annotation which-implies decomposition",
+            "used_existing_lemmas": [
+              "xizi_sll_head_split_target"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "The lemma's head <> NULL premise comes from unfolding xizi_sll_head or from explicit PreH1.",
+              "The list has the required prefix ++ target :: suffix form by PreH1/PreH2."
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "implementation_shape_and_return",
+            "grouping_reason": "This is the initial shape decomposition that feeds the same loop invariant proved by entail_wit_1/2."
+          },
+          {
+            "witness_name": "proof_of_xizi_single_link_remove_node_derive_remove_tail_spec_by_strong_spec",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "xizi_sll_head linklist_pre (prefix ++ [linklist_node_pre]).",
+              "pre_pure": "No explicit pure premise; membership/non-nullness of the final node follows from the list shape resource.",
+              "pre_exists": "The head successor and node successor are hidden in xizi_sll_head/xizi_sll.",
+              "post_spatial": "A strong-spec precondition framed with a wand from the strong postcondition to xizi_sll_head linklist_pre prefix ** xizi_sll_node target.",
+              "post_pure": "Strong variables satisfy l = l1 ++ target :: l2; the wand assumes retval=linklist_pre and target successor=first(l2).",
+              "post_exists": "Choose l=l_strong=prefix ++ [target], l1=prefix, and l2=nil."
+            },
+            "witness_instantiation": "Instantiate the strong contract with prefix and empty suffix. Inside the wand, first(nil)=NULL and the strong post already supplies xizi_sll_head linklist_pre prefix and target->NULL.",
+            "space_plan": "Use xizi_sll_split_app_node (under the head predicate) to obtain target <> NULL as a persistent pure fact; inside the wand, unfold xizi_sll_node and convert the exact target points-to to an undefined points-to view with store_ptr_undef_store_ptr.",
+            "pure_plan": "List simplification proves prefix ++ target :: nil is the chosen strong list and app prefix nil = prefix; target non-nullness is derived from the pre-list ownership.",
+            "refinement_plan": "Strong-to-tail client contract derivation by existential instantiation and separating implication introduction.",
+            "used_existing_lemmas": [
+              "xizi_sll_split_app_node",
+              "store_ptr_undef_store_ptr"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "target <> NULL follows from xizi_sll ownership of an explicit target element.",
+              "The wand premise supplies exactly the head(prefix) resource and target->first(nil)."
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "derived_client_specs",
+            "grouping_reason": "Same strong-contract existential/wand specialization pattern as front and member."
+          },
+          {
+            "witness_name": "proof_of_xizi_single_link_remove_node_derive_remove_front_spec_by_strong_spec",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "xizi_sll_head linklist_pre (linklist_node_pre :: suffix).",
+              "pre_pure": "Target non-nullness follows from ownership of the explicit first list element.",
+              "pre_exists": "Head/target successors are hidden in the list predicates.",
+              "post_spatial": "A strong-spec precondition and a wand from its exact post to head(suffix) ** xizi_sll_node target.",
+              "post_pure": "The strong decomposition equation and exact return/successor equations inside the wand.",
+              "post_exists": "Choose l=target :: suffix, l1=nil, and l2=suffix."
+            },
+            "witness_instantiation": "Instantiate the strong contract with an empty prefix and the supplied suffix.",
+            "space_plan": "The wand premise directly supplies xizi_sll_head linklist_pre suffix and target->first(suffix); combine the latter with target <> NULL to unfold xizi_sll_node.",
+            "pure_plan": "Simplify nil ++ target :: suffix and nil ++ suffix. Obtain target <> NULL from xizi_sll_split_app_node/xizi_sll_member_split on the input list.",
+            "refinement_plan": "Strong-to-front client contract derivation by existential instantiation and separating implication introduction.",
+            "used_existing_lemmas": [
+              "xizi_sll_split_app_node",
+              "store_ptr_undef_store_ptr"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "The explicit target element in the owned list yields target <> NULL.",
+              "All simple-post spatial resources occur literally in the strong-post premise after nil-app simplification."
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "derived_client_specs",
+            "grouping_reason": "Same strong-contract existential/wand specialization pattern as tail and member."
+          },
+          {
+            "witness_name": "proof_of_xizi_single_link_remove_node_derive_remove_member_spec_by_strong_spec",
+            "judgment": "needs-helper",
+            "vc_shape": {
+              "pre_spatial": "xizi_sll_head linklist_pre l_remove_member_spec.",
+              "pre_pure": "In linklist_node_pre l_remove_member_spec.",
+              "pre_exists": "A first-hit decomposition l = prefix ++ target :: suffix, with target absent from prefix, is obtained from membership plus list ownership.",
+              "post_spatial": "A strong-spec precondition framed with a wand from exact head(prefix ++ suffix) and detached target field to head(remove_first target l) ** xizi_sll_node target.",
+              "post_pure": "Strong decomposition plus the custom first-removal equality.",
+              "post_exists": "Choose l_strong=l_remove_member_spec and choose l1/l2 as the first-hit prefix/suffix."
+            },
+            "witness_instantiation": "Apply xizi_sll_member_split to obtain prefix, suffix, next, l=prefix ++ target :: suffix, ~In target prefix, and target <> NULL. Instantiate strong_spec with those prefix/suffix values.",
+            "space_plan": "Reassemble/preserve the original head resource for the strong precondition; inside the wand use the exact strong head(prefix ++ suffix), and turn the detached exact points-to plus target <> NULL into xizi_sll_node.",
+            "pure_plan": "Use the candidate helper to rewrite xizi_sll_remove_first target (prefix ++ target :: suffix) to prefix ++ suffix under ~In target prefix. The no-earlier-occurrence premise is exactly emitted by xizi_sll_member_split.",
+            "refinement_plan": "Strong-to-member client contract derivation; the custom first-hit semantics is mathematical and does not mirror the C loop.",
+            "used_existing_lemmas": [
+              "xizi_sll_member_split",
+              "xizi_sllseg_sll",
+              "store_ptr_undef_store_ptr"
+            ],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "xizi_sll_remove_first_app_first",
+                "statement_shape": "forall (node: Z) (prefix suffix: list Z), ~ In node prefix -> xizi_sll_remove_first node (prefix ++ node :: suffix) = prefix ++ suffix",
+                "used_by_witnesses": [
+                  "proof_of_xizi_single_link_remove_node_derive_remove_member_spec_by_strong_spec"
+                ],
+                "premises": [
+                  {
+                    "premise": "~ In node prefix",
+                    "discharged_by": "Pure fact returned by xizi_sll_member_split from In node l and the current xizi_sll list resource.",
+                    "needs_unfold": [
+                      "xizi_sll_remove_first"
+                    ],
+                    "arithmetic": "none",
+                    "spatial_resource": "xizi_sll part of xizi_sll_head"
+                  }
+                ],
+                "proof_outline": "Induct on prefix; the cons case rules out current=node using ~In, reduces Z.eq_dec to the unequal branch, and applies the induction hypothesis.",
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "premise_discharge": [
+              "In target l is an explicit precondition.",
+              "xizi_sll_member_split derives l=prefix++target::suffix, ~In target prefix, and target<>NULL.",
+              "The candidate helper requires no premise beyond that derived absence fact."
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "derived_client_specs",
+            "grouping_reason": "Same strong-contract/wand pattern as tail/front; only this member view adds the group-local first-hit equality helper."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "implementation_shape_and_return",
+            "witness_names": [
+              "proof_of_xizi_single_link_remove_node_entail_wit_1",
+              "proof_of_xizi_single_link_remove_node_entail_wit_2",
+              "proof_of_xizi_single_link_remove_node_return_wit_1",
+              "proof_of_xizi_single_link_remove_node_return_wit_2",
+              "proof_of_xizi_single_link_remove_node_which_implies_wit_1"
+            ],
+            "representative_witness": "proof_of_xizi_single_link_remove_node_entail_wit_2",
+            "shared_proof_pattern": "Unfold or apply existing xizi_sll target-bounded/segment lemmas, instantiate hidden successors/list pieces, and cancel/recompose the same loop resources.",
+            "shared_space_plan": "Use xizi_sll_head_split_target, xizi_sll_to_target_not_same/same/zero_nonzero, xizi_sllseg_len1, xizi_sllseg_sllseg, and xizi_sllseg_sll as appropriate.",
+            "shared_pure_plan": "Rewrite the frozen app/cons equations and use explicit non-null/distinctness guards; no new arithmetic invariant is required.",
+            "shared_refinement_plan": "not applicable",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "These five obligations are one continuous implementation-shape proof family for the same invariant, initialization, advancement, and exit.",
+            "proof_group_ready": true
+          },
+          {
+            "group_id": "derived_client_specs",
+            "witness_names": [
+              "proof_of_xizi_single_link_remove_node_derive_remove_tail_spec_by_strong_spec",
+              "proof_of_xizi_single_link_remove_node_derive_remove_front_spec_by_strong_spec",
+              "proof_of_xizi_single_link_remove_node_derive_remove_member_spec_by_strong_spec"
+            ],
+            "representative_witness": "proof_of_xizi_single_link_remove_node_derive_remove_member_spec_by_strong_spec",
+            "shared_proof_pattern": "Instantiate strong_spec's list decomposition, frame the unchanged strong precondition, introduce the separating implication, and weaken the exact detached-field post to xizi_sll_node.",
+            "shared_space_plan": "Obtain target non-nullness from list ownership; inside each wand cancel the strong post head and weaken the exact target points-to to an existential points-to.",
+            "shared_pure_plan": "Simplify app for front/tail; use a first-hit decomposition plus a proved remove_first prefix helper for member.",
+            "shared_refinement_plan": "All three are named client specifications derived from the exact strong contract.",
+            "candidate_helper_declarations": [
+              "xizi_sll_remove_first_app_first (group-id-suffixed)"
+            ],
+            "dependencies": [],
+            "grouping_reason": "The three witnesses share the same strong-to-client existential/wand proof architecture and fit comfortably under the group-size bound.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "9675b89a1c82e0e65105714364653bd81b00896e0d47a5cc425701378a2788de",
+        "target_witnesses": [
+          "proof_of_xizi_single_link_remove_node_entail_wit_1",
+          "proof_of_xizi_single_link_remove_node_entail_wit_2",
+          "proof_of_xizi_single_link_remove_node_return_wit_1",
+          "proof_of_xizi_single_link_remove_node_return_wit_2",
+          "proof_of_xizi_single_link_remove_node_which_implies_wit_1",
+          "proof_of_xizi_single_link_remove_node_derive_remove_tail_spec_by_strong_spec",
+          "proof_of_xizi_single_link_remove_node_derive_remove_front_spec_by_strong_spec",
+          "proof_of_xizi_single_link_remove_node_derive_remove_member_spec_by_strong_spec"
+        ],
+        "grouping_policy": {
+          "controller_policy": "bounded-witness-groups/v1",
+          "max_witnesses_per_group": 12,
+          "target_witness_count": 8,
+          "balanced_grouping_required": "yes"
+        },
+        "proof_groups": [
+          {
+            "group_id": "implementation_shape_and_return",
+            "witness_names": [
+              "proof_of_xizi_single_link_remove_node_entail_wit_1",
+              "proof_of_xizi_single_link_remove_node_entail_wit_2",
+              "proof_of_xizi_single_link_remove_node_return_wit_1",
+              "proof_of_xizi_single_link_remove_node_return_wit_2",
+              "proof_of_xizi_single_link_remove_node_which_implies_wit_1"
+            ],
+            "representative_witness": "proof_of_xizi_single_link_remove_node_entail_wit_2",
+            "dependencies": [],
+            "candidate_helper_declarations": [],
+            "likely_helper_declarations": [],
+            "expected_helpers": [],
+            "proof_strategy": "Prove the initialization and loop-step existentials by exposing xizi_sll_to_target cells and composing xizi_sllseg; close the found return by reconstructing xizi_sll_head, close the NULL return by xizi_sll_to_target_zero_nonzero, and prove which_implies with xizi_sll_head_split_target.",
+            "natural_language_proof_strategy": "Treat the five obligations as one invariant-shape family. First establish the exact head-to-target decomposition, then initialize/advance the segment and residual target-bounded list, and finally recompose the post-list or derive contradiction at NULL.",
+            "space_plan": "Existing xizi_sll_head_split_target, xizi_sll_to_target_not_same/same/zero_nonzero, xizi_sllseg_len1, xizi_sllseg_sllseg, xizi_sllseg_sll, xizi_sll_cons, and xizi_sll_head_from_cons provide all required transformations.",
+            "pure_plan": "Use the explicit PreH non-null/distinctness facts and normalize app/cons equations; no unprovided premise or arithmetic assumption is needed.",
+            "refinement_plan": "not applicable",
+            "premise_discharge": {
+              "target-bounded splits": "Their address inequality/non-null premises are explicit in the VC or derived by xizi_sll_head_split_target.",
+              "segment extension": "The current-node non-null fact is explicit and the current node_next cell is owned.",
+              "NULL contradiction": "target <> NULL is explicit while xizi_sll_to_target starts at NULL."
+            },
+            "per_witness_plan": {
+              "proof_of_xizi_single_link_remove_node_entail_wit_1": "Expose the initial xizi_sll_to_target head; choose nil prefix and the exposed residual suffix.",
+              "proof_of_xizi_single_link_remove_node_entail_wit_2": "Expose next_2 and extend the old segment by the current node.",
+              "proof_of_xizi_single_link_remove_node_return_wit_1": "Reduce to_target target target to nil and recompose head(l1++l2), retaining the detached target field.",
+              "proof_of_xizi_single_link_remove_node_return_wit_2": "Derive False from to_target NULL nonnull-target.",
+              "proof_of_xizi_single_link_remove_node_which_implies_wit_1": "Instantiate xizi_sll_head_split_target with the frozen prefix/target/suffix decomposition."
+            },
+            "difficulty": "medium",
+            "confidence": "high",
+            "grouping_reason": "Five closely related obligations for the same function share the same list predicates, invariant variables, and segment/target decomposition family; keeping them together reduces context duplication and remains below the 12-witness cap."
+          },
+          {
+            "group_id": "derived_client_specs",
+            "witness_names": [
+              "proof_of_xizi_single_link_remove_node_derive_remove_tail_spec_by_strong_spec",
+              "proof_of_xizi_single_link_remove_node_derive_remove_front_spec_by_strong_spec",
+              "proof_of_xizi_single_link_remove_node_derive_remove_member_spec_by_strong_spec"
+            ],
+            "representative_witness": "proof_of_xizi_single_link_remove_node_derive_remove_member_spec_by_strong_spec",
+            "dependencies": [],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "xizi_sll_remove_first_app_first",
+                "statement_shape": "forall (node: Z) (prefix suffix: list Z), ~ In node prefix -> xizi_sll_remove_first node (prefix ++ node :: suffix) = prefix ++ suffix",
+                "used_by_witnesses": [
+                  "proof_of_xizi_single_link_remove_node_derive_remove_member_spec_by_strong_spec"
+                ],
+                "premises": [
+                  {
+                    "premise": "~ In node prefix",
+                    "discharged_by": "xizi_sll_member_split from the current member precondition and list ownership"
+                  }
+                ],
+                "proof_outline": "Induction on prefix and case analysis on Z.eq_dec; the equality branch contradicts ~In node prefix.",
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "likely_helper_declarations": [
+              "A group-id-suffixed xizi_sll_remove_first_app_first lemma with the statement above."
+            ],
+            "expected_helpers": [
+              "xizi_sll_remove_first_app_first with the current group suffix"
+            ],
+            "proof_strategy": "For tail/front, choose prefix/empty-suffix or empty-prefix/suffix as strong arguments, introduce the post wand, simplify app, and weaken the exact detached field to xizi_sll_node. For member, obtain a first-hit prefix/suffix with xizi_sll_member_split, rewrite remove_first using the suffixed helper, and use the same wand proof.",
+            "natural_language_proof_strategy": "All three client views are projections of the exact strong post. The first two are direct specializations; the member view additionally computes the first-hit list result through a proved pure helper whose sole premise comes from the current precondition.",
+            "space_plan": "Preserve/reassemble the strong precondition head; derive target non-nullness from owned membership; in the wand cancel head(prefix++suffix) and convert target->first(suffix) to xizi_sll_node.",
+            "pure_plan": "Normalize list app for front/tail. For member use l=prefix++target::suffix, ~In target prefix, and the candidate helper to establish remove_first target l=prefix++suffix.",
+            "refinement_plan": "Named strong_spec-to-client-spec derivations only; no C algorithm mirroring or generated-file change.",
+            "premise_discharge": {
+              "target_nonnull": "Derived from the owned explicit target occurrence using xizi_sll_split_app_node/xizi_sll_member_split.",
+              "first_hit_absence": "Returned by xizi_sll_member_split.",
+              "wand_resources": "The strong post contains head(prefix++suffix) and the exact detached target field required by each simplified post."
+            },
+            "per_witness_plan": {
+              "proof_of_xizi_single_link_remove_node_derive_remove_tail_spec_by_strong_spec": "Choose l1=prefix,l2=nil; simplify app and build xizi_sll_node from target->NULL plus target<>NULL.",
+              "proof_of_xizi_single_link_remove_node_derive_remove_front_spec_by_strong_spec": "Choose l1=nil,l2=suffix; the strong post directly supplies head(suffix) and target->first(suffix).",
+              "proof_of_xizi_single_link_remove_node_derive_remove_member_spec_by_strong_spec": "Choose the first-hit decomposition from xizi_sll_member_split and rewrite the custom remove_first using the suffixed helper."
+            },
+            "difficulty": "medium",
+            "confidence": "high",
+            "grouping_reason": "All three witnesses share one strong-contract existential/wand architecture; a single worker can prove the member-only helper and then finish the two direct specializations without cross-group dependencies."
+          }
+        ],
+        "blockers": []
+      },
+      "group_plan_ready": true,
+      "ready_for_vc_proving_preparing": true,
+      "changed_files": [],
+      "formal_files_modified": false,
+      "blockers": [],
+      "errors": [],
+      "recommended_next_phase": "vc-proving-preparing",
+      "controller_acceptance": "not-claimed",
+      "file_access_summary": {
+        "handoff_and_rules": [
+          "reports/xizi_single_link_remove_node-20260814131830/rounds/xizi_single_link_remove_node-vc-checking-r2/agent_input.json",
+          ".agents/skills/verification-orchestrator/SKILL.md",
+          ".agents/skills/verification-orchestrator/docs/use-notes.md",
+          ".agents/skills/verification-orchestrator/docs/phase-ownership.md",
+          ".agents/skills/verification-orchestrator/docs/state-machine.md",
+          ".agents/skills/verification-orchestrator/docs/artifact-templates.md",
+          ".agents/skills/verification-orchestrator/docs/delegation-contracts.md",
+          ".agents/skills/verification-orchestrator/docs/invalidation-rules.md",
+          ".agents/skills/verification-orchestrator/docs/forbidden_lemma.md",
+          ".agents/skills/vc-checking/SKILL.md",
+          ".agents/skills/vc-checking/docs/vc-checking-guide.md",
+          ".agents/skills/vc-checking/docs/natural-language-analysis.md"
+        ],
+        "current_case": [
+          "OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node.c",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node_goal.v",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node_proof_auto.v",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node_proof_manual.v",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node_goal_check.v",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node_lib.v",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node_proof_diagnostics.v",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_remove_node/source/diagnostics_snapshot.json",
+          "QCIPLib/xizi/xizi_single_link_common/xizi_single_link_lib.v"
+        ],
+        "declared_upstream": [
+          "reports/xizi_single_link_remove_node-20260814131830/rounds/xizi_single_link_remove_node-annotation-r3/agent_report.json"
+        ],
+        "denied_globs_touched": []
+      },
+      "timing": {
+        "timing_source": "command wall-clock plus unsegmented semantic analysis",
+        "major_time_sinks": [
+          "complete handoff/orchestrator/vc-checking rule reading",
+          "witness-by-witness P |-- Q resource analysis",
+          "existing xizi_sll common-library lemma audit and group-plan assembly"
+        ],
+        "timing_gaps": [
+          "The handoff did not provide an activity-ledger path. Rule reading, semantic analysis, and report assembly were not independently timestamped, so no elapsed values are guessed."
+        ],
+        "open_or_incomplete_timing_events": []
+      }
+    }
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-08-14T05:59:32Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_single_link_remove_node-20260814131830/rounds/xizi_single_link_remove_node-vc-checking-r2/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    },
+    "controller_simple_repairs": [
+      {
+        "kind": "materialized-inline-group-plan",
+        "source": "/home/yangfp/QCIP/reports/xizi_single_link_remove_node-20260814131830/rounds/xizi_single_link_remove_node-vc-checking-r2/agent_report.json",
+        "target": "/home/yangfp/QCIP/reports/xizi_single_link_remove_node-20260814131830/rounds/xizi_single_link_remove_node-vc-checking-r2/group_plan.json",
+        "reason": "vc-checking report included an inline group_plan but the default group_plan.json artifact was missing"
+      }
+    ],
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-08-14T05:59:33Z",
+      "source_version": {
+        "digest": "d17d83f3169891ad26cacc65f3d2b41e6090bfa805b0fbaef1bf87be04278f55",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_single_link_remove_node-20260814131830/xizi_single_link_remove_node-annotation-r3/OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node.c",
+            "relative_path": "OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node.c",
+            "role": "target-c-annotated",
+            "sha256": "377064b7c8a64c4be168707f26a25865561a3f5fdd8d2fc95a32271e51e0757c",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_single_link_remove_node-20260814131830/xizi_single_link_remove_node-annotation-r3/SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "e01abea3e441dc38f5d4c054e126c357e644ee626d8dad30f6fcbef69f58bdd1",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "9675b89a1c82e0e65105714364653bd81b00896e0d47a5cc425701378a2788de",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node_goal.v",
+            "role": "generated-goal",
+            "sha256": "58d2753a4b54c543182874d1e8e57d724434b52b493dfe3404b9a111e3784489",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "9bc49b5d69e1788d6bcdeccd9264f593e61219e0864187194bf1267b6a6abf23",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "79fba403ad2f6ab461bfd5b3bbd6ee9cebedb001cb8687bad04a0b03281a462b",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "cd7acef82a33dc1335f8bb93b54d9dadd6379593e7560e45f473af0ee6d707df",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "943f3e6a67809e6e3b6395a0c329fda28c47a6f0affeb1a28da0733ef542630e",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_remove_node/source/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "c801c841f6ae42752914f45a58b66de0e9fb71b76e6d24cb07c579d1e384033e",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_xizi_single_link_remove_node_entail_wit_1",
+          "proof_of_xizi_single_link_remove_node_entail_wit_2",
+          "proof_of_xizi_single_link_remove_node_return_wit_1",
+          "proof_of_xizi_single_link_remove_node_return_wit_2",
+          "proof_of_xizi_single_link_remove_node_which_implies_wit_1",
+          "proof_of_xizi_single_link_remove_node_derive_remove_tail_spec_by_strong_spec",
+          "proof_of_xizi_single_link_remove_node_derive_remove_front_spec_by_strong_spec",
+          "proof_of_xizi_single_link_remove_node_derive_remove_member_spec_by_strong_spec"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_xizi_single_link_remove_node_derive_remove_front_spec_by_strong_spec": "000c8c8cba04bdd64978bff536595f1c796749831fbc652f4b5c849d4b78a4dd",
+          "proof_of_xizi_single_link_remove_node_derive_remove_member_spec_by_strong_spec": "f1c911e92cb3e2b3fb115a127f0efaed9027702d1658f6babe8acdc61cf278bf",
+          "proof_of_xizi_single_link_remove_node_derive_remove_tail_spec_by_strong_spec": "a765ab094d2e69e5d099baf314875f62601564b905847e2281d76cb6e1467df7",
+          "proof_of_xizi_single_link_remove_node_entail_wit_1": "82e90f38c47f456920e8933b356ecfd307d7bd9751201cd174faf66530a2c8c6",
+          "proof_of_xizi_single_link_remove_node_entail_wit_2": "9fac41d3b578c98ad11ec400fa6958283ca4dd9600e9920d533312707319d097",
+          "proof_of_xizi_single_link_remove_node_return_wit_1": "4c27aae29008ecf4d86484172caa03b849e680134a9fd7061f36b42696b2e3a1",
+          "proof_of_xizi_single_link_remove_node_return_wit_2": "49ecad4b322bf882d626bccda7f973d7f23a5c3f4cbb72d3210f9a435e0be539",
+          "proof_of_xizi_single_link_remove_node_which_implies_wit_1": "627a04585f65b2380d9e2b62ccb6f3dbfa9bee5b2b2a604220450830f52e1c1c"
+        },
+        "witnesses": [
+          {
+            "end_line": 27,
+            "name": "proof_of_xizi_single_link_remove_node_entail_wit_1",
+            "start_line": 25,
+            "statement_hash": "82e90f38c47f456920e8933b356ecfd307d7bd9751201cd174faf66530a2c8c6",
+            "target_symbol": "xizi_single_link_remove_node_entail_wit_1"
+          },
+          {
+            "end_line": 30,
+            "name": "proof_of_xizi_single_link_remove_node_entail_wit_2",
+            "start_line": 28,
+            "statement_hash": "9fac41d3b578c98ad11ec400fa6958283ca4dd9600e9920d533312707319d097",
+            "target_symbol": "xizi_single_link_remove_node_entail_wit_2"
+          },
+          {
+            "end_line": 33,
+            "name": "proof_of_xizi_single_link_remove_node_return_wit_1",
+            "start_line": 31,
+            "statement_hash": "4c27aae29008ecf4d86484172caa03b849e680134a9fd7061f36b42696b2e3a1",
+            "target_symbol": "xizi_single_link_remove_node_return_wit_1"
+          },
+          {
+            "end_line": 36,
+            "name": "proof_of_xizi_single_link_remove_node_return_wit_2",
+            "start_line": 34,
+            "statement_hash": "49ecad4b322bf882d626bccda7f973d7f23a5c3f4cbb72d3210f9a435e0be539",
+            "target_symbol": "xizi_single_link_remove_node_return_wit_2"
+          },
+          {
+            "end_line": 39,
+            "name": "proof_of_xizi_single_link_remove_node_which_implies_wit_1",
+            "start_line": 37,
+            "statement_hash": "627a04585f65b2380d9e2b62ccb6f3dbfa9bee5b2b2a604220450830f52e1c1c",
+            "target_symbol": "xizi_single_link_remove_node_which_implies_wit_1"
+          },
+          {
+            "end_line": 42,
+            "name": "proof_of_xizi_single_link_remove_node_derive_remove_tail_spec_by_strong_spec",
+            "start_line": 40,
+            "statement_hash": "a765ab094d2e69e5d099baf314875f62601564b905847e2281d76cb6e1467df7",
+            "target_symbol": "xizi_single_link_remove_node_derive_remove_tail_spec_by_strong_spec"
+          },
+          {
+            "end_line": 45,
+            "name": "proof_of_xizi_single_link_remove_node_derive_remove_front_spec_by_strong_spec",
+            "start_line": 43,
+            "statement_hash": "000c8c8cba04bdd64978bff536595f1c796749831fbc652f4b5c849d4b78a4dd",
+            "target_symbol": "xizi_single_link_remove_node_derive_remove_front_spec_by_strong_spec"
+          },
+          {
+            "end_line": 48,
+            "name": "proof_of_xizi_single_link_remove_node_derive_remove_member_spec_by_strong_spec",
+            "start_line": 46,
+            "statement_hash": "f1c911e92cb3e2b3fb115a127f0efaed9027702d1658f6babe8acdc61cf278bf",
+            "target_symbol": "xizi_single_link_remove_node_derive_remove_member_spec_by_strong_spec"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_single_link_remove_node-20260814131830/rounds/xizi_single_link_remove_node-vc-checking-r2/group_plan.json",
+      "target_witnesses": [
+        "proof_of_xizi_single_link_remove_node_entail_wit_1",
+        "proof_of_xizi_single_link_remove_node_entail_wit_2",
+        "proof_of_xizi_single_link_remove_node_return_wit_1",
+        "proof_of_xizi_single_link_remove_node_return_wit_2",
+        "proof_of_xizi_single_link_remove_node_which_implies_wit_1",
+        "proof_of_xizi_single_link_remove_node_derive_remove_tail_spec_by_strong_spec",
+        "proof_of_xizi_single_link_remove_node_derive_remove_front_spec_by_strong_spec",
+        "proof_of_xizi_single_link_remove_node_derive_remove_member_spec_by_strong_spec"
+      ]
+    }
+  },
+  "blockers": []
+}

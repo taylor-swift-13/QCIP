@@ -1,0 +1,340 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "pending",
+  "terminal": "no",
+  "agent_result": {
+    "phase": "vc-checking",
+    "status": "blocked",
+    "terminal": "yes",
+    "round_outcome": "annotation-bug",
+    "round": "xizi_single_link_len-vc-checking-r1",
+    "attempt_id": "xizi_single_link_len-vc-checking-r1-attempt-1",
+    "source_version": {
+      "schema_version": "qcp-source-version/v1",
+      "digest": "50829d3829da5f5905b71d7c6c413783de39596592e94194fcf9d82eb945a469",
+      "verified_current": true
+    },
+    "source_goal_version": {
+      "schema_version": "qcp-source-goal-version/v1",
+      "digest": "6cc465809ba30e254cd51978f784097e0f1dc9c34bdce60627e5f0bc847396dc",
+      "verified_current": true,
+      "target_witnesses": [
+        "proof_of_xizi_single_link_len_entail_wit_1",
+        "proof_of_xizi_single_link_len_entail_wit_2",
+        "proof_of_xizi_single_link_len_return_wit_1"
+      ],
+      "witness_statement_hashes": {
+        "proof_of_xizi_single_link_len_entail_wit_1": "ed5ba1d3d6ea462155a73a8334ec1e0a45c40d1bc6483727f68d969a9e576849",
+        "proof_of_xizi_single_link_len_entail_wit_2": "b88bcd84fcf0e0939c08ed50236776e08f27563bf3fe2f12e4870fd338394574",
+        "proof_of_xizi_single_link_len_return_wit_1": "579115f82fdabe8322b2a9d2248e858ead4dc18e52fe2cab629dc4ab5f2dbd6f"
+      }
+    },
+    "vc_checking": {
+      "schema_version": "qcp-vc-checking-agent-result/v1",
+      "status": "blocked",
+      "terminal": "yes",
+      "overall_judgment": "annotation-bug",
+      "source_goal_version": "6cc465809ba30e254cd51978f784097e0f1dc9c34bdce60627e5f0bc847396dc",
+      "summary": "The initialization and return witnesses are semantically provable with the existing xizi_sll/xizi_sllseg library. The loop-step entailment is not semantically provable as generated: its precondition knows length = Zlength(l1_2) and l = l1_2 ++ (tmp_list :: l0), but no longer carries the public Zlength(l) <= UINT_MAX bound. Therefore it cannot establish unsigned_last_nbits(length + 1, 32) = Zlength(l1_2 ++ [tmp_list]); modular wraparound is possible. This is an invariant/annotation omission and requires regeneration before vc-proving.",
+      "target_witnesses": [
+        "proof_of_xizi_single_link_len_entail_wit_1",
+        "proof_of_xizi_single_link_len_entail_wit_2",
+        "proof_of_xizi_single_link_len_return_wit_1"
+      ],
+      "natural_language_analysis": {
+        "schema_version": "qcp-vc-natural-language-analysis/v1",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_xizi_single_link_len_entail_wit_1",
+            "statement_hash": "ed5ba1d3d6ea462155a73a8334ec1e0a45c40d1bc6483727f68d969a9e576849",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "Either selected disjunct provides xizi_sll q l; the first additionally provides linklist_pre.node_next |-> q.",
+              "pre_pure": "The quantified public facts are linklist_pre <> 0 and Zlength(l) <= UINT_MAX; neither is needed for initialization.",
+              "pre_exists": "Successor witnesses remain encapsulated inside xizi_sll q l.",
+              "post_spatial": "An empty xizi_sllseg from the first address to q, followed by the unchanged xizi_sll q l; the first disjunct also preserves the head field.",
+              "post_pure": "l = [] ++ l and 0 = Zlength([]).",
+              "post_exists": "Choose l1=[] and l2=l; in the first disjunct also choose first=q."
+            },
+            "witness_instantiation": "Use the second generated disjunct for the shortest route, choosing l2=l; equivalently, in the first choose first=q, l1=[], l2=l.",
+            "space_plan": "Unfold xizi_sllseg q q [] to its empty base case, simplify, and retain xizi_sll q l unchanged. If using the first disjunct, frame the unchanged head next-field cell.",
+            "pure_plan": "Simplify app_nil_l and Zlength nil; both equalities are reflexive.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "The suffix xizi_sll q l is a literal antecedent resource.",
+              "The empty segment requires only equality of its endpoints, supplied by choosing first=q."
+            ],
+            "failure_signal": "None.",
+            "recommended_next_phase": "vc-proving only after the blocked loop-step witness is repaired and the source_goal_version is regenerated",
+            "proof_group_candidate": "sll_boundary_initialization_and_closure",
+            "grouping_reason": "Shares the xizi_sllseg base/closure family with the return witness and needs no helper."
+          },
+          {
+            "witness_name": "proof_of_xizi_single_link_len_entail_wit_2",
+            "statement_hash": "b88bcd84fcf0e0939c08ed50236776e08f27563bf3fe2f12e4870fd338394574",
+            "judgment": "annotation-bug",
+            "vc_shape": {
+              "pre_spatial": "tmp_list.node_next |-> q ** xizi_sll q l0 ** xizi_sllseg first_2 tmp_list l1_2, with the first disjunct additionally preserving linklist_pre.node_next |-> first_2.",
+              "pre_pure": "l2_2 = tmp_list :: l0, tmp_list <> 0, l = l1_2 ++ l2_2, and length = Zlength(l1_2). There is no Zlength(l) <= UINT_MAX premise.",
+              "pre_exists": "No target-relevant existential is exposed by P beyond recursive predicate internals.",
+              "post_spatial": "Extend xizi_sllseg by the current node so it ends at q, preserve xizi_sll q l0, and preserve the head field in the first disjunct.",
+              "post_pure": "l = l1 ++ l2 and unsigned_last_nbits(length+1,32) = Zlength(l1).",
+              "post_exists": "Spatial ownership forces the intended choices l1=l1_2 ++ [tmp_list] and l2=l0; in the first disjunct choose first=first_2."
+            },
+            "witness_instantiation": "The intended post witnesses are l1=l1_2 ++ [tmp_list], l2=l0, and first=first_2 where present.",
+            "space_plan": "Use xizi_sllseg_len1 tmp_list q, discharged by tmp_list<>0, on the current node field; compose it with xizi_sllseg first_2 tmp_list l1_2 via xizi_sllseg_sllseg. Frame xizi_sll q l0 and, in the first disjunct, the root next-field cell.",
+            "pure_plan": "List associativity proves l = (l1_2 ++ [tmp_list]) ++ l0. Zlength_app/cons/nil gives Zlength(l1)=Zlength(l1_2)+1. The remaining modular equality requires 0 <= length+1 <= UINT_MAX, but P supplies neither Zlength(l)<=UINT_MAX nor an equivalent upper bound; it therefore cannot be discharged.",
+            "used_existing_lemmas": [
+              {
+                "lemma_name": "xizi_sllseg_len1",
+                "source": "QCIPLib.xizi.xizi_single_link_common.xizi_single_link_lib",
+                "premises": [
+                  {
+                    "premise": "tmp_list <> NULL",
+                    "discharged_by": "PreH2: tmp_list <> 0"
+                  }
+                ]
+              },
+              {
+                "lemma_name": "xizi_sllseg_sllseg",
+                "source": "QCIPLib.xizi.xizi_single_link_common.xizi_single_link_lib",
+                "premises": [
+                  {
+                    "premise": "Adjacent segments first_2->tmp_list over l1_2 and tmp_list->q over [tmp_list]",
+                    "discharged_by": "The original segment and the segment built from tmp_list.node_next |-> q"
+                  }
+                ]
+              },
+              {
+                "lemma_name": "unsigned_last_nbits_eq",
+                "source": "existing integer library",
+                "premises": [
+                  {
+                    "premise": "The incremented mathematical length is within the unsigned 32-bit range",
+                    "discharged_by": "not present in P",
+                    "result": "undischarged"
+                  }
+                ]
+              }
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "tmp_list<>0 discharges xizi_sllseg_len1's non-null premise.",
+              "The segment-composition spatial premises are present after constructing the one-node segment.",
+              "The required no-wrap upper bound is absent and cannot be supplied by a sound helper without adding an assumption."
+            ],
+            "failure_signal": "goal.v lines 74-98 omit Zlength(l) <= UINT_MAX even though the C Require has it; the loop invariant at C lines 19-27 also omits this stable fact.",
+            "semantic_counterexample_shape": "At the pure level choose length=UINT_MAX and a prefix l1_2 of length UINT_MAX, then choose one current node tmp_list and any suffix l0 (for example nil). The intended new prefix has length UINT_MAX+1, while unsigned_last_nbits(UINT_MAX+1,32)=0. The spatial predicates do not state the missing 32-bit length upper bound, so they cannot justify the demanded equality.",
+            "recommended_next_phase": "annotation",
+            "proof_group_candidate": null,
+            "grouping_reason": "Excluded from proving because the frozen VC is semantically invalid."
+          },
+          {
+            "witness_name": "proof_of_xizi_single_link_len_return_wit_1",
+            "statement_hash": "579115f82fdabe8322b2a9d2248e858ead4dc18e52fe2cab629dc4ab5f2dbd6f",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "xizi_sllseg first 0 l1 ** xizi_sll 0 l2; the first disjunct additionally owns linklist_pre.node_next |-> first.",
+              "pre_pure": "tmp_list=0, l=l1++l2, and length=Zlength(l1).",
+              "pre_exists": "No outer existential witnesses are required.",
+              "post_spatial": "The second disjunct requires xizi_sll first l; the first folds the preserved root next field together with that list into xizi_sll_head linklist_pre l.",
+              "post_pure": "length=Zlength(l).",
+              "post_exists": "The xizi_sll_head fold internally uses first as the root successor."
+            },
+            "witness_instantiation": "Select the second generated disjunct for the shortest proof; the first is also provable by additionally folding xizi_sll_head around its preserved field.",
+            "space_plan": "Apply xizi_sll_zero to xizi_sll 0 l2 to derive l2=[] while consuming it to emp. Then apply xizi_sllseg_0_sll to convert the complete segment into xizi_sll first l1; rewrite l=l1++[] to finish.",
+            "pure_plan": "From l2=[] and PreH2 obtain l=l1; combine with PreH3 length=Zlength(l1).",
+            "used_existing_lemmas": [
+              {
+                "lemma_name": "xizi_sll_zero",
+                "source": "QCIPLib.xizi.xizi_single_link_common.xizi_single_link_lib",
+                "premises": [
+                  {
+                    "premise": "root address equals NULL",
+                    "discharged_by": "The predicate is literally xizi_sll 0 l2"
+                  }
+                ]
+              },
+              {
+                "lemma_name": "xizi_sllseg_0_sll",
+                "source": "QCIPLib.xizi.xizi_single_link_common.xizi_single_link_lib",
+                "premises": [
+                  {
+                    "premise": "xizi_sllseg first 0 l1",
+                    "discharged_by": "Literal antecedent resource"
+                  }
+                ]
+              }
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "Both library entailment premises occur literally in P.",
+              "The only list equalities follow from l2=nil, PreH2, and PreH3."
+            ],
+            "failure_signal": "None.",
+            "recommended_next_phase": "vc-proving only after the blocked loop-step witness is repaired and the source_goal_version is regenerated",
+            "proof_group_candidate": "sll_boundary_initialization_and_closure",
+            "grouping_reason": "Shares the same list-segment base/closure family as initialization and uses only existing helpers."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "sll_boundary_initialization_and_closure",
+            "witness_names": [
+              "proof_of_xizi_single_link_len_entail_wit_1",
+              "proof_of_xizi_single_link_len_return_wit_1"
+            ],
+            "representative_witness": "proof_of_xizi_single_link_len_return_wit_1",
+            "shared_proof_pattern": "Normalize an empty endpoint case of xizi_sll/xizi_sllseg, preserve the unchanged suffix or close a segment at NULL, and discharge list-length equalities by simplification.",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "Both proofable witnesses use the same representation-predicate boundary family, have no helper dependency, and together remain below max_witnesses_per_group=12.",
+            "proof_group_ready": false
+          }
+        ],
+        "blocked_witnesses": [
+          "proof_of_xizi_single_link_len_entail_wit_2"
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "6cc465809ba30e254cd51978f784097e0f1dc9c34bdce60627e5f0bc847396dc",
+        "target_witnesses": [
+          "proof_of_xizi_single_link_len_entail_wit_1",
+          "proof_of_xizi_single_link_len_entail_wit_2",
+          "proof_of_xizi_single_link_len_return_wit_1"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "sll_boundary_initialization_and_closure",
+            "witness_names": [
+              "proof_of_xizi_single_link_len_entail_wit_1",
+              "proof_of_xizi_single_link_len_return_wit_1"
+            ],
+            "representative_witness": "proof_of_xizi_single_link_len_return_wit_1",
+            "dependencies": [],
+            "candidate_helper_declarations": [],
+            "likely_helper_declarations": [],
+            "proof_strategy": "For entail_wit_1 select the short disjunct and instantiate the remaining suffix with l, then simplify the empty prefix/segment. For return_wit_1 select the short disjunct, use xizi_sll_zero to force l2=nil, apply xizi_sllseg_0_sll, and rewrite the list and length equalities. No new helper is required.",
+            "per_witness_plan": {
+              "proof_of_xizi_single_link_len_entail_wit_1": "Choose l2=l in the second disjunct; simplify app nil, Zlength nil, and the unchanged xizi_sll resource.",
+              "proof_of_xizi_single_link_len_return_wit_1": "Choose the second disjunct; derive l2=nil using xizi_sll_zero, close xizi_sllseg first 0 l1 with xizi_sllseg_0_sll, then rewrite l and length."
+            },
+            "premise_discharge": {
+              "xizi_sll_zero": "The antecedent owns xizi_sll 0 l2.",
+              "xizi_sllseg_0_sll": "The antecedent owns xizi_sllseg first 0 l1."
+            },
+            "grouping_reason": "The two proofable witnesses share the xizi_sll/xizi_sllseg endpoint-normalization family and no helper dependencies. The group size is 2, within the configured maximum 12.",
+            "confidence": "high"
+          }
+        ],
+        "excluded_from_proving": [
+          {
+            "witness": "proof_of_xizi_single_link_len_entail_wit_2",
+            "reason": "annotation-bug: the invariant-generated precondition omits Zlength(l) <= UINT_MAX, so no-wrap for length+1 is unprovable"
+          }
+        ],
+        "blockers": [
+          {
+            "kind": "annotation-bug",
+            "witness": "proof_of_xizi_single_link_len_entail_wit_2",
+            "missing_fact": "Zlength(l) <= UINT_MAX (or an equivalent bound strong enough to prove Zlength(l1_2)+1 <= UINT_MAX)",
+            "evidence": "The witness premises at goal.v lines 74-79 contain only the suffix decomposition, current-node non-null fact, overall list decomposition, and old prefix length equality. The post at lines 80-85 requires an unsigned_last_nbits equality."
+          }
+        ],
+        "downstream_valid": "no",
+        "invalidation_reason": "Repairing the loop invariant and regenerating symbolic-execution artifacts changes source_goal_version, so this provisional grouping must not be consumed by vc-proving.",
+        "grouping_policy_evidence": {
+          "controller_policy": "bounded-witness-groups/v1",
+          "target_witness_count": 3,
+          "provisionally_grouped_witness_count": 2,
+          "excluded_semantically_invalid_witness_count": 1,
+          "max_witnesses_per_group": 12,
+          "policy_satisfied": true
+        }
+      },
+      "group_plan_ready": false,
+      "ready_for_vc_proving": false,
+      "annotation_repair_recommendation": {
+        "required_property": "Carry the stable public bound Zlength(l) <= UINT_MAX through the loop invariant so each increment can prove that the new prefix length remains within 32-bit unsigned range.",
+        "conservative_pattern": "Add Zlength(l) <= UINT_MAX as a pure conjunct of the existing predicate-first Inv Assert; keep the public With and existing prefix/suffix spatial decomposition unchanged.",
+        "must_preserve": [
+          "the public xizi_sll_head(linklist,l) contract",
+          "the l=l1++l2 and length=Zlength(l1) loop relation",
+          "the root next-field ownership and xizi_sllseg(first,tmp_list,l1) ** xizi_sll(tmp_list,l2) spatial decomposition",
+          "the sentinel/root is not counted"
+        ],
+        "next_checks": [
+          "rerun annotation-filling and annotation-checking on fresh scratch",
+          "regenerate goal/proof artifacts with canonical symbolic execution",
+          "verify the refreshed loop-step witness carries the length bound",
+          "rerun vc-checking against the new source_goal_version"
+        ]
+      },
+      "version_evidence": {
+        "all_declared_file_hashes_match_round_worktree": true,
+        "manual_witnesses_match_target_witnesses_exactly": true,
+        "manual_witness_count": 3,
+        "diagnostics_manual_obligation_count": 3,
+        "diagnostic_split_goals_excluded_from_targets": true,
+        "witness_statement_hashes_match": true,
+        "hash_mismatches": []
+      },
+      "evidence": {
+        "formal_files_modified": false,
+        "coq_check_run": false,
+        "coq_check_reason": "vc-checking is a read-only semantic planning phase; a missing premise cannot be repaired by proof search.",
+        "primary_files": [
+          "OUTPUT/xizi/xizi_single_link_len/source/xizi_single_link_len.c",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_len/source/xizi_single_link_len_goal.v",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_len/source/xizi_single_link_len_proof_manual.v",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_len/source/xizi_single_link_len_lib.v",
+          "QCIPLib/xizi/xizi_single_link_common/xizi_single_link_lib.v",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_len/source/diagnostics_snapshot.json"
+        ],
+        "reference_scope": {
+          "conclusion_sources": [
+            "agent_input.json",
+            "declared vc-checking round worktree formal files"
+          ],
+          "parent_chat_used": "no"
+        }
+      },
+      "changed_files": [],
+      "formal_files_modified": false,
+      "blockers": [
+        {
+          "kind": "annotation-bug",
+          "witness": "proof_of_xizi_single_link_len_entail_wit_2",
+          "reason": "The generated loop-step VC lacks the stable UINT_MAX list-length bound required to rule out unsigned wraparound."
+        }
+      ],
+      "recommended_next_phase": "annotation",
+      "controller_acceptance": "not-claimed",
+      "timing": {
+        "timing_source": "command wall-clock plus unmeasured analysis",
+        "major_time_sinks": [
+          "mandatory handoff, skill, and routed rule-document reading",
+          "source/source-goal hash audit",
+          "semantic list-segment and unsigned-wrap analysis across all three manual witnesses"
+        ],
+        "timing_gaps": [
+          "The spawn start and individual non-command analysis segments were not separately timestamped; no elapsed duration is guessed."
+        ],
+        "open_or_incomplete_timing_events": []
+      }
+    },
+    "changed_files": [],
+    "blockers": [
+      {
+        "kind": "annotation-bug",
+        "witness": "proof_of_xizi_single_link_len_entail_wit_2",
+        "reason": "Missing stable Zlength(l) <= UINT_MAX premise makes the modular increment equality unprovable."
+      }
+    ]
+  },
+  "verification_result": {},
+  "blockers": []
+}

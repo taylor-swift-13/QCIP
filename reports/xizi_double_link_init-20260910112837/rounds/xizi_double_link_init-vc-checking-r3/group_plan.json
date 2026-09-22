@@ -1,0 +1,129 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "0ae406435ea80f0ee8c25c6a86d62a7ff97098fe418b89bd5965e43dfed60a0a",
+  "target_witnesses": [
+    "proof_of_InitDoubleLinkList_entail_wit_1",
+    "proof_of_InitDoubleLinkList_return_wit_1"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "dll_init_resources",
+      "witness_names": [
+        "proof_of_InitDoubleLinkList_entail_wit_1",
+        "proof_of_InitDoubleLinkList_return_wit_1"
+      ],
+      "representative_witness": "proof_of_InitDoubleLinkList_return_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "proof_strategy": "For both witness definitions select the left identical disjunct. Entry: unfold XiziLocalDLL.occupy_dll_node and rearrange existential introduction with direct field cancellation. Return: apply XiziLocalDLL.store_dll_empty_rev. Use current local naive_C_Rules model, not DLL/CRules lemmas. No helper expected and no generated or seed edits.",
+      "grouping_reason": "Two related ownership transformations for InitDoubleLinkList, no dependency, 2 witnesses within the bound of 12.",
+      "shared_proof_pattern": "Existential node-resource unpacking / empty DLL resource packing.",
+      "shared_space_plan": "Preserve the sentinel prev/next field ownership.",
+      "shared_pure_plan": "Only reflexive endpoint equalities in the empty case.",
+      "shared_refinement_plan": "None.",
+      "proof_group_ready": true
+    }
+  ],
+  "natural_language_analysis": {
+    "witnesses": [
+      {
+        "witness_name": "proof_of_InitDoubleLinkList_entail_wit_1",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "XiziLocalDLL.occupy_dll_node head; its two separate existential resources own head.prev and head.next.",
+          "pre_pure": [],
+          "pre_exists": [
+            "prev",
+            "next"
+          ],
+          "post_spatial": "EX next prev, head.prev |-> prev ** head.next |-> next.",
+          "post_pure": [],
+          "post_exists": [
+            "next",
+            "prev"
+          ]
+        },
+        "witness_instantiation": "Extract prev and next from occupy_dll_node and reintroduce them in the goal order next, prev.",
+        "space_plan": "Unfold the witness and choose its left disjunct (both branches are identical). Unfold XiziLocalDLL.occupy_dll_node, extract both existential values, introduce target existential values, and cancel the two unchanged field resources.",
+        "pure_plan": "No pure side conditions or nonnull assumption.",
+        "refinement_plan": "No refinement state.",
+        "used_existing_lemmas": [],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [],
+        "failure_signal": "A different assertion model or layout would invalidate direct lemma application; current generated goal and XiziLocalDLL agree.",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "dll_init_resources",
+        "proof_group_candidate": "dll_init_resources",
+        "grouping_reason": "Both witnesses describe entry resource exposure and empty-sentinel closure in the same straight-line initialization function."
+      },
+      {
+        "witness_name": "proof_of_InitDoubleLinkList_return_wit_1",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "head.prev |-> head ** head.next |-> head under naive_C_Rules and SysDoubleLinklistNode layout.",
+          "pre_pure": [],
+          "pre_exists": [],
+          "post_spatial": "XiziLocalDLL.store_dll storeA head nil.",
+          "post_pure": [
+            "After choosing first = last = head, empty dllseg needs head = head /\\ head = head."
+          ],
+          "post_exists": [
+            "first",
+            "last"
+          ]
+        },
+        "witness_instantiation": "Choose first = head and last = head; nil has no storeA payload resource.",
+        "space_plan": "Unfold the witness and choose its left disjunct. Apply XiziLocalDLL.store_dll_empty_rev at arbitrary A, storeA, head; equivalently unfold store_dll/dllseg and choose head/head, retaining both field cells.",
+        "pure_plan": "The empty segment endpoint equalities are reflexive; no nonnull assumption, payload assumption, or restriction on A/storeA.",
+        "refinement_plan": "No refinement state.",
+        "used_existing_lemmas": [
+          "XiziLocalDLL.store_dll_empty_rev"
+        ],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          {
+            "premise": "The two sentinel pointer fields both store head.",
+            "discharged_by": "Exactly the two resources in the witness antecedent."
+          }
+        ],
+        "failure_signal": "A different assertion model or layout would invalidate direct lemma application; current generated goal and XiziLocalDLL agree.",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "dll_init_resources",
+        "proof_group_candidate": "dll_init_resources",
+        "grouping_reason": "Both witnesses describe entry resource exposure and empty-sentinel closure in the same straight-line initialization function."
+      }
+    ],
+    "analysis_groups": [
+      {
+        "group_id": "dll_init_resources",
+        "witness_names": [
+          "proof_of_InitDoubleLinkList_entail_wit_1",
+          "proof_of_InitDoubleLinkList_return_wit_1"
+        ],
+        "representative_witness": "proof_of_InitDoubleLinkList_return_wit_1",
+        "dependencies": [],
+        "candidate_helper_declarations": [],
+        "likely_helper_declarations": [],
+        "proof_strategy": "For both witness definitions select the left identical disjunct. Entry: unfold XiziLocalDLL.occupy_dll_node and rearrange existential introduction with direct field cancellation. Return: apply XiziLocalDLL.store_dll_empty_rev. Use current local naive_C_Rules model, not DLL/CRules lemmas. No helper expected and no generated or seed edits.",
+        "grouping_reason": "Two related ownership transformations for InitDoubleLinkList, no dependency, 2 witnesses within the bound of 12.",
+        "shared_proof_pattern": "Existential node-resource unpacking / empty DLL resource packing.",
+        "shared_space_plan": "Preserve the sentinel prev/next field ownership.",
+        "shared_pure_plan": "Only reflexive endpoint equalities in the empty case.",
+        "shared_refinement_plan": "None.",
+        "proof_group_ready": true
+      }
+    ]
+  },
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 2,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "41481f9284531e5fd01e7921769ef95324f8608fccf3576ad4a5a720e1a9de68",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_empty_rec_return_wit_1",
+    "proof_of_xizi_double_link_empty_rec_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "return_dllseg_emptiness",
+      "witness_names": [
+        "proof_of_xizi_double_link_empty_rec_return_wit_1",
+        "proof_of_xizi_double_link_empty_rec_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_empty_rec_return_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "For return_wit_1 select the first disjunct, derive nodes<>nil from first<>sentinel plus xizi_dllseg, and close the unchanged sentinel links/segment with xizi_dll_close. For return_wit_2 select the second disjunct, derive nodes=nil by excluding the cons branch of xizi_dllseg at equal endpoints, and frame the segment.",
+      "natural_language_proof_strategy": "Unfold the result relation, destruct the logical node list, use the nil/nonempty branches of XiziDLL.dllseg to discharge the pure result, and preserve or close the spatial resources without altering any generated statement.",
+      "grouping_reason": "The two obligations share the same function, result predicate, xizi_dllseg semantics, and list-shape case analysis; one sequential worker context is appropriate and remains within max_witnesses_per_group=12.",
+      "difficulty": "low-to-medium",
+      "confidence": "high",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_empty_rec_return_wit_1": "Choose the first disjunct; destruct nodes to prove nonemptiness, then use xizi_dll_close.",
+        "proof_of_xizi_double_link_empty_rec_return_wit_2": "Choose the second disjunct; destruct nodes, contradict the cons branch using first=stop, and frame the segment."
+      },
+      "vc_shape": {
+        "shared": "Direct separation-logic return entailments over xizi_dllseg, with pure empty/nonempty result facts and preserved ownership."
+      },
+      "witness_instantiation": {
+        "proof_of_xizi_double_link_empty_rec_return_wit_1": "first and last become the xizi_dll representation witnesses",
+        "proof_of_xizi_double_link_empty_rec_return_wit_2": "none"
+      },
+      "space_plan": {
+        "proof_of_xizi_double_link_empty_rec_return_wit_1": "assemble xizi_dll_links and apply xizi_dll_close",
+        "proof_of_xizi_double_link_empty_rec_return_wit_2": "frame the identical xizi_dllseg"
+      },
+      "pure_plan": {
+        "proof_of_xizi_double_link_empty_rec_return_wit_1": "nil contradicts first<>sentinel, so select result=0/nonempty",
+        "proof_of_xizi_double_link_empty_rec_return_wit_2": "cons contradicts first=stop and the segment guard, so select result=1/empty"
+      },
+      "refinement_plan": {
+        "shared": "not applicable"
+      },
+      "premise_discharge": {
+        "proof_of_xizi_double_link_empty_rec_return_wit_1": "xizi_dll_close non-null premise is PreH2; nonemptiness follows from the segment nil branch contradicting PreH1",
+        "proof_of_xizi_double_link_empty_rec_return_wit_2": "emptiness follows by contradiction from the segment cons branch and PreH1"
+      }
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 2,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

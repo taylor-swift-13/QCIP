@@ -1,0 +1,27 @@
+# Reuse Note
+Note kind: non-authoritative reuse note
+This file is not acceptance evidence.
+
+The r5 candidate changes the public contract to `With l`, removes the redundant
+explicit `linklist != 0`, and uses `undef_data_at` for the writable
+`linklist_node->node_next` field. The same writable field resource is retained
+in the full `Inv Assert`. The loop's mathematical state remains the
+prefix/current/suffix decomposition
+`cons(linklist,l) = l1a ++ node :: l1b`, and the postcondition remains
+`xizi_sll_head(linklist, l ++ [linklist_node])`.
+
+Three qcp-mcp `load_target_file`/`symbolic(38)` cycles succeeded with the
+`xizi_single_link` strategies, each reporting one auto witness and three manual
+witnesses. The canonical symexec command with the required
+`-IQCP_examples/QCP_demos_LLM/` and
+`-slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM` parameters also
+reached the file end. The fixed `coq_tooling.py check --target-kind case_lib`
+gate passed with flags hash
+`b6e5573415735fec9159c1cc3ce8cb8fe6f8818e85a322d61c1317cdf0617564`.
+
+The per-case lib was intentionally left unchanged: the strict
+`xizi_sll_head`/`xizi_sllseg`/`xizi_sll` representation specifications already
+exist in the shared Xizi single-link library imported by the source header.
+The controller must recompute `source_goal_version` after its canonical
+regeneration and diagnostics split; the input source-goal version is stale
+because the regenerated goal and proof-auto files changed.

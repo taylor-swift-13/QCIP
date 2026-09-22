@@ -1,0 +1,83 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "2833adc702bf128574ffd0c29e1d0bdc31405b399b4d77ca48870c1919de0342",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_len_entail_wit_1",
+    "proof_of_xizi_double_link_len_entail_wit_2_1",
+    "proof_of_xizi_double_link_len_entail_wit_2_2",
+    "proof_of_xizi_double_link_len_return_wit_1",
+    "proof_of_xizi_double_link_len_return_wit_2"
+  ],
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 5,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  },
+  "proof_groups": [
+    {
+      "group_id": "dll_len_invariant",
+      "witness_names": [
+        "proof_of_xizi_double_link_len_entail_wit_1",
+        "proof_of_xizi_double_link_len_entail_wit_2_1",
+        "proof_of_xizi_double_link_len_entail_wit_2_2",
+        "proof_of_xizi_double_link_len_return_wit_1",
+        "proof_of_xizi_double_link_len_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_len_entail_wit_2_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "xizi_dllseg_snoc_one",
+          "statement_shape": "forall first head current prev before next, current <> 0 -> current <> next -> xizi_dllseg first head current prev before ** xizi_dll_links current next prev |-- xizi_dllseg first head next current (before ++ [current])",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_len_entail_wit_2_1",
+            "proof_of_xizi_double_link_len_return_wit_1"
+          ],
+          "premises": [
+            "current <> 0 comes from the nonempty-loop invariant",
+            "current <> next is direct when next is the sentinel at return, and in the transition follows after unfolding the suffix and using separation of current/next link cells"
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        }
+      ],
+      "expected_helpers": [
+        "xizi_dllseg_snoc_one__dll_len_invariant"
+      ],
+      "proof_strategy": "Keep the five witnesses together as one invariant lifecycle. Initialize by opening xizi_dll or selecting the direct-segment alternative. For the general transition, unfold the nonempty suffix, extend the processed prefix with the suffixed snoc helper, instantiate done = done_2 ++ [next_2] and todo = l0, and show the 32-bit increment does not wrap from the total-length bound. For the initial transition use before = nil and unfold the first suffix node. For nonempty return force the suffix at the sentinel to nil, append tmp_node to the prefix, and close xizi_dll (or prove the segment alternative). For empty return force todo = nil from a segment whose node equals its stop and rebuild the empty list shape.",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_len_entail_wit_1": "Select the direct-segment alternative with todo = nodes, or open xizi_dll and choose done = nil; pure app/Zlength facts simplify and all spatial resources are preserved.",
+        "proof_of_xizi_double_link_len_entail_wit_2_1": "Use the full-resource alternative, unfold the guarded suffix to obtain todo_2 = next_2 :: l0 and next_2's links, append tmp_node to the prefix, and instantiate before = done_2, done = done_2 ++ [next_2], todo = l0.",
+        "proof_of_xizi_double_link_len_entail_wit_2_2": "Use the initial-iteration alternative, unfold the guarded segment at first_2, take before = nil, done = [first_2], todo = l0, and retain sentinel/first-node links and the residual suffix.",
+        "proof_of_xizi_double_link_len_return_wit_1": "From next = linklist_pre, destruct todo; the nonempty case contradicts the stop guard, while nil yields the endpoint equality. Append tmp_node to the prefix, rewrite nodes = done, and close xizi_dll.",
+        "proof_of_xizi_double_link_len_return_wit_2": "From first = linklist_pre, destruct todo; only nil is possible. Rewrite nodes = nil and linklist_length = 0, derive last = linklist_pre from the empty segment, and choose the empty-list post shape."
+      },
+      "vc_shape": {
+        "family": "sentinel circular doubly linked list prefix/suffix invariant",
+        "spatial_core": "xizi_dll/xizi_dllseg with paired node_next/node_prev cells and sentinel closure",
+        "pure_core": "nodes = done ++ todo, counter = Zlength done, total Zlength decomposition, and UINT32 no-wrap bound"
+      },
+      "witness_instantiation": {
+        "initial": "done = nil and todo = nodes; after the first iteration before = nil, done = [first_2], todo = l0",
+        "transition": "before = done_2, done = done_2 ++ [next_2], todo = l0",
+        "nonempty_return": "todo = nil and the closing node is tmp_node",
+        "empty_return": "done = todo = nodes = nil and first = last = linklist_pre"
+      },
+      "space_plan": "Use existing xizi_dll open/close and xizi_dllseg unfolding facts, plus one group-suffixed snoc helper; frame the sentinel closure and residual suffix.",
+      "pure_plan": "Normalize app and Zlength. The active loop transition implies the new prefix length is old length + 1 and at most total length; Zlength nodes <= 2^32-1 and nonnegativity make unsigned_last_nbits exact.",
+      "refinement_plan": "not applicable",
+      "premise_discharge": {
+        "segment_snoc": "tmp_node <> 0 is an invariant fact; at return tmp_node <> linklist_pre is explicit, and in transition tmp_node <> next_2 follows from the separated link resources after suffix unfolding",
+        "unsigned_increment": "linklist_length = Zlength done_2, nodes = done_2 ++ next_2 :: l0, Zlength l0 >= 0, and xizi_double_link_size nodes = Zlength nodes <= 4294967295"
+      },
+      "difficulty": "medium",
+      "confidence": "high",
+      "grouping_reason": "All five witnesses are phases of one loop invariant over the same xizi_dllseg predicate, share one helper family and the same list-length arithmetic, and 5 is below the controller maximum 12; splitting would duplicate the helper/proof context without a dependency or strategy boundary."
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true
+}

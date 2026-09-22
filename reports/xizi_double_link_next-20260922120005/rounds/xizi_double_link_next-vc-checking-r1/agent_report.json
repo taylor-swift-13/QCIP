@@ -1,0 +1,477 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "vc_checking": {
+      "status": "completed",
+      "source_version": "9671e71ec33940af080288268a8410e0c64645e47afd866900720b3fe9173138",
+      "source_goal_version": "3cfb2d1ea5a91e9832b9dbb7c7a4d790cacf67126711da1113eed0dfb71c837f",
+      "version_check": {
+        "status": "passed",
+        "generated_file_hashes_match_handoff": true,
+        "source_file_hashes_match_handoff": true,
+        "manual_target_witnesses_match_handoff": true,
+        "diagnostics_used_as_hint_only": true,
+        "manual_obligation_count": 7,
+        "diagnostic_split_goal_count": 8
+      },
+      "natural_language_analysis": {
+        "summary": "All seven current manual obligations are semantically derivable from the existing annotation-approved specifications and case-lib lemmas. The qualification-only source change does not alter any witness meaning.",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_DoubleLinkListGetNext_entail_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "store_dll storeA head nodes",
+              "pre_pure": "xizi_double_link_next_anchor head (ptrs nodes) node, hence member or sentinel",
+              "pre_exists": "store_dll decomposition supplies sentinel endpoints and the complete segment",
+              "post_spatial": "Either payloads plus a segment cut at node and its fields, or unchanged sentinel fields and full segment",
+              "post_pure": "Member first-occurrence split and dispatch/suffix equality, or node=head and sentinel dispatch equality",
+              "post_exists": "Member: node_next, node_prev, first, last, before, after; sentinel: first, last"
+            },
+            "witness_instantiation": "Decompose store_dll for first/last. For membership use the first-occurrence lemma for before/after, segment cut for node_prev/node_next, and store exclusion for node<>head. For sentinel keep the complete segment.",
+            "space_plan": "Decompose store_dll; cut addr_dllseg at the first member occurrence or directly cancel the unchanged sentinel resources.",
+            "pure_plan": "In the member branch, membership plus store exclusion proves node<>head, then dispatch-at-first-occurrence gives the result equality. In the sentinel branch substitute node=head and unfold dispatch.",
+            "refinement_plan": "No safeExec/refinement state occurs.",
+            "used_existing_lemmas": [
+              "store_dll_decompose",
+              "next_store_exclusion__next_dispatch_resources",
+              "xizi_double_link_in_first_occurrence__dll_dispatch_forbidden_free",
+              "next_addr_segment_cut__next_dispatch_resources",
+              "xizi_double_link_next_value_at_first_occurrence__dll_dispatch_forbidden_free"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "Membership comes from the left anchor disjunct.",
+              "The first-occurrence lemma supplies nodes=before++node::after and ~In node before.",
+              "store_dll entails ~In head (ptrs nodes), so member membership entails node<>head.",
+              "Segment cut supplies the exact node fields and two segments required by the postcondition."
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "double_link_next_all",
+            "grouping_reason": "Shares the same store/segment and dispatch helper family as the return and derive witnesses."
+          },
+          {
+            "witness_name": "proof_of_DoubleLinkListGetNext_return_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "Sentinel next field with first=head, payloads, sentinel prev field, and addr_dllseg head head head last (ptrs nodes)",
+              "pre_pure": "first=head, node=head, dispatch=first_value (ptrs nodes)",
+              "pre_exists": "None",
+              "post_spatial": "store_dll storeA head nodes",
+              "post_pure": "dispatch result is zero",
+              "post_exists": "None beyond selecting one equivalent top-level disjunct"
+            },
+            "witness_instantiation": "No existential data; select a generated disjunct after node=head.",
+            "space_plan": "The duplicate sentinel-next field and segment imply ptrs nodes=nil via next_empty_observation; then next_store_close reconstructs store_dll.",
+            "pure_plan": "Rewrite first=head and node=head; ptrs nodes=nil reduces first_value to zero, and PreH3 supplies dispatch equality.",
+            "refinement_plan": "No safeExec/refinement state occurs.",
+            "used_existing_lemmas": [
+              "next_empty_observation__next_dispatch_resources",
+              "next_store_close__next_dispatch_resources"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "The segment begins and ends at head after first=head.",
+              "The original resources exactly satisfy store-close."
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "double_link_next_all",
+            "grouping_reason": "Uses the common segment observation and store reconstruction pattern."
+          },
+          {
+            "witness_name": "proof_of_DoubleLinkListGetNext_return_wit_2",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "Payloads, sentinel fields, prefix segment, queried-node fields, and suffix segment with node_next=head",
+              "pre_pure": "ptrs nodes=before++node::after, first occurrence, dispatch=first_value after, node<>head, node_next=head",
+              "pre_exists": "None",
+              "post_spatial": "store_dll storeA head nodes",
+              "post_pure": "dispatch result is zero",
+              "post_exists": "None beyond selecting a top-level disjunct"
+            },
+            "witness_instantiation": "Retain before/after and all existing endpoints.",
+            "space_plan": "Use the sentinel next field and suffix segment starting at head to prove after=nil, rejoin the segments around node, rewrite the list equation, and close store_dll.",
+            "pure_plan": "PreH4 gives dispatch=first_value after; after=nil makes it zero.",
+            "refinement_plan": "No safeExec/refinement state occurs.",
+            "used_existing_lemmas": [
+              "next_empty_observation__next_dispatch_resources",
+              "next_addr_segment_rejoin__next_dispatch_resources",
+              "next_store_close__next_dispatch_resources"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "node_next=head supplies the empty-observation start.",
+              "The precondition has all rejoin resources.",
+              "The list equation identifies the rejoined list with ptrs nodes."
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "double_link_next_all",
+            "grouping_reason": "Shares segment rejoin, dispatch observation, and store close with returns 3 and 4."
+          },
+          {
+            "witness_name": "proof_of_DoubleLinkListGetNext_return_wit_3",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "Payloads, sentinel fields, prefix segment, queried-node fields, and suffix segment starting at node_next",
+              "pre_pure": "ptrs nodes=before++node::after, first occurrence, dispatch=first_value after, node<>head, node_next<>head",
+              "pre_exists": "None",
+              "post_spatial": "store_dll storeA head nodes",
+              "post_pure": "node_next equals dispatch result",
+              "post_exists": "None beyond selecting a top-level disjunct"
+            },
+            "witness_instantiation": "Retain the suffix and existing endpoints.",
+            "space_plan": "Apply next_nonempty_observation to the suffix, rejoin prefix/node/suffix, rewrite by the list equation, and close store_dll.",
+            "pure_plan": "node_next<>head yields node_next=first_value after; compose with PreH4.",
+            "refinement_plan": "No safeExec/refinement state occurs.",
+            "used_existing_lemmas": [
+              "next_nonempty_observation__next_dispatch_resources",
+              "next_addr_segment_rejoin__next_dispatch_resources",
+              "next_store_close__next_dispatch_resources"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "PreH1 is exactly the nonempty-observation inequality.",
+              "PreH2 identifies the rejoined list.",
+              "PreH4 bridges suffix observation to dispatch."
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "double_link_next_all",
+            "grouping_reason": "Shares the return segment rejoin and store-close pattern."
+          },
+          {
+            "witness_name": "proof_of_DoubleLinkListGetNext_return_wit_4",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "Sentinel next field, payloads, sentinel prev field, and complete segment beginning at first",
+              "pre_pure": "first<>head, node=head, dispatch=first_value (ptrs nodes)",
+              "pre_exists": "None",
+              "post_spatial": "store_dll storeA head nodes",
+              "post_pure": "first equals dispatch result",
+              "post_exists": "None beyond selecting a top-level disjunct"
+            },
+            "witness_instantiation": "No new existential values.",
+            "space_plan": "Apply next_nonempty_observation to the full segment and reconstruct store_dll with next_store_close.",
+            "pure_plan": "first<>head yields first=first_value (ptrs nodes); compose with PreH3 and node=head.",
+            "refinement_plan": "No safeExec/refinement state occurs.",
+            "used_existing_lemmas": [
+              "next_nonempty_observation__next_dispatch_resources",
+              "next_store_close__next_dispatch_resources"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "first<>head is exactly the nonempty-observation premise.",
+              "The original resources exactly satisfy store-close."
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "double_link_next_all",
+            "grouping_reason": "Shares observation and store close with all return witnesses."
+          },
+          {
+            "witness_name": "proof_of_DoubleLinkListGetNext_derive_sentinel_case_by_dispatch_case",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "store_dll storeA_sentinel_case head nodes_sentinel_case",
+              "pre_pure": "node=head",
+              "pre_exists": "None",
+              "post_spatial": "The same store forms the dispatch assertion and is preserved through the wand",
+              "post_pure": "Anchor holds by node=head; dispatch head nodes head equals first_value nodes",
+              "post_exists": "Choose the same A/store/nodes and the common first_value/dispatch result"
+            },
+            "witness_instantiation": "Use the sentinel case A/store/nodes and retval=first_value (ptrs nodes).",
+            "space_plan": "Frame the same store into the dispatch assertion; after introducing the wand premise, cancel the unchanged store into the requested existential result.",
+            "pure_plan": "Use node=head for the anchor and unfold dispatch to the first_value branch.",
+            "refinement_plan": "The bridge is a wand over an unchanged abstract store; no safeExec state occurs.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "The right anchor disjunct is node=head.",
+              "Identical A/store/nodes preserve the spatial predicate.",
+              "node=head selects the sentinel dispatch branch."
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "double_link_next_all",
+            "grouping_reason": "Shares dispatch unfolding and unchanged-store framing with the member bridge."
+          },
+          {
+            "witness_name": "proof_of_DoubleLinkListGetNext_derive_member_case_by_dispatch_case",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "store_dll storeA_member_case head nodes_member_case",
+              "pre_pure": "node is in ptrs nodes_member_case",
+              "pre_exists": "None",
+              "post_spatial": "The same store forms the dispatch assertion and is preserved through the wand",
+              "post_pure": "Anchor holds by membership; store exclusion gives node<>head, so dispatch reduces to next_value",
+              "post_exists": "Choose the same A/store/nodes and retval=next_value (ptrs nodes) node"
+            },
+            "witness_instantiation": "Use the member case A/store/nodes and retval=xizi_double_link_next_value (ptrs nodes) node.",
+            "space_plan": "Preserve and cancel the same store across the dispatch assertion and wand; obtain store exclusion as a pure entailment without changing the abstract resource.",
+            "pure_plan": "Membership proves the anchor. Store exclusion proves head is absent; with membership this yields node<>head and selects the non-sentinel dispatch branch.",
+            "refinement_plan": "The bridge is a wand over an unchanged abstract store; no safeExec state occurs.",
+            "used_existing_lemmas": [
+              "next_store_exclusion__next_dispatch_resources"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "Membership is the input fact and anchor left disjunct.",
+              "Head exclusion plus membership proves node<>head.",
+              "node<>head selects xizi_double_link_next_value in dispatch."
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "double_link_next_all",
+            "grouping_reason": "Shares dispatch, store exclusion, and unchanged-store framing with the other witnesses."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "double_link_next_all",
+            "witness_names": [
+              "proof_of_DoubleLinkListGetNext_entail_wit_1",
+              "proof_of_DoubleLinkListGetNext_return_wit_1",
+              "proof_of_DoubleLinkListGetNext_return_wit_2",
+              "proof_of_DoubleLinkListGetNext_return_wit_3",
+              "proof_of_DoubleLinkListGetNext_return_wit_4",
+              "proof_of_DoubleLinkListGetNext_derive_sentinel_case_by_dispatch_case",
+              "proof_of_DoubleLinkListGetNext_derive_member_case_by_dispatch_case"
+            ],
+            "representative_witness": "proof_of_DoubleLinkListGetNext_entail_wit_1",
+            "shared_proof_pattern": "Open or preserve store_dll, reason over the same complete/cut segment and dispatch observation, then rejoin/close or frame the unchanged store.",
+            "shared_space_plan": "Store decomposition/closure, segment cut/rejoin or direct cancellation, and unchanged-store framing.",
+            "shared_pure_plan": "Anchor/dispatch definitions plus first-occurrence, empty-suffix, nonempty-suffix, or sentinel/member facts.",
+            "shared_refinement_plan": "No safeExec refinement obligations.",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "All witnesses are one function and one helper family; 7 is below the limit of 12, so one worker can proceed continuously.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "3cfb2d1ea5a91e9832b9dbb7c7a4d790cacf67126711da1113eed0dfb71c837f",
+        "target_witnesses": [
+          "proof_of_DoubleLinkListGetNext_entail_wit_1",
+          "proof_of_DoubleLinkListGetNext_return_wit_1",
+          "proof_of_DoubleLinkListGetNext_return_wit_2",
+          "proof_of_DoubleLinkListGetNext_return_wit_3",
+          "proof_of_DoubleLinkListGetNext_return_wit_4",
+          "proof_of_DoubleLinkListGetNext_derive_sentinel_case_by_dispatch_case",
+          "proof_of_DoubleLinkListGetNext_derive_member_case_by_dispatch_case"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "double_link_next_all",
+            "witness_names": [
+              "proof_of_DoubleLinkListGetNext_entail_wit_1",
+              "proof_of_DoubleLinkListGetNext_return_wit_1",
+              "proof_of_DoubleLinkListGetNext_return_wit_2",
+              "proof_of_DoubleLinkListGetNext_return_wit_3",
+              "proof_of_DoubleLinkListGetNext_return_wit_4",
+              "proof_of_DoubleLinkListGetNext_derive_sentinel_case_by_dispatch_case",
+              "proof_of_DoubleLinkListGetNext_derive_member_case_by_dispatch_case"
+            ],
+            "representative_witness": "proof_of_DoubleLinkListGetNext_entail_wit_1",
+            "dependencies": [],
+            "candidate_helper_declarations": [],
+            "expected_helpers": [],
+            "proof_strategy": "Prove dispatch entailment by store decomposition, first-occurrence splitting, and segment cut; prove returns with empty/nonempty observations, rejoin, and store close; finish contract bridges by identical abstract-state instantiation and sentinel/member dispatch reduction under the wand.",
+            "grouping_reason": "One bounded same-function cluster sharing the dispatch/store/segment family; this minimizes spawns and reuses one proof context.",
+            "difficulty": "medium",
+            "confidence": "high"
+          }
+        ],
+        "blockers": []
+      },
+      "changed_files": [],
+      "report_files_written": [
+        "/home/yangfp/QCIP/reports/xizi_double_link_next-20260922120005/rounds/xizi_double_link_next-vc-checking-r1/agent_report.json",
+        "/home/yangfp/QCIP/reports/xizi_double_link_next-20260922120005/rounds/xizi_double_link_next-vc-checking-r1/agent_output.txt"
+      ],
+      "blockers": []
+    }
+  },
+  "verification_result": {
+    "controller_acceptance": "not-requested-by-agent",
+    "formal_write_boundary": "respected",
+    "subagent_checks": {
+      "status": "passed",
+      "source_and_generated_hashes": "passed",
+      "manual_witness_coverage": "passed",
+      "semantic_proofability": "passed",
+      "grouping_policy": "passed"
+    },
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-09-22T06:28:10Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_double_link_next-20260922120005/rounds/xizi_double_link_next-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    },
+    "controller_simple_repairs": [
+      {
+        "kind": "materialized-inline-group-plan",
+        "source": "/home/yangfp/QCIP/reports/xizi_double_link_next-20260922120005/rounds/xizi_double_link_next-vc-checking-r1/agent_report.json",
+        "target": "/home/yangfp/QCIP/reports/xizi_double_link_next-20260922120005/rounds/xizi_double_link_next-vc-checking-r1/group_plan.json",
+        "reason": "vc-checking report included an inline group_plan but the default group_plan.json artifact was missing"
+      }
+    ],
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-09-22T06:28:10Z",
+      "source_version": {
+        "digest": "9671e71ec33940af080288268a8410e0c64645e47afd866900720b3fe9173138",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_next-20260922120005/xizi_double_link_next-annotation-r1/OUTPUT/xizi/xizi_double_link_next/source/xizi_double_link_next.c",
+            "relative_path": "OUTPUT/xizi/xizi_double_link_next/source/xizi_double_link_next.c",
+            "role": "target-c-annotated",
+            "sha256": "c3995a3c42e5b5794211ff00f0e786adaac0805a0aef61ce23ddb1d09b321066",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_next-20260922120005/xizi_double_link_next-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next/source/xizi_double_link_next_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next/source/xizi_double_link_next_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "dd196081c340afe47760845e680cd87959e072a05508ad37d21a657add98da83",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "3cfb2d1ea5a91e9832b9dbb7c7a4d790cacf67126711da1113eed0dfb71c837f",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next/source/xizi_double_link_next_goal.v",
+            "role": "generated-goal",
+            "sha256": "819e5474ad48f0c3abb847f5be5536bd5c87c1e3989da7315e103a4ffc54df35",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next/source/xizi_double_link_next_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "40b4d7b855ba2eed4977665b9b75c167353150a50f07af2ca170850081be9b02",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next/source/xizi_double_link_next_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "54a0f6dd18cd504244ee879ede31b6acc72e42fe3348fd2508b0232d79f1be0d",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next/source/xizi_double_link_next_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "04844184dce685a8f663ac44a6cc4dadf15eec40ffc250ccfdd8679f41f8ae96",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next/source/xizi_double_link_next_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "8c022c090b47d100fdfdc024a16abdf65650f97f0556fb15c79c3500b4f638b2",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_next/source/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "29b26a35062a72e7558fef887156e167ce588440bc085c56052276a98ad4a258",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_DoubleLinkListGetNext_entail_wit_1",
+          "proof_of_DoubleLinkListGetNext_return_wit_1",
+          "proof_of_DoubleLinkListGetNext_return_wit_2",
+          "proof_of_DoubleLinkListGetNext_return_wit_3",
+          "proof_of_DoubleLinkListGetNext_return_wit_4",
+          "proof_of_DoubleLinkListGetNext_derive_sentinel_case_by_dispatch_case",
+          "proof_of_DoubleLinkListGetNext_derive_member_case_by_dispatch_case"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_DoubleLinkListGetNext_derive_member_case_by_dispatch_case": "37e27b55729203669cdbfbc22a30249004dab98018002d6770dcf48529eb6d86",
+          "proof_of_DoubleLinkListGetNext_derive_sentinel_case_by_dispatch_case": "5a377d3260d24ae9519eee2d4ab552415c59c552fa5beb7c237fed184368ae61",
+          "proof_of_DoubleLinkListGetNext_entail_wit_1": "928ebd6e8bb0871548d1f3d4f06f22b974968126673dd933c202d6042a07ac0d",
+          "proof_of_DoubleLinkListGetNext_return_wit_1": "68699323bcd364dba5b502d51748d735dfc0f0c412727d2c9202eb1de9c27fb9",
+          "proof_of_DoubleLinkListGetNext_return_wit_2": "9f362a177b08784592b2306249fca16ee5bf93573804897e361f8e8263831835",
+          "proof_of_DoubleLinkListGetNext_return_wit_3": "9c85441190c27bf85a4ad9226fa001d0764ba4ecddae169ed549d3df16b9ddc5",
+          "proof_of_DoubleLinkListGetNext_return_wit_4": "c8622d0d2e95b1d6146fdd96ff5e084a357839b2895821010fefd7de452cecbf"
+        },
+        "witnesses": [
+          {
+            "end_line": 28,
+            "name": "proof_of_DoubleLinkListGetNext_entail_wit_1",
+            "start_line": 26,
+            "statement_hash": "928ebd6e8bb0871548d1f3d4f06f22b974968126673dd933c202d6042a07ac0d",
+            "target_symbol": "DoubleLinkListGetNext_entail_wit_1"
+          },
+          {
+            "end_line": 31,
+            "name": "proof_of_DoubleLinkListGetNext_return_wit_1",
+            "start_line": 29,
+            "statement_hash": "68699323bcd364dba5b502d51748d735dfc0f0c412727d2c9202eb1de9c27fb9",
+            "target_symbol": "DoubleLinkListGetNext_return_wit_1"
+          },
+          {
+            "end_line": 34,
+            "name": "proof_of_DoubleLinkListGetNext_return_wit_2",
+            "start_line": 32,
+            "statement_hash": "9f362a177b08784592b2306249fca16ee5bf93573804897e361f8e8263831835",
+            "target_symbol": "DoubleLinkListGetNext_return_wit_2"
+          },
+          {
+            "end_line": 37,
+            "name": "proof_of_DoubleLinkListGetNext_return_wit_3",
+            "start_line": 35,
+            "statement_hash": "9c85441190c27bf85a4ad9226fa001d0764ba4ecddae169ed549d3df16b9ddc5",
+            "target_symbol": "DoubleLinkListGetNext_return_wit_3"
+          },
+          {
+            "end_line": 40,
+            "name": "proof_of_DoubleLinkListGetNext_return_wit_4",
+            "start_line": 38,
+            "statement_hash": "c8622d0d2e95b1d6146fdd96ff5e084a357839b2895821010fefd7de452cecbf",
+            "target_symbol": "DoubleLinkListGetNext_return_wit_4"
+          },
+          {
+            "end_line": 43,
+            "name": "proof_of_DoubleLinkListGetNext_derive_sentinel_case_by_dispatch_case",
+            "start_line": 41,
+            "statement_hash": "5a377d3260d24ae9519eee2d4ab552415c59c552fa5beb7c237fed184368ae61",
+            "target_symbol": "DoubleLinkListGetNext_derive_sentinel_case_by_dispatch_case"
+          },
+          {
+            "end_line": 46,
+            "name": "proof_of_DoubleLinkListGetNext_derive_member_case_by_dispatch_case",
+            "start_line": 44,
+            "statement_hash": "37e27b55729203669cdbfbc22a30249004dab98018002d6770dcf48529eb6d86",
+            "target_symbol": "DoubleLinkListGetNext_derive_member_case_by_dispatch_case"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_double_link_next-20260922120005/rounds/xizi_double_link_next-vc-checking-r1/group_plan.json",
+      "target_witnesses": [
+        "proof_of_DoubleLinkListGetNext_entail_wit_1",
+        "proof_of_DoubleLinkListGetNext_return_wit_1",
+        "proof_of_DoubleLinkListGetNext_return_wit_2",
+        "proof_of_DoubleLinkListGetNext_return_wit_3",
+        "proof_of_DoubleLinkListGetNext_return_wit_4",
+        "proof_of_DoubleLinkListGetNext_derive_sentinel_case_by_dispatch_case",
+        "proof_of_DoubleLinkListGetNext_derive_member_case_by_dispatch_case"
+      ]
+    }
+  },
+  "blockers": []
+}

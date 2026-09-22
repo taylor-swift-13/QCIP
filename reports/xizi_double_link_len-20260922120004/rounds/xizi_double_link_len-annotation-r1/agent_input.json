@@ -1,0 +1,261 @@
+{
+  "schema_version": "qcp-agent-input/v1",
+  "phase": "annotation",
+  "round": "xizi_double_link_len-annotation-r1",
+  "attempt_control": {
+    "attempt_id": "xizi_double_link_len-annotation-r1-attempt-1",
+    "attempt_index": 1,
+    "max_compact_attempts": 3,
+    "retry_reasons": [
+      "compact-error-with-no-progress",
+      "explicit-cancel",
+      "invalid-report",
+      "stale-input"
+    ],
+    "heartbeat_policy": "no-timeout-retry"
+  },
+  "run": {
+    "run_id": "xizi_double_link_len-20260922120004",
+    "run_root": "/home/yangfp/QCIP/worktrees/xizi_double_link_len-20260922120004",
+    "report_root": "/home/yangfp/QCIP/reports/xizi_double_link_len-20260922120004",
+    "main_worktree": "/home/yangfp/QCIP"
+  },
+  "round_worktree": "/home/yangfp/QCIP/worktrees/xizi_double_link_len-20260922120004/xizi_double_link_len-annotation-r1",
+  "parent_worktree": "/home/yangfp/QCIP",
+  "startup": {
+    "owner": "main-agent",
+    "controller_owned_state": "yes",
+    "script_launch_allowed": "no"
+  },
+  "single_spawn_policy": {
+    "preferred": "yes",
+    "goal": "complete all feasible phase repair and validation attempts inside this one spawn",
+    "continue_without_confirmation": [
+      "missing optional problem context",
+      "missing case_lib seed when phase policy permits bootstrap",
+      "missing generated diagnostic hint files",
+      "spec uncertainty resolvable from C code and problem_context",
+      "future proof difficulty",
+      "recoverable QCP or Coq feedback"
+    ],
+    "create_missing_allowed_files": "yes",
+    "retry_inside_spawn": "yes",
+    "terminal_blocked_only_for": [
+      "phase skill declares the current task semantically impossible under current inputs",
+      "required toolchain completely unavailable after command evidence"
+    ],
+    "state_reports": {
+      "stale": "report stale when source_version or source_goal_version is no longer current",
+      "compact_error": "report compact-error only as a compaction fact; controller/main decides retry or final blocker"
+    },
+    "controller_acceptance_model": "controller validates final candidate and evidence after spawn returns"
+  },
+  "handoff": {
+    "rendered_instructions_compact": "Read /home/yangfp/QCIP/reports/xizi_double_link_len-20260922120004/rounds/xizi_double_link_len-annotation-r1/agent_input.json.\nThe goal is to complete the workflow task assigned by the input JSON; /home/yangfp/QCIP/reports/xizi_double_link_len-20260922120004/rounds/xizi_double_link_len-annotation-r1/agent_report.json is only the final report file recording the result.\nBefore acting, read the input JSON completely and read every skill or rule file listed in handoff.rules_source.\nThe input JSON, declared round worktree, declared source versions, and current files are the source of truth.\nDo not rely on parent chat history or unstated assumptions as task context or evidence.\nMinimize respawns: perform repair, retry, missing-file bootstrap, and alternative attempts inside this same spawn whenever the input versions are still current.\nDo not stop for confirmation about optional context, missing bootstrap files, future proof difficulty, or recoverable tool feedback; make a conservative local choice and continue.\nWork only in the declared round worktree; write only the declared report/output files and formal files allowed by allowed_write_paths.\nNo compromise operations: do not weaken specifications, bypass required checks, fake evidence, change generated files by hand, change witness statements to fit a proof, add Admitted/Axiom, use forbidden tools/tactics, or edit paths outside the handoff.\nTask completion means the assigned phase work is completed under the strict workflow, with a terminal agent_result, required evidence, changed-files or blocker details, applicable source_version/source_goal_version, and an output note satisfying output_contract.\nController acceptance is separate; do not mark yourself accepted or claim acceptance unless the controller writes it.\nReuse only previous_attempts, required_lessons, prior_failure_summaries, and output notes declared in the JSON; previous outputs are non-authoritative and lose conflicts to JSON, manifests, source versions, and current files.\nCompact-error is not your blocked judgment; report it only as a compaction fact and let controller/main decide retry or final blocker.\nIf the strict workflow cannot be completed, write a blocked, stale, or compact-error result with concrete evidence instead of improvising around the process.",
+    "rules_source": [
+      ".agents/skills/verification-orchestrator/SKILL.md",
+      ".agents/skills/annotation-filling/SKILL.md",
+      ".agents/skills/annotation-checking/SKILL.md"
+    ]
+  },
+  "source_version": {
+    "schema_version": "qcp-source-version/v1",
+    "digest": "f7e020329a606bc0e2c8947cce5777bd325ddfef41058bc710dbfa9f6a1b09ab",
+    "digest_input_policy": "relative_path+sha256+state+role only",
+    "files": [
+      {
+        "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_len-20260922120004/xizi_double_link_len-annotation-r1/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len.c",
+        "relative_path": "OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len.c",
+        "sha256": "8e580cdcad2a3939c7b92bd1eb0a3bf0e8e4aff2c716185102b337dd5490d79d",
+        "state": "present",
+        "role": "target-c"
+      },
+      {
+        "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_len-20260922120004/xizi_double_link_len-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_lib.v",
+        "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_lib.v",
+        "sha256": "b9d9462192e989fc38983b8ecd4c8e9708c6903a336f4308e3efa02a90ec4525",
+        "state": "present",
+        "role": "case-lib-seed"
+      }
+    ]
+  },
+  "source_goal_version": null,
+  "problem_context": {
+    "problem_statement": "# DLL/SLL unqualified proof surface\n\nUser requirement: make active double-link and single-link verification artifacts avoid repeated `DLL::` / `DLL.` and `SLL::` / `SLL.` qualifiers, following the frozen `origin/idnode` pattern. Preserve every C executable token, mathematical definition, contract meaning, witness statement modulo transparent name qualification, and proof argument. Do not change algorithms or spatial predicates.\n\nFor active DLL cases, add `/*@ Import Coq Import DLL */` to the target C annotation context after the common library is available, then replace `DLL::name` with unqualified `name` in C annotations. The corresponding generated Rocq files must resolve those unqualified identifiers to the same `DLL.name` constants. Proof bodies and case-local libraries should also use `Import DLL.` and unqualified names so active proof artifacts contain no repeated `DLL.` qualifiers. Do not add `Export DLL`, aliases, axioms, admitted proofs, or new semantic definitions.\n\nThe established idmanager reference is `/home/yangfp/QCIP/crtosverify` branch `origin/idnode`: `annotated_C/src/id.h` imports `DLL` and uses unqualified `DL_Node`, `Build_DL_Node`, `store_dll`, `dllseg`, and `getData`; generated goals and manual proofs also `Import DLL` and use unqualified names. Follow that model.\n\nCurrent SLL active cases already use global `xizi_sll*` definitions and expose no concrete `Module SLL`; audit them as regression-only and do not invent an SLL module or change their mathematical definitions. If any active SLL artifact contains `SLL::` or `SLL.`, remove it only through an existing `Import SLL` scope and preserve the resolved constant. Historical reports, snapshots, rec/combination/callpoint cases, upstream `crtos`, and `crtosverify` are read-only references and outside mutation scope.\n\nUse the controller workflow required by root AGENTS.md. Canonical symexec must record its actual driver, cwd, `-IQCP_examples/QCP_demos_LLM/`, `-slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM`, common mapping, and `--CRules CRules`. Generated files may only be refreshed by symexec. Reuse the current accepted proof bodies as read-only proof patterns, changing only transparent qualification where needed. Final acceptance requires freshness, full fixed `coqc_check`, no `Admitted.` or extra `Axiom`, no forbidden lemma, and no active DLL/SLL qualifier in the assigned case's C, goal, case_lib, or manual proof except module declaration/import lines and any explicitly audited compatibility identity statement outside the case.",
+    "target_function": "DoubleLinkListLenGet",
+    "expected_behavior": "Preserve the existing verified behavior while exposing DLL model names unqualified through Import DLL, with unchanged executable C and proof semantics.",
+    "input_output_contract": "Same accepted contract as the current case; only transparent module qualification is removed from active annotations and Rocq proof artifacts.",
+    "spec_hint": [
+      "Follow origin/idnode: Import DLL, then use DL_Node/store_dll/dllseg/etc unqualified; reuse current proof bodies modulo qualification."
+    ],
+    "preferred_hidden_properties": [
+      "Preserve the current predicates and loop invariants exactly modulo name resolution."
+    ],
+    "forbidden_patterns": [
+      "Do not add aliases, Export DLL, new definitions, new assumptions, algorithm mirrors, or manually edit generated files."
+    ],
+    "reference_case_hints": [
+      "/home/yangfp/QCIP/crtosverify origin/idnode annotated_C/src/id.h, lib/idnode.v, and existing proof bodies."
+    ],
+    "source": "user-input"
+  },
+  "target_files": {
+    "c_file": "OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len.c",
+    "formal_directory": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source",
+    "case_lib": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_lib.v",
+    "goal_file": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_goal.v",
+    "proof_auto_file": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_proof_auto.v",
+    "proof_manual_file": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_proof_manual.v",
+    "goal_check_file": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_goal_check.v",
+    "proof_diagnostics_file": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_proof_diagnostics.v",
+    "diagnostics_snapshot": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/diagnostics_snapshot.json"
+  },
+  "case_lib": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_lib.v",
+  "allowed_write_paths": [
+    "OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len.c",
+    "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_lib.v",
+    "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_goal.v",
+    "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_proof_auto.v",
+    "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_proof_manual.v",
+    "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_goal_check.v",
+    "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_proof_diagnostics.v",
+    "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/diagnostics_snapshot.json"
+  ],
+  "coq_tooling": {
+    "helper": "/home/yangfp/QCIP/.agents/skills/vc-proving/scripts/coq_tooling.py",
+    "main_workspace_root": "/home/yangfp/QCIP",
+    "workspace_root": "/home/yangfp/QCIP/worktrees/xizi_double_link_len-20260922120004/xizi_double_link_len-annotation-r1",
+    "coq_builds_root": "/home/yangfp/QCIP/worktrees/xizi_double_link_len-20260922120004/_coq_builds",
+    "fixed_flags_hash": "24021e94f65d7fcb0014dc119baf8b1f9efef2bcb2cf5fbeb875549a843dbeb8",
+    "case_lib_target_kind": "case_lib",
+    "round_check_file": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_goal_check.v"
+  },
+  "compact_retry": {
+    "attempt_index": 1,
+    "max_compact_attempts": 3
+  },
+  "reports": {
+    "input": "/home/yangfp/QCIP/reports/xizi_double_link_len-20260922120004/rounds/xizi_double_link_len-annotation-r1/agent_input.json",
+    "report": "/home/yangfp/QCIP/reports/xizi_double_link_len-20260922120004/rounds/xizi_double_link_len-annotation-r1/agent_report.json",
+    "output": "/home/yangfp/QCIP/reports/xizi_double_link_len-20260922120004/rounds/xizi_double_link_len-annotation-r1/agent_output.txt"
+  },
+  "output_contract": {
+    "path": "/home/yangfp/QCIP/reports/xizi_double_link_len-20260922120004/rounds/xizi_double_link_len-annotation-r1/agent_output.txt",
+    "kind": "non-authoritative-reuse-note",
+    "required": "yes",
+    "acceptance_evidence": "no",
+    "must_start_with": "# Reuse Note",
+    "must_contain": [
+      "Note kind: non-authoritative reuse note"
+    ],
+    "conflict_rule": "json_handoff_manifest_versions_and_current_files_win"
+  },
+  "annotation_contract": {
+    "subagent_skills": [
+      "annotation-filling",
+      "annotation-checking"
+    ],
+    "no_existing_lib_policy": "create-minimal-case-lib-then-bootstrap-spec",
+    "self_repair_budget": {
+      "min_complete_cycles": 3,
+      "min_wall_clock_minutes": 30
+    },
+    "self_reworkable_failure_classes": [
+      "spec-quality",
+      "qcp-symbolic-execution",
+      "case_lib-coqc",
+      "where-instantiation",
+      "annotation-checking-failed"
+    ],
+    "ready_condition": "agent_result.annotation.status == completed and ready_for_annotation_check_round == true only after canonical QCP, case_lib coqc, and annotation-checking pass; self_reworkable_failures must be empty",
+    "blocked_condition": "only phase skill hard blockers should use status == blocked; self_repair_budget_exhausted is work evidence, not an automatic blocked condition"
+  },
+  "case_lib_seed_evidence": {
+    "status": "existing",
+    "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_len-20260922120004/xizi_double_link_len-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_lib.v",
+    "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_lib.v",
+    "created": false,
+    "sha256": "b9d9462192e989fc38983b8ecd4c8e9708c6903a336f4308e3efa02a90ec4525"
+  },
+  "reference_policy": {
+    "allowed_globs": [
+      "/home/yangfp/QCIP/crtosverify/**",
+      "/home/yangfp/QCIP/OUTPUT/xizi/xizi_double_link_len/**"
+    ],
+    "denied_globs": [
+      "**/QCP_demos_human/**"
+    ],
+    "mode": "deny-existing-examples",
+    "must_log_file_reads": "yes"
+  },
+  "previous_attempts": [],
+  "required_lessons": [],
+  "prior_failure_summaries": [],
+  "qcp_driver": {
+    "driver": "/home/yangfp/QCIP/linux-binary/symexec",
+    "cwd": "/home/yangfp/QCIP/worktrees/xizi_double_link_len-20260922120004/xizi_double_link_len-annotation-r1",
+    "include_args": [
+      "QCP_examples/QCP_demos_LLM/"
+    ],
+    "slp_args": [
+      "QCP_examples/QCP_demos_LLM/",
+      "SimpleC.EE.QCP_demos_LLM",
+      "QCIPLib/xizi/xizi_double_link_common/",
+      "QCIPLib.xizi.xizi_double_link_common"
+    ],
+    "slp_mappings": [
+      [
+        "QCP_examples/QCP_demos_LLM/",
+        "SimpleC.EE.QCP_demos_LLM"
+      ],
+      [
+        "QCIPLib/xizi/xizi_double_link_common/",
+        "QCIPLib.xizi.xizi_double_link_common"
+      ]
+    ],
+    "coq_logic_path": "SimpleC.EE.OUTPUT.xizi.xizi_double_link_len.source",
+    "coq_rules": "CRules",
+    "canonical_argv_template": [
+      "/home/yangfp/QCIP/linux-binary/symexec",
+      "--goal-file=SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_goal.v",
+      "--proof-auto-file=SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_proof_auto.v",
+      "--proof-manual-file=SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_proof_manual.v",
+      "-IQCP_examples/QCP_demos_LLM/",
+      "-slp",
+      "QCP_examples/QCP_demos_LLM/",
+      "SimpleC.EE.QCP_demos_LLM",
+      "-slp",
+      "QCIPLib/xizi/xizi_double_link_common/",
+      "QCIPLib.xizi.xizi_double_link_common",
+      "--CRules",
+      "CRules",
+      "--coq-logic-path=SimpleC.EE.OUTPUT.xizi.xizi_double_link_len.source",
+      "--input-file=OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len.c",
+      "--no-exec-info"
+    ]
+  },
+  "spec_requirements": {
+    "mathematical_postconditions_required": [
+      "Function specs must state what result the function computes, not only bounds or shape facts.",
+      "Loop invariants must connect processed state to the final mathematical postcondition."
+    ],
+    "avoid_spec_antipatterns": [
+      "Do not weaken the spec to shape-only or bounds-only conditions.",
+      "Do not restate the C loops as the mathematical definition.",
+      "Do not use QCP_demos_human examples."
+    ],
+    "problem_context_summary": {
+      "target_function": "DoubleLinkListLenGet",
+      "expected_behavior": "Preserve the existing verified behavior while exposing DLL model names unqualified through Import DLL, with unchanged executable C and proof semantics.",
+      "input_output_contract": "Same accepted contract as the current case; only transparent module qualification is removed from active annotations and Rocq proof artifacts.",
+      "spec_hint": [
+        "Follow origin/idnode: Import DLL, then use DL_Node/store_dll/dllseg/etc unqualified; reuse current proof bodies modulo qualification."
+      ],
+      "preferred_hidden_properties": [
+        "Preserve the current predicates and loop invariants exactly modulo name resolution."
+      ],
+      "source": "user-input"
+    },
+    "bootstrap_required_when_case_lib_seed_created": "yes"
+  }
+}

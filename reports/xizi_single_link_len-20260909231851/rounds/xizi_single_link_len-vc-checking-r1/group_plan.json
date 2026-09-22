@@ -1,0 +1,194 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "b29850907c77e6df80b7ab6cdb87380a55b45e92dbccb03dd7e75d94623c609f",
+  "source_version": "a4d2542c4c0638281f962896c4f0267d08d14a82ed6fc14c22184c4839786117",
+  "target_witnesses": [
+    "proof_of_SingleLinkListGetLen_entail_wit_1",
+    "proof_of_SingleLinkListGetLen_entail_wit_2",
+    "proof_of_SingleLinkListGetLen_entail_wit_3",
+    "proof_of_SingleLinkListGetLen_return_wit_1"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "len_payload_loop",
+      "witness_names": [
+        "proof_of_SingleLinkListGetLen_entail_wit_1",
+        "proof_of_SingleLinkListGetLen_entail_wit_2",
+        "proof_of_SingleLinkListGetLen_entail_wit_3",
+        "proof_of_SingleLinkListGetLen_return_wit_1"
+      ],
+      "representative_witness": "proof_of_SingleLinkListGetLen_entail_wit_3",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "proof_strategy": "Prove the four left disjuncts in manual order: shared payload-head factorization, empty prefix initialization, singleton segment extension with existing finite-heap length bound and unchanged payload frame, then zero-tail collapse and payload-head unfactorization. Existing seed lemmas suffice; any optional convenience helper must be proved in group-local case_lib and carry __len_payload_loop suffix. Do not modify seed declarations, generated files, or statements.",
+      "grouping_reason": "Only four witnesses (limit 12), all from one loop using one structural lemma family and payload factor/unfactor pair. No independent dependency split is warranted."
+    }
+  ],
+  "blockers": [],
+  "natural_language_analysis": {
+    "schema_version": "qcp-vc-natural-language-analysis/v1",
+    "witnesses": [
+      {
+        "judgment": "proofable",
+        "refinement_plan": "No safeExec refinement; the logical payload list l and arbitrary storeA remain unchanged.",
+        "candidate_helper_declarations": [],
+        "failure_signal": "",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "len_payload_loop",
+        "proof_group_candidate": "len_payload_loop",
+        "grouping_reason": "Same function, projected-address split invariant, unchanged payload frame, and existing SLL bridge/length lemmas.",
+        "witness_name": "proof_of_SingleLinkListGetLen_entail_wit_1",
+        "vc_shape": {
+          "pre_spatial": "xizi_sll_head_payload storeA head l",
+          "pre_pure": "none",
+          "pre_exists": "head payload predicate owns its first pointer internally",
+          "post_spatial": "xizi_sll_head head (xizi_sll_payload_addresses l) ** xizi_sll_remove_payloads storeA l",
+          "post_pure": "none",
+          "post_exists": "none in the left disjunct"
+        },
+        "witness_instantiation": "Choose the left disjunct of the generated witness.",
+        "space_plan": "Apply payload_head_factor__remove_payloads directly; its statement is exactly the first disjunct.",
+        "pure_plan": "No additional pure obligation.",
+        "used_existing_lemmas": [
+          "payload_head_factor__remove_payloads"
+        ],
+        "premise_discharge": [
+          "The only required spatial assertion is the entire precondition; no restrictions on storeA or l are introduced."
+        ]
+      },
+      {
+        "judgment": "proofable",
+        "refinement_plan": "No safeExec refinement; the logical payload list l and arbitrary storeA remain unchanged.",
+        "candidate_helper_declarations": [],
+        "failure_signal": "",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "len_payload_loop",
+        "proof_group_candidate": "len_payload_loop",
+        "grouping_reason": "Same function, projected-address split invariant, unchanged payload frame, and existing SLL bridge/length lemmas.",
+        "witness_name": "proof_of_SingleLinkListGetLen_entail_wit_2",
+        "vc_shape": {
+          "pre_spatial": "head.next |-> q ** xizi_sll q (addresses l) ** payloads storeA l",
+          "pre_pure": "head <> 0",
+          "pre_exists": "none",
+          "post_spatial": "head.next |-> first ** xizi_sllseg first q l1 ** xizi_sll q l2 ** payloads storeA l",
+          "post_pure": "addresses l = l1 ++ l2; 0 = Zlength l1; head <> 0",
+          "post_exists": "first,l1,l2"
+        },
+        "witness_instantiation": "Choose left disjunct, first=q, l1=nil, l2=addresses l. Alternatively the right disjunct is two reflexive pure list facts.",
+        "space_plan": "Unfold empty generic_sllseg; q=q and emp introduce the empty segment. Keep all other resources by framing/cancellation.",
+        "pure_plan": "nil ++ addresses l reduces to addresses l, Zlength nil is zero, and head non-null is a precondition.",
+        "used_existing_lemmas": [
+          "Zlength_nil"
+        ],
+        "premise_discharge": [
+          "Empty-segment endpoint equality is reflexive.",
+          "Head non-null is PreH1."
+        ]
+      },
+      {
+        "judgment": "proofable",
+        "refinement_plan": "No safeExec refinement; the logical payload list l and arbitrary storeA remain unchanged.",
+        "candidate_helper_declarations": [],
+        "failure_signal": "",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "len_payload_loop",
+        "proof_group_candidate": "len_payload_loop",
+        "grouping_reason": "Same function, projected-address split invariant, unchanged payload frame, and existing SLL bridge/length lemmas.",
+        "witness_name": "proof_of_SingleLinkListGetLen_entail_wit_3",
+        "vc_shape": {
+          "pre_spatial": "node.next |-> q ** xizi_sll q l0 ** head.next |-> first ** xizi_sllseg first node prefix ** payloads storeA l",
+          "pre_pure": "suffix=node::l0; node<>0; addresses l=prefix++suffix; length=Zlength prefix; head<>0",
+          "pre_exists": "none",
+          "post_spatial": "head.next |-> first ** xizi_sllseg first q newprefix ** xizi_sll q newsuffix ** payloads storeA l",
+          "post_pure": "addresses l=newprefix++newsuffix; unsigned_last_nbits (length+1) 32=Zlength newprefix; head<>0",
+          "post_exists": "first,newprefix,newsuffix"
+        },
+        "witness_instantiation": "Choose left disjunct, old first, newprefix=prefix++[node], newsuffix=l0.",
+        "space_plan": "Use prop_apply with xizi_sll_loop_length_max (or the node/segment variant) to extract the finite-heap bound while retaining resources and framing payloads. Turn node.next into a singleton segment using xizi_sllseg_len1; concatenate using xizi_sllseg_sllseg. The head, residual list, and payload frame stay unchanged.",
+        "pure_plan": "The existing heap bound gives Zlength(prefix++node::l0)<=Int.max_unsigned/4+1. Together with nonnegative Zlength l0 and length=Zlength prefix, obtain 0<=length+1<=Int.max_unsigned, hence unsigned_last_nbits at width 32 is identity. Zlength(prefix++[node])=Zlength prefix+1 proves the new length. Append associativity and suffix=node::l0 prove the list partition equality.",
+        "used_existing_lemmas": [
+          "xizi_sll_loop_length_max",
+          "xizi_sllseg_node_sll_length_max",
+          "xizi_sllseg_len1",
+          "xizi_sllseg_sllseg",
+          "Zlength_app",
+          "Zlength_cons"
+        ],
+        "premise_discharge": [
+          "The heap-bound lemma uses exactly the four structural resources in P; arbitrary payload resources are framed.",
+          "Non-null node is PreH2.",
+          "The counter equation is PreH4.",
+          "Suffix decomposition and total-address partition are PreH1 and PreH3.",
+          "Zlength of the residual list is nonnegative by its definition."
+        ]
+      },
+      {
+        "judgment": "proofable",
+        "refinement_plan": "No safeExec refinement; the logical payload list l and arbitrary storeA remain unchanged.",
+        "candidate_helper_declarations": [],
+        "failure_signal": "",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "len_payload_loop",
+        "proof_group_candidate": "len_payload_loop",
+        "grouping_reason": "Same function, projected-address split invariant, unchanged payload frame, and existing SLL bridge/length lemmas.",
+        "witness_name": "proof_of_SingleLinkListGetLen_return_wit_1",
+        "vc_shape": {
+          "pre_spatial": "head.next |-> first ** xizi_sllseg first tmp prefix ** xizi_sll tmp suffix ** payloads storeA l",
+          "pre_pure": "tmp=0; addresses l=prefix++suffix; length=Zlength prefix; head<>0",
+          "pre_exists": "none",
+          "post_spatial": "xizi_sll_head_payload storeA head l",
+          "post_pure": "length=Zlength l",
+          "post_exists": "none externally; use first when rebuilding head"
+        },
+        "witness_instantiation": "Choose either identical disjunct; rebuild the structural head with its original first pointer.",
+        "space_plan": "Substitute tmp=0, use xizi_sll_zero to obtain suffix=nil and emp, and convert xizi_sllseg first 0 prefix to xizi_sll first prefix via xizi_sllseg_0_sll. Reconstruct xizi_sll_head using head<>0 and head.next, rewrite prefix to addresses l, then apply payload_head_unfactor__remove_payloads with the untouched payload frame.",
+        "pure_plan": "suffix=nil simplifies addresses l=prefix++suffix to addresses l=prefix. Unfold xizi_sll_payload_addresses as map sll_payload_ptr; list map preserves length, so Zlength(addresses l)=Zlength l. Together with length=Zlength prefix this gives the exact result.",
+        "used_existing_lemmas": [
+          "xizi_sll_zero",
+          "xizi_sllseg_0_sll",
+          "payload_head_unfactor__remove_payloads",
+          "List.map_length"
+        ],
+        "premise_discharge": [
+          "The zero-list fact uses the owned xizi_sll 0 suffix resource.",
+          "Head non-null is PreH4.",
+          "Length and partition equalities are PreH3 and PreH2.",
+          "All payloads are present in the same original order as the input list l."
+        ]
+      }
+    ],
+    "analysis_groups": [
+      {
+        "group_id": "len_payload_loop",
+        "witness_names": [
+          "proof_of_SingleLinkListGetLen_entail_wit_1",
+          "proof_of_SingleLinkListGetLen_entail_wit_2",
+          "proof_of_SingleLinkListGetLen_entail_wit_3",
+          "proof_of_SingleLinkListGetLen_return_wit_1"
+        ],
+        "representative_witness": "proof_of_SingleLinkListGetLen_entail_wit_3",
+        "dependencies": [],
+        "candidate_helper_declarations": [],
+        "likely_helper_declarations": [],
+        "proof_strategy": "Prove the four left disjuncts in manual order: shared payload-head factorization, empty prefix initialization, singleton segment extension with existing finite-heap length bound and unchanged payload frame, then zero-tail collapse and payload-head unfactorization. Existing seed lemmas suffice; any optional convenience helper must be proved in group-local case_lib and carry __len_payload_loop suffix. Do not modify seed declarations, generated files, or statements.",
+        "grouping_reason": "Only four witnesses (limit 12), all from one loop using one structural lemma family and payload factor/unfactor pair. No independent dependency split is warranted.",
+        "shared_proof_pattern": "Projected-address length loop and constant payload frame",
+        "shared_space_plan": "Factor, initialize, extend segment, reassemble and unfactor",
+        "shared_pure_plan": "List length/map/app equalities and finite-heap no-wrap argument",
+        "shared_refinement_plan": "Preserve original arbitrary A/storeA and l",
+        "proof_group_ready": true
+      }
+    ]
+  },
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 4,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

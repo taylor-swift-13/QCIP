@@ -1,0 +1,429 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "controller_acceptance_claimed": "no",
+  "agent_result": {
+    "vc_checking": {
+      "status": "completed",
+      "source_version": "58998b3fe10b786bced8065089dcd0553b02c4fa0f8e68f3751f93695dfbcbbb",
+      "source_goal_version": "6c5b110a5de68846380881653ae72677a90f6cb9b7d506a962ee12f6f90a68ce",
+      "summary": "All four and only the cleaned manual obligations are semantically proofable under the current annotation and xizi single-link-list library. A single bounded proof group is sufficient; no new helper declaration or annotation/spec repair is needed.",
+      "checked_witness_scope": [
+        "proof_of_SingleLinkListGetTailNode_entail_wit_1",
+        "proof_of_SingleLinkListGetTailNode_entail_wit_2",
+        "proof_of_SingleLinkListGetTailNode_return_wit_1",
+        "proof_of_SingleLinkListGetTailNode_return_wit_2"
+      ],
+      "ready_for_vc_proving_preparing": true,
+      "group_plan_ready": true,
+      "group_plan_path": "/home/yangfp/QCIP/reports/xizi_single_link_tail-20260820033111/rounds/xizi_single_link_tail-vc-checking-r2/group_plan.json",
+      "judgments": {
+        "proof_of_SingleLinkListGetTailNode_entail_wit_1": "proofable",
+        "proof_of_SingleLinkListGetTailNode_entail_wit_2": "proofable",
+        "proof_of_SingleLinkListGetTailNode_return_wit_1": "proofable",
+        "proof_of_SingleLinkListGetTailNode_return_wit_2": "proofable"
+      },
+      "natural_language_analysis": {
+        "schema_version": "qcp-vc-natural-language-analysis/v1",
+        "source_goal_version": "6c5b110a5de68846380881653ae72677a90f6cb9b7d506a962ee12f6f90a68ce",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_SingleLinkListGetTailNode_entail_wit_1",
+            "judgment": "proofable",
+            "selected_disjunct": "right",
+            "vc_shape": {
+              "pre_spatial": "xizi_sll q_2 l0",
+              "pre_pure": "PreH1: l = q :: l0; PreH2: q <> 0; PreH3: linklist_pre <> 0",
+              "pre_exists": "none",
+              "post_spatial": "xizi_sll q_2 l2",
+              "post_pure": "l = nil ++ q :: l2; q <> 0; linklist_pre <> 0",
+              "post_exists": "l2"
+            },
+            "witness_instantiation": "Choose l2 = l0.",
+            "space_plan": "The antecedent xizi_sll q_2 l0 is exactly the required post spatial assertion after the l2 instantiation.",
+            "pure_plan": "Simplify nil ++ q :: l0 to q :: l0 and close the list equality with PreH1; copy PreH2 and PreH3.",
+            "refinement_plan": "No refinement or safeExec state occurs in this direct separation-logic VC.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "The existential has no side condition.",
+              "All pure conjuncts come directly from PreH1, PreH2, and PreH3 after list simplification."
+            ],
+            "failure_signal": "none",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "single_link_tail_all",
+            "grouping_reason": "Initial invariant establishment uses the same xizi_sll list model and pure list normalization as the remaining loop/return witnesses."
+          },
+          {
+            "witness_name": "proof_of_SingleLinkListGetTailNode_entail_wit_2",
+            "judgment": "proofable",
+            "selected_disjunct": "right",
+            "vc_shape": {
+              "pre_spatial": "xizi_sll q l0 ** xizi_sllseg first_2 current l1_2 ** current.node_next |-> next_2",
+              "pre_pure": "PreH1: l2_2 = next_2 :: l0; PreH2: l = l1_2 ++ current :: l2_2; PreH3: current <> 0; PreH4: linklist_pre <> 0; PreH5: next_2 <> 0",
+              "pre_exists": "none",
+              "post_spatial": "xizi_sllseg first_2 next_2 l1 ** xizi_sll q l2",
+              "post_pure": "l = l1 ++ next_2 :: l2; next_2 <> 0; linklist_pre <> 0",
+              "post_exists": "l1, l2"
+            },
+            "witness_instantiation": "Choose l1 = l1_2 ++ [current] and l2 = l0.",
+            "space_plan": "Apply xizi_sllseg_len1 current next_2 using PreH3 to convert the current-node cell into xizi_sllseg current next_2 [current]. Compose it with xizi_sllseg first_2 current l1_2 using xizi_sllseg_sllseg. Frame xizi_sll q l0 as the post suffix.",
+            "pure_plan": "Rewrite l2_2 with PreH1 and l with PreH2. List associativity and simplification give l = (l1_2 ++ [current]) ++ next_2 :: l0. PreH5 and PreH4 discharge the nonzero conjuncts.",
+            "refinement_plan": "No refinement or safeExec state occurs in this direct separation-logic VC.",
+            "used_existing_lemmas": [
+              "xizi_sllseg_len1",
+              "xizi_sllseg_sllseg"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "xizi_sllseg_len1 requires current <> NULL, exactly PreH3.",
+              "xizi_sllseg_sllseg has no additional premise.",
+              "The post next_2 <> 0 and linklist_pre <> 0 facts are PreH5 and PreH4."
+            ],
+            "failure_signal": "none",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "single_link_tail_all",
+            "grouping_reason": "This is the loop-step segment extension in the same predicate and lemma family used by the nonempty return."
+          },
+          {
+            "witness_name": "proof_of_SingleLinkListGetTailNode_return_wit_1",
+            "judgment": "proofable",
+            "selected_disjunct": "right",
+            "vc_shape": {
+              "pre_spatial": "xizi_sllseg first current l1 ** current.node_next |-> next ** xizi_sll next l2",
+              "pre_pure": "PreH1: l = l1 ++ current :: l2; PreH2: current <> 0; PreH3: linklist_pre <> 0; PreH4: next = 0",
+              "pre_exists": "none",
+              "post_spatial": "xizi_sll first l",
+              "post_pure": "current = xizi_sll_tail_value l linklist_pre",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "There is no post existential. From next = 0 and xizi_sll next l2 derive l2 = nil, hence l = l1 ++ [current].",
+            "space_plan": "Use xizi_sll_zero to eliminate the null-root suffix and obtain l2 = nil. Use xizi_sll_len1 current next with PreH2 and PreH4 to turn the current cell into xizi_sll current [current]. Then xizi_sllseg_sll composes the prefix segment with this singleton list, and PreH1 rewrites the result to xizi_sll first l.",
+            "pure_plan": "After l2 = nil, PreH1 normalizes l to l1 ++ [current]. The existing xizi_sll_tail_value_app_last lemma makes the tail value current for any default linklist_pre.",
+            "refinement_plan": "No refinement or safeExec state occurs in this direct separation-logic VC.",
+            "used_existing_lemmas": [
+              "xizi_sll_zero",
+              "xizi_sll_len1",
+              "xizi_sllseg_sll",
+              "xizi_sll_tail_value_app_last"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "xizi_sll_zero receives next = NULL from PreH4.",
+              "xizi_sll_len1 receives current <> NULL from PreH2 and next = NULL from PreH4.",
+              "xizi_sllseg_sll and xizi_sll_tail_value_app_last require no extra facts."
+            ],
+            "failure_signal": "none",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "single_link_tail_all",
+            "grouping_reason": "The return closes the same segment built by entail_wit_2 and uses the common tail-value lemma."
+          },
+          {
+            "witness_name": "proof_of_SingleLinkListGetTailNode_return_wit_2",
+            "judgment": "proofable",
+            "selected_disjunct": "right",
+            "vc_shape": {
+              "pre_spatial": "xizi_sll q l",
+              "pre_pure": "PreH1: q = 0; PreH2: linklist_pre <> 0",
+              "pre_exists": "none",
+              "post_spatial": "xizi_sll q l",
+              "post_pure": "linklist_pre = xizi_sll_tail_value l linklist_pre",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "There is no post existential. Substitute q = 0 and derive l = nil from the null-root list.",
+            "space_plan": "Frame the original xizi_sll q l while deriving its pure empty-list consequence, or consume xizi_sll_zero and reconstruct xizi_sll 0 nil by unfolding. In either route the post spatial assertion is unchanged.",
+            "pure_plan": "xizi_sll_zero with PreH1 yields l = nil. Unfold xizi_sll_tail_value and simplify last nil linklist_pre to linklist_pre.",
+            "refinement_plan": "No refinement or safeExec state occurs in this direct separation-logic VC.",
+            "used_existing_lemmas": [
+              "xizi_sll_zero"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "xizi_sll_zero receives q = NULL from PreH1.",
+              "The tail simplification is definitional and needs no arithmetic or spatial premise."
+            ],
+            "failure_signal": "none",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "single_link_tail_all",
+            "grouping_reason": "The immediate-return case uses the same xizi_sll zero/empty normalization context as the loop-exit return."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "single_link_tail_all",
+            "witness_names": [
+              "proof_of_SingleLinkListGetTailNode_entail_wit_1",
+              "proof_of_SingleLinkListGetTailNode_entail_wit_2",
+              "proof_of_SingleLinkListGetTailNode_return_wit_1",
+              "proof_of_SingleLinkListGetTailNode_return_wit_2"
+            ],
+            "representative_witness": "proof_of_SingleLinkListGetTailNode_entail_wit_1",
+            "shared_proof_pattern": "Select the right generated disjunct, normalize list equations, instantiate existing prefix/suffix variables, and transform xizi_sll/xizi_sllseg resources with the common list-shape lemmas.",
+            "shared_space_plan": "Direct framing for entail_wit_1 and return_wit_2; singleton segment extension for entail_wit_2; singleton list closure and segment/list composition for return_wit_1.",
+            "shared_pure_plan": "Use only generated PreH equalities/nonzero facts, list simplification/associativity, the null-root empty-list fact, and xizi_sll_tail_value_app_last.",
+            "shared_refinement_plan": "none",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "All four obligations describe consecutive phases of the same loop invariant and share one xizi_sll/xizi_sllseg lemma family; four is within the maximum group size twelve.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-vc-group-plan/v1",
+        "source_goal_version": "6c5b110a5de68846380881653ae72677a90f6cb9b7d506a962ee12f6f90a68ce",
+        "target_witnesses": [
+          "proof_of_SingleLinkListGetTailNode_entail_wit_1",
+          "proof_of_SingleLinkListGetTailNode_entail_wit_2",
+          "proof_of_SingleLinkListGetTailNode_return_wit_1",
+          "proof_of_SingleLinkListGetTailNode_return_wit_2"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "single_link_tail_all",
+            "witness_names": [
+              "proof_of_SingleLinkListGetTailNode_entail_wit_1",
+              "proof_of_SingleLinkListGetTailNode_entail_wit_2",
+              "proof_of_SingleLinkListGetTailNode_return_wit_1",
+              "proof_of_SingleLinkListGetTailNode_return_wit_2"
+            ],
+            "representative_witness": "proof_of_SingleLinkListGetTailNode_entail_wit_1",
+            "dependencies": [],
+            "difficulty": "medium",
+            "confidence": "high",
+            "grouping_reason": "All four target witnesses are one function's bounded invariant lifecycle and share the same xizi_sll/xizi_sllseg proof context; a single four-witness group is the minimal valid grouping under the maximum twelve-witness bound.",
+            "proof_strategy": "Select the right disjunct of each target. Use direct existential instantiation for entail_wit_1; extend the prefix with xizi_sllseg_len1 and xizi_sllseg_sllseg for entail_wit_2; derive the null suffix and compose xizi_sllseg_sll plus xizi_sll_tail_value_app_last for return_wit_1; derive the empty list using xizi_sll_zero for return_wit_2.",
+            "candidate_helper_declarations": [],
+            "expected_helpers": [],
+            "likely_helper_declarations": [],
+            "forbidden_lemma_scan": {
+              "required": "yes",
+              "scan_scope": "all four assigned manual proof bodies and the entire case_lib",
+              "exact_names": [
+                "logic_equiv_refl",
+                "elim_wand_emp_emp",
+                "logic_equiv_symm",
+                "sepcon_emp_logic_equiv'",
+                "logic_equiv_andp_comm",
+                "logic_equiv_sepcon_comm",
+                "logic_equiv_sepcon_emp",
+                "logic_equiv_andp_truep",
+                "logic_equiv_truep_andp",
+                "truep_andp_right_equiv",
+                "logic_equiv_orp_comm",
+                "logic_equiv_trans",
+                "logic_equiv_orp_assoc",
+                "logic_equiv_sepcon_assoc",
+                "logic_equiv_andp_assoc",
+                "logic_equiv_sepcon_orp",
+                "logic_equiv_sepcon_orp_distr",
+                "logic_equiv_orp_sepcon",
+                "derivable1_trans",
+                "derivable1_refl",
+                "derivable1_sepcon_comm",
+                "coq_prop_andp_right",
+                "derivable1_sepcon_mono"
+              ],
+              "exact_name_count": 23,
+              "required_result": "zero-hits",
+              "required_hit_count": 0,
+              "on_nonzero_hit": "Reject and rewrite the group candidate, then rerun the complete scan."
+            }
+          }
+        ],
+        "blockers": []
+      },
+      "evidence": {
+        "version_check": {
+          "status": "passed",
+          "source_version_digest": "58998b3fe10b786bced8065089dcd0553b02c4fa0f8e68f3751f93695dfbcbbb",
+          "source_goal_version_digest": "6c5b110a5de68846380881653ae72677a90f6cb9b7d506a962ee12f6f90a68ce",
+          "all_declared_file_sha256_values_match": true
+        },
+        "manual_coverage": {
+          "status": "passed",
+          "manual_obligation_count": 4,
+          "target_witness_count": 4,
+          "assigned_exactly_once": true,
+          "duplicates": [],
+          "missing": [],
+          "extra": [],
+          "diagnostic_split_goals_excluded": [
+            "proof_of_SingleLinkListGetTailNode_return_wit_1_split_goal_1",
+            "proof_of_SingleLinkListGetTailNode_return_wit_1_split_goal_spatial",
+            "proof_of_SingleLinkListGetTailNode_return_wit_2_split_goal_1",
+            "proof_of_SingleLinkListGetTailNode_return_wit_2_split_goal_spatial"
+          ]
+        },
+        "case_lib_review": {
+          "status": "passed-for-planning",
+          "seed_file_sha256": "27dce0c34cd9cdecc5748b9cdbc38841bd26cc4362fe0336db19f8ac09ac00ad",
+          "case_local_helper_required": false,
+          "existing_library_lemmas_used": [
+            "xizi_sll_zero",
+            "xizi_sll_len1",
+            "xizi_sllseg_len1",
+            "xizi_sllseg_sllseg",
+            "xizi_sllseg_sll",
+            "xizi_sll_tail_value_app_last"
+          ]
+        },
+        "forbidden_lemma_baseline_scan": {
+          "status": "passed",
+          "exact_name_count": 23,
+          "files_scanned": [
+            "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail_proof_manual.v",
+            "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail_lib.v"
+          ],
+          "hit_count": 0,
+          "hits": [],
+          "note": "This is a baseline scan of the current skeleton and seed case_lib. The proof group independently requires the same complete 23-name scan after proof/helper edits, with zero hits required."
+        },
+        "grouping_policy_check": {
+          "status": "passed",
+          "target_witness_count": 4,
+          "proof_group_count": 1,
+          "max_witnesses_per_group": 12,
+          "dependency_graph_acyclic": true
+        }
+      },
+      "changed_files": [],
+      "report_artifacts_written": [
+        "/home/yangfp/QCIP/reports/xizi_single_link_tail-20260820033111/rounds/xizi_single_link_tail-vc-checking-r2/group_plan.json",
+        "/home/yangfp/QCIP/reports/xizi_single_link_tail-20260820033111/rounds/xizi_single_link_tail-vc-checking-r2/agent_report.json",
+        "/home/yangfp/QCIP/reports/xizi_single_link_tail-20260820033111/rounds/xizi_single_link_tail-vc-checking-r2/agent_output.txt"
+      ],
+      "blockers": []
+    }
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-08-20T03:11:32Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_single_link_tail-20260820033111/rounds/xizi_single_link_tail-vc-checking-r2/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    },
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-08-20T03:11:32Z",
+      "source_version": {
+        "digest": "58998b3fe10b786bced8065089dcd0553b02c4fa0f8e68f3751f93695dfbcbbb",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_single_link_tail-20260820033111/xizi_single_link_tail-annotation-r2/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail.c",
+            "relative_path": "OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail.c",
+            "role": "target-c-annotated",
+            "sha256": "7bae410cbc9039b60b43758ec145134309aade7cf1dbb6cbbc09b12ac1682355",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_single_link_tail-20260820033111/xizi_single_link_tail-annotation-r2/SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "27dce0c34cd9cdecc5748b9cdbc38841bd26cc4362fe0336db19f8ac09ac00ad",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "6c5b110a5de68846380881653ae72677a90f6cb9b7d506a962ee12f6f90a68ce",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail_goal.v",
+            "role": "generated-goal",
+            "sha256": "b2e44a8fa82a7d5c2699231f6872293409579646533a5333f6c9541406c1e4a4",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "97ef7b631bf912d16f1be1493bbecdbaad0696f85dd1b47476c538d9e379dca3",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "4a782e0d7b74862a835a3676c33757578671f43a63a0da12bd5ebc1a088adaac",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "67859192726664bd331e6a167ae1cfa0b456e71c49341cd8acf8c59fcba75e64",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "c8495a41bd7d9208114b00fee4743598458ea19d5d8b4a9278088b2071f1897b",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "327b44f9f55908c766d711c2a8c06cb9bfb362e034422a96243a1fbc04af6c2f",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_SingleLinkListGetTailNode_entail_wit_1",
+          "proof_of_SingleLinkListGetTailNode_entail_wit_2",
+          "proof_of_SingleLinkListGetTailNode_return_wit_1",
+          "proof_of_SingleLinkListGetTailNode_return_wit_2"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_SingleLinkListGetTailNode_entail_wit_1": "60ccb1d56a0aac8c7b4506dac23a0bc406b92a7294d8ec1d96574663338e80cf",
+          "proof_of_SingleLinkListGetTailNode_entail_wit_2": "bbf6b298839c165494330c0942b9b840efe5bd79940afefb38ede310dadb749e",
+          "proof_of_SingleLinkListGetTailNode_return_wit_1": "58e74d85c664be4b2fa6d6a7d90126d5e39ba18422cb34e90b8f763a96ee01a7",
+          "proof_of_SingleLinkListGetTailNode_return_wit_2": "efb9d77a8a96dfb3178e127836d66ee7b8bee5e355d7e13832b9c3b67c2650af"
+        },
+        "witnesses": [
+          {
+            "end_line": 26,
+            "name": "proof_of_SingleLinkListGetTailNode_entail_wit_1",
+            "start_line": 24,
+            "statement_hash": "60ccb1d56a0aac8c7b4506dac23a0bc406b92a7294d8ec1d96574663338e80cf",
+            "target_symbol": "SingleLinkListGetTailNode_entail_wit_1"
+          },
+          {
+            "end_line": 29,
+            "name": "proof_of_SingleLinkListGetTailNode_entail_wit_2",
+            "start_line": 27,
+            "statement_hash": "bbf6b298839c165494330c0942b9b840efe5bd79940afefb38ede310dadb749e",
+            "target_symbol": "SingleLinkListGetTailNode_entail_wit_2"
+          },
+          {
+            "end_line": 32,
+            "name": "proof_of_SingleLinkListGetTailNode_return_wit_1",
+            "start_line": 30,
+            "statement_hash": "58e74d85c664be4b2fa6d6a7d90126d5e39ba18422cb34e90b8f763a96ee01a7",
+            "target_symbol": "SingleLinkListGetTailNode_return_wit_1"
+          },
+          {
+            "end_line": 35,
+            "name": "proof_of_SingleLinkListGetTailNode_return_wit_2",
+            "start_line": 33,
+            "statement_hash": "efb9d77a8a96dfb3178e127836d66ee7b8bee5e355d7e13832b9c3b67c2650af",
+            "target_symbol": "SingleLinkListGetTailNode_return_wit_2"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_single_link_tail-20260820033111/rounds/xizi_single_link_tail-vc-checking-r2/group_plan.json",
+      "target_witnesses": [
+        "proof_of_SingleLinkListGetTailNode_entail_wit_1",
+        "proof_of_SingleLinkListGetTailNode_entail_wit_2",
+        "proof_of_SingleLinkListGetTailNode_return_wit_1",
+        "proof_of_SingleLinkListGetTailNode_return_wit_2"
+      ]
+    }
+  },
+  "blockers": []
+}

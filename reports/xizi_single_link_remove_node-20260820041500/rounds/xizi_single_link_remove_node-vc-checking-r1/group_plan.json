@@ -1,0 +1,223 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_version": "8987144da79870ace96289c3d41f5382b0515e6bc9903be3cafe9d4bd376ed31",
+  "source_goal_version": "b9a12f50d7217987f3a10c4b392c13961e683bacd23a905cf8cd64768ff5d6a8",
+  "target_witnesses": [
+    "proof_of_SingleLinkListRmNode_entail_wit_1",
+    "proof_of_SingleLinkListRmNode_entail_wit_2",
+    "proof_of_SingleLinkListRmNode_return_wit_1",
+    "proof_of_SingleLinkListRmNode_return_wit_2",
+    "proof_of_SingleLinkListRmNode_which_implies_wit_1",
+    "proof_of_SingleLinkListRmNode_derive_remove_tail_spec_by_strong_spec",
+    "proof_of_SingleLinkListRmNode_derive_remove_front_spec_by_strong_spec",
+    "proof_of_SingleLinkListRmNode_derive_remove_member_spec_by_strong_spec"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "core_list_state_direct",
+      "witness_names": [
+        "proof_of_SingleLinkListRmNode_entail_wit_1",
+        "proof_of_SingleLinkListRmNode_entail_wit_2",
+        "proof_of_SingleLinkListRmNode_return_wit_1",
+        "proof_of_SingleLinkListRmNode_return_wit_2",
+        "proof_of_SingleLinkListRmNode_which_implies_wit_1"
+      ],
+      "representative_witness": "proof_of_SingleLinkListRmNode_entail_wit_2",
+      "dependencies": [],
+      "difficulty": "medium",
+      "confidence": "high",
+      "judgment": "proofable",
+      "grouping_reason": "These five witnesses are the loop-entry, loop-step, return, and initial list-splitting obligations of one direct linked-list proof. They share xizi_sllseg/xizi_sll_to_target decomposition and composition lemmas. Keeping them together avoids an artificial dependency while remaining below max_witnesses_per_group = 12; combining the separate wand/spec-derivation family would mix materially different proof structure.",
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "Select the semantically sufficient generated disjunct where applicable. Instantiate loop-state existentials from the current prefix/suffix variables; use xizi_sllseg_len1 and xizi_sllseg_sllseg to extend the traversed prefix. For successful return, collapse xizi_sll_to_target at equal endpoints, compose the prefix with the removed node's successor and the suffix xizi_sll, and wrap the resulting list with xizi_sll_head_from_cons. For the null-next return, derive contradiction with xizi_sll_to_target_zero_nonzero. For the initial implication, split xizi_sll_head at the target using xizi_sll_head_split_target. All lemma premises are present as generated pointer non-null facts or list equalities.",
+      "natural_language_proof_pattern": "Normalize generated pure equalities, select the usable branch, instantiate the loop decomposition, and transform only the xizi_sllseg/xizi_sll_to_target spatial spine with existing common-library lemmas.",
+      "shared_helper_candidates": [],
+      "proving_hints": [
+        "entail_wit_1: choose the right disjunct and instantiate l1b and l0 with l0_2; the spatial antecedent is unchanged and PreH1 supplies the list equality.",
+        "entail_wit_2: choose the right disjunct, instantiate l1a with l1a_2 ++ [node], l1b with l0_3, and l0 with l0_2; build the extra one-node segment with xizi_sllseg_len1 and compose it with xizi_sllseg_sllseg.",
+        "return_wit_1: rewrite next = linklist_node_pre, use xizi_sll_to_target_same to obtain l1b = nil, compose the retained prefix and suffix, then use xizi_sll_head_from_cons; preserve the removed node's points-to cell.",
+        "return_wit_2: rewrite next = 0 and apply xizi_sll_to_target_zero_nonzero using linklist_node_pre <> 0; ex falso closes the return alternative.",
+        "which_implies_wit_1: normalize l_strong_spec = l1_strong_spec ++ linklist_node :: l2_strong_spec and apply xizi_sll_head_split_target; its outputs exactly supply target non-nullness, head-target inequality, target cell, prefix-to-target, and suffix xizi_sll."
+      ],
+      "grouping_confidence": "high",
+      "per_witness_plan": {
+        "proof_of_SingleLinkListRmNode_entail_wit_1": "Right disjunct; choose l1b = l0_2 and l0 = l0_2, preserve the two spatial conjuncts, and discharge the cons/app equalities from PreH1.",
+        "proof_of_SingleLinkListRmNode_entail_wit_2": "Right disjunct; extend l1a_2 by node, compose the node-to-next_2 length-one segment, and rewrite PreH1/PreH4 with app associativity.",
+        "proof_of_SingleLinkListRmNode_return_wit_1": "Equal-target elimination gives l1b = nil; compose prefix, removed-node edge, and suffix, then form xizi_sll_head and retain the removed-node cell.",
+        "proof_of_SingleLinkListRmNode_return_wit_2": "The antecedent contains xizi_sll_to_target 0 linklist_node_pre l1b with a non-null target, so it entails False.",
+        "proof_of_SingleLinkListRmNode_which_implies_wit_1": "Use xizi_sll_head_split_target after rewriting the abstract list decomposition; no diagnostic split goal is treated as a target."
+      },
+      "forbidden_lemma_scan": {
+        "required": "yes",
+        "scope": [
+          "assigned manual proof bodies for all five core_list_state_direct witnesses",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node_lib.v"
+        ],
+        "match_policy": "Scan every exact Rocq identifier name listed below in the assigned manual proof bodies and the complete case_lib; substring-only aggregate checks are insufficient.",
+        "exact_names": [
+          "logic_equiv_refl",
+          "elim_wand_emp_emp",
+          "logic_equiv_symm",
+          "sepcon_emp_logic_equiv'",
+          "logic_equiv_andp_comm",
+          "logic_equiv_sepcon_comm",
+          "logic_equiv_sepcon_emp",
+          "logic_equiv_andp_truep",
+          "logic_equiv_truep_andp",
+          "truep_andp_right_equiv",
+          "logic_equiv_orp_comm",
+          "logic_equiv_trans",
+          "logic_equiv_orp_assoc",
+          "logic_equiv_sepcon_assoc",
+          "logic_equiv_andp_assoc",
+          "logic_equiv_sepcon_orp",
+          "logic_equiv_sepcon_orp_distr",
+          "logic_equiv_orp_sepcon",
+          "derivable1_trans",
+          "derivable1_refl",
+          "derivable1_sepcon_comm",
+          "coq_prop_andp_right",
+          "derivable1_sepcon_mono"
+        ],
+        "required_result": {
+          "hit_count": 0,
+          "result": "zero-hits"
+        },
+        "current_input_scan": {
+          "exact_name_count": 23,
+          "manual_assigned_body_hit_count": 0,
+          "case_lib_hit_count": 0,
+          "result": "zero-hits"
+        },
+        "worker_acceptance_instruction": "After filling every assigned proof and after any permitted case_lib helper/import edit, rescan the five assigned manual proof bodies and the complete case_lib for all 23 exact names. The group may report completed only with zero hits; otherwise repair and rerun group-check."
+      }
+    },
+    {
+      "group_id": "spec_derivations_direct",
+      "witness_names": [
+        "proof_of_SingleLinkListRmNode_derive_remove_tail_spec_by_strong_spec",
+        "proof_of_SingleLinkListRmNode_derive_remove_front_spec_by_strong_spec",
+        "proof_of_SingleLinkListRmNode_derive_remove_member_spec_by_strong_spec"
+      ],
+      "representative_witness": "proof_of_SingleLinkListRmNode_derive_remove_member_spec_by_strong_spec",
+      "dependencies": [],
+      "difficulty": "medium",
+      "confidence": "high",
+      "judgment": "proofable",
+      "grouping_reason": "These three witnesses all derive a public remove contract from strong_spec by choosing a prefix/node/suffix decomposition and proving the same magic-wand continuation. They use one shared membership/non-nullness and node-resource conversion pattern. This is the smallest coherent second group and has 3 witnesses, below the limit of 12.",
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "Choose l_strong_spec, l1_strong_spec, and l2_strong_spec from the visible list decomposition: prefix/[node]/nil for tail, nil/[node]/suffix for front, and the prefix/suffix returned by xizi_sll_remove_first_split__spec_derivations_direct for member. Derive node non-nullness from xizi_sll_head plus membership via xizi_sll_member_split. Under the wand antecedent, substitute retval and the successor pointer, convert the concrete points-to cell to xizi_sll_node with store_ptr_undef_store_ptr, and normalize app/remove_first equalities. The only case-specific mathematical helper is already proved in the seed case_lib.",
+      "natural_language_proof_pattern": "Instantiate strong_spec with a concrete prefix-node-suffix split, prove the removed node is non-null from list membership, then discharge the shared wand by preserving the shortened head predicate and weakening the removed node's next-field ownership to xizi_sll_node.",
+      "shared_helper_candidates": [],
+      "proving_hints": [
+        "tail: choose l1_strong_spec = prefix_remove_tail_spec and l2_strong_spec = nil; membership is by in_or_app on the final singleton, and app_nil_r closes the shortened list equality.",
+        "front: choose l1_strong_spec = nil and l2_strong_spec = suffix_remove_front_spec; membership is at the head and simpl closes the list equalities.",
+        "member: apply existing xizi_sll_remove_first_split__spec_derivations_direct to In linklist_node_pre l_remove_member_spec; choose its prefix/suffix and rewrite the returned remove-first equality after discharging the wand.",
+        "For every witness, use xizi_sll_member_split only to extract node <> NULL and use store_ptr_undef_store_ptr to build xizi_sll_node; no new helper declaration is required."
+      ],
+      "grouping_confidence": "high",
+      "per_witness_plan": {
+        "proof_of_SingleLinkListRmNode_derive_remove_tail_spec_by_strong_spec": "Instantiate the decomposition as prefix_remove_tail_spec ++ [linklist_node_pre]; show membership/non-nullness, then the wand removes the final node and app_nil_r yields the tail postcondition.",
+        "proof_of_SingleLinkListRmNode_derive_remove_front_spec_by_strong_spec": "Instantiate prefix = nil and suffix = suffix_remove_front_spec; the wand consumes the returned target cell into xizi_sll_node and leaves the suffix head predicate.",
+        "proof_of_SingleLinkListRmNode_derive_remove_member_spec_by_strong_spec": "Use the proved remove-first split lemma to obtain prefix/suffix and xizi_sll_remove_first equality, then follow the shared wand/node proof and rewrite that equality."
+      },
+      "forbidden_lemma_scan": {
+        "required": "yes",
+        "scope": [
+          "assigned manual proof bodies for all three spec_derivations_direct witnesses",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_remove_node/source/xizi_single_link_remove_node_lib.v"
+        ],
+        "match_policy": "Scan every exact Rocq identifier name listed below in the assigned manual proof bodies and the complete case_lib; substring-only aggregate checks are insufficient.",
+        "exact_names": [
+          "logic_equiv_refl",
+          "elim_wand_emp_emp",
+          "logic_equiv_symm",
+          "sepcon_emp_logic_equiv'",
+          "logic_equiv_andp_comm",
+          "logic_equiv_sepcon_comm",
+          "logic_equiv_sepcon_emp",
+          "logic_equiv_andp_truep",
+          "logic_equiv_truep_andp",
+          "truep_andp_right_equiv",
+          "logic_equiv_orp_comm",
+          "logic_equiv_trans",
+          "logic_equiv_orp_assoc",
+          "logic_equiv_sepcon_assoc",
+          "logic_equiv_andp_assoc",
+          "logic_equiv_sepcon_orp",
+          "logic_equiv_sepcon_orp_distr",
+          "logic_equiv_orp_sepcon",
+          "derivable1_trans",
+          "derivable1_refl",
+          "derivable1_sepcon_comm",
+          "coq_prop_andp_right",
+          "derivable1_sepcon_mono"
+        ],
+        "required_result": {
+          "hit_count": 0,
+          "result": "zero-hits"
+        },
+        "current_input_scan": {
+          "exact_name_count": 23,
+          "manual_assigned_body_hit_count": 0,
+          "case_lib_hit_count": 0,
+          "result": "zero-hits"
+        },
+        "worker_acceptance_instruction": "After filling every assigned proof and after any permitted case_lib helper/import edit, rescan the three assigned manual proof bodies and the complete case_lib for all 23 exact names. The group may report completed only with zero hits; otherwise repair and rerun group-check."
+      }
+    }
+  ],
+  "natural_language_analysis": {
+    "analysis_groups": [
+      {
+        "group_id": "core_list_state_direct",
+        "witness_names": [
+          "proof_of_SingleLinkListRmNode_entail_wit_1",
+          "proof_of_SingleLinkListRmNode_entail_wit_2",
+          "proof_of_SingleLinkListRmNode_return_wit_1",
+          "proof_of_SingleLinkListRmNode_return_wit_2",
+          "proof_of_SingleLinkListRmNode_which_implies_wit_1"
+        ],
+        "representative_witness": "proof_of_SingleLinkListRmNode_entail_wit_2",
+        "shared_proof_pattern": "Direct xizi_sllseg/xizi_sll_to_target loop-state decomposition and composition.",
+        "shared_space_plan": "Use existing common-library segment, target, whole-list, and head conversion lemmas.",
+        "shared_pure_plan": "Normalize generated list equalities and discharge all non-null premises from PreH facts or predicate decomposition.",
+        "shared_refinement_plan": "not-applicable",
+        "candidate_helper_declarations": [],
+        "dependencies": [],
+        "grouping_reason": "One loop/list-spine proof family, with five witnesses below the controller bound.",
+        "proof_group_ready": true
+      },
+      {
+        "group_id": "spec_derivations_direct",
+        "witness_names": [
+          "proof_of_SingleLinkListRmNode_derive_remove_tail_spec_by_strong_spec",
+          "proof_of_SingleLinkListRmNode_derive_remove_front_spec_by_strong_spec",
+          "proof_of_SingleLinkListRmNode_derive_remove_member_spec_by_strong_spec"
+        ],
+        "representative_witness": "proof_of_SingleLinkListRmNode_derive_remove_member_spec_by_strong_spec",
+        "shared_proof_pattern": "Instantiate a prefix-node-suffix split and discharge a shared strong-spec magic wand.",
+        "shared_space_plan": "Use xizi_sll_member_split for node non-nullness and store_ptr_undef_store_ptr for xizi_sll_node.",
+        "shared_pure_plan": "Normalize app/nil or rewrite the proved remove-first split equation.",
+        "shared_refinement_plan": "not-applicable",
+        "candidate_helper_declarations": [],
+        "dependencies": [],
+        "grouping_reason": "One spec-derivation/wand proof family, kept separate from loop-state VCs.",
+        "proof_group_ready": true
+      }
+    ]
+  },
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 8,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  },
+  "blockers": [],
+  "controller_verified": true
+}

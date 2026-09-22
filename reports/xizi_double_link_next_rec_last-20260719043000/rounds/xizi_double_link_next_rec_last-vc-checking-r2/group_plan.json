@@ -1,0 +1,89 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "0a4a7e17fde42d51bb49097b6826053f119f0602c6a6c2a815fbd9efdf33ac7c",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_next_rec_last_entail_wit_1",
+    "proof_of_xizi_double_link_next_rec_last_return_wit_1",
+    "proof_of_xizi_double_link_next_rec_last_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "dll_segment_boundary",
+      "witness_names": [
+        "proof_of_xizi_double_link_next_rec_last_entail_wit_1",
+        "proof_of_xizi_double_link_next_rec_last_return_wit_1",
+        "proof_of_xizi_double_link_next_rec_last_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_next_rec_last_entail_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "xizi_dllseg_split_at_cons",
+          "statement_shape": "xizi_dllseg first prev stop last (prefix ++ node :: suffix) |-- EX node_prev node_next, xizi_dllseg first prev node node_prev prefix ** xizi_dll_links node node_next node_prev ** xizi_dllseg node_next node stop last suffix",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_next_rec_last_entail_wit_1"
+          ],
+          "premises": [
+            {
+              "premise": "The source logical list is prefix ++ node :: suffix.",
+              "discharged_by": "The entail witness precondition after xizi_dll_open.",
+              "needs_unfold": [
+                "xizi_dll",
+                "xizi_dllseg"
+              ],
+              "arithmetic": "none",
+              "spatial_resource": "the whole xizi_dllseg from first to stop"
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "xizi_dllseg_join_cons",
+          "statement_shape": "node <> NULL -> node <> stop -> xizi_dllseg first prev node node_prev prefix ** xizi_dll_links node node_next node_prev ** xizi_dllseg node_next node stop last suffix |-- xizi_dllseg first prev stop last (prefix ++ node :: suffix)",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_next_rec_last_return_wit_1",
+            "proof_of_xizi_double_link_next_rec_last_return_wit_2"
+          ],
+          "premises": [
+            {
+              "premise": "node <> NULL",
+              "discharged_by": "PreH2/PreH3 for linklist_node_pre.",
+              "needs_unfold": [],
+              "arithmetic": "none",
+              "spatial_resource": "none"
+            },
+            {
+              "premise": "node <> stop",
+              "discharged_by": "In the selected full-list arm, equality would make the separated sentinel and node link points-to cells overlap; separation entailment establishes the contradiction.",
+              "needs_unfold": [
+                "xizi_dll_links"
+              ],
+              "arithmetic": "none",
+              "spatial_resource": "sentinel links ** distinguished-node links"
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        }
+      ],
+      "proof_strategy": "Prove a suffix-scoped split helper and join helper by induction on prefix. Use split for entail_wit_1. For return_wit_1, show nodes_after=nil from node_next=sentinel and the dllseg constructor guard, join the segments, and close xizi_dll. For return_wit_2, show nodes_after=node_next::rest from node_next<>sentinel, simplify the value definition, join, and close.",
+      "grouping_reason": "All witnesses belong to one function and one dllseg boundary/helper family; 3 <= 12, so one group is both minimal and controller-policy compliant.",
+      "difficulty": "medium",
+      "confidence": "high",
+      "expected_helpers": [
+        "xizi_dllseg_split_at_cons__dll_segment_boundary",
+        "xizi_dllseg_join_cons__dll_segment_boundary"
+      ]
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

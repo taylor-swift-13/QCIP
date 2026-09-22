@@ -1,0 +1,62 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "03664eb70fb0f46da06d1a528457fdbef34fe726de984477ba285beb910bf263",
+  "controller_verified": true,
+  "target_witnesses": [
+    "proof_of_xizi_double_link_insert_after_entail_wit_1",
+    "proof_of_xizi_double_link_insert_after_return_wit_1",
+    "proof_of_xizi_double_link_insert_after_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "dll_insert_after_structural",
+      "witness_names": [
+        "proof_of_xizi_double_link_insert_after_entail_wit_1",
+        "proof_of_xizi_double_link_insert_after_return_wit_1",
+        "proof_of_xizi_double_link_insert_after_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_insert_after_entail_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "xizi_dllseg_split_at_node",
+          "statement_shape": "Split a segment whose logical sequence is prefix ++ anchor :: suffix into the prefix segment, anchor links, and suffix segment.",
+          "destination": "group-local case_lib with current group suffix"
+        },
+        {
+          "name_hint": "xizi_dll_join_at_node",
+          "statement_shape": "Join sentinel links, a prefix segment, one non-null anchor link pair, and a suffix segment into xizi_dll over prefix ++ anchor :: suffix; sentinel ownership discharges node/head disequalities.",
+          "destination": "group-local case_lib with current group suffix"
+        }
+      ],
+      "expected_helpers": [
+        "xizi_dllseg_split_at_node with helper_namespace suffix",
+        "xizi_dll_join_at_node with helper_namespace suffix"
+      ],
+      "proof_strategy": "First prove group-suffixed split/join lemmas by induction on nodes_before. For entail_wit_1, open xizi_dll, split at linklist_pre, destruct nodes_after, unfold the residual segment, choose the corresponding orp branch, instantiate boundary pointers, and cancel the fresh-node frame. For each return witness, choose the left theorem-level disjunct, rewrite nodes_after, fold the updated node links into a dllseg with the join lemma, and close xizi_dll. Do not attempt or promote the diagnostics split goals as targets.",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_insert_after_entail_wit_1": "open dll; split dllseg at linklist_pre; case nodes_after; instantiate the matching spatial orp branch",
+        "proof_of_xizi_double_link_insert_after_return_wit_1": "choose left disjunct; rewrite cons suffix; fold old_next, inserted, and anchor; close dll",
+        "proof_of_xizi_double_link_insert_after_return_wit_2": "choose left disjunct; rewrite nil suffix; fold inserted and anchor; close dll"
+      },
+      "premise_discharge": {
+        "non_null": "PreH hypotheses plus nonempty dllseg constructor facts",
+        "node_not_stop": "dllseg constructor facts for split; exclusive separated ownership against sentinel links for return folding",
+        "list_equalities": "destruct nodes_after for entail_wit_1 and rewrite PreH1 for both return witnesses"
+      },
+      "difficulty": "medium",
+      "confidence": "high",
+      "grouping_reason": "The three witnesses share one helper family and one physical update pattern; grouping them avoids duplicating equivalent suffixed helpers and stays well below the controller bound of 12."
+    }
+  ],
+  "blockers": [],
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

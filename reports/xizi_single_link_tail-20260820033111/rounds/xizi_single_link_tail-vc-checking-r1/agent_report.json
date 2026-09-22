@@ -1,0 +1,303 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "pending",
+  "terminal": "yes",
+  "agent_result": {
+    "vc_checking": {
+      "status": "blocked",
+      "source_version": "78abdf98adec94314ccd37ea16570d3a8ffca70bc1a6ea471a3e00e72ac05987",
+      "source_goal_version": "fee3cc44671e6818c12ad76cf815612bb9af87ae4e25c78f428191695191d694",
+      "target_witnesses": [
+        "proof_of_SingleLinkListGetTailNode_entail_wit_1",
+        "proof_of_SingleLinkListGetTailNode_entail_wit_2",
+        "proof_of_SingleLinkListGetTailNode_return_wit_1",
+        "proof_of_SingleLinkListGetTailNode_return_wit_2"
+      ],
+      "ready_for_vc_proving": "no",
+      "recommended_next_phase": "annotation",
+      "summary": "Three witnesses are semantically proofable with existing singly-linked-list lemmas. proof_of_SingleLinkListGetTailNode_return_wit_1 is not derivable because its precondition owns the head field at linklist while both postcondition disjuncts require ownership rooted at the independent address linklist_pre, and the VC contains no equality or resource bridge between them.",
+      "natural_language_analysis": {
+        "status": "blocked",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_SingleLinkListGetTailNode_entail_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "xizi_sll q_2 l0",
+              "pre_pure": "l = q :: l0; q <> 0; linklist_pre <> 0",
+              "pre_exists": "none after selecting the generated right disjunct",
+              "post_spatial": "xizi_sll q_2 l2",
+              "post_pure": "l = [] ++ q :: l2; q <> 0; linklist_pre <> 0",
+              "post_exists": "l2"
+            },
+            "witness_instantiation": "Choose the right disjunct and l2 := l0.",
+            "space_plan": "The sole spatial resource is unchanged and cancels directly.",
+            "pure_plan": "Rewrite l with PreH1 and simplify app nil; reuse PreH2 and PreH3.",
+            "refinement_plan": "Not a refinement/safeExec VC.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "List equality from PreH1 and app_nil_l simplification.",
+              "q <> 0 from PreH2.",
+              "linklist_pre <> 0 from PreH3."
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing after the global blocker is repaired",
+            "analysis_group_candidate": "single_link_tail_transition_and_returns",
+            "grouping_reason": "Initial invariant establishment for the same list-prefix traversal family."
+          },
+          {
+            "witness_name": "proof_of_SingleLinkListGetTailNode_entail_wit_2",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "xizi_sll q l0 ** xizi_sllseg first_2 current l1_2 ** current->node_next |-> next_2",
+              "pre_pure": "l2_2 = next_2 :: l0; l = l1_2 ++ current :: l2_2; current <> 0; linklist <> 0; next_2 <> 0",
+              "pre_exists": "none after selecting the generated right disjunct",
+              "post_spatial": "xizi_sllseg first_2 next_2 l1 ** xizi_sll q l2",
+              "post_pure": "l = l1 ++ next_2 :: l2; next_2 <> 0; linklist <> 0",
+              "post_exists": "l1 and l2"
+            },
+            "witness_instantiation": "Choose the right disjunct, l1 := l1_2 ++ [current], and l2 := l0.",
+            "space_plan": "Apply xizi_sllseg_len1 current next_2 using current <> 0, then xizi_sllseg_sllseg to append that one-node segment to the existing prefix; frame xizi_sll q l0.",
+            "pure_plan": "Rewrite PreH1 and PreH2, reassociate app, and simplify the singleton append. Non-null conjuncts come from PreH4 and PreH5.",
+            "refinement_plan": "Not a refinement/safeExec VC.",
+            "used_existing_lemmas": [
+              "xizi_sllseg_len1",
+              "xizi_sllseg_sllseg"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "xizi_sllseg_len1 requires current <> 0, supplied by PreH3.",
+              "xizi_sllseg_sllseg has no extra pure premise.",
+              "List decomposition follows from PreH1, PreH2, app_assoc, and list simplification."
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing after the global blocker is repaired",
+            "analysis_group_candidate": "single_link_tail_transition_and_returns",
+            "grouping_reason": "Loop-invariant advancement using the same segment composition family needed at return."
+          },
+          {
+            "witness_name": "proof_of_SingleLinkListGetTailNode_return_wit_1",
+            "judgment": "annotation-bug",
+            "vc_shape": {
+              "pre_spatial": "linklist->node_next |-> first ** xizi_sllseg first current l1 ** current->node_next |-> next ** xizi_sll next l2",
+              "pre_pure": "l = l1 ++ current :: l2; current <> 0; linklist <> 0; next = 0",
+              "pre_exists": "none",
+              "post_spatial": "Left branch requires xizi_sll_head linklist_pre l; right branch requires xizi_sll q l ** linklist_pre->node_next |-> q.",
+              "post_pure": "Both branches require current = xizi_sll_tail_value l linklist_pre; the right branch additionally requires linklist_pre <> 0.",
+              "post_exists": "The right branch has q."
+            },
+            "witness_instantiation": "No valid instantiation closes either branch because ownership is rooted at linklist in P and at linklist_pre in Q.",
+            "space_plan": "The tail portion can be closed: next = 0 and xizi_sll 0 l2 imply l2 = [], current->0 forms xizi_sll current [current], and the prefix segment composes into the full list. But the available head field remains at linklist and cannot be transported to linklist_pre without equality.",
+            "pure_plan": "The tail-value equality is derivable after l2 = [] using xizi_sll_tail_value_app_last. No premise derives linklist = linklist_pre or even linklist_pre <> 0.",
+            "refinement_plan": "Not a refinement/safeExec VC.",
+            "used_existing_lemmas": [
+              "xizi_sll_zero",
+              "xizi_sll_tail_value_app_last",
+              "xizi_sll_len1",
+              "xizi_sllseg_sll"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "xizi_sll_zero uses next = 0 from PreH4.",
+              "xizi_sll_len1 uses current <> 0 from PreH2 and next = 0 from PreH4.",
+              "No current premise can discharge linklist = linklist_pre or supply the head cell at linklist_pre."
+            ],
+            "failure_signal": "Concrete ownership mismatch: distinct valid linklist and linklist_pre make P satisfiable while both Q branches require an unavailable linklist_pre head cell.",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": "blocked-single-link-tail-return",
+            "grouping_reason": "Semantic blocker; it must not be sent to a worker under the current source_goal_version."
+          },
+          {
+            "witness_name": "proof_of_SingleLinkListGetTailNode_return_wit_2",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "linklist_pre->node_next |-> q ** xizi_sll q l",
+              "pre_pure": "q = 0; linklist_pre <> 0",
+              "pre_exists": "none after selecting the generated left disjunct",
+              "post_spatial": "xizi_sll_head linklist_pre l",
+              "post_pure": "linklist_pre = xizi_sll_tail_value l linklist_pre",
+              "post_exists": "The unfolded head predicate contains first."
+            },
+            "witness_instantiation": "Choose the left disjunct; after q = 0 and l = [], instantiate the unfolded head predicate with first := 0.",
+            "space_plan": "Apply xizi_sll_zero to xizi_sll 0 l, derive l = [], then reuse the existing linklist_pre head cell and xizi_sll 0 [] while unfolding xizi_sll_head.",
+            "pure_plan": "xizi_sll_tail_value [] linklist_pre reduces to linklist_pre; PreH2 supplies head non-nullness.",
+            "refinement_plan": "Not a refinement/safeExec VC.",
+            "used_existing_lemmas": [
+              "xizi_sll_zero"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "q = 0 from PreH1.",
+              "xizi_sll_zero uses reflexive 0 = NULL after substitution.",
+              "linklist_pre <> 0 from PreH2."
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing after the global blocker is repaired",
+            "analysis_group_candidate": "single_link_tail_transition_and_returns",
+            "grouping_reason": "Empty-tail return closure for the same function and predicate family."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "single_link_tail_proofable_subset",
+            "witness_names": [
+              "proof_of_SingleLinkListGetTailNode_entail_wit_1",
+              "proof_of_SingleLinkListGetTailNode_entail_wit_2",
+              "proof_of_SingleLinkListGetTailNode_return_wit_2"
+            ],
+            "representative_witness": "proof_of_SingleLinkListGetTailNode_entail_wit_2",
+            "shared_proof_pattern": "Select the semantically valid generated disjunct, instantiate list decomposition witnesses, and close by direct list-segment unfolding/composition.",
+            "shared_space_plan": "Preserve or compose xizi_sll/xizi_sllseg resources using existing common-library lemmas.",
+            "shared_pure_plan": "Use explicit equalities and non-null hypotheses; no additional arithmetic assumptions are needed.",
+            "shared_refinement_plan": "none",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "Same function, same invariant/list-shape family, no helper boundary.",
+            "proof_group_ready": false
+          }
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-vc-group-plan/v1",
+        "status": "blocked",
+        "source_version": "78abdf98adec94314ccd37ea16570d3a8ffca70bc1a6ea471a3e00e72ac05987",
+        "source_goal_version": "fee3cc44671e6818c12ad76cf815612bb9af87ae4e25c78f428191695191d694",
+        "target_witnesses": [
+          "proof_of_SingleLinkListGetTailNode_entail_wit_1",
+          "proof_of_SingleLinkListGetTailNode_entail_wit_2",
+          "proof_of_SingleLinkListGetTailNode_return_wit_1",
+          "proof_of_SingleLinkListGetTailNode_return_wit_2"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "single_link_tail_transition_and_returns",
+            "witness_names": [
+              "proof_of_SingleLinkListGetTailNode_entail_wit_1",
+              "proof_of_SingleLinkListGetTailNode_entail_wit_2",
+              "proof_of_SingleLinkListGetTailNode_return_wit_1",
+              "proof_of_SingleLinkListGetTailNode_return_wit_2"
+            ],
+            "representative_witness": "proof_of_SingleLinkListGetTailNode_entail_wit_2",
+            "dependencies": [],
+            "candidate_helper_declarations": [],
+            "likely_helper_declarations": [],
+            "proof_group_ready": false,
+            "grouping_reason": "Minimum one-group exact cover; all witnesses share the same list traversal family, but the group is gated by an annotation/spec blocker.",
+            "proof_strategy": "Use existing xizi_sll/xizi_sllseg decomposition and composition lemmas after return_wit_1 is regenerated with a valid linklist/linklist_pre bridge.",
+            "forbidden_lemma_scan_requirement": {
+              "required": "yes",
+              "scan_targets": [
+                "all assigned manual proof bodies",
+                "complete group-local case_lib"
+              ],
+              "forbidden_exact_names": [
+                "logic_equiv_refl",
+                "elim_wand_emp_emp",
+                "logic_equiv_symm",
+                "sepcon_emp_logic_equiv'",
+                "logic_equiv_andp_comm",
+                "logic_equiv_sepcon_comm",
+                "logic_equiv_sepcon_emp",
+                "logic_equiv_andp_truep",
+                "logic_equiv_truep_andp",
+                "truep_andp_right_equiv",
+                "logic_equiv_orp_comm",
+                "logic_equiv_trans",
+                "logic_equiv_orp_assoc",
+                "logic_equiv_sepcon_assoc",
+                "logic_equiv_andp_assoc",
+                "logic_equiv_sepcon_orp",
+                "logic_equiv_sepcon_orp_distr",
+                "logic_equiv_orp_sepcon",
+                "derivable1_trans",
+                "derivable1_refl",
+                "derivable1_sepcon_comm",
+                "coq_prop_andp_right",
+                "derivable1_sepcon_mono"
+              ],
+              "required_result": "zero exact-name hits, recorded in group_worker_report.json"
+            }
+          }
+        ],
+        "blockers": [
+          {
+            "kind": "annotation-spec-semantic-gap",
+            "witness": "proof_of_SingleLinkListGetTailNode_return_wit_1",
+            "recommended_next_phase": "annotation"
+          }
+        ]
+      },
+      "group_plan_path": "/home/yangfp/QCIP/reports/xizi_single_link_tail-20260820033111/rounds/xizi_single_link_tail-vc-checking-r1/group_plan.json",
+      "group_plan_ready": false,
+      "changed_files": [],
+      "formal_changed_files": [],
+      "report_artifacts": [
+        "/home/yangfp/QCIP/reports/xizi_single_link_tail-20260820033111/rounds/xizi_single_link_tail-vc-checking-r1/agent_report.json",
+        "/home/yangfp/QCIP/reports/xizi_single_link_tail-20260820033111/rounds/xizi_single_link_tail-vc-checking-r1/group_plan.json",
+        "/home/yangfp/QCIP/reports/xizi_single_link_tail-20260820033111/rounds/xizi_single_link_tail-vc-checking-r1/agent_output.txt"
+      ],
+      "blockers": [
+        {
+          "kind": "annotation-spec-semantic-gap",
+          "witness": "proof_of_SingleLinkListGetTailNode_return_wit_1",
+          "evidence": {
+            "goal_file": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail_goal.v",
+            "precondition_lines": "96-100",
+            "postcondition_lines": "102-116",
+            "missing_fact": "linklist = linklist_pre",
+            "missing_resource": "head-field ownership rooted at linklist_pre"
+          },
+          "why_helper_is_insufficient": "A sound helper cannot derive equality of independent universally quantified addresses or create an unowned heap cell.",
+          "recommended_next_phase": "annotation",
+          "constraint_conflict": "The necessary bridge appears to require changing the loop invariant or an equivalent annotation/spec relation, while the user request forbids changing the loop invariant."
+        }
+      ]
+    }
+  },
+  "verification_result": {
+    "input_version_check": {
+      "status": "passed",
+      "source_version_digest": "78abdf98adec94314ccd37ea16570d3a8ffca70bc1a6ea471a3e00e72ac05987",
+      "source_goal_version_digest": "fee3cc44671e6818c12ad76cf815612bb9af87ae4e25c78f428191695191d694",
+      "all_declared_file_sha256_values_matched": "yes"
+    },
+    "manual_witness_check": {
+      "status": "passed",
+      "manual_obligation_count": 4,
+      "exact_target_cover": "yes",
+      "diagnostic_split_goals_excluded": "yes"
+    },
+    "forbidden_lemma_baseline_scan": {
+      "status": "passed",
+      "forbidden_name_count": 23,
+      "files": [
+        "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail_proof_manual.v",
+        "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail_lib.v"
+      ],
+      "hit_count": 0,
+      "note": "This is only the current skeleton/seed baseline. Every future group must rescan all assigned finalized proof bodies and the group-local case_lib and report zero hits."
+    },
+    "round_worktree_formal_write_check": {
+      "status": "passed",
+      "formal_files_modified_by_vc_checking_subagent": []
+    },
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-08-19T19:52:55Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_single_link_tail-20260820033111/rounds/xizi_single_link_tail-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    }
+  },
+  "blockers": [
+    {
+      "kind": "annotation-spec-semantic-gap",
+      "witness": "proof_of_SingleLinkListGetTailNode_return_wit_1",
+      "missing": "linklist = linklist_pre or equivalent ownership bridge",
+      "recommended_next_phase": "annotation"
+    }
+  ]
+}

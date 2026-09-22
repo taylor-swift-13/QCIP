@@ -1,0 +1,56 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "2ea25cbf68c5ff542bde5dd89262a62a60e67ed2b08a4e9fe56f4ae41408013b",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_head_rec_return_wit_1",
+    "proof_of_xizi_double_link_head_rec_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "return_value_and_dll_refold",
+      "witness_names": [
+        "proof_of_xizi_double_link_head_rec_return_wit_1",
+        "proof_of_xizi_double_link_head_rec_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_head_rec_return_wit_1",
+      "dependencies": [],
+      "likely_helper_declarations": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "For each disjunctive theorem choose the first entailment. Use the first-vs-sentinel guard to analyze the dllseg list constructor and establish the case-specific return-value equality, then apply existing xizi_dll_close to the sentinel link fields and unchanged segment.",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_head_rec_return_wit_1": "Choose the first disjunct; substitute first = sentinel; destruct nodes and eliminate the cons case via dllseg's node <> stop conjunct; simplify the value on nil; close xizi_dll with xizi_dll_close.",
+        "proof_of_xizi_double_link_head_rec_return_wit_2": "Choose the first disjunct; destruct nodes; eliminate nil using the dllseg base equation first = sentinel against PreH1; in cons extract first = expected and simplify the value; close xizi_dll with xizi_dll_close."
+      },
+      "vc_shape": {
+        "shared_pre": "sentinel links ** xizi_dllseg first sentinel sentinel last nodes",
+        "shared_post": "return-value pure fact && xizi_dll sentinel nodes"
+      },
+      "witness_instantiation": {
+        "dll_first": "first",
+        "dll_last": "last"
+      },
+      "space_plan": "Preserve the segment and refold the sentinel stores with xizi_dll_close.",
+      "pure_plan": "Unfold dllseg after destructing nodes; use the branch guard to reject the impossible constructor and identify the value in the surviving constructor.",
+      "refinement_plan": "not applicable",
+      "premise_discharge": {
+        "sentinel_nonnull": "PreH2/PreH3",
+        "empty_or_nonempty_shape": "dllseg base/nonempty pure conjuncts plus PreH1"
+      },
+      "difficulty": "low",
+      "confidence": "high",
+      "grouping_reason": "The witnesses share one proof pattern and helper family (none), are ordered consecutively in the manual file, have no dependency boundary, and the group size 2 is within max_witnesses_per_group 12."
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 2,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

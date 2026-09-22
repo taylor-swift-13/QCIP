@@ -1,0 +1,47 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "0c8eb4f517256c2e6f7e6b6bfd2d38f71d37f732e33f40f8a96c0e37654ad34a",
+  "target_witnesses": [
+    "proof_of_xizi_single_link_empty_return_wit_1",
+    "proof_of_xizi_single_link_empty_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "return_sll_nullness",
+      "witness_names": [
+        "proof_of_xizi_single_link_empty_return_wit_1",
+        "proof_of_xizi_single_link_empty_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_single_link_empty_return_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "For each disjunctive return witness, select the right generated alternative. For return_wit_1, rewrite l = q :: l0, prove nonemptiness by constructor discrimination, and fold the node cell plus xizi_sll tail with xizi_sll_cons. For return_wit_2, rewrite q = 0, destruct l, preserve the original assertion while deriving l = nil by unfolding xizi_sll; the cons case contradicts the predicate's q <> 0 condition. xizi_sll_zero is an available supporting lemma, but no new helper is required.",
+      "natural_language_proof_pattern": "Complementary nonnull/null branches of one xizi_sll predicate: fold cons in the nonnull branch and eliminate an impossible cons shape in the null branch.",
+      "shared_helper_candidates": [],
+      "proving_hints": [
+        "Unfold each witness and choose the second disjunct.",
+        "Use xizi_sll_cons for return_wit_1 after rewriting PreH1.",
+        "For return_wit_2, destruct l after rewriting q = 0; unfold xizi_sll in each branch so the cons branch closes by contradiction while the nil branch preserves the assertion."
+      ],
+      "grouping_confidence": "high",
+      "confidence": "high",
+      "grouping_reason": "Both witnesses arise from the same boolean emptiness test and use the same xizi_sll root-nullness/folding family. Keeping them together is coherent and respects max_witnesses_per_group = 12.",
+      "per_witness_plan": {
+        "proof_of_xizi_single_link_empty_return_wit_1": "Select right disjunct; rewrite l; fold with xizi_sll_cons; discriminate nil.",
+        "proof_of_xizi_single_link_empty_return_wit_2": "Select right disjunct; rewrite q; destruct l and unfold xizi_sll; retain the antecedent assertion in the assertion-conjunction postcondition."
+      }
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 2,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "9675b89a1c82e0e65105714364653bd81b00896e0d47a5cc425701378a2788de",
+  "target_witnesses": [
+    "proof_of_xizi_single_link_remove_node_entail_wit_1",
+    "proof_of_xizi_single_link_remove_node_entail_wit_2",
+    "proof_of_xizi_single_link_remove_node_return_wit_1",
+    "proof_of_xizi_single_link_remove_node_return_wit_2",
+    "proof_of_xizi_single_link_remove_node_which_implies_wit_1",
+    "proof_of_xizi_single_link_remove_node_derive_remove_tail_spec_by_strong_spec",
+    "proof_of_xizi_single_link_remove_node_derive_remove_front_spec_by_strong_spec",
+    "proof_of_xizi_single_link_remove_node_derive_remove_member_spec_by_strong_spec"
+  ],
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 8,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  },
+  "proof_groups": [
+    {
+      "group_id": "implementation_shape_and_return",
+      "witness_names": [
+        "proof_of_xizi_single_link_remove_node_entail_wit_1",
+        "proof_of_xizi_single_link_remove_node_entail_wit_2",
+        "proof_of_xizi_single_link_remove_node_return_wit_1",
+        "proof_of_xizi_single_link_remove_node_return_wit_2",
+        "proof_of_xizi_single_link_remove_node_which_implies_wit_1"
+      ],
+      "representative_witness": "proof_of_xizi_single_link_remove_node_entail_wit_2",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "Prove the initialization and loop-step existentials by exposing xizi_sll_to_target cells and composing xizi_sllseg; close the found return by reconstructing xizi_sll_head, close the NULL return by xizi_sll_to_target_zero_nonzero, and prove which_implies with xizi_sll_head_split_target.",
+      "natural_language_proof_strategy": "Treat the five obligations as one invariant-shape family. First establish the exact head-to-target decomposition, then initialize/advance the segment and residual target-bounded list, and finally recompose the post-list or derive contradiction at NULL.",
+      "space_plan": "Existing xizi_sll_head_split_target, xizi_sll_to_target_not_same/same/zero_nonzero, xizi_sllseg_len1, xizi_sllseg_sllseg, xizi_sllseg_sll, xizi_sll_cons, and xizi_sll_head_from_cons provide all required transformations.",
+      "pure_plan": "Use the explicit PreH non-null/distinctness facts and normalize app/cons equations; no unprovided premise or arithmetic assumption is needed.",
+      "refinement_plan": "not applicable",
+      "premise_discharge": {
+        "target-bounded splits": "Their address inequality/non-null premises are explicit in the VC or derived by xizi_sll_head_split_target.",
+        "segment extension": "The current-node non-null fact is explicit and the current node_next cell is owned.",
+        "NULL contradiction": "target <> NULL is explicit while xizi_sll_to_target starts at NULL."
+      },
+      "per_witness_plan": {
+        "proof_of_xizi_single_link_remove_node_entail_wit_1": "Expose the initial xizi_sll_to_target head; choose nil prefix and the exposed residual suffix.",
+        "proof_of_xizi_single_link_remove_node_entail_wit_2": "Expose next_2 and extend the old segment by the current node.",
+        "proof_of_xizi_single_link_remove_node_return_wit_1": "Reduce to_target target target to nil and recompose head(l1++l2), retaining the detached target field.",
+        "proof_of_xizi_single_link_remove_node_return_wit_2": "Derive False from to_target NULL nonnull-target.",
+        "proof_of_xizi_single_link_remove_node_which_implies_wit_1": "Instantiate xizi_sll_head_split_target with the frozen prefix/target/suffix decomposition."
+      },
+      "difficulty": "medium",
+      "confidence": "high",
+      "grouping_reason": "Five closely related obligations for the same function share the same list predicates, invariant variables, and segment/target decomposition family; keeping them together reduces context duplication and remains below the 12-witness cap."
+    },
+    {
+      "group_id": "derived_client_specs",
+      "witness_names": [
+        "proof_of_xizi_single_link_remove_node_derive_remove_tail_spec_by_strong_spec",
+        "proof_of_xizi_single_link_remove_node_derive_remove_front_spec_by_strong_spec",
+        "proof_of_xizi_single_link_remove_node_derive_remove_member_spec_by_strong_spec"
+      ],
+      "representative_witness": "proof_of_xizi_single_link_remove_node_derive_remove_member_spec_by_strong_spec",
+      "dependencies": [],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "xizi_sll_remove_first_app_first",
+          "statement_shape": "forall (node: Z) (prefix suffix: list Z), ~ In node prefix -> xizi_sll_remove_first node (prefix ++ node :: suffix) = prefix ++ suffix",
+          "used_by_witnesses": [
+            "proof_of_xizi_single_link_remove_node_derive_remove_member_spec_by_strong_spec"
+          ],
+          "premises": [
+            {
+              "premise": "~ In node prefix",
+              "discharged_by": "xizi_sll_member_split from the current member precondition and list ownership"
+            }
+          ],
+          "proof_outline": "Induction on prefix and case analysis on Z.eq_dec; the equality branch contradicts ~In node prefix.",
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        }
+      ],
+      "likely_helper_declarations": [
+        "A group-id-suffixed xizi_sll_remove_first_app_first lemma with the statement above."
+      ],
+      "expected_helpers": [
+        "xizi_sll_remove_first_app_first with the current group suffix"
+      ],
+      "proof_strategy": "For tail/front, choose prefix/empty-suffix or empty-prefix/suffix as strong arguments, introduce the post wand, simplify app, and weaken the exact detached field to xizi_sll_node. For member, obtain a first-hit prefix/suffix with xizi_sll_member_split, rewrite remove_first using the suffixed helper, and use the same wand proof.",
+      "natural_language_proof_strategy": "All three client views are projections of the exact strong post. The first two are direct specializations; the member view additionally computes the first-hit list result through a proved pure helper whose sole premise comes from the current precondition.",
+      "space_plan": "Preserve/reassemble the strong precondition head; derive target non-nullness from owned membership; in the wand cancel head(prefix++suffix) and convert target->first(suffix) to xizi_sll_node.",
+      "pure_plan": "Normalize list app for front/tail. For member use l=prefix++target::suffix, ~In target prefix, and the candidate helper to establish remove_first target l=prefix++suffix.",
+      "refinement_plan": "Named strong_spec-to-client-spec derivations only; no C algorithm mirroring or generated-file change.",
+      "premise_discharge": {
+        "target_nonnull": "Derived from the owned explicit target occurrence using xizi_sll_split_app_node/xizi_sll_member_split.",
+        "first_hit_absence": "Returned by xizi_sll_member_split.",
+        "wand_resources": "The strong post contains head(prefix++suffix) and the exact detached target field required by each simplified post."
+      },
+      "per_witness_plan": {
+        "proof_of_xizi_single_link_remove_node_derive_remove_tail_spec_by_strong_spec": "Choose l1=prefix,l2=nil; simplify app and build xizi_sll_node from target->NULL plus target<>NULL.",
+        "proof_of_xizi_single_link_remove_node_derive_remove_front_spec_by_strong_spec": "Choose l1=nil,l2=suffix; the strong post directly supplies head(suffix) and target->first(suffix).",
+        "proof_of_xizi_single_link_remove_node_derive_remove_member_spec_by_strong_spec": "Choose the first-hit decomposition from xizi_sll_member_split and rewrite the custom remove_first using the suffixed helper."
+      },
+      "difficulty": "medium",
+      "confidence": "high",
+      "grouping_reason": "All three witnesses share one strong-contract existential/wand architecture; a single worker can prove the member-only helper and then finish the two direct specializations without cross-group dependencies."
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true
+}

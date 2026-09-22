@@ -1,0 +1,344 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "vc_checking": {
+      "status": "completed",
+      "source_version": "500fa63e4e90559d17113dea28bf2f22432a507b92c452b763d57b8eb63bbe10",
+      "source_goal_version": "1ff290473b7018a7018f1a9f3116fa1f5dcc435ebe11f083b4d620f4b50493ec",
+      "ready_for_vc_checking_check_round": true,
+      "judgment": "proofable",
+      "target_witnesses": [
+        "proof_of_xizi_single_link_len_entail_wit_1",
+        "proof_of_xizi_single_link_len_entail_wit_2",
+        "proof_of_xizi_single_link_len_return_wit_1"
+      ],
+      "natural_language_analysis": {
+        "source_goal_version": "1ff290473b7018a7018f1a9f3116fa1f5dcc435ebe11f083b4d620f4b50493ec",
+        "summary": "All three current manual witnesses are semantically provable. In particular, the repaired invariant carries Zlength(l) <= UINT_MAX into the loop-transition witness, so the mathematical increment Zlength(l1_2)+1 is in the 32-bit unsigned range and unsigned_last_nbits does not wrap. No annotation/specification repair is required by the current statements.",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_xizi_single_link_len_entail_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "The root node_next field points to q and xizi_sll q l owns the complete data-node suffix.",
+              "pre_pure": "linklist_pre <> 0 and Zlength(l) <= UINT_MAX.",
+              "post_spatial": "The loop invariant requires the unchanged root field, an empty processed segment from first to q, and the original suffix.",
+              "post_pure": "l = l1 ++ l2, the total UINT_MAX bound, and 0 = Zlength(l1)."
+            },
+            "witness_instantiation": "Select the first outer Coq disjunct and instantiate first = q, l1 = nil, and l2 = l.",
+            "space_plan": "Unfold xizi_sllseg only at the empty list; xizi_sllseg q q nil is emp, while the root field and xizi_sll q l frame unchanged.",
+            "pure_plan": "Simplify nil ++ l and Zlength nil; reuse PreH2 for the preserved bound.",
+            "used_existing_lemmas": [
+              "xizi_sllseg at nil",
+              "List app_nil_l",
+              "Zlength_nil"
+            ],
+            "candidate_helper_declarations": [],
+            "failure_signal": "None: every requested pure fact and spatial resource is present after the empty-prefix instantiation.",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "sll_len_invariant",
+            "grouping_reason": "This initializes the same prefix/suffix invariant advanced and closed by the other two witnesses."
+          },
+          {
+            "witness_name": "proof_of_xizi_single_link_len_entail_wit_2",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "A processed segment xizi_sllseg first_2 tmp_list l1_2, the current node field tmp_list.node_next |-> q, the remaining xizi_sll q l0, and, in the first disjunct, the preserved root node_next field.",
+              "pre_pure": "l2_2 = tmp_list :: l0, tmp_list <> 0, l = l1_2 ++ l2_2, Zlength(l) <= UINT_MAX, and length = Zlength(l1_2).",
+              "post_spatial": "The segment is extended through tmp_list to q; xizi_sll q l0 remains the suffix and the root field is framed.",
+              "post_pure": "The new prefix counter is unsigned_last_nbits(length+1,32), and the same total list decomposition and bound are preserved."
+            },
+            "witness_instantiation": "Select the first outer Coq disjunct and instantiate first = first_2, l1 = l1_2 ++ [tmp_list], and l2 = l0.",
+            "space_plan": "Use xizi_sllseg_len1 on tmp_list.node_next |-> q (premise tmp_list <> 0), then xizi_sllseg_sllseg to append that one-node segment to the processed prefix; frame xizi_sll q l0 and the root field.",
+            "pure_plan": "Rewrite l2_2 and l. Zlength_app/Zlength_cons give Zlength(l1_2 ++ [tmp_list]) = Zlength(l1_2)+1. Nonnegativity of list lengths and the nonempty remaining suffix give 0 <= length+1 <= Zlength(l) <= UINT_MAX, so unsigned_last_nbits_eq applies with no wrap. Associativity proves the updated decomposition.",
+            "used_existing_lemmas": [
+              "xizi_sllseg_len1",
+              "xizi_sllseg_sllseg",
+              "Zlength_app",
+              "Zlength_cons",
+              "Zlength_nonneg",
+              "unsigned_last_nbits_eq",
+              "app_assoc"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "xizi_sllseg_len1 requires tmp_list <> NULL, exactly PreH2.",
+              "The no-wrap upper bound follows from l = l1_2 ++ tmp_list :: l0 and the repaired hypothesis Zlength(l) <= UINT_MAX.",
+              "The no-wrap lower bound follows from Zlength_nonneg l1_2 and length = Zlength(l1_2)."
+            ],
+            "failure_signal": "None: unlike the earlier unbounded shape, the current statement contains the exact total-length fact needed to prove unsigned increment exactness.",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "sll_len_invariant",
+            "grouping_reason": "This is the transition step of the same invariant and shares its segment and list-length facts with initialization and return."
+          },
+          {
+            "witness_name": "proof_of_xizi_single_link_len_return_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "The root field points to first, followed by xizi_sllseg first tmp_list l1 and xizi_sll tmp_list l2.",
+              "pre_pure": "tmp_list = 0, l = l1 ++ l2, Zlength(l) <= UINT_MAX, and length = Zlength(l1).",
+              "post_spatial": "The unchanged public xizi_sll_head linklist_pre l view.",
+              "post_pure": "length = Zlength(l)."
+            },
+            "witness_instantiation": "Select the first outer Coq disjunct. Rewrite tmp_list to 0; xizi_sll 0 l2 forces l2 = nil, and the head existential is instantiated with first.",
+            "space_plan": "Apply xizi_sll_zero to the suffix, then xizi_sllseg_0_sll to turn the complete processed segment into xizi_sll first l1; combine it with the preserved root field and fold xizi_sll_head.",
+            "pure_plan": "After l2 = nil, app_nil_r changes l = l1 ++ l2 to l = l1; length = Zlength(l1) then gives the result.",
+            "used_existing_lemmas": [
+              "xizi_sll_zero",
+              "xizi_sllseg_0_sll",
+              "app_nil_r"
+            ],
+            "candidate_helper_declarations": [],
+            "failure_signal": "None: termination at address zero forces the remaining abstract suffix empty, making both the length equality and list reconstruction exact.",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "sll_len_invariant",
+            "grouping_reason": "This closes the same processed-prefix/remaining-suffix invariant."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "sll_len_invariant",
+            "witness_names": [
+              "proof_of_xizi_single_link_len_entail_wit_1",
+              "proof_of_xizi_single_link_len_entail_wit_2",
+              "proof_of_xizi_single_link_len_return_wit_1"
+            ],
+            "representative_witness": "proof_of_xizi_single_link_len_entail_wit_2",
+            "shared_proof_pattern": "Initialize an empty xizi_sllseg prefix, extend it by the current node while preserving the total list split and non-wrapping length counter, then close it at NULL and rebuild xizi_sll_head.",
+            "shared_space_plan": "Use the existing xizi_sllseg/xizi_sll lemma family throughout; the root field is framed and restored.",
+            "shared_pure_plan": "Use list concatenation and Zlength identities; the transition additionally uses the preserved Zlength(l) <= UINT_MAX bound for unsigned exactness.",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "All three witnesses are consecutive phases of one function's single prefix/suffix invariant, use one predicate/lemma family, and the group size 3 is within the maximum 12.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "1ff290473b7018a7018f1a9f3116fa1f5dcc435ebe11f083b4d620f4b50493ec",
+        "target_witnesses": [
+          "proof_of_xizi_single_link_len_entail_wit_1",
+          "proof_of_xizi_single_link_len_entail_wit_2",
+          "proof_of_xizi_single_link_len_return_wit_1"
+        ],
+        "grouping_policy": {
+          "controller_policy": "bounded-witness-groups/v1",
+          "balanced_grouping_required": "yes",
+          "max_witnesses_per_group": 12,
+          "target_witness_count": 3,
+          "single_group_allowed": "yes"
+        },
+        "proof_groups": [
+          {
+            "group_id": "sll_len_invariant",
+            "witness_names": [
+              "proof_of_xizi_single_link_len_entail_wit_1",
+              "proof_of_xizi_single_link_len_entail_wit_2",
+              "proof_of_xizi_single_link_len_return_wit_1"
+            ],
+            "representative_witness": "proof_of_xizi_single_link_len_entail_wit_2",
+            "dependencies": [],
+            "candidate_helper_declarations": [],
+            "likely_helper_declarations": [],
+            "expected_helpers": [],
+            "proof_strategy": "Prove the invariant lifecycle in manual witness order. Initialize with l1=nil and l2=l. Advance with l1=l1_2++[tmp_list] using xizi_sllseg_len1 and xizi_sllseg_sllseg, and use the repaired total UINT_MAX bound to rewrite unsigned_last_nbits(length+1,32) without wrap. At return, derive l2=nil from xizi_sll 0 l2, convert xizi_sllseg first 0 l1 to xizi_sll first l1, and fold xizi_sll_head.",
+            "per_witness_plan": {
+              "proof_of_xizi_single_link_len_entail_wit_1": "Choose the first disjunct; instantiate first=q, l1=nil, l2=l and simplify the empty segment.",
+              "proof_of_xizi_single_link_len_entail_wit_2": "Choose the first disjunct; extend l1_2 by [tmp_list], retain suffix l0, join segments, and prove the unsigned increment exact from Zlength(l)<=UINT_MAX.",
+              "proof_of_xizi_single_link_len_return_wit_1": "Choose the first disjunct; use tmp_list=0 to force l2=nil, close the segment into xizi_sll, and rebuild the rooted head view."
+            },
+            "vc_shape": {
+              "family": "sentinel-rooted acyclic singly linked list prefix/suffix invariant",
+              "spatial_core": "root node_next field ** xizi_sllseg processed prefix ** xizi_sll remaining suffix",
+              "pure_core": "l = l1 ++ l2, length = Zlength(l1), Zlength(l) <= UINT_MAX"
+            },
+            "space_plan": "Reuse xizi_sllseg_len1, xizi_sllseg_sllseg, xizi_sll_zero, and xizi_sllseg_0_sll; no new helper declaration is likely necessary.",
+            "pure_plan": "Normalize app/Zlength equations and use total-length monotonicity plus UINT_MAX to discharge unsigned_last_nbits_eq.",
+            "refinement_plan": "not applicable",
+            "premise_discharge": {
+              "segment_extension": "tmp_list <> 0 is PreH2 of entail_wit_2",
+              "unsigned_increment": "length=Zlength(l1_2), l=l1_2++tmp_list::l0, Zlength_nonneg, and Zlength(l)<=UINT_MAX",
+              "return_empty_suffix": "tmp_list=0 together with xizi_sll 0 l2 via xizi_sll_zero"
+            },
+            "difficulty": "low-to-medium",
+            "confidence": "high",
+            "grouping_reason": "The three witnesses form one dependency-free invariant lifecycle and share the same existing lemma family. With 3 witnesses <= 12, one group is policy-compliant and avoids splitting tightly coupled initialization, transition, and closure reasoning."
+          }
+        ],
+        "blockers": []
+      },
+      "evidence": {
+        "version_check": {
+          "status": "passed",
+          "method": "sha256 comparison against every source_version and source_goal_version file entry in agent_input.json",
+          "source_files_checked": 2,
+          "generated_files_checked": 6,
+          "mismatches": []
+        },
+        "witness_statement_check": {
+          "status": "passed",
+          "current_statement_hashes": {
+            "proof_of_xizi_single_link_len_entail_wit_1": "ed5ba1d3d6ea462155a73a8334ec1e0a45c40d1bc6483727f68d969a9e576849",
+            "proof_of_xizi_single_link_len_entail_wit_2": "b88bcd84fcf0e0939c08ed50236776e08f27563bf3fe2f12e4870fd338394574",
+            "proof_of_xizi_single_link_len_return_wit_1": "579115f82fdabe8322b2a9d2248e858ead4dc18e52fe2cab629dc4ab5f2dbd6f"
+          },
+          "all_match_source_goal_version": "yes"
+        },
+        "manual_parse": {
+          "status": "passed",
+          "manual_file": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_len/source/xizi_single_link_len_proof_manual.v",
+          "manual_witnesses_in_order": [
+            "proof_of_xizi_single_link_len_entail_wit_1",
+            "proof_of_xizi_single_link_len_entail_wit_2",
+            "proof_of_xizi_single_link_len_return_wit_1"
+          ],
+          "target_set_exact": "yes",
+          "duplicate_assignments": [],
+          "manual_contains_split_goal": "no"
+        },
+        "current_statement_recheck": {
+          "status": "passed",
+          "prior_annotation_bug_conclusion_reused": "no",
+          "finding": "The repaired entail_wit_2 explicitly includes Zlength(l) <= UINT_MAX, which combines with the list split to prove length+1 <= UINT_MAX; entail_wit_1 and return_wit_1 also have direct current-statement proofs using the existing singly-linked-list lemmas."
+        },
+        "diagnostics_use": {
+          "status": "hint-only",
+          "diagnostic_lemmas_considered": [
+            "xizi_single_link_len_return_wit_1_split_goal_1",
+            "xizi_single_link_len_return_wit_1_split_goal_spatial"
+          ],
+          "diagnostic_lemmas_in_target_witnesses": []
+        }
+      },
+      "changed_files": [],
+      "formal_files_modified": [],
+      "blockers": [],
+      "recommended_next_phase": "vc-proving-preparing"
+    }
+  },
+  "verification_result": {
+    "controller_acceptance": "pending",
+    "self_check": {
+      "source_hashes_match": "yes",
+      "manual_target_set_exact": "yes",
+      "group_coverage_exact": "yes",
+      "duplicate_assignments": "no",
+      "dependency_cycle": "no",
+      "max_group_size": 3,
+      "grouping_limit": 12,
+      "formal_files_written": "no"
+    },
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-07-22T06:12:09Z",
+      "source_version": {
+        "digest": "500fa63e4e90559d17113dea28bf2f22432a507b92c452b763d57b8eb63bbe10",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_single_link_len-20260722133500/xizi_single_link_len-annotation-r3/OUTPUT/xizi/xizi_single_link_len/source/xizi_single_link_len.c",
+            "relative_path": "OUTPUT/xizi/xizi_single_link_len/source/xizi_single_link_len.c",
+            "role": "target-c-annotated",
+            "sha256": "13822d650ec7a085cc71aeca400bf80d4d67005d8a067ce17e9315bb30c22c41",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_single_link_len-20260722133500/xizi_single_link_len-annotation-r3/SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_len/source/xizi_single_link_len_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_len/source/xizi_single_link_len_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "27dce0c34cd9cdecc5748b9cdbc38841bd26cc4362fe0336db19f8ac09ac00ad",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "1ff290473b7018a7018f1a9f3116fa1f5dcc435ebe11f083b4d620f4b50493ec",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_len/source/xizi_single_link_len_goal.v",
+            "role": "generated-goal",
+            "sha256": "eb9fa11ec9f09da18f2d6a6b960893502db33008f5e451bed5408afec3951b59",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_len/source/xizi_single_link_len_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "6bcaec1861643ccdf255e98d9c3ca651fa993ff24c8a6832e8943b75de144e7c",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_len/source/xizi_single_link_len_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "695048fce37ff3ca6578f4f75ef1f0015a26375846a32b6b5a11ce76fd58efa5",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_len/source/xizi_single_link_len_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "4c4dbb25e9d418f3fbf77238e44711024dafc87b89a7d7783dd8e7de59d8ef6b",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_len/source/xizi_single_link_len_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "aeff0b7104ac9b863602144e9432a1be09f7419671dfcad19dec4563380377e1",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_len/source/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "bff6a4946b9d6f35808d99eb42922647f9ef551b9194110a65ad824f19d33e56",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_xizi_single_link_len_entail_wit_1",
+          "proof_of_xizi_single_link_len_entail_wit_2",
+          "proof_of_xizi_single_link_len_return_wit_1"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_xizi_single_link_len_entail_wit_1": "ed5ba1d3d6ea462155a73a8334ec1e0a45c40d1bc6483727f68d969a9e576849",
+          "proof_of_xizi_single_link_len_entail_wit_2": "b88bcd84fcf0e0939c08ed50236776e08f27563bf3fe2f12e4870fd338394574",
+          "proof_of_xizi_single_link_len_return_wit_1": "579115f82fdabe8322b2a9d2248e858ead4dc18e52fe2cab629dc4ab5f2dbd6f"
+        },
+        "witnesses": [
+          {
+            "end_line": 26,
+            "name": "proof_of_xizi_single_link_len_entail_wit_1",
+            "start_line": 24,
+            "statement_hash": "ed5ba1d3d6ea462155a73a8334ec1e0a45c40d1bc6483727f68d969a9e576849",
+            "target_symbol": "xizi_single_link_len_entail_wit_1"
+          },
+          {
+            "end_line": 29,
+            "name": "proof_of_xizi_single_link_len_entail_wit_2",
+            "start_line": 27,
+            "statement_hash": "b88bcd84fcf0e0939c08ed50236776e08f27563bf3fe2f12e4870fd338394574",
+            "target_symbol": "xizi_single_link_len_entail_wit_2"
+          },
+          {
+            "end_line": 32,
+            "name": "proof_of_xizi_single_link_len_return_wit_1",
+            "start_line": 30,
+            "statement_hash": "579115f82fdabe8322b2a9d2248e858ead4dc18e52fe2cab629dc4ab5f2dbd6f",
+            "target_symbol": "xizi_single_link_len_return_wit_1"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_single_link_len-20260722133500/rounds/xizi_single_link_len-vc-checking-r2/group_plan.json",
+      "target_witnesses": [
+        "proof_of_xizi_single_link_len_entail_wit_1",
+        "proof_of_xizi_single_link_len_entail_wit_2",
+        "proof_of_xizi_single_link_len_return_wit_1"
+      ]
+    }
+  },
+  "blockers": []
+}

@@ -1,0 +1,11 @@
+# Reuse Note
+Note kind: non-authoritative reuse note
+This file is not acceptance evidence.
+
+Completed annotation candidate for IsSingleLinkListEmpty. Arbitrary A/storeA and list (sll_payload_node A) now appear in the contract. The same xizi_sll_head_payload assertion is preserved. xizi_sll_empty_result is exactly the prior Boolean emptiness disjunction, generalized to any list element type. The executable C token sequence is unchanged.
+
+QCP Extern type constructors require a separate `(sll_payload_node :: * => *)` declaration; term declarations cannot share that kind declaration block. Use `store(&(linklist->node_next), first)` to expose the typed next field. The internal Assert is just the generic sentinel decomposition.
+
+Both canonical symexec and qcp_mcp.session_manager.SessionManager passed through EOF. Three manual obligations remain: sentinel unfold and two return cases. A worker can unfold xizi_sll_head_payload/generic_sll_head_payload/generic_sll_head, reuse the same first pointer to close the sentinel, and destruct the logical list to derive empty/nonempty from generic_sll's NULL guards. No payload assertion properties are needed. Required project imports and spatial scopes are seeded in case_lib for subsequent helpers.
+
+Case_lib fixed coqc passed; full command and compiler evidence are inside agent_report.json agent_result.annotation.case_lib_coqc_evidence. This is annotation evidence only. Existing manual is deliberately not adopted or edited; controller canonical refresh/split supplies the current skeleton. Shared SLL model and headers were not changed. All acceptance remains controller-owned.

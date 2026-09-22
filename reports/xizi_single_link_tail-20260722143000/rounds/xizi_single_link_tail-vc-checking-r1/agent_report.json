@@ -1,0 +1,335 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "phase": "vc-checking",
+  "round": "xizi_single_link_tail-vc-checking-r1",
+  "attempt_id": "xizi_single_link_tail-vc-checking-r1-attempt-1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "schema_version": "qcp-agent-result/v1",
+    "phase": "vc-checking",
+    "round": "xizi_single_link_tail-vc-checking-r1",
+    "attempt_id": "xizi_single_link_tail-vc-checking-r1-attempt-1",
+    "status": "completed",
+    "terminal": "yes",
+    "round_outcome": "completed",
+    "source_version": {
+      "digest": "38a5d07f76c9284dfc8e80dfd169501f89438608963a78a5a1416f15b50b90bc",
+      "verified_current": true
+    },
+    "source_goal_version": {
+      "digest": "3c37be940ff9a44625b1e3c8fbd6e704032c0ac43b12247441f537fbcec150e0",
+      "verified_current": true
+    },
+    "vc_checking": {
+      "status": "completed",
+      "source_version": "38a5d07f76c9284dfc8e80dfd169501f89438608963a78a5a1416f15b50b90bc",
+      "source_goal_version": "3c37be940ff9a44625b1e3c8fbd6e704032c0ac43b12247441f537fbcec150e0",
+      "target_witnesses": [
+        "proof_of_xizi_single_link_tail_entail_wit_1",
+        "proof_of_xizi_single_link_tail_entail_wit_2",
+        "proof_of_xizi_single_link_tail_return_wit_1"
+      ],
+      "semantic_judgment": "proofable",
+      "recommended_next_phase": "vc-proving-preparing",
+      "group_plan_ready": true,
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "3c37be940ff9a44625b1e3c8fbd6e704032c0ac43b12247441f537fbcec150e0",
+        "target_witnesses": [
+          "proof_of_xizi_single_link_tail_entail_wit_1",
+          "proof_of_xizi_single_link_tail_entail_wit_2",
+          "proof_of_xizi_single_link_tail_return_wit_1"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "tail_prefix_advance_and_close",
+            "witness_names": [
+              "proof_of_xizi_single_link_tail_entail_wit_1",
+              "proof_of_xizi_single_link_tail_entail_wit_2",
+              "proof_of_xizi_single_link_tail_return_wit_1"
+            ],
+            "representative_witness": "proof_of_xizi_single_link_tail_entail_wit_2",
+            "dependencies": [],
+            "candidate_helper_declarations": [],
+            "likely_helper_declarations": [],
+            "expected_helpers": [],
+            "proof_strategy": "Prove the left Coq disjunct of each witness. Initialize by applying xizi_sll_not_zero to the non-null starting node, choosing l1=nil and the exposed tail as l2, and constructing xizi_sllseg linklist_pre linklist_pre nil. For loop preservation, apply xizi_sll_not_zero at next_2, turn the current node_next cell into xizi_sllseg linklist next_2 [linklist] with xizi_sllseg_len1, compose it with the old prefix using xizi_sllseg_sllseg, and normalize app associativity. At loop exit, substitute next=0, apply xizi_sll_zero to obtain l2=nil and emp, then reuse the prefix and node_next cell with retval_node_next=0.",
+            "natural_language_proof_pattern": "Expose one non-null list cell, append that cell to the processed segment on each loop step, and use the null endpoint to close the exact prefix-plus-final-node decomposition.",
+            "shared_helper_candidates": [],
+            "proving_hints": [
+              "Each goal definition is a Coq-level disjunction; the resource-preserving left disjunct has a complete proof for all three theorems.",
+              "Existing xizi_sll_not_zero, xizi_sllseg_len1, xizi_sllseg_sllseg, and xizi_sll_zero cover the structural steps; only standard list rewrites and separation cancellation remain.",
+              "Keep the original C traversal semantics; do not introduce a Rocq traversal algorithm or alter witness statements."
+            ],
+            "grouping_reason": "The three witnesses are the initialization, one-step preservation, and exit phases of the same exact prefix/current/suffix invariant. They share one list-segment proof pattern and the same existing lemma family, have no inter-group dependency, and their count of three is within the maximum group size of 12.",
+            "difficulty": "low",
+            "confidence": "high",
+            "grouping_confidence": "high"
+          }
+        ],
+        "blockers": []
+      },
+      "natural_language_analysis": {
+        "summary": "All three target witnesses are semantically valid. The invariant precisely records the original list as a processed segment followed by the current node and its remaining suffix. Existing common-library lemmas expose the initial/current cells, extend the processed segment by one node, and force the suffix to be empty when the saved successor is zero.",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_xizi_single_link_tail_entail_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "xizi_sll linklist_pre l.",
+              "pre_pure": "linklist_pre <> 0.",
+              "pre_exists": "The first successor and logical tail are hidden by xizi_sll.",
+              "post_spatial": "In the selected left disjunct: the starting node_next cell, xizi_sllseg linklist_pre linklist_pre l1, and xizi_sll next l2.",
+              "post_pure": "l = l1 ++ linklist_pre :: l2 and linklist_pre <> 0.",
+              "post_exists": "Choose the successor and tail exposed by xizi_sll_not_zero, with l1=nil."
+            },
+            "witness_instantiation": "Apply xizi_sll_not_zero at linklist_pre. If it exposes successor next and tail l0 with l=linklist_pre::l0, instantiate next=next, l1=nil, and l2=l0.",
+            "space_plan": "Retain the exposed node_next cell and xizi_sll next l0. Construct xizi_sllseg linklist_pre linklist_pre nil by its empty/base definition; separation cancellation then closes the postcondition.",
+            "pure_plan": "PreH1 discharges the non-null premise of xizi_sll_not_zero and the post non-null conjunct. The exposed list equation, together with nil-app simplification, gives l=nil ++ linklist_pre::l0.",
+            "refinement_plan": "No refinement or safeExec state is present.",
+            "used_existing_lemmas": [
+              "xizi_sll_not_zero"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "linklist_pre <> NULL: PreH1, with NULL represented by 0",
+              "empty segment endpoint equality: reflexive linklist_pre=linklist_pre in the base definition",
+              "list decomposition: the equality returned by xizi_sll_not_zero followed by simplification of nil ++ _"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "tail_prefix_advance_and_close",
+            "grouping_reason": "Invariant initialization uses the same expose-cell and exact-list decomposition family as preservation."
+          },
+          {
+            "witness_name": "proof_of_xizi_single_link_tail_entail_wit_2",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "The current linklist node_next cell points to next_2, xizi_sllseg linklist_pre linklist l1_2, and xizi_sll next_2 l2_2.",
+              "pre_pure": "l=l1_2 ++ linklist::l2_2, linklist<>0, and next_2<>0.",
+              "pre_exists": "The successor of next_2 and the logical tail after next_2 are hidden by xizi_sll next_2 l2_2.",
+              "post_spatial": "In the selected left disjunct: next_2's node_next cell, xizi_sllseg linklist_pre next_2 l1, and xizi_sll next l2.",
+              "post_pure": "l=l1 ++ next_2::l2 and next_2<>0.",
+              "post_exists": "Choose next and l2 from unfolding xizi_sll next_2 l2_2; choose l1=l1_2 ++ [linklist]."
+            },
+            "witness_instantiation": "Apply xizi_sll_not_zero at next_2 to get next, l2 and l2_2=next_2::l2. Instantiate the processed prefix as l1_2 ++ [linklist].",
+            "space_plan": "Use xizi_sllseg_len1 on the current node_next cell to obtain xizi_sllseg linklist next_2 [linklist], then compose it with xizi_sllseg linklist_pre linklist l1_2 via xizi_sllseg_sllseg. Retain the exposed next_2 cell and xizi_sll next l2.",
+            "pure_plan": "PreH3 supplies the non-null premise for exposing next_2 and the target guard. PreH2 supplies the premise of xizi_sllseg_len1. Rewrite PreH1 using l2_2=next_2::l2, then standard app associativity and singleton simplification yield l=(l1_2++[linklist])++next_2::l2.",
+            "refinement_plan": "No refinement or safeExec state is present.",
+            "used_existing_lemmas": [
+              "xizi_sll_not_zero",
+              "xizi_sllseg_len1",
+              "xizi_sllseg_sllseg"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "next_2 <> NULL: PreH3",
+              "linklist <> NULL for xizi_sllseg_len1: PreH2",
+              "old whole-list decomposition: PreH1",
+              "new suffix decomposition l2_2=next_2::l2: conclusion of xizi_sll_not_zero"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "tail_prefix_advance_and_close",
+            "grouping_reason": "This is the central segment-extension step shared by the invariant lifecycle."
+          },
+          {
+            "witness_name": "proof_of_xizi_single_link_tail_return_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "The final linklist node_next cell contains next, xizi_sllseg linklist_pre linklist l1_2, and xizi_sll next l2.",
+              "pre_pure": "l=l1_2 ++ linklist::l2, linklist<>0, and next=0.",
+              "pre_exists": "No additional structural witness is needed; xizi_sll next l2 hides only the endpoint fact.",
+              "post_spatial": "In the selected left disjunct: xizi_sllseg linklist_pre linklist l1 and the same final node_next cell containing retval_node_next.",
+              "post_pure": "l=l1 ++ [linklist], linklist<>0, and retval_node_next=0.",
+              "post_exists": "Choose retval_node_next=next=0 and l1=l1_2."
+            },
+            "witness_instantiation": "Substitute next=0, apply xizi_sll_zero to derive l2=nil and emp, then instantiate retval_node_next=0 and l1=l1_2.",
+            "space_plan": "xizi_sll_zero consumes the null suffix into the pure equality l2=nil plus emp. Frame and reuse the existing prefix segment and final node_next cell unchanged.",
+            "pure_plan": "PreH3 supplies next=0. xizi_sll_zero gives l2=nil. Rewriting these facts in PreH1 yields l=l1_2 ++ linklist::nil; PreH2 supplies the returned node's non-null fact.",
+            "refinement_plan": "No refinement or safeExec state is present.",
+            "used_existing_lemmas": [
+              "xizi_sll_zero"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "next=NULL: PreH3",
+              "l2=nil: conclusion of xizi_sll_zero after substituting next=0",
+              "linklist<>0: PreH2",
+              "retval_node_next=0: chosen from PreH3"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "tail_prefix_advance_and_close",
+            "grouping_reason": "Loop exit is the endpoint-closing phase of the same exact prefix/current/suffix invariant."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "tail_prefix_advance_and_close",
+            "witness_names": [
+              "proof_of_xizi_single_link_tail_entail_wit_1",
+              "proof_of_xizi_single_link_tail_entail_wit_2",
+              "proof_of_xizi_single_link_tail_return_wit_1"
+            ],
+            "representative_witness": "proof_of_xizi_single_link_tail_entail_wit_2",
+            "shared_proof_pattern": "Expose the current list cell, represent processed nodes as an exact xizi_sllseg, append one current-node edge per loop step, and eliminate the suffix at the null endpoint.",
+            "shared_space_plan": "Initialize an empty segment, extend it with xizi_sllseg_len1 plus xizi_sllseg_sllseg, then preserve the segment while xizi_sll_zero removes the terminal suffix.",
+            "shared_pure_plan": "Use the explicit non-null guards, the list-cons equality produced by xizi_sll_not_zero, PreH1 whole-list equations, app associativity, and the terminal l2=nil fact.",
+            "shared_refinement_plan": "none",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "All witnesses are ordered phases of one invariant and use one existing structural lemma family; exact one-group coverage is below the bound of 12.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "evidence": {
+        "source_file_hashes": {
+          "status": "matched",
+          "checked_count": 8,
+          "details": "The annotated C file, case-lib seed, and all six generated source_goal_version files in the declared round worktree match their handoff SHA-256 values."
+        },
+        "manual_witness_coverage": {
+          "status": "exact",
+          "manual_witness_count": 3,
+          "declared_target_count": 3,
+          "duplicates": [],
+          "missing": [],
+          "extra": [],
+          "manual_order": [
+            "proof_of_xizi_single_link_tail_entail_wit_1",
+            "proof_of_xizi_single_link_tail_entail_wit_2",
+            "proof_of_xizi_single_link_tail_return_wit_1"
+          ],
+          "statement_hashes": {
+            "proof_of_xizi_single_link_tail_entail_wit_1": "42152cf3c822c4cb019b009912dc4ed34007870503ef668d10b592ad8b6798c5",
+            "proof_of_xizi_single_link_tail_entail_wit_2": "46cc31415ab128b5d6e7356b1172a8fddd48f2ff527a4e0490563fb9234265ca",
+            "proof_of_xizi_single_link_tail_return_wit_1": "bd69609e466d37d647572d5b6b8f0c2bcdddd8d0e9a06c5848ace7905e7d4c43"
+          }
+        },
+        "diagnostics_usage": "The diagnostics snapshot contains exactly the same three manual obligations and no diagnostic declarations; it was treated only as a planning hint.",
+        "case_lib_review": "The case-local seed contains imports only. All required structural lemmas already exist in the imported xizi_single_link_common library, so no group-local helper declaration is proposed."
+      },
+      "blockers": []
+    },
+    "changed_files": [],
+    "report_artifacts": [
+      "/home/yangfp/QCIP/reports/xizi_single_link_tail-20260722143000/rounds/xizi_single_link_tail-vc-checking-r1/agent_report.json",
+      "/home/yangfp/QCIP/reports/xizi_single_link_tail-20260722143000/rounds/xizi_single_link_tail-vc-checking-r1/agent_output.txt"
+    ],
+    "blockers": []
+  },
+  "blockers": [],
+  "verification_result": {
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-07-22T06:52:26Z",
+      "source_version": {
+        "digest": "38a5d07f76c9284dfc8e80dfd169501f89438608963a78a5a1416f15b50b90bc",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_single_link_tail-20260722143000/xizi_single_link_tail-annotation-r1/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail.c",
+            "relative_path": "OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail.c",
+            "role": "target-c-annotated",
+            "sha256": "955ecd7c8f7c915350ab47ab76bd9d4f0af009944c81f16d9201cfb44c0a3d56",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_single_link_tail-20260722143000/xizi_single_link_tail-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "27dce0c34cd9cdecc5748b9cdbc38841bd26cc4362fe0336db19f8ac09ac00ad",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "3c37be940ff9a44625b1e3c8fbd6e704032c0ac43b12247441f537fbcec150e0",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail_goal.v",
+            "role": "generated-goal",
+            "sha256": "9c7cc3a7c6190124f6c78c4cee0924707988f0bdadb0a1ec82567372539fddcc",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "a99447ee940ed96cbb5652cbe2460b32f8d9c02e1401ef19d97ba3ecc44ff191",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "291747d1a4012e3ae61740ada91ab53e42eca92cc1bbf92d80803b37c7df2fdc",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "67859192726664bd331e6a167ae1cfa0b456e71c49341cd8acf8c59fcba75e64",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/xizi_single_link_tail_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "5a7cb6e2a3717cc8678b410723ef2153a4186cc8dbe3a548a7052d375f09bac6",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_tail/source/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "b29150341af2dfe348c39069c5122a326ed4d5957077774d5093c0b90a3bebcd",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_xizi_single_link_tail_entail_wit_1",
+          "proof_of_xizi_single_link_tail_entail_wit_2",
+          "proof_of_xizi_single_link_tail_return_wit_1"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_xizi_single_link_tail_entail_wit_1": "42152cf3c822c4cb019b009912dc4ed34007870503ef668d10b592ad8b6798c5",
+          "proof_of_xizi_single_link_tail_entail_wit_2": "46cc31415ab128b5d6e7356b1172a8fddd48f2ff527a4e0490563fb9234265ca",
+          "proof_of_xizi_single_link_tail_return_wit_1": "bd69609e466d37d647572d5b6b8f0c2bcdddd8d0e9a06c5848ace7905e7d4c43"
+        },
+        "witnesses": [
+          {
+            "end_line": 26,
+            "name": "proof_of_xizi_single_link_tail_entail_wit_1",
+            "start_line": 24,
+            "statement_hash": "42152cf3c822c4cb019b009912dc4ed34007870503ef668d10b592ad8b6798c5",
+            "target_symbol": "xizi_single_link_tail_entail_wit_1"
+          },
+          {
+            "end_line": 29,
+            "name": "proof_of_xizi_single_link_tail_entail_wit_2",
+            "start_line": 27,
+            "statement_hash": "46cc31415ab128b5d6e7356b1172a8fddd48f2ff527a4e0490563fb9234265ca",
+            "target_symbol": "xizi_single_link_tail_entail_wit_2"
+          },
+          {
+            "end_line": 32,
+            "name": "proof_of_xizi_single_link_tail_return_wit_1",
+            "start_line": 30,
+            "statement_hash": "bd69609e466d37d647572d5b6b8f0c2bcdddd8d0e9a06c5848ace7905e7d4c43",
+            "target_symbol": "xizi_single_link_tail_return_wit_1"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_single_link_tail-20260722143000/rounds/xizi_single_link_tail-vc-checking-r1/group_plan.json",
+      "target_witnesses": [
+        "proof_of_xizi_single_link_tail_entail_wit_1",
+        "proof_of_xizi_single_link_tail_entail_wit_2",
+        "proof_of_xizi_single_link_tail_return_wit_1"
+      ]
+    }
+  }
+}

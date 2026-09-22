@@ -1,0 +1,111 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "65973da81fbbb5ca3806ab82e356a2bf315c2f60c200b15e570fb1d7b59769a2",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_next_entail_wit_1",
+    "proof_of_xizi_double_link_next_return_wit_1",
+    "proof_of_xizi_double_link_next_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "dll_segment_decompose_recompose",
+      "witness_names": [
+        "proof_of_xizi_double_link_next_entail_wit_1",
+        "proof_of_xizi_double_link_next_return_wit_1",
+        "proof_of_xizi_double_link_next_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_next_entail_wit_1",
+      "dependencies": [],
+      "difficulty": "medium",
+      "confidence": "high",
+      "grouping_reason": "The witnesses are a single split/use/rejoin lifecycle for one DLL node and share the same xizi_dllseg helper family; 3 witnesses are within max_witnesses_per_group=12.",
+      "proof_strategy": "Prove group-suffixed xizi_dllseg split and join lemmas by induction on nodes_before. Prove a small start-equals-stop elimination lemma by destructing the abstract list, and derive distinct node bases from separated xizi_dll_links resources if the generic cancellation tactics do not do so directly. Prove entail_wit_1 through its first disjunct using xizi_dll_open and split. Prove return_wit_1 through its first disjunct by forcing nodes_after=nil, simplifying xizi_double_link_next_value, joining, and xizi_dll_close. Prove return_wit_2 through its first disjunct by xizi_dllseg_unfold under node_next<>linklist_pre, simplifying the observation on the resulting cons list, joining, and closing.",
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "xizi_dllseg_split_at_node",
+          "statement_shape": "forall first prev stop last before node after, xizi_dllseg first prev stop last (before ++ node :: after) |-- EX node_prev node_next, xizi_dllseg first prev node node_prev before ** xizi_dll_links node node_next node_prev ** xizi_dllseg node_next node stop last after",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_next_entail_wit_1"
+          ],
+          "premises": [],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "xizi_dllseg_join_at_node",
+          "statement_shape": "forall first prev stop last before node node_prev node_next after, node <> 0 -> node <> stop -> xizi_dllseg first prev node node_prev before ** xizi_dll_links node node_next node_prev ** xizi_dllseg node_next node stop last after |-- xizi_dllseg first prev stop last (before ++ node :: after)",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_next_return_wit_1",
+            "proof_of_xizi_double_link_next_return_wit_2"
+          ],
+          "premises": [
+            {
+              "premise": "linklist_node_pre <> 0",
+              "discharged_by": "PreH3 in each return witness",
+              "needs_unfold": [],
+              "arithmetic": "none",
+              "spatial_resource": "none"
+            },
+            {
+              "premise": "linklist_node_pre <> linklist_pre",
+              "discharged_by": "separation of xizi_dll_links linklist_pre first last and xizi_dll_links linklist_node_pre node_next node_prev",
+              "needs_unfold": [
+                "xizi_dll_links"
+              ],
+              "arithmetic": "none",
+              "spatial_resource": "the sentinel and queried-node next-field stores would collide if the bases were equal"
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "xizi_dllseg_stop_nil",
+          "statement_shape": "forall prev stop last nodes, xizi_dllseg stop prev stop last nodes |-- \u201c nodes = nil /\\ prev = last \u201d && emp",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_next_return_wit_1"
+          ],
+          "premises": [],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "xizi_dll_links_disjoint_nodes",
+          "statement_shape": "forall a b an ap bn bp, xizi_dll_links a an ap ** xizi_dll_links b bn bp |-- \u201c a <> b \u201d",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_next_return_wit_1",
+            "proof_of_xizi_double_link_next_return_wit_2"
+          ],
+          "premises": [],
+          "destination": "group-local case_lib with helper_namespace.suffix; optional if existing separation tactics derive the inequality inline"
+        }
+      ],
+      "expected_helpers": [
+        "xizi_dllseg_split_at_node",
+        "xizi_dllseg_join_at_node",
+        "xizi_dllseg_stop_nil",
+        "xizi_dll_links_disjoint_nodes (optional)"
+      ],
+      "premise_discharge": {
+        "head_nonnull": "PreH2 in the return witnesses and the pure conjunct embedded in xizi_dll for entail_wit_1",
+        "queried_node_nonnull": "PreH1 in entail_wit_1 and PreH3 in both return witnesses",
+        "queried_node_not_sentinel": "derived from separated ownership of sentinel and queried-node xizi_dll_links resources",
+        "suffix_empty_case": "PreH1 rewrites node_next to the segment stop; xizi_dllseg_stop_nil then yields nodes_after=nil",
+        "suffix_nonempty_case": "PreH1 is node_next<>linklist_pre, exactly the premise of existing xizi_dllseg_unfold"
+      },
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_next_entail_wit_1": "first disjunct; xizi_dll_open; split at linklist_node_pre; instantiate boundary addresses; cancel",
+        "proof_of_xizi_double_link_next_return_wit_1": "first disjunct; rewrite node_next=head; force nodes_after=nil; simplify value; join exposed node; xizi_dll_close",
+        "proof_of_xizi_double_link_next_return_wit_2": "first disjunct; unfold nonempty suffix from node_next<>head; simplify value; join exposed node; xizi_dll_close"
+      }
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

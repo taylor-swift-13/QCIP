@@ -1,0 +1,51 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "10b671027e8c77fcb63e01def28c3ee9261adac3d9ee2352098044f5d3107403",
+  "target_witnesses": [
+    "proof_of_DoubleLinkListGetHead_return_wit_1",
+    "proof_of_DoubleLinkListGetHead_return_wit_2",
+    "proof_of_DoubleLinkListGetHead_derive_nil_case_by_general"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "double_link_head_direct",
+      "witness_names": [
+        "proof_of_DoubleLinkListGetHead_return_wit_1",
+        "proof_of_DoubleLinkListGetHead_return_wit_2",
+        "proof_of_DoubleLinkListGetHead_derive_nil_case_by_general"
+      ],
+      "representative_witness": "proof_of_DoubleLinkListGetHead_return_wit_2",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "Adapt the direct proof structure to the DoubleLinkListGetHead identifiers. For return_wit_1 select the right disjunct, substitute first=head, destruct nodes, preserve the nil segment, and contradict node<>stop in the cons branch. For return_wit_2 select the left disjunct, destruct nodes, contradict the empty branch, unfold the nonempty segment, simplify first_value, and apply xizi_dll_nonempty_rev using PreH2, the segment's first<>NULL fact, and PreH1. For derive_nil_case_by_general choose nodes_general=nil, frame the nil DLL, use derivable1s_emp_l_unfold and derivable1_wand_sepcon_adjoint, open retval_2, and choose retval=0.",
+      "natural_language_proof_strategy": "List-shape analysis fully accounts for the return VCs' pure and spatial goals, and wand adjunction accounts for the derived nil contract. All resources and premises are present in the current VC; no generated statement or seed spec change is required.",
+      "per_witness_plan": {
+        "proof_of_DoubleLinkListGetHead_return_wit_1": "right disjunct; subst first; destruct nodes_general; nil by simpl/entailer; cons contradicts node<>stop",
+        "proof_of_DoubleLinkListGetHead_return_wit_2": "left disjunct; destruct nodes_general; nil contradicts PreH1; cons unfold segment, simplify first_value, then xizi_dll_nonempty_rev and cancel links",
+        "proof_of_DoubleLinkListGetHead_derive_nil_case_by_general": "Exists nil; simplify first_value; frame nil DLL; wand adjunction; Intros retval_2; Exists 0; entailer"
+      },
+      "premise_discharge": {
+        "xizi_dll_nonempty_rev.head_nonnull": "PreH2",
+        "xizi_dll_nonempty_rev.first_nonnull": "nonempty xizi_dllseg conjunct",
+        "xizi_dll_nonempty_rev.first_not_head": "PreH1",
+        "nil_first_value": "definition reduction"
+      },
+      "difficulty": "low",
+      "confidence": "high",
+      "grouping_reason": "A single group is allowed because there are 3 targets <= 12. Keeping the same-function, same-spec obligations together minimizes handoff overhead and lets one worker reuse the xizi DLL unfolding context; the wand witness is short and has no independent helper family or dependency requiring a split."
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

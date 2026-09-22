@@ -1,0 +1,2103 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "status": "completed",
+    "source_version": "37892df296feac0902cddabf6ce331ed9d8198ed9c5644b367a0f5497e7c67fa",
+    "source_goal_version": "211b63f7b6f617efa69c47071b5a646f0fbc2593c7c3e82fba43007759aa980d",
+    "changed_files": [],
+    "blockers": [],
+    "vc_checking": {
+      "status": "completed",
+      "source_version": "37892df296feac0902cddabf6ce331ed9d8198ed9c5644b367a0f5497e7c67fa",
+      "source_goal_version": "211b63f7b6f617efa69c47071b5a646f0fbc2593c7c3e82fba43007759aa980d",
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "211b63f7b6f617efa69c47071b5a646f0fbc2593c7c3e82fba43007759aa980d",
+        "target_witnesses": [
+          "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+          "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+          "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+          "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+          "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4",
+          "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case",
+          "proof_of_DoubleLinkListInsertNodeBefore_derive_member_case_by_dispatch_case"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "insert_before_dispatch_and_reassembly",
+            "witness_names": [
+              "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4",
+              "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case",
+              "proof_of_DoubleLinkListInsertNodeBefore_derive_member_case_by_dispatch_case"
+            ],
+            "representative_witness": "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+            "dependencies": [],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "local_dll_head_absent",
+                "statement_shape": "XiziLocalDLL.store_dll storeA head nodes |-- pure (~ In head (XiziLocalDLL.ptrs nodes)) && XiziLocalDLL.store_dll storeA head nodes",
+                "used_by_witnesses": [
+                  "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+                  "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case"
+                ],
+                "premises": [
+                  {
+                    "premise": "store_dll owns sentinel fields separately from every node field",
+                    "discharged_by": "Unfold store_dll, induct over dllseg, and contradict repeated ownership of the identical SysDoubleLinklistNode.node_next address if a node pointer equals head. Keep and refold all resources. No endpoint/nonzero axiom or layout equality is needed."
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              },
+              {
+                "name_hint": "local_payloads_app_and_insert",
+                "statement_shape": "payloads storeA (pre ++ suf) can split/join payloads pre and payloads suf; inserting storeA new data between these yields payloads storeA (pre ++ Build_DL_Node data new :: suf)",
+                "used_by_witnesses": [
+                  "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1"
+                ],
+                "premises": [
+                  {
+                    "premise": "Original node payloads and detached inserted payload are separated",
+                    "discharged_by": "store_dll_decompose and the storeA linklist_node_pre data_dispatch_case conjunct in entail_wit_1"
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              },
+              {
+                "name_hint": "local_addr_segment_cut_join",
+                "statement_shape": "addr_dllseg on xs ++ ys splits at existential boundary and joins at matching boundary; singleton expansion exposes exactly the previous/next fields; snoc decomposition is the specialization xs ++ [last]",
+                "used_by_witnesses": [
+                  "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+                  "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+                  "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+                  "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+                  "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4"
+                ],
+                "premises": [
+                  {
+                    "premise": "Pure list decomposition and matching segment endpoints",
+                    "discharged_by": "For entry, first_payload_split plus XiziLocalDLL.ptrs_app and nonempty-list snoc decomposition; for returns, the explicit prefix0/nodes_before equations and field/segment endpoints in the VC."
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "expected_helpers": [
+              "local_dll_head_absent",
+              "local_payloads_app_and_insert",
+              "local_addr_segment_cut_join"
+            ],
+            "proof_strategy": "Use one group for all seven related obligations. Establish local suffixed helper facts for head exclusion, address segment cuts/joins, and payload insertion. Prove entry by four-case shape decomposition, returns by inverse address-shape reconstruction plus store_dll_compose, and derivations by exact parameter instantiation and wand introduction. Preserve shared DLL.DL_Node and XiziLocalDLL naive_C_Rules layout throughout. Do not reuse guarded legacy predicates or introduce nonnull assumptions.",
+            "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+            "confidence": "high",
+            "difficulty": "entry decomposition and sentinel ownership exclusion need helper proofs; remaining witnesses are direct reassembly",
+            "per_witness_plan": {
+              "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1": {
+                "refinement_plan": "No safeExec/refinement obligation. Preserve the mathematical payload insertion relation and reconstruct the spatial list model.",
+                "failure_signal": "",
+                "recommended_next_phase": "vc-proving-preparing",
+                "analysis_group_candidate": "insert_before_dispatch_and_reassembly",
+                "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+                "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+                "judgment": "needs-helper",
+                "vc_shape": {
+                  "pre_spatial": "Local linklist variable cell; store_dll storeA head nodes; occupy_dll_node new; storeA new data",
+                  "pre_pure": "anchor is a member or equals head",
+                  "pre_exists": "Head first/last and segment next pointers; detached node old_prev/old_next",
+                  "post_spatial": "One of four disjuncts: member first, member with nonempty prefix, nonempty sentinel append, empty sentinel append; each exposes updated-region fields and retains unchanged address segments plus result payloads",
+                  "post_pure": "Address sequence split and first occurrence or absent-append equality; payload insertion relation and result address projection",
+                  "post_exists": "Logical result, address ptrs/prefix/suffix, concrete first/last/prev/before_prev/next/old fields"
+                },
+                "witness_instantiation": "Set ptrs=ptrs nodes. For member use first_payload_split and result=pre ++ inserted :: current :: suffix; for sentinel choose result=nodes ++ [inserted]. Derive nodes_before/after by ptrs. Split nonempty prefixes as prefix0 ++ [prev].",
+                "space_plan": "Decompose store_dll into address shape and payloads. Expand occupy_dll_node. Use segment split at the chosen first occurrence, then split preceding segment at its last element or use its empty endpoint equalities. In the sentinel branch expose the last element or empty list. Move the supplied new payload into result payloads while framing all unchanged links and the local variable cell.",
+                "pure_plan": "Member premise supplies first_payload_split. The payload relation gives projection via xizi_insert_before_payload_address_semantics. First-occurrence lemma gives address insertion equality. In sentinel case derive head absence from sentinel/node separated fields, use absent_append and the absence disjunct of the payload relation.",
+                "used_existing_lemmas": [
+                  "XiziLocalDLL.store_dll_decompose",
+                  "XiziLocalDLL.dllseg_split",
+                  "first_payload_split__insert_before_payload",
+                  "xizi_insert_before_payload_address_semantics",
+                  "xizi_insert_before_first_occurrence__insert_before_dispatch_and_reassembly",
+                  "xizi_insert_before_absent_append__insert_before_dispatch_and_reassembly"
+                ],
+                "candidate_helper_declarations": [
+                  {
+                    "name_hint": "local_dll_head_absent",
+                    "statement_shape": "XiziLocalDLL.store_dll storeA head nodes |-- pure (~ In head (XiziLocalDLL.ptrs nodes)) && XiziLocalDLL.store_dll storeA head nodes",
+                    "used_by_witnesses": [
+                      "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+                      "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case"
+                    ],
+                    "premises": [
+                      {
+                        "premise": "store_dll owns sentinel fields separately from every node field",
+                        "discharged_by": "Unfold store_dll, induct over dllseg, and contradict repeated ownership of the identical SysDoubleLinklistNode.node_next address if a node pointer equals head. Keep and refold all resources. No endpoint/nonzero axiom or layout equality is needed."
+                      }
+                    ],
+                    "destination": "group-local case_lib with helper_namespace.suffix"
+                  },
+                  {
+                    "name_hint": "local_payloads_app_and_insert",
+                    "statement_shape": "payloads storeA (pre ++ suf) can split/join payloads pre and payloads suf; inserting storeA new data between these yields payloads storeA (pre ++ Build_DL_Node data new :: suf)",
+                    "used_by_witnesses": [
+                      "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1"
+                    ],
+                    "premises": [
+                      {
+                        "premise": "Original node payloads and detached inserted payload are separated",
+                        "discharged_by": "store_dll_decompose and the storeA linklist_node_pre data_dispatch_case conjunct in entail_wit_1"
+                      }
+                    ],
+                    "destination": "group-local case_lib with helper_namespace.suffix"
+                  },
+                  {
+                    "name_hint": "local_addr_segment_cut_join",
+                    "statement_shape": "addr_dllseg on xs ++ ys splits at existential boundary and joins at matching boundary; singleton expansion exposes exactly the previous/next fields; snoc decomposition is the specialization xs ++ [last]",
+                    "used_by_witnesses": [
+                      "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+                      "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+                      "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+                      "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+                      "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4"
+                    ],
+                    "premises": [
+                      {
+                        "premise": "Pure list decomposition and matching segment endpoints",
+                        "discharged_by": "For entry, first_payload_split plus XiziLocalDLL.ptrs_app and nonempty-list snoc decomposition; for returns, the explicit prefix0/nodes_before equations and field/segment endpoints in the VC."
+                      }
+                    ],
+                    "destination": "group-local case_lib with helper_namespace.suffix"
+                  }
+                ],
+                "premise_discharge": [
+                  {
+                    "premise": "store_dll owns sentinel fields separately from every node field",
+                    "discharged_by": "Unfold store_dll, induct over dllseg, and contradict repeated ownership of the identical SysDoubleLinklistNode.node_next address if a node pointer equals head. Keep and refold all resources. No endpoint/nonzero axiom or layout equality is needed."
+                  },
+                  {
+                    "premise": "Original node payloads and detached inserted payload are separated",
+                    "discharged_by": "store_dll_decompose and the storeA linklist_node_pre data_dispatch_case conjunct in entail_wit_1"
+                  },
+                  {
+                    "premise": "Pure list decomposition and matching segment endpoints",
+                    "discharged_by": "For entry, first_payload_split plus XiziLocalDLL.ptrs_app and nonempty-list snoc decomposition; for returns, the explicit prefix0/nodes_before equations and field/segment endpoints in the VC."
+                  }
+                ]
+              },
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1": {
+                "refinement_plan": "No safeExec/refinement obligation. Preserve the mathematical payload insertion relation and reconstruct the spatial list model.",
+                "failure_signal": "",
+                "recommended_next_phase": "vc-proving-preparing",
+                "analysis_group_candidate": "insert_before_dispatch_and_reassembly",
+                "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+                "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+                "judgment": "proofable",
+                "vc_shape": {
+                  "pre_spatial": "payloads storeA result_2 and Empty sentinel case: inserted node prev/next=head and head prev/next=new.",
+                  "pre_pure": "Payload insertion relation for result_2; ptrs result_2 equals the pure insertion operation; branch equations identify its address list as [new]",
+                  "pre_exists": "All spatial node/segment boundary values already quantified",
+                  "post_spatial": "store_dll storeA head result_2",
+                  "post_pure": "Same xizi_insert_before_payload relation",
+                  "post_exists": "result"
+                },
+                "witness_instantiation": "Use result_2 for result. Use head.next target and the last parameter already present (new for sentinel append; last for member insertion).",
+                "space_plan": "Select either identical outer disjunction arm. Fold new and neighboring singleton address segments, concatenate with preserved prefix/suffix segments, then fold addr_store_dll at ptrs result_2 and apply XiziLocalDLL.store_dll_compose with the unchanged result payloads. Empty/first cases need only direct singleton recursion.",
+                "pure_plan": "Substitute the supplied branch equalities. Rewrite result ptrs with the supplied operation equality and nodes_before/prefix0 equations; list associativity yields [new]. Preserve the supplied relation, rewriting first/head=linklist_pre as necessary.",
+                "used_existing_lemmas": [
+                  "XiziLocalDLL.dllseg_concat",
+                  "XiziLocalDLL.store_dll_compose",
+                  "XiziLocalDLL.addr_nodes_app"
+                ],
+                "candidate_helper_declarations": [],
+                "premise_discharge": []
+              },
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2": {
+                "refinement_plan": "No safeExec/refinement obligation. Preserve the mathematical payload insertion relation and reconstruct the spatial list model.",
+                "failure_signal": "",
+                "recommended_next_phase": "vc-proving-preparing",
+                "analysis_group_candidate": "insert_before_dispatch_and_reassembly",
+                "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+                "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+                "judgment": "needs-helper",
+                "vc_shape": {
+                  "pre_spatial": "payloads storeA result_2 and Nonempty sentinel case: prefix0 segment, old tail with next=new, new prev=old_tail and next=head, and updated head.last=new.",
+                  "pre_pure": "Payload insertion relation for result_2; ptrs result_2 equals the pure insertion operation; branch equations identify its address list as prefix0 ++ [prev; new]",
+                  "pre_exists": "All spatial node/segment boundary values already quantified",
+                  "post_spatial": "store_dll storeA head result_2",
+                  "post_pure": "Same xizi_insert_before_payload relation",
+                  "post_exists": "result"
+                },
+                "witness_instantiation": "Use result_2 for result. Use head.next target and the last parameter already present (new for sentinel append; last for member insertion).",
+                "space_plan": "Select either identical outer disjunction arm. Fold new and neighboring singleton address segments, concatenate with preserved prefix/suffix segments, then fold addr_store_dll at ptrs result_2 and apply XiziLocalDLL.store_dll_compose with the unchanged result payloads. Empty/first cases need only direct singleton recursion.",
+                "pure_plan": "Substitute the supplied branch equalities. Rewrite result ptrs with the supplied operation equality and nodes_before/prefix0 equations; list associativity yields prefix0 ++ [prev; new]. Preserve the supplied relation, rewriting first/head=linklist_pre as necessary.",
+                "used_existing_lemmas": [
+                  "XiziLocalDLL.dllseg_concat",
+                  "XiziLocalDLL.store_dll_compose",
+                  "XiziLocalDLL.addr_nodes_app"
+                ],
+                "candidate_helper_declarations": [
+                  {
+                    "name_hint": "local_addr_segment_cut_join",
+                    "statement_shape": "addr_dllseg on xs ++ ys splits at existential boundary and joins at matching boundary; singleton expansion exposes exactly the previous/next fields; snoc decomposition is the specialization xs ++ [last]",
+                    "used_by_witnesses": [
+                      "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+                      "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+                      "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+                      "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+                      "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4"
+                    ],
+                    "premises": [
+                      {
+                        "premise": "Pure list decomposition and matching segment endpoints",
+                        "discharged_by": "For entry, first_payload_split plus XiziLocalDLL.ptrs_app and nonempty-list snoc decomposition; for returns, the explicit prefix0/nodes_before equations and field/segment endpoints in the VC."
+                      }
+                    ],
+                    "destination": "group-local case_lib with helper_namespace.suffix"
+                  }
+                ],
+                "premise_discharge": [
+                  {
+                    "premise": "Pure list decomposition and matching segment endpoints",
+                    "discharged_by": "For entry, first_payload_split plus XiziLocalDLL.ptrs_app and nonempty-list snoc decomposition; for returns, the explicit prefix0/nodes_before equations and field/segment endpoints in the VC."
+                  }
+                ]
+              },
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3": {
+                "refinement_plan": "No safeExec/refinement obligation. Preserve the mathematical payload insertion relation and reconstruct the spatial list model.",
+                "failure_signal": "",
+                "recommended_next_phase": "vc-proving-preparing",
+                "analysis_group_candidate": "insert_before_dispatch_and_reassembly",
+                "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+                "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+                "judgment": "needs-helper",
+                "vc_shape": {
+                  "pre_spatial": "payloads storeA result_2 and Interior member case: prefix0 segment ending at prev; prev.next=new; new.prev=prev/new.next=anchor; anchor.prev=new/anchor.next=next; suffix segment and unchanged sentinel fields.",
+                  "pre_pure": "Payload insertion relation for result_2; ptrs result_2 equals the pure insertion operation; branch equations identify its address list as prefix0 ++ [prev; new; anchor] ++ nodes_after",
+                  "pre_exists": "All spatial node/segment boundary values already quantified",
+                  "post_spatial": "store_dll storeA head result_2",
+                  "post_pure": "Same xizi_insert_before_payload relation",
+                  "post_exists": "result"
+                },
+                "witness_instantiation": "Use result_2 for result. Use head.next target and the last parameter already present (new for sentinel append; last for member insertion).",
+                "space_plan": "Select either identical outer disjunction arm. Fold new and neighboring singleton address segments, concatenate with preserved prefix/suffix segments, then fold addr_store_dll at ptrs result_2 and apply XiziLocalDLL.store_dll_compose with the unchanged result payloads. Empty/first cases need only direct singleton recursion.",
+                "pure_plan": "Substitute the supplied branch equalities. Rewrite result ptrs with the supplied operation equality and nodes_before/prefix0 equations; list associativity yields prefix0 ++ [prev; new; anchor] ++ nodes_after. Preserve the supplied relation, rewriting first/head=linklist_pre as necessary.",
+                "used_existing_lemmas": [
+                  "XiziLocalDLL.dllseg_concat",
+                  "XiziLocalDLL.store_dll_compose",
+                  "XiziLocalDLL.addr_nodes_app"
+                ],
+                "candidate_helper_declarations": [
+                  {
+                    "name_hint": "local_addr_segment_cut_join",
+                    "statement_shape": "addr_dllseg on xs ++ ys splits at existential boundary and joins at matching boundary; singleton expansion exposes exactly the previous/next fields; snoc decomposition is the specialization xs ++ [last]",
+                    "used_by_witnesses": [
+                      "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+                      "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+                      "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+                      "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+                      "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4"
+                    ],
+                    "premises": [
+                      {
+                        "premise": "Pure list decomposition and matching segment endpoints",
+                        "discharged_by": "For entry, first_payload_split plus XiziLocalDLL.ptrs_app and nonempty-list snoc decomposition; for returns, the explicit prefix0/nodes_before equations and field/segment endpoints in the VC."
+                      }
+                    ],
+                    "destination": "group-local case_lib with helper_namespace.suffix"
+                  }
+                ],
+                "premise_discharge": [
+                  {
+                    "premise": "Pure list decomposition and matching segment endpoints",
+                    "discharged_by": "For entry, first_payload_split plus XiziLocalDLL.ptrs_app and nonempty-list snoc decomposition; for returns, the explicit prefix0/nodes_before equations and field/segment endpoints in the VC."
+                  }
+                ]
+              },
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4": {
+                "refinement_plan": "No safeExec/refinement obligation. Preserve the mathematical payload insertion relation and reconstruct the spatial list model.",
+                "failure_signal": "",
+                "recommended_next_phase": "vc-proving-preparing",
+                "analysis_group_candidate": "insert_before_dispatch_and_reassembly",
+                "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+                "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4",
+                "judgment": "proofable",
+                "vc_shape": {
+                  "pre_spatial": "payloads storeA result_2 and First member case: prev=head, before_prev=last, first=anchor; head.next=new; new.prev=head/new.next=first; first.prev=new; suffix segment.",
+                  "pre_pure": "Payload insertion relation for result_2; ptrs result_2 equals the pure insertion operation; branch equations identify its address list as new :: first :: nodes_after",
+                  "pre_exists": "All spatial node/segment boundary values already quantified",
+                  "post_spatial": "store_dll storeA head result_2",
+                  "post_pure": "Same xizi_insert_before_payload relation",
+                  "post_exists": "result"
+                },
+                "witness_instantiation": "Use result_2 for result. Use head.next target and the last parameter already present (new for sentinel append; last for member insertion).",
+                "space_plan": "Select either identical outer disjunction arm. Fold new and neighboring singleton address segments, concatenate with preserved prefix/suffix segments, then fold addr_store_dll at ptrs result_2 and apply XiziLocalDLL.store_dll_compose with the unchanged result payloads. Empty/first cases need only direct singleton recursion.",
+                "pure_plan": "Substitute the supplied branch equalities. Rewrite result ptrs with the supplied operation equality and nodes_before/prefix0 equations; list associativity yields new :: first :: nodes_after. Preserve the supplied relation, rewriting first/head=linklist_pre as necessary.",
+                "used_existing_lemmas": [
+                  "XiziLocalDLL.dllseg_concat",
+                  "XiziLocalDLL.store_dll_compose",
+                  "XiziLocalDLL.addr_nodes_app"
+                ],
+                "candidate_helper_declarations": [],
+                "premise_discharge": []
+              },
+              "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case": {
+                "refinement_plan": "No safeExec/refinement obligation. Preserve the mathematical payload insertion relation and reconstruct the spatial list model.",
+                "failure_signal": "",
+                "recommended_next_phase": "vc-proving-preparing",
+                "analysis_group_candidate": "insert_before_dispatch_and_reassembly",
+                "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+                "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case",
+                "judgment": "needs-helper",
+                "vc_shape": {
+                  "pre_spatial": "store_dll storeA linklist nodes ** occupy_dll_node new ** storeA new data",
+                  "pre_pure": "None beyond spatial ownership",
+                  "pre_exists": "Original list endpoints hidden in store_dll",
+                  "post_spatial": "Identical instantiated dispatch precondition and a wand from dispatch post to exact sentinel append store_dll",
+                  "post_pure": "Anchor predicate and equality of returned logical result with nodes ++ [inserted]",
+                  "post_exists": "Dispatch A/storeA/data/head/nodes"
+                },
+                "witness_instantiation": "Instantiate identical type, payload store and logical nodes, with head=linklist_pre. Wand receives result; prove result=nodes ++ [inserted].",
+                "space_plan": "Before splitting off the dispatch precondition, extract head absence while preserving the initial store_dll. Retain the pure fact across wand introduction. Dispatch precondition consumes exactly the original spatial resources; use the postcondition store_dll directly after substituting result.",
+                "pure_plan": "Anchor holds by right disjunct/reflexivity. Unfold payload relation: member branch contradicts head absence using ptrs_app; absent branch explicitly states appended result.",
+                "used_existing_lemmas": [
+                  "XiziLocalDLL.ptrs_app"
+                ],
+                "candidate_helper_declarations": [
+                  {
+                    "name_hint": "local_dll_head_absent",
+                    "statement_shape": "XiziLocalDLL.store_dll storeA head nodes |-- pure (~ In head (XiziLocalDLL.ptrs nodes)) && XiziLocalDLL.store_dll storeA head nodes",
+                    "used_by_witnesses": [
+                      "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+                      "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case"
+                    ],
+                    "premises": [
+                      {
+                        "premise": "store_dll owns sentinel fields separately from every node field",
+                        "discharged_by": "Unfold store_dll, induct over dllseg, and contradict repeated ownership of the identical SysDoubleLinklistNode.node_next address if a node pointer equals head. Keep and refold all resources. No endpoint/nonzero axiom or layout equality is needed."
+                      }
+                    ],
+                    "destination": "group-local case_lib with helper_namespace.suffix"
+                  }
+                ],
+                "premise_discharge": [
+                  {
+                    "premise": "store_dll owns sentinel fields separately from every node field",
+                    "discharged_by": "Unfold store_dll, induct over dllseg, and contradict repeated ownership of the identical SysDoubleLinklistNode.node_next address if a node pointer equals head. Keep and refold all resources. No endpoint/nonzero axiom or layout equality is needed."
+                  }
+                ]
+              },
+              "proof_of_DoubleLinkListInsertNodeBefore_derive_member_case_by_dispatch_case": {
+                "refinement_plan": "No safeExec/refinement obligation. Preserve the mathematical payload insertion relation and reconstruct the spatial list model.",
+                "failure_signal": "",
+                "recommended_next_phase": "vc-proving-preparing",
+                "analysis_group_candidate": "insert_before_dispatch_and_reassembly",
+                "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+                "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_derive_member_case_by_dispatch_case",
+                "judgment": "proofable",
+                "vc_shape": {
+                  "pre_spatial": "store_dll storeA head nodes ** occupy_dll_node new ** storeA new data",
+                  "pre_pure": "In linklist_pre (ptrs nodes)",
+                  "pre_exists": "None",
+                  "post_spatial": "Same dispatch precondition and identity wand on the payload-preserving existential post",
+                  "post_pure": "Anchor by its membership disjunct",
+                  "post_exists": "Same A/storeA/data/head/nodes"
+                },
+                "witness_instantiation": "Instantiate all dispatch arguments with the member arguments; reuse the existential result under the wand.",
+                "space_plan": "Spatial precondition is identical. Introduce wand and return its incoming existential relation/store_dll.",
+                "pure_plan": "Unfold anchor and choose membership disjunct using supplied membership premise. No stronger facts required.",
+                "used_existing_lemmas": [],
+                "candidate_helper_declarations": [],
+                "premise_discharge": []
+              }
+            }
+          }
+        ],
+        "grouping_policy": {
+          "controller_policy": "bounded-witness-groups/v1",
+          "balanced_grouping_required": "yes",
+          "max_witnesses_per_group": 12,
+          "single_group_allowed_only_if_target_witness_count_lte": 12,
+          "oversized_group_rejected_by_controller": "yes",
+          "grouping_basis": [
+            "same proof pattern or helper family",
+            "same loop/refinement phase",
+            "dependency ordering",
+            "manual witness order as deterministic tie-breaker"
+          ],
+          "split_required_when": [
+            "target witness count exceeds 12",
+            "any proposed group would exceed 12 witnesses",
+            "proof strategies are unrelated enough to confuse one worker"
+          ],
+          "same_function_related_witnesses": "keep-together-only-within-max-witnesses-per-group",
+          "reason_required_for_each_group": "yes"
+        },
+        "natural_language_analysis": {
+          "witnesses": [
+            {
+              "refinement_plan": "No safeExec/refinement obligation. Preserve the mathematical payload insertion relation and reconstruct the spatial list model.",
+              "failure_signal": "",
+              "recommended_next_phase": "vc-proving-preparing",
+              "analysis_group_candidate": "insert_before_dispatch_and_reassembly",
+              "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+              "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+              "judgment": "needs-helper",
+              "vc_shape": {
+                "pre_spatial": "Local linklist variable cell; store_dll storeA head nodes; occupy_dll_node new; storeA new data",
+                "pre_pure": "anchor is a member or equals head",
+                "pre_exists": "Head first/last and segment next pointers; detached node old_prev/old_next",
+                "post_spatial": "One of four disjuncts: member first, member with nonempty prefix, nonempty sentinel append, empty sentinel append; each exposes updated-region fields and retains unchanged address segments plus result payloads",
+                "post_pure": "Address sequence split and first occurrence or absent-append equality; payload insertion relation and result address projection",
+                "post_exists": "Logical result, address ptrs/prefix/suffix, concrete first/last/prev/before_prev/next/old fields"
+              },
+              "witness_instantiation": "Set ptrs=ptrs nodes. For member use first_payload_split and result=pre ++ inserted :: current :: suffix; for sentinel choose result=nodes ++ [inserted]. Derive nodes_before/after by ptrs. Split nonempty prefixes as prefix0 ++ [prev].",
+              "space_plan": "Decompose store_dll into address shape and payloads. Expand occupy_dll_node. Use segment split at the chosen first occurrence, then split preceding segment at its last element or use its empty endpoint equalities. In the sentinel branch expose the last element or empty list. Move the supplied new payload into result payloads while framing all unchanged links and the local variable cell.",
+              "pure_plan": "Member premise supplies first_payload_split. The payload relation gives projection via xizi_insert_before_payload_address_semantics. First-occurrence lemma gives address insertion equality. In sentinel case derive head absence from sentinel/node separated fields, use absent_append and the absence disjunct of the payload relation.",
+              "used_existing_lemmas": [
+                "XiziLocalDLL.store_dll_decompose",
+                "XiziLocalDLL.dllseg_split",
+                "first_payload_split__insert_before_payload",
+                "xizi_insert_before_payload_address_semantics",
+                "xizi_insert_before_first_occurrence__insert_before_dispatch_and_reassembly",
+                "xizi_insert_before_absent_append__insert_before_dispatch_and_reassembly"
+              ],
+              "candidate_helper_declarations": [
+                {
+                  "name_hint": "local_dll_head_absent",
+                  "statement_shape": "XiziLocalDLL.store_dll storeA head nodes |-- pure (~ In head (XiziLocalDLL.ptrs nodes)) && XiziLocalDLL.store_dll storeA head nodes",
+                  "used_by_witnesses": [
+                    "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+                    "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case"
+                  ],
+                  "premises": [
+                    {
+                      "premise": "store_dll owns sentinel fields separately from every node field",
+                      "discharged_by": "Unfold store_dll, induct over dllseg, and contradict repeated ownership of the identical SysDoubleLinklistNode.node_next address if a node pointer equals head. Keep and refold all resources. No endpoint/nonzero axiom or layout equality is needed."
+                    }
+                  ],
+                  "destination": "group-local case_lib with helper_namespace.suffix"
+                },
+                {
+                  "name_hint": "local_payloads_app_and_insert",
+                  "statement_shape": "payloads storeA (pre ++ suf) can split/join payloads pre and payloads suf; inserting storeA new data between these yields payloads storeA (pre ++ Build_DL_Node data new :: suf)",
+                  "used_by_witnesses": [
+                    "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1"
+                  ],
+                  "premises": [
+                    {
+                      "premise": "Original node payloads and detached inserted payload are separated",
+                      "discharged_by": "store_dll_decompose and the storeA linklist_node_pre data_dispatch_case conjunct in entail_wit_1"
+                    }
+                  ],
+                  "destination": "group-local case_lib with helper_namespace.suffix"
+                },
+                {
+                  "name_hint": "local_addr_segment_cut_join",
+                  "statement_shape": "addr_dllseg on xs ++ ys splits at existential boundary and joins at matching boundary; singleton expansion exposes exactly the previous/next fields; snoc decomposition is the specialization xs ++ [last]",
+                  "used_by_witnesses": [
+                    "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+                    "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+                    "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+                    "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+                    "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4"
+                  ],
+                  "premises": [
+                    {
+                      "premise": "Pure list decomposition and matching segment endpoints",
+                      "discharged_by": "For entry, first_payload_split plus XiziLocalDLL.ptrs_app and nonempty-list snoc decomposition; for returns, the explicit prefix0/nodes_before equations and field/segment endpoints in the VC."
+                    }
+                  ],
+                  "destination": "group-local case_lib with helper_namespace.suffix"
+                }
+              ],
+              "premise_discharge": [
+                {
+                  "premise": "store_dll owns sentinel fields separately from every node field",
+                  "discharged_by": "Unfold store_dll, induct over dllseg, and contradict repeated ownership of the identical SysDoubleLinklistNode.node_next address if a node pointer equals head. Keep and refold all resources. No endpoint/nonzero axiom or layout equality is needed."
+                },
+                {
+                  "premise": "Original node payloads and detached inserted payload are separated",
+                  "discharged_by": "store_dll_decompose and the storeA linklist_node_pre data_dispatch_case conjunct in entail_wit_1"
+                },
+                {
+                  "premise": "Pure list decomposition and matching segment endpoints",
+                  "discharged_by": "For entry, first_payload_split plus XiziLocalDLL.ptrs_app and nonempty-list snoc decomposition; for returns, the explicit prefix0/nodes_before equations and field/segment endpoints in the VC."
+                }
+              ]
+            },
+            {
+              "refinement_plan": "No safeExec/refinement obligation. Preserve the mathematical payload insertion relation and reconstruct the spatial list model.",
+              "failure_signal": "",
+              "recommended_next_phase": "vc-proving-preparing",
+              "analysis_group_candidate": "insert_before_dispatch_and_reassembly",
+              "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+              "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+              "judgment": "proofable",
+              "vc_shape": {
+                "pre_spatial": "payloads storeA result_2 and Empty sentinel case: inserted node prev/next=head and head prev/next=new.",
+                "pre_pure": "Payload insertion relation for result_2; ptrs result_2 equals the pure insertion operation; branch equations identify its address list as [new]",
+                "pre_exists": "All spatial node/segment boundary values already quantified",
+                "post_spatial": "store_dll storeA head result_2",
+                "post_pure": "Same xizi_insert_before_payload relation",
+                "post_exists": "result"
+              },
+              "witness_instantiation": "Use result_2 for result. Use head.next target and the last parameter already present (new for sentinel append; last for member insertion).",
+              "space_plan": "Select either identical outer disjunction arm. Fold new and neighboring singleton address segments, concatenate with preserved prefix/suffix segments, then fold addr_store_dll at ptrs result_2 and apply XiziLocalDLL.store_dll_compose with the unchanged result payloads. Empty/first cases need only direct singleton recursion.",
+              "pure_plan": "Substitute the supplied branch equalities. Rewrite result ptrs with the supplied operation equality and nodes_before/prefix0 equations; list associativity yields [new]. Preserve the supplied relation, rewriting first/head=linklist_pre as necessary.",
+              "used_existing_lemmas": [
+                "XiziLocalDLL.dllseg_concat",
+                "XiziLocalDLL.store_dll_compose",
+                "XiziLocalDLL.addr_nodes_app"
+              ],
+              "candidate_helper_declarations": [],
+              "premise_discharge": []
+            },
+            {
+              "refinement_plan": "No safeExec/refinement obligation. Preserve the mathematical payload insertion relation and reconstruct the spatial list model.",
+              "failure_signal": "",
+              "recommended_next_phase": "vc-proving-preparing",
+              "analysis_group_candidate": "insert_before_dispatch_and_reassembly",
+              "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+              "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+              "judgment": "needs-helper",
+              "vc_shape": {
+                "pre_spatial": "payloads storeA result_2 and Nonempty sentinel case: prefix0 segment, old tail with next=new, new prev=old_tail and next=head, and updated head.last=new.",
+                "pre_pure": "Payload insertion relation for result_2; ptrs result_2 equals the pure insertion operation; branch equations identify its address list as prefix0 ++ [prev; new]",
+                "pre_exists": "All spatial node/segment boundary values already quantified",
+                "post_spatial": "store_dll storeA head result_2",
+                "post_pure": "Same xizi_insert_before_payload relation",
+                "post_exists": "result"
+              },
+              "witness_instantiation": "Use result_2 for result. Use head.next target and the last parameter already present (new for sentinel append; last for member insertion).",
+              "space_plan": "Select either identical outer disjunction arm. Fold new and neighboring singleton address segments, concatenate with preserved prefix/suffix segments, then fold addr_store_dll at ptrs result_2 and apply XiziLocalDLL.store_dll_compose with the unchanged result payloads. Empty/first cases need only direct singleton recursion.",
+              "pure_plan": "Substitute the supplied branch equalities. Rewrite result ptrs with the supplied operation equality and nodes_before/prefix0 equations; list associativity yields prefix0 ++ [prev; new]. Preserve the supplied relation, rewriting first/head=linklist_pre as necessary.",
+              "used_existing_lemmas": [
+                "XiziLocalDLL.dllseg_concat",
+                "XiziLocalDLL.store_dll_compose",
+                "XiziLocalDLL.addr_nodes_app"
+              ],
+              "candidate_helper_declarations": [
+                {
+                  "name_hint": "local_addr_segment_cut_join",
+                  "statement_shape": "addr_dllseg on xs ++ ys splits at existential boundary and joins at matching boundary; singleton expansion exposes exactly the previous/next fields; snoc decomposition is the specialization xs ++ [last]",
+                  "used_by_witnesses": [
+                    "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+                    "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+                    "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+                    "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+                    "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4"
+                  ],
+                  "premises": [
+                    {
+                      "premise": "Pure list decomposition and matching segment endpoints",
+                      "discharged_by": "For entry, first_payload_split plus XiziLocalDLL.ptrs_app and nonempty-list snoc decomposition; for returns, the explicit prefix0/nodes_before equations and field/segment endpoints in the VC."
+                    }
+                  ],
+                  "destination": "group-local case_lib with helper_namespace.suffix"
+                }
+              ],
+              "premise_discharge": [
+                {
+                  "premise": "Pure list decomposition and matching segment endpoints",
+                  "discharged_by": "For entry, first_payload_split plus XiziLocalDLL.ptrs_app and nonempty-list snoc decomposition; for returns, the explicit prefix0/nodes_before equations and field/segment endpoints in the VC."
+                }
+              ]
+            },
+            {
+              "refinement_plan": "No safeExec/refinement obligation. Preserve the mathematical payload insertion relation and reconstruct the spatial list model.",
+              "failure_signal": "",
+              "recommended_next_phase": "vc-proving-preparing",
+              "analysis_group_candidate": "insert_before_dispatch_and_reassembly",
+              "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+              "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+              "judgment": "needs-helper",
+              "vc_shape": {
+                "pre_spatial": "payloads storeA result_2 and Interior member case: prefix0 segment ending at prev; prev.next=new; new.prev=prev/new.next=anchor; anchor.prev=new/anchor.next=next; suffix segment and unchanged sentinel fields.",
+                "pre_pure": "Payload insertion relation for result_2; ptrs result_2 equals the pure insertion operation; branch equations identify its address list as prefix0 ++ [prev; new; anchor] ++ nodes_after",
+                "pre_exists": "All spatial node/segment boundary values already quantified",
+                "post_spatial": "store_dll storeA head result_2",
+                "post_pure": "Same xizi_insert_before_payload relation",
+                "post_exists": "result"
+              },
+              "witness_instantiation": "Use result_2 for result. Use head.next target and the last parameter already present (new for sentinel append; last for member insertion).",
+              "space_plan": "Select either identical outer disjunction arm. Fold new and neighboring singleton address segments, concatenate with preserved prefix/suffix segments, then fold addr_store_dll at ptrs result_2 and apply XiziLocalDLL.store_dll_compose with the unchanged result payloads. Empty/first cases need only direct singleton recursion.",
+              "pure_plan": "Substitute the supplied branch equalities. Rewrite result ptrs with the supplied operation equality and nodes_before/prefix0 equations; list associativity yields prefix0 ++ [prev; new; anchor] ++ nodes_after. Preserve the supplied relation, rewriting first/head=linklist_pre as necessary.",
+              "used_existing_lemmas": [
+                "XiziLocalDLL.dllseg_concat",
+                "XiziLocalDLL.store_dll_compose",
+                "XiziLocalDLL.addr_nodes_app"
+              ],
+              "candidate_helper_declarations": [
+                {
+                  "name_hint": "local_addr_segment_cut_join",
+                  "statement_shape": "addr_dllseg on xs ++ ys splits at existential boundary and joins at matching boundary; singleton expansion exposes exactly the previous/next fields; snoc decomposition is the specialization xs ++ [last]",
+                  "used_by_witnesses": [
+                    "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+                    "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+                    "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+                    "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+                    "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4"
+                  ],
+                  "premises": [
+                    {
+                      "premise": "Pure list decomposition and matching segment endpoints",
+                      "discharged_by": "For entry, first_payload_split plus XiziLocalDLL.ptrs_app and nonempty-list snoc decomposition; for returns, the explicit prefix0/nodes_before equations and field/segment endpoints in the VC."
+                    }
+                  ],
+                  "destination": "group-local case_lib with helper_namespace.suffix"
+                }
+              ],
+              "premise_discharge": [
+                {
+                  "premise": "Pure list decomposition and matching segment endpoints",
+                  "discharged_by": "For entry, first_payload_split plus XiziLocalDLL.ptrs_app and nonempty-list snoc decomposition; for returns, the explicit prefix0/nodes_before equations and field/segment endpoints in the VC."
+                }
+              ]
+            },
+            {
+              "refinement_plan": "No safeExec/refinement obligation. Preserve the mathematical payload insertion relation and reconstruct the spatial list model.",
+              "failure_signal": "",
+              "recommended_next_phase": "vc-proving-preparing",
+              "analysis_group_candidate": "insert_before_dispatch_and_reassembly",
+              "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+              "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4",
+              "judgment": "proofable",
+              "vc_shape": {
+                "pre_spatial": "payloads storeA result_2 and First member case: prev=head, before_prev=last, first=anchor; head.next=new; new.prev=head/new.next=first; first.prev=new; suffix segment.",
+                "pre_pure": "Payload insertion relation for result_2; ptrs result_2 equals the pure insertion operation; branch equations identify its address list as new :: first :: nodes_after",
+                "pre_exists": "All spatial node/segment boundary values already quantified",
+                "post_spatial": "store_dll storeA head result_2",
+                "post_pure": "Same xizi_insert_before_payload relation",
+                "post_exists": "result"
+              },
+              "witness_instantiation": "Use result_2 for result. Use head.next target and the last parameter already present (new for sentinel append; last for member insertion).",
+              "space_plan": "Select either identical outer disjunction arm. Fold new and neighboring singleton address segments, concatenate with preserved prefix/suffix segments, then fold addr_store_dll at ptrs result_2 and apply XiziLocalDLL.store_dll_compose with the unchanged result payloads. Empty/first cases need only direct singleton recursion.",
+              "pure_plan": "Substitute the supplied branch equalities. Rewrite result ptrs with the supplied operation equality and nodes_before/prefix0 equations; list associativity yields new :: first :: nodes_after. Preserve the supplied relation, rewriting first/head=linklist_pre as necessary.",
+              "used_existing_lemmas": [
+                "XiziLocalDLL.dllseg_concat",
+                "XiziLocalDLL.store_dll_compose",
+                "XiziLocalDLL.addr_nodes_app"
+              ],
+              "candidate_helper_declarations": [],
+              "premise_discharge": []
+            },
+            {
+              "refinement_plan": "No safeExec/refinement obligation. Preserve the mathematical payload insertion relation and reconstruct the spatial list model.",
+              "failure_signal": "",
+              "recommended_next_phase": "vc-proving-preparing",
+              "analysis_group_candidate": "insert_before_dispatch_and_reassembly",
+              "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+              "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case",
+              "judgment": "needs-helper",
+              "vc_shape": {
+                "pre_spatial": "store_dll storeA linklist nodes ** occupy_dll_node new ** storeA new data",
+                "pre_pure": "None beyond spatial ownership",
+                "pre_exists": "Original list endpoints hidden in store_dll",
+                "post_spatial": "Identical instantiated dispatch precondition and a wand from dispatch post to exact sentinel append store_dll",
+                "post_pure": "Anchor predicate and equality of returned logical result with nodes ++ [inserted]",
+                "post_exists": "Dispatch A/storeA/data/head/nodes"
+              },
+              "witness_instantiation": "Instantiate identical type, payload store and logical nodes, with head=linklist_pre. Wand receives result; prove result=nodes ++ [inserted].",
+              "space_plan": "Before splitting off the dispatch precondition, extract head absence while preserving the initial store_dll. Retain the pure fact across wand introduction. Dispatch precondition consumes exactly the original spatial resources; use the postcondition store_dll directly after substituting result.",
+              "pure_plan": "Anchor holds by right disjunct/reflexivity. Unfold payload relation: member branch contradicts head absence using ptrs_app; absent branch explicitly states appended result.",
+              "used_existing_lemmas": [
+                "XiziLocalDLL.ptrs_app"
+              ],
+              "candidate_helper_declarations": [
+                {
+                  "name_hint": "local_dll_head_absent",
+                  "statement_shape": "XiziLocalDLL.store_dll storeA head nodes |-- pure (~ In head (XiziLocalDLL.ptrs nodes)) && XiziLocalDLL.store_dll storeA head nodes",
+                  "used_by_witnesses": [
+                    "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+                    "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case"
+                  ],
+                  "premises": [
+                    {
+                      "premise": "store_dll owns sentinel fields separately from every node field",
+                      "discharged_by": "Unfold store_dll, induct over dllseg, and contradict repeated ownership of the identical SysDoubleLinklistNode.node_next address if a node pointer equals head. Keep and refold all resources. No endpoint/nonzero axiom or layout equality is needed."
+                    }
+                  ],
+                  "destination": "group-local case_lib with helper_namespace.suffix"
+                }
+              ],
+              "premise_discharge": [
+                {
+                  "premise": "store_dll owns sentinel fields separately from every node field",
+                  "discharged_by": "Unfold store_dll, induct over dllseg, and contradict repeated ownership of the identical SysDoubleLinklistNode.node_next address if a node pointer equals head. Keep and refold all resources. No endpoint/nonzero axiom or layout equality is needed."
+                }
+              ]
+            },
+            {
+              "refinement_plan": "No safeExec/refinement obligation. Preserve the mathematical payload insertion relation and reconstruct the spatial list model.",
+              "failure_signal": "",
+              "recommended_next_phase": "vc-proving-preparing",
+              "analysis_group_candidate": "insert_before_dispatch_and_reassembly",
+              "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+              "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_derive_member_case_by_dispatch_case",
+              "judgment": "proofable",
+              "vc_shape": {
+                "pre_spatial": "store_dll storeA head nodes ** occupy_dll_node new ** storeA new data",
+                "pre_pure": "In linklist_pre (ptrs nodes)",
+                "pre_exists": "None",
+                "post_spatial": "Same dispatch precondition and identity wand on the payload-preserving existential post",
+                "post_pure": "Anchor by its membership disjunct",
+                "post_exists": "Same A/storeA/data/head/nodes"
+              },
+              "witness_instantiation": "Instantiate all dispatch arguments with the member arguments; reuse the existential result under the wand.",
+              "space_plan": "Spatial precondition is identical. Introduce wand and return its incoming existential relation/store_dll.",
+              "pure_plan": "Unfold anchor and choose membership disjunct using supplied membership premise. No stronger facts required.",
+              "used_existing_lemmas": [],
+              "candidate_helper_declarations": [],
+              "premise_discharge": []
+            }
+          ],
+          "analysis_groups": [
+            {
+              "group_id": "insert_before_dispatch_and_reassembly",
+              "witness_names": [
+                "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+                "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+                "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+                "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+                "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4",
+                "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case",
+                "proof_of_DoubleLinkListInsertNodeBefore_derive_member_case_by_dispatch_case"
+              ],
+              "representative_witness": "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+              "dependencies": [],
+              "candidate_helper_declarations": [
+                {
+                  "name_hint": "local_dll_head_absent",
+                  "statement_shape": "XiziLocalDLL.store_dll storeA head nodes |-- pure (~ In head (XiziLocalDLL.ptrs nodes)) && XiziLocalDLL.store_dll storeA head nodes",
+                  "used_by_witnesses": [
+                    "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+                    "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case"
+                  ],
+                  "premises": [
+                    {
+                      "premise": "store_dll owns sentinel fields separately from every node field",
+                      "discharged_by": "Unfold store_dll, induct over dllseg, and contradict repeated ownership of the identical SysDoubleLinklistNode.node_next address if a node pointer equals head. Keep and refold all resources. No endpoint/nonzero axiom or layout equality is needed."
+                    }
+                  ],
+                  "destination": "group-local case_lib with helper_namespace.suffix"
+                },
+                {
+                  "name_hint": "local_payloads_app_and_insert",
+                  "statement_shape": "payloads storeA (pre ++ suf) can split/join payloads pre and payloads suf; inserting storeA new data between these yields payloads storeA (pre ++ Build_DL_Node data new :: suf)",
+                  "used_by_witnesses": [
+                    "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1"
+                  ],
+                  "premises": [
+                    {
+                      "premise": "Original node payloads and detached inserted payload are separated",
+                      "discharged_by": "store_dll_decompose and the storeA linklist_node_pre data_dispatch_case conjunct in entail_wit_1"
+                    }
+                  ],
+                  "destination": "group-local case_lib with helper_namespace.suffix"
+                },
+                {
+                  "name_hint": "local_addr_segment_cut_join",
+                  "statement_shape": "addr_dllseg on xs ++ ys splits at existential boundary and joins at matching boundary; singleton expansion exposes exactly the previous/next fields; snoc decomposition is the specialization xs ++ [last]",
+                  "used_by_witnesses": [
+                    "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+                    "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+                    "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+                    "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+                    "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4"
+                  ],
+                  "premises": [
+                    {
+                      "premise": "Pure list decomposition and matching segment endpoints",
+                      "discharged_by": "For entry, first_payload_split plus XiziLocalDLL.ptrs_app and nonempty-list snoc decomposition; for returns, the explicit prefix0/nodes_before equations and field/segment endpoints in the VC."
+                    }
+                  ],
+                  "destination": "group-local case_lib with helper_namespace.suffix"
+                }
+              ],
+              "expected_helpers": [
+                "local_dll_head_absent",
+                "local_payloads_app_and_insert",
+                "local_addr_segment_cut_join"
+              ],
+              "proof_strategy": "Use one group for all seven related obligations. Establish local suffixed helper facts for head exclusion, address segment cuts/joins, and payload insertion. Prove entry by four-case shape decomposition, returns by inverse address-shape reconstruction plus store_dll_compose, and derivations by exact parameter instantiation and wand introduction. Preserve shared DLL.DL_Node and XiziLocalDLL naive_C_Rules layout throughout. Do not reuse guarded legacy predicates or introduce nonnull assumptions.",
+              "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+              "confidence": "high",
+              "difficulty": "entry decomposition and sentinel ownership exclusion need helper proofs; remaining witnesses are direct reassembly",
+              "per_witness_plan": {
+                "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1": {
+                  "refinement_plan": "No safeExec/refinement obligation. Preserve the mathematical payload insertion relation and reconstruct the spatial list model.",
+                  "failure_signal": "",
+                  "recommended_next_phase": "vc-proving-preparing",
+                  "analysis_group_candidate": "insert_before_dispatch_and_reassembly",
+                  "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+                  "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+                  "judgment": "needs-helper",
+                  "vc_shape": {
+                    "pre_spatial": "Local linklist variable cell; store_dll storeA head nodes; occupy_dll_node new; storeA new data",
+                    "pre_pure": "anchor is a member or equals head",
+                    "pre_exists": "Head first/last and segment next pointers; detached node old_prev/old_next",
+                    "post_spatial": "One of four disjuncts: member first, member with nonempty prefix, nonempty sentinel append, empty sentinel append; each exposes updated-region fields and retains unchanged address segments plus result payloads",
+                    "post_pure": "Address sequence split and first occurrence or absent-append equality; payload insertion relation and result address projection",
+                    "post_exists": "Logical result, address ptrs/prefix/suffix, concrete first/last/prev/before_prev/next/old fields"
+                  },
+                  "witness_instantiation": "Set ptrs=ptrs nodes. For member use first_payload_split and result=pre ++ inserted :: current :: suffix; for sentinel choose result=nodes ++ [inserted]. Derive nodes_before/after by ptrs. Split nonempty prefixes as prefix0 ++ [prev].",
+                  "space_plan": "Decompose store_dll into address shape and payloads. Expand occupy_dll_node. Use segment split at the chosen first occurrence, then split preceding segment at its last element or use its empty endpoint equalities. In the sentinel branch expose the last element or empty list. Move the supplied new payload into result payloads while framing all unchanged links and the local variable cell.",
+                  "pure_plan": "Member premise supplies first_payload_split. The payload relation gives projection via xizi_insert_before_payload_address_semantics. First-occurrence lemma gives address insertion equality. In sentinel case derive head absence from sentinel/node separated fields, use absent_append and the absence disjunct of the payload relation.",
+                  "used_existing_lemmas": [
+                    "XiziLocalDLL.store_dll_decompose",
+                    "XiziLocalDLL.dllseg_split",
+                    "first_payload_split__insert_before_payload",
+                    "xizi_insert_before_payload_address_semantics",
+                    "xizi_insert_before_first_occurrence__insert_before_dispatch_and_reassembly",
+                    "xizi_insert_before_absent_append__insert_before_dispatch_and_reassembly"
+                  ],
+                  "candidate_helper_declarations": [
+                    {
+                      "name_hint": "local_dll_head_absent",
+                      "statement_shape": "XiziLocalDLL.store_dll storeA head nodes |-- pure (~ In head (XiziLocalDLL.ptrs nodes)) && XiziLocalDLL.store_dll storeA head nodes",
+                      "used_by_witnesses": [
+                        "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+                        "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case"
+                      ],
+                      "premises": [
+                        {
+                          "premise": "store_dll owns sentinel fields separately from every node field",
+                          "discharged_by": "Unfold store_dll, induct over dllseg, and contradict repeated ownership of the identical SysDoubleLinklistNode.node_next address if a node pointer equals head. Keep and refold all resources. No endpoint/nonzero axiom or layout equality is needed."
+                        }
+                      ],
+                      "destination": "group-local case_lib with helper_namespace.suffix"
+                    },
+                    {
+                      "name_hint": "local_payloads_app_and_insert",
+                      "statement_shape": "payloads storeA (pre ++ suf) can split/join payloads pre and payloads suf; inserting storeA new data between these yields payloads storeA (pre ++ Build_DL_Node data new :: suf)",
+                      "used_by_witnesses": [
+                        "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1"
+                      ],
+                      "premises": [
+                        {
+                          "premise": "Original node payloads and detached inserted payload are separated",
+                          "discharged_by": "store_dll_decompose and the storeA linklist_node_pre data_dispatch_case conjunct in entail_wit_1"
+                        }
+                      ],
+                      "destination": "group-local case_lib with helper_namespace.suffix"
+                    },
+                    {
+                      "name_hint": "local_addr_segment_cut_join",
+                      "statement_shape": "addr_dllseg on xs ++ ys splits at existential boundary and joins at matching boundary; singleton expansion exposes exactly the previous/next fields; snoc decomposition is the specialization xs ++ [last]",
+                      "used_by_witnesses": [
+                        "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+                        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+                        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+                        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+                        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4"
+                      ],
+                      "premises": [
+                        {
+                          "premise": "Pure list decomposition and matching segment endpoints",
+                          "discharged_by": "For entry, first_payload_split plus XiziLocalDLL.ptrs_app and nonempty-list snoc decomposition; for returns, the explicit prefix0/nodes_before equations and field/segment endpoints in the VC."
+                        }
+                      ],
+                      "destination": "group-local case_lib with helper_namespace.suffix"
+                    }
+                  ],
+                  "premise_discharge": [
+                    {
+                      "premise": "store_dll owns sentinel fields separately from every node field",
+                      "discharged_by": "Unfold store_dll, induct over dllseg, and contradict repeated ownership of the identical SysDoubleLinklistNode.node_next address if a node pointer equals head. Keep and refold all resources. No endpoint/nonzero axiom or layout equality is needed."
+                    },
+                    {
+                      "premise": "Original node payloads and detached inserted payload are separated",
+                      "discharged_by": "store_dll_decompose and the storeA linklist_node_pre data_dispatch_case conjunct in entail_wit_1"
+                    },
+                    {
+                      "premise": "Pure list decomposition and matching segment endpoints",
+                      "discharged_by": "For entry, first_payload_split plus XiziLocalDLL.ptrs_app and nonempty-list snoc decomposition; for returns, the explicit prefix0/nodes_before equations and field/segment endpoints in the VC."
+                    }
+                  ]
+                },
+                "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1": {
+                  "refinement_plan": "No safeExec/refinement obligation. Preserve the mathematical payload insertion relation and reconstruct the spatial list model.",
+                  "failure_signal": "",
+                  "recommended_next_phase": "vc-proving-preparing",
+                  "analysis_group_candidate": "insert_before_dispatch_and_reassembly",
+                  "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+                  "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+                  "judgment": "proofable",
+                  "vc_shape": {
+                    "pre_spatial": "payloads storeA result_2 and Empty sentinel case: inserted node prev/next=head and head prev/next=new.",
+                    "pre_pure": "Payload insertion relation for result_2; ptrs result_2 equals the pure insertion operation; branch equations identify its address list as [new]",
+                    "pre_exists": "All spatial node/segment boundary values already quantified",
+                    "post_spatial": "store_dll storeA head result_2",
+                    "post_pure": "Same xizi_insert_before_payload relation",
+                    "post_exists": "result"
+                  },
+                  "witness_instantiation": "Use result_2 for result. Use head.next target and the last parameter already present (new for sentinel append; last for member insertion).",
+                  "space_plan": "Select either identical outer disjunction arm. Fold new and neighboring singleton address segments, concatenate with preserved prefix/suffix segments, then fold addr_store_dll at ptrs result_2 and apply XiziLocalDLL.store_dll_compose with the unchanged result payloads. Empty/first cases need only direct singleton recursion.",
+                  "pure_plan": "Substitute the supplied branch equalities. Rewrite result ptrs with the supplied operation equality and nodes_before/prefix0 equations; list associativity yields [new]. Preserve the supplied relation, rewriting first/head=linklist_pre as necessary.",
+                  "used_existing_lemmas": [
+                    "XiziLocalDLL.dllseg_concat",
+                    "XiziLocalDLL.store_dll_compose",
+                    "XiziLocalDLL.addr_nodes_app"
+                  ],
+                  "candidate_helper_declarations": [],
+                  "premise_discharge": []
+                },
+                "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2": {
+                  "refinement_plan": "No safeExec/refinement obligation. Preserve the mathematical payload insertion relation and reconstruct the spatial list model.",
+                  "failure_signal": "",
+                  "recommended_next_phase": "vc-proving-preparing",
+                  "analysis_group_candidate": "insert_before_dispatch_and_reassembly",
+                  "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+                  "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+                  "judgment": "needs-helper",
+                  "vc_shape": {
+                    "pre_spatial": "payloads storeA result_2 and Nonempty sentinel case: prefix0 segment, old tail with next=new, new prev=old_tail and next=head, and updated head.last=new.",
+                    "pre_pure": "Payload insertion relation for result_2; ptrs result_2 equals the pure insertion operation; branch equations identify its address list as prefix0 ++ [prev; new]",
+                    "pre_exists": "All spatial node/segment boundary values already quantified",
+                    "post_spatial": "store_dll storeA head result_2",
+                    "post_pure": "Same xizi_insert_before_payload relation",
+                    "post_exists": "result"
+                  },
+                  "witness_instantiation": "Use result_2 for result. Use head.next target and the last parameter already present (new for sentinel append; last for member insertion).",
+                  "space_plan": "Select either identical outer disjunction arm. Fold new and neighboring singleton address segments, concatenate with preserved prefix/suffix segments, then fold addr_store_dll at ptrs result_2 and apply XiziLocalDLL.store_dll_compose with the unchanged result payloads. Empty/first cases need only direct singleton recursion.",
+                  "pure_plan": "Substitute the supplied branch equalities. Rewrite result ptrs with the supplied operation equality and nodes_before/prefix0 equations; list associativity yields prefix0 ++ [prev; new]. Preserve the supplied relation, rewriting first/head=linklist_pre as necessary.",
+                  "used_existing_lemmas": [
+                    "XiziLocalDLL.dllseg_concat",
+                    "XiziLocalDLL.store_dll_compose",
+                    "XiziLocalDLL.addr_nodes_app"
+                  ],
+                  "candidate_helper_declarations": [
+                    {
+                      "name_hint": "local_addr_segment_cut_join",
+                      "statement_shape": "addr_dllseg on xs ++ ys splits at existential boundary and joins at matching boundary; singleton expansion exposes exactly the previous/next fields; snoc decomposition is the specialization xs ++ [last]",
+                      "used_by_witnesses": [
+                        "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+                        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+                        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+                        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+                        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4"
+                      ],
+                      "premises": [
+                        {
+                          "premise": "Pure list decomposition and matching segment endpoints",
+                          "discharged_by": "For entry, first_payload_split plus XiziLocalDLL.ptrs_app and nonempty-list snoc decomposition; for returns, the explicit prefix0/nodes_before equations and field/segment endpoints in the VC."
+                        }
+                      ],
+                      "destination": "group-local case_lib with helper_namespace.suffix"
+                    }
+                  ],
+                  "premise_discharge": [
+                    {
+                      "premise": "Pure list decomposition and matching segment endpoints",
+                      "discharged_by": "For entry, first_payload_split plus XiziLocalDLL.ptrs_app and nonempty-list snoc decomposition; for returns, the explicit prefix0/nodes_before equations and field/segment endpoints in the VC."
+                    }
+                  ]
+                },
+                "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3": {
+                  "refinement_plan": "No safeExec/refinement obligation. Preserve the mathematical payload insertion relation and reconstruct the spatial list model.",
+                  "failure_signal": "",
+                  "recommended_next_phase": "vc-proving-preparing",
+                  "analysis_group_candidate": "insert_before_dispatch_and_reassembly",
+                  "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+                  "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+                  "judgment": "needs-helper",
+                  "vc_shape": {
+                    "pre_spatial": "payloads storeA result_2 and Interior member case: prefix0 segment ending at prev; prev.next=new; new.prev=prev/new.next=anchor; anchor.prev=new/anchor.next=next; suffix segment and unchanged sentinel fields.",
+                    "pre_pure": "Payload insertion relation for result_2; ptrs result_2 equals the pure insertion operation; branch equations identify its address list as prefix0 ++ [prev; new; anchor] ++ nodes_after",
+                    "pre_exists": "All spatial node/segment boundary values already quantified",
+                    "post_spatial": "store_dll storeA head result_2",
+                    "post_pure": "Same xizi_insert_before_payload relation",
+                    "post_exists": "result"
+                  },
+                  "witness_instantiation": "Use result_2 for result. Use head.next target and the last parameter already present (new for sentinel append; last for member insertion).",
+                  "space_plan": "Select either identical outer disjunction arm. Fold new and neighboring singleton address segments, concatenate with preserved prefix/suffix segments, then fold addr_store_dll at ptrs result_2 and apply XiziLocalDLL.store_dll_compose with the unchanged result payloads. Empty/first cases need only direct singleton recursion.",
+                  "pure_plan": "Substitute the supplied branch equalities. Rewrite result ptrs with the supplied operation equality and nodes_before/prefix0 equations; list associativity yields prefix0 ++ [prev; new; anchor] ++ nodes_after. Preserve the supplied relation, rewriting first/head=linklist_pre as necessary.",
+                  "used_existing_lemmas": [
+                    "XiziLocalDLL.dllseg_concat",
+                    "XiziLocalDLL.store_dll_compose",
+                    "XiziLocalDLL.addr_nodes_app"
+                  ],
+                  "candidate_helper_declarations": [
+                    {
+                      "name_hint": "local_addr_segment_cut_join",
+                      "statement_shape": "addr_dllseg on xs ++ ys splits at existential boundary and joins at matching boundary; singleton expansion exposes exactly the previous/next fields; snoc decomposition is the specialization xs ++ [last]",
+                      "used_by_witnesses": [
+                        "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+                        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+                        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+                        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+                        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4"
+                      ],
+                      "premises": [
+                        {
+                          "premise": "Pure list decomposition and matching segment endpoints",
+                          "discharged_by": "For entry, first_payload_split plus XiziLocalDLL.ptrs_app and nonempty-list snoc decomposition; for returns, the explicit prefix0/nodes_before equations and field/segment endpoints in the VC."
+                        }
+                      ],
+                      "destination": "group-local case_lib with helper_namespace.suffix"
+                    }
+                  ],
+                  "premise_discharge": [
+                    {
+                      "premise": "Pure list decomposition and matching segment endpoints",
+                      "discharged_by": "For entry, first_payload_split plus XiziLocalDLL.ptrs_app and nonempty-list snoc decomposition; for returns, the explicit prefix0/nodes_before equations and field/segment endpoints in the VC."
+                    }
+                  ]
+                },
+                "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4": {
+                  "refinement_plan": "No safeExec/refinement obligation. Preserve the mathematical payload insertion relation and reconstruct the spatial list model.",
+                  "failure_signal": "",
+                  "recommended_next_phase": "vc-proving-preparing",
+                  "analysis_group_candidate": "insert_before_dispatch_and_reassembly",
+                  "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+                  "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4",
+                  "judgment": "proofable",
+                  "vc_shape": {
+                    "pre_spatial": "payloads storeA result_2 and First member case: prev=head, before_prev=last, first=anchor; head.next=new; new.prev=head/new.next=first; first.prev=new; suffix segment.",
+                    "pre_pure": "Payload insertion relation for result_2; ptrs result_2 equals the pure insertion operation; branch equations identify its address list as new :: first :: nodes_after",
+                    "pre_exists": "All spatial node/segment boundary values already quantified",
+                    "post_spatial": "store_dll storeA head result_2",
+                    "post_pure": "Same xizi_insert_before_payload relation",
+                    "post_exists": "result"
+                  },
+                  "witness_instantiation": "Use result_2 for result. Use head.next target and the last parameter already present (new for sentinel append; last for member insertion).",
+                  "space_plan": "Select either identical outer disjunction arm. Fold new and neighboring singleton address segments, concatenate with preserved prefix/suffix segments, then fold addr_store_dll at ptrs result_2 and apply XiziLocalDLL.store_dll_compose with the unchanged result payloads. Empty/first cases need only direct singleton recursion.",
+                  "pure_plan": "Substitute the supplied branch equalities. Rewrite result ptrs with the supplied operation equality and nodes_before/prefix0 equations; list associativity yields new :: first :: nodes_after. Preserve the supplied relation, rewriting first/head=linklist_pre as necessary.",
+                  "used_existing_lemmas": [
+                    "XiziLocalDLL.dllseg_concat",
+                    "XiziLocalDLL.store_dll_compose",
+                    "XiziLocalDLL.addr_nodes_app"
+                  ],
+                  "candidate_helper_declarations": [],
+                  "premise_discharge": []
+                },
+                "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case": {
+                  "refinement_plan": "No safeExec/refinement obligation. Preserve the mathematical payload insertion relation and reconstruct the spatial list model.",
+                  "failure_signal": "",
+                  "recommended_next_phase": "vc-proving-preparing",
+                  "analysis_group_candidate": "insert_before_dispatch_and_reassembly",
+                  "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+                  "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case",
+                  "judgment": "needs-helper",
+                  "vc_shape": {
+                    "pre_spatial": "store_dll storeA linklist nodes ** occupy_dll_node new ** storeA new data",
+                    "pre_pure": "None beyond spatial ownership",
+                    "pre_exists": "Original list endpoints hidden in store_dll",
+                    "post_spatial": "Identical instantiated dispatch precondition and a wand from dispatch post to exact sentinel append store_dll",
+                    "post_pure": "Anchor predicate and equality of returned logical result with nodes ++ [inserted]",
+                    "post_exists": "Dispatch A/storeA/data/head/nodes"
+                  },
+                  "witness_instantiation": "Instantiate identical type, payload store and logical nodes, with head=linklist_pre. Wand receives result; prove result=nodes ++ [inserted].",
+                  "space_plan": "Before splitting off the dispatch precondition, extract head absence while preserving the initial store_dll. Retain the pure fact across wand introduction. Dispatch precondition consumes exactly the original spatial resources; use the postcondition store_dll directly after substituting result.",
+                  "pure_plan": "Anchor holds by right disjunct/reflexivity. Unfold payload relation: member branch contradicts head absence using ptrs_app; absent branch explicitly states appended result.",
+                  "used_existing_lemmas": [
+                    "XiziLocalDLL.ptrs_app"
+                  ],
+                  "candidate_helper_declarations": [
+                    {
+                      "name_hint": "local_dll_head_absent",
+                      "statement_shape": "XiziLocalDLL.store_dll storeA head nodes |-- pure (~ In head (XiziLocalDLL.ptrs nodes)) && XiziLocalDLL.store_dll storeA head nodes",
+                      "used_by_witnesses": [
+                        "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+                        "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case"
+                      ],
+                      "premises": [
+                        {
+                          "premise": "store_dll owns sentinel fields separately from every node field",
+                          "discharged_by": "Unfold store_dll, induct over dllseg, and contradict repeated ownership of the identical SysDoubleLinklistNode.node_next address if a node pointer equals head. Keep and refold all resources. No endpoint/nonzero axiom or layout equality is needed."
+                        }
+                      ],
+                      "destination": "group-local case_lib with helper_namespace.suffix"
+                    }
+                  ],
+                  "premise_discharge": [
+                    {
+                      "premise": "store_dll owns sentinel fields separately from every node field",
+                      "discharged_by": "Unfold store_dll, induct over dllseg, and contradict repeated ownership of the identical SysDoubleLinklistNode.node_next address if a node pointer equals head. Keep and refold all resources. No endpoint/nonzero axiom or layout equality is needed."
+                    }
+                  ]
+                },
+                "proof_of_DoubleLinkListInsertNodeBefore_derive_member_case_by_dispatch_case": {
+                  "refinement_plan": "No safeExec/refinement obligation. Preserve the mathematical payload insertion relation and reconstruct the spatial list model.",
+                  "failure_signal": "",
+                  "recommended_next_phase": "vc-proving-preparing",
+                  "analysis_group_candidate": "insert_before_dispatch_and_reassembly",
+                  "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+                  "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_derive_member_case_by_dispatch_case",
+                  "judgment": "proofable",
+                  "vc_shape": {
+                    "pre_spatial": "store_dll storeA head nodes ** occupy_dll_node new ** storeA new data",
+                    "pre_pure": "In linklist_pre (ptrs nodes)",
+                    "pre_exists": "None",
+                    "post_spatial": "Same dispatch precondition and identity wand on the payload-preserving existential post",
+                    "post_pure": "Anchor by its membership disjunct",
+                    "post_exists": "Same A/storeA/data/head/nodes"
+                  },
+                  "witness_instantiation": "Instantiate all dispatch arguments with the member arguments; reuse the existential result under the wand.",
+                  "space_plan": "Spatial precondition is identical. Introduce wand and return its incoming existential relation/store_dll.",
+                  "pure_plan": "Unfold anchor and choose membership disjunct using supplied membership premise. No stronger facts required.",
+                  "used_existing_lemmas": [],
+                  "candidate_helper_declarations": [],
+                  "premise_discharge": []
+                }
+              },
+              "proof_group_ready": true
+            }
+          ],
+          "summary": "All seven target VCs are semantically provable. No missing resource or unjustified extra guard is required."
+        },
+        "blockers": []
+      },
+      "natural_language_analysis": {
+        "witnesses": [
+          {
+            "refinement_plan": "No safeExec/refinement obligation. Preserve the mathematical payload insertion relation and reconstruct the spatial list model.",
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "insert_before_dispatch_and_reassembly",
+            "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+            "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+            "judgment": "needs-helper",
+            "vc_shape": {
+              "pre_spatial": "Local linklist variable cell; store_dll storeA head nodes; occupy_dll_node new; storeA new data",
+              "pre_pure": "anchor is a member or equals head",
+              "pre_exists": "Head first/last and segment next pointers; detached node old_prev/old_next",
+              "post_spatial": "One of four disjuncts: member first, member with nonempty prefix, nonempty sentinel append, empty sentinel append; each exposes updated-region fields and retains unchanged address segments plus result payloads",
+              "post_pure": "Address sequence split and first occurrence or absent-append equality; payload insertion relation and result address projection",
+              "post_exists": "Logical result, address ptrs/prefix/suffix, concrete first/last/prev/before_prev/next/old fields"
+            },
+            "witness_instantiation": "Set ptrs=ptrs nodes. For member use first_payload_split and result=pre ++ inserted :: current :: suffix; for sentinel choose result=nodes ++ [inserted]. Derive nodes_before/after by ptrs. Split nonempty prefixes as prefix0 ++ [prev].",
+            "space_plan": "Decompose store_dll into address shape and payloads. Expand occupy_dll_node. Use segment split at the chosen first occurrence, then split preceding segment at its last element or use its empty endpoint equalities. In the sentinel branch expose the last element or empty list. Move the supplied new payload into result payloads while framing all unchanged links and the local variable cell.",
+            "pure_plan": "Member premise supplies first_payload_split. The payload relation gives projection via xizi_insert_before_payload_address_semantics. First-occurrence lemma gives address insertion equality. In sentinel case derive head absence from sentinel/node separated fields, use absent_append and the absence disjunct of the payload relation.",
+            "used_existing_lemmas": [
+              "XiziLocalDLL.store_dll_decompose",
+              "XiziLocalDLL.dllseg_split",
+              "first_payload_split__insert_before_payload",
+              "xizi_insert_before_payload_address_semantics",
+              "xizi_insert_before_first_occurrence__insert_before_dispatch_and_reassembly",
+              "xizi_insert_before_absent_append__insert_before_dispatch_and_reassembly"
+            ],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "local_dll_head_absent",
+                "statement_shape": "XiziLocalDLL.store_dll storeA head nodes |-- pure (~ In head (XiziLocalDLL.ptrs nodes)) && XiziLocalDLL.store_dll storeA head nodes",
+                "used_by_witnesses": [
+                  "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+                  "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case"
+                ],
+                "premises": [
+                  {
+                    "premise": "store_dll owns sentinel fields separately from every node field",
+                    "discharged_by": "Unfold store_dll, induct over dllseg, and contradict repeated ownership of the identical SysDoubleLinklistNode.node_next address if a node pointer equals head. Keep and refold all resources. No endpoint/nonzero axiom or layout equality is needed."
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              },
+              {
+                "name_hint": "local_payloads_app_and_insert",
+                "statement_shape": "payloads storeA (pre ++ suf) can split/join payloads pre and payloads suf; inserting storeA new data between these yields payloads storeA (pre ++ Build_DL_Node data new :: suf)",
+                "used_by_witnesses": [
+                  "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1"
+                ],
+                "premises": [
+                  {
+                    "premise": "Original node payloads and detached inserted payload are separated",
+                    "discharged_by": "store_dll_decompose and the storeA linklist_node_pre data_dispatch_case conjunct in entail_wit_1"
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              },
+              {
+                "name_hint": "local_addr_segment_cut_join",
+                "statement_shape": "addr_dllseg on xs ++ ys splits at existential boundary and joins at matching boundary; singleton expansion exposes exactly the previous/next fields; snoc decomposition is the specialization xs ++ [last]",
+                "used_by_witnesses": [
+                  "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+                  "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+                  "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+                  "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+                  "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4"
+                ],
+                "premises": [
+                  {
+                    "premise": "Pure list decomposition and matching segment endpoints",
+                    "discharged_by": "For entry, first_payload_split plus XiziLocalDLL.ptrs_app and nonempty-list snoc decomposition; for returns, the explicit prefix0/nodes_before equations and field/segment endpoints in the VC."
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "premise_discharge": [
+              {
+                "premise": "store_dll owns sentinel fields separately from every node field",
+                "discharged_by": "Unfold store_dll, induct over dllseg, and contradict repeated ownership of the identical SysDoubleLinklistNode.node_next address if a node pointer equals head. Keep and refold all resources. No endpoint/nonzero axiom or layout equality is needed."
+              },
+              {
+                "premise": "Original node payloads and detached inserted payload are separated",
+                "discharged_by": "store_dll_decompose and the storeA linklist_node_pre data_dispatch_case conjunct in entail_wit_1"
+              },
+              {
+                "premise": "Pure list decomposition and matching segment endpoints",
+                "discharged_by": "For entry, first_payload_split plus XiziLocalDLL.ptrs_app and nonempty-list snoc decomposition; for returns, the explicit prefix0/nodes_before equations and field/segment endpoints in the VC."
+              }
+            ]
+          },
+          {
+            "refinement_plan": "No safeExec/refinement obligation. Preserve the mathematical payload insertion relation and reconstruct the spatial list model.",
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "insert_before_dispatch_and_reassembly",
+            "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+            "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "payloads storeA result_2 and Empty sentinel case: inserted node prev/next=head and head prev/next=new.",
+              "pre_pure": "Payload insertion relation for result_2; ptrs result_2 equals the pure insertion operation; branch equations identify its address list as [new]",
+              "pre_exists": "All spatial node/segment boundary values already quantified",
+              "post_spatial": "store_dll storeA head result_2",
+              "post_pure": "Same xizi_insert_before_payload relation",
+              "post_exists": "result"
+            },
+            "witness_instantiation": "Use result_2 for result. Use head.next target and the last parameter already present (new for sentinel append; last for member insertion).",
+            "space_plan": "Select either identical outer disjunction arm. Fold new and neighboring singleton address segments, concatenate with preserved prefix/suffix segments, then fold addr_store_dll at ptrs result_2 and apply XiziLocalDLL.store_dll_compose with the unchanged result payloads. Empty/first cases need only direct singleton recursion.",
+            "pure_plan": "Substitute the supplied branch equalities. Rewrite result ptrs with the supplied operation equality and nodes_before/prefix0 equations; list associativity yields [new]. Preserve the supplied relation, rewriting first/head=linklist_pre as necessary.",
+            "used_existing_lemmas": [
+              "XiziLocalDLL.dllseg_concat",
+              "XiziLocalDLL.store_dll_compose",
+              "XiziLocalDLL.addr_nodes_app"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": []
+          },
+          {
+            "refinement_plan": "No safeExec/refinement obligation. Preserve the mathematical payload insertion relation and reconstruct the spatial list model.",
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "insert_before_dispatch_and_reassembly",
+            "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+            "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+            "judgment": "needs-helper",
+            "vc_shape": {
+              "pre_spatial": "payloads storeA result_2 and Nonempty sentinel case: prefix0 segment, old tail with next=new, new prev=old_tail and next=head, and updated head.last=new.",
+              "pre_pure": "Payload insertion relation for result_2; ptrs result_2 equals the pure insertion operation; branch equations identify its address list as prefix0 ++ [prev; new]",
+              "pre_exists": "All spatial node/segment boundary values already quantified",
+              "post_spatial": "store_dll storeA head result_2",
+              "post_pure": "Same xizi_insert_before_payload relation",
+              "post_exists": "result"
+            },
+            "witness_instantiation": "Use result_2 for result. Use head.next target and the last parameter already present (new for sentinel append; last for member insertion).",
+            "space_plan": "Select either identical outer disjunction arm. Fold new and neighboring singleton address segments, concatenate with preserved prefix/suffix segments, then fold addr_store_dll at ptrs result_2 and apply XiziLocalDLL.store_dll_compose with the unchanged result payloads. Empty/first cases need only direct singleton recursion.",
+            "pure_plan": "Substitute the supplied branch equalities. Rewrite result ptrs with the supplied operation equality and nodes_before/prefix0 equations; list associativity yields prefix0 ++ [prev; new]. Preserve the supplied relation, rewriting first/head=linklist_pre as necessary.",
+            "used_existing_lemmas": [
+              "XiziLocalDLL.dllseg_concat",
+              "XiziLocalDLL.store_dll_compose",
+              "XiziLocalDLL.addr_nodes_app"
+            ],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "local_addr_segment_cut_join",
+                "statement_shape": "addr_dllseg on xs ++ ys splits at existential boundary and joins at matching boundary; singleton expansion exposes exactly the previous/next fields; snoc decomposition is the specialization xs ++ [last]",
+                "used_by_witnesses": [
+                  "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+                  "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+                  "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+                  "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+                  "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4"
+                ],
+                "premises": [
+                  {
+                    "premise": "Pure list decomposition and matching segment endpoints",
+                    "discharged_by": "For entry, first_payload_split plus XiziLocalDLL.ptrs_app and nonempty-list snoc decomposition; for returns, the explicit prefix0/nodes_before equations and field/segment endpoints in the VC."
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "premise_discharge": [
+              {
+                "premise": "Pure list decomposition and matching segment endpoints",
+                "discharged_by": "For entry, first_payload_split plus XiziLocalDLL.ptrs_app and nonempty-list snoc decomposition; for returns, the explicit prefix0/nodes_before equations and field/segment endpoints in the VC."
+              }
+            ]
+          },
+          {
+            "refinement_plan": "No safeExec/refinement obligation. Preserve the mathematical payload insertion relation and reconstruct the spatial list model.",
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "insert_before_dispatch_and_reassembly",
+            "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+            "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+            "judgment": "needs-helper",
+            "vc_shape": {
+              "pre_spatial": "payloads storeA result_2 and Interior member case: prefix0 segment ending at prev; prev.next=new; new.prev=prev/new.next=anchor; anchor.prev=new/anchor.next=next; suffix segment and unchanged sentinel fields.",
+              "pre_pure": "Payload insertion relation for result_2; ptrs result_2 equals the pure insertion operation; branch equations identify its address list as prefix0 ++ [prev; new; anchor] ++ nodes_after",
+              "pre_exists": "All spatial node/segment boundary values already quantified",
+              "post_spatial": "store_dll storeA head result_2",
+              "post_pure": "Same xizi_insert_before_payload relation",
+              "post_exists": "result"
+            },
+            "witness_instantiation": "Use result_2 for result. Use head.next target and the last parameter already present (new for sentinel append; last for member insertion).",
+            "space_plan": "Select either identical outer disjunction arm. Fold new and neighboring singleton address segments, concatenate with preserved prefix/suffix segments, then fold addr_store_dll at ptrs result_2 and apply XiziLocalDLL.store_dll_compose with the unchanged result payloads. Empty/first cases need only direct singleton recursion.",
+            "pure_plan": "Substitute the supplied branch equalities. Rewrite result ptrs with the supplied operation equality and nodes_before/prefix0 equations; list associativity yields prefix0 ++ [prev; new; anchor] ++ nodes_after. Preserve the supplied relation, rewriting first/head=linklist_pre as necessary.",
+            "used_existing_lemmas": [
+              "XiziLocalDLL.dllseg_concat",
+              "XiziLocalDLL.store_dll_compose",
+              "XiziLocalDLL.addr_nodes_app"
+            ],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "local_addr_segment_cut_join",
+                "statement_shape": "addr_dllseg on xs ++ ys splits at existential boundary and joins at matching boundary; singleton expansion exposes exactly the previous/next fields; snoc decomposition is the specialization xs ++ [last]",
+                "used_by_witnesses": [
+                  "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+                  "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+                  "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+                  "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+                  "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4"
+                ],
+                "premises": [
+                  {
+                    "premise": "Pure list decomposition and matching segment endpoints",
+                    "discharged_by": "For entry, first_payload_split plus XiziLocalDLL.ptrs_app and nonempty-list snoc decomposition; for returns, the explicit prefix0/nodes_before equations and field/segment endpoints in the VC."
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "premise_discharge": [
+              {
+                "premise": "Pure list decomposition and matching segment endpoints",
+                "discharged_by": "For entry, first_payload_split plus XiziLocalDLL.ptrs_app and nonempty-list snoc decomposition; for returns, the explicit prefix0/nodes_before equations and field/segment endpoints in the VC."
+              }
+            ]
+          },
+          {
+            "refinement_plan": "No safeExec/refinement obligation. Preserve the mathematical payload insertion relation and reconstruct the spatial list model.",
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "insert_before_dispatch_and_reassembly",
+            "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+            "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "payloads storeA result_2 and First member case: prev=head, before_prev=last, first=anchor; head.next=new; new.prev=head/new.next=first; first.prev=new; suffix segment.",
+              "pre_pure": "Payload insertion relation for result_2; ptrs result_2 equals the pure insertion operation; branch equations identify its address list as new :: first :: nodes_after",
+              "pre_exists": "All spatial node/segment boundary values already quantified",
+              "post_spatial": "store_dll storeA head result_2",
+              "post_pure": "Same xizi_insert_before_payload relation",
+              "post_exists": "result"
+            },
+            "witness_instantiation": "Use result_2 for result. Use head.next target and the last parameter already present (new for sentinel append; last for member insertion).",
+            "space_plan": "Select either identical outer disjunction arm. Fold new and neighboring singleton address segments, concatenate with preserved prefix/suffix segments, then fold addr_store_dll at ptrs result_2 and apply XiziLocalDLL.store_dll_compose with the unchanged result payloads. Empty/first cases need only direct singleton recursion.",
+            "pure_plan": "Substitute the supplied branch equalities. Rewrite result ptrs with the supplied operation equality and nodes_before/prefix0 equations; list associativity yields new :: first :: nodes_after. Preserve the supplied relation, rewriting first/head=linklist_pre as necessary.",
+            "used_existing_lemmas": [
+              "XiziLocalDLL.dllseg_concat",
+              "XiziLocalDLL.store_dll_compose",
+              "XiziLocalDLL.addr_nodes_app"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": []
+          },
+          {
+            "refinement_plan": "No safeExec/refinement obligation. Preserve the mathematical payload insertion relation and reconstruct the spatial list model.",
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "insert_before_dispatch_and_reassembly",
+            "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+            "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case",
+            "judgment": "needs-helper",
+            "vc_shape": {
+              "pre_spatial": "store_dll storeA linklist nodes ** occupy_dll_node new ** storeA new data",
+              "pre_pure": "None beyond spatial ownership",
+              "pre_exists": "Original list endpoints hidden in store_dll",
+              "post_spatial": "Identical instantiated dispatch precondition and a wand from dispatch post to exact sentinel append store_dll",
+              "post_pure": "Anchor predicate and equality of returned logical result with nodes ++ [inserted]",
+              "post_exists": "Dispatch A/storeA/data/head/nodes"
+            },
+            "witness_instantiation": "Instantiate identical type, payload store and logical nodes, with head=linklist_pre. Wand receives result; prove result=nodes ++ [inserted].",
+            "space_plan": "Before splitting off the dispatch precondition, extract head absence while preserving the initial store_dll. Retain the pure fact across wand introduction. Dispatch precondition consumes exactly the original spatial resources; use the postcondition store_dll directly after substituting result.",
+            "pure_plan": "Anchor holds by right disjunct/reflexivity. Unfold payload relation: member branch contradicts head absence using ptrs_app; absent branch explicitly states appended result.",
+            "used_existing_lemmas": [
+              "XiziLocalDLL.ptrs_app"
+            ],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "local_dll_head_absent",
+                "statement_shape": "XiziLocalDLL.store_dll storeA head nodes |-- pure (~ In head (XiziLocalDLL.ptrs nodes)) && XiziLocalDLL.store_dll storeA head nodes",
+                "used_by_witnesses": [
+                  "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+                  "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case"
+                ],
+                "premises": [
+                  {
+                    "premise": "store_dll owns sentinel fields separately from every node field",
+                    "discharged_by": "Unfold store_dll, induct over dllseg, and contradict repeated ownership of the identical SysDoubleLinklistNode.node_next address if a node pointer equals head. Keep and refold all resources. No endpoint/nonzero axiom or layout equality is needed."
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "premise_discharge": [
+              {
+                "premise": "store_dll owns sentinel fields separately from every node field",
+                "discharged_by": "Unfold store_dll, induct over dllseg, and contradict repeated ownership of the identical SysDoubleLinklistNode.node_next address if a node pointer equals head. Keep and refold all resources. No endpoint/nonzero axiom or layout equality is needed."
+              }
+            ]
+          },
+          {
+            "refinement_plan": "No safeExec/refinement obligation. Preserve the mathematical payload insertion relation and reconstruct the spatial list model.",
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "insert_before_dispatch_and_reassembly",
+            "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+            "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_derive_member_case_by_dispatch_case",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "store_dll storeA head nodes ** occupy_dll_node new ** storeA new data",
+              "pre_pure": "In linklist_pre (ptrs nodes)",
+              "pre_exists": "None",
+              "post_spatial": "Same dispatch precondition and identity wand on the payload-preserving existential post",
+              "post_pure": "Anchor by its membership disjunct",
+              "post_exists": "Same A/storeA/data/head/nodes"
+            },
+            "witness_instantiation": "Instantiate all dispatch arguments with the member arguments; reuse the existential result under the wand.",
+            "space_plan": "Spatial precondition is identical. Introduce wand and return its incoming existential relation/store_dll.",
+            "pure_plan": "Unfold anchor and choose membership disjunct using supplied membership premise. No stronger facts required.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": []
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "insert_before_dispatch_and_reassembly",
+            "witness_names": [
+              "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4",
+              "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case",
+              "proof_of_DoubleLinkListInsertNodeBefore_derive_member_case_by_dispatch_case"
+            ],
+            "representative_witness": "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+            "dependencies": [],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "local_dll_head_absent",
+                "statement_shape": "XiziLocalDLL.store_dll storeA head nodes |-- pure (~ In head (XiziLocalDLL.ptrs nodes)) && XiziLocalDLL.store_dll storeA head nodes",
+                "used_by_witnesses": [
+                  "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+                  "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case"
+                ],
+                "premises": [
+                  {
+                    "premise": "store_dll owns sentinel fields separately from every node field",
+                    "discharged_by": "Unfold store_dll, induct over dllseg, and contradict repeated ownership of the identical SysDoubleLinklistNode.node_next address if a node pointer equals head. Keep and refold all resources. No endpoint/nonzero axiom or layout equality is needed."
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              },
+              {
+                "name_hint": "local_payloads_app_and_insert",
+                "statement_shape": "payloads storeA (pre ++ suf) can split/join payloads pre and payloads suf; inserting storeA new data between these yields payloads storeA (pre ++ Build_DL_Node data new :: suf)",
+                "used_by_witnesses": [
+                  "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1"
+                ],
+                "premises": [
+                  {
+                    "premise": "Original node payloads and detached inserted payload are separated",
+                    "discharged_by": "store_dll_decompose and the storeA linklist_node_pre data_dispatch_case conjunct in entail_wit_1"
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              },
+              {
+                "name_hint": "local_addr_segment_cut_join",
+                "statement_shape": "addr_dllseg on xs ++ ys splits at existential boundary and joins at matching boundary; singleton expansion exposes exactly the previous/next fields; snoc decomposition is the specialization xs ++ [last]",
+                "used_by_witnesses": [
+                  "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+                  "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+                  "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+                  "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+                  "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4"
+                ],
+                "premises": [
+                  {
+                    "premise": "Pure list decomposition and matching segment endpoints",
+                    "discharged_by": "For entry, first_payload_split plus XiziLocalDLL.ptrs_app and nonempty-list snoc decomposition; for returns, the explicit prefix0/nodes_before equations and field/segment endpoints in the VC."
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "expected_helpers": [
+              "local_dll_head_absent",
+              "local_payloads_app_and_insert",
+              "local_addr_segment_cut_join"
+            ],
+            "proof_strategy": "Use one group for all seven related obligations. Establish local suffixed helper facts for head exclusion, address segment cuts/joins, and payload insertion. Prove entry by four-case shape decomposition, returns by inverse address-shape reconstruction plus store_dll_compose, and derivations by exact parameter instantiation and wand introduction. Preserve shared DLL.DL_Node and XiziLocalDLL naive_C_Rules layout throughout. Do not reuse guarded legacy predicates or introduce nonnull assumptions.",
+            "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+            "confidence": "high",
+            "difficulty": "entry decomposition and sentinel ownership exclusion need helper proofs; remaining witnesses are direct reassembly",
+            "per_witness_plan": {
+              "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1": {
+                "refinement_plan": "No safeExec/refinement obligation. Preserve the mathematical payload insertion relation and reconstruct the spatial list model.",
+                "failure_signal": "",
+                "recommended_next_phase": "vc-proving-preparing",
+                "analysis_group_candidate": "insert_before_dispatch_and_reassembly",
+                "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+                "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+                "judgment": "needs-helper",
+                "vc_shape": {
+                  "pre_spatial": "Local linklist variable cell; store_dll storeA head nodes; occupy_dll_node new; storeA new data",
+                  "pre_pure": "anchor is a member or equals head",
+                  "pre_exists": "Head first/last and segment next pointers; detached node old_prev/old_next",
+                  "post_spatial": "One of four disjuncts: member first, member with nonempty prefix, nonempty sentinel append, empty sentinel append; each exposes updated-region fields and retains unchanged address segments plus result payloads",
+                  "post_pure": "Address sequence split and first occurrence or absent-append equality; payload insertion relation and result address projection",
+                  "post_exists": "Logical result, address ptrs/prefix/suffix, concrete first/last/prev/before_prev/next/old fields"
+                },
+                "witness_instantiation": "Set ptrs=ptrs nodes. For member use first_payload_split and result=pre ++ inserted :: current :: suffix; for sentinel choose result=nodes ++ [inserted]. Derive nodes_before/after by ptrs. Split nonempty prefixes as prefix0 ++ [prev].",
+                "space_plan": "Decompose store_dll into address shape and payloads. Expand occupy_dll_node. Use segment split at the chosen first occurrence, then split preceding segment at its last element or use its empty endpoint equalities. In the sentinel branch expose the last element or empty list. Move the supplied new payload into result payloads while framing all unchanged links and the local variable cell.",
+                "pure_plan": "Member premise supplies first_payload_split. The payload relation gives projection via xizi_insert_before_payload_address_semantics. First-occurrence lemma gives address insertion equality. In sentinel case derive head absence from sentinel/node separated fields, use absent_append and the absence disjunct of the payload relation.",
+                "used_existing_lemmas": [
+                  "XiziLocalDLL.store_dll_decompose",
+                  "XiziLocalDLL.dllseg_split",
+                  "first_payload_split__insert_before_payload",
+                  "xizi_insert_before_payload_address_semantics",
+                  "xizi_insert_before_first_occurrence__insert_before_dispatch_and_reassembly",
+                  "xizi_insert_before_absent_append__insert_before_dispatch_and_reassembly"
+                ],
+                "candidate_helper_declarations": [
+                  {
+                    "name_hint": "local_dll_head_absent",
+                    "statement_shape": "XiziLocalDLL.store_dll storeA head nodes |-- pure (~ In head (XiziLocalDLL.ptrs nodes)) && XiziLocalDLL.store_dll storeA head nodes",
+                    "used_by_witnesses": [
+                      "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+                      "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case"
+                    ],
+                    "premises": [
+                      {
+                        "premise": "store_dll owns sentinel fields separately from every node field",
+                        "discharged_by": "Unfold store_dll, induct over dllseg, and contradict repeated ownership of the identical SysDoubleLinklistNode.node_next address if a node pointer equals head. Keep and refold all resources. No endpoint/nonzero axiom or layout equality is needed."
+                      }
+                    ],
+                    "destination": "group-local case_lib with helper_namespace.suffix"
+                  },
+                  {
+                    "name_hint": "local_payloads_app_and_insert",
+                    "statement_shape": "payloads storeA (pre ++ suf) can split/join payloads pre and payloads suf; inserting storeA new data between these yields payloads storeA (pre ++ Build_DL_Node data new :: suf)",
+                    "used_by_witnesses": [
+                      "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1"
+                    ],
+                    "premises": [
+                      {
+                        "premise": "Original node payloads and detached inserted payload are separated",
+                        "discharged_by": "store_dll_decompose and the storeA linklist_node_pre data_dispatch_case conjunct in entail_wit_1"
+                      }
+                    ],
+                    "destination": "group-local case_lib with helper_namespace.suffix"
+                  },
+                  {
+                    "name_hint": "local_addr_segment_cut_join",
+                    "statement_shape": "addr_dllseg on xs ++ ys splits at existential boundary and joins at matching boundary; singleton expansion exposes exactly the previous/next fields; snoc decomposition is the specialization xs ++ [last]",
+                    "used_by_witnesses": [
+                      "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+                      "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+                      "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+                      "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+                      "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4"
+                    ],
+                    "premises": [
+                      {
+                        "premise": "Pure list decomposition and matching segment endpoints",
+                        "discharged_by": "For entry, first_payload_split plus XiziLocalDLL.ptrs_app and nonempty-list snoc decomposition; for returns, the explicit prefix0/nodes_before equations and field/segment endpoints in the VC."
+                      }
+                    ],
+                    "destination": "group-local case_lib with helper_namespace.suffix"
+                  }
+                ],
+                "premise_discharge": [
+                  {
+                    "premise": "store_dll owns sentinel fields separately from every node field",
+                    "discharged_by": "Unfold store_dll, induct over dllseg, and contradict repeated ownership of the identical SysDoubleLinklistNode.node_next address if a node pointer equals head. Keep and refold all resources. No endpoint/nonzero axiom or layout equality is needed."
+                  },
+                  {
+                    "premise": "Original node payloads and detached inserted payload are separated",
+                    "discharged_by": "store_dll_decompose and the storeA linklist_node_pre data_dispatch_case conjunct in entail_wit_1"
+                  },
+                  {
+                    "premise": "Pure list decomposition and matching segment endpoints",
+                    "discharged_by": "For entry, first_payload_split plus XiziLocalDLL.ptrs_app and nonempty-list snoc decomposition; for returns, the explicit prefix0/nodes_before equations and field/segment endpoints in the VC."
+                  }
+                ]
+              },
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1": {
+                "refinement_plan": "No safeExec/refinement obligation. Preserve the mathematical payload insertion relation and reconstruct the spatial list model.",
+                "failure_signal": "",
+                "recommended_next_phase": "vc-proving-preparing",
+                "analysis_group_candidate": "insert_before_dispatch_and_reassembly",
+                "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+                "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+                "judgment": "proofable",
+                "vc_shape": {
+                  "pre_spatial": "payloads storeA result_2 and Empty sentinel case: inserted node prev/next=head and head prev/next=new.",
+                  "pre_pure": "Payload insertion relation for result_2; ptrs result_2 equals the pure insertion operation; branch equations identify its address list as [new]",
+                  "pre_exists": "All spatial node/segment boundary values already quantified",
+                  "post_spatial": "store_dll storeA head result_2",
+                  "post_pure": "Same xizi_insert_before_payload relation",
+                  "post_exists": "result"
+                },
+                "witness_instantiation": "Use result_2 for result. Use head.next target and the last parameter already present (new for sentinel append; last for member insertion).",
+                "space_plan": "Select either identical outer disjunction arm. Fold new and neighboring singleton address segments, concatenate with preserved prefix/suffix segments, then fold addr_store_dll at ptrs result_2 and apply XiziLocalDLL.store_dll_compose with the unchanged result payloads. Empty/first cases need only direct singleton recursion.",
+                "pure_plan": "Substitute the supplied branch equalities. Rewrite result ptrs with the supplied operation equality and nodes_before/prefix0 equations; list associativity yields [new]. Preserve the supplied relation, rewriting first/head=linklist_pre as necessary.",
+                "used_existing_lemmas": [
+                  "XiziLocalDLL.dllseg_concat",
+                  "XiziLocalDLL.store_dll_compose",
+                  "XiziLocalDLL.addr_nodes_app"
+                ],
+                "candidate_helper_declarations": [],
+                "premise_discharge": []
+              },
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2": {
+                "refinement_plan": "No safeExec/refinement obligation. Preserve the mathematical payload insertion relation and reconstruct the spatial list model.",
+                "failure_signal": "",
+                "recommended_next_phase": "vc-proving-preparing",
+                "analysis_group_candidate": "insert_before_dispatch_and_reassembly",
+                "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+                "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+                "judgment": "needs-helper",
+                "vc_shape": {
+                  "pre_spatial": "payloads storeA result_2 and Nonempty sentinel case: prefix0 segment, old tail with next=new, new prev=old_tail and next=head, and updated head.last=new.",
+                  "pre_pure": "Payload insertion relation for result_2; ptrs result_2 equals the pure insertion operation; branch equations identify its address list as prefix0 ++ [prev; new]",
+                  "pre_exists": "All spatial node/segment boundary values already quantified",
+                  "post_spatial": "store_dll storeA head result_2",
+                  "post_pure": "Same xizi_insert_before_payload relation",
+                  "post_exists": "result"
+                },
+                "witness_instantiation": "Use result_2 for result. Use head.next target and the last parameter already present (new for sentinel append; last for member insertion).",
+                "space_plan": "Select either identical outer disjunction arm. Fold new and neighboring singleton address segments, concatenate with preserved prefix/suffix segments, then fold addr_store_dll at ptrs result_2 and apply XiziLocalDLL.store_dll_compose with the unchanged result payloads. Empty/first cases need only direct singleton recursion.",
+                "pure_plan": "Substitute the supplied branch equalities. Rewrite result ptrs with the supplied operation equality and nodes_before/prefix0 equations; list associativity yields prefix0 ++ [prev; new]. Preserve the supplied relation, rewriting first/head=linklist_pre as necessary.",
+                "used_existing_lemmas": [
+                  "XiziLocalDLL.dllseg_concat",
+                  "XiziLocalDLL.store_dll_compose",
+                  "XiziLocalDLL.addr_nodes_app"
+                ],
+                "candidate_helper_declarations": [
+                  {
+                    "name_hint": "local_addr_segment_cut_join",
+                    "statement_shape": "addr_dllseg on xs ++ ys splits at existential boundary and joins at matching boundary; singleton expansion exposes exactly the previous/next fields; snoc decomposition is the specialization xs ++ [last]",
+                    "used_by_witnesses": [
+                      "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+                      "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+                      "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+                      "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+                      "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4"
+                    ],
+                    "premises": [
+                      {
+                        "premise": "Pure list decomposition and matching segment endpoints",
+                        "discharged_by": "For entry, first_payload_split plus XiziLocalDLL.ptrs_app and nonempty-list snoc decomposition; for returns, the explicit prefix0/nodes_before equations and field/segment endpoints in the VC."
+                      }
+                    ],
+                    "destination": "group-local case_lib with helper_namespace.suffix"
+                  }
+                ],
+                "premise_discharge": [
+                  {
+                    "premise": "Pure list decomposition and matching segment endpoints",
+                    "discharged_by": "For entry, first_payload_split plus XiziLocalDLL.ptrs_app and nonempty-list snoc decomposition; for returns, the explicit prefix0/nodes_before equations and field/segment endpoints in the VC."
+                  }
+                ]
+              },
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3": {
+                "refinement_plan": "No safeExec/refinement obligation. Preserve the mathematical payload insertion relation and reconstruct the spatial list model.",
+                "failure_signal": "",
+                "recommended_next_phase": "vc-proving-preparing",
+                "analysis_group_candidate": "insert_before_dispatch_and_reassembly",
+                "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+                "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+                "judgment": "needs-helper",
+                "vc_shape": {
+                  "pre_spatial": "payloads storeA result_2 and Interior member case: prefix0 segment ending at prev; prev.next=new; new.prev=prev/new.next=anchor; anchor.prev=new/anchor.next=next; suffix segment and unchanged sentinel fields.",
+                  "pre_pure": "Payload insertion relation for result_2; ptrs result_2 equals the pure insertion operation; branch equations identify its address list as prefix0 ++ [prev; new; anchor] ++ nodes_after",
+                  "pre_exists": "All spatial node/segment boundary values already quantified",
+                  "post_spatial": "store_dll storeA head result_2",
+                  "post_pure": "Same xizi_insert_before_payload relation",
+                  "post_exists": "result"
+                },
+                "witness_instantiation": "Use result_2 for result. Use head.next target and the last parameter already present (new for sentinel append; last for member insertion).",
+                "space_plan": "Select either identical outer disjunction arm. Fold new and neighboring singleton address segments, concatenate with preserved prefix/suffix segments, then fold addr_store_dll at ptrs result_2 and apply XiziLocalDLL.store_dll_compose with the unchanged result payloads. Empty/first cases need only direct singleton recursion.",
+                "pure_plan": "Substitute the supplied branch equalities. Rewrite result ptrs with the supplied operation equality and nodes_before/prefix0 equations; list associativity yields prefix0 ++ [prev; new; anchor] ++ nodes_after. Preserve the supplied relation, rewriting first/head=linklist_pre as necessary.",
+                "used_existing_lemmas": [
+                  "XiziLocalDLL.dllseg_concat",
+                  "XiziLocalDLL.store_dll_compose",
+                  "XiziLocalDLL.addr_nodes_app"
+                ],
+                "candidate_helper_declarations": [
+                  {
+                    "name_hint": "local_addr_segment_cut_join",
+                    "statement_shape": "addr_dllseg on xs ++ ys splits at existential boundary and joins at matching boundary; singleton expansion exposes exactly the previous/next fields; snoc decomposition is the specialization xs ++ [last]",
+                    "used_by_witnesses": [
+                      "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+                      "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+                      "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+                      "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+                      "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4"
+                    ],
+                    "premises": [
+                      {
+                        "premise": "Pure list decomposition and matching segment endpoints",
+                        "discharged_by": "For entry, first_payload_split plus XiziLocalDLL.ptrs_app and nonempty-list snoc decomposition; for returns, the explicit prefix0/nodes_before equations and field/segment endpoints in the VC."
+                      }
+                    ],
+                    "destination": "group-local case_lib with helper_namespace.suffix"
+                  }
+                ],
+                "premise_discharge": [
+                  {
+                    "premise": "Pure list decomposition and matching segment endpoints",
+                    "discharged_by": "For entry, first_payload_split plus XiziLocalDLL.ptrs_app and nonempty-list snoc decomposition; for returns, the explicit prefix0/nodes_before equations and field/segment endpoints in the VC."
+                  }
+                ]
+              },
+              "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4": {
+                "refinement_plan": "No safeExec/refinement obligation. Preserve the mathematical payload insertion relation and reconstruct the spatial list model.",
+                "failure_signal": "",
+                "recommended_next_phase": "vc-proving-preparing",
+                "analysis_group_candidate": "insert_before_dispatch_and_reassembly",
+                "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+                "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4",
+                "judgment": "proofable",
+                "vc_shape": {
+                  "pre_spatial": "payloads storeA result_2 and First member case: prev=head, before_prev=last, first=anchor; head.next=new; new.prev=head/new.next=first; first.prev=new; suffix segment.",
+                  "pre_pure": "Payload insertion relation for result_2; ptrs result_2 equals the pure insertion operation; branch equations identify its address list as new :: first :: nodes_after",
+                  "pre_exists": "All spatial node/segment boundary values already quantified",
+                  "post_spatial": "store_dll storeA head result_2",
+                  "post_pure": "Same xizi_insert_before_payload relation",
+                  "post_exists": "result"
+                },
+                "witness_instantiation": "Use result_2 for result. Use head.next target and the last parameter already present (new for sentinel append; last for member insertion).",
+                "space_plan": "Select either identical outer disjunction arm. Fold new and neighboring singleton address segments, concatenate with preserved prefix/suffix segments, then fold addr_store_dll at ptrs result_2 and apply XiziLocalDLL.store_dll_compose with the unchanged result payloads. Empty/first cases need only direct singleton recursion.",
+                "pure_plan": "Substitute the supplied branch equalities. Rewrite result ptrs with the supplied operation equality and nodes_before/prefix0 equations; list associativity yields new :: first :: nodes_after. Preserve the supplied relation, rewriting first/head=linklist_pre as necessary.",
+                "used_existing_lemmas": [
+                  "XiziLocalDLL.dllseg_concat",
+                  "XiziLocalDLL.store_dll_compose",
+                  "XiziLocalDLL.addr_nodes_app"
+                ],
+                "candidate_helper_declarations": [],
+                "premise_discharge": []
+              },
+              "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case": {
+                "refinement_plan": "No safeExec/refinement obligation. Preserve the mathematical payload insertion relation and reconstruct the spatial list model.",
+                "failure_signal": "",
+                "recommended_next_phase": "vc-proving-preparing",
+                "analysis_group_candidate": "insert_before_dispatch_and_reassembly",
+                "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+                "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case",
+                "judgment": "needs-helper",
+                "vc_shape": {
+                  "pre_spatial": "store_dll storeA linklist nodes ** occupy_dll_node new ** storeA new data",
+                  "pre_pure": "None beyond spatial ownership",
+                  "pre_exists": "Original list endpoints hidden in store_dll",
+                  "post_spatial": "Identical instantiated dispatch precondition and a wand from dispatch post to exact sentinel append store_dll",
+                  "post_pure": "Anchor predicate and equality of returned logical result with nodes ++ [inserted]",
+                  "post_exists": "Dispatch A/storeA/data/head/nodes"
+                },
+                "witness_instantiation": "Instantiate identical type, payload store and logical nodes, with head=linklist_pre. Wand receives result; prove result=nodes ++ [inserted].",
+                "space_plan": "Before splitting off the dispatch precondition, extract head absence while preserving the initial store_dll. Retain the pure fact across wand introduction. Dispatch precondition consumes exactly the original spatial resources; use the postcondition store_dll directly after substituting result.",
+                "pure_plan": "Anchor holds by right disjunct/reflexivity. Unfold payload relation: member branch contradicts head absence using ptrs_app; absent branch explicitly states appended result.",
+                "used_existing_lemmas": [
+                  "XiziLocalDLL.ptrs_app"
+                ],
+                "candidate_helper_declarations": [
+                  {
+                    "name_hint": "local_dll_head_absent",
+                    "statement_shape": "XiziLocalDLL.store_dll storeA head nodes |-- pure (~ In head (XiziLocalDLL.ptrs nodes)) && XiziLocalDLL.store_dll storeA head nodes",
+                    "used_by_witnesses": [
+                      "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+                      "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case"
+                    ],
+                    "premises": [
+                      {
+                        "premise": "store_dll owns sentinel fields separately from every node field",
+                        "discharged_by": "Unfold store_dll, induct over dllseg, and contradict repeated ownership of the identical SysDoubleLinklistNode.node_next address if a node pointer equals head. Keep and refold all resources. No endpoint/nonzero axiom or layout equality is needed."
+                      }
+                    ],
+                    "destination": "group-local case_lib with helper_namespace.suffix"
+                  }
+                ],
+                "premise_discharge": [
+                  {
+                    "premise": "store_dll owns sentinel fields separately from every node field",
+                    "discharged_by": "Unfold store_dll, induct over dllseg, and contradict repeated ownership of the identical SysDoubleLinklistNode.node_next address if a node pointer equals head. Keep and refold all resources. No endpoint/nonzero axiom or layout equality is needed."
+                  }
+                ]
+              },
+              "proof_of_DoubleLinkListInsertNodeBefore_derive_member_case_by_dispatch_case": {
+                "refinement_plan": "No safeExec/refinement obligation. Preserve the mathematical payload insertion relation and reconstruct the spatial list model.",
+                "failure_signal": "",
+                "recommended_next_phase": "vc-proving-preparing",
+                "analysis_group_candidate": "insert_before_dispatch_and_reassembly",
+                "grouping_reason": "Same function and common local address/payload decomposition and reassembly helpers; seven witnesses are within the limit of twelve.",
+                "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_derive_member_case_by_dispatch_case",
+                "judgment": "proofable",
+                "vc_shape": {
+                  "pre_spatial": "store_dll storeA head nodes ** occupy_dll_node new ** storeA new data",
+                  "pre_pure": "In linklist_pre (ptrs nodes)",
+                  "pre_exists": "None",
+                  "post_spatial": "Same dispatch precondition and identity wand on the payload-preserving existential post",
+                  "post_pure": "Anchor by its membership disjunct",
+                  "post_exists": "Same A/storeA/data/head/nodes"
+                },
+                "witness_instantiation": "Instantiate all dispatch arguments with the member arguments; reuse the existential result under the wand.",
+                "space_plan": "Spatial precondition is identical. Introduce wand and return its incoming existential relation/store_dll.",
+                "pure_plan": "Unfold anchor and choose membership disjunct using supplied membership premise. No stronger facts required.",
+                "used_existing_lemmas": [],
+                "candidate_helper_declarations": [],
+                "premise_discharge": []
+              }
+            },
+            "proof_group_ready": true
+          }
+        ],
+        "summary": "All seven target VCs are semantically provable. No missing resource or unjustified extra guard is required."
+      },
+      "changed_files": [],
+      "blockers": [],
+      "evidence": {
+        "version_check": [
+          {
+            "relative_path": "OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before.c",
+            "sha256": "64e68591113dec90695260747756992d81e0c03b13ea51b038bbc976d3cfae43",
+            "status": "matched"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_lib.v",
+            "sha256": "9e2e32360d9b24653f5dec7613e7a302441da8846c0b033c9853899fe0570873",
+            "status": "matched"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_goal.v",
+            "sha256": "b1063521362b3ce25ff7a7fe971b13bbe54f08ee091f3f1029d5fc5172b0623c",
+            "status": "matched"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_proof_auto.v",
+            "sha256": "1c598a99273efb781982e187730ec5ef553b92ae966cf50c548d542051f8e401",
+            "status": "matched"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_proof_manual.v",
+            "sha256": "000a061a6b5c8d1144988f03f78ec36b0594401e74a3760d7e3f0c70213e2d75",
+            "status": "matched"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_goal_check.v",
+            "sha256": "e2336fe02b87005ddbf0edc260360ded3999fc3412544643ad07a033e52b18e2",
+            "status": "matched"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_proof_diagnostics.v",
+            "sha256": "8d40e95b6fc55d1000e793c6b3982a4f89a8f5575396931e0dc397287a29184d",
+            "status": "matched"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/diagnostics_snapshot.json",
+            "sha256": "b5c6213465be80fc7039542c0b39d79c8683500acdb5d8cc7bfc6e9d16df5793",
+            "status": "matched"
+          }
+        ],
+        "manual_target_check": {
+          "status": "passed",
+          "count": 7,
+          "exact_order": "yes"
+        },
+        "semantic_review": {
+          "status": "completed",
+          "goal_file": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_goal.v",
+          "case_lib": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_lib.v",
+          "common_definitions": "QCIPLib/xizi/xizi_double_link_common/xizi_double_link_lib.v:XiziLocalDLL",
+          "compilation": "not run: read-only semantic planning; compilation is a subsequent group/parent verification gate"
+        },
+        "diagnostics": {
+          "hint_only": "yes",
+          "manual_obligation_count": 7,
+          "diagnostic_count": 0
+        }
+      },
+      "recommended_next_phase": "vc-proving-preparing",
+      "completed_at": "2026-09-10T05:28:06.839287+00:00"
+    }
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-09-10T05:28:28Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_double_link_insert_before-20260910125839/rounds/xizi_double_link_insert_before-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    },
+    "controller_simple_repairs": [
+      {
+        "kind": "materialized-inline-group-plan",
+        "source": "/home/yangfp/QCIP/reports/xizi_double_link_insert_before-20260910125839/rounds/xizi_double_link_insert_before-vc-checking-r1/agent_report.json",
+        "target": "/home/yangfp/QCIP/reports/xizi_double_link_insert_before-20260910125839/rounds/xizi_double_link_insert_before-vc-checking-r1/group_plan.json",
+        "reason": "vc-checking report included an inline group_plan but the default group_plan.json artifact was missing"
+      }
+    ],
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-09-10T05:28:28Z",
+      "source_version": {
+        "digest": "37892df296feac0902cddabf6ce331ed9d8198ed9c5644b367a0f5497e7c67fa",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_insert_before-20260910125839/xizi_double_link_insert_before-annotation-r1/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before.c",
+            "relative_path": "OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before.c",
+            "role": "target-c-annotated",
+            "sha256": "64e68591113dec90695260747756992d81e0c03b13ea51b038bbc976d3cfae43",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_insert_before-20260910125839/xizi_double_link_insert_before-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "9e2e32360d9b24653f5dec7613e7a302441da8846c0b033c9853899fe0570873",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "211b63f7b6f617efa69c47071b5a646f0fbc2593c7c3e82fba43007759aa980d",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_goal.v",
+            "role": "generated-goal",
+            "sha256": "b1063521362b3ce25ff7a7fe971b13bbe54f08ee091f3f1029d5fc5172b0623c",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "1c598a99273efb781982e187730ec5ef553b92ae966cf50c548d542051f8e401",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "000a061a6b5c8d1144988f03f78ec36b0594401e74a3760d7e3f0c70213e2d75",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "e2336fe02b87005ddbf0edc260360ded3999fc3412544643ad07a033e52b18e2",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/xizi_double_link_insert_before_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "8d40e95b6fc55d1000e793c6b3982a4f89a8f5575396931e0dc397287a29184d",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_before/source/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "b5c6213465be80fc7039542c0b39d79c8683500acdb5d8cc7bfc6e9d16df5793",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+          "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+          "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+          "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+          "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4",
+          "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case",
+          "proof_of_DoubleLinkListInsertNodeBefore_derive_member_case_by_dispatch_case"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_DoubleLinkListInsertNodeBefore_derive_member_case_by_dispatch_case": "581c6363a143ff209ecd985d332320c65c8dcb41da94dcbf022e4f30cdc4dde8",
+          "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case": "d17e649e88f35c61cfe80c653be91cd6b0e948d04d7fc589322d5661d87d973d",
+          "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1": "5de472d40a7d870fae5aaac77fc3f736e8e3215c466ac84fdd520a8ed4a422b9",
+          "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1": "7f15997ce6ff67e0d799e9cb1ab6c1eb2b10dc494e14ac00cd8e21ea440b3761",
+          "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2": "dd472b4d9848e211c6702e1c180eb9933ee2077fb41e27f3fc9e4d2afd98a63a",
+          "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3": "927b70d1f61130e73a96189cd13fb13556c58e81e30d640fa9fe4b0bad022745",
+          "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4": "6f4fdc82470ed3dfccd465c132589a5565c813a9fa79f00dddc8a08aa6f23e5d"
+        },
+        "witnesses": [
+          {
+            "end_line": 27,
+            "name": "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+            "start_line": 25,
+            "statement_hash": "5de472d40a7d870fae5aaac77fc3f736e8e3215c466ac84fdd520a8ed4a422b9",
+            "target_symbol": "DoubleLinkListInsertNodeBefore_entail_wit_1"
+          },
+          {
+            "end_line": 30,
+            "name": "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+            "start_line": 28,
+            "statement_hash": "7f15997ce6ff67e0d799e9cb1ab6c1eb2b10dc494e14ac00cd8e21ea440b3761",
+            "target_symbol": "DoubleLinkListInsertNodeBefore_return_wit_1"
+          },
+          {
+            "end_line": 33,
+            "name": "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+            "start_line": 31,
+            "statement_hash": "dd472b4d9848e211c6702e1c180eb9933ee2077fb41e27f3fc9e4d2afd98a63a",
+            "target_symbol": "DoubleLinkListInsertNodeBefore_return_wit_2"
+          },
+          {
+            "end_line": 36,
+            "name": "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+            "start_line": 34,
+            "statement_hash": "927b70d1f61130e73a96189cd13fb13556c58e81e30d640fa9fe4b0bad022745",
+            "target_symbol": "DoubleLinkListInsertNodeBefore_return_wit_3"
+          },
+          {
+            "end_line": 39,
+            "name": "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4",
+            "start_line": 37,
+            "statement_hash": "6f4fdc82470ed3dfccd465c132589a5565c813a9fa79f00dddc8a08aa6f23e5d",
+            "target_symbol": "DoubleLinkListInsertNodeBefore_return_wit_4"
+          },
+          {
+            "end_line": 42,
+            "name": "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case",
+            "start_line": 40,
+            "statement_hash": "d17e649e88f35c61cfe80c653be91cd6b0e948d04d7fc589322d5661d87d973d",
+            "target_symbol": "DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case"
+          },
+          {
+            "end_line": 45,
+            "name": "proof_of_DoubleLinkListInsertNodeBefore_derive_member_case_by_dispatch_case",
+            "start_line": 43,
+            "statement_hash": "581c6363a143ff209ecd985d332320c65c8dcb41da94dcbf022e4f30cdc4dde8",
+            "target_symbol": "DoubleLinkListInsertNodeBefore_derive_member_case_by_dispatch_case"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_double_link_insert_before-20260910125839/rounds/xizi_double_link_insert_before-vc-checking-r1/group_plan.json",
+      "target_witnesses": [
+        "proof_of_DoubleLinkListInsertNodeBefore_entail_wit_1",
+        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_1",
+        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_2",
+        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_3",
+        "proof_of_DoubleLinkListInsertNodeBefore_return_wit_4",
+        "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case",
+        "proof_of_DoubleLinkListInsertNodeBefore_derive_member_case_by_dispatch_case"
+      ]
+    }
+  },
+  "blockers": []
+}

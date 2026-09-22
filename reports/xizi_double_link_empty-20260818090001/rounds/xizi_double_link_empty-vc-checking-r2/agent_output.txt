@@ -1,0 +1,17 @@
+# Reuse Note
+
+Note kind: non-authoritative reuse note
+
+This file is not acceptance evidence.
+
+The current hashes and three manual witness names matched the handoff. All three witnesses are semantically proofable and were placed in one dependency-free group, `dll_empty_returns_and_nil_derivation`, because they share the same `xizi_dll`/`xizi_dllseg` nil-versus-non-nil reasoning and the group has only 3 witnesses (limit 12).
+
+The independent `group_plan.json` is an exact export of `agent_report.json.agent_result.vc_checking.group_plan`; its schema, source-goal version, target order, and single-group assignment are identical.
+
+Useful proof routes:
+
+- `return_wit_1`: choose the first disjunct, split `nodes_general`; the nil case contradicts `first <> linklist_pre` after unfolding the segment, and the cons case reconstructs `xizi_dll` from sentinel fields plus the complete segment.
+- `return_wit_2`: choose the second disjunct, substitute `first = linklist_pre`, split `nodes_general`; the cons case contradicts the segment definition at its stop and the nil case preserves the segment.
+- `derive_nil_case_by_general`: choose `nodes_general = nil`, frame the input DLL beside a wand, use separation adjunction, reject the non-nil general-result branch, and choose weak `retval = 1` in the nil branch while returning the supplied DLL.
+
+No case-lib helper is planned. The similar verified `xizi_double_link_empty_rec` return proofs and `xizi_double_link_len_derive_nil_case_by_general` derivation proof are useful proof-shape references, but the JSON handoff, current files, and controller-verified group plan take precedence.

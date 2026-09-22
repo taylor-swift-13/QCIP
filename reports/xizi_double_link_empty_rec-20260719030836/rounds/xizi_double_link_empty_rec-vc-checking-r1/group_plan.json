@@ -1,0 +1,77 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "220a164c0fb86ff14b6462015589729bc8b39e7b6f910923d9396d3d1fef7877",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_empty_rec_return_wit_1",
+    "proof_of_xizi_double_link_empty_rec_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "circular_dll_segment_empty_classification",
+      "witness_names": [
+        "proof_of_xizi_double_link_empty_rec_return_wit_1",
+        "proof_of_xizi_double_link_empty_rec_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_empty_rec_return_wit_1",
+      "dependencies": [],
+      "difficulty": "low-medium",
+      "confidence": "high",
+      "grouping_reason": "Both return witnesses classify the same recursive xizi_dllseg at the sentinel boundary and then preserve or close the same circular-list resource. Keeping them together shares the segment-unfolding proof pattern and remains below the controller limit of 12 witnesses.",
+      "proof_strategy": "Select the semantically direct disjunct in each generated witness. For return_wit_1, use the full-sentinel-links branch, rule out nodes=nil from first<>head and the nil clause of xizi_dllseg, then reassociate the two sentinel fields into xizi_dll_links and close with xizi_dll_close. For return_wit_2, use the segment-only branch, destruct nodes, and rule out a cons list because the nonempty xizi_dllseg clause contains first<>head while PreH1 gives first=head; the nil branch frames the unchanged segment. Pure constants 0=0 and 1=1 are reflexive when their respective full-resource branch is used.",
+      "vc_shape": {
+        "shared_pre_spatial": "A recursive xizi_dllseg first head head last nodes; return_wit_1's direct branch additionally owns head.next |-> first and head.prev |-> last.",
+        "shared_pre_pure": "The branch fact is first<>head for return_wit_1 and first=head for return_wit_2.",
+        "shared_post_spatial": "Either the same segment is preserved or the sentinel links and segment are closed back into xizi_dll head nodes.",
+        "shared_post_pure": "nodes<>nil in the unequal-endpoint branch and nodes=nil in the equal-endpoint branch."
+      },
+      "witness_instantiation": {
+        "proof_of_xizi_double_link_empty_rec_return_wit_1": "No existential post witness is required; the original head, first, last, and nodes instantiate xizi_dll_close.",
+        "proof_of_xizi_double_link_empty_rec_return_wit_2": "No existential post witness is required; preserve the original segment after deriving nodes=nil."
+      },
+      "space_plan": {
+        "proof_of_xizi_double_link_empty_rec_return_wit_1": "Reassociate head.next |-> first and head.prev |-> last as xizi_dll_links head first last, frame the segment, and apply xizi_dll_close.",
+        "proof_of_xizi_double_link_empty_rec_return_wit_2": "Frame the unchanged xizi_dllseg after establishing the pure nil equation."
+      },
+      "pure_plan": {
+        "proof_of_xizi_double_link_empty_rec_return_wit_1": "Destruct nodes. In the nil case, unfold/simplify xizi_dllseg: its pure clause gives first=head, contradicting PreH1:first<>head. The cons case gives nodes<>nil by constructor discrimination.",
+        "proof_of_xizi_double_link_empty_rec_return_wit_2": "Destruct nodes. The nil case is reflexive. In the cons case, unfold/simplify xizi_dllseg: its nonempty clause contains first<>head, contradicting PreH1:first=head."
+      },
+      "refinement_plan": {
+        "status": "not-applicable",
+        "reason": "These are separation-logic shape and pure-classification VCs with no safeExec or abstract-program-state obligation."
+      },
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "premise_discharge": {
+        "first_neq_head": "Directly supplied by return_wit_1 PreH1.",
+        "first_eq_head": "Directly supplied by return_wit_2 PreH1.",
+        "segment_boundary_facts": "Obtained by destructing nodes and simplifying the existing xizi_dllseg fixpoint; no stronger premise is needed."
+      },
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_empty_rec_return_wit_1": {
+          "judgment": "proofable",
+          "selected_disjunct": "left/full-sentinel-resource branch",
+          "used_existing_lemmas": [
+            "xizi_dll_close"
+          ]
+        },
+        "proof_of_xizi_double_link_empty_rec_return_wit_2": {
+          "judgment": "proofable",
+          "selected_disjunct": "right/segment-preservation branch",
+          "used_existing_lemmas": []
+        }
+      }
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 2,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

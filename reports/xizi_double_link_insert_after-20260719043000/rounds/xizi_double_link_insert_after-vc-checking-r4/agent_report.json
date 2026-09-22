@@ -1,0 +1,401 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "vc_checking": {
+      "status": "completed",
+      "source_version": "f2f3df0c900d2cc853c025c5282f74c0ee8e50893308ac2f8cc3ee8a3f81095f",
+      "source_goal_version": "03664eb70fb0f46da06d1a528457fdbef34fe726de984477ba285beb910bf263",
+      "summary": "All three cleaned manual obligations are semantically derivable from the accepted annotation and case-lib seed. The entry obligation is a structural split of xizi_dll/xizi_dllseg at the designated anchor; both return obligations can prove the left, full-xizi_dll alternative by folding the updated links back into the list. The obligations share one dllseg split/join helper family and fit one bounded proof group.",
+      "ready_for_vc_proving_preparing": true,
+      "target_witness_validation": {
+        "manual_file": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_after/xizi_double_link_insert_after_proof_manual.v",
+        "manual_sha256": "3cd5d48b7c96eca9a03ac30c8755998f250ff897ec52fb49e5ae4a3bfee733ff",
+        "manual_witnesses_in_order": [
+          "proof_of_xizi_double_link_insert_after_entail_wit_1",
+          "proof_of_xizi_double_link_insert_after_return_wit_1",
+          "proof_of_xizi_double_link_insert_after_return_wit_2"
+        ],
+        "matches_source_goal_version_target_witnesses": "yes",
+        "duplicate_witnesses": [],
+        "diagnostics_used_as_hint_only": "yes",
+        "diagnostic_witnesses_excluded_from_targets": [
+          "proof_of_xizi_double_link_insert_after_return_wit_1_split_goal_spatial",
+          "proof_of_xizi_double_link_insert_after_return_wit_2_split_goal_spatial"
+        ]
+      },
+      "version_evidence": {
+        "source_version_files_match": "yes",
+        "source_goal_version_files_match": "yes",
+        "checked_sha256_count": 8,
+        "mismatches": []
+      },
+      "natural_language_analysis": {
+        "source_goal_version": "03664eb70fb0f46da06d1a528457fdbef34fe726de984477ba285beb910bf263",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_xizi_double_link_insert_after_entail_wit_1",
+            "judgment": "needs-helper",
+            "vc_shape": {
+              "pre_spatial": "xizi_dll head (nodes_before ++ linklist_pre :: nodes_after), framed with permission-only ownership of both linklist_node_pre link fields.",
+              "pre_pure": "linklist_pre <> 0 and linklist_node_pre <> 0.",
+              "pre_exists": "The xizi_dll definition existentially owns the sentinel first/last pointers; the dllseg traversal existentially owns successive next pointers.",
+              "post_spatial": "A disjunction exposing the list at linklist_pre. For nodes_after = nil it exposes sentinel links, the prefix dllseg ending at linklist_pre, linklist_pre links back to head, and the two framed fresh-node fields. For nodes_after = old_next :: rest it additionally exposes old_next links and the rest dllseg.",
+              "post_pure": "The selected branch records nodes_after = nil or nodes_after = old_next :: rest; the nonempty branch also requires old_next <> 0, while retaining both input nonzero facts.",
+              "post_exists": "Instantiate first/last from xizi_dll_open, old_prev at the prefix/anchor boundary, and, in the nonempty suffix branch, old_next/rest and next_next from unfolding the suffix dllseg."
+            },
+            "witness_instantiation": "Open xizi_dll to obtain first and last, structurally split its dllseg over nodes_before ++ linklist_pre :: nodes_after at linklist_pre, then destruct nodes_after. In the nil case instantiate first and old_prev and use the empty tail equalities next = head and linklist_pre = last. In the cons case instantiate old_next, rest, next_next, first, last, and old_prev from the nonempty tail segment.",
+            "space_plan": "Apply xizi_dll_open, use an induction-based dllseg split-at-node helper for nodes_before, then simplify/unfold the remaining tail segment according to nodes_after. The fresh link fields are untouched frame resources and cancel directly into either post branch.",
+            "pure_plan": "The two input nonzero facts are direct hypotheses. In the cons branch, old_next <> 0 and old_next <> head are conjuncts of the nonempty dllseg branch after unfolding. The branch equality for nodes_after is supplied by the list case split; no arithmetic reasoning is needed.",
+            "refinement_plan": "No safeExec or refinement state is present.",
+            "used_existing_lemmas": [
+              "xizi_dll_open",
+              "xizi_dllseg_unfold"
+            ],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "xizi_dllseg_split_at_node",
+                "statement_shape": "xizi_dllseg first prev stop last (prefix ++ anchor :: suffix) entails EX old_prev next, xizi_dllseg first prev anchor old_prev prefix ** xizi_dll_links anchor next old_prev ** xizi_dllseg next anchor stop last suffix.",
+                "used_by_witnesses": [
+                  "proof_of_xizi_double_link_insert_after_entail_wit_1"
+                ],
+                "premises": [],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "premise_discharge": [
+              "The split helper has no external premise: all node identity, non-null, and node <> stop facts are carried by the source dllseg constructors."
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "dll_insert_after_structural",
+            "grouping_reason": "This witness uses the split direction of the same structural dllseg boundary algebra used in reverse by both return witnesses."
+          },
+          {
+            "witness_name": "proof_of_xizi_double_link_insert_after_return_wit_1",
+            "judgment": "needs-helper",
+            "vc_shape": {
+              "pre_spatial": "Sentinel links head->first/head->last; a prefix dllseg from first to linklist_pre; updated linklist_pre links to the inserted node; inserted-node links to old_next/linklist_pre; updated old_next links back to the inserted node; and the rest dllseg from next_next to head.",
+              "pre_pure": "nodes_after = old_next :: rest, linklist_pre <> 0, linklist_node_pre <> 0, and old_next <> 0.",
+              "pre_exists": "No right-side existential is required after selecting the first Coq disjunct; all boundary pointers are universally bound.",
+              "post_spatial": "The first disjunct requires xizi_dll head (nodes_before ++ linklist_pre :: linklist_node_pre :: old_next :: rest). The second diagnostic-style segment alternative need not be proved.",
+              "post_pure": "Only unfolding xizi_double_link_insert_after_nodes and rewriting nodes_after are needed.",
+              "post_exists": "Use first and last already present in the precondition as the existential witnesses of xizi_dll."
+            },
+            "witness_instantiation": "Choose the left side of the theorem-level disjunction. Unfold xizi_double_link_insert_after_nodes, rewrite nodes_after, and instantiate xizi_dll's first/last with the precondition values.",
+            "space_plan": "Fold old_next and its tail into a dllseg, then fold linklist_node_pre. Apply a sentinel-framed join helper to the sentinel links, prefix segment, anchor links, and constructed suffix segment; the helper returns the closed xizi_dll while deriving prefix-node/head disequalities from exclusive ownership.",
+            "pure_plan": "Non-nullness of linklist_pre, linklist_node_pre, and old_next comes from PreH2, PreH3, and PreH4. Each required node <> head side condition follows from the precondition's separating ownership of the sentinel's link fields and that node's link fields: equality would duplicate ownership at the same field address, making the antecedent inconsistent. No arithmetic reasoning is needed.",
+            "refinement_plan": "No safeExec or refinement state is present.",
+            "used_existing_lemmas": [
+              "xizi_dll_close"
+            ],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "xizi_dll_join_at_node",
+                "statement_shape": "For anchor <> 0, xizi_dll_links head first last ** xizi_dllseg first head anchor old_prev prefix ** xizi_dll_links anchor next old_prev ** xizi_dllseg next anchor head last suffix entails xizi_dll head (prefix ++ anchor :: suffix). Keeping the sentinel links in the antecedent lets the proof derive every prefix-node/head disequality from exclusive separated ownership.",
+                "used_by_witnesses": [
+                  "proof_of_xizi_double_link_insert_after_return_wit_1",
+                  "proof_of_xizi_double_link_insert_after_return_wit_2"
+                ],
+                "premises": [
+                  {
+                    "premise": "anchor <> 0",
+                    "discharged_by": "PreH2 for anchor = linklist_pre.",
+                    "needs_unfold": [],
+                    "arithmetic": "none",
+                    "spatial_resource": "none"
+                  },
+                  {
+                    "premise": "all implicit node <> head constructor side conditions",
+                    "discharged_by": "Inside the sentinel-framed helper, equality of any owned prefix/anchor node with head contradicts separation between its links and the sentinel links.",
+                    "needs_unfold": [
+                      "xizi_dll_links",
+                      "XiziDLL.links"
+                    ],
+                    "arithmetic": "none",
+                    "spatial_resource": "sentinel node_next/node_prev fields and the separately owned prefix/anchor node fields"
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "premise_discharge": [
+              "PreH1 rewrites nodes_after to old_next :: rest.",
+              "PreH2, PreH3, and PreH4 provide the three non-null facts.",
+              "Node/head disequalities are derivable from exclusive separated ownership of their corresponding link fields; an alias makes the precondition unsatisfiable."
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "dll_insert_after_structural",
+            "grouping_reason": "It uses the join direction of the same dllseg boundary helper family and the same updated-link layout as return_wit_2."
+          },
+          {
+            "witness_name": "proof_of_xizi_double_link_insert_after_return_wit_2",
+            "judgment": "needs-helper",
+            "vc_shape": {
+              "pre_spatial": "Sentinel links head->first/head->linklist_node_pre; a prefix dllseg ending at linklist_pre; updated linklist_pre links to the inserted node; and inserted-node links to head/linklist_pre.",
+              "pre_pure": "nodes_after = nil, linklist_pre <> 0, and linklist_node_pre <> 0.",
+              "pre_exists": "No right-side existential is required after selecting the first Coq disjunct; all boundary pointers are universally bound.",
+              "post_spatial": "The first disjunct requires xizi_dll head (nodes_before ++ linklist_pre :: linklist_node_pre :: nil). The second diagnostic-style segment alternative need not be proved.",
+              "post_pure": "Only unfolding xizi_double_link_insert_after_nodes and rewriting nodes_after are needed.",
+              "post_exists": "Use first and linklist_node_pre as the first/last witnesses of xizi_dll."
+            },
+            "witness_instantiation": "Choose the left side of the theorem-level disjunction. Rewrite nodes_after = nil, unfold the case definition, and instantiate the final xizi_dll with first and last = linklist_node_pre.",
+            "space_plan": "Simplify the empty tail dllseg at head and fold the inserted-node links into a one-node suffix segment. Apply the sentinel-framed join helper to the sentinel links, prefix segment, linklist_pre links, and constructed suffix segment to obtain the closed xizi_dll.",
+            "pure_plan": "PreH2 and PreH3 provide both non-null facts. linklist_pre <> head and linklist_node_pre <> head follow from separated ownership against the sentinel link fields; aliasing would duplicate exclusive field ownership. The empty tail supplies the endpoint equalities by simplification. No arithmetic reasoning is needed.",
+            "refinement_plan": "No safeExec or refinement state is present.",
+            "used_existing_lemmas": [
+              "xizi_dll_close"
+            ],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "xizi_dll_join_at_node",
+                "statement_shape": "For anchor <> 0, xizi_dll_links head first last ** xizi_dllseg first head anchor old_prev prefix ** xizi_dll_links anchor next old_prev ** xizi_dllseg next anchor head last suffix entails xizi_dll head (prefix ++ anchor :: suffix). Keeping the sentinel links in the antecedent lets the proof derive every prefix-node/head disequality from exclusive separated ownership.",
+                "used_by_witnesses": [
+                  "proof_of_xizi_double_link_insert_after_return_wit_1",
+                  "proof_of_xizi_double_link_insert_after_return_wit_2"
+                ],
+                "premises": [
+                  {
+                    "premise": "anchor <> 0",
+                    "discharged_by": "PreH2 for anchor = linklist_pre.",
+                    "needs_unfold": [],
+                    "arithmetic": "none",
+                    "spatial_resource": "none"
+                  },
+                  {
+                    "premise": "all implicit node <> head constructor side conditions",
+                    "discharged_by": "Inside the sentinel-framed helper, equality of any owned prefix/anchor node with head contradicts separation between its links and the sentinel links.",
+                    "needs_unfold": [
+                      "xizi_dll_links",
+                      "XiziDLL.links"
+                    ],
+                    "arithmetic": "none",
+                    "spatial_resource": "sentinel node_next/node_prev fields and the separately owned prefix/anchor node fields"
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "premise_discharge": [
+              "PreH1 rewrites nodes_after to nil.",
+              "PreH2 and PreH3 provide non-nullness.",
+              "Node/head disequalities are derivable from exclusive separated ownership of the sentinel and node link fields."
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "dll_insert_after_structural",
+            "grouping_reason": "It is the empty-suffix specialization of return_wit_1 and uses the same dllseg join helper family."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "dll_insert_after_structural",
+            "witness_names": [
+              "proof_of_xizi_double_link_insert_after_entail_wit_1",
+              "proof_of_xizi_double_link_insert_after_return_wit_1",
+              "proof_of_xizi_double_link_insert_after_return_wit_2"
+            ],
+            "representative_witness": "proof_of_xizi_double_link_insert_after_entail_wit_1",
+            "shared_proof_pattern": "Open or close xizi_dll and split/join xizi_dllseg around the designated anchor using structural induction on nodes_before.",
+            "shared_space_plan": "Normalize xizi_dll_links to the two physical fields, use the split helper for the entry witness and the inverse join helper for both return witnesses, and frame/cancel the untouched links.",
+            "shared_pure_plan": "Use list case equalities and explicit non-null hypotheses; extract constructor side conditions from dllseg or derive node/head disequalities from exclusive separated field ownership.",
+            "shared_refinement_plan": "none",
+            "candidate_helper_declarations": [
+              "xizi_dllseg_split_at_node (with group suffix)",
+              "xizi_dll_join_at_node (with group suffix)"
+            ],
+            "dependencies": [],
+            "grouping_reason": "All obligations are from one straight-line function and use the same anchor-boundary dllseg algebra. Three witnesses are below max_witnesses_per_group = 12, so keeping them together permits one worker to prove and reuse the helper pair without cross-group sharing.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "03664eb70fb0f46da06d1a528457fdbef34fe726de984477ba285beb910bf263",
+        "controller_verified": false,
+        "target_witnesses": [
+          "proof_of_xizi_double_link_insert_after_entail_wit_1",
+          "proof_of_xizi_double_link_insert_after_return_wit_1",
+          "proof_of_xizi_double_link_insert_after_return_wit_2"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "dll_insert_after_structural",
+            "witness_names": [
+              "proof_of_xizi_double_link_insert_after_entail_wit_1",
+              "proof_of_xizi_double_link_insert_after_return_wit_1",
+              "proof_of_xizi_double_link_insert_after_return_wit_2"
+            ],
+            "representative_witness": "proof_of_xizi_double_link_insert_after_entail_wit_1",
+            "dependencies": [],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "xizi_dllseg_split_at_node",
+                "statement_shape": "Split a segment whose logical sequence is prefix ++ anchor :: suffix into the prefix segment, anchor links, and suffix segment.",
+                "destination": "group-local case_lib with current group suffix"
+              },
+              {
+                "name_hint": "xizi_dll_join_at_node",
+                "statement_shape": "Join sentinel links, a prefix segment, one non-null anchor link pair, and a suffix segment into xizi_dll over prefix ++ anchor :: suffix; sentinel ownership discharges node/head disequalities.",
+                "destination": "group-local case_lib with current group suffix"
+              }
+            ],
+            "expected_helpers": [
+              "xizi_dllseg_split_at_node with helper_namespace suffix",
+              "xizi_dll_join_at_node with helper_namespace suffix"
+            ],
+            "proof_strategy": "First prove group-suffixed split/join lemmas by induction on nodes_before. For entail_wit_1, open xizi_dll, split at linklist_pre, destruct nodes_after, unfold the residual segment, choose the corresponding orp branch, instantiate boundary pointers, and cancel the fresh-node frame. For each return witness, choose the left theorem-level disjunct, rewrite nodes_after, fold the updated node links into a dllseg with the join lemma, and close xizi_dll. Do not attempt or promote the diagnostics split goals as targets.",
+            "per_witness_plan": {
+              "proof_of_xizi_double_link_insert_after_entail_wit_1": "open dll; split dllseg at linklist_pre; case nodes_after; instantiate the matching spatial orp branch",
+              "proof_of_xizi_double_link_insert_after_return_wit_1": "choose left disjunct; rewrite cons suffix; fold old_next, inserted, and anchor; close dll",
+              "proof_of_xizi_double_link_insert_after_return_wit_2": "choose left disjunct; rewrite nil suffix; fold inserted and anchor; close dll"
+            },
+            "premise_discharge": {
+              "non_null": "PreH hypotheses plus nonempty dllseg constructor facts",
+              "node_not_stop": "dllseg constructor facts for split; exclusive separated ownership against sentinel links for return folding",
+              "list_equalities": "destruct nodes_after for entail_wit_1 and rewrite PreH1 for both return witnesses"
+            },
+            "difficulty": "medium",
+            "confidence": "high",
+            "grouping_reason": "The three witnesses share one helper family and one physical update pattern; grouping them avoids duplicating equivalent suffixed helpers and stays well below the controller bound of 12."
+          }
+        ],
+        "blockers": []
+      },
+      "changed_files": [],
+      "formal_files_modified": [],
+      "blockers": [],
+      "errors": []
+    }
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-07-19T02:04:17Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_double_link_insert_after-20260719043000/rounds/xizi_double_link_insert_after-vc-checking-r4/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    },
+    "controller_simple_repairs": [
+      {
+        "kind": "materialized-inline-group-plan",
+        "source": "/home/yangfp/QCIP/reports/xizi_double_link_insert_after-20260719043000/rounds/xizi_double_link_insert_after-vc-checking-r4/agent_report.json",
+        "target": "/home/yangfp/QCIP/reports/xizi_double_link_insert_after-20260719043000/rounds/xizi_double_link_insert_after-vc-checking-r4/group_plan.json",
+        "reason": "vc-checking report included an inline group_plan but the default group_plan.json artifact was missing"
+      }
+    ],
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-07-19T02:04:17Z",
+      "source_version": {
+        "digest": "f2f3df0c900d2cc853c025c5282f74c0ee8e50893308ac2f8cc3ee8a3f81095f",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_insert_after-20260719043000/xizi_double_link_insert_after-annotation-r2/OUTPUT/xizi/xizi_double_link_insert_after/xizi_double_link_insert_after.c",
+            "relative_path": "OUTPUT/xizi/xizi_double_link_insert_after/xizi_double_link_insert_after.c",
+            "role": "target-c-annotated",
+            "sha256": "53171de7f1ce0c2d0b310b096b92b55279662945e615f6b4fc5caf40895c274b",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_insert_after-20260719043000/xizi_double_link_insert_after-annotation-r2/SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_after/xizi_double_link_insert_after_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_after/xizi_double_link_insert_after_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "431f807bd22861041de18f27f78cb10cd40cb1bbdfd0c738dda0d3e2925af33c",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "03664eb70fb0f46da06d1a528457fdbef34fe726de984477ba285beb910bf263",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_after/xizi_double_link_insert_after_goal.v",
+            "role": "generated-goal",
+            "sha256": "80ec6b7839e13c8e073d3edd582f045de743d01251567ac839c4f554848002d7",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_after/xizi_double_link_insert_after_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "dc7b1985d825d5944887a92d08cc14427d955749ae2fffd669d1647136b0abbe",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_after/xizi_double_link_insert_after_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "3cd5d48b7c96eca9a03ac30c8755998f250ff897ec52fb49e5ae4a3bfee733ff",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_after/xizi_double_link_insert_after_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "2ae65303139a8d4ba2da06440723fad49892624e14a05f886ed86e55715136c8",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_after/xizi_double_link_insert_after_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "2fdebccd16b396c5841c210fcd7fbe27fe2b0021a2b6c8d77a7713b4bf7cb8fd",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_after/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "dc12daef1356a54b9e2ecee7c3bd2f04ef5b1f25d479525a2ac3a41a9d872741",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_xizi_double_link_insert_after_entail_wit_1",
+          "proof_of_xizi_double_link_insert_after_return_wit_1",
+          "proof_of_xizi_double_link_insert_after_return_wit_2"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_xizi_double_link_insert_after_entail_wit_1": "da8dec3fe12f1c41d1f2659438a9aa8b9567ce35559e40e36e98ade29b007593",
+          "proof_of_xizi_double_link_insert_after_return_wit_1": "5bd69cc489c439f7024e1fb3a14bd8c82f3d837664317b87de9bdd75b7440acb",
+          "proof_of_xizi_double_link_insert_after_return_wit_2": "a406b8d3fcaa784702c3fbea43b95e536f801838f65606df5d9182c9f7fd93c2"
+        },
+        "witnesses": [
+          {
+            "end_line": 27,
+            "name": "proof_of_xizi_double_link_insert_after_entail_wit_1",
+            "start_line": 25,
+            "statement_hash": "da8dec3fe12f1c41d1f2659438a9aa8b9567ce35559e40e36e98ade29b007593",
+            "target_symbol": "xizi_double_link_insert_after_entail_wit_1"
+          },
+          {
+            "end_line": 30,
+            "name": "proof_of_xizi_double_link_insert_after_return_wit_1",
+            "start_line": 28,
+            "statement_hash": "5bd69cc489c439f7024e1fb3a14bd8c82f3d837664317b87de9bdd75b7440acb",
+            "target_symbol": "xizi_double_link_insert_after_return_wit_1"
+          },
+          {
+            "end_line": 33,
+            "name": "proof_of_xizi_double_link_insert_after_return_wit_2",
+            "start_line": 31,
+            "statement_hash": "a406b8d3fcaa784702c3fbea43b95e536f801838f65606df5d9182c9f7fd93c2",
+            "target_symbol": "xizi_double_link_insert_after_return_wit_2"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_double_link_insert_after-20260719043000/rounds/xizi_double_link_insert_after-vc-checking-r4/group_plan.json",
+      "target_witnesses": [
+        "proof_of_xizi_double_link_insert_after_entail_wit_1",
+        "proof_of_xizi_double_link_insert_after_return_wit_1",
+        "proof_of_xizi_double_link_insert_after_return_wit_2"
+      ]
+    }
+  },
+  "blockers": []
+}

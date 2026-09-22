@@ -1,0 +1,43 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "03664eb70fb0f46da06d1a528457fdbef34fe726de984477ba285beb910bf263",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_insert_after_entail_wit_1",
+    "proof_of_xizi_double_link_insert_after_return_wit_1",
+    "proof_of_xizi_double_link_insert_after_return_wit_2"
+  ],
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  },
+  "proof_groups": [
+    {
+      "group_id": "insert_after_structural_split_and_fold",
+      "witness_names": [
+        "proof_of_xizi_double_link_insert_after_entail_wit_1",
+        "proof_of_xizi_double_link_insert_after_return_wit_1",
+        "proof_of_xizi_double_link_insert_after_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_insert_after_entail_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "Use the recursive xizi_dll/xizi_dllseg definitions and the existing open/close facts. First split the original circular list at nodes_before ++ linklist_pre :: nodes_after, with a case analysis on nodes_after. Then, after the four pointer updates, fold linklist_pre and linklist_node_pre back into the segment and close the sentinel-owned xizi_dll. The two return witnesses are the nonempty- and empty-suffix instances of the same segment-folding argument.",
+      "grouping_reason": "All three obligations concern one function and one inverse structural proof family: the entail witness exposes the anchor-centered decomposition that the two return witnesses reassemble. They share the same recursive xizi_dllseg unfolding/folding context, require no cross-group helper dependency, total only 3 witnesses under the limit of 12, and one group is therefore the exact minimal coverage.",
+      "difficulty": "medium",
+      "confidence": "high",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_insert_after_entail_wit_1": "Open xizi_dll, split the segment along nodes_before, then destruct nodes_after. For nil choose the first disjunct; for old_next :: rest choose the second and expose the anchor and successor links.",
+        "proof_of_xizi_double_link_insert_after_return_wit_1": "Rewrite nodes_after = old_next :: rest, fold the prefix segment with the updated anchor and inserted-node links plus the existing successor/rest segment, and close xizi_dll using the sentinel links.",
+        "proof_of_xizi_double_link_insert_after_return_wit_2": "Rewrite nodes_after = nil, fold the prefix segment with the updated anchor and inserted node ending at head, then close xizi_dll using the sentinel links."
+      }
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true
+}

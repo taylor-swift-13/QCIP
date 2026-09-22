@@ -1,0 +1,322 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "4947594d8bc0c563c63902c7ab1292cca1daaf1441cab5491bd39412c5f7d4f3",
+  "target_witnesses": [
+    "proof_of_InitDoubleLinkList_return_wit_1",
+    "proof_of_DoubleLinkListLenGet_entail_wit_1",
+    "proof_of_DoubleLinkListLenGet_entail_wit_2_1",
+    "proof_of_DoubleLinkListLenGet_entail_wit_2_2",
+    "proof_of_DoubleLinkListLenGet_return_wit_1",
+    "proof_of_DoubleLinkListLenGet_return_wit_2",
+    "proof_of_xizi_double_link_init_then_len_return_wit_1",
+    "proof_of_DoubleLinkListLenGet_derive_nil_case_by_general"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "dll_init_len_payload_cycle",
+      "witness_names": [
+        "proof_of_InitDoubleLinkList_return_wit_1",
+        "proof_of_DoubleLinkListLenGet_entail_wit_1",
+        "proof_of_DoubleLinkListLenGet_entail_wit_2_1",
+        "proof_of_DoubleLinkListLenGet_entail_wit_2_2",
+        "proof_of_DoubleLinkListLenGet_return_wit_1",
+        "proof_of_DoubleLinkListLenGet_return_wit_2",
+        "proof_of_xizi_double_link_init_then_len_return_wit_1",
+        "proof_of_DoubleLinkListLenGet_derive_nil_case_by_general"
+      ],
+      "representative_witness": "proof_of_DoubleLinkListLenGet_entail_wit_2_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "grouping_reason": "All 8 targets belong to one small generic DLL init/length cycle, with six length obligations sharing the accepted length proofs and two short boundary wrappers. They fit the 12-witness cap and require no inter-worker dependencies or new shared facts.",
+      "proof_strategy": "Reuse the exact six manual length proof patterns in the declared current round worktree, all of whose target goal bodies match this case; reuse the generic init proof pattern. Prove the wrapper by unfolding its result predicate. Keep storeA payloads framed; shared advance gives the finite-memory unsigned bound. No new helper expected. All reused proofs must be checked on the current group target.",
+      "reference_files": [
+        "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_proof_manual.v",
+        "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_init/source/xizi_double_link_init_proof_manual.v",
+        "QCIPLib/xizi/xizi_double_link_common/xizi_double_link_lib.v"
+      ]
+    }
+  ],
+  "natural_language_analysis": {
+    "schema_version": "qcp-natural-language-analysis/v1",
+    "witnesses": [
+      {
+        "witness_name": "proof_of_InitDoubleLinkList_return_wit_1",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "head.next |-> head ** head.prev |-> head",
+          "pre_pure": "head <> 0",
+          "pre_exists": "Universally quantified VC variables; local structural existentials are exposed by segment lemmas.",
+          "post_spatial": "xizi_store_dll storeA head nil",
+          "post_pure": "None",
+          "post_exists": "No external existential; choose first=last=head when unfolding store_dll."
+        },
+        "witness_instantiation": "No external existential; choose first=last=head when unfolding store_dll.",
+        "space_plan": "Choose the first disjunct. Fold the two cells into xizi_dll_links and use store_dll_empty_rev. The empty payload list requires emp for every storeA.",
+        "pure_plan": "The exact nonnull premise is PreH1.",
+        "refinement_plan": "No monadic refinement state; preserves the same arbitrary A/storeA and logical nodes.",
+        "used_existing_lemmas": [
+          "XiziStoreADLL.store_dll_empty_rev"
+        ],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          "head <> 0",
+          "All structural lemma resources occur in the antecedent; payloads remain framed."
+        ],
+        "failure_signal": "",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "dll_init_len_payload_cycle",
+        "grouping_reason": "One coherent initialization and DLL length observation cycle using the same generic DLL model and shared structural length helper family."
+      },
+      {
+        "witness_name": "proof_of_DoubleLinkListLenGet_entail_wit_1",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "xizi_store_dll storeA head nodes",
+          "pre_pure": "None beyond facts inside the DLL predicate",
+          "pre_exists": "Universally quantified VC variables; local structural existentials are exposed by segment lemmas.",
+          "post_spatial": "payloads storeA nodes ** head links ** dllseg first head head last todo",
+          "post_pure": "ptrs nodes=done++todo; head<>0; 0=Zlength done; Zlength nodes=Zlength done+Zlength todo; done=nil",
+          "post_exists": "Choose done=nil, todo=xizi_dll_ptrs nodes, first/last from the decomposed DLL."
+        },
+        "witness_instantiation": "Choose done=nil, todo=xizi_dll_ptrs nodes, first/last from the decomposed DLL.",
+        "space_plan": "Choose first disjunct; apply generic DLL decomposition, unfold structural DLL, expose first/last and frame the payloads.",
+        "pure_plan": "Nonnull comes from DLL. Empty length and map-preservation of Zlength prove all list/count equalities.",
+        "refinement_plan": "No monadic refinement state; preserves the same arbitrary A/storeA and logical nodes.",
+        "used_existing_lemmas": [
+          "dll_decompose__storeA_shared",
+          "dll_ptrs_Zlength__dll_len_payload_cycle"
+        ],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          "None beyond facts inside the DLL predicate",
+          "All structural lemma resources occur in the antecedent; payloads remain framed."
+        ],
+        "failure_signal": "",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "dll_init_len_payload_cycle",
+        "grouping_reason": "One coherent initialization and DLL length observation cycle using the same generic DLL model and shared structural length helper family."
+      },
+      {
+        "witness_name": "proof_of_DoubleLinkListLenGet_entail_wit_2_1",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "payloads ** head links ** segment before ** current links ** segment todo",
+          "pre_pure": "next<>head; ptrs nodes=done++todo; length=Zlength done; total length splits; done=before++[current]; current<>0; current<>head",
+          "pre_exists": "Universally quantified VC variables; local structural existentials are exposed by segment lemmas.",
+          "post_spatial": "Same payloads/head links, extended prefix segment ending at next, links at next, remaining suffix",
+          "post_pure": "Increment equals new prefix length without unsigned wrap; new prefix/suffix partition and next nonnull/nonhead",
+          "post_exists": "Unfold todo=next::rest with nextAfter. Choose new before=before++[current], done=done++[next], todo=rest, prev=current; retain first,last."
+        },
+        "witness_instantiation": "Unfold todo=next::rest with nextAfter. Choose new before=before++[current], done=done++[next], todo=rest, prev=current; retain first,last.",
+        "space_plan": "Use full segment unfolding at next then fold current links. Advance old prefix/current across next via the shared advance lemma. The payload frame is untouched.",
+        "pure_plan": "Nonempty suffix and next<>0 follow from unfold_full and guard. Advance yields Zlength before+2<2^32 from actual disjoint structural memory. Since old done=before++[current], length+1=Zlength before+2; nonnegativity follows from Zlength. Thus unsigned_last_nbits_eq applies. Partition and total length use app_assoc and Zlength_app/cons.",
+        "refinement_plan": "No monadic refinement state; preserves the same arbitrary A/storeA and logical nodes.",
+        "used_existing_lemmas": [
+          "xizi_dllseg_unfold_full__dll_len_payload_cycle",
+          "xizi_dll_links_fold__dll_len_payload_cycle",
+          "xizi_dllseg_advance__dll_len_payload_cycle",
+          "unsigned_last_nbits_eq"
+        ],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          "next<>head; ptrs nodes=done++todo; length=Zlength done; total length splits; done=before++[current]; current<>0; current<>head",
+          "All structural lemma resources occur in the antecedent; payloads remain framed."
+        ],
+        "failure_signal": "",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "dll_init_len_payload_cycle",
+        "grouping_reason": "One coherent initialization and DLL length observation cycle using the same generic DLL model and shared structural length helper family."
+      },
+      {
+        "witness_name": "proof_of_DoubleLinkListLenGet_entail_wit_2_2",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "head.next |-> first ** payloads ** head.prev |-> last ** dllseg first head head last todo",
+          "pre_pure": "first<>head; done=nil; tmp=head; length=Zlength done; ptrs nodes=done++todo; total length splits",
+          "pre_exists": "Universally quantified VC variables; local structural existentials are exposed by segment lemmas.",
+          "post_spatial": "Payloads/head links ** empty prefix segment ** links at first ** remaining suffix",
+          "post_pure": "New done=[first]; increment=1; first nonnull/nonhead; updated length and partition",
+          "post_exists": "Choose before=nil, done=[first], todo=rest, prev=head, and next from unfolding first; keep first,last."
+        },
+        "witness_instantiation": "Choose before=nil, done=[first], todo=rest, prev=head, and next from unfolding first; keep first,last.",
+        "space_plan": "Unfold suffix with guard first<>head. Build the empty prefix at first with prev=last=head, retaining the new current links and remaining suffix.",
+        "pure_plan": "Old count is 0 because done=nil. Increment 1 lies in [0,2^32). The unfolded suffix gives todo=first::rest and first<>0, making partition and length equations immediate by list length identities.",
+        "refinement_plan": "No monadic refinement state; preserves the same arbitrary A/storeA and logical nodes.",
+        "used_existing_lemmas": [
+          "xizi_dllseg_unfold_full__dll_len_payload_cycle",
+          "unsigned_last_nbits_eq"
+        ],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          "first<>head; done=nil; tmp=head; length=Zlength done; ptrs nodes=done++todo; total length splits",
+          "All structural lemma resources occur in the antecedent; payloads remain framed."
+        ],
+        "failure_signal": "",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "dll_init_len_payload_cycle",
+        "grouping_reason": "One coherent initialization and DLL length observation cycle using the same generic DLL model and shared structural length helper family."
+      },
+      {
+        "witness_name": "proof_of_DoubleLinkListLenGet_return_wit_1",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "payloads ** head links ** prefix segment ** current links ** suffix segment",
+          "pre_pure": "next=head; count=Zlength done; total length splits; done=before++[current]; ptrs nodes=done++todo; head/current nonnull",
+          "pre_exists": "Universally quantified VC variables; local structural existentials are exposed by segment lemmas.",
+          "post_spatial": "xizi_store_dll storeA head nodes",
+          "post_pure": "count=Zlength nodes",
+          "post_exists": "No right existential at top level. Structural DLL closing uses existing first and current as last."
+        },
+        "witness_instantiation": "No right existential at top level. Structural DLL closing uses existing first and current as last.",
+        "space_plan": "Use stop lemma on suffix starting at head to obtain todo=nil and current=last. Snoc current onto prefix, close structural DLL at head, rewrite its address list using ptrs equality, then compose with unchanged payloads.",
+        "pure_plan": "Empty suffix forces full list length=count by the invariant length equation.",
+        "refinement_plan": "No monadic refinement state; preserves the same arbitrary A/storeA and logical nodes.",
+        "used_existing_lemmas": [
+          "xizi_dllseg_stop__dll_len_payload_cycle",
+          "xizi_dll_links_fold__dll_len_payload_cycle",
+          "xizi_dllseg_snoc__dll_len_payload_cycle",
+          "xizi_dll_close",
+          "dll_compose__storeA_shared"
+        ],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          "next=head; count=Zlength done; total length splits; done=before++[current]; ptrs nodes=done++todo; head/current nonnull",
+          "All structural lemma resources occur in the antecedent; payloads remain framed."
+        ],
+        "failure_signal": "",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "dll_init_len_payload_cycle",
+        "grouping_reason": "One coherent initialization and DLL length observation cycle using the same generic DLL model and shared structural length helper family."
+      },
+      {
+        "witness_name": "proof_of_DoubleLinkListLenGet_return_wit_2",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "head.next |-> first ** payloads ** head.prev |-> last ** dllseg first head head last todo",
+          "pre_pure": "first=head; tmp=head; done=nil; head<>0; partition and length invariants",
+          "pre_exists": "Universally quantified VC variables; local structural existentials are exposed by segment lemmas.",
+          "post_spatial": "xizi_store_dll storeA head nodes",
+          "post_pure": "count=Zlength nodes",
+          "post_exists": "No top-level right existential. Empty DLL uses head as both first and last."
+        },
+        "witness_instantiation": "No top-level right existential. Empty DLL uses head as both first and last.",
+        "space_plan": "Stop lemma gives todo=nil and last=head. Fold head links, construct empty structural DLL, rewrite its list using ptrs equality, then compose with the payload frame.",
+        "pure_plan": "Both prefix and suffix lengths are zero, so count and Zlength nodes equal zero.",
+        "refinement_plan": "No monadic refinement state; preserves the same arbitrary A/storeA and logical nodes.",
+        "used_existing_lemmas": [
+          "xizi_dllseg_stop__dll_len_payload_cycle",
+          "xizi_dll_empty_rev",
+          "dll_compose__storeA_shared"
+        ],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          "first=head; tmp=head; done=nil; head<>0; partition and length invariants",
+          "All structural lemma resources occur in the antecedent; payloads remain framed."
+        ],
+        "failure_signal": "",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "dll_init_len_payload_cycle",
+        "grouping_reason": "One coherent initialization and DLL length observation cycle using the same generic DLL model and shared structural length helper family."
+      },
+      {
+        "witness_name": "proof_of_xizi_double_link_init_then_len_return_wit_1",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "xizi_store_dll storeA head nil",
+          "pre_pure": "retval=0; head<>0",
+          "pre_exists": "Universally quantified VC variables; local structural existentials are exposed by segment lemmas.",
+          "post_spatial": "Same xizi_store_dll storeA head nil",
+          "post_pure": "xizi_double_link_init_then_len_result retval",
+          "post_exists": "None"
+        },
+        "witness_instantiation": "None",
+        "space_plan": "Choose first disjunct and cancel the unchanged DLL predicate.",
+        "pure_plan": "Unfold result predicate to retval=0, exactly the returned nil_case equality. No payload assumption is introduced.",
+        "refinement_plan": "No monadic refinement state; preserves the same arbitrary A/storeA and logical nodes.",
+        "used_existing_lemmas": [],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          "retval=0; head<>0",
+          "All structural lemma resources occur in the antecedent; payloads remain framed."
+        ],
+        "failure_signal": "",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "dll_init_len_payload_cycle",
+        "grouping_reason": "One coherent initialization and DLL length observation cycle using the same generic DLL model and shared structural length helper family."
+      },
+      {
+        "witness_name": "proof_of_DoubleLinkListLenGet_derive_nil_case_by_general",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "xizi_store_dll storeA_nil_case head nil",
+          "pre_pure": "None",
+          "pre_exists": "Universally quantified VC variables; local structural existentials are exposed by segment lemmas.",
+          "post_spatial": "Chosen general precondition separated from a wand turning its result into the nil_case result",
+          "post_pure": "The general result with nodes=nil is retval=Zlength nil=0",
+          "post_exists": "Choose the original A, original storeA_nil_case, and nil : list (DL_Node A); retain the general returned value for nil_case."
+        },
+        "witness_instantiation": "Choose the original A, original storeA_nil_case, and nil : list (DL_Node A); retain the general returned value for nil_case.",
+        "space_plan": "Cancel the general precondition; introduce the wand with derivable1_wand_sepcon_adjoint and preserve its identical empty generic DLL resource.",
+        "pure_plan": "Zlength nil=0 makes the two result predicates coincide.",
+        "refinement_plan": "No monadic refinement state; preserves the same arbitrary A/storeA and logical nodes.",
+        "used_existing_lemmas": [
+          "derivable1_wand_sepcon_adjoint",
+          "sepcon_cancel_end"
+        ],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          "None",
+          "All structural lemma resources occur in the antecedent; payloads remain framed."
+        ],
+        "failure_signal": "",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "dll_init_len_payload_cycle",
+        "grouping_reason": "One coherent initialization and DLL length observation cycle using the same generic DLL model and shared structural length helper family."
+      }
+    ],
+    "analysis_groups": [
+      {
+        "group_id": "dll_init_len_payload_cycle",
+        "witness_names": [
+          "proof_of_InitDoubleLinkList_return_wit_1",
+          "proof_of_DoubleLinkListLenGet_entail_wit_1",
+          "proof_of_DoubleLinkListLenGet_entail_wit_2_1",
+          "proof_of_DoubleLinkListLenGet_entail_wit_2_2",
+          "proof_of_DoubleLinkListLenGet_return_wit_1",
+          "proof_of_DoubleLinkListLenGet_return_wit_2",
+          "proof_of_xizi_double_link_init_then_len_return_wit_1",
+          "proof_of_DoubleLinkListLenGet_derive_nil_case_by_general"
+        ],
+        "representative_witness": "proof_of_DoubleLinkListLenGet_entail_wit_2_1",
+        "dependencies": [],
+        "candidate_helper_declarations": [],
+        "likely_helper_declarations": [],
+        "grouping_reason": "All 8 targets belong to one small generic DLL init/length cycle, with six length obligations sharing the accepted length proofs and two short boundary wrappers. They fit the 12-witness cap and require no inter-worker dependencies or new shared facts.",
+        "proof_strategy": "Reuse the exact six manual length proof patterns in the declared current round worktree, all of whose target goal bodies match this case; reuse the generic init proof pattern. Prove the wrapper by unfolding its result predicate. Keep storeA payloads framed; shared advance gives the finite-memory unsigned bound. No new helper expected. All reused proofs must be checked on the current group target.",
+        "reference_files": [
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_len/source/xizi_double_link_len_proof_manual.v",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_init/source/xizi_double_link_init_proof_manual.v",
+          "QCIPLib/xizi/xizi_double_link_common/xizi_double_link_lib.v"
+        ],
+        "proof_group_ready": true,
+        "shared_proof_pattern": "Decompose generic DLL, preserve payloads, traverse/reclose structural DLL; specialize empty list.",
+        "shared_space_plan": "Existing DLL segment structural operations with unchanged payload frame.",
+        "shared_pure_plan": "List partitions, Zlength identities, shared finite-memory unsigned bound.",
+        "shared_refinement_plan": "None"
+      }
+    ],
+    "blockers": []
+  },
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 8,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

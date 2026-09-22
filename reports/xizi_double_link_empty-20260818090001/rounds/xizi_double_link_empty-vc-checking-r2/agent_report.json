@@ -1,0 +1,392 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "vc_checking": {
+      "status": "completed",
+      "phase": "vc-checking",
+      "round": "xizi_double_link_empty-vc-checking-r2",
+      "attempt_id": "xizi_double_link_empty-vc-checking-r2-attempt-1",
+      "completed_at": "2026-08-17T16:48:12Z",
+      "source_version": "b3eb4c45dfe1303f786cc5f3162bf96e6a28b925bbe979e56fd8f32fda1c8ce3",
+      "source_goal_version": "92123a41ded746df15be5b1630a9a02e1ad1e77a5533851e60fdfe2548d96d62",
+      "ready_for_vc_proving_preparing": true,
+      "summary": "All three current manual witnesses are semantically proofable. The first return witness uses first <> head to rule out an empty logical node list and rebuilds xizi_dll from the sentinel fields and complete segment. The second uses first = head to force the complete segment's logical node list to nil and preserves that segment. The derivation witness chooses nodes_general = nil, frames the original empty DLL against a wand, and discharges the general postcondition: its non-nil branch is contradictory, while its nil branch supplies retval=1 and the same xizi_dll resource required by the weak postcondition. No annotation/spec repair or group-local case_lib helper is required.",
+      "checked_witness_scope": [
+        "proof_of_xizi_double_link_empty_return_wit_1",
+        "proof_of_xizi_double_link_empty_return_wit_2",
+        "proof_of_xizi_double_link_empty_derive_nil_case_by_general"
+      ],
+      "version_evidence": {
+        "status": "matched",
+        "source_files": {
+          "OUTPUT/xizi/xizi_double_link_empty/source/xizi_double_link_empty.c": "01a657453cc085407274f73649fafc9a86456e5bb2a725692cc623e2385f3f50",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_empty/source/xizi_double_link_empty_lib.v": "3f3a561ae743b46a50eba73370610ce0e3996ddb9ec1f801fe3876b125afd1f2"
+        },
+        "generated_files": {
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_empty/source/xizi_double_link_empty_goal.v": "1a3acb098df28bf9abbaaf93b92d8c312191e368098ba5b0e611e1615c32a9bb",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_empty/source/xizi_double_link_empty_proof_auto.v": "a5d8c33ed79df3eb4013292bec1fc452b43997bb44c9f336d81ef72f85cee0b5",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_empty/source/xizi_double_link_empty_proof_manual.v": "a2c8c773d6519ceb7889704f201550a9a8e34ce29f5324ce1ad6ab384f68da0d",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_empty/source/xizi_double_link_empty_goal_check.v": "0442e97d2819c01a894c6bd4e92916f058c836a0cc6f66409430a03138ac0d2a",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_empty/source/xizi_double_link_empty_proof_diagnostics.v": "9d4ede402f62ee04a0c446c5eae5e126eaafdbb2b700cc6d06b0190dcaa34664",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_empty/source/diagnostics_snapshot.json": "bf5636eba2a771584f0d6a1eb7ce85799c38f5e930163752aca4a7f3d9facf52"
+        },
+        "manual_target_witnesses_match_handoff": true,
+        "manual_target_witness_count": 3,
+        "witness_statement_hashes": {
+          "proof_of_xizi_double_link_empty_return_wit_1": "f41bc22f8095e562361bebe359f71ec4af5a41fbce59ba033ce1e7a9a4058d1c",
+          "proof_of_xizi_double_link_empty_return_wit_2": "738abba31b17fabe7b9b979e3bca222e0677c0b20bd9cb8ae2c975282b43cb22",
+          "proof_of_xizi_double_link_empty_derive_nil_case_by_general": "f6b8b4a7c29536ee15830e8ef8c3ade279b1cec4aa4fc75bf122ec2661791112"
+        },
+        "diagnostics_are_hint_only": true,
+        "diagnostic_count": 4
+      },
+      "natural_language_analysis": {
+        "status": "passed",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_xizi_double_link_empty_return_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "Chosen first disjunct: head.node_next |-> first ** xizi_dllseg first head head last nodes_general ** head.node_prev |-> last. The alternate generated disjunct exposes the first node's two fields and the rest segment.",
+              "pre_pure": "first <> head and head <> 0 in the chosen disjunct; the alternate disjunct additionally has nodes_general = first :: l0.",
+              "pre_exists": "No existential in P; first and last are universally bound segment endpoints.",
+              "post_spatial": "xizi_dll head nodes_general in the chosen disjunct; the alternate disjunct asks for the complete segment xizi_dllseg first head head last nodes_general.",
+              "post_pure": "nodes_general <> nil and 0 = 0.",
+              "post_exists": "The xizi_dll closure internally reuses first and last as its existential endpoints."
+            },
+            "witness_instantiation": "Select the first generated disjunct. Reuse first and last when folding the sentinel fields plus complete segment into xizi_dll head nodes_general.",
+            "space_plan": "Destruct nodes_general. In the nil case, unfolding xizi_dllseg with first <> head exposes the impossible endpoint equality. In the cons case, unfold xizi_dll/XiziDLL.dll (or equivalently close with xizi_dll_close using head <> 0), and reuse the two sentinel fields and complete segment without changing ownership.",
+            "pure_plan": "The nil branch contradicts the segment endpoint equation first = head; in the cons branch discriminate establishes nodes_general <> nil, while 0 = 0 is reflexive.",
+            "refinement_plan": "Direct separation-logic/list-shape VC; no safeExec or refinement state occurs.",
+            "used_existing_lemmas": [
+              "xizi_dll_close",
+              "definitions xizi_dll, xizi_dll_links, and XiziDLL.dllseg"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "head <> 0 for xizi_dll_close",
+                "discharged_by": "PreH2"
+              },
+              {
+                "premise": "nodes_general <> nil",
+                "discharged_by": "nil/cons analysis; the nil case contradicts first <> head after unfolding the complete segment"
+              },
+              {
+                "premise": "sentinel links required by xizi_dll",
+                "discharged_by": "the two owned head field stores are exactly xizi_dll_links after unfolding"
+              }
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "dll_empty_returns_and_nil_derivation",
+            "grouping_reason": "It uses the same complete DLL segment and nil/non-nil list split as return_wit_2, and the same xizi_dll resource family as the derive witness."
+          },
+          {
+            "witness_name": "proof_of_xizi_double_link_empty_return_wit_2",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "Chosen second disjunct: xizi_dllseg first head head last nodes_general. The alternate generated disjunct additionally owns the two sentinel field stores.",
+              "pre_pure": "first = head and head <> 0.",
+              "pre_exists": "No existential in P.",
+              "post_spatial": "The same xizi_dllseg first head head last nodes_general is preserved in the chosen disjunct.",
+              "post_pure": "nodes_general = nil; the alternate disjunct also contains 1 = 1.",
+              "post_exists": "None in the chosen second disjunct."
+            },
+            "witness_instantiation": "Select the second generated disjunct and retain the segment unchanged.",
+            "space_plan": "Substitute first = head and destruct nodes_general. The nil case preserves the segment by cancellation. A cons case is impossible because unfolding XiziDLL.dllseg at node=stop yields a contradiction rather than a nonempty segment.",
+            "pure_plan": "After substituting first, the xizi_dllseg base/step definition forces nodes_general=nil. The nil branch concludes by reflexivity; the cons branch is contradictory.",
+            "refinement_plan": "Direct separation-logic/list-shape VC; no safeExec or refinement state occurs.",
+            "used_existing_lemmas": [
+              "definition xizi_dllseg/XiziDLL.dllseg"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "segment begins at its stop address",
+                "discharged_by": "PreH1: first = head"
+              },
+              {
+                "premise": "nodes_general = nil",
+                "discharged_by": "nil/cons analysis of XiziDLL.dllseg with node=stop"
+              },
+              {
+                "premise": "preserve segment ownership",
+                "discharged_by": "the post spatial assertion is identical to the pre spatial assertion"
+              }
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "dll_empty_returns_and_nil_derivation",
+            "grouping_reason": "It is the empty-list companion to return_wit_1 and uses the same segment definition and case analysis."
+          },
+          {
+            "witness_name": "proof_of_xizi_double_link_empty_derive_nil_case_by_general",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "xizi_dll head nil.",
+              "pre_pure": "No pure premise.",
+              "pre_exists": "No existential in P.",
+              "post_spatial": "EX nodes_general, xizi_dll head nodes_general ** (general-result(nodes_general) -* weak-nil-result), where general-result is the disjunction of non-nil/retval=0 and nil/retval=1 branches.",
+              "post_pure": "Inside the wand conclusion, retval = 1.",
+              "post_exists": "Choose nodes_general=nil outside the wand and retval=1 in the weak result; the wand input supplies an existential retval_2 in either general-result branch."
+            },
+            "witness_instantiation": "Choose nodes_general=nil. Rewrite the original xizi_dll head nil as xizi_dll head nil ** emp, use the original DLL for the left conjunct, and prove the wand from emp by separation adjunction. When the general result is supplied, choose retval=1 for the weak result.",
+            "space_plan": "Frame the original empty DLL into the left conjunct without duplicating it. The wand subsequently consumes the xizi_dll carried by the general postcondition and returns that same resource as xizi_dll head nil in the weak postcondition.",
+            "pure_plan": "After nodes_general=nil, the general non-nil branch contains nil <> nil and is contradictory. The general nil branch contains nodes_general=nil and retval_2=1; regardless of the name retval_2, choose weak retval=1 and retain the supplied DLL. No arithmetic beyond reflexivity is needed.",
+            "refinement_plan": "Specification-derivation entailment only; no C loop or refinement state occurs.",
+            "used_existing_lemmas": [
+              "sepcon_emp_equiv",
+              "derivable1_wand_sepcon_adjoint"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "nodes_general specialization",
+                "discharged_by": "instantiate the outer existential with nil"
+              },
+              {
+                "premise": "general non-nil branch",
+                "discharged_by": "contradiction from nodes_general=nil and nodes_general<>nil"
+              },
+              {
+                "premise": "weak post owns xizi_dll head nil",
+                "discharged_by": "the general nil branch supplies exactly xizi_dll head nodes_general, rewritten by nodes_general=nil"
+              },
+              {
+                "premise": "weak return value",
+                "discharged_by": "instantiate retval with 1; the target equality is reflexive"
+              }
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "dll_empty_returns_and_nil_derivation",
+            "grouping_reason": "It is the contract-level nil specialization of the same function and reuses the exact xizi_dll head nil resource characterized by return_wit_2."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "dll_empty_returns_and_nil_derivation",
+            "witness_names": [
+              "proof_of_xizi_double_link_empty_return_wit_1",
+              "proof_of_xizi_double_link_empty_return_wit_2",
+              "proof_of_xizi_double_link_empty_derive_nil_case_by_general"
+            ],
+            "representative_witness": "proof_of_xizi_double_link_empty_return_wit_1",
+            "shared_proof_pattern": "Resolve the nil/non-nil logical-list case around the complete circular DLL, preserve or reconstruct xizi_dll ownership, and specialize the general contract to nil for the derivation wand.",
+            "shared_space_plan": "The return VCs unfold/fold xizi_dllseg and xizi_dll; the derive VC frames xizi_dll head nil and transfers the general postcondition's same resource through a wand.",
+            "shared_pure_plan": "Segment endpoint equality decides nil versus non-nil for the returns; nodes_general=nil makes the derive witness's non-nil branch contradictory and its nil branch exact.",
+            "shared_refinement_plan": "none (direct separation-logic/list and specification-derivation VCs)",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "All three witnesses concern one short function, one DLL representation family, and one nil/non-nil distinction. One worker can prove them sequentially without context overload; 3 witnesses are below max_witnesses_per_group=12.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-group-plan/v1",
+        "source_goal_version": "92123a41ded746df15be5b1630a9a02e1ad1e77a5533851e60fdfe2548d96d62",
+        "target_witnesses": [
+          "proof_of_xizi_double_link_empty_return_wit_1",
+          "proof_of_xizi_double_link_empty_return_wit_2",
+          "proof_of_xizi_double_link_empty_derive_nil_case_by_general"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "dll_empty_returns_and_nil_derivation",
+            "witness_names": [
+              "proof_of_xizi_double_link_empty_return_wit_1",
+              "proof_of_xizi_double_link_empty_return_wit_2",
+              "proof_of_xizi_double_link_empty_derive_nil_case_by_general"
+            ],
+            "representative_witness": "proof_of_xizi_double_link_empty_return_wit_1",
+            "dependencies": [],
+            "candidate_helper_declarations": [],
+            "expected_helpers": [],
+            "proof_strategy": "For return_wit_1, select its first disjunct, split nodes_general, reject nil from first<>head and the segment endpoint equation, then fold/close the sentinel fields plus complete segment into xizi_dll. For return_wit_2, select its second disjunct, substitute first=head, split nodes_general, preserve the nil segment, and reject the cons case by unfolding xizi_dllseg at node=stop. For the derive witness, instantiate nodes_general=nil, frame xizi_dll head nil beside a wand, use separation adjunction, reject the general non-nil branch by contradiction, and in the nil branch instantiate retval=1 while retaining the supplied DLL. No helper declaration is needed.",
+            "natural_language_proof_strategy": "Use the circular segment's endpoint shape to decide whether the abstract node list is empty, then reuse the same xizi_dll ownership both in the function return proofs and in the nil-case contract derivation.",
+            "grouping_reason": "Same function, same xizi_dll/xizi_dllseg representation, same nil/non-nil list split, no helper family or dependency boundary, and three witnesses within the controller limit of 12.",
+            "confidence": "high",
+            "difficulty": "low",
+            "per_witness_plan": {
+              "proof_of_xizi_double_link_empty_return_wit_1": {
+                "judgment": "proofable",
+                "route": "nonempty list by segment endpoint contradiction, then DLL close"
+              },
+              "proof_of_xizi_double_link_empty_return_wit_2": {
+                "judgment": "proofable",
+                "route": "empty list forced by segment start=stop, with segment preservation"
+              },
+              "proof_of_xizi_double_link_empty_derive_nil_case_by_general": {
+                "judgment": "proofable",
+                "route": "instantiate general nodes with nil and discharge the postcondition wand by branch analysis"
+              }
+            },
+            "premise_discharge": {
+              "nonempty_return": "first<>head plus xizi_dllseg's nil endpoint equation rules out nodes_general=nil",
+              "empty_return": "first=head plus xizi_dllseg's step condition rules out nodes_general=cons _ _",
+              "dll_reconstruction": "owned sentinel next/prev stores and the complete segment are exactly xizi_dll's representation",
+              "nil_derivation": "choose nodes_general=nil; the non-nil general branch contradicts itself and the nil branch supplies retval_2=1 plus xizi_dll head nil",
+              "ownership_preservation": "all routes reuse or consume-and-return the existing spatial resource without duplication"
+            }
+          }
+        ],
+        "blockers": []
+      },
+      "group_plan_path": "/home/yangfp/QCIP/reports/xizi_double_link_empty-20260818090001/rounds/xizi_double_link_empty-vc-checking-r2/group_plan.json",
+      "group_plan_ready": true,
+      "blockers": [],
+      "changed_files": [],
+      "formal_files_modified": false,
+      "tooling_evidence": {
+        "sha256sum": {
+          "status": "passed",
+          "working_directory": "/home/yangfp/QCIP/worktrees/xizi_double_link_empty-20260818090001/xizi_double_link_empty-vc-checking-r2",
+          "summary": "All source_version and source_goal_version file hashes declared by the handoff match the current round worktree."
+        },
+        "coqc_check": {
+          "status": "not-run",
+          "reason": "vc-checking is a read-only semantic planning phase; controller/main owns round acceptance and group workers later own group-check compilation."
+        }
+      }
+    }
+  },
+  "verification_result": {
+    "subagent_semantic_check": {
+      "status": "passed",
+      "source_goal_version": "92123a41ded746df15be5b1630a9a02e1ad1e77a5533851e60fdfe2548d96d62",
+      "target_witness_coverage": "3/3",
+      "duplicate_assignments": 0,
+      "dependency_graph": "acyclic",
+      "group_count": 1,
+      "max_witnesses_in_group": 3,
+      "controller_group_limit": 12
+    },
+    "standalone_group_plan_check": {
+      "status": "passed",
+      "path": "/home/yangfp/QCIP/reports/xizi_double_link_empty-20260818090001/rounds/xizi_double_link_empty-vc-checking-r2/group_plan.json",
+      "standalone_equals_inline": true,
+      "schema_version": "qcp-group-plan/v1",
+      "source_goal_version": "92123a41ded746df15be5b1630a9a02e1ad1e77a5533851e60fdfe2548d96d62",
+      "manual_target_coverage": "3/3 exact order",
+      "group_count": 1,
+      "duplicate_assignments": 0,
+      "dependency_graph": "acyclic",
+      "max_group_size": 3,
+      "controller_group_limit": 12,
+      "formal_files_modified": false
+    },
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-08-17T16:52:12Z",
+      "source_version": {
+        "digest": "b3eb4c45dfe1303f786cc5f3162bf96e6a28b925bbe979e56fd8f32fda1c8ce3",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_empty-20260818090001/xizi_double_link_empty-annotation-r1/OUTPUT/xizi/xizi_double_link_empty/source/xizi_double_link_empty.c",
+            "relative_path": "OUTPUT/xizi/xizi_double_link_empty/source/xizi_double_link_empty.c",
+            "role": "target-c-annotated",
+            "sha256": "01a657453cc085407274f73649fafc9a86456e5bb2a725692cc623e2385f3f50",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_empty-20260818090001/xizi_double_link_empty-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_empty/source/xizi_double_link_empty_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_empty/source/xizi_double_link_empty_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "3f3a561ae743b46a50eba73370610ce0e3996ddb9ec1f801fe3876b125afd1f2",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "92123a41ded746df15be5b1630a9a02e1ad1e77a5533851e60fdfe2548d96d62",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_empty/source/xizi_double_link_empty_goal.v",
+            "role": "generated-goal",
+            "sha256": "1a3acb098df28bf9abbaaf93b92d8c312191e368098ba5b0e611e1615c32a9bb",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_empty/source/xizi_double_link_empty_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "a5d8c33ed79df3eb4013292bec1fc452b43997bb44c9f336d81ef72f85cee0b5",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_empty/source/xizi_double_link_empty_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "a2c8c773d6519ceb7889704f201550a9a8e34ce29f5324ce1ad6ab384f68da0d",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_empty/source/xizi_double_link_empty_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "0442e97d2819c01a894c6bd4e92916f058c836a0cc6f66409430a03138ac0d2a",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_empty/source/xizi_double_link_empty_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "9d4ede402f62ee04a0c446c5eae5e126eaafdbb2b700cc6d06b0190dcaa34664",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_empty/source/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "bf5636eba2a771584f0d6a1eb7ce85799c38f5e930163752aca4a7f3d9facf52",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_xizi_double_link_empty_return_wit_1",
+          "proof_of_xizi_double_link_empty_return_wit_2",
+          "proof_of_xizi_double_link_empty_derive_nil_case_by_general"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_xizi_double_link_empty_derive_nil_case_by_general": "f6b8b4a7c29536ee15830e8ef8c3ade279b1cec4aa4fc75bf122ec2661791112",
+          "proof_of_xizi_double_link_empty_return_wit_1": "f41bc22f8095e562361bebe359f71ec4af5a41fbce59ba033ce1e7a9a4058d1c",
+          "proof_of_xizi_double_link_empty_return_wit_2": "738abba31b17fabe7b9b979e3bca222e0677c0b20bd9cb8ae2c975282b43cb22"
+        },
+        "witnesses": [
+          {
+            "end_line": 26,
+            "name": "proof_of_xizi_double_link_empty_return_wit_1",
+            "start_line": 24,
+            "statement_hash": "f41bc22f8095e562361bebe359f71ec4af5a41fbce59ba033ce1e7a9a4058d1c",
+            "target_symbol": "xizi_double_link_empty_return_wit_1"
+          },
+          {
+            "end_line": 29,
+            "name": "proof_of_xizi_double_link_empty_return_wit_2",
+            "start_line": 27,
+            "statement_hash": "738abba31b17fabe7b9b979e3bca222e0677c0b20bd9cb8ae2c975282b43cb22",
+            "target_symbol": "xizi_double_link_empty_return_wit_2"
+          },
+          {
+            "end_line": 32,
+            "name": "proof_of_xizi_double_link_empty_derive_nil_case_by_general",
+            "start_line": 30,
+            "statement_hash": "f6b8b4a7c29536ee15830e8ef8c3ade279b1cec4aa4fc75bf122ec2661791112",
+            "target_symbol": "xizi_double_link_empty_derive_nil_case_by_general"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_double_link_empty-20260818090001/rounds/xizi_double_link_empty-vc-checking-r2/group_plan.json",
+      "target_witnesses": [
+        "proof_of_xizi_double_link_empty_return_wit_1",
+        "proof_of_xizi_double_link_empty_return_wit_2",
+        "proof_of_xizi_double_link_empty_derive_nil_case_by_general"
+      ]
+    }
+  },
+  "blockers": []
+}

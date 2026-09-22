@@ -1,0 +1,52 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "7b6d197866320029feaf5170437679cd970f3748b58fe03b12630fa54c7b9c06",
+  "target_witnesses": [
+    "proof_of_DoubleLinkListGetHead_entail_wit_1",
+    "proof_of_DoubleLinkListGetHead_return_wit_1",
+    "proof_of_DoubleLinkListGetHead_return_wit_2",
+    "proof_of_DoubleLinkListGetHead_derive_nil_case_by_general",
+    "proof_of_IsDoubleLinkListEmpty_derive_expanded_by_general"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "head_store_dll_unfold_and_repack",
+      "witness_names": [
+        "proof_of_DoubleLinkListGetHead_entail_wit_1",
+        "proof_of_DoubleLinkListGetHead_return_wit_1",
+        "proof_of_DoubleLinkListGetHead_return_wit_2",
+        "proof_of_DoubleLinkListGetHead_derive_nil_case_by_general",
+        "proof_of_IsDoubleLinkListEmpty_derive_expanded_by_general"
+      ],
+      "representative_witness": "proof_of_DoubleLinkListGetHead_entail_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "proof_strategy": "Use Import DLL and unqualified store_dll/dllseg names. Prove entail_wit_1 by unfolding store_dll and selecting its packaged endpoints. For return_wit_1, substitute the nil equation, reduce head_ptrs/first_value, and repack the unchanged resources. For return_wit_2, rule out nil, unfold the cons dllseg to obtain first_out = getPtr a, reduce head_ptrs/first_value, and repack store_dll. For both derivation witnesses, instantiate the general model with the current model, introduce the separating wand by adjunction, unfold/repack store_dll, and preserve the antecedent empty/nonempty branch and return value.",
+      "natural_language_proof_strategy": "Every postcondition resource is already present in P either directly or inside an antecedent store_dll. The only pure computations are first-value of an empty mapped list, first-value of a nonempty mapped list using dllseg's head-pointer equality, and exact propagation of the IsEmpty branch facts through a wand.",
+      "grouping_reason": "One bounded group is appropriate because all five obligations use the same store_dll/dllseg representation and preserved proof pattern; there are no helper or dependency boundaries, and the group size 5 is below the maximum 12.",
+      "confidence": "high"
+    }
+  ],
+  "dependencies": [],
+  "blockers": [],
+  "coverage": {
+    "target_count": 5,
+    "assigned_count": 5,
+    "duplicates": [],
+    "missing": [],
+    "max_witnesses_per_group": 12,
+    "largest_group_size": 5,
+    "policy_satisfied": true
+  },
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 5,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

@@ -1,0 +1,147 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "767b7caeee890724c24fecb1f89c7049792d17119b2316a732e282ef50220f5a",
+  "target_witnesses": [
+    "proof_of_DoubleLinkListRmNode_entail_wit_1",
+    "proof_of_DoubleLinkListRmNode_return_wit_1",
+    "proof_of_DoubleLinkListRmNode_derive_remove_tail_spec_by_strong_spec",
+    "proof_of_DoubleLinkListRmNode_derive_remove_front_spec_by_strong_spec",
+    "proof_of_DoubleLinkListRmNode_derive_remove_member_spec_by_strong_spec"
+  ],
+  "grouping_basis": "Two proof-pattern families: operational DLL cut/reconnect obligations and strong-spec derivation obligations. The split avoids mixing separation-logic shape reconstruction with existential/wand specification derivation while keeping each closely related family together.",
+  "forbidden_lemma_scan_policy": {
+    "source": ".agents/skills/verification-orchestrator/docs/forbidden_lemma.md",
+    "required_for_every_group": "yes",
+    "match_policy": "exact lemma-name scan of the completed assigned witness proof bodies and every group-local case_lib proof body before group-check",
+    "expected_hit_count": 0,
+    "exact_names": [
+      "logic_equiv_refl",
+      "elim_wand_emp_emp",
+      "logic_equiv_symm",
+      "sepcon_emp_logic_equiv'",
+      "logic_equiv_andp_comm",
+      "logic_equiv_sepcon_comm",
+      "logic_equiv_sepcon_emp",
+      "logic_equiv_andp_truep",
+      "logic_equiv_truep_andp",
+      "truep_andp_right_equiv",
+      "logic_equiv_orp_comm",
+      "logic_equiv_trans",
+      "logic_equiv_orp_assoc",
+      "logic_equiv_sepcon_assoc",
+      "logic_equiv_andp_assoc",
+      "logic_equiv_sepcon_orp",
+      "logic_equiv_sepcon_orp_distr",
+      "logic_equiv_orp_sepcon",
+      "derivable1_trans",
+      "derivable1_refl",
+      "derivable1_sepcon_comm",
+      "coq_prop_andp_right",
+      "derivable1_sepcon_mono"
+    ]
+  },
+  "proof_groups": [
+    {
+      "group_id": "dll_cut_split_reconnect",
+      "witness_names": [
+        "proof_of_DoubleLinkListRmNode_entail_wit_1",
+        "proof_of_DoubleLinkListRmNode_return_wit_1"
+      ],
+      "representative_witness": "proof_of_DoubleLinkListRmNode_entail_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "For the entail witness, choose the first Coq-level disjunct, substitute nodes_strong_spec using PreH1, and apply the existing xizi_dll_split_at_node__dll_cut_split_reconnect entailment to obtain node_next, node_prev, non-nullness, the shifted prefix, all four boundary fields, and the shifted suffix. For the return witness, choose the first disjunct and apply the existing xizi_dll_remove_result__dll_cut_split_reconnect entailment; it reconnects the remaining circle and folds the removed node's self-linked fields into xizi_dll linklist_node_pre nil. Close only by direct unfolding, existential instantiation, sep_apply/cancel, and entailer-style steps.",
+      "likely_helper_declarations": [],
+      "grouping_reason": "Both witnesses are the same operational cut/update/reconnect phase and are already covered by the same existing case-lib helper family; proving them sequentially preserves the shared spatial context and requires no new helper.",
+      "confidence": "high",
+      "forbidden_lemma_scan": {
+        "required": "yes",
+        "expected_hit_count": 0,
+        "failure_action": "reject the group result and rewrite the proof before group-check",
+        "exact_names": [
+          "logic_equiv_refl",
+          "elim_wand_emp_emp",
+          "logic_equiv_symm",
+          "sepcon_emp_logic_equiv'",
+          "logic_equiv_andp_comm",
+          "logic_equiv_sepcon_comm",
+          "logic_equiv_sepcon_emp",
+          "logic_equiv_andp_truep",
+          "logic_equiv_truep_andp",
+          "truep_andp_right_equiv",
+          "logic_equiv_orp_comm",
+          "logic_equiv_trans",
+          "logic_equiv_orp_assoc",
+          "logic_equiv_sepcon_assoc",
+          "logic_equiv_andp_assoc",
+          "logic_equiv_sepcon_orp",
+          "logic_equiv_sepcon_orp_distr",
+          "logic_equiv_orp_sepcon",
+          "derivable1_trans",
+          "derivable1_refl",
+          "derivable1_sepcon_comm",
+          "coq_prop_andp_right",
+          "derivable1_sepcon_mono"
+        ]
+      }
+    },
+    {
+      "group_id": "spec_derivations_direct",
+      "witness_names": [
+        "proof_of_DoubleLinkListRmNode_derive_remove_tail_spec_by_strong_spec",
+        "proof_of_DoubleLinkListRmNode_derive_remove_front_spec_by_strong_spec",
+        "proof_of_DoubleLinkListRmNode_derive_remove_member_spec_by_strong_spec"
+      ],
+      "representative_witness": "proof_of_DoubleLinkListRmNode_derive_remove_member_spec_by_strong_spec",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "Instantiate the strong spec directly. Tail uses head_strong_spec=head_remove_tail_spec, nodes_strong_spec=prefix_remove_tail_spec ++ [linklist_node_pre], prefix_strong_spec=prefix_remove_tail_spec, suffix_strong_spec=nil. Front uses head_strong_spec=head_remove_front_spec, nodes_strong_spec=linklist_node_pre :: suffix_remove_front_spec, prefix_strong_spec=nil, suffix_strong_spec=suffix_remove_front_spec. Member first applies xizi_dll_remove_first_split__spec_derivations_direct to the In premise, obtaining prefix/suffix, the first-hit decomposition, and xizi_dll_remove_first equality, then uses those values. In every case retain the input xizi_dll as the strong pre, introduce the post wand, normalize app/nil or rewrite by the remove-first equality, and close the identity transformation by direct separation-logic tactics.",
+      "likely_helper_declarations": [],
+      "grouping_reason": "All three witnesses derive a user-facing removal contract from the same strong spec by existential instantiation and an identity post wand; only the member case adds the already-proved first-hit list split. They share one proof pattern and helper family.",
+      "confidence": "high",
+      "forbidden_lemma_scan": {
+        "required": "yes",
+        "expected_hit_count": 0,
+        "failure_action": "reject the group result and rewrite the proof before group-check",
+        "exact_names": [
+          "logic_equiv_refl",
+          "elim_wand_emp_emp",
+          "logic_equiv_symm",
+          "sepcon_emp_logic_equiv'",
+          "logic_equiv_andp_comm",
+          "logic_equiv_sepcon_comm",
+          "logic_equiv_sepcon_emp",
+          "logic_equiv_andp_truep",
+          "logic_equiv_truep_andp",
+          "truep_andp_right_equiv",
+          "logic_equiv_orp_comm",
+          "logic_equiv_trans",
+          "logic_equiv_orp_assoc",
+          "logic_equiv_sepcon_assoc",
+          "logic_equiv_andp_assoc",
+          "logic_equiv_sepcon_orp",
+          "logic_equiv_sepcon_orp_distr",
+          "logic_equiv_orp_sepcon",
+          "derivable1_trans",
+          "derivable1_refl",
+          "derivable1_sepcon_comm",
+          "coq_prop_andp_right",
+          "derivable1_sepcon_mono"
+        ]
+      }
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 5,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

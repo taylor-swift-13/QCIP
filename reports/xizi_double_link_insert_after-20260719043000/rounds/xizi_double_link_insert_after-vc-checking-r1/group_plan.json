@@ -1,0 +1,106 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "7abad99cffe97e1e558fa7635f56ad8c698f419e5d20214c6acb13bf29f4fb25",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_insert_after_entail_wit_1",
+    "proof_of_xizi_double_link_insert_after_return_wit_1",
+    "proof_of_xizi_double_link_insert_after_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "dll_split_and_reassembly",
+      "witness_names": [
+        "proof_of_xizi_double_link_insert_after_entail_wit_1",
+        "proof_of_xizi_double_link_insert_after_return_wit_1",
+        "proof_of_xizi_double_link_insert_after_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_insert_after_entail_wit_1",
+      "dependencies": [],
+      "difficulty": "medium",
+      "confidence": "high",
+      "grouping_reason": "All three witnesses are obligations for the same straight-line insertion and use one structural proof family: split a circular doubly linked list at the designated anchor, then reassemble the prefix, updated anchor, inserted node, and suffix. Keeping them together lets one worker prove and reuse group-suffixed segment split/concatenation helpers. The group has 3 witnesses, below the controller limit of 12.",
+      "proof_strategy": "For the entail witness, open xizi_dll and induct over nodes_before to expose the anchor; destruct nodes_after and construct the corresponding spatial orp branch. For each return witness, select the full-list side of the Coq disjunction, rewrite nodes_after with PreH1, use spatial non-aliasing/validity facts to discharge the non-null and non-stop guards required by xizi_dllseg, concatenate the prefix segment with the updated anchor and inserted-node links and the remaining suffix segment, then close xizi_dll with the unchanged sentinel links.",
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "xizi_dll_split_at_anchor",
+          "statement_shape": "xizi_dll head (prefix ++ anchor :: suffix), together with anchor <> 0, entails the nil/cons decomposition used by xizi_double_link_insert_after_entail_wit_1: a prefix xizi_dllseg ending at anchor plus anchor links and either sentinel closure (suffix=nil) or the first suffix node, its links, and the remaining suffix segment.",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_insert_after_entail_wit_1"
+          ],
+          "premises": [
+            {
+              "premise": "anchor <> 0",
+              "discharged_by": "PreH1 in the entail witness",
+              "needs_unfold": [],
+              "arithmetic": "none",
+              "spatial_resource": "none"
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "xizi_dll_reassemble_after_insert",
+          "statement_shape": "Sentinel links, a prefix xizi_dllseg ending at anchor, updated links anchor->inserted/old_prev and inserted->successor/anchor, and either a nonempty suffix head plus suffix xizi_dllseg or successor=head entail xizi_dll head (prefix ++ anchor :: inserted :: suffix).",
+          "used_by_witnesses": [
+            "proof_of_xizi_double_link_insert_after_return_wit_1",
+            "proof_of_xizi_double_link_insert_after_return_wit_2"
+          ],
+          "premises": [
+            {
+              "premise": "the anchor and inserted node satisfy the dllseg non-null and non-stop guards",
+              "discharged_by": "valid points-to resources and separation from the sentinel fields in the return antecedent; pre_process/entailer can expose the required pure non-aliasing facts",
+              "needs_unfold": [
+                "xizi_dllseg",
+                "XiziDLL.dllseg"
+              ],
+              "arithmetic": "none",
+              "spatial_resource": "sentinel, anchor, inserted-node, and suffix-node field stores in the antecedent"
+            },
+            {
+              "premise": "suffix is old_next :: rest or nil",
+              "discharged_by": "PreH1 of return_wit_1 or return_wit_2 respectively",
+              "needs_unfold": [
+                "xizi_double_link_insert_after_nodes"
+              ],
+              "arithmetic": "none",
+              "spatial_resource": "none"
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        }
+      ],
+      "expected_helpers": [
+        "xizi_dll_split_at_anchor__dll_split_and_reassembly",
+        "xizi_dll_reassemble_after_insert__dll_split_and_reassembly"
+      ],
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_insert_after_entail_wit_1": "Open xizi_dll; induct over nodes_before to isolate linklist_pre. Destruct nodes_after. In the nil case instantiate old_prev and first and prove the left spatial-or branch. In the cons case instantiate old_next, rest, first, last, old_prev, and next_next and prove the right branch. Frame the two fresh-node undef stores throughout.",
+        "proof_of_xizi_double_link_insert_after_return_wit_1": "Choose the first Coq-disjunction branch because its antecedent contains the sentinel links needed to close xizi_dll. Rewrite nodes_after=old_next::rest and unfold xizi_double_link_insert_after_nodes. Splice prefix, anchor->inserted, inserted->old_next, old_next links, and rest segment; then apply xizi_dll_close.",
+        "proof_of_xizi_double_link_insert_after_return_wit_2": "Choose the first Coq-disjunction branch. Rewrite nodes_after=nil and unfold xizi_double_link_insert_after_nodes. Extend the prefix segment with anchor->inserted and inserted->head, use the sentinel links, and apply xizi_dll_close. The resulting last node is inserted."
+      }
+    }
+  ],
+  "dependencies": [],
+  "likely_helper_declarations": [
+    "xizi_dll_split_at_anchor (group-suffixed)",
+    "xizi_dll_reassemble_after_insert (group-suffixed)"
+  ],
+  "blockers": [],
+  "grouping_reason": "A single bounded group is minimal and appropriate because all three same-function witnesses share the xizi_dll/xizi_dllseg split-and-reassembly proof pattern and helper family.",
+  "grouping_policy_evidence": {
+    "controller_policy": "bounded-witness-groups/v1",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "policy_satisfied": true
+  },
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  },
+  "controller_verified": true
+}

@@ -1,0 +1,58 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "c3997cb56e5c57ee6a141b4c4b8a90441a7bb5096d19fd469f9c0b8685520c30",
+  "target_witnesses": [
+    "proof_of_IsDoubleLinkListEmpty_return_wit_1",
+    "proof_of_IsDoubleLinkListEmpty_return_wit_2",
+    "proof_of_IsDoubleLinkListEmpty_derive_nil_case_by_general"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "is_double_link_list_empty_contract",
+      "witness_names": [
+        "proof_of_IsDoubleLinkListEmpty_return_wit_1",
+        "proof_of_IsDoubleLinkListEmpty_return_wit_2",
+        "proof_of_IsDoubleLinkListEmpty_derive_nil_case_by_general"
+      ],
+      "representative_witness": "proof_of_IsDoubleLinkListEmpty_return_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "Prove return_wit_1 by selecting its first disjunct, excluding nodes=nil from first<>head, and closing xizi_dll with the existing sentinel fields and segment. Prove return_wit_2 by selecting its second disjunct and excluding a cons segment because first=head equals the stop sentinel. Prove derive_nil_case_by_general by choosing nodes_general=nil, framing the original xizi_dll, applying wand/sepcon adjunction, rejecting nil<>nil, and forwarding the nil branch's retval=1 and xizi_dll resource.",
+      "natural_language_proof_pattern": "DLL endpoint shape normalization followed by direct contract discharge; the derived obligation specializes the same contract at nil.",
+      "shared_helper_candidates": [],
+      "proving_hints": [
+        "Use only existing xizi_dll/xizi_dllseg definitions, xizi_dll_close, and standard wand adjunction.",
+        "For return_wit_1 choose the first Coq disjunct; for return_wit_2 choose the second Coq disjunct.",
+        "Do not introduce case-local helpers unless proof feedback reveals an implementation-only convenience; none is semantically required.",
+        "Do not use any forbidden lemma listed by the workflow."
+      ],
+      "grouping_reason": "Single group is allowed because 3 <= 12. The obligations are from the same function and contract, use the same xizi DLL logical context, have no dependencies or helpers, and are small enough for one worker to prove sequentially without context pressure.",
+      "grouping_confidence": "high",
+      "confidence": "high",
+      "difficulty": "low-to-medium",
+      "per_witness_plan": {
+        "proof_of_IsDoubleLinkListEmpty_return_wit_1": "Select left disjunct; prove nonnil from segment endpoint contradiction; apply xizi_dll_close.",
+        "proof_of_IsDoubleLinkListEmpty_return_wit_2": "Select right disjunct; destruct nodes and rule out cons by first=head versus segment node<>stop; retain segment.",
+        "proof_of_IsDoubleLinkListEmpty_derive_nil_case_by_general": "Choose nil; frame xizi_dll; use wand adjunction; eliminate the nonnil general-post branch and forward the nil branch."
+      },
+      "premise_discharge": {
+        "xizi_dll_close_nonnull": "PreH2 in return_wit_1",
+        "return_wit_1_nonnil": "nil xizi_dllseg gives first=head, contradicting PreH1",
+        "return_wit_2_nil": "cons xizi_dllseg requires first<>head, contradicting PreH1",
+        "derived_nil_general_post": "nodes_general=nil makes the nonnil branch false and the nil branch identical to the required result"
+      }
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

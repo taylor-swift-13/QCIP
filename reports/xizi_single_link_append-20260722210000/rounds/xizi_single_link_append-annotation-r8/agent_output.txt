@@ -1,0 +1,13 @@
+# Reuse Note
+Note kind: non-authoritative reuse note
+This file is not acceptance evidence.
+
+The r8 candidate adds `node != 0` while retaining `linklist_node != 0`, so the LOS-style invariant now keeps both required non-null facts together with the prefix/current/suffix decomposition.
+
+qcp-mcp reaches file end, but the initialization witness then requires `linklist@pre != 0`. The current imported shared `xizi_sll_head` definition does not entail that pure fact. Temporarily restoring public `linklist != 0` supplies it, but that workaround was reverted because the handoff explicitly forbids the redundant public conjunct.
+
+The required repair is upstream: strengthen the shared `xizi_sll_head` specification and its matching declaration/strategy artifacts in a controller-authorized round. Those files are outside r8 `allowed_write_paths`; no Axiom, Admitted, false helper, or generated-file hand edit was used.
+
+Direct LOS review covered `LOS_ListInit.c`, `LOS_ListEmpty.c`, `List_Add.c`, `List_Add_other.c`, `LOS_ListDelInit.c`, `los_sortlink_0.h`, and `lib/dll.v`. It confirms the ownership-first abstract-head style and exact `app(l,[node])` postcondition, but its `store_dll` definition does not supply the missing pure Xizi traversal-node non-null fact.
+
+Authoritative details are in `agent_report.json`; JSON handoff, manifests, declared versions, and current files override this note.

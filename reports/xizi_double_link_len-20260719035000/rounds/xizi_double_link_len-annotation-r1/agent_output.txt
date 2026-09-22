@@ -1,0 +1,15 @@
+# Reuse Note
+
+Note kind: non-authoritative reuse note
+
+This file is not acceptance evidence.
+
+The final candidate gives `xizi_double_link_len` an exact mathematical contract: the return value is `xizi_double_link_size(nodes)`, defined as `Zlength nodes`, and the same `xizi_dll` resource is preserved. The unsigned bound is stated once at the public boundary.
+
+The loop invariant uses `nodes = done ++ todo` and `linklist_length = Zlength done`. Because the original implementation starts its cursor at the sentinel and tests `tmp_node->node_next`, the spatial portion has two views: an initial sentinel view and a progressed cursor view. Both expose the current `node_next` permission and split the physical list with the shared `xizi_dllseg` abstraction.
+
+An earlier candidate kept the cursor endpoint inside an opaque segment and QCP could not derive the condition-read permission. The repaired invariant completed three fresh qcp-mcp cycles with 2 auto and 5 manual witnesses, followed by canonical symexec and fixed case-lib compilation.
+
+The manual obligations should use guarded segment unfolding/concatenation, `app`/`Zlength` algebra, and the unsigned bound. In the exit branch, `next=head` forces the remaining suffix to be empty; recombining the processed segment restores `xizi_dll` and yields the exact length.
+
+JSON handoff, manifests, current source versions, and current files override this note.

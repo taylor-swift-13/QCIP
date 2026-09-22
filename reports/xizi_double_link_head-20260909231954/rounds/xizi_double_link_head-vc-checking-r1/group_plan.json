@@ -1,0 +1,179 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_version": "eaea0a900d2170a26b31328a8cb1b1e067efb9d1f9ada047d8c52b970ab8e448",
+  "source_goal_version": "4ea9973be13c3f256986308e1c3ca63b87a396faea47c11454cd97168497f853",
+  "target_witnesses": [
+    "proof_of_DoubleLinkListGetHead_entail_wit_1",
+    "proof_of_DoubleLinkListGetHead_return_wit_1",
+    "proof_of_DoubleLinkListGetHead_return_wit_2",
+    "proof_of_DoubleLinkListGetHead_derive_nil_case_by_general"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "head_query",
+      "witness_names": [
+        "proof_of_DoubleLinkListGetHead_entail_wit_1",
+        "proof_of_DoubleLinkListGetHead_return_wit_1",
+        "proof_of_DoubleLinkListGetHead_return_wit_2",
+        "proof_of_DoubleLinkListGetHead_derive_nil_case_by_general"
+      ],
+      "representative_witness": "proof_of_DoubleLinkListGetHead_return_wit_2",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "proof_strategy": "Use one worker for all four head-query obligations. Select the left branch of duplicated disjunctions; unfold the generic store_dll and sentinel links for entry, use one-step dllseg nil/cons analysis for the two returns, and instantiate the nil_case refinement with identical A/storeA and nil. Preserve every storeA resource by framing/refolding; no payload property or new precondition is needed. Any convenience helper must be proved only in group-local case_lib with suffix __head_query; direct proofs need no helper. Avoid forbidden lemmas and black-box entailment tactics.",
+      "natural_language_proof_strategy": "Use one worker for all four head-query obligations. Select the left branch of duplicated disjunctions; unfold the generic store_dll and sentinel links for entry, use one-step dllseg nil/cons analysis for the two returns, and instantiate the nil_case refinement with identical A/storeA and nil. Preserve every storeA resource by framing/refolding; no payload property or new precondition is needed. Any convenience helper must be proved only in group-local case_lib with suffix __head_query; direct proofs need no helper. Avoid forbidden lemmas and black-box entailment tactics.",
+      "grouping_reason": "All four obligations belong to DoubleLinkListGetHead and use the same generic DLL representation. One worker can perform the related unfolding, case analysis and folding sequentially; 4 <= 12. No dependency split is needed."
+    }
+  ],
+  "natural_language_analysis": {
+    "schema_version": "qcp-vc-natural-language-analysis/v1",
+    "witnesses": [
+      {
+        "judgment": "proofable",
+        "refinement_plan": "No abstract execution refinement; nil_case is the specification-specialization wand obligation.",
+        "used_existing_lemmas": [],
+        "candidate_helper_declarations": [],
+        "failure_signal": "",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "head_query",
+        "proof_group_candidate": "head_query",
+        "grouping_reason": "Same function, generic store_dll open/close and one-step dllseg case analysis; four targets fit one bounded group.",
+        "witness_name": "proof_of_DoubleLinkListGetHead_entail_wit_1",
+        "vc_shape": {
+          "pre_spatial": "xizi_store_dll storeA head nodes",
+          "pre_pure": "None separately; head nonzero is contained in store_dll.",
+          "pre_exists": "first and last inside store_dll",
+          "post_spatial": "sentinel next/prev fields and dllseg storeA first head head last nodes",
+          "post_pure": "head <> 0",
+          "post_exists": "last_link then first_link"
+        },
+        "witness_instantiation": "Choose the existing store_dll last and first addresses, reversing the syntactic existential order.",
+        "space_plan": "Select the left identical disjunct. Unfold xizi_store_dll, XiziStoreADLL.store_dll, xizi_dll_links, XiziDLL.links and layout constants; open existentials and reconstruct the same resources.",
+        "pure_plan": "Extract head <> NULL from store_dll and identify NULL with zero.",
+        "premise_discharge": [
+          "The head nonzero premise is a conjunct of the source predicate.",
+          "All target fields and the unchanged payload-carrying segment occur directly in its body."
+        ]
+      },
+      {
+        "judgment": "proofable",
+        "refinement_plan": "No abstract execution refinement; nil_case is the specification-specialization wand obligation.",
+        "used_existing_lemmas": [],
+        "candidate_helper_declarations": [],
+        "failure_signal": "",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "head_query",
+        "proof_group_candidate": "head_query",
+        "grouping_reason": "Same function, generic store_dll open/close and one-step dllseg case analysis; four targets fit one bounded group.",
+        "witness_name": "proof_of_DoubleLinkListGetHead_return_wit_1",
+        "vc_shape": {
+          "pre_spatial": "sentinel fields and dllseg storeA first head head last nodes",
+          "pre_pure": "first = head; head <> 0",
+          "pre_exists": "segment next pointer if nodes is cons",
+          "post_spatial": "same xizi_store_dll storeA head nodes",
+          "post_pure": "0 = first_value (map getPtr nodes)",
+          "post_exists": "first and last hidden in store_dll"
+        },
+        "witness_instantiation": "Reuse the VC first and last addresses when folding store_dll.",
+        "space_plan": "Select left disjunct. Case-analyze nodes. For nil, preserve sentinel fields and the empty segment while folding store_dll. For cons, unfold only one dllseg layer and eliminate the inconsistent pure branch.",
+        "pure_plan": "For nil, first_value [] reduces to zero. For cons, dllseg asserts first <> head, contradicting PreH1; no assumption about storeA is required.",
+        "premise_discharge": [
+          "PreH1 supplies first=head.",
+          "The guarded nonempty dllseg branch supplies first<>stop with stop=head.",
+          "PreH2 supplies the nonzero premise needed to reconstruct store_dll."
+        ]
+      },
+      {
+        "judgment": "proofable",
+        "refinement_plan": "No abstract execution refinement; nil_case is the specification-specialization wand obligation.",
+        "used_existing_lemmas": [],
+        "candidate_helper_declarations": [],
+        "failure_signal": "",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "head_query",
+        "proof_group_candidate": "head_query",
+        "grouping_reason": "Same function, generic store_dll open/close and one-step dllseg case analysis; four targets fit one bounded group.",
+        "witness_name": "proof_of_DoubleLinkListGetHead_return_wit_2",
+        "vc_shape": {
+          "pre_spatial": "sentinel fields and dllseg storeA first head head last nodes",
+          "pre_pure": "first <> head; head <> 0",
+          "pre_exists": "next pointer in a nonempty dllseg",
+          "post_spatial": "same xizi_store_dll storeA head nodes",
+          "post_pure": "first = first_value (map getPtr nodes)",
+          "post_exists": "first and last hidden in store_dll"
+        },
+        "witness_instantiation": "Reuse first and last; if unfolding a cons segment, reuse its existing next address and identical head logical node and tail.",
+        "space_plan": "Select left disjunct. Case-analyze nodes. Empty dllseg contradicts the branch guard. For cons, open one segment layer to extract the head address equality, preserve storeA first (getData a), head links and tail, then refold the segment and sentinel predicate.",
+        "pure_plan": "The empty branch gives first=head, contradicting PreH1. The cons branch gives first=getPtr a, while first_value (map getPtr (a::rest)) definitionally reduces to getPtr a.",
+        "premise_discharge": [
+          "PreH1 rules out the nil branch after dllseg unfolding.",
+          "Head pointer equality comes directly from the cons dllseg conjunct.",
+          "PreH2 and the original spatial resources reconstruct precisely the original generic store_dll, with all data/payloads unchanged."
+        ]
+      },
+      {
+        "judgment": "proofable",
+        "refinement_plan": "No abstract execution refinement; nil_case is the specification-specialization wand obligation.",
+        "used_existing_lemmas": [],
+        "candidate_helper_declarations": [],
+        "failure_signal": "",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "head_query",
+        "proof_group_candidate": "head_query",
+        "grouping_reason": "Same function, generic store_dll open/close and one-step dllseg case analysis; four targets fit one bounded group.",
+        "witness_name": "proof_of_DoubleLinkListGetHead_derive_nil_case_by_general",
+        "vc_shape": {
+          "pre_spatial": "xizi_store_dll storeA head nil",
+          "pre_pure": "None separately",
+          "pre_exists": "None externally",
+          "post_spatial": "chosen general precondition separated from a wand from its general postcondition to the nil_case postcondition",
+          "post_pure": "The wand conclusion requires retval = 0.",
+          "post_exists": "A, storeA_general, nodes_general, then return values in the wand"
+        },
+        "witness_instantiation": "Choose the same A, the same storeA, and nil. In the wand conclusion reuse the return value from the antecedent.",
+        "space_plan": "Instantiate the general specification with nil. Use wand introduction/adjunction to frame the original precondition and discharge the wand from its antecedent; the payload-aware empty-list predicate is identical on both sides.",
+        "pure_plan": "After the chosen nil instantiation, first_value (head_ptrs nil) reduces to zero, so the general return equality is exactly the nil_case equality.",
+        "premise_discharge": [
+          "The outer input supplies A and storeA without restriction.",
+          "nil is the existing logical input list, not an erased or changed payload sequence.",
+          "The antecedent of the introduced wand supplies the returned empty-list ownership and return equality."
+        ]
+      }
+    ],
+    "analysis_groups": [
+      {
+        "group_id": "head_query",
+        "witness_names": [
+          "proof_of_DoubleLinkListGetHead_entail_wit_1",
+          "proof_of_DoubleLinkListGetHead_return_wit_1",
+          "proof_of_DoubleLinkListGetHead_return_wit_2",
+          "proof_of_DoubleLinkListGetHead_derive_nil_case_by_general"
+        ],
+        "representative_witness": "proof_of_DoubleLinkListGetHead_return_wit_2",
+        "dependencies": [],
+        "candidate_helper_declarations": [],
+        "likely_helper_declarations": [],
+        "proof_strategy": "Use one worker for all four head-query obligations. Select the left branch of duplicated disjunctions; unfold the generic store_dll and sentinel links for entry, use one-step dllseg nil/cons analysis for the two returns, and instantiate the nil_case refinement with identical A/storeA and nil. Preserve every storeA resource by framing/refolding; no payload property or new precondition is needed. Any convenience helper must be proved only in group-local case_lib with suffix __head_query; direct proofs need no helper. Avoid forbidden lemmas and black-box entailment tactics.",
+        "natural_language_proof_strategy": "Use one worker for all four head-query obligations. Select the left branch of duplicated disjunctions; unfold the generic store_dll and sentinel links for entry, use one-step dllseg nil/cons analysis for the two returns, and instantiate the nil_case refinement with identical A/storeA and nil. Preserve every storeA resource by framing/refolding; no payload property or new precondition is needed. Any convenience helper must be proved only in group-local case_lib with suffix __head_query; direct proofs need no helper. Avoid forbidden lemmas and black-box entailment tactics.",
+        "grouping_reason": "All four obligations belong to DoubleLinkListGetHead and use the same generic DLL representation. One worker can perform the related unfolding, case analysis and folding sequentially; 4 <= 12. No dependency split is needed.",
+        "shared_proof_pattern": "Generic store_dll open/close; nil/cons head observation; identity specialization.",
+        "shared_space_plan": "Keep sentinel links and all storeA resources unchanged.",
+        "shared_pure_plan": "Use first=head or first<>head against the guarded segment shape; compute map/getPtr first_value.",
+        "shared_refinement_plan": "Specialize general to identical A/storeA and nil.",
+        "proof_group_ready": true
+      }
+    ]
+  },
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 4,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

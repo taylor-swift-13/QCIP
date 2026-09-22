@@ -1,0 +1,289 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "attempt_id": "xizi_single_link_append-vc-checking-r1-attempt-1",
+  "agent_result": {
+    "phase": "vc-checking",
+    "vc_checking": {
+      "status": "completed",
+      "source_version": {
+        "digest": "677774e4e8810d4765112acbac8cef5c7d83b07d1e0f670fbb5a580e92222bbd"
+      },
+      "source_goal_version": {
+        "digest": "dd720207afbeda3383b995fe2ffbf9d457c2536d40b0b0117690fffe2b3800a3"
+      },
+      "version_evidence": {
+        "all_declared_file_hashes_match": true,
+        "manual_witnesses_match_target_set": true,
+        "manual_witness_order": [
+          "proof_of_xizi_single_link_append_entail_wit_1",
+          "proof_of_xizi_single_link_append_entail_wit_2",
+          "proof_of_xizi_single_link_append_return_wit_1"
+        ],
+        "witness_statement_hashes_match": true,
+        "diagnostics_used_as_hint_only": true,
+        "diagnostic_count": 0
+      },
+      "summary": "All three target witnesses are semantically proofable with the existing xizi singly-linked-list definitions and lemmas. The first entailment initializes the loop decomposition at the sentinel; the second advances it by one node; the return witness uses the null suffix to recompose the extended list and expose the sentinel-head representation. No annotation or seed-spec change is required.",
+      "natural_language_analysis": {
+        "witnesses": [
+          {
+            "witness_name": "proof_of_xizi_single_link_append_entail_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "xizi_sll_head linklist_pre l ** the separately owned linklist_node_pre->node_next cell",
+              "pre_pure": "linklist_pre <> 0 and linklist_node_pre <> 0",
+              "pre_exists": "xizi_sll_head hides the first data-node pointer",
+              "post_spatial": "the current-node next cell at node=linklist_pre, an empty xizi_sllseg from the sentinel to itself, the unchanged data suffix, and the framed new-node cell",
+              "post_pure": "cons linklist_pre l = l1a ++ linklist_pre :: l1b, plus the two non-null facts",
+              "post_exists": "next is the first pointer hidden by xizi_sll_head; l1a=nil; l1b=l"
+            },
+            "witness_instantiation": "Select the first disjunct, unfold xizi_sll_head, and instantiate next with its hidden first pointer, l1a with nil, and l1b with l.",
+            "space_plan": "Unfold xizi_sll_head/generic_sll_head. Keep the sentinel next field as the generated current-node cell, fold xizi_sllseg linklist_pre linklist_pre nil from emp and reflexivity, retain xizi_sll next l, and frame the disjoint linklist_node_pre field.",
+            "pure_plan": "The list equation reduces by simplification to cons linklist_pre l = cons linklist_pre l. PreH1 and PreH2 discharge the non-null conjuncts.",
+            "refinement_plan": "not applicable; direct spatial entailment",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "The existential first pointer and its field cell come directly from unfolding xizi_sll_head.",
+              "The empty segment requires only linklist_pre=linklist_pre and emp.",
+              "The new-node field is preserved verbatim as a frame."
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "sll_append_decompose_advance_recompose",
+            "grouping_reason": "This is the initialization direction of the same traversal decomposition advanced by entail_wit_2 and consumed by return_wit_1."
+          },
+          {
+            "witness_name": "proof_of_xizi_single_link_append_entail_wit_2",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "node->node_next=next_2 ** xizi_sllseg linklist_pre node l1a_2 ** xizi_sll next_2 l1b_2 ** the framed new-node field",
+              "pre_pure": "cons linklist_pre l = l1a_2 ++ node :: l1b_2; node, next_2, and the new node are non-null",
+              "pre_exists": "xizi_sll next_2 l1b_2 hides next_2's successor and tail list",
+              "post_spatial": "next_2's next cell and remaining xizi_sll suffix, an extended prefix segment ending at next_2, and the framed new-node field",
+              "post_pure": "cons linklist_pre l = l1a ++ next_2 :: l1b, with next_2 and the new node non-null",
+              "post_exists": "open l1b_2 as next_2::l0; choose next as next_2's successor, l1a=l1a_2++[node], and l1b=l0"
+            },
+            "witness_instantiation": "Select the first disjunct. Apply xizi_sll_not_zero to next_2 and l1b_2, obtaining successor next, tail l0, and l1b_2=next_2::l0. Choose l1a=l1a_2++[node] and l1b=l0.",
+            "space_plan": "Use xizi_sllseg_len1 on node->next_2, then xizi_sllseg_sllseg to append that singleton segment to the existing prefix. Preserve the exposed next_2 field and xizi_sll successor tail, and frame the new-node field.",
+            "pure_plan": "Rewrite PreH1 with l1b_2=next_2::l0 and normalize list append associativity to obtain cons linklist_pre l=(l1a_2++[node])++next_2::l0. PreH2 and PreH5 provide the required non-null facts; PreH4 is the premise of xizi_sll_not_zero.",
+            "refinement_plan": "not applicable; direct spatial/list entailment",
+            "used_existing_lemmas": [
+              "xizi_sll_not_zero",
+              "xizi_sllseg_len1",
+              "xizi_sllseg_sllseg"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "next_2 <> NULL is exactly PreH4 after normalizing NULL to 0.",
+              "node <> NULL is exactly PreH3 and discharges xizi_sllseg_len1.",
+              "All output cells and predicates partition resources already present in the antecedent."
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "sll_append_decompose_advance_recompose",
+            "grouping_reason": "This is the one-step traversal transition between the initialization and recomposition witnesses."
+          },
+          {
+            "witness_name": "proof_of_xizi_single_link_append_return_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "node->node_next=linklist_node_pre ** xizi_sllseg linklist_pre node l1a ** xizi_sll next l1b ** linklist_node_pre->node_next=0",
+              "pre_pure": "cons linklist_pre l=l1a++node::l1b; next=0; node and the new node are non-null",
+              "pre_exists": "none",
+              "post_spatial": "xizi_sll_head linklist_pre (l++[linklist_node_pre]) (or its explicitly exposed first-pointer form in the second disjunct)",
+              "post_pure": "no additional pure proposition beyond the representation equations",
+              "post_exists": "the head representation hides the sentinel successor q; equivalently select the second disjunct and expose q"
+            },
+            "witness_instantiation": "Use next=0 and xizi_sll_zero to derive l1b=nil. Build xizi_sll linklist_node_pre [linklist_node_pre], prepend node, then prepend the existing prefix segment. Rewrite the resulting address list with PreH1 to cons linklist_pre (l++[linklist_node_pre]); unfolding its leading sentinel node supplies the q required by the second disjunct (and is definitionally xizi_sll_head for the first disjunct).",
+            "space_plan": "Apply xizi_sll_zero to consume the null suffix as emp, xizi_sll_len1 to the new node's null next field, xizi_sll_cons to node->linklist_node_pre plus the singleton new-node list, and xizi_sllseg_sll to combine the prefix with that tail. Finally unfold the leading xizi_sll node to separate the sentinel field from the appended data-chain.",
+            "pure_plan": "PreH4 rewrites next to NULL, so xizi_sll_zero yields l1b=nil. Substituting this in PreH1 and simplifying list append shows the recomposed full address list equals linklist_pre :: (l ++ [linklist_node_pre]). PreH2 and PreH3 discharge the non-null premises of xizi_sll_len1 and xizi_sll_cons.",
+            "refinement_plan": "not applicable; direct spatial/list entailment",
+            "used_existing_lemmas": [
+              "xizi_sll_zero",
+              "xizi_sll_len1",
+              "xizi_sll_cons",
+              "xizi_sllseg_sll"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "next=0 is PreH4 and lets xizi_sll_zero establish l1b=nil.",
+              "linklist_node_pre<>0 is PreH2 and node<>0 is PreH3.",
+              "The final head field and data-chain are obtained by unfolding the recomposed xizi_sll at its leading sentinel, not by inventing ownership."
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "sll_append_decompose_advance_recompose",
+            "grouping_reason": "This consumes the same prefix/current/suffix decomposition and reverses it after the two stores."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "sll_append_decompose_advance_recompose",
+            "witness_names": [
+              "proof_of_xizi_single_link_append_entail_wit_1",
+              "proof_of_xizi_single_link_append_entail_wit_2",
+              "proof_of_xizi_single_link_append_return_wit_1"
+            ],
+            "representative_witness": "proof_of_xizi_single_link_append_entail_wit_2",
+            "shared_proof_pattern": "Expose the sentinel/data-chain boundary, maintain a prefix/current/suffix decomposition while advancing one node, and recompose it after appending the separately owned singleton node.",
+            "shared_space_plan": "Use the existing xizi_sll opening, singleton segment/list, segment concatenation, and segment-to-list lemmas; retain the new-node next cell as a frame until the final stores.",
+            "shared_pure_plan": "Normalize nil/cons/list-app equations, use loop-guard non-null facts for list opening, and use next=0 to force the terminal suffix list to nil.",
+            "shared_refinement_plan": "not applicable",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "All three witnesses share one representation family and form consecutive phases of one loop invariant. Keeping them together preserves the decomposition/recomposition context; count 3 is within max_witnesses_per_group=12.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "dd720207afbeda3383b995fe2ffbf9d457c2536d40b0b0117690fffe2b3800a3",
+        "target_witnesses": [
+          "proof_of_xizi_single_link_append_entail_wit_1",
+          "proof_of_xizi_single_link_append_entail_wit_2",
+          "proof_of_xizi_single_link_append_return_wit_1"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "sll_append_decompose_advance_recompose",
+            "witness_names": [
+              "proof_of_xizi_single_link_append_entail_wit_1",
+              "proof_of_xizi_single_link_append_entail_wit_2",
+              "proof_of_xizi_single_link_append_return_wit_1"
+            ],
+            "representative_witness": "proof_of_xizi_single_link_append_entail_wit_2",
+            "dependencies": [],
+            "candidate_helper_declarations": [],
+            "expected_helpers": [],
+            "proof_strategy": "Prove initialization by unfolding xizi_sll_head and choosing the empty prefix. Prove loop advancement by xizi_sll_not_zero, xizi_sllseg_len1, and xizi_sllseg_sllseg. Prove return by xizi_sll_zero, xizi_sll_len1, xizi_sll_cons, and xizi_sllseg_sll, then normalize the list equation and unfold the leading sentinel node into xizi_sll_head (or select the equivalent exposed-head second disjunct).",
+            "grouping_reason": "The three witnesses are consecutive initialization, transition, and return obligations for the same prefix/current/suffix invariant and use one tightly coupled existing-lemma family. A single three-witness group is balanced and below the controller limit of 12.",
+            "confidence": "high"
+          }
+        ],
+        "blockers": []
+      },
+      "group_plan_ready": true,
+      "formal_changed_files": [],
+      "report_files_written": [
+        "/home/yangfp/QCIP/reports/xizi_single_link_append-20260722T111500/rounds/xizi_single_link_append-vc-checking-r1/agent_report.json",
+        "/home/yangfp/QCIP/reports/xizi_single_link_append-20260722T111500/rounds/xizi_single_link_append-vc-checking-r1/agent_output.txt"
+      ],
+      "blockers": []
+    }
+  },
+  "blockers": [],
+  "verification_result": {
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-07-22T03:44:20Z",
+      "source_version": {
+        "digest": "677774e4e8810d4765112acbac8cef5c7d83b07d1e0f670fbb5a580e92222bbd",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_single_link_append-20260722T111500/xizi_single_link_append-annotation-r1/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append.c",
+            "relative_path": "OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append.c",
+            "role": "target-c-annotated",
+            "sha256": "283ca868114206fd2f85c021457e5f43bababdb67d499e842d23f41aa1754b42",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_single_link_append-20260722T111500/xizi_single_link_append-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "27dce0c34cd9cdecc5748b9cdbc38841bd26cc4362fe0336db19f8ac09ac00ad",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "dd720207afbeda3383b995fe2ffbf9d457c2536d40b0b0117690fffe2b3800a3",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_goal.v",
+            "role": "generated-goal",
+            "sha256": "884cdaa3c910ef501f3fd3d73c2b2be36c155124c0e232d866718a54de79aeb4",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "185adc72224aa7992c10a9409994c4e13072eebb24da2926d0943a4983d3701b",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "3379c0030b5684a4bc5e504f77b37d54d5fd2cd345829d30fdb6374017b688bd",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "426ef8170aac9a5b6d2bef407686fa9f3a493e1f08a79cfa5eb535466ae87b12",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/xizi_single_link_append_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "560f9cf0a425e5d751b8ebfe56bed5bbe451fc64849c0f3570ce048d42f61c34",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_append/source/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "9a61df8727ce9b1e5862f9f266d9854d86ef5475b542700bd13acce9570f6f08",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_xizi_single_link_append_entail_wit_1",
+          "proof_of_xizi_single_link_append_entail_wit_2",
+          "proof_of_xizi_single_link_append_return_wit_1"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_xizi_single_link_append_entail_wit_1": "c13c34236c3347c465ecc2bff6f6dcbc582c4f889d625a228b2df8c43458fe24",
+          "proof_of_xizi_single_link_append_entail_wit_2": "fdf07d63352a1325911d1fa3bd9023f05859e4f360313cbe04ff89397a7f4aa0",
+          "proof_of_xizi_single_link_append_return_wit_1": "0943b050d3e52f649d4ece994643b598a23ad568ac2fee1e50c7f99cf5f69369"
+        },
+        "witnesses": [
+          {
+            "end_line": 26,
+            "name": "proof_of_xizi_single_link_append_entail_wit_1",
+            "start_line": 24,
+            "statement_hash": "c13c34236c3347c465ecc2bff6f6dcbc582c4f889d625a228b2df8c43458fe24",
+            "target_symbol": "xizi_single_link_append_entail_wit_1"
+          },
+          {
+            "end_line": 29,
+            "name": "proof_of_xizi_single_link_append_entail_wit_2",
+            "start_line": 27,
+            "statement_hash": "fdf07d63352a1325911d1fa3bd9023f05859e4f360313cbe04ff89397a7f4aa0",
+            "target_symbol": "xizi_single_link_append_entail_wit_2"
+          },
+          {
+            "end_line": 32,
+            "name": "proof_of_xizi_single_link_append_return_wit_1",
+            "start_line": 30,
+            "statement_hash": "0943b050d3e52f649d4ece994643b598a23ad568ac2fee1e50c7f99cf5f69369",
+            "target_symbol": "xizi_single_link_append_return_wit_1"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_single_link_append-20260722T111500/rounds/xizi_single_link_append-vc-checking-r1/group_plan.json",
+      "target_witnesses": [
+        "proof_of_xizi_single_link_append_entail_wit_1",
+        "proof_of_xizi_single_link_append_entail_wit_2",
+        "proof_of_xizi_single_link_append_return_wit_1"
+      ]
+    }
+  }
+}

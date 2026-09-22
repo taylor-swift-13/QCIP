@@ -1,0 +1,331 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "pending",
+  "terminal": "no",
+  "agent_result": {
+    "vc_checking": {
+      "schema_version": "qcp-vc-checking-result/v1",
+      "status": "blocked",
+      "terminal": "yes",
+      "phase": "vc-checking",
+      "round": "xizi_single_link_len-vc-checking-r1",
+      "attempt_id": "xizi_single_link_len-vc-checking-r1-attempt-1",
+      "source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "a365af6ea81b11dcb1ae1870547f4531b5fc01c0ac746576f5dbaa10a0d615fc",
+        "verified_current": true
+      },
+      "source_goal_version": {
+        "schema_version": "qcp-source-goal-version/v1",
+        "digest": "0e7f50bc6f3828bcfec4906e244f0887d70e4835f8addbcb4a8c3ad61e407ce9",
+        "verified_current": true
+      },
+      "summary": "The current source and generated-file hashes match the handoff, and the cleaned manual contains exactly the three declared target witnesses. Both entailment witnesses are semantically proofable with the existing xizi_sll segment and length lemmas. proof_of_SingleLinkListGetLen_return_wit_1 is not entailed: its antecedent owns the sentinel field at linklist, but both postcondition disjuncts require the independent universally quantified snapshot root linklist_pre, with no equality connecting the two. A satisfiable concrete instance with linklist_pre=0 makes both post disjuncts false. This is an annotation/generation alias bug, not a missing helper or proof difficulty, so vc-proving-preparing must not be dispatched at this version.",
+      "target_witnesses": [
+        "proof_of_SingleLinkListGetLen_entail_wit_1",
+        "proof_of_SingleLinkListGetLen_entail_wit_2",
+        "proof_of_SingleLinkListGetLen_return_wit_1"
+      ],
+      "version_validation": {
+        "status": "passed",
+        "source_file_hashes_match_handoff": true,
+        "generated_file_hashes_match_handoff": true,
+        "manual_witness_set_matches_handoff": true,
+        "manual_witness_order_matches_handoff": true,
+        "witness_statement_hashes_match_handoff": true,
+        "manual_witness_count": 3,
+        "diagnostic_count": 0,
+        "diagnostics_role": "hint-only; no diagnostic theorem was treated as a target witness",
+        "observed_hashes": {
+          "OUTPUT/xizi/xizi_single_link_len/source/xizi_single_link_len.c": "c69974168e6001b20e4eb80ece39f47f308a99c84636377815f1b12f9e63f8f3",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_len/source/xizi_single_link_len_lib.v": "27dce0c34cd9cdecc5748b9cdbc38841bd26cc4362fe0336db19f8ac09ac00ad",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_len/source/xizi_single_link_len_goal.v": "8d328f088ca129eb88f6c5856b3688948be312b07f3b525c971c2a75a60f4d94",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_len/source/xizi_single_link_len_proof_auto.v": "64919722eccfb1ec9484a8180f3ab6a73e62f5e07db32b16940f16022ce6c73c",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_len/source/xizi_single_link_len_proof_manual.v": "57771100ba2bf13f2b9fc409f7587752123fed966eac3ae7fa5ca44f8e72d5b4",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_len/source/xizi_single_link_len_goal_check.v": "4c4dbb25e9d418f3fbf77238e44711024dafc87b89a7d7783dd8e7de59d8ef6b",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_len/source/xizi_single_link_len_proof_diagnostics.v": "aeff0b7104ac9b863602144e9432a1be09f7419671dfcad19dec4563380377e1",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_single_link_len/source/diagnostics_snapshot.json": "cb0159bad9c85763df9a1e2df7222f88f52c5bd252efe461fb233fa72c111c0f"
+        }
+      },
+      "natural_language_analysis": {
+        "schema_version": "qcp-vc-natural-language-analysis/v1",
+        "status": "blocked",
+        "overall_judgment": "annotation-bug",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_SingleLinkListGetLen_entail_wit_1",
+            "statement_hash": "9204c06b3c84a29d39bed206f3804866621cf7f7a14d0f8df8e9042043f8f9ef",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "linklist_pre.node_next |-> q ** xizi_sll q l.",
+              "pre_pure": "linklist_pre <> 0.",
+              "pre_exists": "No hidden witness must be extracted for the selected disjunct.",
+              "post_spatial": "linklist_pre.node_next |-> first ** xizi_sllseg first q l1 ** xizi_sll q l2.",
+              "post_pure": "l = l1 ++ l2, 0 = Zlength l1, and linklist_pre <> 0.",
+              "post_exists": "first, l1, and l2."
+            },
+            "witness_instantiation": "Select the first top-level disjunct and choose first=q, l1=nil, and l2=l.",
+            "space_plan": "Unfold xizi_sllseg q q nil to emp; the head field and xizi_sll q l then cancel directly.",
+            "pure_plan": "Simplification gives l=nil++l and Zlength nil=0; the non-null fact is PreH1.",
+            "refinement_plan": "Not applicable; this is direct separation-logic invariant initialization.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "linklist_pre <> 0",
+                "discharged_by": "PreH1",
+                "arithmetic": "none",
+                "spatial_resource": "none"
+              },
+              {
+                "premise": "empty prefix",
+                "discharged_by": "l1 := nil and simplification of xizi_sllseg/Zlength/app",
+                "arithmetic": "Zlength nil = 0",
+                "spatial_resource": "xizi_sllseg q q nil = emp"
+              }
+            ],
+            "failure_signal": "none",
+            "recommended_next_phase": "vc-proving-preparing only after the blocked return witness is regenerated",
+            "analysis_group_candidate": "single_link_len_prefix_transition",
+            "grouping_reason": "It initializes the same prefix/suffix invariant advanced by entail_wit_2."
+          },
+          {
+            "witness_name": "proof_of_SingleLinkListGetLen_entail_wit_2",
+            "statement_hash": "c8d06b4f0175af9a1f7969dd7bc19d62ceccb38e95dd60751aa5b19090e8c52e",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "tmp_list.node_next |-> q ** xizi_sll q l0 ** linklist.node_next |-> first_2 ** xizi_sllseg first_2 tmp_list l1_2.",
+              "pre_pure": "l2_2=tmp_list::l0, tmp_list<>0, l=l1_2++l2_2, length=Zlength l1_2, and linklist<>0.",
+              "pre_exists": "No additional existential is needed; all extension endpoints are explicit.",
+              "post_spatial": "linklist.node_next |-> first ** xizi_sllseg first q l1 ** xizi_sll q l2.",
+              "post_pure": "l=l1++l2, unsigned_last_nbits(length+1,32)=Zlength l1, and linklist<>0.",
+              "post_exists": "first, the one-node-extended prefix l1, and remaining list l2."
+            },
+            "witness_instantiation": "Select the first disjunct; choose first=first_2, l1=l1_2++[tmp_list], and l2=l0 after substituting l2_2, l, and length.",
+            "space_plan": "Use xizi_sllseg_len1 tmp_list q with PreH2 to turn the node_next cell into the singleton segment [tmp_list], then xizi_sllseg_sllseg to append it to the old prefix. Keep xizi_sll q l0 and the sentinel field as frames.",
+            "pure_plan": "xizi_sll_loop_length_max on the four spatial resources yields Zlength(l1_2++tmp_list::l0) <= Int.max_unsigned/4+1. Together with nonnegativity of Zlength l1_2 and l0, this places Zlength l1_2+1 in [0,2^32), so unsigned_last_nbits_eq reduces the increment to Zlength(l1_2++[tmp_list]). App associativity proves the list decomposition.",
+            "refinement_plan": "Not applicable; the unsigned update is a concrete arithmetic side condition, not an abstract-program transition.",
+            "used_existing_lemmas": [
+              "xizi_sll_loop_length_max",
+              "xizi_sllseg_len1",
+              "xizi_sllseg_sllseg",
+              "Zlength_app_cons",
+              "unsigned_last_nbits_eq",
+              "Zlength_nonneg"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "tmp_list <> NULL for the singleton segment and length-bound lemma",
+                "discharged_by": "PreH2",
+                "arithmetic": "none",
+                "spatial_resource": "tmp_list.node_next |-> q"
+              },
+              {
+                "premise": "0 <= Zlength l1_2 + 1 < 2^32",
+                "discharged_by": "xizi_sll_loop_length_max, Zlength_nonneg l1_2, Zlength_nonneg l0, and linear arithmetic",
+                "arithmetic": "the total represented list bound dominates the extended prefix; Int.max_unsigned=4294967295",
+                "spatial_resource": "the complete sentinel-field, prefix-segment, current-node, and suffix resources"
+              }
+            ],
+            "failure_signal": "none",
+            "recommended_next_phase": "vc-proving-preparing only after the blocked return witness is regenerated",
+            "analysis_group_candidate": "single_link_len_prefix_transition",
+            "grouping_reason": "It is the one-step extension of the prefix initialized by entail_wit_1 and uses the same list invariant."
+          },
+          {
+            "witness_name": "proof_of_SingleLinkListGetLen_return_wit_1",
+            "statement_hash": "5340e245f25a358d3f48b34883d1a9715f552d53a0cc31864dba9801d5abe707",
+            "judgment": "annotation-bug",
+            "vc_shape": {
+              "pre_spatial": "linklist.node_next |-> first ** xizi_sllseg first tmp_list l1 ** xizi_sll tmp_list l2.",
+              "pre_pure": "tmp_list=0, l=l1++l2, length=Zlength l1, and linklist<>0; there is no fact relating linklist_pre and linklist.",
+              "pre_exists": "The segment/list predicates hide internal successors only; they cannot identify unrelated sentinel roots.",
+              "post_spatial": "First disjunct: xizi_sll_head linklist_pre l. Second disjunct: xizi_sll q l ** linklist_pre.node_next |-> q.",
+              "post_pure": "Both require the final length equality; the second additionally requires linklist_pre<>0.",
+              "post_exists": "Only q is existential in the second disjunct; linklist_pre is universally fixed."
+            },
+            "witness_instantiation": "No existential choice repairs the root mismatch. Choosing q=first reconstructs a list at first but does not move linklist.node_next ownership to linklist_pre.node_next.",
+            "space_plan": "From tmp_list=0, xizi_sll_zero forces l2=nil and xizi_sllseg_0_sll rebuilds xizi_sll first l1. These resources can rebuild xizi_sll_head linklist l, but the goal requires the unrelated root linklist_pre in either disjunct.",
+            "pure_plan": "The length result follows after l2=nil and app_nil_r. The missing linklist_pre=linklist equality is absent from every PreH and cannot be derived from list/length facts or separation resources.",
+            "refinement_plan": "Not applicable; this is a snapshot/current-parameter alias omission in the generated return VC.",
+            "used_existing_lemmas": [
+              "xizi_sll_zero",
+              "xizi_sllseg_0_sll"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [],
+            "failure_signal": "Concrete satisfiable counterexample: linklist_pre=0, linklist=16, tmp_list=first=0, length=0, and l=l1=l2=nil. The antecedent reduces to the valid field cell 16.node_next |-> 0. The first conclusion requires xizi_sll_head 0 nil, whose definition contains 0<>NULL, and the second conclusion explicitly requires linklist_pre<>0. Hence both disjuncts are false.",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": null,
+            "grouping_reason": "This witness must not be dispatched to a proof worker until the source-level alias issue is repaired and all generated files are refreshed."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "single_link_len_prefix_transition",
+            "witness_names": [
+              "proof_of_SingleLinkListGetLen_entail_wit_1",
+              "proof_of_SingleLinkListGetLen_entail_wit_2"
+            ],
+            "representative_witness": "proof_of_SingleLinkListGetLen_entail_wit_2",
+            "shared_proof_pattern": "Initialize an empty processed prefix, then append the current non-null node as a singleton segment while maintaining the full-list decomposition and exact processed-prefix length.",
+            "shared_space_plan": "Empty xizi_sllseg simplification for initialization; xizi_sllseg_len1 followed by xizi_sllseg_sllseg for the loop step.",
+            "shared_pure_plan": "Normalize app/Zlength facts and use the complete spatial list bound to justify the 32-bit increment.",
+            "shared_refinement_plan": "none",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "Both are same-function invariant transition obligations with no helper dependency.",
+            "proof_group_ready": false
+          }
+        ],
+        "blocked_witnesses": [
+          "proof_of_SingleLinkListGetLen_return_wit_1"
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "status": "blocked",
+        "source_goal_version": "0e7f50bc6f3828bcfec4906e244f0887d70e4835f8addbcb4a8c3ad61e407ce9",
+        "target_witnesses": [
+          "proof_of_SingleLinkListGetLen_entail_wit_1",
+          "proof_of_SingleLinkListGetLen_entail_wit_2",
+          "proof_of_SingleLinkListGetLen_return_wit_1"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "single_link_len_invariant_and_return_alias_audit",
+            "witness_names": [
+              "proof_of_SingleLinkListGetLen_entail_wit_1",
+              "proof_of_SingleLinkListGetLen_entail_wit_2",
+              "proof_of_SingleLinkListGetLen_return_wit_1"
+            ],
+            "representative_witness": "proof_of_SingleLinkListGetLen_entail_wit_2",
+            "dependencies": [],
+            "candidate_helper_declarations": [],
+            "likely_helper_declarations": [],
+            "proof_strategy": "Use empty-segment initialization and singleton-segment composition for the two entailments. Do not dispatch at this source_goal_version because return_wit_1 lacks linklist_pre=linklist and has a concrete counterexample.",
+            "grouping_reason": "One group is the minimum exact cover for three same-function witnesses under the limit of twelve; it is a blocked planning group, not an executable proof assignment.",
+            "proof_group_ready": false,
+            "dispatch_allowed": false,
+            "forbidden_lemma_scan": {
+              "exact_names": [
+                "logic_equiv_refl",
+                "elim_wand_emp_emp",
+                "logic_equiv_symm",
+                "sepcon_emp_logic_equiv'",
+                "logic_equiv_andp_comm",
+                "logic_equiv_sepcon_comm",
+                "logic_equiv_sepcon_emp",
+                "logic_equiv_andp_truep",
+                "logic_equiv_truep_andp",
+                "truep_andp_right_equiv",
+                "logic_equiv_orp_comm",
+                "logic_equiv_trans",
+                "logic_equiv_orp_assoc",
+                "logic_equiv_sepcon_assoc",
+                "logic_equiv_andp_assoc",
+                "logic_equiv_sepcon_orp",
+                "logic_equiv_sepcon_orp_distr",
+                "logic_equiv_orp_sepcon",
+                "derivable1_trans",
+                "derivable1_refl",
+                "derivable1_sepcon_comm",
+                "coq_prop_andp_right",
+                "derivable1_sepcon_mono"
+              ],
+              "exact_name_count": 23,
+              "scan_targets": [
+                "all assigned witness proof bodies",
+                "the complete case_lib"
+              ],
+              "required_outcome": "zero exact-name matches",
+              "current_scan_result": "zero matches in the current assigned manual bodies and case_lib"
+            }
+          }
+        ],
+        "coverage_evidence": {
+          "cleaned_manual_witness_count": 3,
+          "assigned_witness_count": 3,
+          "missing_witnesses": [],
+          "unexpected_witnesses": [],
+          "duplicate_assignments": [],
+          "exact_coverage": true
+        },
+        "blockers": [
+          {
+            "blocker_class": "annotation-bug",
+            "witness_name": "proof_of_SingleLinkListGetLen_return_wit_1",
+            "missing_fact": "linklist_pre = linklist",
+            "recommended_next_phase": "annotation"
+          }
+        ],
+        "group_plan_ready": false,
+        "ready_for_vc_proving_preparing": false
+      },
+      "group_plan_path": "/home/yangfp/QCIP/reports/xizi_single_link_len-20260820033437/rounds/xizi_single_link_len-vc-checking-r1/group_plan.json",
+      "forbidden_lemma_evidence": {
+        "source": ".agents/skills/verification-orchestrator/docs/forbidden_lemma.md",
+        "exact_name_count": 23,
+        "current_assigned_manual_proof_body_matches": [],
+        "current_case_lib_matches": [],
+        "required_group_outcome": "zero matches after proof completion"
+      },
+      "group_plan_ready": false,
+      "ready_for_vc_proving_preparing": false,
+      "changed_files": [],
+      "formal_files_modified": false,
+      "report_artifacts": [
+        "/home/yangfp/QCIP/reports/xizi_single_link_len-20260820033437/rounds/xizi_single_link_len-vc-checking-r1/group_plan.json",
+        "/home/yangfp/QCIP/reports/xizi_single_link_len-20260820033437/rounds/xizi_single_link_len-vc-checking-r1/agent_report.json",
+        "/home/yangfp/QCIP/reports/xizi_single_link_len-20260820033437/rounds/xizi_single_link_len-vc-checking-r1/agent_output.txt"
+      ],
+      "blockers": [
+        {
+          "blocker_class": "annotation-bug",
+          "witness_name": "proof_of_SingleLinkListGetLen_return_wit_1",
+          "missing_resource_or_fact": "The invariant return state owns the sentinel field at linklist, but the postcondition requires it at the unrelated snapshot root linklist_pre; no linklist_pre=linklist premise is generated.",
+          "counterexample": "linklist_pre=0, linklist=16, tmp_list=first=0, length=0, l=l1=l2=nil; P is satisfiable as 16.node_next |-> 0, while both Q disjuncts imply linklist_pre<>0.",
+          "required_annotation_rework": "Find a source-level or generator-level way, permitted by the user's mechanical-rename-only constraints, to preserve the immutable parameter's snapshot/current alias in the return VC, then rerun canonical symbolic execution and vc-checking. Do not edit generated files, weaken the contract, or silently change the loop invariant. If no permitted repair exists, surface the constraint conflict to the user.",
+          "source_version": "a365af6ea81b11dcb1ae1870547f4531b5fc01c0ac746576f5dbaa10a0d615fc",
+          "source_goal_version": "0e7f50bc6f3828bcfec4906e244f0887d70e4835f8addbcb4a8c3ad61e407ce9",
+          "recommended_next_phase": "annotation"
+        }
+      ],
+      "errors": [],
+      "recommended_next_phase": "annotation",
+      "controller_acceptance": "not-claimed",
+      "timing": {
+        "timing_source": "command wall-clock plus unmeasured semantic analysis",
+        "major_time_sinks": [
+          "mandatory handoff and routed rule-document reading",
+          "three-witness P |-- Q analysis",
+          "return_wit_1 counterexample and snapshot/current alias audit",
+          "exact 23-name forbidden-lemma policy extraction and plan encoding"
+        ],
+        "timing_gaps": [
+          "The handoff did not declare an activity-ledger path; non-command analysis time was not independently timestamped and is not guessed."
+        ],
+        "open_or_incomplete_timing_events": []
+      }
+    }
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-08-19T19:53:10Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_single_link_len-20260820033437/rounds/xizi_single_link_len-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    }
+  },
+  "blockers": [
+    {
+      "blocker_class": "annotation-bug",
+      "witness_name": "proof_of_SingleLinkListGetLen_return_wit_1",
+      "recommended_next_phase": "annotation"
+    }
+  ]
+}

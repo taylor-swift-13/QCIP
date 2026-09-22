@@ -1,0 +1,29 @@
+# Reuse Note
+
+Note kind: non-authoritative reuse note
+
+This file is not acceptance evidence. If it conflicts with JSON handoffs, manifests, source versions, or current files, ignore this note.
+
+Round: xizi_double_link_insert_before-annotation-r1
+Attempt: xizi_double_link_insert_before-annotation-r1-attempt-1
+Worktree: /home/yangfp/QCIP/worktrees/xizi_double_link_insert_before-20260820005443/xizi_double_link_insert_before-annotation-r1
+Candidate source version: 4686526964e6ab1660b06be138adccbd9737f2f53632866db41dba8647793653
+
+## Result
+
+Owner status: completed; ready for controller annotation-check-round.
+
+The C source now uses `DoubleLinkListInsertNodeBefore` in all declarations and the definition. Public contracts use plain `linklist`/`linklist_node`; the implementation Assert retains its two `@pre` bridges. The function body, spec labels, logical predicates, and case_lib are unchanged.
+
+## Evidence pointers
+
+- qcp-mcp with the handoff's canonical include/strategy paths: parse, check(43), and symbolic(107) all succeeded for `DoubleLinkListInsertNodeBefore`.
+- canonical symexec reached file end with return code 0.
+- fixed `coq_tooling.py check --target-kind case_lib` passed with flags hash `75b2bdd1edb990c20e7514694fa4303e8d948c120bc1e5ac3813d06caabc3dff`.
+- Exact-transform audit confirmed a byte-identical implementation body, exactly two remaining `@pre` occurrences (both inside Assert), unchanged case_lib hash, and no forbidden hits.
+
+## Retry lesson
+
+The default qcp-mcp `load_target_file` supplies only input/goal paths and initially failed to locate `xizi_double_link.strategies`. Reusing the same qcp-mcp SessionManager/backend with the handoff's fixed `-I`, both `-slp` mappings, and Coq logic path made the interactive check pass.
+
+Controller must still perform its own fresh proof_manual skeleton generation and diagnostics split; direct symexec retained the pre-existing manual file.

@@ -1,0 +1,25 @@
+# Reuse Note
+
+Note kind: non-authoritative reuse note
+
+This file is not acceptance evidence. If it conflicts with JSON reports, handoff files, source versions, manifests, or current worktree files, ignore this file.
+
+## Result
+
+The shared right-side `xizi_dll_node` rule now makes the `init` call succeed. The generic `empty` specification is retained as `general`. A strict `nil_case` specification was added and selected at the real call, so the caller needs only `xizi_dll(head,nil)`, exactly the postcondition produced by `init`.
+
+Three qcp-mcp sessions reached the file end. The minimal case library passed the fixed `coq_tooling.py check` compile gate.
+
+## Useful Method
+
+Do not instantiate `nodes = nil` directly in a `where` clause for this toolchain: that form reproducibly terminated the backend. Keep the generic spec, add an independently verified named corollary for the concrete empty case, and select it with `/*@ where (nil_case) */`.
+
+## Files Touched
+
+- `OUTPUT/xizi/xizi_double_link_init_then_empty/xizi_double_link_init_then_empty.c`
+- No generated Rocq files were edited by hand.
+- The case-local library remained unchanged.
+
+## Next Step
+
+The controller should run `annotation-check-round`, including canonical symexec, diagnostics split, and fresh source/source-goal version calculation.

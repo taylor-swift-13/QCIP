@@ -1,0 +1,207 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_version": {
+    "digest": "c45eb465c8ec1436257df5d2dd4572824f27f0cb39b6bc2feabcc382413ac5f2",
+    "digest_input_policy": "relative_path+sha256+state+role only",
+    "files": [
+      {
+        "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_init_then_insert_before-20260910003542/xizi_double_link_init_then_insert_before-annotation-r1/OUTPUT/xizi/xizi_double_link_init_then_insert_before/source/xizi_double_link_init_then_insert_before.c",
+        "relative_path": "OUTPUT/xizi/xizi_double_link_init_then_insert_before/source/xizi_double_link_init_then_insert_before.c",
+        "role": "target-c-annotated",
+        "sha256": "3e140394e6e09f9b09a922e9b5ecaea1a1b448f16bad00d633a384af14d2e42c",
+        "state": "present"
+      },
+      {
+        "path": "/home/yangfp/QCIP/worktrees/xizi_double_link_init_then_insert_before-20260910003542/xizi_double_link_init_then_insert_before-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_init_then_insert_before/source/xizi_double_link_init_then_insert_before_lib.v",
+        "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_init_then_insert_before/source/xizi_double_link_init_then_insert_before_lib.v",
+        "role": "case-lib-seed",
+        "sha256": "4bcfbfe50459a26f4c8e28d3c15a25c2d0159999adfb2512167f939d2591af01",
+        "state": "present"
+      }
+    ],
+    "schema_version": "qcp-source-version/v1"
+  },
+  "source_goal_version": "e7f09c73fd5747e2b3ad135ac22e763d865fc67d66e2f80de9e9f3add5750f2c",
+  "target_witnesses": [
+    "proof_of_InitDoubleLinkList_return_wit_1",
+    "proof_of_xizi_double_link_init_then_insert_before_return_wit_1",
+    "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case",
+    "proof_of_DoubleLinkListInsertNodeBefore_derive_member_case_by_dispatch_case"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "init_insert_before_contracts",
+      "witness_names": [
+        "proof_of_InitDoubleLinkList_return_wit_1",
+        "proof_of_xizi_double_link_init_then_insert_before_return_wit_1",
+        "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case",
+        "proof_of_DoubleLinkListInsertNodeBefore_derive_member_case_by_dispatch_case"
+      ],
+      "representative_witness": "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "grouping_reason": "All four targets are short contract composition obligations for the same generic DLL and accepted insert-before relation. They share existing imports and require no new algorithmic strategy or helper family. One worker can handle them sequentially; four witnesses are below the configured maximum of 12.",
+      "proof_strategy": "Use empty-DLL introduction and definitional append reduction for the return witnesses; instantiate matching dependent dispatch parameters for both derived contracts. Extract sentinel absence before framing, then use the accepted payload_absent_result lemma to close the sentinel wand. The member wand is identity.",
+      "natural_language_proof_strategy": "Preserve arbitrary A, storeA, logical data and every structural resource; no spec changes or new helpers are needed.",
+      "requires_generated_file_changes": false,
+      "requires_witness_statement_changes": false
+    }
+  ],
+  "natural_language_analysis": {
+    "witnesses": [
+      {
+        "witness_name": "proof_of_InitDoubleLinkList_return_wit_1",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "head.next |-> head ** head.prev |-> head",
+          "pre_pure": "head <> 0",
+          "pre_exists": "None beyond universally quantified parameters.",
+          "post_spatial": "xizi_store_dll storeA head nil",
+          "post_pure": "No extra facts.",
+          "post_exists": "Choose either identical outer disjunct; empty DLL endpoints first=last=head."
+        },
+        "witness_instantiation": "Choose either identical outer disjunct; empty DLL endpoints first=last=head.",
+        "space_plan": "Recognize the two fields as xizi_dll_links head head head, unfold only xizi_store_dll alias, and apply store_dll_empty_rev. No payload exists in an empty list.",
+        "pure_plan": "Use the explicit nonzero precondition exactly.",
+        "refinement_plan": "No safeExec or loop refinement obligations.",
+        "used_existing_lemmas": [
+          "XiziStoreADLL.store_dll_empty_rev"
+        ],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          "head <> NULL is PreH1."
+        ],
+        "failure_signal": "None: post resources and pure facts follow from the present precondition.",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "init_insert_before_contracts",
+        "proof_group_candidate": "init_insert_before_contracts",
+        "grouping_reason": "Four short obligations for one initialization/insertion composition, using the same generic DLL and accepted insertion contract model."
+      },
+      {
+        "witness_name": "proof_of_xizi_double_link_init_then_insert_before_return_wit_1",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "xizi_store_dll storeA head (nil ++ [Build_DL_Node data node])",
+          "pre_pure": "node <> 0; nodes = nil",
+          "pre_exists": "None beyond universally quantified parameters.",
+          "post_spatial": "xizi_store_dll storeA head [Build_DL_Node data node]",
+          "post_pure": "None.",
+          "post_exists": "Choose either identical outer disjunct; no spatial existentials."
+        },
+        "witness_instantiation": "Choose either identical outer disjunct; no spatial existentials.",
+        "space_plan": "Reduce nil append, leaving the same assertion and discharge entailment reflexivity.",
+        "pure_plan": "List append reduction is definitional; neither nonzero nor nodes equality is needed for this entailment.",
+        "refinement_plan": "No safeExec or loop refinement obligations.",
+        "used_existing_lemmas": [
+          "List.app",
+          "derives_refl"
+        ],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [],
+        "failure_signal": "None: post resources and pure facts follow from the present precondition.",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "init_insert_before_contracts",
+        "proof_group_candidate": "init_insert_before_contracts",
+        "grouping_reason": "Four short obligations for one initialization/insertion composition, using the same generic DLL and accepted insertion contract model."
+      },
+      {
+        "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "xizi_store_dll storeA head nodes ** xizi_dll_node new ** storeA new data",
+          "pre_pure": "None initially.",
+          "pre_exists": "None beyond universally quantified parameters.",
+          "post_spatial": "Same dispatch precondition ** (dispatch post -* xizi_store_dll storeA head (nodes ++ [Build_DL_Node data new]))",
+          "post_pure": "Dispatch anchor is member or equals head.",
+          "post_exists": "Instantiate dispatch type=A, storeA=storeA, data=data, head=head, nodes=nodes. For the wand introduce the dispatch result."
+        },
+        "witness_instantiation": "Instantiate dispatch type=A, storeA=storeA, data=data, head=head, nodes=nodes. For the wand introduce the dispatch result.",
+        "space_plan": "Before framing away the original DLL, derive pure head absence using store_dll_absent__insert_before_payload. Preserve that pure fact when allocating the unchanged input resources to the dispatch precondition. On the wand side introduce arbitrary result and its relation, derive result=nodes++[inserted] with payload_absent_result__insert_before_payload, substitute and use reflexivity.",
+        "pure_plan": "The anchor predicate holds by its right disjunct head=head. Original DLL entails head not in pointer projection; the accepted payload insertion relation plus this absence determines exactly the payload-preserving append result.",
+        "refinement_plan": "No safeExec or loop refinement obligations.",
+        "used_existing_lemmas": [
+          "store_dll_absent__insert_before_payload",
+          "payload_absent_result__insert_before_payload",
+          "xizi_double_link_insert_before_anchor"
+        ],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          "Absence premise comes from original xizi_store_dll storeA head nodes before separation framing.",
+          "Payload relation premise comes from the introduced wand antecedent.",
+          "All dependent existential values are the original universally quantified values; arbitrary A/storeA remain unchanged."
+        ],
+        "failure_signal": "None: post resources and pure facts follow from the present precondition.",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "init_insert_before_contracts",
+        "proof_group_candidate": "init_insert_before_contracts",
+        "grouping_reason": "Four short obligations for one initialization/insertion composition, using the same generic DLL and accepted insertion contract model."
+      },
+      {
+        "witness_name": "proof_of_DoubleLinkListInsertNodeBefore_derive_member_case_by_dispatch_case",
+        "judgment": "proofable",
+        "vc_shape": {
+          "pre_spatial": "Pure In anchor (xizi_dll_ptrs nodes) && xizi_store_dll storeA head nodes ** xizi_dll_node new ** storeA new data",
+          "pre_pure": "In anchor (xizi_dll_ptrs nodes)",
+          "pre_exists": "None beyond universally quantified parameters.",
+          "post_spatial": "Same dispatch precondition ** (dispatch post -* identical member post)",
+          "post_pure": "Dispatch anchor admissibility.",
+          "post_exists": "Instantiate dispatch A,storeA,data,head,nodes with the corresponding member parameters."
+        },
+        "witness_instantiation": "Instantiate dispatch A,storeA,data,head,nodes with the corresponding member parameters.",
+        "space_plan": "Frame identical three input resources; prove the continuation wand by identity because dispatch and member postconditions become definitionally identical after instantiation.",
+        "pure_plan": "Use the existing membership hypothesis to establish the left disjunct of xizi_double_link_insert_before_anchor.",
+        "refinement_plan": "No safeExec or loop refinement obligations.",
+        "used_existing_lemmas": [
+          "xizi_double_link_insert_before_anchor"
+        ],
+        "candidate_helper_declarations": [],
+        "premise_discharge": [
+          "Membership is the explicit pure precondition.",
+          "Wand antecedent and member post are identical existential assertions after instantiation."
+        ],
+        "failure_signal": "None: post resources and pure facts follow from the present precondition.",
+        "recommended_next_phase": "vc-proving-preparing",
+        "analysis_group_candidate": "init_insert_before_contracts",
+        "proof_group_candidate": "init_insert_before_contracts",
+        "grouping_reason": "Four short obligations for one initialization/insertion composition, using the same generic DLL and accepted insertion contract model."
+      }
+    ],
+    "analysis_groups": [
+      {
+        "group_id": "init_insert_before_contracts",
+        "witness_names": [
+          "proof_of_InitDoubleLinkList_return_wit_1",
+          "proof_of_xizi_double_link_init_then_insert_before_return_wit_1",
+          "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case",
+          "proof_of_DoubleLinkListInsertNodeBefore_derive_member_case_by_dispatch_case"
+        ],
+        "representative_witness": "proof_of_DoubleLinkListInsertNodeBefore_derive_sentinel_case_by_dispatch_case",
+        "dependencies": [],
+        "candidate_helper_declarations": [],
+        "likely_helper_declarations": [],
+        "grouping_reason": "All four targets are short contract composition obligations for the same generic DLL and accepted insert-before relation. They share existing imports and require no new algorithmic strategy or helper family. One worker can handle them sequentially; four witnesses are below the configured maximum of 12.",
+        "proof_strategy": "Use empty-DLL introduction and definitional append reduction for the return witnesses; instantiate matching dependent dispatch parameters for both derived contracts. Extract sentinel absence before framing, then use the accepted payload_absent_result lemma to close the sentinel wand. The member wand is identity.",
+        "natural_language_proof_strategy": "Preserve arbitrary A, storeA, logical data and every structural resource; no spec changes or new helpers are needed.",
+        "requires_generated_file_changes": false,
+        "requires_witness_statement_changes": false,
+        "shared_proof_pattern": "Generic DLL initialization and insertion contract composition",
+        "shared_space_plan": "Existing empty-DLL lemma, identity framing, and wand introduction.",
+        "shared_pure_plan": "List simplification, anchor disjunction and sentinel absence.",
+        "shared_refinement_plan": "None.",
+        "proof_group_ready": true
+      }
+    ]
+  },
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 4,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

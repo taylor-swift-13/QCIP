@@ -1,0 +1,58 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "56570a55ddd72786709165075a940d9d5061e29173fff92ed088a020d6ec803a",
+  "target_witnesses": [
+    "proof_of_xizi_double_link_remove_node_entail_wit_1",
+    "proof_of_xizi_double_link_remove_node_return_wit_1"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "dll_cut_split_reconnect",
+      "witness_names": [
+        "proof_of_xizi_double_link_remove_node_entail_wit_1",
+        "proof_of_xizi_double_link_remove_node_return_wit_1"
+      ],
+      "representative_witness": "proof_of_xizi_double_link_remove_node_entail_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "xizi_dll_split_at_node",
+          "purpose": "Partition a full DLL indexed by prefix ++ node :: suffix into the exact shift fragments and five cut-node/boundary fields required by the assertion."
+        },
+        {
+          "name_hint": "xizi_dll_reconnect_cut",
+          "purpose": "Reassemble the prefix/suffix shift fragments and the two reconnected boundary fields into xizi_dll head (prefix ++ suffix)."
+        }
+      ],
+      "expected_helpers": [
+        "xizi_dll_split_at_node__dll_cut_split_reconnect",
+        "xizi_dll_reconnect_cut__dll_cut_split_reconnect"
+      ],
+      "proof_strategy": "In the group-local case_lib, prove the split and reconnect helpers by structural induction/case analysis on prefix and suffix, explicitly covering nil/nil, nil/nonempty, nonempty/nil, and nonempty/nonempty boundaries. Use the helpers in the manual witness bodies; close/open the common DLL with xizi_dll_close/xizi_dll_open and build the removed singleton with xizi_dll_empty_rev. Do not alter generated statements or seed declarations.",
+      "per_witness_plan": {
+        "proof_of_xizi_double_link_remove_node_entail_wit_1": "Apply split helper directly in the full-DLL disjunct; in the open-representation disjunct first use xizi_dll_close with PreH1, then split.",
+        "proof_of_xizi_double_link_remove_node_return_wit_1": "Reconnect the remaining DLL; frame and close the selected node's self fields as an empty DLL in the first disjunct, and use xizi_dll_open to produce first/last in the second."
+      },
+      "premise_discharge": {
+        "head_nonnull": "from xizi_dll, PreH1, or the head <> NULL conjunct embedded in both shift predicates",
+        "selected_nonnull": "from the selected nonempty xizi_dllseg branch in the split direction and from PreH1 in the return direction",
+        "boundary_equalities": "from nil branches of xizi_dllseg_shift(_tail) and xizi_dllseg_shift_rev(_tail)",
+        "helper_extra_premises": "none"
+      },
+      "grouping_reason": "Both witnesses are inverse uses of one DLL cut/reconnect helper family, share all representation context, and fit comfortably under max_witnesses_per_group = 12.",
+      "difficulty": "medium-high",
+      "confidence": "high"
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 2,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

@@ -1,0 +1,244 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "blocked",
+  "terminal": "yes",
+  "round": "xizi_double_link_insert_after-vc-checking-r1",
+  "attempt_id": "xizi_double_link_insert_after-vc-checking-r1-attempt-1",
+  "agent_result": {
+    "vc_checking": {
+      "status": "blocked",
+      "source_version": "22587622fdc43e24ff771e793e50b8abcabe997aa28d74cc1316d370232bb573",
+      "source_goal_version": "69bddf13d0473b32df07488d2642dbcb1cfe32977cb621830cbbc74811d04afa",
+      "target_witnesses": [
+        "proof_of_xizi_double_link_insert_after_entail_wit_1",
+        "proof_of_xizi_double_link_insert_after_return_wit_1",
+        "proof_of_xizi_double_link_insert_after_return_wit_2"
+      ],
+      "target_witness_coverage": {
+        "manual_order": [
+          "proof_of_xizi_double_link_insert_after_entail_wit_1",
+          "proof_of_xizi_double_link_insert_after_return_wit_1",
+          "proof_of_xizi_double_link_insert_after_return_wit_2"
+        ],
+        "analyzed_exactly_once": "yes",
+        "diagnostic_split_goals_excluded": "yes"
+      },
+      "version_evidence": {
+        "status": "matched",
+        "checked_files": [
+          {
+            "relative_path": "OUTPUT/xizi/xizi_double_link_insert_after/source/xizi_double_link_insert_after.c",
+            "sha256": "cf8711f5895d21105198ebf0466b0d2a1e891d830e5aae5560d22c2dc489bdc0"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_after/source/xizi_double_link_insert_after_lib.v",
+            "sha256": "e735ee517b18a6a0df9d03211d618d8abf42ecddb2aeaa2025adbb473c4e366f"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_after/source/xizi_double_link_insert_after_goal.v",
+            "sha256": "a78a32a32e9889d28bf29344b2fc288aa8d874ede0f65546dc38964088faac8d"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_after/source/xizi_double_link_insert_after_proof_auto.v",
+            "sha256": "a3553745c985387f4683c3dfa8b9e2fef3f453484b72f0834dae092d5c9a3405"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_after/source/xizi_double_link_insert_after_proof_manual.v",
+            "sha256": "0743947f3f9d40d949319266d933a414c0a147d2cff664c08a54200284ea172f"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_after/source/xizi_double_link_insert_after_goal_check.v",
+            "sha256": "da10886ba2feb2003f194ae1040ef6789c9ee4e010e4a2c5af01579e61c0ad19"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_after/source/xizi_double_link_insert_after_proof_diagnostics.v",
+            "sha256": "638293f42e6ecb081fa7f73e90c1501e3561fef0a4aab10de0777f92cd53c4e9"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_insert_after/source/diagnostics_snapshot.json",
+            "sha256": "5d738763c407354d18fcf427e6b049667d5e2e2f292600e65c8938c3096f156f"
+          }
+        ]
+      },
+      "natural_language_analysis": {
+        "overall_judgment": "annotation-bug",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_xizi_double_link_insert_after_entail_wit_1",
+            "judgment": "needs-helper",
+            "vc_shape": {
+              "pre_spatial": "xizi_dll head (nodes_before ++ linklist_pre :: nodes_after) ** xizi_dll_node linklist_node_pre",
+              "pre_pure": "linklist_pre <> 0 and linklist_node_pre <> 0",
+              "pre_exists": "the existential first/last and link fields hidden by xizi_dll",
+              "post_spatial": "a case split exposing the prefix segment through linklist_pre, either the sentinel-closing empty suffix or a nonempty old_next::rest suffix, with xizi_dll_node linklist_node_pre framed unchanged",
+              "post_pure": "nodes_after = [] in the first case, or nodes_after = old_next :: rest with old_next <> 0 in the second case; the two input non-null facts are preserved",
+              "post_exists": "first/last, predecessor of linklist_pre, and for a nonempty suffix old_next/next_next/rest"
+            },
+            "witness_instantiation": "Destruct nodes_after. Open xizi_dll, then split its dllseg after the exact nodes_before prefix. In the nil case instantiate first and old_prev from the opened sentinel links and prefix endpoint. In the cons case instantiate old_next with the suffix head, rest with its tail, and next_next/last/old_prev/first from the unfolded segment and sentinel links.",
+            "space_plan": "Use a proved group-local decomposition lemma for xizi_dllseg over nodes_before ++ linklist_pre :: nodes_after. The standalone xizi_dll_node is a frame and is canceled unchanged. Unfold the anchor and, for a nonempty suffix, the first suffix node exactly once.",
+            "pure_plan": "The anchor and inserted-node non-null facts are direct premises. The nonempty xizi_dllseg branches provide node <> 0, node <> stop, and the list-shape equalities needed by the two suffix cases; no arithmetic is needed.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [
+              "xizi_dll_open",
+              "xizi_dllseg_unfold"
+            ],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "xizi_dllseg_split_at_anchor",
+                "statement_shape": "A proved entailment that decomposes xizi_dllseg first head head last (prefix ++ anchor :: suffix) into the prefix segment ending at anchor, anchor links, and either the sentinel-closing nil suffix or the first-node-plus-tail resources for a nonempty suffix.",
+                "used_by_witnesses": [
+                  "proof_of_xizi_double_link_insert_after_entail_wit_1"
+                ],
+                "premises": [
+                  {
+                    "premise": "anchor <> 0",
+                    "discharged_by": "PreH1 (linklist_pre <> 0)",
+                    "needs_unfold": [
+                      "xizi_dllseg"
+                    ],
+                    "arithmetic": "none",
+                    "spatial_resource": "xizi_dllseg for prefix ++ anchor :: suffix"
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "premise_discharge": [
+              "linklist_pre <> 0 is PreH1",
+              "linklist_node_pre <> 0 is PreH2",
+              "old_next <> 0 follows from the nonempty dllseg branch when nodes_after = old_next :: rest"
+            ],
+            "failure_signal": "none for this witness; helper proof is structurally inductive over nodes_before",
+            "recommended_next_phase": "vc-proving-preparing after the annotation blocker in the return witnesses is repaired and symbolic execution is refreshed",
+            "analysis_group_candidate": "dll_insert_reconstruction",
+            "grouping_reason": "It supplies the same prefix/anchor/suffix decomposition consumed by both return witnesses."
+          },
+          {
+            "witness_name": "proof_of_xizi_double_link_insert_after_return_wit_1",
+            "judgment": "annotation-bug",
+            "vc_shape": {
+              "pre_spatial": "sentinel head next/prev fields, prefix xizi_dllseg ending at linklist_pre, rewired linklist_pre and linklist_node_pre links, old_next links, and the suffix xizi_dllseg",
+              "pre_pure": "linklist_node_pre <> 0, nodes_after = old_next :: rest, linklist_pre <> 0, and old_next <> 0; head <> 0 is absent",
+              "pre_exists": "none at theorem level",
+              "post_spatial": "either xizi_dll head (nodes_before ++ linklist_pre :: linklist_node_pre :: nodes_after), or a complete xizi_dllseg for that sequence",
+              "post_pure": "the xizi_dll alternative contains head <> 0 by definition; the dllseg alternative explicitly requires head <> 0",
+              "post_exists": "the xizi_dll alternative existentially packages first and last"
+            },
+            "witness_instantiation": "After rewriting nodes_after = old_next :: rest and unfolding xizi_double_link_insert_after_nodes, the spatial resources line up as prefix ++ [linklist_pre; linklist_node_pre; old_next] ++ rest. This does not construct the missing pure fact head <> 0.",
+            "space_plan": "Spatial reconstruction is feasible with a proved dllseg concatenation/extension lemma and xizi_dll_close, but xizi_dll_close itself requires head <> 0.",
+            "pure_plan": "No listed PreH implies head <> 0. The owned pointer fields only unfold to isvalidptr constraints on field addresses; isvalidptr permits address zero and provides no theorem-level head non-null premise.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [
+              "xizi_dll_close"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "nodes_after = old_next :: rest is PreH2",
+              "linklist_pre <> 0 is PreH3",
+              "linklist_node_pre <> 0 is PreH1/PreH4",
+              "old_next <> 0 is PreH5",
+              "head <> 0 has no discharge source"
+            ],
+            "failure_signal": "The diagnostics isolate xizi_double_link_insert_after_return_wit_1_split_goal_1, whose entire postcondition is head <> 0, from the same precondition. A concrete pure/list instantiation head=0, nodes_before=[], nodes_after=[old_next], first=linklist_pre, old_prev=0, next_next=0, last=old_next satisfies all listed pure premises and the dllseg base equalities, so the missing fact cannot be recovered from list equations.",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": "not-ready",
+            "grouping_reason": "Must not enter a proof group until the assertion preserves head <> 0."
+          },
+          {
+            "witness_name": "proof_of_xizi_double_link_insert_after_return_wit_2",
+            "judgment": "annotation-bug",
+            "vc_shape": {
+              "pre_spatial": "sentinel head next field, prefix xizi_dllseg ending at linklist_pre, rewired linklist_pre and linklist_node_pre links, and sentinel head prev field pointing to linklist_node_pre",
+              "pre_pure": "linklist_node_pre <> 0, nodes_after = [], and linklist_pre <> 0; head <> 0 is absent",
+              "pre_exists": "none at theorem level",
+              "post_spatial": "either xizi_dll head (nodes_before ++ [linklist_pre; linklist_node_pre]), or the corresponding complete xizi_dllseg",
+              "post_pure": "the xizi_dll alternative contains head <> 0 by definition; the dllseg alternative explicitly requires head <> 0",
+              "post_exists": "the xizi_dll alternative existentially packages first and linklist_node_pre as last"
+            },
+            "witness_instantiation": "Rewrite nodes_after = [] and unfold xizi_double_link_insert_after_nodes. The available chain is exactly the prefix followed by linklist_pre and linklist_node_pre, ending back at head, but closing xizi_dll still needs head <> 0.",
+            "space_plan": "Spatial reconstruction is feasible by extending the prefix segment with the linklist_pre and inserted-node links, then applying xizi_dll_close; the pure close premise is absent.",
+            "pure_plan": "No PreH states head <> 0, and the empty-prefix base equation only yields first = linklist_pre and old_prev = head.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [
+              "xizi_dll_close"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "nodes_after = [] is PreH2",
+              "linklist_pre <> 0 is PreH3",
+              "linklist_node_pre <> 0 is PreH1/PreH4",
+              "head <> 0 has no discharge source"
+            ],
+            "failure_signal": "The diagnostics isolate xizi_double_link_insert_after_return_wit_2_split_goal_1, whose entire postcondition is head <> 0, from the same precondition. With head=0, nodes_before=[], first=linklist_pre, and old_prev=0, all listed pure premises and the prefix dllseg base equalities remain consistent while head <> 0 is false.",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": "not-ready",
+            "grouping_reason": "Must not enter a proof group until the assertion preserves head <> 0."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "dll_insert_reconstruction",
+            "witness_names": [
+              "proof_of_xizi_double_link_insert_after_entail_wit_1"
+            ],
+            "representative_witness": "proof_of_xizi_double_link_insert_after_entail_wit_1",
+            "shared_proof_pattern": "Open the circular dll and split its segment at the designated anchor.",
+            "shared_space_plan": "Induction over nodes_before, preserving the prefix segment as a frame.",
+            "shared_pure_plan": "Use the explicit anchor/inserted non-null premises and nonempty dllseg facts.",
+            "shared_refinement_plan": "not applicable",
+            "candidate_helper_declarations": [
+              "xizi_dllseg_split_at_anchor (group-suffixed if used)"
+            ],
+            "dependencies": [],
+            "grouping_reason": "Only the entail witness passes semantic checking under the current source_goal_version.",
+            "proof_group_ready": false
+          }
+        ]
+      },
+      "group_plan_ready": false,
+      "group_plan_omitted_reason": "At least one target witness is annotation-bug. A complete proof_groups plan must not be emitted until all target witnesses pass semantic checking.",
+      "blockers": [
+        {
+          "blocker_class": "annotation-bug",
+          "witnesses": [
+            "proof_of_xizi_double_link_insert_after_return_wit_1",
+            "proof_of_xizi_double_link_insert_after_return_wit_2"
+          ],
+          "missing_fact": "head <> 0",
+          "evidence": [
+            "Both return witnesses offer a Coq disjunction, but the xizi_dll branch requires head <> 0 through the definition of xizi_dll and the alternative dllseg branch explicitly requires head <> 0.",
+            "Neither return witness has a head <> 0 PreH.",
+            "diagnostics_snapshot.json records the corresponding pure split goals proof_of_xizi_double_link_insert_after_return_wit_1_split_goal_1 and proof_of_xizi_double_link_insert_after_return_wit_2_split_goal_1."
+          ],
+          "recommended_fix": "Return to the C annotation and preserve head != 0 explicitly in both branches of the pre-update Assert (or otherwise as an explicit invariant fact that survives to both return VCs). Then rerun canonical symbolic execution and vc-checking. The original xizi_dll precondition already semantically supplies head <> 0, so this is a preservation/annotation repair, not a postcondition weakening.",
+          "recommended_next_phase": "annotation",
+          "source_goal_version": "69bddf13d0473b32df07488d2642dbcb1cfe32977cb621830cbbc74811d04afa"
+        }
+      ],
+      "changed_files": [],
+      "formal_files_modified": false,
+      "recommended_next_phase": "annotation"
+    }
+  },
+  "verification_result": {
+    "controller_acceptance": "not-requested-by-agent",
+    "formal_write_boundary": "respected",
+    "source_versions_current_at_report_time": true,
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-08-07T14:47:51Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_double_link_insert_after-20260807220006/rounds/xizi_double_link_insert_after-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    }
+  },
+  "blockers": [
+    {
+      "blocker_class": "annotation-bug",
+      "summary": "Both return VCs lack head <> 0, which every offered postcondition branch requires.",
+      "recommended_next_phase": "annotation"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+# Reuse Note
+Note kind: non-authoritative reuse note
+This file is not acceptance evidence.
+
+Canonical Module DLL uses the exact crtosverify d215f73b definitions, with only DoubleLinklistType replaced by the actual SysDoubleLinklistNode tag. Do not reintroduce non-null or endpoint guards. Legacy AddrDLL and XiziStoreADLL remain compatibility dependencies only.
+
+InitDoubleLinkList now consumes DLL.occupy_dll_node and establishes DLL.store_dll storeA head nil for arbitrary A/storeA. The explicit Assert unfolds the two fields using builtin store and keeps head = head@pre. C executable statements are unchanged.
+
+Canonical QCP and qcp-mcp SessionManager both reached EOF. Two manual witnesses remain: occupancy unfolding (entail_wit_1) and empty-list folding (return_wit_1). DLL.store_dll_empty_rev handles the latter. These are downstream proof hints, not evidence of a completed VC phase.
+
+Canonical dllseg concat/split are proved. DLL.addr_nodes, addr_store, addr_dllseg and addr_store_dll specialize canonical DLL to list addr with unit payload and emp store. DLL.ptrs/payloads and dllseg/store_dll compose/decompose lemmas provide proved bridges for arbitrary A/storeA. These are unguarded address representations, not equivalent aliases to old guarded xizi_dll.
+
+Fixed coq_tooling checks compiled the shared library and all added helpers. Failed proof attempts were repaired by unfolding addr_store and ordering addr_store_dll before store_dll. Use the agent_report.json evidence and current file digests; controller acceptance remains pending. The generated manual is a fresh symexec skeleton and requires deterministic diagnostics cleanup by controller.
