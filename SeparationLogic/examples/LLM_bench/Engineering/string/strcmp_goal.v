@@ -28,8 +28,8 @@ From SimpleC.StdLib Require Import string_strategy_proof.
 Definition strcmp_safety_wit_1 := 
 forall (s2_pre: Z) (s1_pre: Z) (str2: (@list Z)) (str1: (@list Z)) (PreH1 : (valid_string str1 )) (PreH2 : (valid_string str2 )) (PreH3 : ((string_length (str1)) < INT_MAX)) (PreH4 : ((string_length (str2)) < INT_MAX)) ,
   ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "s2" ) )) # Ptr  |-> s2_pre)
   **  ((( &( "s1" ) )) # Ptr  |-> s1_pre)
+  **  ((( &( "s2" ) )) # Ptr  |-> s2_pre)
   **  (store_string s1_pre str1 )
   **  (store_string s2_pre str2 )
 |--
@@ -174,23 +174,25 @@ forall (s2_pre: Z) (s1_pre: Z) (str2: (@list Z)) (str1: (@list Z)) (PreH1 : (val
 forall (str2: (@list Z)) (str1: (@list Z)) (PreH1 : (0 <= ((string_length (str2)) + 1 ))) (PreH2 : (0 <= ((string_length (str1)) + 1 ))) (PreH3 : (valid_string str1 )) (PreH4 : (valid_string str2 )) (PreH5 : ((string_length (str1)) < INT_MAX)) (PreH6 : ((string_length (str2)) < INT_MAX)) ,
   TT && emp 
 |--
-  “ (0 <= (string_length (str2))) ” 
+  “ forall (k: Z) , (((0 <= k) /\ (k < 0)) -> ((Znth (k) ((c_string (str1))) (0)) = (Znth (k) ((c_string (str2))) (0)))) ” 
+  &&  “ (0 <= (string_length (str2))) ” 
   &&  “ (0 <= (string_length (str1))) ”
   &&  emp
 ).
 
 Definition strcmp_entail_wit_1_split_goal_1 := 
 forall (str2: (@list Z)) (str1: (@list Z)) (PreH1 : (0 <= ((string_length (str2)) + 1 ))) (PreH2 : (0 <= ((string_length (str1)) + 1 ))) (PreH3 : (valid_string str1 )) (PreH4 : (valid_string str2 )) (PreH5 : ((string_length (str1)) < INT_MAX)) (PreH6 : ((string_length (str2)) < INT_MAX)) ,
-  TT && emp 
-|--
-  “ (0 <= (string_length (str2))) ”
+  forall (k: Z) , (((0 <= k) /\ (k < 0)) -> ((Znth (k) ((c_string (str1))) (0)) = (Znth (k) ((c_string (str2))) (0))))
 .
 
 Definition strcmp_entail_wit_1_split_goal_2 := 
 forall (str2: (@list Z)) (str1: (@list Z)) (PreH1 : (0 <= ((string_length (str2)) + 1 ))) (PreH2 : (0 <= ((string_length (str1)) + 1 ))) (PreH3 : (valid_string str1 )) (PreH4 : (valid_string str2 )) (PreH5 : ((string_length (str1)) < INT_MAX)) (PreH6 : ((string_length (str2)) < INT_MAX)) ,
-  TT && emp 
-|--
-  “ (0 <= (string_length (str1))) ”
+  (0 <= (string_length (str2)))
+.
+
+Definition strcmp_entail_wit_1_split_goal_3 := 
+forall (str2: (@list Z)) (str1: (@list Z)) (PreH1 : (0 <= ((string_length (str2)) + 1 ))) (PreH2 : (0 <= ((string_length (str1)) + 1 ))) (PreH3 : (valid_string str1 )) (PreH4 : (valid_string str2 )) (PreH5 : ((string_length (str1)) < INT_MAX)) (PreH6 : ((string_length (str2)) < INT_MAX)) ,
+  (0 <= (string_length (str1)))
 .
 
 Definition strcmp_entail_wit_2 := 
@@ -214,31 +216,19 @@ forall (s2_pre: Z) (s1_pre: Z) (str2: (@list Z)) (str1: (@list Z)) (i: Z) (PreH1
 forall (str2: (@list Z)) (str1: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (str2)) + 1 ))) (PreH2 : (0 <= ((string_length (str1)) + 1 ))) (PreH3 : ((Znth i (c_string (str1)) 0) = (Znth i (c_string (str2)) 0))) (PreH4 : ((Znth i (c_string (str1)) 0) <> 0)) (PreH5 : (valid_string str1 )) (PreH6 : (valid_string str2 )) (PreH7 : ((string_length (str1)) < INT_MAX)) (PreH8 : ((string_length (str2)) < INT_MAX)) (PreH9 : (0 <= i)) (PreH10 : (i <= (string_length (str1)))) (PreH11 : (i <= (string_length (str2)))) (PreH12 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) ((c_string (str1))) (0)) = (Znth (k) ((c_string (str2))) (0))))) ,
   TT && emp 
 |--
-  “ (((Znth (0) ((c_string (str1))) (0)) = (Znth (0) ((c_string (str2))) (0))) /\ ((Znth (((i + 1 ) - 1 )) ((c_string (str1))) (0)) = (Znth (((i + 1 ) - 1 )) ((c_string (str2))) (0)))) ” 
-  &&  “ ((i + 1 ) <= (string_length (str2))) ” 
+  “ ((i + 1 ) <= (string_length (str2))) ” 
   &&  “ ((i + 1 ) <= (string_length (str1))) ”
   &&  emp
 ).
 
 Definition strcmp_entail_wit_2_split_goal_1 := 
 forall (str2: (@list Z)) (str1: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (str2)) + 1 ))) (PreH2 : (0 <= ((string_length (str1)) + 1 ))) (PreH3 : ((Znth i (c_string (str1)) 0) = (Znth i (c_string (str2)) 0))) (PreH4 : ((Znth i (c_string (str1)) 0) <> 0)) (PreH5 : (valid_string str1 )) (PreH6 : (valid_string str2 )) (PreH7 : ((string_length (str1)) < INT_MAX)) (PreH8 : ((string_length (str2)) < INT_MAX)) (PreH9 : (0 <= i)) (PreH10 : (i <= (string_length (str1)))) (PreH11 : (i <= (string_length (str2)))) (PreH12 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) ((c_string (str1))) (0)) = (Znth (k) ((c_string (str2))) (0))))) ,
-  TT && emp 
-|--
-  “ (((Znth (0) ((c_string (str1))) (0)) = (Znth (0) ((c_string (str2))) (0))) /\ ((Znth (((i + 1 ) - 1 )) ((c_string (str1))) (0)) = (Znth (((i + 1 ) - 1 )) ((c_string (str2))) (0)))) ”
+  ((i + 1 ) <= (string_length (str2)))
 .
 
 Definition strcmp_entail_wit_2_split_goal_2 := 
 forall (str2: (@list Z)) (str1: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (str2)) + 1 ))) (PreH2 : (0 <= ((string_length (str1)) + 1 ))) (PreH3 : ((Znth i (c_string (str1)) 0) = (Znth i (c_string (str2)) 0))) (PreH4 : ((Znth i (c_string (str1)) 0) <> 0)) (PreH5 : (valid_string str1 )) (PreH6 : (valid_string str2 )) (PreH7 : ((string_length (str1)) < INT_MAX)) (PreH8 : ((string_length (str2)) < INT_MAX)) (PreH9 : (0 <= i)) (PreH10 : (i <= (string_length (str1)))) (PreH11 : (i <= (string_length (str2)))) (PreH12 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) ((c_string (str1))) (0)) = (Znth (k) ((c_string (str2))) (0))))) ,
-  TT && emp 
-|--
-  “ ((i + 1 ) <= (string_length (str2))) ”
-.
-
-Definition strcmp_entail_wit_2_split_goal_3 := 
-forall (str2: (@list Z)) (str1: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (str2)) + 1 ))) (PreH2 : (0 <= ((string_length (str1)) + 1 ))) (PreH3 : ((Znth i (c_string (str1)) 0) = (Znth i (c_string (str2)) 0))) (PreH4 : ((Znth i (c_string (str1)) 0) <> 0)) (PreH5 : (valid_string str1 )) (PreH6 : (valid_string str2 )) (PreH7 : ((string_length (str1)) < INT_MAX)) (PreH8 : ((string_length (str2)) < INT_MAX)) (PreH9 : (0 <= i)) (PreH10 : (i <= (string_length (str1)))) (PreH11 : (i <= (string_length (str2)))) (PreH12 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) ((c_string (str1))) (0)) = (Znth (k) ((c_string (str2))) (0))))) ,
-  TT && emp 
-|--
-  “ ((i + 1 ) <= (string_length (str1))) ”
+  ((i + 1 ) <= (string_length (str1)))
 .
 
 Definition strcmp_return_wit_1 := 
@@ -255,15 +245,13 @@ forall (s2_pre: Z) (s1_pre: Z) (str2: (@list Z)) (str1: (@list Z)) (i: Z) (PreH1
 forall (str2: (@list Z)) (str1: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (str2)) + 1 ))) (PreH2 : (0 <= ((string_length (str1)) + 1 ))) (PreH3 : ((Znth i (c_string (str1)) 0) = 0)) (PreH4 : (valid_string str1 )) (PreH5 : (valid_string str2 )) (PreH6 : ((string_length (str1)) < INT_MAX)) (PreH7 : ((string_length (str2)) < INT_MAX)) (PreH8 : (0 <= i)) (PreH9 : (i <= (string_length (str1)))) (PreH10 : (i <= (string_length (str2)))) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) ((c_string (str1))) (0)) = (Znth (k) ((c_string (str2))) (0))))) ,
   TT && emp 
 |--
-  “ (strcmp_result str1 str2 ((Znth i (c_string (str1)) 0) - (Znth i (c_string (str2)) 0) ) ) ”
+  “ (strcmp_result str1 str2 (0 - (Znth i (c_string (str2)) 0) ) ) ”
   &&  emp
 ).
 
 Definition strcmp_return_wit_1_split_goal_1 := 
 forall (str2: (@list Z)) (str1: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (str2)) + 1 ))) (PreH2 : (0 <= ((string_length (str1)) + 1 ))) (PreH3 : ((Znth i (c_string (str1)) 0) = 0)) (PreH4 : (valid_string str1 )) (PreH5 : (valid_string str2 )) (PreH6 : ((string_length (str1)) < INT_MAX)) (PreH7 : ((string_length (str2)) < INT_MAX)) (PreH8 : (0 <= i)) (PreH9 : (i <= (string_length (str1)))) (PreH10 : (i <= (string_length (str2)))) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) ((c_string (str1))) (0)) = (Znth (k) ((c_string (str2))) (0))))) ,
-  TT && emp 
-|--
-  “ (strcmp_result str1 str2 ((Znth i (c_string (str1)) 0) - (Znth i (c_string (str2)) 0) ) ) ”
+  (strcmp_result str1 str2 (0 - (Znth i (c_string (str2)) 0) ) )
 .
 
 Definition strcmp_return_wit_2 := 
@@ -286,9 +274,7 @@ forall (str2: (@list Z)) (str1: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length
 
 Definition strcmp_return_wit_2_split_goal_1 := 
 forall (str2: (@list Z)) (str1: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (str2)) + 1 ))) (PreH2 : (0 <= ((string_length (str1)) + 1 ))) (PreH3 : ((Znth i (c_string (str1)) 0) <> (Znth i (c_string (str2)) 0))) (PreH4 : ((Znth i (c_string (str1)) 0) <> 0)) (PreH5 : (valid_string str1 )) (PreH6 : (valid_string str2 )) (PreH7 : ((string_length (str1)) < INT_MAX)) (PreH8 : ((string_length (str2)) < INT_MAX)) (PreH9 : (0 <= i)) (PreH10 : (i <= (string_length (str1)))) (PreH11 : (i <= (string_length (str2)))) (PreH12 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) ((c_string (str1))) (0)) = (Znth (k) ((c_string (str2))) (0))))) ,
-  TT && emp 
-|--
-  “ (strcmp_result str1 str2 ((Znth i (c_string (str1)) 0) - (Znth i (c_string (str2)) 0) ) ) ”
+  (strcmp_result str1 str2 ((Znth i (c_string (str1)) 0) - (Znth i (c_string (str2)) 0) ) )
 .
 
 (*----- Function strncmp -----*)
@@ -296,9 +282,9 @@ forall (str2: (@list Z)) (str1: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length
 Definition strncmp_safety_wit_1 := 
 forall (n_pre: Z) (s2_pre: Z) (s1_pre: Z) (str2: (@list Z)) (str1: (@list Z)) (PreH1 : (valid_string str1 )) (PreH2 : (valid_string str2 )) (PreH3 : (0 <= n_pre)) (PreH4 : (n_pre < INT_MAX)) (PreH5 : ((string_length (str1)) < INT_MAX)) (PreH6 : ((string_length (str2)) < INT_MAX)) ,
   ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "s2" ) )) # Ptr  |-> s2_pre)
   **  ((( &( "s1" ) )) # Ptr  |-> s1_pre)
+  **  ((( &( "s2" ) )) # Ptr  |-> s2_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  (store_string s1_pre str1 )
   **  (store_string s2_pre str2 )
 |--
@@ -505,23 +491,25 @@ forall (n_pre: Z) (s2_pre: Z) (s1_pre: Z) (str2: (@list Z)) (str1: (@list Z)) (P
 forall (n_pre: Z) (str2: (@list Z)) (str1: (@list Z)) (PreH1 : (0 <= ((string_length (str2)) + 1 ))) (PreH2 : (0 <= ((string_length (str1)) + 1 ))) (PreH3 : (valid_string str1 )) (PreH4 : (valid_string str2 )) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : ((string_length (str1)) < INT_MAX)) (PreH8 : ((string_length (str2)) < INT_MAX)) ,
   TT && emp 
 |--
-  “ (0 <= (string_length (str2))) ” 
+  “ forall (k: Z) , (((0 <= k) /\ (k < 0)) -> ((Znth (k) ((c_string (str1))) (0)) = (Znth (k) ((c_string (str2))) (0)))) ” 
+  &&  “ (0 <= (string_length (str2))) ” 
   &&  “ (0 <= (string_length (str1))) ”
   &&  emp
 ).
 
 Definition strncmp_entail_wit_1_split_goal_1 := 
 forall (n_pre: Z) (str2: (@list Z)) (str1: (@list Z)) (PreH1 : (0 <= ((string_length (str2)) + 1 ))) (PreH2 : (0 <= ((string_length (str1)) + 1 ))) (PreH3 : (valid_string str1 )) (PreH4 : (valid_string str2 )) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : ((string_length (str1)) < INT_MAX)) (PreH8 : ((string_length (str2)) < INT_MAX)) ,
-  TT && emp 
-|--
-  “ (0 <= (string_length (str2))) ”
+  forall (k: Z) , (((0 <= k) /\ (k < 0)) -> ((Znth (k) ((c_string (str1))) (0)) = (Znth (k) ((c_string (str2))) (0))))
 .
 
 Definition strncmp_entail_wit_1_split_goal_2 := 
 forall (n_pre: Z) (str2: (@list Z)) (str1: (@list Z)) (PreH1 : (0 <= ((string_length (str2)) + 1 ))) (PreH2 : (0 <= ((string_length (str1)) + 1 ))) (PreH3 : (valid_string str1 )) (PreH4 : (valid_string str2 )) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : ((string_length (str1)) < INT_MAX)) (PreH8 : ((string_length (str2)) < INT_MAX)) ,
-  TT && emp 
-|--
-  “ (0 <= (string_length (str1))) ”
+  (0 <= (string_length (str2)))
+.
+
+Definition strncmp_entail_wit_1_split_goal_3 := 
+forall (n_pre: Z) (str2: (@list Z)) (str1: (@list Z)) (PreH1 : (0 <= ((string_length (str2)) + 1 ))) (PreH2 : (0 <= ((string_length (str1)) + 1 ))) (PreH3 : (valid_string str1 )) (PreH4 : (valid_string str2 )) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : ((string_length (str1)) < INT_MAX)) (PreH8 : ((string_length (str2)) < INT_MAX)) ,
+  (0 <= (string_length (str1)))
 .
 
 Definition strncmp_entail_wit_2 := 
@@ -548,31 +536,19 @@ forall (n_pre: Z) (s2_pre: Z) (s1_pre: Z) (str2: (@list Z)) (str1: (@list Z)) (i
 forall (n_pre: Z) (str2: (@list Z)) (str1: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (str2)) + 1 ))) (PreH2 : (0 <= ((string_length (str1)) + 1 ))) (PreH3 : ((Znth i (c_string (str1)) 0) = (Znth i (c_string (str2)) 0))) (PreH4 : ((Znth i (c_string (str1)) 0) <> 0)) (PreH5 : (i < n_pre)) (PreH6 : (valid_string str1 )) (PreH7 : (valid_string str2 )) (PreH8 : (0 <= n_pre)) (PreH9 : (n_pre < INT_MAX)) (PreH10 : ((string_length (str1)) < INT_MAX)) (PreH11 : ((string_length (str2)) < INT_MAX)) (PreH12 : (0 <= i)) (PreH13 : (i <= n_pre)) (PreH14 : (i <= (string_length (str1)))) (PreH15 : (i <= (string_length (str2)))) (PreH16 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) ((c_string (str1))) (0)) = (Znth (k) ((c_string (str2))) (0))))) ,
   TT && emp 
 |--
-  “ (((Znth (0) ((c_string (str1))) (0)) = (Znth (0) ((c_string (str2))) (0))) /\ ((Znth (((i + 1 ) - 1 )) ((c_string (str1))) (0)) = (Znth (((i + 1 ) - 1 )) ((c_string (str2))) (0)))) ” 
-  &&  “ ((i + 1 ) <= (string_length (str2))) ” 
+  “ ((i + 1 ) <= (string_length (str2))) ” 
   &&  “ ((i + 1 ) <= (string_length (str1))) ”
   &&  emp
 ).
 
 Definition strncmp_entail_wit_2_split_goal_1 := 
 forall (n_pre: Z) (str2: (@list Z)) (str1: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (str2)) + 1 ))) (PreH2 : (0 <= ((string_length (str1)) + 1 ))) (PreH3 : ((Znth i (c_string (str1)) 0) = (Znth i (c_string (str2)) 0))) (PreH4 : ((Znth i (c_string (str1)) 0) <> 0)) (PreH5 : (i < n_pre)) (PreH6 : (valid_string str1 )) (PreH7 : (valid_string str2 )) (PreH8 : (0 <= n_pre)) (PreH9 : (n_pre < INT_MAX)) (PreH10 : ((string_length (str1)) < INT_MAX)) (PreH11 : ((string_length (str2)) < INT_MAX)) (PreH12 : (0 <= i)) (PreH13 : (i <= n_pre)) (PreH14 : (i <= (string_length (str1)))) (PreH15 : (i <= (string_length (str2)))) (PreH16 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) ((c_string (str1))) (0)) = (Znth (k) ((c_string (str2))) (0))))) ,
-  TT && emp 
-|--
-  “ (((Znth (0) ((c_string (str1))) (0)) = (Znth (0) ((c_string (str2))) (0))) /\ ((Znth (((i + 1 ) - 1 )) ((c_string (str1))) (0)) = (Znth (((i + 1 ) - 1 )) ((c_string (str2))) (0)))) ”
+  ((i + 1 ) <= (string_length (str2)))
 .
 
 Definition strncmp_entail_wit_2_split_goal_2 := 
 forall (n_pre: Z) (str2: (@list Z)) (str1: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (str2)) + 1 ))) (PreH2 : (0 <= ((string_length (str1)) + 1 ))) (PreH3 : ((Znth i (c_string (str1)) 0) = (Znth i (c_string (str2)) 0))) (PreH4 : ((Znth i (c_string (str1)) 0) <> 0)) (PreH5 : (i < n_pre)) (PreH6 : (valid_string str1 )) (PreH7 : (valid_string str2 )) (PreH8 : (0 <= n_pre)) (PreH9 : (n_pre < INT_MAX)) (PreH10 : ((string_length (str1)) < INT_MAX)) (PreH11 : ((string_length (str2)) < INT_MAX)) (PreH12 : (0 <= i)) (PreH13 : (i <= n_pre)) (PreH14 : (i <= (string_length (str1)))) (PreH15 : (i <= (string_length (str2)))) (PreH16 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) ((c_string (str1))) (0)) = (Znth (k) ((c_string (str2))) (0))))) ,
-  TT && emp 
-|--
-  “ ((i + 1 ) <= (string_length (str2))) ”
-.
-
-Definition strncmp_entail_wit_2_split_goal_3 := 
-forall (n_pre: Z) (str2: (@list Z)) (str1: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (str2)) + 1 ))) (PreH2 : (0 <= ((string_length (str1)) + 1 ))) (PreH3 : ((Znth i (c_string (str1)) 0) = (Znth i (c_string (str2)) 0))) (PreH4 : ((Znth i (c_string (str1)) 0) <> 0)) (PreH5 : (i < n_pre)) (PreH6 : (valid_string str1 )) (PreH7 : (valid_string str2 )) (PreH8 : (0 <= n_pre)) (PreH9 : (n_pre < INT_MAX)) (PreH10 : ((string_length (str1)) < INT_MAX)) (PreH11 : ((string_length (str2)) < INT_MAX)) (PreH12 : (0 <= i)) (PreH13 : (i <= n_pre)) (PreH14 : (i <= (string_length (str1)))) (PreH15 : (i <= (string_length (str2)))) (PreH16 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) ((c_string (str1))) (0)) = (Znth (k) ((c_string (str2))) (0))))) ,
-  TT && emp 
-|--
-  “ ((i + 1 ) <= (string_length (str1))) ”
+  ((i + 1 ) <= (string_length (str1)))
 .
 
 Definition strncmp_return_wit_1 := 
@@ -589,15 +565,13 @@ forall (n_pre: Z) (s2_pre: Z) (s1_pre: Z) (str2: (@list Z)) (str1: (@list Z)) (i
 forall (n_pre: Z) (str2: (@list Z)) (str1: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (str2)) + 1 ))) (PreH2 : (0 <= ((string_length (str1)) + 1 ))) (PreH3 : (i <> n_pre)) (PreH4 : ((Znth i (c_string (str1)) 0) = 0)) (PreH5 : (i < n_pre)) (PreH6 : (valid_string str1 )) (PreH7 : (valid_string str2 )) (PreH8 : (0 <= n_pre)) (PreH9 : (n_pre < INT_MAX)) (PreH10 : ((string_length (str1)) < INT_MAX)) (PreH11 : ((string_length (str2)) < INT_MAX)) (PreH12 : (0 <= i)) (PreH13 : (i <= n_pre)) (PreH14 : (i <= (string_length (str1)))) (PreH15 : (i <= (string_length (str2)))) (PreH16 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) ((c_string (str1))) (0)) = (Znth (k) ((c_string (str2))) (0))))) ,
   TT && emp 
 |--
-  “ (strncmp_result str1 str2 n_pre ((Znth i (c_string (str1)) 0) - (Znth i (c_string (str2)) 0) ) ) ”
+  “ (strncmp_result str1 str2 n_pre (0 - (Znth i (c_string (str2)) 0) ) ) ”
   &&  emp
 ).
 
 Definition strncmp_return_wit_1_split_goal_1 := 
 forall (n_pre: Z) (str2: (@list Z)) (str1: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (str2)) + 1 ))) (PreH2 : (0 <= ((string_length (str1)) + 1 ))) (PreH3 : (i <> n_pre)) (PreH4 : ((Znth i (c_string (str1)) 0) = 0)) (PreH5 : (i < n_pre)) (PreH6 : (valid_string str1 )) (PreH7 : (valid_string str2 )) (PreH8 : (0 <= n_pre)) (PreH9 : (n_pre < INT_MAX)) (PreH10 : ((string_length (str1)) < INT_MAX)) (PreH11 : ((string_length (str2)) < INT_MAX)) (PreH12 : (0 <= i)) (PreH13 : (i <= n_pre)) (PreH14 : (i <= (string_length (str1)))) (PreH15 : (i <= (string_length (str2)))) (PreH16 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) ((c_string (str1))) (0)) = (Znth (k) ((c_string (str2))) (0))))) ,
-  TT && emp 
-|--
-  “ (strncmp_result str1 str2 n_pre ((Znth i (c_string (str1)) 0) - (Znth i (c_string (str2)) 0) ) ) ”
+  (strncmp_result str1 str2 n_pre (0 - (Znth i (c_string (str2)) 0) ) )
 .
 
 Definition strncmp_return_wit_2 := 
@@ -620,9 +594,7 @@ forall (n_pre: Z) (str2: (@list Z)) (str1: (@list Z)) (i: Z) (PreH1 : (0 <= ((st
 
 Definition strncmp_return_wit_2_split_goal_1 := 
 forall (n_pre: Z) (str2: (@list Z)) (str1: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (str2)) + 1 ))) (PreH2 : (0 <= ((string_length (str1)) + 1 ))) (PreH3 : (i <> n_pre)) (PreH4 : ((Znth i (c_string (str1)) 0) <> (Znth i (c_string (str2)) 0))) (PreH5 : ((Znth i (c_string (str1)) 0) <> 0)) (PreH6 : (i < n_pre)) (PreH7 : (valid_string str1 )) (PreH8 : (valid_string str2 )) (PreH9 : (0 <= n_pre)) (PreH10 : (n_pre < INT_MAX)) (PreH11 : ((string_length (str1)) < INT_MAX)) (PreH12 : ((string_length (str2)) < INT_MAX)) (PreH13 : (0 <= i)) (PreH14 : (i <= n_pre)) (PreH15 : (i <= (string_length (str1)))) (PreH16 : (i <= (string_length (str2)))) (PreH17 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) ((c_string (str1))) (0)) = (Znth (k) ((c_string (str2))) (0))))) ,
-  TT && emp 
-|--
-  “ (strncmp_result str1 str2 n_pre ((Znth i (c_string (str1)) 0) - (Znth i (c_string (str2)) 0) ) ) ”
+  (strncmp_result str1 str2 n_pre ((Znth i (c_string (str1)) 0) - (Znth i (c_string (str2)) 0) ) )
 .
 
 Definition strncmp_return_wit_3 := 
@@ -645,9 +617,7 @@ forall (n_pre: Z) (str2: (@list Z)) (str1: (@list Z)) (i: Z) (PreH1 : (0 <= ((st
 
 Definition strncmp_return_wit_3_split_goal_1 := 
 forall (n_pre: Z) (str2: (@list Z)) (str1: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (str2)) + 1 ))) (PreH2 : (0 <= ((string_length (str1)) + 1 ))) (PreH3 : (i = n_pre)) (PreH4 : (i >= n_pre)) (PreH5 : (valid_string str1 )) (PreH6 : (valid_string str2 )) (PreH7 : (0 <= n_pre)) (PreH8 : (n_pre < INT_MAX)) (PreH9 : ((string_length (str1)) < INT_MAX)) (PreH10 : ((string_length (str2)) < INT_MAX)) (PreH11 : (0 <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (i <= (string_length (str1)))) (PreH14 : (i <= (string_length (str2)))) (PreH15 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) ((c_string (str1))) (0)) = (Znth (k) ((c_string (str2))) (0))))) ,
-  TT && emp 
-|--
-  “ (strncmp_result str1 str2 n_pre 0 ) ”
+  (strncmp_result str1 str2 n_pre 0 )
 .
 
 Module Type VC_Correct.

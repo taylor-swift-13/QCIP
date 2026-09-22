@@ -1,4 +1,4 @@
-﻿Require Import Coq.ZArith.ZArith.
+Require Import Coq.ZArith.ZArith.
 Require Import Coq.Bool.Bool.
 Require Import Coq.Strings.String.
 Require Import Coq.Lists.List.
@@ -21,7 +21,7 @@ Local Open Scope sac.
 
 Lemma proof_of_enqueue_entail_wit_1 : enqueue_entail_wit_1.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	unfold store_queue.
 	Intros qhead qtail.
 	Exists qhead qtail.
@@ -33,7 +33,7 @@ Qed.
 
 Lemma proof_of_enqueue_entail_wit_2 : enqueue_entail_wit_2.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	assert (Hqhead_neq : qhead_2 <> 0) by lia.
 	sep_apply_l_atomic (dllseg_head_neq_destruct_tail qhead_2 0 0 qtail_2 l Hqhead_neq).
 	Intros qtailprev l0 qtailv.
@@ -68,7 +68,7 @@ Qed.
 
 Lemma proof_of_enqueue_return_wit_1 : enqueue_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst.
   unfold store_queue.
   sep_apply dllseg_head_zero; [ | tauto ].
@@ -76,12 +76,15 @@ Proof.
   subst.
   Exists retval retval.
   sep_apply dllseg_len1; [ | tauto ].
-  entailer!.
+  cancel.
+  change NULL with 0.
+  change (nil +:: x_pre) with (x_pre :: nil).
+  cancel.
 Qed.
 
 Lemma proof_of_enqueue_return_wit_2 : enqueue_return_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst.
   unfold store_queue.
   Exists qhead p.
@@ -89,14 +92,16 @@ Proof.
   sep_apply (dllseg_len1 p); [ | tauto ].
   sep_apply (dllseg_dllseg qtail).
   sep_apply (dllseg_dllseg qhead).
-  entailer!.
+  cancel.
+  change NULL with 0.
+  cancel.
   rewrite app_assoc.
-  entailer!.
+  cancel.
 Qed.
 
 Lemma proof_of_dequeue_entail_wit_1 : dequeue_entail_wit_1.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	unfold store_queue.
 	Intros qhead qtail.
 	simpl.
@@ -116,7 +121,7 @@ Qed.
 
 Lemma proof_of_dequeue_entail_wit_2 : dequeue_entail_wit_2.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	sep_apply_l_atomic (dllseg_head_neq qheadnext_2 0 qhead qtail_2 l PreH1).
 	Intros qhead_next headv l0.
 	Exists qtail_2.
@@ -140,7 +145,7 @@ Qed.
 
 Lemma proof_of_dequeue_return_wit_1 : dequeue_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst.
   unfold store_queue.
   sep_apply dllseg_head_zero; [ | tauto ].
@@ -148,16 +153,29 @@ Proof.
   subst.
   Exists 0 0.
   simpl.
-  entailer!.
+  repeat (split_pure_spatial || split_pures).
+  - cancel.
+  - dump_pre_spatial. unfold NULL. reflexivity.
+  - dump_pre_spatial. unfold NULL. reflexivity.
+  - dump_pre_spatial. reflexivity.
 Qed.
 
 Lemma proof_of_dequeue_return_wit_2 : dequeue_return_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst.
   unfold store_queue.
   Exists qhead qtail.
   simpl.
   Exists qheadnext.
-  entailer!.
+  change NULL with 0.
+  repeat (split_pure_spatial || split_pures).
+  - cancel (&(qhead # "list" ->ₛ "data") # Int |-> headv).
+    cancel (&(qhead # "list" ->ₛ "next") # Ptr |-> qheadnext).
+    cancel (&(qhead # "list" ->ₛ "prev") # Ptr |-> 0).
+    cancel (dllseg qheadnext 0 qhead qtail l0).
+    cancel (&(q_pre # "queue" ->ₛ "head") # Ptr |-> qhead).
+    cancel (&(q_pre # "queue" ->ₛ "tail") # Ptr |-> qtail).
+  - dump_pre_spatial. reflexivity.
+  - dump_pre_spatial. exact PreH1.
 Qed.

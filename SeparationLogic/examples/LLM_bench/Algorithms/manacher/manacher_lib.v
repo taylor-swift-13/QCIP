@@ -912,7 +912,7 @@ Proof.
   rewrite (CharArray.full_empty x 0).
   cancel (CharArray.undef_seg x 0 n).
   split_pure_spatial.
-  - cancel emp.
+  - cancel.
   - split_pures; dump_pre_spatial; lia.
 Qed.
 
@@ -928,7 +928,7 @@ Proof.
   sep_apply (CharArray.undef_seg_merge_to_undef_full x 0 mid hi); try lia.
   replace (x + 0 * sizeof (CHAR)) with x by lia.
   replace (hi - 0) with hi by lia.
-  entailer!.
+  cancel.
 Qed.
 
 (* IntArray analogue of [char_undef_seg0_merge_to_undef_full], used when
@@ -943,7 +943,7 @@ Proof.
   sep_apply (IntArray.undef_seg_merge_to_undef_full x 0 mid hi); try lia.
   replace (x + 0 * sizeof (INT)) with x by lia.
   replace (hi - 0) with hi by lia.
-  entailer!.
+  cancel.
 Qed.
 
 (* Initializes output-copy progress before any transformed-window position has
@@ -1939,4 +1939,3 @@ Proof.
     split; [exact Hpref|].
     eapply manacher_longest_result_from_final_prefix; eauto.
 Qed.
-

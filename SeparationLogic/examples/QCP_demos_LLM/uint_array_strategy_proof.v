@@ -16,7 +16,9 @@ Proof.
   sep_apply_l_atomic (UIntArray.full_split_to_missing_i p i n l 0).
   - dump_pre_spatial.
     lia.
-  - cancel (UIntArray.missing_i p i 0 n l).
+  - replace (p + i * 4) with (p + i * sizeof (UINT))
+      by (rewrite sizeof_uint; lia).
+    cancel (UIntArray.missing_i p i 0 n l).
     Intros_r v.
     apply_sepcon_adjoint.
     Intros_p H1.
@@ -50,7 +52,9 @@ Proof.
   sep_apply_l_atomic (UIntArray.seg_split_to_missing_i p x i y l 0).
   - dump_pre_spatial.
     lia.
-  - cancel (UIntArray.missing_i p i x y l).
+  - replace (p + i * 4) with (p + i * sizeof (UINT))
+      by (rewrite sizeof_uint; lia).
+    cancel (UIntArray.missing_i p i x y l).
     Intros_r v.
     apply_sepcon_adjoint.
     Intros_p H1.
@@ -105,6 +109,8 @@ Qed.
 Lemma uint_array_strategy2_correctness : uint_array_strategy2.
 Proof.
   pre_process_default.
+  replace (p + i * 4) with (p + i * sizeof (UINT))
+    by (rewrite sizeof_uint; lia).
   sep_apply_l_atomic (UIntArray.missing_i_merge_to_full p i n (Znth i l 0) l).
   - dump_pre_spatial.
     lia.
@@ -115,6 +121,8 @@ Qed.
 Lemma uint_array_strategy11_correctness : uint_array_strategy11.
 Proof.
   pre_process_default.
+  replace (p + i * 4) with (p + i * sizeof (UINT))
+    by (rewrite sizeof_uint; lia).
   sep_apply_l_atomic (UIntArray.missing_i_merge_to_seg p x i y (Znth (i - x) l 0) l).
   - dump_pre_spatial.
     lia.
@@ -125,6 +133,8 @@ Qed.
 Lemma uint_array_strategy3_correctness : uint_array_strategy3.
 Proof.
   pre_process_default.
+  replace (p + i * 4) with (p + i * sizeof (UINT))
+    by (rewrite sizeof_uint; lia).
   sep_apply_l_atomic (UIntArray.missing_i_merge_to_full p i n v l).
   - dump_pre_spatial.
     lia.
@@ -134,6 +144,8 @@ Qed.
 Lemma uint_array_strategy12_correctness : uint_array_strategy12.
 Proof.
   pre_process_default.
+  replace (p + i * 4) with (p + i * sizeof (UINT))
+    by (rewrite sizeof_uint; lia).
   sep_apply_l_atomic (UIntArray.missing_i_merge_to_seg p x i y v l).
   - dump_pre_spatial.
     lia.
@@ -158,6 +170,8 @@ Proof.
   pre_process_default.
   Intros_p H.
   subst l.
+  replace (p + n * 4) with (p + n * sizeof (UINT))
+    by (rewrite sizeof_uint; lia).
   sep_apply_l_atomic (UIntArray.seg_single p n a).
   sep_apply_l_atomic (UIntArray.seg_to_full p n (n + 1) (a :: nil)).
   prop_apply (UIntArray.full_Zlength p n l1).

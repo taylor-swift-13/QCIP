@@ -21,7 +21,7 @@ Local Open Scope sac.
 
 Lemma proof_of_strlen_entail_wit_1 : strlen_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - cancel (store_string s_pre str).
   - split_pures.
@@ -34,7 +34,7 @@ Qed.
 
 Lemma proof_of_strlen_entail_wit_2 : strlen_entail_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (Hi_lt : i < string_length str).
   { eapply c_string_nonzero_index_lt; eauto. }
   split_pure_spatial.
@@ -57,7 +57,7 @@ Qed.
 
 Lemma proof_of_strlen_return_wit_1 : strlen_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - unfold store_string; cancel.
   - dump_pre_spatial.

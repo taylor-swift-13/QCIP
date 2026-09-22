@@ -41,7 +41,7 @@ Qed.
 
 Lemma proof_of_insertion_entail_wit_1 : insertion_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists nil.
   Exists l.
   split_pure_spatial.
@@ -58,7 +58,7 @@ Qed.
 
 Lemma proof_of_insertion_entail_wit_2 : insertion_entail_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists y.
   Exists (l1_2 ++ x :: nil)%list.
   Exists l0.
@@ -75,9 +75,9 @@ Proof.
     reflexivity.
 Qed.
 
-Lemma proof_of_insertion_entail_wit_3_2 : insertion_entail_wit_3_2.
+Lemma proof_of_insertion_entail_wit_3_1 : insertion_entail_wit_3_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst p2_v.
   sep_apply (sll_zero 0 l2); [ | reflexivity ].
   Intros_p Hl2.
@@ -98,9 +98,9 @@ Proof.
       exact PreH4.
 Qed.
 
-Lemma proof_of_insertion_entail_wit_4_2 : insertion_entail_wit_4_2.
+Lemma proof_of_insertion_entail_wit_4_1 : insertion_entail_wit_4_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Left.
   sep_apply (sllbseg_2_sllseg (&( "res" )) p2 node_pre l1_3).
   Intros resv_2.
@@ -120,9 +120,9 @@ Proof.
       exact PreH3.
 Qed.
 
-Lemma proof_of_insertion_entail_wit_4_1 : insertion_entail_wit_4_1.
+Lemma proof_of_insertion_entail_wit_4_2 : insertion_entail_wit_4_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Right.
   sep_apply (sllbseg_2_sllseg (&( "res" )) p2 node_pre l1_3).
   Intros resv.
@@ -155,7 +155,7 @@ Qed.
 
 Lemma proof_of_insertion_return_wit_1 : insertion_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists ((l1 ++ a :: nil)%list).
   split_pure_spatial.
   - sep_apply (sllseg_len1 node_pre a 0); [ | tauto ].
@@ -171,7 +171,7 @@ Qed.
 
 Lemma proof_of_insertion_return_wit_2 : insertion_return_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists (((l1 ++ a :: nil)%list ++ x :: l0_2)%list).
   split_pure_spatial.
   - sep_apply (sllseg_len1 node_pre a u); [ | tauto ].
@@ -196,7 +196,7 @@ Qed.
 
 Lemma proof_of_insertion_sort_entail_wit_1 : insertion_sort_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists nil.
   Exists nil.
   Exists l.
@@ -215,7 +215,7 @@ Qed.
 
 Lemma proof_of_insertion_sort_entail_wit_2 : insertion_sort_entail_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists l0_4.
   Exists (l1_2 ++ x :: nil)%list.
   Exists l0_3.
@@ -243,7 +243,7 @@ Qed.
 
 Lemma proof_of_insertion_sort_return_wit_1 : insertion_sort_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   rewrite PreH1.
   sep_apply (sll_zero 0 l2); [ | reflexivity ].
   Intros_p Hl2.

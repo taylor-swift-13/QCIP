@@ -1274,13 +1274,11 @@ Proof.
   Intros ptr old_size cap.
   prop_apply_p (mpd_store_Z_compact_range UINT_MOD ptr (Zabs v) (Zabs s)).
   Intros.
-  match goal with
-  | H : 0 <= Zabs s <= _ |- _ =>
-      change Int.max_unsigned with 4294967295 in H;
-      assert (4294967295 / 4 + 1 = 1073741824) as Hcalc by reflexivity;
-      rewrite Hcalc in H;
-      pose proof (Z.abs_le s 1073741824)
-  end.
+  pose proof H1 as Hrange.
+  change Int.max_unsigned with 4294967295 in Hrange.
+  assert (4294967295 / 4 + 1 = 1073741824) as Hcalc by reflexivity.
+  rewrite Hcalc in Hrange.
+  pose proof (Z.abs_le s 1073741824).
     entailer!.
 Qed.
 

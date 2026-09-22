@@ -24,7 +24,7 @@ Local Open Scope sac.
 
 Lemma proof_of_clause_gen_binary_return_wit_5 : clause_gen_binary_return_wit_5.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   rewrite all_zero_list_3.
   repeat rewrite replace_0th.
   repeat rewrite replace_1st.
@@ -102,12 +102,17 @@ Proof.
         lia.
   }
   clear - PreH4 PreH26 PreH27 Hprop_app Hs1 Hs2 Hs3.
-  entailer!.
+  split_pure_spatial.
+  - unfold sll_cnf_list.
+    cancel.
+    cancel.
+  - repeat split_pures; dump_pre_spatial;
+      try assumption; try (unfold NULL; assumption); try reflexivity; try lia.
 Qed.
 
 Lemma proof_of_clause_gen_binary_return_wit_6 : clause_gen_binary_return_wit_6.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   rewrite all_zero_list_3.
   repeat rewrite replace_0th.
   repeat rewrite replace_1st.
@@ -189,12 +194,17 @@ Proof.
         lia.
   }
   clear - PreH4 PreH26 PreH27 Hprop_app Hs1 Hs2 Hs3.
-  entailer!.
+  split_pure_spatial.
+  - unfold sll_cnf_list.
+    cancel.
+    cancel.
+  - repeat split_pures; dump_pre_spatial;
+      try assumption; try (unfold NULL; assumption); try reflexivity; try lia.
 Qed.
 
 Lemma proof_of_clause_gen_binary_return_wit_7 : clause_gen_binary_return_wit_7.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   rewrite all_zero_list_3.
   repeat rewrite replace_0th.
   repeat rewrite replace_1st.
@@ -267,12 +277,17 @@ Proof.
         lia.
   }
   clear - PreH4 PreH26 PreH27 Hprop_app Hs1 Hs2 Hs3.
-  entailer!.
+  split_pure_spatial.
+  - unfold sll_cnf_list.
+    cancel.
+    cancel.
+  - repeat split_pures; dump_pre_spatial;
+      try assumption; try (unfold NULL; assumption); try reflexivity; try lia.
 Qed.
 
 Lemma proof_of_clause_gen_binary_return_wit_1 : clause_gen_binary_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   rewrite all_zero_list_3.
   repeat rewrite replace_0th.
   sep_apply (store_cnf_list_fold retval_5 (p3_pre :: 0 :: 0 :: nil) retval); auto.
@@ -291,12 +306,17 @@ Proof.
   unfold iff2cnf_length_binary, iff2cnf_binary.
   destruct (p1_pre ==? p2_pre); try contradiction.
   simpl.
-  entailer!.
+  split_pure_spatial.
   - Intros tail.
     unfold sll_cnf_list.
     Exists tail.
-    entailer!.
-  - assert (Hclist_cnt : prop_cnt_inf clist <= pcnt) by lia.
+    cancel.
+    cancel.
+    reflexivity.
+  - repeat split_pures; dump_pre_spatial;
+      try assumption; try reflexivity; try lia.
+    all: try solve [rewrite Zlength_cons; rewrite PreH3; lia].
+    assert (Hclist_cnt : prop_cnt_inf clist <= pcnt) by lia.
     unfold prop_cnt_inf in Hclist_cnt.
     unfold prop_cnt_inf.
     simpl.
@@ -327,14 +347,11 @@ Proof.
         -- eapply Z.le_trans.
            ++ apply Z.le_min_l.
            ++ exact PreH18.
-  - rewrite Zlength_cons.
-    rewrite PreH3.
-    lia.
 Qed.
 
 Lemma proof_of_clause_gen_binary_return_wit_2 : clause_gen_binary_return_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   rewrite all_zero_list_3.
   repeat rewrite replace_0th.
   sep_apply (store_cnf_list_fold retval_5 (p3_pre :: 0 :: 0 :: nil) retval); auto.
@@ -353,12 +370,17 @@ Proof.
   unfold iff2cnf_length_binary, iff2cnf_binary.
   destruct (p1_pre ==? p2_pre); try contradiction.
   simpl.
-  entailer!.
+  split_pure_spatial.
   - Intros tail.
     unfold sll_cnf_list.
     Exists tail.
-    entailer!.
-  - assert (Hclist_cnt : prop_cnt_inf clist <= pcnt) by lia.
+    cancel.
+    cancel.
+    reflexivity.
+  - repeat split_pures; dump_pre_spatial;
+      try assumption; try reflexivity; try lia.
+    all: try solve [rewrite Zlength_cons; rewrite PreH3; lia].
+    assert (Hclist_cnt : prop_cnt_inf clist <= pcnt) by lia.
     unfold prop_cnt_inf in Hclist_cnt.
     unfold prop_cnt_inf.
     simpl.
@@ -389,17 +411,18 @@ Proof.
         -- eapply Z.le_trans.
            ++ apply Z.le_min_l.
            ++ exact PreH18.
-  - rewrite Zlength_cons.
-    rewrite PreH3.
-    lia.
 Qed.
 
 
 Lemma proof_of_clause_gen_binary_which_implies_wit_1 : clause_gen_binary_which_implies_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   unfold store_predata.
   Intros y.
   Exists y.
-  entailer!.
+  split_pure_spatial.
+  - cancel.
+    cancel.
+    cancel.
+  - split_pures; dump_pre_spatial; assumption.
 Qed. 

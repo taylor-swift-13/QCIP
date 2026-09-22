@@ -266,7 +266,7 @@ Definition map_list_partial_solve_wit_1 := map_list_partial_solve_wit_1_pure -> 
 
 Definition map_list_which_implies_wit_1 := 
 (
-forall (l: (@list Z)) (l2: (@list Z)) (l1: (@list Z)) (x: Z) (p: Z) (head: Z) (PreH1 : (l = (app (l1) (l2)))) (PreH2 : (p <> 0)) ,
+forall (l: (@list Z)) (l1: (@list Z)) (l2: (@list Z)) (x: Z) (p: Z) (head: Z) (PreH1 : (l = (app (l1) (l2)))) (PreH2 : (p <> 0)) ,
   (sllseg head p (map_mult (x) (l1)) )
   **  (sll p l2 )
 |--
@@ -278,7 +278,7 @@ forall (l: (@list Z)) (l2: (@list Z)) (l1: (@list Z)) (x: Z) (p: Z) (head: Z) (P
   **  (sll p_next l2_new )
 ) \/
 (
-forall (l: (@list Z)) (l2: (@list Z)) (l1: (@list Z)) (p: Z) (PreH1 : (l = (app (l1) (l2)))) (PreH2 : (p <> 0)) ,
+forall (l: (@list Z)) (l1: (@list Z)) (l2: (@list Z)) (p: Z) (PreH1 : (l = (app (l1) (l2)))) (PreH2 : (p <> 0)) ,
   (sll p l2 )
 |--
   EX (p_next: Z)  (p_data: Z)  (l2_new: (@list Z)) ,
@@ -320,8 +320,8 @@ forall (retval: Z) (PreH1 : (retval <> 0)) ,
 (*----- Function cons_list_box -----*)
 
 Definition cons_list_box_safety_wit_1 := 
-forall (box_pre: Z) (data_pre: Z) (pt: Z) (l: (@list Z)) (h: Z) (pt_new: Z) (retval: Z) (PreH1 : (l <> (@nil Z))) (PreH2 : (pt_new = pt)) (PreH3 : (box_pre <> 0)) (PreH4 : (pt = &((box_pre)  # "sllb" ->ₛ "head"))) (PreH5 : (l = (@nil Z))) ,
-  (sll_pt retval pt_new (cons (data_pre) (l)) )
+forall (box_pre: Z) (data_pre: Z) (pt: Z) (l: (@list Z)) (h: Z) (pt_new: Z) (retval: Z) (PreH1 : ((@nil Z) <> (@nil Z))) (PreH2 : (pt_new = &((box_pre)  # "sllb" ->ₛ "head"))) (PreH3 : (box_pre <> 0)) (PreH4 : (pt = &((box_pre)  # "sllb" ->ₛ "head"))) (PreH5 : (l = (@nil Z))) ,
+  (sll_pt retval pt_new (cons (data_pre) ((@nil Z))) )
   **  ((( &( "box" ) )) # Ptr  |-> box_pre)
   **  ((&((box_pre)  # "sllb" ->ₛ "head")) # Ptr  |-> h)
   **  ((( &( "data" ) )) # UInt  |-> data_pre)
@@ -353,8 +353,8 @@ forall (box_pre: Z) (data_pre: Z) (pt: Z) (l: (@list Z)) (pt_new: Z) (retval: Z)
 .
 
 Definition cons_list_box_safety_wit_4 := 
-forall (box_pre: Z) (data_pre: Z) (pt: Z) (l: (@list Z)) (pt_new: Z) (retval: Z) (PreH1 : (pt <> &((box_pre)  # "sllb" ->ₛ "head"))) (PreH2 : (l = (@nil Z))) (PreH3 : (pt_new = &((retval)  # "sll" ->ₛ "next"))) (PreH4 : (box_pre <> 0)) (PreH5 : (pt = &((box_pre)  # "sllb" ->ₛ "head"))) (PreH6 : (l = (@nil Z))) ,
-  (sll_pt retval pt_new (cons (data_pre) (l)) )
+forall (box_pre: Z) (data_pre: Z) (pt: Z) (l: (@list Z)) (pt_new: Z) (retval: Z) (PreH1 : (pt <> &((box_pre)  # "sllb" ->ₛ "head"))) (PreH2 : ((@nil Z) = (@nil Z))) (PreH3 : (pt_new = &((retval)  # "sll" ->ₛ "next"))) (PreH4 : (box_pre <> 0)) (PreH5 : (pt = &((box_pre)  # "sllb" ->ₛ "head"))) (PreH6 : (l = (@nil Z))) ,
+  (sll_pt retval pt_new (cons (data_pre) ((@nil Z))) )
   **  ((( &( "box" ) )) # Ptr  |-> box_pre)
   **  ((&((box_pre)  # "sllb" ->ₛ "head")) # Ptr  |-> retval)
   **  ((( &( "data" ) )) # UInt  |-> data_pre)
@@ -365,8 +365,8 @@ forall (box_pre: Z) (data_pre: Z) (pt: Z) (l: (@list Z)) (pt_new: Z) (retval: Z)
 
 Definition cons_list_box_return_wit_1 := 
 (
-forall (box_pre: Z) (data_pre: Z) (pt: Z) (l: (@list Z)) (pt_new_2: Z) (retval: Z) (PreH1 : (pt = &((box_pre)  # "sllb" ->ₛ "head"))) (PreH2 : (l = (@nil Z))) (PreH3 : (pt_new_2 = &((retval)  # "sll" ->ₛ "next"))) (PreH4 : (box_pre <> 0)) (PreH5 : (pt = &((box_pre)  # "sllb" ->ₛ "head"))) (PreH6 : (l = (@nil Z))) ,
-  (sll_pt retval pt_new_2 (cons (data_pre) (l)) )
+forall (box_pre: Z) (data_pre: Z) (pt: Z) (l: (@list Z)) (pt_new_2: Z) (retval: Z) (PreH1 : (pt = &((box_pre)  # "sllb" ->ₛ "head"))) (PreH2 : ((@nil Z) = (@nil Z))) (PreH3 : (pt_new_2 = &((retval)  # "sll" ->ₛ "next"))) (PreH4 : (box_pre <> 0)) (PreH5 : (pt = &((box_pre)  # "sllb" ->ₛ "head"))) (PreH6 : (l = (@nil Z))) ,
+  (sll_pt retval pt_new_2 (cons (data_pre) ((@nil Z))) )
   **  ((&((box_pre)  # "sllb" ->ₛ "head")) # Ptr  |-> retval)
   **  ((&((box_pre)  # "sllb" ->ₛ "ptail")) # Ptr  |-> &((retval)  # "sll" ->ₛ "next"))
 |--
@@ -377,8 +377,8 @@ forall (box_pre: Z) (data_pre: Z) (pt: Z) (l: (@list Z)) (pt_new_2: Z) (retval: 
   **  ((pt_new) # Ptr  |-> 0)
 ) \/
 (
-forall (box_pre: Z) (data_pre: Z) (pt: Z) (l: (@list Z)) (pt_new_2: Z) (retval: Z) (PreH1 : (pt = &((box_pre)  # "sllb" ->ₛ "head"))) (PreH2 : (l = (@nil Z))) (PreH3 : (pt_new_2 = &((retval)  # "sll" ->ₛ "next"))) (PreH4 : (box_pre <> 0)) (PreH5 : (pt = &((box_pre)  # "sllb" ->ₛ "head"))) (PreH6 : (l = (@nil Z))) ,
-  (sll_pt retval pt_new_2 (cons (data_pre) (l)) )
+forall (box_pre: Z) (data_pre: Z) (pt: Z) (l: (@list Z)) (pt_new_2: Z) (retval: Z) (PreH1 : (pt = &((box_pre)  # "sllb" ->ₛ "head"))) (PreH2 : (pt_new_2 = &((retval)  # "sll" ->ₛ "next"))) (PreH3 : (box_pre <> 0)) (PreH4 : (pt = &((box_pre)  # "sllb" ->ₛ "head"))) (PreH5 : (l = (@nil Z))) ,
+  (sll_pt retval pt_new_2 (cons (data_pre) ((@nil Z))) )
   **  ((&((box_pre)  # "sllb" ->ₛ "head")) # Ptr  |-> retval)
 |--
   (sllbseg &((box_pre)  # "sllb" ->ₛ "head") &((retval)  # "sll" ->ₛ "next") (cons (data_pre) (l)) )
@@ -386,8 +386,8 @@ forall (box_pre: Z) (data_pre: Z) (pt: Z) (l: (@list Z)) (pt_new_2: Z) (retval: 
 ).
 
 Definition cons_list_box_return_wit_1_split_goal_spatial := 
-forall (box_pre: Z) (data_pre: Z) (pt: Z) (l: (@list Z)) (pt_new_2: Z) (retval: Z) (PreH1 : (pt = &((box_pre)  # "sllb" ->ₛ "head"))) (PreH2 : (l = (@nil Z))) (PreH3 : (pt_new_2 = &((retval)  # "sll" ->ₛ "next"))) (PreH4 : (box_pre <> 0)) (PreH5 : (pt = &((box_pre)  # "sllb" ->ₛ "head"))) (PreH6 : (l = (@nil Z))) ,
-  (sll_pt retval pt_new_2 (cons (data_pre) (l)) )
+forall (box_pre: Z) (data_pre: Z) (pt: Z) (l: (@list Z)) (pt_new_2: Z) (retval: Z) (PreH1 : (pt = &((box_pre)  # "sllb" ->ₛ "head"))) (PreH2 : (pt_new_2 = &((retval)  # "sll" ->ₛ "next"))) (PreH3 : (box_pre <> 0)) (PreH4 : (pt = &((box_pre)  # "sllb" ->ₛ "head"))) (PreH5 : (l = (@nil Z))) ,
+  (sll_pt retval pt_new_2 (cons (data_pre) ((@nil Z))) )
   **  ((&((box_pre)  # "sllb" ->ₛ "head")) # Ptr  |-> retval)
 |--
   (sllbseg &((box_pre)  # "sllb" ->ₛ "head") &((retval)  # "sll" ->ₛ "next") (cons (data_pre) (l)) )
@@ -462,7 +462,7 @@ forall (box_pre: Z) (pt: Z) (l: (@list Z)) (h: Z) (PreH1 : (box_pre <> 0)) (PreH
   “ (box_pre <> 0) ” 
   &&  “ (pt = &((box_pre)  # "sllb" ->ₛ "head")) ” 
   &&  “ (l = (@nil Z)) ”
-  &&  (sll_pt h pt l )
+  &&  (sll_pt h &((box_pre)  # "sllb" ->ₛ "head") (@nil Z) )
   **  ((&((box_pre)  # "sllb" ->ₛ "head")) # Ptr  |-> h)
   **  ((&((box_pre)  # "sllb" ->ₛ "ptail")) # Ptr  |-> pt)
 .
@@ -909,8 +909,8 @@ forall (out_array_pre: Z) (head_pre: Z) (l: (@list Z)) (retval: Z) (retval_2: Z)
   **  ((( &( "arr" ) )) # Ptr  |-> retval_2)
   **  (sll head_pre l )
   **  ((( &( "len" ) )) # UInt  |-> retval)
-  **  ((( &( "out_array" ) )) # Ptr  |-> out_array_pre)
   **  ((( &( "head" ) )) # Ptr  |-> head_pre)
+  **  ((( &( "out_array" ) )) # Ptr  |-> out_array_pre)
   **  ((out_array_pre) # Ptr  |->_)
 |--
   “ (0 <= INT_MAX) ” 
@@ -929,8 +929,8 @@ forall (out_array_pre: Z) (head_pre: Z) (l: (@list Z)) (retval: Z) (arr: Z) (p: 
   **  (sll p_next l3 )
   **  (sllseg head_pre p l1 )
   **  ((( &( "arr" ) )) # Ptr  |-> arr)
-  **  ((( &( "out_array" ) )) # Ptr  |-> out_array_pre)
   **  ((( &( "head" ) )) # Ptr  |-> head_pre)
+  **  ((( &( "out_array" ) )) # Ptr  |-> out_array_pre)
   **  ((out_array_pre) # Ptr  |->_)
 |--
   “ (1 <= INT_MAX) ” 
@@ -1058,8 +1058,8 @@ forall (head_pre: Z) (l: (@list Z)) (retval: Z) (arr: Z) (p: Z) (len: Z) (i: Z) 
 Definition sll2array_partial_solve_wit_1_pure := 
 forall (out_array_pre: Z) (head_pre: Z) (l: (@list Z)) (PreH1 : ((Zlength (l)) <= INT_MAX)) ,
   ((( &( "len" ) )) # UInt  |->_)
-  **  ((( &( "out_array" ) )) # Ptr  |-> out_array_pre)
   **  ((( &( "head" ) )) # Ptr  |-> head_pre)
+  **  ((( &( "out_array" ) )) # Ptr  |-> out_array_pre)
   **  (sll head_pre l )
   **  ((out_array_pre) # Ptr  |->_)
 |--
@@ -1084,8 +1084,8 @@ forall (out_array_pre: Z) (head_pre: Z) (l: (@list Z)) (retval: Z) (PreH1 : (ret
   ((( &( "arr" ) )) # Ptr  |->_)
   **  (sll head_pre l )
   **  ((( &( "len" ) )) # UInt  |-> retval)
-  **  ((( &( "out_array" ) )) # Ptr  |-> out_array_pre)
   **  ((( &( "head" ) )) # Ptr  |-> head_pre)
+  **  ((( &( "out_array" ) )) # Ptr  |-> out_array_pre)
   **  ((out_array_pre) # Ptr  |->_)
 |--
   “ (retval = retval) ”
@@ -1116,8 +1116,8 @@ forall (out_array_pre: Z) (head_pre: Z) (l: (@list Z)) (retval: Z) (arr: Z) (p: 
   **  ((( &( "arr" ) )) # Ptr  |-> arr)
   **  (UIntArray.seg_shape arr 0 i )
   **  (UIntArray.undef_seg arr i len )
-  **  ((( &( "out_array" ) )) # Ptr  |-> out_array_pre)
   **  ((( &( "head" ) )) # Ptr  |-> head_pre)
+  **  ((( &( "out_array" ) )) # Ptr  |-> out_array_pre)
   **  ((out_array_pre) # Ptr  |->_)
 |--
   “ (l = (app (l1) (l2))) ” 
@@ -1134,8 +1134,8 @@ forall (out_array_pre: Z) (head_pre: Z) (l: (@list Z)) (retval: Z) (arr: Z) (p: 
   **  ((( &( "arr" ) )) # Ptr  |-> arr)
   **  (UIntArray.seg_shape arr 0 i )
   **  (UIntArray.undef_seg arr i len )
-  **  ((( &( "out_array" ) )) # Ptr  |-> out_array_pre)
   **  ((( &( "head" ) )) # Ptr  |-> head_pre)
+  **  ((( &( "out_array" ) )) # Ptr  |-> out_array_pre)
   **  ((out_array_pre) # Ptr  |->_)
 |--
   “ (i < len) ”
@@ -1151,8 +1151,8 @@ forall (out_array_pre: Z) (head_pre: Z) (l: (@list Z)) (retval: Z) (arr: Z) (p: 
   **  ((( &( "arr" ) )) # Ptr  |-> arr)
   **  (UIntArray.seg_shape arr 0 i )
   **  (UIntArray.undef_seg arr i len )
-  **  ((( &( "out_array" ) )) # Ptr  |-> out_array_pre)
   **  ((( &( "head" ) )) # Ptr  |-> head_pre)
+  **  ((( &( "out_array" ) )) # Ptr  |-> out_array_pre)
   **  ((out_array_pre) # Ptr  |->_)
 |--
   “ (i < len) ”

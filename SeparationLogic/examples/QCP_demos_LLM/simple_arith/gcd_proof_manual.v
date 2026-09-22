@@ -20,8 +20,10 @@ Local Open Scope sac.
 
 Lemma proof_of_gcd_return_wit_1 : gcd_return_wit_1.
 Proof.
-  pre_process.
-  entailer!.
+  LLM_pre_process ltac:(int_auto).
+  split_pure_spatial.
+  - cancel.
+  - dump_pre_spatial.
   subst.
   pose proof Z.gcd_rem x_pre y_pre ltac:(lia).
   rewrite Z.gcd_comm, H, Z.gcd_comm.
@@ -30,8 +32,10 @@ Qed.
 
 Lemma proof_of_gcd_return_wit_2 : gcd_return_wit_2.
 Proof.
-  pre_process.
-  entailer!.
+  LLM_pre_process ltac:(int_auto).
+  split_pure_spatial.
+  - cancel.
+  - dump_pre_spatial.
   subst.
   rewrite Z.gcd_0_r.
   reflexivity.
@@ -39,7 +43,7 @@ Qed.
 
 Lemma proof_of_gcd_partial_solve_wit_2_pure : gcd_partial_solve_wit_2_pure.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply (store_int_range  (&("y")) y_pre).
   Intros.
   change (Int.min_signed) with (-2147483648) in H.
@@ -48,5 +52,8 @@ Proof.
   pose proof Z.rem_bound_neg_pos x_pre y_pre.
   pose proof Z.rem_bound_pos_neg x_pre y_pre.
   pose proof Z.rem_bound_neg_neg x_pre y_pre.
-  entailer!.
+  repeat (split_pure_spatial || split_pures).
+  - cancel.
+    dump_pre_spatial; lia.
+  - dump_pre_spatial; lia.
 Qed.

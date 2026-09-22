@@ -281,6 +281,8 @@ Proof.
   intros.
   unfold coef_array, coef_array_missing_i_rec.
   simpl.
+  replace (x + n * 4) with (x + n * sizeof (INT))
+    by (rewrite sizeof_int; lia).
   sep_apply IntArray.missing_i_merge_to_full ; try lia.
   Right.
   unfold coef_replace_Znth.

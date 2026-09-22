@@ -19,25 +19,25 @@ Local Open Scope string.
 Lemma los_sortlink_strategy7_correctness : los_sortlink_strategy7.
   pre_process_default.
   intros.
-  entailer!.
+  Intros_p H.
   rewrite H.
-  entailer!.
+  cancel.
 Qed.
 
 Lemma los_sortlink_strategy14_correctness : los_sortlink_strategy14.
   pre_process_default.
   intros.
-  entailer!.
+  Intros_p H.
   rewrite H.
-  entailer!.
+  cancel.
 Qed.
 
 Lemma los_sortlink_strategy15_correctness : los_sortlink_strategy15.
   pre_process_default.
   intros.
-  entailer!.
+  Intros_p H.
   rewrite H.
-  entailer!.
+  cancel.
 Qed.
 
 Lemma los_sortlink_strategy18_correctness : los_sortlink_strategy18.
@@ -46,26 +46,32 @@ Qed.
 
 Lemma los_sortlink_strategy19_correctness : los_sortlink_strategy19.
   pre_process_default.
-  entailer!.
+  Intros_p H.
+  Intros_p H0.
   rewrite H.
   rewrite H0.
-  congruence.
+  unfold NULL in *.
+  split_pure_spatial.
+  - cancel.
+  - split_pures; dump_pre_spatial; auto.
 Qed.
 
 
 Lemma los_sortlink_strategy6_correctness : los_sortlink_strategy6.
   pre_process_default.
   intros.
-  entailer!.
+  Intros_p H.
   rewrite H.
-  entailer!.
+  cancel.
 Qed.
 
 
 Lemma los_sortlink_strategy20_correctness : los_sortlink_strategy20.
   pre_process_default.
   intros.
-  entailer!.
+  Intros_p H.
+  Intros_p H0.
+  Intros_p H1.
   rewrite H.
   rewrite H0.
   rewrite H1.
@@ -75,71 +81,78 @@ Lemma los_sortlink_strategy20_correctness : los_sortlink_strategy20.
   simpl.
   destruct data0.
   simpl.
-  congruence.
+  split_pure_spatial.
+  - cancel.
+  - split_pures; dump_pre_spatial; auto; congruence.
 Qed.
 
 Lemma los_sortlink_strategy21_correctness : los_sortlink_strategy21.
   pre_process_default.
   intros.
-  entailer!.
   simpl.
   rewrite H.
   Intros_r v. 
+  rewrite <- derivable1_wand_sepcon_adjoint.
   pre_process_default. Intros.
   subst v.
-  entailer!.
+  cancel.
 Qed.
 
 Lemma los_sortlink_strategy22_correctness : los_sortlink_strategy22.
   pre_process_default.
   intros.
-  entailer!.
+  cancel (sa # Ptr |-> sp).
+  cancel (la # Ptr |-> re).
   rewrite <- derivable1_wand_sepcon_adjoint.
-  entailer!.
+  Intros_p H.
   rewrite H.
-  entailer!.
+  cancel.
 Qed.
 
 Lemma los_sortlink_strategy17_correctness : los_sortlink_strategy17.
   pre_process_default.
   intros.
-  entailer!.
   Exists x.
-  entailer!.
-  rewrite <- derivable1_wand_sepcon_adjoint.
-  entailer!.
+  split_pure_spatial.
+  - cancel (storeA x a).
+    cancel (&( x # "LOS_DL_LIST" ->ₛ "pstPrev") # Ptr |-> px).
+    cancel (&( px # "LOS_DL_LIST" ->ₛ "pstNext") # Ptr |-> x).
+    cancel (dllseg_shift storeA x py l0).
+    rewrite <- derivable1_wand_sepcon_adjoint.
+    normalize.
+    cancel.
+  - split_pures; dump_pre_spatial; auto.
 Qed.
 
 Lemma los_sortlink_strategy3_correctness : los_sortlink_strategy3.
   pre_process_default.
   intros.
-  entailer!.
+  Intros_p H.
   rewrite H.
-  entailer!.
+  cancel.
 Qed.
 
 Lemma los_sortlink_strategy8_correctness : los_sortlink_strategy8.
   pre_process_default.
   intros.
-  entailer!.
+  Intros_p H.
   rewrite H.
-  entailer!.
+  cancel.
 Qed.
 
 Lemma los_sortlink_strategy11_correctness : los_sortlink_strategy11.
   pre_process_default.
   intros.
-  entailer!.
+  Intros_p H.
   rewrite H.
-  entailer!.
+  cancel.
 Qed.
 
 
 Lemma los_sortlink_strategy16_correctness : los_sortlink_strategy16.
   pre_process_default.
   intros.
-  entailer!.
   Intros x0.
   rewrite H.
-  entailer!.
+  cancel.
 Qed.

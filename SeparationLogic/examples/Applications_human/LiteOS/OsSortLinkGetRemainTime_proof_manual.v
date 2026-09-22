@@ -21,48 +21,58 @@ Require Import SimpleC.EE.Applications_human.LiteOS.lib.dll.
 Require Import SimpleC.EE.Applications_human.LiteOS.lib.tick_backup.
 Local Open Scope sac.
 
-Lemma proof_of_OsSortLinkGetRemainTime_return_wit_2 : OsSortLinkGetRemainTime_return_wit_2.
-Proof. 
-    pre_process.
+Lemma proof_of_OsSortLinkGetRemainTime_return_wit_2_split_goal_spatial :
+    OsSortLinkGetRemainTime_return_wit_2_split_goal_spatial.
+Proof.
+    LLM_pre_process ltac:(int_auto).
     intros.
-    entailer!.
     unfold storesortedLinkNode.
     simpl.
-    entailer!.
     Exists targetSortList_pre.
-    entailer!.
-Qed. 
+    split_pure_spatial; [ cancel | dump_pre_spatial; reflexivity ].
+Qed.
+
+Lemma proof_of_OsSortLinkGetRemainTime_return_wit_2 : OsSortLinkGetRemainTime_return_wit_2.
+Proof.
+    aggressive_pre_process.
+    Goal_apply proof_of_OsSortLinkGetRemainTime_return_wit_2_split_goal_spatial.
+Qed.
+
+Lemma proof_of_OsSortLinkGetRemainTime_return_wit_1_split_goal_spatial :
+    OsSortLinkGetRemainTime_return_wit_1_split_goal_spatial.
+Proof.
+    LLM_pre_process ltac:(int_auto).
+    intros.
+    unfold storesortedLinkNode.
+    simpl.
+    Exists targetSortList_pre.
+    split_pure_spatial; [ cancel | dump_pre_spatial; reflexivity ].
+Qed.
 
 Lemma proof_of_OsSortLinkGetRemainTime_return_wit_1 : OsSortLinkGetRemainTime_return_wit_1.
-Proof. 
-    pre_process.
-    intros.
-    prop_apply (store_uint64_range (&(targetSortList_pre # "SortLinkList" ->ₛ "responseTime")) t).
-    unfold storesortedLinkNode.
-    simpl.
-    entailer!.
-    simpl.
-    
-    Exists targetSortList_pre.
-    entailer!.
-    apply unsigned_last_nbits_eq.
-    unfold Int64.max_unsigned, Int64.modulus, Int64.wordsize in H.
-    simpl in H.
-    lia.
-Qed. 
+Proof.
+    aggressive_pre_process.
+    Goal_apply proof_of_OsSortLinkGetRemainTime_return_wit_1_split_goal_spatial.
+Qed.
 
 
 
-Lemma proof_of_OsSortLinkGetRemainTime_which_implies_wit_1 : OsSortLinkGetRemainTime_which_implies_wit_1.
-Proof. 
-  unfold OsSortLinkGetRemainTime_which_implies_wit_1. 
+Lemma proof_of_OsSortLinkGetRemainTime_which_implies_wit_1_split_goal_spatial :
+  OsSortLinkGetRemainTime_which_implies_wit_1_split_goal_spatial.
+Proof.
   unfold storesortedLinkNode.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   simpl.
-  entailer!.
   Intros y.
   apply addr_of_arrow_field_inv in H.
-  entailer!.
   rewrite H.
-  entailer!.
+  csimpl.
+  simpl.
+  cancel.
+Qed.
+
+Lemma proof_of_OsSortLinkGetRemainTime_which_implies_wit_1 : OsSortLinkGetRemainTime_which_implies_wit_1.
+Proof.
+  aggressive_pre_process.
+  Goal_apply proof_of_OsSortLinkGetRemainTime_which_implies_wit_1_split_goal_spatial.
 Qed.

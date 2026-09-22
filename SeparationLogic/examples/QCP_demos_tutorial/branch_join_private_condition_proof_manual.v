@@ -21,35 +21,37 @@ Import naive_C_Rules.
 Require Import SimpleC.EE.QCP_demos_tutorial.branch_join_private_condition_lib.
 Local Open Scope sac.
 
-Lemma proof_of_f_entail_wit_1_1 : f_entail_wit_1_1.
+Lemma proof_of_f_entail_wit_1_1_split_goal_1 :
+  f_entail_wit_1_1_split_goal_1.
 Proof.
-  right.
-  pre_process.
-  split_pure_spatial.
-  - cancel emp.
-  - dump_pre_spatial.
-    unfold step.
-    assert (Z.even x_pre = true) as Heven.
-    {
-      replace x_pre with (2 * (Z.quot x_pre 2)).
-      - rewrite Z.even_even.
-        reflexivity.
-      - pose proof (Z.quot_rem x_pre 2 ltac:(lia)) as Hdiv.
-        lia.
-    }
-    rewrite Heven.
-    rewrite Z.quot_div_nonneg by lia.
-    reflexivity.
+  LLM_pre_process ltac:(int_auto).
+
+  unfold step.
+  assert (Z.even x_pre = true) as Heven.
+  {
+    replace x_pre with (2 * (Z.quot x_pre 2)).
+    - rewrite Z.even_even.
+      reflexivity.
+    - pose proof (Z.quot_rem x_pre 2 ltac:(lia)) as Hdiv.
+      lia.
+  }
+  rewrite Heven.
+  rewrite Z.quot_div_nonneg by lia.
+  reflexivity.
 Qed.
 
-Lemma proof_of_f_entail_wit_1_2 : f_entail_wit_1_2.
+Lemma proof_of_f_entail_wit_1_1 : f_entail_wit_1_1.
 Proof.
-  right.
-  pre_process.
-  split_pure_spatial.
-  - cancel emp.
-  - dump_pre_spatial.
-    unfold step.
+  aggressive_pre_process.
+  Goal_apply proof_of_f_entail_wit_1_1_split_goal_1.
+Qed.
+
+Lemma proof_of_f_entail_wit_1_2_split_goal_1 :
+  f_entail_wit_1_2_split_goal_1.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+
+  unfold step.
     assert (Z.rem x_pre 2 = 1) as Hmod.
     {
       pose proof (Z.rem_bound_pos_pos x_pre 2 ltac:(lia) ltac:(lia)) as Hbound.
@@ -65,5 +67,11 @@ Proof.
     }
     rewrite Hodd.
     reflexivity.
+Qed.
+
+Lemma proof_of_f_entail_wit_1_2 : f_entail_wit_1_2.
+Proof.
+  aggressive_pre_process.
+  Goal_apply proof_of_f_entail_wit_1_2_split_goal_1.
 Qed.
 

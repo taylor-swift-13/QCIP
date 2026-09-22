@@ -37,7 +37,7 @@ forall (A: Type) (sortList_pre: Z) (storeA: (Z -> (A -> Assertion))) (t: Z) (a: 
   &&  (storesortedLinkNode storeA &((sortList_pre)  # "SortLinkList" ->ₛ "sortLinkNode") (mksortedLinkNode (a) (t)) )
 ) \/
 (
-forall (A: Type) (sortList_pre: Z) (storeA: (Z -> (A -> Assertion))) (t: Z) (a: A) ,
+forall (A: Type) (sortList_pre: Z) (storeA: (Z -> (A -> Assertion))) (t: Z) (a: A) (PreH1 : (t <= UINT64_MAX)) (PreH2 : (t >= 0)) ,
   (storeA &((sortList_pre)  # "SortLinkList" ->ₛ "sortLinkNode") a )
   **  ((&((sortList_pre)  # "SortLinkList" ->ₛ "responseTime")) # UInt64  |-> t)
 |--
@@ -45,7 +45,7 @@ forall (A: Type) (sortList_pre: Z) (storeA: (Z -> (A -> Assertion))) (t: Z) (a: 
 ).
 
 Definition GET_SORTLIST_VALUE_return_wit_1_split_goal_spatial := 
-forall (A: Type) (sortList_pre: Z) (storeA: (Z -> (A -> Assertion))) (t: Z) (a: A) ,
+forall (A: Type) (sortList_pre: Z) (storeA: (Z -> (A -> Assertion))) (t: Z) (a: A) (PreH1 : (t <= UINT64_MAX)) (PreH2 : (t >= 0)) ,
   (storeA &((sortList_pre)  # "SortLinkList" ->ₛ "sortLinkNode") a )
   **  ((&((sortList_pre)  # "SortLinkList" ->ₛ "responseTime")) # UInt64  |-> t)
 |--
@@ -94,7 +94,7 @@ forall (A: Type) (value_pre: Z) (sortList_pre: Z) (storeA: (Z -> (A -> Assertion
   (storesortedLinkNode storeA &((sortList_pre)  # "SortLinkList" ->ₛ "sortLinkNode") (mksortedLinkNode (a) (value_pre)) )
 ) \/
 (
-forall (A: Type) (value_pre: Z) (sortList_pre: Z) (storeA: (Z -> (A -> Assertion))) (a: A) ,
+forall (A: Type) (value_pre: Z) (sortList_pre: Z) (storeA: (Z -> (A -> Assertion))) (a: A) (PreH1 : (value_pre <= UINT64_MAX)) (PreH2 : (value_pre >= 0)) ,
   (storeA &((sortList_pre)  # "SortLinkList" ->ₛ "sortLinkNode") a )
   **  ((&((sortList_pre)  # "SortLinkList" ->ₛ "responseTime")) # UInt64  |-> value_pre)
 |--
@@ -102,7 +102,7 @@ forall (A: Type) (value_pre: Z) (sortList_pre: Z) (storeA: (Z -> (A -> Assertion
 ).
 
 Definition SET_SORTLIST_VALUE_return_wit_1_split_goal_spatial := 
-forall (A: Type) (value_pre: Z) (sortList_pre: Z) (storeA: (Z -> (A -> Assertion))) (a: A) ,
+forall (A: Type) (value_pre: Z) (sortList_pre: Z) (storeA: (Z -> (A -> Assertion))) (a: A) (PreH1 : (value_pre <= UINT64_MAX)) (PreH2 : (value_pre >= 0)) ,
   (storeA &((sortList_pre)  # "SortLinkList" ->ₛ "sortLinkNode") a )
   **  ((&((sortList_pre)  # "SortLinkList" ->ₛ "responseTime")) # UInt64  |-> value_pre)
 |--

@@ -22,7 +22,7 @@ Local Open Scope sac.
 
 Lemma proof_of_enqueue_return_wit_1 : enqueue_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   unfold store_queue.
   subst.
   Exists ql1 p_callee_v l1 (x_pre :: l2).
@@ -39,7 +39,7 @@ Qed.
 
 Lemma proof_of_enqueue_entail_wit_1 : enqueue_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   unfold store_queue.
   Intros p1 p2 l1 l2.
   Exists p2 p1 l1 l2.
@@ -54,7 +54,7 @@ Qed.
 
 Lemma proof_of_dequeue_return_wit_1 : dequeue_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst.
   unfold store_queue.
   simpl in PreH2.
@@ -70,7 +70,7 @@ Qed.
 
 Lemma proof_of_dequeue_entail_wit_1 : dequeue_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   unfold store_queue.
   Intros p1 p2 l1 l2.
   Exists p2 p1 l1 l2.
@@ -85,7 +85,7 @@ Qed.
 
 Lemma proof_of_dequeue_entail_wit_2 : dequeue_entail_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   sep_apply (sll_zero ql1_2 l1); [ | tauto ].
   Intros.
   subst.
@@ -102,7 +102,7 @@ Qed.
 
 Lemma proof_of_dequeue_entail_wit_3 : dequeue_entail_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   sep_apply sll_not_zero; [ | tauto].
   Intros y a l0.
   Exists ql2_2.
@@ -133,9 +133,9 @@ Proof.
     reflexivity.
 Qed.
 
-Lemma proof_of_dequeue_entail_wit_4_2 : dequeue_entail_wit_4_2.
+Lemma proof_of_dequeue_entail_wit_4_1 : dequeue_entail_wit_4_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists 0 ql1_2.
   destruct rev_l2 ; try discriminate.
   inversion PreH1. subst.

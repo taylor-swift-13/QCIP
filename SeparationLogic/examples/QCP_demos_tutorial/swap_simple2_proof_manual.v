@@ -23,5 +23,5 @@ Local Open Scope sac.
 
 Lemma proof_of_swap_int_pair_return_wit_1 : swap_int_pair_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
 Qed. 

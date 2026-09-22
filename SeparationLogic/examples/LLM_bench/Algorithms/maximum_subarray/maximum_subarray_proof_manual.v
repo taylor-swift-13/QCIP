@@ -21,7 +21,7 @@ Local Open Scope sac.
 
 Lemma proof_of_max_return_wit_2 : max_return_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - cancel.
   - split_pures.
@@ -33,7 +33,7 @@ Qed.
 
 Lemma proof_of_max_return_wit_1 : max_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - cancel.
   - split_pures.
@@ -45,7 +45,7 @@ Qed.
 
 Lemma proof_of_max_sub_array_entail_wit_1 : max_sub_array_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - cancel.
   - split_pures;
@@ -60,9 +60,21 @@ Proof.
       end.
 Qed. 
 
+Lemma proof_of_max_sub_array_entail_wit_2_split_goal_1 : max_sub_array_entail_wit_2_split_goal_1.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  apply PreH12.
+  exact H.
+Qed.
+
+Lemma proof_of_max_sub_array_entail_wit_2 : max_sub_array_entail_wit_2.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+Qed.
+
 Lemma proof_of_max_sub_array_entail_wit_3 : max_sub_array_entail_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - cancel.
   - split_pures;
@@ -77,7 +89,7 @@ Qed.
 
 Lemma proof_of_max_sub_array_entail_wit_4 : max_sub_array_entail_wit_4.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - cancel.
   - split_pures;
@@ -118,7 +130,7 @@ Qed.
 
 Lemma proof_of_max_sub_array_entail_wit_5 : max_sub_array_entail_wit_5.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - cancel.
   - split_pures;
@@ -135,9 +147,21 @@ Proof.
            apply Z.max_lub; lia).
 Qed. 
 
+Lemma proof_of_max_sub_array_entail_wit_6_split_goal_1 : max_sub_array_entail_wit_6_split_goal_1.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  apply PreH12.
+  exact H.
+Qed.
+
+Lemma proof_of_max_sub_array_entail_wit_6 : max_sub_array_entail_wit_6.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+Qed.
+
 Lemma proof_of_max_sub_array_entail_wit_7 : max_sub_array_entail_wit_7.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - cancel.
   - split_pures.

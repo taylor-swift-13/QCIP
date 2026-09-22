@@ -21,7 +21,7 @@ Local Open Scope sac.
 
 Lemma proof_of_length_safety_wit_2 : length_safety_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pures.
   - dump_pre_spatial.
     pose proof PreH5 as Hlen.
@@ -41,7 +41,7 @@ Qed.
 
 Lemma proof_of_length_entail_wit_1 : length_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists nil l.
   split_pure_spatial.
   - simpl sllseg.
@@ -62,7 +62,7 @@ Qed.
 
 Lemma proof_of_length_entail_wit_3 : length_entail_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst l2_2.
   Exists (l1_2 ++ (pdata :: nil))%list l3.
   split_pure_spatial.
@@ -86,7 +86,7 @@ Qed.
 
 Lemma proof_of_length_return_wit_1 : length_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst p.
   sep_apply (sll_zero 0 l2); [ | reflexivity ].
   Intros_p Hl2.
@@ -102,7 +102,7 @@ Qed.
 
 Lemma proof_of_reverse_entail_wit_1 : reverse_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists nil l.
   split_pure_spatial.
   - simpl sll.
@@ -117,7 +117,7 @@ Qed.
 
 Lemma proof_of_reverse_entail_wit_3 : reverse_entail_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists (vdata :: l1_2) l2_new.
   split_pure_spatial.
   - cancel (sll vnext l2_new).
@@ -137,7 +137,7 @@ Qed.
 
 Lemma proof_of_reverse_return_wit_1 : reverse_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   sep_apply (sll_zero v l2); [ | tauto ].
   Intros_p Hl2.
   rewrite Hl2 in PreH1.
@@ -149,7 +149,7 @@ Qed.
 
 Lemma proof_of_reverse_alter_style1_entail_wit_1 : reverse_alter_style1_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists nil l.
   split_pure_spatial.
   - simpl sll.
@@ -164,7 +164,7 @@ Qed.
 
 Lemma proof_of_reverse_alter_style1_entail_wit_3 : reverse_alter_style1_entail_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists (x :: l1_2) xs.
   split_pure_spatial.
   - cancel (sll vn xs).
@@ -184,7 +184,7 @@ Qed.
 
 Lemma proof_of_reverse_alter_style1_return_wit_1 : reverse_alter_style1_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   sep_apply (sll_zero v l2); [ | tauto ].
   Intros_p Hl2.
   rewrite Hl2 in PreH1.
@@ -196,7 +196,7 @@ Qed.
 
 Lemma proof_of_reverse_alter_style2_entail_wit_1 : reverse_alter_style2_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists nil l.
   split_pure_spatial.
   - simpl sll.
@@ -211,7 +211,7 @@ Qed.
 
 Lemma proof_of_reverse_alter_style2_entail_wit_3 : reverse_alter_style2_entail_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists (x :: l1_2) xs.
   split_pure_spatial.
   - cancel (sll v_inv_next xs).
@@ -231,7 +231,7 @@ Qed.
 
 Lemma proof_of_reverse_alter_style2_return_wit_1 : reverse_alter_style2_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   sep_apply (sll_zero v_inv l2); [ | tauto ].
   Intros_p Hl2.
   rewrite Hl2 in PreH1.
@@ -243,7 +243,7 @@ Qed.
 
 Lemma proof_of_reverse_alter_style3_entail_wit_2 : reverse_alter_style3_entail_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst w v.
   Exists nil l.
   split_pure_spatial.
@@ -256,7 +256,7 @@ Qed.
 
 Lemma proof_of_reverse_alter_style3_entail_wit_4 : reverse_alter_style3_entail_wit_4.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists (vdata :: l1_2) l2_new.
   split_pure_spatial.
   - cancel (sll vnext l2_new).
@@ -276,7 +276,7 @@ Qed.
 
 Lemma proof_of_reverse_alter_style3_return_wit_1 : reverse_alter_style3_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   sep_apply (sll_zero v l2); [ | tauto ].
   Intros_p Hl2.
   rewrite Hl2 in PreH1.
@@ -288,7 +288,7 @@ Qed.
 
 Lemma proof_of_append_entail_wit_2 : append_entail_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists xn.
   Exists nil.
   Exists a.
@@ -318,7 +318,7 @@ Qed.
 
 Lemma proof_of_append_entail_wit_4 : append_entail_wit_4.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst t_next_2 l1b_2.
   Exists unext.
   Exists (l1a_2 ++ (t_data_2 :: nil))%list.
@@ -343,7 +343,7 @@ Qed.
 
 Lemma proof_of_append_return_wit_2 : append_return_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   rewrite PreH1.
   sep_apply (sll_zero 0 l1); [ | reflexivity ].
   Intros_p Hl1.
@@ -355,7 +355,7 @@ Qed.
 
 Lemma proof_of_append_return_wit_1 : append_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst t_next.
   sep_apply (sll_zero u l1b); [ | tauto ].
   Intros_p Hl1b.
@@ -371,7 +371,7 @@ Qed.
 
 Lemma proof_of_append_long_entail_wit_2 : append_long_entail_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists xn.
   Exists nil.
   Exists a.
@@ -401,7 +401,7 @@ Qed.
 
 Lemma proof_of_append_long_entail_wit_4 : append_long_entail_wit_4.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst t_next_2 l1c_2.
   Exists un.
   Exists (l1a_2 ++ (b_2 :: nil))%list.
@@ -426,7 +426,7 @@ Qed.
 
 Lemma proof_of_append_long_return_wit_3 : append_long_return_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   rewrite PreH1.
   sep_apply (sll_zero 0 l1); [ | reflexivity ].
   Intros_p Hl1.
@@ -438,7 +438,7 @@ Qed.
 
 Lemma proof_of_append_long_return_wit_2 : append_long_return_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   rewrite PreH1.
   sep_apply (sll_zero 0 l1b); [ | reflexivity ].
   Intros_p Hl1b.
@@ -452,7 +452,7 @@ Qed.
 
 Lemma proof_of_append_long_return_wit_1 : append_long_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst t_next.
   sep_apply (sll_zero u l1c); [ | tauto ].
   Intros_p Hl1c.
@@ -468,7 +468,7 @@ Qed.
 
 Lemma proof_of_append_2p_entail_wit_1 : append_2p_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists nil l1.
   split_pure_spatial.
   - simpl sllbseg.
@@ -484,7 +484,7 @@ Qed.
 
 Lemma proof_of_append_2p_entail_wit_2 : append_2p_entail_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   sep_apply (sll_not_zero ptvv_2 l1b_2); [ | tauto ].
   Intros ptn a l0.
   Exists ptn (l1a_2 ++ a :: nil)%list l0.
@@ -501,7 +501,7 @@ Qed.
 
 Lemma proof_of_append_2p_entail_wit_3 : append_2p_entail_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   rewrite PreH2.
   sep_apply (sll_zero 0 l1b); [ | reflexivity ].
   Intros_p Hl1b.
@@ -517,7 +517,7 @@ Qed.
 
 Lemma proof_of_append_2p_return_wit_1 : append_2p_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   sep_apply (sllseg_sll presv y_pre l1 l2).
   cancel.
 Qed.

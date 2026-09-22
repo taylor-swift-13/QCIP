@@ -23,32 +23,53 @@ Require Import SimpleC.EE.Applications_human.LiteOS.lib.dll.
 Require Import SimpleC.EE.Applications_human.LiteOS.lib.tick_backup.
 Local Open Scope sac.
 
-Lemma proof_of_OsDeleteNodeSortLink_which_implies_wit_1 : OsDeleteNodeSortLink_which_implies_wit_1.
-Proof. 
-    pre_process.
+Lemma proof_of_OsDeleteNodeSortLink_which_implies_wit_1_split_goal_1 :
+    OsDeleteNodeSortLink_which_implies_wit_1_split_goal_1.
+Proof.
+    LLM_pre_process ltac:(int_auto).
     unfold store_sorted_dll.
     unfold increasingSortedNode.
-    unfold increasing.
-    entailer!.
+    Intros_p Hincreasing.
+    dump_pre_spatial.
+    exact Hincreasing.
+Qed.
+
+Lemma proof_of_OsDeleteNodeSortLink_which_implies_wit_1_split_goal_spatial :
+    OsDeleteNodeSortLink_which_implies_wit_1_split_goal_spatial.
+Proof.
+    LLM_pre_process ltac:(int_auto).
+    unfold store_sorted_dll.
+    Intros_p Hincreasing.
     rewrite map_app.
     rewrite map_cons.
     unfold sortedLinkNodeMapping at 2.
     simpl.
-    entailer!.
-Qed. 
+    cancel.
+Qed.
 
+Lemma proof_of_OsDeleteNodeSortLink_which_implies_wit_1 : OsDeleteNodeSortLink_which_implies_wit_1.
+Proof.
+    aggressive_pre_process.
+    + Goal_apply proof_of_OsDeleteNodeSortLink_which_implies_wit_1_split_goal_spatial.
+    + Goal_apply proof_of_OsDeleteNodeSortLink_which_implies_wit_1_split_goal_1.
+Qed.
 
-Lemma proof_of_OsDeleteNodeSortLink_which_implies_wit_2 : OsDeleteNodeSortLink_which_implies_wit_2.
-Proof. 
-    pre_process.
+Lemma proof_of_OsDeleteNodeSortLink_which_implies_wit_2_split_goal_spatial :
+    OsDeleteNodeSortLink_which_implies_wit_2_split_goal_spatial.
+Proof.
+    LLM_pre_process ltac:(int_auto).
     unfold storesortedLinkNode.
     Intros y.
     simpl.
-    entailer!. 
     apply addr_of_arrow_field_inv in H.
-    entailer!.
     rewrite H.
-    entailer!.
+    cancel.
+Qed.
+
+Lemma proof_of_OsDeleteNodeSortLink_which_implies_wit_2 : OsDeleteNodeSortLink_which_implies_wit_2.
+Proof.
+    aggressive_pre_process.
+    Goal_apply proof_of_OsDeleteNodeSortLink_which_implies_wit_2_split_goal_spatial.
 Qed.
 
 Lemma increasing_split_head: forall (A:Type) (a: DL_Node (sortedLinkNode A)) (l: list (DL_Node (sortedLinkNode A))), increasing (a::l) -> increasing l .
@@ -130,26 +151,40 @@ Proof.
       apply H3.
 Qed.
 
-Lemma proof_of_OsDeleteNodeSortLink_return_wit_1 : OsDeleteNodeSortLink_return_wit_1.
-Proof. 
-    pre_process.
+Lemma proof_of_OsDeleteNodeSortLink_return_wit_1_split_goal_spatial :
+    OsDeleteNodeSortLink_return_wit_1_split_goal_spatial.
+Proof.
+    LLM_pre_process ltac:(int_auto).
     unfold store_dll.
     Intros h pt.
-    entailer!.
+    cancel.
     unfold store_sorted_dll.
-    unfold store_dll.
-    Exists 0 0.
-    Exists h pt.
-    entailer!.
-    rewrite map_app.
-    subst.
-    entailer!.
-    unfold storesortedLinkNode.
-    Exists sortList_pre.
-    simpl.
-    entailer!.
-    apply increasing_split in PreH3.
-    apply PreH3.
+    split_pure_spatial.
+    - unfold store_dll.
+      Exists h pt.
+      cancel.
+      rewrite map_app.
+      subst.
+      cancel.
+      unfold storesortedLinkNode.
+      Exists sortList_pre.
+      simpl.
+      split_pure_spatial.
+      + cancel (storeA &( sortList_pre # "SortLinkList" ->ₛ "sortLinkNode") a).
+        cancel (&( sortList_pre # "SortLinkList" ->ₛ "responseTime")
+          # UInt64 |-> unsigned_last_nbits (-1) 64).
+        cancel (&( x # "LOS_DL_LIST" ->ₛ "pstPrev") # Ptr |-> pt).
+        cancel (&( x # "LOS_DL_LIST" ->ₛ "pstNext") # Ptr |-> h).
+        cancel.
+      + dump_pre_spatial.
+        reflexivity.
+    - dump_pre_spatial.
+      apply increasing_split in PreH5.
+      apply PreH5.
 Qed.
 
-
+Lemma proof_of_OsDeleteNodeSortLink_return_wit_1 : OsDeleteNodeSortLink_return_wit_1.
+Proof.
+    aggressive_pre_process.
+    Goal_apply proof_of_OsDeleteNodeSortLink_return_wit_1_split_goal_spatial.
+Qed.

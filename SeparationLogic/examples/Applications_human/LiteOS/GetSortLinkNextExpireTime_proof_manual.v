@@ -34,7 +34,13 @@ Proof.
     intros.
     simpl.
     Exists z.
-    entailer!.
+    split_pure_spatial.
+    - cancel (storeA y a).
+      cancel (&(y # "LOS_DL_LIST" ->ₛ "pstPrev") # Ptr |-> py).
+      cancel (&(y # "LOS_DL_LIST" ->ₛ "pstNext") # Ptr |-> z).
+      cancel (dllseg storeA z y x pt l).
+    - dump_pre_spatial.
+      reflexivity.
 Qed.
 
 
@@ -52,7 +58,10 @@ Proof.
     simpl.
     Intros z.
     Exists z.
-    entailer!.
+    cancel (dllseg storeA z y x pt l).
+    cancel (storeA y a).
+    cancel (&(y # "LOS_DL_LIST" ->ₛ "pstPrev") # Ptr |-> py).
+    cancel (&(y # "LOS_DL_LIST" ->ₛ "pstNext") # Ptr |-> z).
 Qed.
 
 Lemma head_trans:
@@ -66,7 +75,8 @@ Proof.
     unfold store_dll.
     Intros z.
     rewrite H.
-    entailer!.
+    dump_pre_spatial.
+    reflexivity.
 Qed.
 
 Lemma storesortedLinkNode_split : 
@@ -80,7 +90,12 @@ Proof.
     simpl.
     unfold storesortedLinkNode.
     Exists y0.
-    entailer!.
+    split_pure_spatial.
+    - cancel.
+      simpl.
+      cancel.
+    - dump_pre_spatial.
+      assumption.
 Qed.
 
 Lemma store_dll_shift_rev_unfold:
@@ -96,13 +111,13 @@ Proof.
   Intros h pt.
   sep_apply (dllseg_to_dllseg_shift_rev storeA h x x pt l).
   Exists h.
-  entailer!.
+  cancel.
 Qed.
 
 Lemma map_sortedLinkNodeMapping_not_nil : forall [A B : Type]  (f : A -> B) (l : list A),
   map f l <> nil -> l <> nil.
 Proof.
-    pre_process.
+    LLM_pre_process ltac:(int_auto).
     intros.
     csimpl.
     destruct l.
@@ -115,7 +130,7 @@ Qed.
 Lemma map_sortedLinkNodeMapping : forall [A: Type](d a: DL_Node (sortedLinkNode A)) (l1 l: list (DL_Node (sortedLinkNode A))),
   map sortedLinkNodeMapping (d::l) = a::l1 ->  d.(dll_data) = a.(dll_data).
 Proof.
-    pre_process.
+    LLM_pre_process ltac:(int_auto).
     intros.
     csimpl.
     simpl in H.
@@ -132,34 +147,40 @@ Qed.
 Lemma proof_of_GetSortLinkNextExpireTime_entail_wit_1 : GetSortLinkNextExpireTime_entail_wit_1.
 Proof. 
     unfold GetSortLinkNextExpireTime_entail_wit_1.
-    pre_process.
+    LLM_pre_process ltac:(int_auto).
     intros.
     Intros.
     destruct l.
     +
     unfold obtian_first_pointer.
     simpl.
-    entailer!.
-    destruct H as [Hh _].
+    Intros_p Hnil.
+    destruct Hnil as [Hh Hpt].
     rewrite Hh.
-    entailer!.
+    split_pure_spatial.
+    - cancel.
+    - repeat split_pures; dump_pre_spatial;
+        try reflexivity; try assumption; try (split; [reflexivity | exact Hpt]).
     +
     unfold obtian_first_pointer.
     simpl.
     Intros z.
     Exists z.
-    entailer!.
     rewrite H.
-    entailer!.
+    split_pure_spatial.
+    - cancel.
+      cancel.
+      cancel.
+      cancel.
+      cancel.
+    - repeat split_pures; dump_pre_spatial; try assumption; try reflexivity.
 Qed. 
 
 
-Lemma proof_of_GetSortLinkNextExpireTime_return_wit_3 : GetSortLinkNextExpireTime_return_wit_3.
-Proof. 
-    pre_process.
-    intros.
-    unfold store_sorted_dll.
-    entailer!.
+Lemma proof_of_GetSortLinkNextExpireTime_return_wit_3_split_goal_1 :
+  GetSortLinkNextExpireTime_return_wit_3_split_goal_1.
+Proof.
+    LLM_pre_process ltac:(int_auto).
     unfold getFirstNodeExpireTime.
     destruct l.
     +
@@ -169,114 +190,172 @@ Proof.
     lia. 
     assert ( ULLONG_MAX - tickPrecision_pre < 2 ^ 64).
     lia.
-    lia.
+    dump_pre_spatial.
+    reflexivity.
     +
     simpl in PreH1.
     discriminate PreH1.
-Qed. 
-
-Lemma proof_of_GetSortLinkNextExpireTime_return_wit_2 : GetSortLinkNextExpireTime_return_wit_2.
-Proof. 
-    pre_process.
-    intros.
-    unfold store_sorted_dll.
-    entailer!.
-    pose proof storesortedLinkNode_split A storeA (&( retval_2 # "SortLinkList" ->ₛ "sortLinkNode")) retval_2 (sl_data a.(dll_data)) (responseTime a.(dll_data)) as HsplitNode. 
-    sep_apply HsplitNode ; try auto.
-    unfold store_dll.
-    Exists &( retval_2 # "SortLinkList" ->ₛ "sortLinkNode") pt.
-    simpl.
-    pose proof dllseg_head_insert (sortedLinkNode A) (storesortedLinkNode storeA) (&( sortHead_pre # "SortLinkAttribute" ->ₛ "sortLink")) (&( retval_2 # "SortLinkList" ->ₛ "sortLinkNode")) pl (&( sortHead_pre # "SortLinkAttribute" ->ₛ "sortLink")) pt (mksortedLinkNode (sl_data a.(dll_data)) (responseTime a.(dll_data)))  l1 as HinsertNode. 
-    simpl.
-    entailer!.
-    - revert HinsertNode.
-      csimpl.
-      intros.
-      sep_apply HinsertNode.
-      unfold obtian_first_pointer in PreH2.
-      simpl in PreH2.
-      simpl in PreH5.
-      rewrite PreH5 in PreH2.
-      rewrite PreH5.
-      entailer!.
-      try rewrite PreH2.
-      entailer!.
-    - unfold getFirstNodeExpireTime.
-      pose proof map_sortedLinkNodeMapping_not_nil sortedLinkNodeMapping l.
-      assert (l <> nil) ; auto.
-      destruct l.
-      + contradiction.
-      + unfold getNodeExpireTime.
-        pose proof (map_sortedLinkNodeMapping d a l1 l PreH5) as HmapDataEq.
-        assert (unsigned_last_nbits (startTime_pre + tickPrecision_pre) 64 = startTime_pre + tickPrecision_pre) as Hunsigned.
-        {
-          pose proof (unsigned_last_nbits_eq (startTime_pre + tickPrecision_pre) 64).
-          assert (0 <= startTime_pre + tickPrecision_pre) by lia.
-          assert (startTime_pre + tickPrecision_pre < 2 ^ 64) by lia.
-          lia.
-        }
-        rewrite Hunsigned in PreH1.
-        rewrite Hunsigned.
-        rewrite HmapDataEq.
-        destruct (responseTime a.(dll_data) <=? startTime_pre + tickPrecision_pre)%Z eqn: En.
-        * reflexivity.
-        * apply Z.leb_gt in En; lia.
 Qed.
 
-Lemma proof_of_GetSortLinkNextExpireTime_return_wit_1 : GetSortLinkNextExpireTime_return_wit_1.
-Proof.  
-    pre_process.
-    intros.
-    csimpl.
+Lemma proof_of_GetSortLinkNextExpireTime_return_wit_3_split_goal_spatial :
+  GetSortLinkNextExpireTime_return_wit_3_split_goal_spatial.
+Proof.
+    LLM_pre_process ltac:(int_auto).
     unfold store_sorted_dll.
-    entailer!.
-    pose proof storesortedLinkNode_split A storeA (&( retval_2 # "SortLinkList" ->ₛ "sortLinkNode")) retval_2 (sl_data a.(dll_data)) (responseTime a.(dll_data)) as HsplitNode. 
-    sep_apply HsplitNode ; try auto.
-    unfold store_dll.
-    Exists &( retval_2 # "SortLinkList" ->ₛ "sortLinkNode") pt.
-    csimpl.
-    simpl.
-    pose proof dllseg_head_insert (sortedLinkNode A) (storesortedLinkNode storeA) (&( sortHead_pre # "SortLinkAttribute" ->ₛ "sortLink")) (&( retval_2 # "SortLinkList" ->ₛ "sortLinkNode")) pl (&( sortHead_pre # "SortLinkAttribute" ->ₛ "sortLink")) pt (mksortedLinkNode (sl_data a.(dll_data)) (responseTime a.(dll_data)))  l1 as HinsertNode. 
-    csimpl.
-    simpl.
-    entailer!.
-    - revert HinsertNode.
-      csimpl.
-      intros.
-      sep_apply HinsertNode.
-      unfold obtian_first_pointer in PreH2.
-      simpl in PreH2.
-      simpl in PreH5.
-      rewrite PreH5 in PreH2.
-      rewrite PreH5.
-      entailer!.
-      try rewrite PreH2.
-      entailer!.
-    - unfold getFirstNodeExpireTime.
-      pose proof map_sortedLinkNodeMapping_not_nil sortedLinkNodeMapping l.
-      assert (l <> nil) ; try auto.
-      destruct l.
-      + contradiction.
-      + unfold getNodeExpireTime.
-        pose proof (map_sortedLinkNodeMapping d a l1 l PreH5) as HmapDataEq.
-        assert (unsigned_last_nbits (startTime_pre + tickPrecision_pre) 64 = startTime_pre + tickPrecision_pre) as Hunsigned.
-        {
-          pose proof (unsigned_last_nbits_eq (startTime_pre + tickPrecision_pre) 64).
-          assert (0 <= startTime_pre + tickPrecision_pre) by lia.
-          assert (startTime_pre + tickPrecision_pre < 2 ^ 64) by lia.
-          lia.
-        }
-        rewrite Hunsigned in PreH1.
-        rewrite HmapDataEq.
-        destruct (responseTime a.(dll_data) <=? startTime_pre + tickPrecision_pre)%Z eqn: En.
-        * apply Z.leb_le in En; lia.
-        * reflexivity.
+    split_pure_spatial.
+    - cancel.
+    - split_pures; dump_pre_spatial; assumption.
+Qed.
+
+Lemma proof_of_GetSortLinkNextExpireTime_return_wit_3 :
+  GetSortLinkNextExpireTime_return_wit_3.
+Proof.
+    aggressive_pre_process.
+    + Goal_apply proof_of_GetSortLinkNextExpireTime_return_wit_3_split_goal_spatial.
+    + Goal_apply proof_of_GetSortLinkNextExpireTime_return_wit_3_split_goal_1.
+Qed.
+
+Lemma proof_of_GetSortLinkNextExpireTime_return_wit_2_split_goal_spatial :
+  GetSortLinkNextExpireTime_return_wit_2_split_goal_spatial.
+Proof.
+    LLM_pre_process ltac:(int_auto).
+    unfold store_sorted_dll.
+    destruct a as [[adata atime] aptr]; simpl in *.
+    split_pure_spatial.
+    - unfold store_dll.
+      rewrite PreH7.
+      unfold obtian_first_pointer in PreH4.
+      simpl in PreH7.
+      rewrite PreH7 in PreH4.
+      Exists &( retval_2 # "SortLinkList" ->ₛ "sortLinkNode") pt.
+      simpl.
+      Exists pl.
+      split_pure_spatial.
+      + pose proof storesortedLinkNode_split A storeA
+          (&( retval_2 # "SortLinkList" ->ₛ "sortLinkNode")) retval_2
+          adata atime as HsplitNode.
+        sep_apply HsplitNode; try auto.
+        csimpl.
+        cancel.
+      + dump_pre_spatial.
+        exact PreH4.
+    - dump_pre_spatial.
+      unfold increasingSortedNode in PreH8.
+      unfold increasing.
+      exact PreH8.
+Qed.
+
+Lemma proof_of_GetSortLinkNextExpireTime_return_wit_2_split_goal_1 :
+  GetSortLinkNextExpireTime_return_wit_2_split_goal_1.
+Proof.
+    LLM_pre_process ltac:(int_auto).
+    unfold getFirstNodeExpireTime.
+    pose proof map_sortedLinkNodeMapping_not_nil sortedLinkNodeMapping l.
+    assert (l <> nil) by auto.
+    destruct l.
+    - contradiction.
+    - unfold getNodeExpireTime.
+      pose proof (map_sortedLinkNodeMapping d a l1 l PreH7) as HmapDataEq.
+      assert (Hunsigned:
+        unsigned_last_nbits (startTime_pre + tickPrecision_pre) 64 =
+        startTime_pre + tickPrecision_pre).
+      {
+        pose proof (unsigned_last_nbits_eq
+          (startTime_pre + tickPrecision_pre) 64).
+        assert (0 <= startTime_pre + tickPrecision_pre) by lia.
+        assert (startTime_pre + tickPrecision_pre < 2 ^ 64) by lia.
+        lia.
+      }
+      rewrite Hunsigned in PreH3.
+      rewrite Hunsigned.
+      rewrite HmapDataEq.
+      destruct (responseTime a.(dll_data) <=?
+        startTime_pre + tickPrecision_pre)%Z eqn: En.
+      + dump_pre_spatial.
+        reflexivity.
+      + apply Z.leb_gt in En; lia.
+Qed.
+
+Lemma proof_of_GetSortLinkNextExpireTime_return_wit_2 :
+  GetSortLinkNextExpireTime_return_wit_2.
+Proof.
+    aggressive_pre_process.
+    + Goal_apply proof_of_GetSortLinkNextExpireTime_return_wit_2_split_goal_spatial.
+    + Goal_apply proof_of_GetSortLinkNextExpireTime_return_wit_2_split_goal_1.
+Qed.
+
+Lemma proof_of_GetSortLinkNextExpireTime_return_wit_1_split_goal_spatial :
+  GetSortLinkNextExpireTime_return_wit_1_split_goal_spatial.
+Proof.
+    LLM_pre_process ltac:(int_auto).
+    unfold store_sorted_dll.
+    destruct a as [[adata atime] aptr]; simpl in *.
+    split_pure_spatial.
+    - unfold store_dll.
+      rewrite PreH7.
+      unfold obtian_first_pointer in PreH4.
+      simpl in PreH7.
+      rewrite PreH7 in PreH4.
+      Exists &( retval_2 # "SortLinkList" ->ₛ "sortLinkNode") pt.
+      simpl.
+      Exists pl.
+      split_pure_spatial.
+      + pose proof storesortedLinkNode_split A storeA
+          (&( retval_2 # "SortLinkList" ->ₛ "sortLinkNode")) retval_2
+          adata atime as HsplitNode.
+        sep_apply HsplitNode; try auto.
+        csimpl.
+        cancel.
+      + dump_pre_spatial.
+        exact PreH4.
+    - dump_pre_spatial.
+      unfold increasingSortedNode in PreH8.
+      unfold increasing.
+      exact PreH8.
+Qed.
+
+Lemma proof_of_GetSortLinkNextExpireTime_return_wit_1_split_goal_1 :
+  GetSortLinkNextExpireTime_return_wit_1_split_goal_1.
+Proof.
+    LLM_pre_process ltac:(int_auto).
+    unfold getFirstNodeExpireTime.
+    pose proof map_sortedLinkNodeMapping_not_nil sortedLinkNodeMapping l.
+    assert (l <> nil) by auto.
+    destruct l.
+    - contradiction.
+    - unfold getNodeExpireTime.
+      pose proof (map_sortedLinkNodeMapping d a l1 l PreH7) as HmapDataEq.
+      assert (Hunsigned:
+        unsigned_last_nbits (startTime_pre + tickPrecision_pre) 64 =
+        startTime_pre + tickPrecision_pre).
+      {
+        pose proof (unsigned_last_nbits_eq
+          (startTime_pre + tickPrecision_pre) 64).
+        assert (0 <= startTime_pre + tickPrecision_pre) by lia.
+        assert (startTime_pre + tickPrecision_pre < 2 ^ 64) by lia.
+        lia.
+      }
+      rewrite Hunsigned in PreH3.
+      rewrite HmapDataEq.
+      destruct (responseTime a.(dll_data) <=?
+        startTime_pre + tickPrecision_pre)%Z eqn: En.
+      + apply Z.leb_le in En; lia.
+      + dump_pre_spatial.
+        reflexivity.
+Qed.
+
+Lemma proof_of_GetSortLinkNextExpireTime_return_wit_1 :
+  GetSortLinkNextExpireTime_return_wit_1.
+Proof.
+    aggressive_pre_process.
+    + Goal_apply proof_of_GetSortLinkNextExpireTime_return_wit_1_split_goal_spatial.
+    + Goal_apply proof_of_GetSortLinkNextExpireTime_return_wit_1_split_goal_1.
 Qed.
 
 Lemma proof_of_GetSortLinkNextExpireTime_which_implies_wit_1 : GetSortLinkNextExpireTime_which_implies_wit_1.
 Proof. 
     unfold GetSortLinkNextExpireTime_which_implies_wit_1.
-    pre_process.
+    LLM_pre_process ltac:(int_auto).
     intros.
     csimpl.
     unfold store_sorted_dll.
@@ -284,89 +363,143 @@ Proof.
     Intros h pt.
     Exists pt h.
     csimpl.
-    entailer!.
+    split_pure_spatial.
+    - cancel (&( &( sortHead # "SortLinkAttribute" ->ₛ "sortLink") ->ₛ "pstNext") # Ptr |-> h).
+      cancel (&( &( sortHead # "SortLinkAttribute" ->ₛ "sortLink") ->ₛ "pstPrev") # Ptr |-> pt).
+      cancel (dllseg (storesortedLinkNode storeA) h
+        &( sortHead # "SortLinkAttribute" ->ₛ "sortLink")
+        &( sortHead # "SortLinkAttribute" ->ₛ "sortLink") pt
+        (map sortedLinkNodeMapping l)).
+    - dump_pre_spatial.
+      unfold increasing, increasingSortedNode in *.
+      assumption.
 Qed. 
 
 
-Lemma proof_of_GetSortLinkNextExpireTime_which_implies_wit_2 : GetSortLinkNextExpireTime_which_implies_wit_2.
-Proof. 
-    unfold GetSortLinkNextExpireTime_which_implies_wit_2.
-    pre_process.
-    intros.
+Lemma proof_of_GetSortLinkNextExpireTime_which_implies_wit_2_split_goal_spatial :
+  GetSortLinkNextExpireTime_which_implies_wit_2_split_goal_spatial.
+Proof.
+    LLM_pre_process ltac:(int_auto).
     csimpl.
     unfold store_dll.
     Exists h pt.
     csimpl.
-    entailer!.
-Qed. 
+    cancel (&( &( sortHead # "SortLinkAttribute" ->ₛ "sortLink") ->ₛ "pstPrev") # Ptr |-> pt).
+    cancel (&( &( sortHead # "SortLinkAttribute" ->ₛ "sortLink") ->ₛ "pstNext") # Ptr |-> h).
+    cancel (dllseg (storesortedLinkNode storeA) h
+      &( sortHead # "SortLinkAttribute" ->ₛ "sortLink")
+      &( sortHead # "SortLinkAttribute" ->ₛ "sortLink") pt
+      (map sortedLinkNodeMapping l)).
+Qed.
+
+Lemma proof_of_GetSortLinkNextExpireTime_which_implies_wit_2 :
+  GetSortLinkNextExpireTime_which_implies_wit_2.
+Proof.
+    aggressive_pre_process.
+    Goal_apply proof_of_GetSortLinkNextExpireTime_which_implies_wit_2_split_goal_spatial.
+Qed.
 
 Lemma proof_of_GetSortLinkNextExpireTime_which_implies_wit_3 : GetSortLinkNextExpireTime_which_implies_wit_3.
 Proof. 
     unfold GetSortLinkNextExpireTime_which_implies_wit_3.
-    pre_process.
+    LLM_pre_process ltac:(int_auto).
     intros.
     unfold store_dll.
     Intros h pt.
-    prop_apply (head_trans (sortedLinkNode A) (storesortedLinkNode storeA) h (&( sortHead # "SortLinkAttribute" ->ₛ "sortLink")) (&( sortHead # "SortLinkAttribute" ->ₛ "sortLink")) pt (&( listSorted # "SortLinkList" ->ₛ "sortLinkNode")) (mksortedLinkNode al t) l1).
-    entailer!.
-    rewrite H.
-    pose proof dllseg_head_split (sortedLinkNode A) (storesortedLinkNode storeA) h (&( sortHead # "SortLinkAttribute" ->ₛ "sortLink")) (&( sortHead # "SortLinkAttribute" ->ₛ "sortLink")) pt (mksortedLinkNode al t) l1.
-    sep_apply H0.
-    Intros z.
-    Exists pt z.
     simpl.
-    entailer!.
-    rewrite <- H.
+    Intros pl.
+    subst h.
+    Exists pt pl.
+    simpl.
     csimpl.
-    entailer!.
+    cancel (&( &( listSorted # "SortLinkList" ->ₛ "sortLinkNode") ->ₛ "pstNext") # Ptr |-> pl).
+    cancel (&( &( listSorted # "SortLinkList" ->ₛ "sortLinkNode") ->ₛ "pstPrev")
+      # Ptr |-> &( sortHead # "SortLinkAttribute" ->ₛ "sortLink")).
+    cancel (&( &( sortHead # "SortLinkAttribute" ->ₛ "sortLink") ->ₛ "pstNext")
+      # Ptr |-> &( listSorted # "SortLinkList" ->ₛ "sortLinkNode")).
+    cancel (&( &( sortHead # "SortLinkAttribute" ->ₛ "sortLink") ->ₛ "pstPrev") # Ptr |-> pt).
+    cancel (dllseg (storesortedLinkNode storeA) pl
+      &( listSorted # "SortLinkList" ->ₛ "sortLinkNode")
+      &( sortHead # "SortLinkAttribute" ->ₛ "sortLink") pt l1).
+    cancel (storesortedLinkNode storeA
+      &( listSorted # "SortLinkList" ->ₛ "sortLinkNode")
+      {| sl_data := al; responseTime := t |}).
 Qed.
 
-Lemma proof_of_GetSortLinkNextExpireTime_which_implies_wit_4 : GetSortLinkNextExpireTime_which_implies_wit_4.
-Proof. 
-    unfold GetSortLinkNextExpireTime_which_implies_wit_4.
-    pre_process.
-    intros.
+Lemma proof_of_GetSortLinkNextExpireTime_which_implies_wit_4_split_goal_spatial :
+  GetSortLinkNextExpireTime_which_implies_wit_4_split_goal_spatial.
+Proof.
+    LLM_pre_process ltac:(int_auto).
     unfold storesortedLinkNode.
     csimpl.
     Intros y.
     apply addr_of_arrow_field_inv in H.
     rewrite H.
-    entailer!.
-Qed. 
+    simpl.
+    cancel.
+Qed.
+
+Lemma proof_of_GetSortLinkNextExpireTime_which_implies_wit_4 :
+  GetSortLinkNextExpireTime_which_implies_wit_4.
+Proof.
+    aggressive_pre_process.
+    Goal_apply proof_of_GetSortLinkNextExpireTime_which_implies_wit_4_split_goal_spatial.
+Qed.
 
 Lemma proof_of_LOS_ListEmpty_derive_getfirstSpec_by_highSpec : LOS_ListEmpty_derive_getfirstSpec_by_highSpec.
 Proof. 
-    pre_process.
+    LLM_pre_process ltac:(int_auto).
     Exists A storeA_getfirstSpec l_getfirstSpec.
-    entailer!.
-    rewrite <- derivable1_wand_sepcon_adjoint.
-    entailer!.
-    apply derivable1_orp_elim.
+    cancel (store_dll storeA_getfirstSpec node_pre l_getfirstSpec).
+    apply derivable1_wand_sepcon_adjoint.
+    normalize.
+    Split.
     - Intros retval_2.
-    unfold store_dll.
-    Intros h pt.
-    unfold dllseg.
-    destruct l_getfirstSpec.
-    + entailer!.
-    + Intros z.
-    Right.
-    Exists d l_getfirstSpec retval_2.
-    Exists h pt.
-    Exists z.
-    entailer!.
+      unfold store_dll.
+      Intros h pt.
+      unfold dllseg.
+      destruct l_getfirstSpec.
+      + Intros Hnil.
+        contradiction.
+      + Intros z.
+        Right.
+        Exists d l_getfirstSpec retval_2.
+        Exists h pt.
+        Exists z.
+        split_pure_spatial.
+        * fold (dllseg storeA_getfirstSpec z h node_pre pt l_getfirstSpec).
+          cancel (storeA_getfirstSpec h d.(dll_data)).
+          cancel (&( h # "LOS_DL_LIST" ->ₛ "pstPrev") # Ptr |-> node_pre).
+          cancel (&( h # "LOS_DL_LIST" ->ₛ "pstNext") # Ptr |-> z).
+          cancel (dllseg storeA_getfirstSpec z h node_pre pt l_getfirstSpec).
+          cancel (&( node_pre # "LOS_DL_LIST" ->ₛ "pstPrev") # Ptr |-> pt).
+          cancel (&( node_pre # "LOS_DL_LIST" ->ₛ "pstNext") # Ptr |-> h).
+        * repeat split_pures; dump_pre_spatial;
+            try assumption; try reflexivity; try congruence.
     - Intros retval_2.
-    Left.
-    Exists retval_2.
-    entailer!.
+      Left.
+      Exists retval_2.
+      split_pure_spatial.
+      + cancel.
+      + repeat split_pures; dump_pre_spatial;
+          try assumption; try reflexivity; try congruence.
 Qed.
 
 
-Lemma proof_of_GetSortLinkNextExpireTime_partial_solve_wit_5_pure: GetSortLinkNextExpireTime_partial_solve_wit_5_pure.
+Lemma proof_of_GetSortLinkNextExpireTime_partial_solve_wit_5_pure_split_goal_1 :
+  GetSortLinkNextExpireTime_partial_solve_wit_5_pure_split_goal_1.
 Proof.
-    pre_process.
-    entailer!.
+    LLM_pre_process ltac:(int_auto).
+    dump_pre_spatial.
     unfold obtian_first_pointer.
-    unfold obtian_first_pointer in PreH1.
-    rewrite PreH4 in PreH1.
-    exact PreH1.
+    unfold obtian_first_pointer in PreH5.
+    rewrite PreH8 in PreH5.
+    exact PreH5.
+Qed.
+
+Lemma proof_of_GetSortLinkNextExpireTime_partial_solve_wit_5_pure :
+  GetSortLinkNextExpireTime_partial_solve_wit_5_pure.
+Proof.
+    aggressive_pre_process.
+    Goal_apply proof_of_GetSortLinkNextExpireTime_partial_solve_wit_5_pure_split_goal_1.
 Qed.

@@ -19,11 +19,13 @@ Proof.
   - Intros x.
     Exists x.
     normalize.
+    replace (p + i * 4) with (p + i * sizeof (UINT))
+      by (rewrite sizeof_uint; lia).
     cancel (UIntArray.missing_i_shape p i 0 n).
     cancel ((p + i * sizeof ( UINT )) # UInt |-> x).
     Intros_r v.
     apply_sepcon_adjoint.
-    elim_emp.
+    cancel ((p + i * sizeof ( UINT )) # UInt |-> v).
     cancel.
 Qed.
 
@@ -39,11 +41,13 @@ Proof.
     + dump_pre_spatial.
       lia.
     + normalize.
+      replace (p + x * 4) with (p + x * sizeof (UINT))
+        by (rewrite sizeof_uint; lia).
       cancel (UIntArray.seg_shape p (x + 1) y).
       cancel ((p + x * sizeof ( UINT )) # UInt |-> v0).
       Intros_r v.
       apply_sepcon_adjoint.
-      elim_emp.
+      cancel ((p + x * sizeof ( UINT )) # UInt |-> v).
       cancel.
 Qed.
 
@@ -97,11 +101,13 @@ Proof.
   - Intros x.
     Exists x.
     normalize.
+    replace (p + i * 4) with (p + i * sizeof (INT))
+      by (rewrite sizeof_int; lia).
     cancel (IntArray.missing_i_shape p i 0 n).
     cancel ((p + i * sizeof ( INT )) # Int |-> x).
     Intros_r v.
     apply_sepcon_adjoint.
-    elim_emp.
+    cancel ((p + i * sizeof ( INT )) # Int |-> v).
     cancel.
 Qed.
 
@@ -117,11 +123,13 @@ Proof.
     + dump_pre_spatial.
       lia.
     + normalize.
+      replace (p + x * 4) with (p + x * sizeof (INT))
+        by (rewrite sizeof_int; lia).
       cancel ((p + x * sizeof ( INT )) # Int |-> v0).
       cancel (IntArray.seg_shape p (x + 1) y).
       Intros_r v.
       apply_sepcon_adjoint.
-      elim_emp.
+      cancel ((p + x * sizeof ( INT )) # Int |-> v).
       cancel.
 Qed.
 
@@ -169,6 +177,8 @@ Qed.
 Lemma array_shape_strategy2_correctness : array_shape_strategy2.
 Proof.
   pre_process_default.
+  replace (p + i * 4) with (p + i * sizeof (UINT))
+    by (rewrite sizeof_uint; lia).
   sep_apply_l_atomic (UIntArray.missing_i_shape_merge_to_full_shape p i n v).
   - dump_pre_spatial.
     lia.
@@ -179,6 +189,8 @@ Lemma array_shape_strategy4_correctness : array_shape_strategy4.
 Proof.
   pre_process_default.
   subst x.
+  replace (p + i * 4) with (p + i * sizeof (UINT))
+    by (rewrite sizeof_uint; lia).
   sep_apply_l_atomic (UIntArray.seg_shape_single p i v).
   prop_apply (UIntArray.seg_shape_valid p (i + 1) y).
   Intros.
@@ -191,6 +203,8 @@ Qed.
 Lemma array_shape_strategy5_correctness : array_shape_strategy5.
 Proof.
   pre_process_default.
+  replace (p + z * 4) with (p + z * sizeof (UINT))
+    by (rewrite sizeof_uint; lia).
   sep_apply_l_atomic (UIntArray.seg_shape_single p z v).
   prop_apply (UIntArray.seg_shape_valid p y z).
   Intros.
@@ -203,6 +217,8 @@ Qed.
 Lemma array_shape_strategy12_correctness : array_shape_strategy12.
 Proof.
   pre_process_default.
+  replace (p + i * 4) with (p + i * sizeof (INT))
+    by (rewrite sizeof_int; lia).
   sep_apply_l_atomic (IntArray.missing_i_shape_merge_to_full_shape p i n v).
   - dump_pre_spatial.
     lia.
@@ -213,6 +229,8 @@ Lemma array_shape_strategy14_correctness : array_shape_strategy14.
 Proof.
   pre_process_default.
   subst x.
+  replace (p + i * 4) with (p + i * sizeof (INT))
+    by (rewrite sizeof_int; lia).
   sep_apply_l_atomic (IntArray.seg_shape_single p i v).
   prop_apply (IntArray.seg_shape_valid p (i + 1) y).
   Intros.
@@ -225,6 +243,8 @@ Qed.
 Lemma array_shape_strategy15_correctness : array_shape_strategy15.
 Proof.
   pre_process_default.
+  replace (p + z * 4) with (p + z * sizeof (INT))
+    by (rewrite sizeof_int; lia).
   sep_apply_l_atomic (IntArray.seg_shape_single p z v).
   prop_apply (IntArray.seg_shape_valid p y z).
   Intros.

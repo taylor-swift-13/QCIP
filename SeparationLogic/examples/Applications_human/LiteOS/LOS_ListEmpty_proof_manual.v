@@ -22,24 +22,36 @@ Require Import SimpleC.EE.Applications_human.LiteOS.lib.dll.
 Require Import SimpleC.EE.Applications_human.LiteOS.lib.tick_backup.
 Local Open Scope sac.
 
-Lemma proof_of_LOS_ListEmpty_return_wit_1 : LOS_ListEmpty_return_wit_1.
+Lemma proof_of_LOS_ListEmpty_return_wit_1_split_goal_1 :
+  LOS_ListEmpty_return_wit_1_split_goal_1.
 Proof.
-    pre_process.
-    intros.
-    unfold store_dll.
-    Exists h pt.
+    LLM_pre_process ltac:(int_auto).
     induction l.
     -
     unfold dllseg.
     simpl.
-    entailer!.
+    LLM_pre_process ltac:(int_auto).
     -
-    simpl.
-    Intros z.
-    subst h.
-    Exists z.
-    entailer!.
+    dump_pre_spatial.
     congruence.
+Qed.
+
+Lemma proof_of_LOS_ListEmpty_return_wit_1_split_goal_spatial :
+  LOS_ListEmpty_return_wit_1_split_goal_spatial.
+Proof.
+    LLM_pre_process ltac:(int_auto).
+    unfold store_dll.
+    Exists h pt.
+    cancel.
+    cancel (&( node_pre # "LOS_DL_LIST" ->ₛ "pstPrev") # Ptr |-> pt).
+    cancel (&( node_pre # "LOS_DL_LIST" ->ₛ "pstNext") # Ptr |-> h).
+Qed.
+
+Lemma proof_of_LOS_ListEmpty_return_wit_1 : LOS_ListEmpty_return_wit_1.
+Proof.
+    aggressive_pre_process.
+    + Goal_apply proof_of_LOS_ListEmpty_return_wit_1_split_goal_spatial.
+    + Goal_apply proof_of_LOS_ListEmpty_return_wit_1_split_goal_1.
 Qed.
 
 Lemma dllseg_neq:
@@ -57,34 +69,54 @@ Lemma dllseg_neq:
 Proof.
   intros.
   destruct l; simpl.
-  + entailer!.
+  + LLM_pre_process ltac:(int_auto).
   + Intros z0.
     Exists z0 d l.
-    entailer!.
+    split_pure_spatial.
+    - cancel (storeA x d.(dll_data)).
+      cancel (&( x # "LOS_DL_LIST" ->ₛ "pstPrev") # Ptr |-> px).
+      cancel (&( x # "LOS_DL_LIST" ->ₛ "pstNext") # Ptr |-> z0).
+      cancel (dllseg storeA z0 x y py l).
+    - split_pures; dump_pre_spatial; try reflexivity; try exact H0.
 Qed.
 
 
-Lemma proof_of_LOS_ListEmpty_return_wit_2 : LOS_ListEmpty_return_wit_2.
+Lemma proof_of_LOS_ListEmpty_return_wit_2_split_goal_1 :
+  LOS_ListEmpty_return_wit_2_split_goal_1.
 Proof. 
-    pre_process.
-    intros.
-    unfold store_dll.
-    Exists h pt.
+    LLM_pre_process ltac:(int_auto).
+    subst h.
     induction l.
     -
-    unfold dllseg.
-    simpl.
-    entailer!.
+    dump_pre_spatial.
+    reflexivity.
     -
     simpl.
     Intros z.
-    subst h.
     prop_apply (dup_store_ptr (&(node_pre # "LOS_DL_LIST" ->ₛ "pstPrev")) node_pre pt).
-    entailer!.
+    LLM_pre_process ltac:(int_auto).
+Qed.
+
+Lemma proof_of_LOS_ListEmpty_return_wit_2_split_goal_spatial :
+  LOS_ListEmpty_return_wit_2_split_goal_spatial.
+Proof.
+    LLM_pre_process ltac:(int_auto).
+    unfold store_dll.
+    Exists h pt.
+    cancel.
+    cancel (&( node_pre # "LOS_DL_LIST" ->ₛ "pstPrev") # Ptr |-> pt).
+    cancel (&( node_pre # "LOS_DL_LIST" ->ₛ "pstNext") # Ptr |-> h).
+Qed.
+
+Lemma proof_of_LOS_ListEmpty_return_wit_2 : LOS_ListEmpty_return_wit_2.
+Proof.
+    aggressive_pre_process.
+    + Goal_apply proof_of_LOS_ListEmpty_return_wit_2_split_goal_spatial.
+    + Goal_apply proof_of_LOS_ListEmpty_return_wit_2_split_goal_1.
 Qed. 
 
 Lemma proof_of_LOS_ListEmpty_which_implies_wit_1 : LOS_ListEmpty_which_implies_wit_1.
 Proof. 
     unfold LOS_ListEmpty_which_implies_wit_1.
-    pre_process.
+    LLM_pre_process ltac:(int_auto).
 Qed.

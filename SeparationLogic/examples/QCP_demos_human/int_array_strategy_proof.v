@@ -88,6 +88,8 @@ Qed.
 Lemma int_array_strategy2_correctness : int_array_strategy2.
   pre_process_default.
   simpl.
+  replace (p + i * 4) with (p + i * sizeof (INT))
+    by (rewrite sizeof_int; lia).
   sep_apply (IntArray.missing_i_merge_to_full); [ | tauto].
   rewrite replace_Znth_Znth by tauto.
   entailer!.
@@ -96,6 +98,8 @@ Qed.
 Lemma int_array_strategy11_correctness : int_array_strategy11.
   pre_process_default.
   simpl.
+  replace (p + i * 4) with (p + i * sizeof (INT))
+    by (rewrite sizeof_int; lia).
   sep_apply (IntArray.missing_i_merge_to_seg); [ | tauto].
   rewrite replace_Znth_Znth by tauto.
   entailer!.
@@ -104,6 +108,8 @@ Qed.
 Lemma int_array_strategy3_correctness : int_array_strategy3.
   pre_process_default.
   simpl.
+  replace (p + i * 4) with (p + i * sizeof (INT))
+    by (rewrite sizeof_int; lia).
   sep_apply (IntArray.missing_i_merge_to_full); [ | tauto].
   entailer!.
 Qed.
@@ -111,6 +117,8 @@ Qed.
 Lemma int_array_strategy12_correctness : int_array_strategy12.
   pre_process_default.
   simpl.
+  replace (p + i * 4) with (p + i * sizeof (INT))
+    by (rewrite sizeof_int; lia).
   sep_apply (IntArray.missing_i_merge_to_seg); [ | tauto].
   entailer!.
 Qed.

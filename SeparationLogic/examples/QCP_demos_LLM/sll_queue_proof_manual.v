@@ -1,4 +1,4 @@
-﻿Require Import Coq.ZArith.ZArith.
+Require Import Coq.ZArith.ZArith.
 Require Import Coq.Bool.Bool.
 Require Import Coq.Strings.String.
 Require Import Coq.Lists.List.
@@ -22,7 +22,7 @@ Local Open Scope sac.
 
 Lemma proof_of_enqueue_entail_wit_1 : enqueue_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   unfold store_queue.
   Intros qhead qtail u v.
   Exists v.
@@ -39,7 +39,7 @@ Qed.
 
 Lemma proof_of_enqueue_return_wit_1 : enqueue_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   unfold store_queue.
   sep_apply (sllseg_len1 qtail x_pre retval); [ | tauto ].
   sep_apply (sllseg_sllseg qhead qtail retval l (x_pre :: nil)%list).
@@ -54,7 +54,7 @@ Qed.
 
 Lemma proof_of_dequeue_entail_wit_1 : dequeue_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   unfold store_queue.
   Intros qhead qtail u v.
   simpl sllseg.
@@ -78,7 +78,7 @@ Qed.
 
 Lemma proof_of_dequeue_return_wit_1 : dequeue_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   unfold store_queue.
   Exists qheadnext qtail u v.
   split_pure_spatial.
@@ -94,7 +94,7 @@ Qed.
 
 Lemma proof_of_init_empty_queue_return_wit_1 : init_empty_queue_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   unfold store_queue.
   Exists retval_2 retval_2 retval_data retval_next.
   simpl sllseg.

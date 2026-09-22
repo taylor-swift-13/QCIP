@@ -22,55 +22,71 @@ Local Open Scope sac.
 
 Lemma proof_of_mpz_abs_sub_entail_wit_1 : mpz_abs_sub_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   unfold store_Z at 1.
   Intros rptr rsize rcap.
   Exists rptr; Exists ptr_2; Exists ptr; Exists rcap; Exists rsize.
   Exists cap; Exists size; Exists cap_2; Exists size_2.
   subst retval retval_2.
-  entailer!.
+  split_pure_spatial.
+  - repeat cancel.
+  - repeat split_pures; dump_pre_spatial;
+      try assumption; try reflexivity; try lia.
 Qed.
 
 Lemma proof_of_mpz_abs_sub_entail_wit_2 : mpz_abs_sub_entail_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   sep_apply (mpd_store_Z_compact_undef_tail_to_undef_split
     retval (Zabs l) (Zabs rsize_2) an
-    (Z.max (Z.max an 1) rcap_2)).
+    (Z.max (Z.max an 1) rcap_2)); try lia.
+  Intros_p Hcompact.
   Exists b_pre__mp_d_2; Exists a_pre__mp_d_2; Exists retval; Exists z_callee__mp_alloc.
   Exists rcap_2; Exists rsize_2; Exists a_pre__mp_alloc_2; Exists a_pre__mp_size_2.
   Exists b_pre__mp_alloc_2; Exists b_pre__mp_size_2.
-  entailer!.
-  all: lia.
+  split_pure_spatial.
+  - cancel (UIntArray.undef_full retval an).
+    cancel (UIntArray.undef_seg retval an (Z.max (Z.max an 1) rcap_2)).
+    repeat cancel.
+  - repeat split_pures; dump_pre_spatial;
+      try assumption; try reflexivity; try lia.
 Qed.
 
 Lemma proof_of_mpz_abs_sub_entail_wit_3 : mpz_abs_sub_entail_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   unfold store_Z at 1.
   Intros rptr rsize rcap.
   Exists rptr; Exists ptr_2; Exists ptr; Exists rcap; Exists rsize.
   Exists cap; Exists size; Exists cap_2; Exists size_2.
   subst retval retval_2.
-  entailer!.
+  split_pure_spatial.
+  - repeat cancel.
+  - repeat split_pures; dump_pre_spatial;
+      try assumption; try reflexivity; try lia.
 Qed.
 
 Lemma proof_of_mpz_abs_sub_entail_wit_4 : mpz_abs_sub_entail_wit_4.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   sep_apply (mpd_store_Z_compact_undef_tail_to_undef_split
     retval (Zabs l) (Zabs rsize_2) bn
-    (Z.max (Z.max bn 1) rcap_2)).
+    (Z.max (Z.max bn 1) rcap_2)); try lia.
+  Intros_p Hcompact.
   Exists b_pre__mp_d_2; Exists a_pre__mp_d_2; Exists retval; Exists z_callee__mp_alloc.
   Exists rcap_2; Exists rsize_2; Exists a_pre__mp_alloc_2; Exists a_pre__mp_size_2.
   Exists b_pre__mp_alloc_2; Exists b_pre__mp_size_2.
-  entailer!.
-  all: lia.
+  split_pure_spatial.
+  - cancel (UIntArray.undef_full retval bn).
+    cancel (UIntArray.undef_seg retval bn (Z.max (Z.max bn 1) rcap_2)).
+    repeat cancel.
+  - repeat split_pures; dump_pre_spatial;
+      try assumption; try reflexivity; try lia.
 Qed.
 
 Lemma proof_of_mpz_abs_sub_return_wit_1 : mpz_abs_sub_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   sep_apply store_Z_to_store_Z_remain_size_zero.
   replace (Zabs n - Zabs m) with 0 by lia.
   unfold store_Z at 1.
@@ -79,12 +95,15 @@ Proof.
   Exists ptr_2; Exists size_2; Exists cap_2.
   replace (Zabs n) with (Zabs m) by lia.
   rewrite PreH8, PreH5.
-  entailer!.
+  split_pure_spatial.
+  - repeat cancel.
+  - repeat split_pures; dump_pre_spatial;
+      try assumption; try reflexivity; try lia.
 Qed.
 
 Lemma proof_of_mpz_abs_sub_return_wit_2 : mpz_abs_sub_return_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   pose proof (is_compact_Z_mono_size (Zabs m) (Zabs n) bn an ltac:(lia) PreH4 PreH5)
     as Hbn_ge_an.
   pose proof (is_compact_Z_bounds UINT_MOD UINT_MOD_pos (Zabs n) an PreH5)
@@ -114,15 +133,17 @@ Proof.
   rewrite PreH19, PreH20.
   sep_apply (mpd_store_Z_to_mpd_store_Z_compact b_pre__mp_d (Zabs m) bn PreH4).
   sep_apply (mpd_store_Z_to_mpd_store_Z_compact a_pre__mp_d (Zabs n) an PreH5).
-  sep_apply UIntArray.undef_seg_merge_to_undef_seg.
-  entailer!.
-  - unfold same_sign; right; lia.
-  - lia.
+  sep_apply UIntArray.undef_seg_merge_to_undef_seg; try lia.
+  split_pure_spatial.
+  - cancel.
+  - repeat split_pures; dump_pre_spatial;
+      try assumption; try reflexivity; try lia.
+    unfold same_sign; right; lia.
 Qed.
 
 Lemma proof_of_mpz_abs_sub_return_wit_3 : mpz_abs_sub_return_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   pose proof (is_compact_Z_mono_size (Zabs n) (Zabs m) an bn ltac:(lia) PreH5 PreH4)
     as Han_ge_bn.
   pose proof (is_compact_Z_bounds UINT_MOD UINT_MOD_pos (Zabs m) bn PreH4)
@@ -151,19 +172,21 @@ Proof.
   rewrite PreH18, PreH19.
   sep_apply (mpd_store_Z_to_mpd_store_Z_compact a_pre__mp_d (Zabs n) an PreH5).
   sep_apply (mpd_store_Z_to_mpd_store_Z_compact b_pre__mp_d (Zabs m) bn PreH4).
-  sep_apply UIntArray.undef_seg_merge_to_undef_seg.
+  sep_apply UIntArray.undef_seg_merge_to_undef_seg; try lia.
   replace (Zabs retval) with retval by lia.
-  entailer!.
-  - unfold same_sign; left; lia.
-  - lia.
+  split_pure_spatial.
+  - cancel.
+  - repeat split_pures; dump_pre_spatial;
+      try assumption; try reflexivity; try lia.
+    unfold same_sign; left; lia.
 Qed.
 
 Lemma proof_of_mpz_abs_sub_partial_solve_wit_2_pure : mpz_abs_sub_partial_solve_wit_2_pure.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   match goal with
   | |- context[mpd_store_Z_compact UINT_MOD ?ptr ?v (Zabs ?size)] =>
-      prop_apply_p (mpd_store_Z_compact_range UINT_MOD ptr v (Zabs size))
+      prop_apply (mpd_store_Z_compact_range UINT_MOD ptr v (Zabs size))
   end.
   Intros.
   match goal with
@@ -178,10 +201,10 @@ Qed.
 
 Lemma proof_of_mpz_abs_sub_partial_solve_wit_4_pure : mpz_abs_sub_partial_solve_wit_4_pure.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   match goal with
   | |- context[mpd_store_Z_compact UINT_MOD ?ptr ?v (Zabs ?size)] =>
-      prop_apply_p (mpd_store_Z_compact_range UINT_MOD ptr v (Zabs size))
+      prop_apply (mpd_store_Z_compact_range UINT_MOD ptr v (Zabs size))
   end.
   Intros.
   match goal with
@@ -196,19 +219,19 @@ Qed.
 
 Lemma proof_of_mpz_abs_sub_partial_solve_wit_5_pure : mpz_abs_sub_partial_solve_wit_5_pure.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
 Qed.
 
 Lemma proof_of_mpz_abs_sub_partial_solve_wit_6_pure : mpz_abs_sub_partial_solve_wit_6_pure.
 Proof.
-  pre_process.
-  prop_apply_p (mpd_store_Z_to_is_compact_Z a_pre__mp_d (Zabs n) an).
+  LLM_pre_process ltac:(int_auto).
+  prop_apply (mpd_store_Z_to_is_compact_Z a_pre__mp_d (Zabs n) an).
   Intros.
   match goal with
   | Hc : is_compact_Z UINT_MOD (Zabs n) an |- _ =>
       pose proof (is_compact_Z_positive_size (Zabs n) an Hc ltac:(lia))
   end.
-  prop_apply_p (mpd_store_Z_compact_range UINT_MOD a_pre__mp_d (Zabs n) an).
+  prop_apply (mpd_store_Z_compact_range UINT_MOD a_pre__mp_d (Zabs n) an).
   Intros.
   match goal with
   | H : 0 <= an <= _ |- _ =>
@@ -222,17 +245,16 @@ Proof.
   | H : Int.min_signed <= rcap <= Int.max_signed |- _ =>
       change Int.max_signed with 2147483647 in H
   end.
-  entailer!.
-  all: lia.
+  repeat split_pures; dump_pre_spatial; try assumption; lia.
 Qed.
 
 Lemma proof_of_mpz_abs_sub_partial_solve_wit_7_pure : mpz_abs_sub_partial_solve_wit_7_pure.
 Proof.
-  pre_process.
-  prop_apply_p (mpd_store_Z_compact_mono_size
+  LLM_pre_process ltac:(int_auto).
+  prop_apply (mpd_store_Z_compact_mono_size
     a_pre__mp_d b_pre__mp_d (Zabs n) (Zabs m) an bn ltac:(lia)).
   Intros.
-  prop_apply_p (mpd_store_Z_to_is_compact_Z a_pre__mp_d (Zabs n) an).
+  prop_apply (mpd_store_Z_to_is_compact_Z a_pre__mp_d (Zabs n) an).
   Intros.
   match goal with
   | Hc : is_compact_Z UINT_MOD (Zabs n) an |- _ =>
@@ -243,19 +265,19 @@ Qed.
 
 Lemma proof_of_mpz_abs_sub_partial_solve_wit_8_pure : mpz_abs_sub_partial_solve_wit_8_pure.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
 Qed.
 
 Lemma proof_of_mpz_abs_sub_partial_solve_wit_9_pure : mpz_abs_sub_partial_solve_wit_9_pure.
 Proof.
-  pre_process.
-  prop_apply_p (mpd_store_Z_to_is_compact_Z b_pre__mp_d (Zabs m) bn).
+  LLM_pre_process ltac:(int_auto).
+  prop_apply (mpd_store_Z_to_is_compact_Z b_pre__mp_d (Zabs m) bn).
   Intros.
   match goal with
   | Hc : is_compact_Z UINT_MOD (Zabs m) bn |- _ =>
       pose proof (is_compact_Z_positive_size (Zabs m) bn Hc ltac:(lia))
   end.
-  prop_apply_p (mpd_store_Z_compact_range UINT_MOD b_pre__mp_d (Zabs m) bn).
+  prop_apply (mpd_store_Z_compact_range UINT_MOD b_pre__mp_d (Zabs m) bn).
   Intros.
   match goal with
   | H : 0 <= bn <= _ |- _ =>
@@ -269,17 +291,16 @@ Proof.
   | H : Int.min_signed <= rcap <= Int.max_signed |- _ =>
       change Int.max_signed with 2147483647 in H
   end.
-  entailer!.
-  all: lia.
+  repeat split_pures; dump_pre_spatial; try assumption; lia.
 Qed.
 
 Lemma proof_of_mpz_abs_sub_partial_solve_wit_10_pure : mpz_abs_sub_partial_solve_wit_10_pure.
 Proof.
-  pre_process.
-  prop_apply_p (mpd_store_Z_compact_mono_size
+  LLM_pre_process ltac:(int_auto).
+  prop_apply (mpd_store_Z_compact_mono_size
     b_pre__mp_d a_pre__mp_d (Zabs m) (Zabs n) bn an ltac:(lia)).
   Intros.
-  prop_apply_p (mpd_store_Z_to_is_compact_Z b_pre__mp_d (Zabs m) bn).
+  prop_apply (mpd_store_Z_to_is_compact_Z b_pre__mp_d (Zabs m) bn).
   Intros.
   match goal with
   | Hc : is_compact_Z UINT_MOD (Zabs m) bn |- _ =>
@@ -290,28 +311,28 @@ Qed.
 
 Lemma proof_of_mpz_abs_sub_partial_solve_wit_11_pure : mpz_abs_sub_partial_solve_wit_11_pure.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
 Qed.
 
 Lemma proof_of_mpz_add_safety_wit_3 : mpz_add_safety_wit_3.
 Proof.
-  pre_process.
-  prop_apply_p (store_Z_remain_size_int_range r_pre (Zabs n + Zabs m) retval).
+  LLM_pre_process ltac:(int_auto).
+  prop_apply (store_Z_remain_size_int_range r_pre (Zabs n + Zabs m) retval).
   Intros.
   split_pures; dump_pre_spatial; lia.
 Qed.
 
 Lemma proof_of_mpz_add_safety_wit_5 : mpz_add_safety_wit_5.
 Proof.
-  pre_process.
-  prop_apply_p (store_Z_remain_size_int_range r_pre (Zabs n - Zabs m) retval).
+  LLM_pre_process ltac:(int_auto).
+  prop_apply (store_Z_remain_size_int_range r_pre (Zabs n - Zabs m) retval).
   Intros.
   split_pures; dump_pre_spatial; lia.
 Qed.
 
 Lemma proof_of_mpz_add_return_wit_4 : mpz_add_return_wit_4.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (n < 0 /\ m >= 0) as Hnm.
   { unfold same_sign in PreH4, PreH7, PreH9.
     destruct (lxor_negative_implies_opposite_signs_simple size size_2 ltac:(lia));
@@ -332,12 +353,15 @@ Proof.
   unfold store_Z at 1.
   Exists ptr_2; Exists (- retval); Exists cap_4.
   replace (Zabs (- retval)) with (Zabs retval) by lia.
-  entailer!.
+  split_pure_spatial.
+  - repeat cancel.
+  - repeat split_pures; dump_pre_spatial;
+      try assumption; try reflexivity; try lia.
 Qed.
 
 Lemma proof_of_mpz_add_return_wit_3 : mpz_add_return_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (n >= 0 /\ m < 0) as Hnm.
   { unfold same_sign in PreH4, PreH7, PreH9.
     destruct (lxor_negative_implies_opposite_signs_simple size size_2 ltac:(lia));
@@ -355,12 +379,15 @@ Proof.
   Exists bptr; Exists bsize; Exists bcap.
   unfold store_Z at 1.
   Exists ptr_2; Exists retval; Exists cap_4.
-  entailer!.
+  split_pure_spatial.
+  - repeat cancel.
+  - repeat split_pures; dump_pre_spatial;
+      try assumption; try reflexivity; try lia.
 Qed.
 
 Lemma proof_of_mpz_add_return_wit_2 : mpz_add_return_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (n < 0 /\ m < 0) as Hnm.
   { unfold same_sign in PreH4, PreH7, PreH9.
     destruct (lxor_nonneg_implies_same_sign size size_2 ltac:(lia));
@@ -381,12 +408,15 @@ Proof.
   unfold store_Z at 1.
   Exists ptr_2; Exists (- retval); Exists cap_4.
   replace (Zabs (- retval)) with (Zabs retval) by lia.
-  entailer!.
+  split_pure_spatial.
+  - repeat cancel.
+  - repeat split_pures; dump_pre_spatial;
+      try assumption; try reflexivity; try lia.
 Qed.
 
 Lemma proof_of_mpz_add_return_wit_1 : mpz_add_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (n >= 0 /\ m >= 0) as Hnm.
   { unfold same_sign in PreH4, PreH7, PreH9.
     destruct (lxor_nonneg_implies_same_sign size size_2 ltac:(lia)); lia. }
@@ -403,28 +433,31 @@ Proof.
   Exists bptr; Exists bsize; Exists bcap.
   unfold store_Z at 1.
   Exists ptr_2; Exists retval; Exists cap_4.
-  entailer!.
+  split_pure_spatial.
+  - repeat cancel.
+  - repeat split_pures; dump_pre_spatial;
+      try assumption; try reflexivity; try lia.
 Qed.
 
 Lemma proof_of_mpz_sub_safety_wit_3 : mpz_sub_safety_wit_3.
 Proof.
-  pre_process.
-  prop_apply_p (store_Z_remain_size_int_range r_pre (Zabs n - Zabs m) retval).
+  LLM_pre_process ltac:(int_auto).
+  prop_apply (store_Z_remain_size_int_range r_pre (Zabs n - Zabs m) retval).
   Intros.
   split_pures; dump_pre_spatial; lia.
 Qed.
 
 Lemma proof_of_mpz_sub_safety_wit_5 : mpz_sub_safety_wit_5.
 Proof.
-  pre_process.
-  prop_apply_p (store_Z_remain_size_int_range r_pre (Zabs n + Zabs m) retval).
+  LLM_pre_process ltac:(int_auto).
+  prop_apply (store_Z_remain_size_int_range r_pre (Zabs n + Zabs m) retval).
   Intros.
   split_pures; dump_pre_spatial; lia.
 Qed.
 
 Lemma proof_of_mpz_sub_return_wit_4 : mpz_sub_return_wit_4.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (n < 0 /\ m >= 0) as Hnm.
   { unfold same_sign in PreH4, PreH7, PreH9.
     destruct (lxor_negative_implies_opposite_signs_simple size size_2 ltac:(lia));
@@ -445,12 +478,15 @@ Proof.
   unfold store_Z at 1.
   Exists ptr_2; Exists (- retval); Exists cap_4.
   replace (Zabs (- retval)) with (Zabs retval) by lia.
-  entailer!.
+  split_pure_spatial.
+  - repeat cancel.
+  - repeat split_pures; dump_pre_spatial;
+      try assumption; try reflexivity; try lia.
 Qed.
 
 Lemma proof_of_mpz_sub_return_wit_3 : mpz_sub_return_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (n >= 0 /\ m < 0) as Hnm.
   { unfold same_sign in PreH4, PreH7, PreH9.
     destruct (lxor_negative_implies_opposite_signs_simple size size_2 ltac:(lia));
@@ -468,12 +504,15 @@ Proof.
   Exists bptr; Exists bsize; Exists bcap.
   unfold store_Z at 1.
   Exists ptr_2; Exists retval; Exists cap_4.
-  entailer!.
+  split_pure_spatial.
+  - repeat cancel.
+  - repeat split_pures; dump_pre_spatial;
+      try assumption; try reflexivity; try lia.
 Qed.
 
 Lemma proof_of_mpz_sub_return_wit_2 : mpz_sub_return_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (n < 0 /\ m < 0) as Hnm.
   { unfold same_sign in PreH4, PreH7, PreH9.
     destruct (lxor_nonneg_implies_same_sign size size_2 ltac:(lia)); lia. }
@@ -493,12 +532,15 @@ Proof.
   unfold store_Z at 1.
   Exists ptr_2; Exists (- retval); Exists cap_4.
   replace (Zabs (- retval)) with (Zabs retval) by lia.
-  entailer!.
+  split_pure_spatial.
+  - repeat cancel.
+  - repeat split_pures; dump_pre_spatial;
+      try assumption; try reflexivity; try lia.
 Qed.
 
 Lemma proof_of_mpz_sub_return_wit_1 : mpz_sub_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (n >= 0 /\ m >= 0) as Hnm.
   { unfold same_sign in PreH4, PreH7, PreH9.
     destruct (lxor_nonneg_implies_same_sign size size_2 ltac:(lia)); lia. }
@@ -514,5 +556,8 @@ Proof.
   Exists bptr; Exists bsize; Exists bcap.
   unfold store_Z at 1.
   Exists ptr_2; Exists retval; Exists cap_4.
-  entailer!.
+  split_pure_spatial.
+  - repeat cancel.
+  - repeat split_pures; dump_pre_spatial;
+      try assumption; try reflexivity; try lia.
 Qed.

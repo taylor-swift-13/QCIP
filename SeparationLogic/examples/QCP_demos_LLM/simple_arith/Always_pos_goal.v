@@ -23,9 +23,9 @@ Local Open Scope sac.
 
 Definition Always_positive_simple_safety_wit_1 := 
 forall (c_pre: Z) (b_pre: Z) (a_pre: Z) (PreH1 : (INT_MIN < a_pre)) (PreH2 : (a_pre <= INT_MAX)) (PreH3 : (INT_MIN < b_pre)) (PreH4 : (b_pre <= INT_MAX)) (PreH5 : (INT_MIN < c_pre)) (PreH6 : (c_pre <= INT_MAX)) ,
-  ((( &( "c" ) )) # Int  |-> c_pre)
+  ((( &( "a" ) )) # Int  |-> a_pre)
   **  ((( &( "b" ) )) # Int  |-> b_pre)
-  **  ((( &( "a" ) )) # Int  |-> a_pre)
+  **  ((( &( "c" ) )) # Int  |-> c_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -33,9 +33,9 @@ forall (c_pre: Z) (b_pre: Z) (a_pre: Z) (PreH1 : (INT_MIN < a_pre)) (PreH2 : (a_
 
 Definition Always_positive_simple_safety_wit_2 := 
 forall (c_pre: Z) (b_pre: Z) (a_pre: Z) (PreH1 : (a_pre = 0)) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
-  ((( &( "c" ) )) # Int  |-> c_pre)
+  ((( &( "a" ) )) # Int  |-> a_pre)
   **  ((( &( "b" ) )) # Int  |-> b_pre)
-  **  ((( &( "a" ) )) # Int  |-> a_pre)
+  **  ((( &( "c" ) )) # Int  |-> c_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -45,11 +45,11 @@ Definition Always_positive_simple_safety_wit_3 :=
 forall (c_pre: Z) (b_pre: Z) (a_pre: Z) (PreH1 : (a_pre <> 0)) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
   ((( &( "delta2" ) )) # Int64  |->_)
   **  ((( &( "delta1" ) )) # Int64  |->_)
-  **  ((( &( "c" ) )) # Int  |-> c_pre)
-  **  ((( &( "b" ) )) # Int  |-> b_pre)
   **  ((( &( "a" ) )) # Int  |-> a_pre)
+  **  ((( &( "b" ) )) # Int  |-> b_pre)
+  **  ((( &( "c" ) )) # Int  |-> c_pre)
 |--
-  “ (((b_pre * b_pre ) <> (-9223372036854775808)) \/ (4 <> (-1))) ” 
+  “ (((b_pre * b_pre ) <> (INT64_MIN)) \/ (4 <> (-1))) ” 
   &&  “ (4 <> 0) ”
 .
 
@@ -57,21 +57,21 @@ Definition Always_positive_simple_safety_wit_4 :=
 forall (c_pre: Z) (b_pre: Z) (a_pre: Z) (PreH1 : (a_pre <> 0)) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
   ((( &( "delta2" ) )) # Int64  |->_)
   **  ((( &( "delta1" ) )) # Int64  |->_)
-  **  ((( &( "c" ) )) # Int  |-> c_pre)
-  **  ((( &( "b" ) )) # Int  |-> b_pre)
   **  ((( &( "a" ) )) # Int  |-> a_pre)
+  **  ((( &( "b" ) )) # Int  |-> b_pre)
+  **  ((( &( "c" ) )) # Int  |-> c_pre)
 |--
-  “ ((b_pre * b_pre ) <= 9223372036854775807) ” 
-  &&  “ ((-9223372036854775808) <= (b_pre * b_pre )) ”
+  “ ((b_pre * b_pre ) <= INT64_MAX) ” 
+  &&  “ ((INT64_MIN) <= (b_pre * b_pre )) ”
 .
 
 Definition Always_positive_simple_safety_wit_5 := 
 forall (c_pre: Z) (b_pre: Z) (a_pre: Z) (PreH1 : (a_pre <> 0)) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
   ((( &( "delta2" ) )) # Int64  |->_)
   **  ((( &( "delta1" ) )) # Int64  |->_)
-  **  ((( &( "c" ) )) # Int  |-> c_pre)
-  **  ((( &( "b" ) )) # Int  |-> b_pre)
   **  ((( &( "a" ) )) # Int  |-> a_pre)
+  **  ((( &( "b" ) )) # Int  |-> b_pre)
+  **  ((( &( "c" ) )) # Int  |-> c_pre)
 |--
   “ (4 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 4) ”
@@ -81,21 +81,21 @@ Definition Always_positive_simple_safety_wit_6 :=
 forall (c_pre: Z) (b_pre: Z) (a_pre: Z) (PreH1 : (a_pre <> 0)) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
   ((( &( "delta2" ) )) # Int64  |->_)
   **  ((( &( "delta1" ) )) # Int64  |-> ((b_pre * b_pre ) ÷ 4 ))
-  **  ((( &( "c" ) )) # Int  |-> c_pre)
-  **  ((( &( "b" ) )) # Int  |-> b_pre)
   **  ((( &( "a" ) )) # Int  |-> a_pre)
+  **  ((( &( "b" ) )) # Int  |-> b_pre)
+  **  ((( &( "c" ) )) # Int  |-> c_pre)
 |--
-  “ ((a_pre * c_pre ) <= 9223372036854775807) ” 
-  &&  “ ((-9223372036854775808) <= (a_pre * c_pre )) ”
+  “ ((a_pre * c_pre ) <= INT64_MAX) ” 
+  &&  “ ((INT64_MIN) <= (a_pre * c_pre )) ”
 .
 
 Definition Always_positive_simple_safety_wit_7 := 
 forall (c_pre: Z) (b_pre: Z) (a_pre: Z) (PreH1 : (((b_pre * b_pre ) ÷ 4 ) >= (a_pre * c_pre ))) (PreH2 : (a_pre <> 0)) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
   ((( &( "delta2" ) )) # Int64  |-> (a_pre * c_pre ))
   **  ((( &( "delta1" ) )) # Int64  |-> ((b_pre * b_pre ) ÷ 4 ))
-  **  ((( &( "c" ) )) # Int  |-> c_pre)
-  **  ((( &( "b" ) )) # Int  |-> b_pre)
   **  ((( &( "a" ) )) # Int  |-> a_pre)
+  **  ((( &( "b" ) )) # Int  |-> b_pre)
+  **  ((( &( "c" ) )) # Int  |-> c_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -105,9 +105,9 @@ Definition Always_positive_simple_safety_wit_8 :=
 forall (c_pre: Z) (b_pre: Z) (a_pre: Z) (PreH1 : (((b_pre * b_pre ) ÷ 4 ) < (a_pre * c_pre ))) (PreH2 : (a_pre <> 0)) (PreH3 : (INT_MIN < a_pre)) (PreH4 : (a_pre <= INT_MAX)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (INT_MIN < c_pre)) (PreH8 : (c_pre <= INT_MAX)) ,
   ((( &( "delta2" ) )) # Int64  |-> (a_pre * c_pre ))
   **  ((( &( "delta1" ) )) # Int64  |-> ((b_pre * b_pre ) ÷ 4 ))
-  **  ((( &( "c" ) )) # Int  |-> c_pre)
-  **  ((( &( "b" ) )) # Int  |-> b_pre)
   **  ((( &( "a" ) )) # Int  |-> a_pre)
+  **  ((( &( "b" ) )) # Int  |-> b_pre)
+  **  ((( &( "c" ) )) # Int  |-> c_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -117,9 +117,9 @@ Definition Always_positive_simple_safety_wit_9 :=
 forall (c_pre: Z) (b_pre: Z) (a_pre: Z) (PreH1 : (a_pre > 0)) (PreH2 : (((b_pre * b_pre ) ÷ 4 ) < (a_pre * c_pre ))) (PreH3 : (a_pre <> 0)) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) (PreH8 : (INT_MIN < c_pre)) (PreH9 : (c_pre <= INT_MAX)) ,
   ((( &( "delta2" ) )) # Int64  |-> (a_pre * c_pre ))
   **  ((( &( "delta1" ) )) # Int64  |-> ((b_pre * b_pre ) ÷ 4 ))
-  **  ((( &( "c" ) )) # Int  |-> c_pre)
-  **  ((( &( "b" ) )) # Int  |-> b_pre)
   **  ((( &( "a" ) )) # Int  |-> a_pre)
+  **  ((( &( "b" ) )) # Int  |-> b_pre)
+  **  ((( &( "c" ) )) # Int  |-> c_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -129,9 +129,9 @@ Definition Always_positive_simple_safety_wit_10 :=
 forall (c_pre: Z) (b_pre: Z) (a_pre: Z) (PreH1 : (a_pre <= 0)) (PreH2 : (((b_pre * b_pre ) ÷ 4 ) < (a_pre * c_pre ))) (PreH3 : (a_pre <> 0)) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) (PreH8 : (INT_MIN < c_pre)) (PreH9 : (c_pre <= INT_MAX)) ,
   ((( &( "delta2" ) )) # Int64  |-> (a_pre * c_pre ))
   **  ((( &( "delta1" ) )) # Int64  |-> ((b_pre * b_pre ) ÷ 4 ))
-  **  ((( &( "c" ) )) # Int  |-> c_pre)
-  **  ((( &( "b" ) )) # Int  |-> b_pre)
   **  ((( &( "a" ) )) # Int  |-> a_pre)
+  **  ((( &( "b" ) )) # Int  |-> b_pre)
+  **  ((( &( "c" ) )) # Int  |-> c_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -212,22 +212,22 @@ forall (c_pre: Z) (b_pre: Z) (a_pre: Z) (PreH1 : (a_pre = 0)) (PreH2 : (INT_MIN 
 forall (c_pre: Z) (b_pre: Z) (a_pre: Z) (PreH1 : (a_pre = 0)) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
   TT && emp 
 |--
-  “ (0 = (Always_pos (a_pre) (b_pre) (c_pre))) ”
+  “ (0 = (Always_pos (0) (b_pre) (c_pre))) ”
   &&  emp
 ).
 
 Definition Always_positive_simple_return_wit_4_split_goal_1 := 
 forall (c_pre: Z) (b_pre: Z) (a_pre: Z) (PreH1 : (a_pre = 0)) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
-  (0 = (Always_pos (a_pre) (b_pre) (c_pre)))
+  (0 = (Always_pos (0) (b_pre) (c_pre)))
 .
 
 (*----- Function Always_positive -----*)
 
 Definition Always_positive_safety_wit_1 := 
 forall (c_pre: Z) (b_pre: Z) (a_pre: Z) (PreH1 : (INT_MIN < a_pre)) (PreH2 : (a_pre <= INT_MAX)) (PreH3 : (INT_MIN < b_pre)) (PreH4 : (b_pre <= INT_MAX)) (PreH5 : (INT_MIN < c_pre)) (PreH6 : (c_pre <= INT_MAX)) ,
-  ((( &( "c" ) )) # Int  |-> c_pre)
+  ((( &( "a" ) )) # Int  |-> a_pre)
   **  ((( &( "b" ) )) # Int  |-> b_pre)
-  **  ((( &( "a" ) )) # Int  |-> a_pre)
+  **  ((( &( "c" ) )) # Int  |-> c_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -235,9 +235,9 @@ forall (c_pre: Z) (b_pre: Z) (a_pre: Z) (PreH1 : (INT_MIN < a_pre)) (PreH2 : (a_
 
 Definition Always_positive_safety_wit_2 := 
 forall (c_pre: Z) (b_pre: Z) (a_pre: Z) (PreH1 : (a_pre = 0)) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
-  ((( &( "c" ) )) # Int  |-> c_pre)
+  ((( &( "a" ) )) # Int  |-> a_pre)
   **  ((( &( "b" ) )) # Int  |-> b_pre)
-  **  ((( &( "a" ) )) # Int  |-> a_pre)
+  **  ((( &( "c" ) )) # Int  |-> c_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -249,12 +249,12 @@ forall (c_pre: Z) (b_pre: Z) (a_pre: Z) (PreH1 : (a_pre <> 0)) (PreH2 : (INT_MIN
   **  ((( &( "delta2" ) )) # Int64  |->_)
   **  ((( &( "delta1" ) )) # Int64  |->_)
   **  ((( &( "delta0" ) )) # Int64  |->_)
-  **  ((( &( "c" ) )) # Int  |-> c_pre)
-  **  ((( &( "b" ) )) # Int  |-> b_pre)
   **  ((( &( "a" ) )) # Int  |-> a_pre)
+  **  ((( &( "b" ) )) # Int  |-> b_pre)
+  **  ((( &( "c" ) )) # Int  |-> c_pre)
 |--
-  “ ((b_pre * b_pre ) <= 9223372036854775807) ” 
-  &&  “ ((-9223372036854775808) <= (b_pre * b_pre )) ”
+  “ ((b_pre * b_pre ) <= INT64_MAX) ” 
+  &&  “ ((INT64_MIN) <= (b_pre * b_pre )) ”
 .
 
 Definition Always_positive_safety_wit_4 := 
@@ -263,12 +263,12 @@ forall (c_pre: Z) (b_pre: Z) (a_pre: Z) (PreH1 : (a_pre <> 0)) (PreH2 : (INT_MIN
   **  ((( &( "delta2" ) )) # Int64  |->_)
   **  ((( &( "delta1" ) )) # Int64  |-> (b_pre * b_pre ))
   **  ((( &( "delta0" ) )) # Int64  |-> (b_pre * b_pre ))
-  **  ((( &( "c" ) )) # Int  |-> c_pre)
-  **  ((( &( "b" ) )) # Int  |-> b_pre)
   **  ((( &( "a" ) )) # Int  |-> a_pre)
+  **  ((( &( "b" ) )) # Int  |-> b_pre)
+  **  ((( &( "c" ) )) # Int  |-> c_pre)
 |--
-  “ ((a_pre * c_pre ) <= 9223372036854775807) ” 
-  &&  “ ((-9223372036854775808) <= (a_pre * c_pre )) ”
+  “ ((a_pre * c_pre ) <= INT64_MAX) ” 
+  &&  “ ((INT64_MIN) <= (a_pre * c_pre )) ”
 .
 
 Definition Always_positive_safety_wit_5 := 
@@ -277,9 +277,9 @@ forall (c_pre: Z) (b_pre: Z) (a_pre: Z) (PreH1 : (a_pre <> 0)) (PreH2 : (INT_MIN
   **  ((( &( "delta2" ) )) # Int64  |-> (a_pre * c_pre ))
   **  ((( &( "delta1" ) )) # Int64  |-> (b_pre * b_pre ))
   **  ((( &( "delta0" ) )) # Int64  |-> (b_pre * b_pre ))
-  **  ((( &( "c" ) )) # Int  |-> c_pre)
-  **  ((( &( "b" ) )) # Int  |-> b_pre)
   **  ((( &( "a" ) )) # Int  |-> a_pre)
+  **  ((( &( "b" ) )) # Int  |-> b_pre)
+  **  ((( &( "c" ) )) # Int  |-> c_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -291,9 +291,9 @@ forall (c_pre: Z) (b_pre: Z) (a_pre: Z) (PreH1 : ((a_pre * c_pre ) <= 0)) (PreH2
   **  ((( &( "delta2" ) )) # Int64  |-> (a_pre * c_pre ))
   **  ((( &( "delta1" ) )) # Int64  |-> (b_pre * b_pre ))
   **  ((( &( "delta0" ) )) # Int64  |-> (b_pre * b_pre ))
-  **  ((( &( "c" ) )) # Int  |-> c_pre)
-  **  ((( &( "b" ) )) # Int  |-> b_pre)
   **  ((( &( "a" ) )) # Int  |-> a_pre)
+  **  ((( &( "b" ) )) # Int  |-> b_pre)
+  **  ((( &( "c" ) )) # Int  |-> c_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -305,9 +305,9 @@ forall (c_pre: Z) (b_pre: Z) (a_pre: Z) (PreH1 : ((a_pre * c_pre ) > 0)) (PreH2 
   **  ((( &( "delta2" ) )) # Int64  |-> (a_pre * c_pre ))
   **  ((( &( "delta1" ) )) # Int64  |-> (b_pre * b_pre ))
   **  ((( &( "delta0" ) )) # Int64  |-> (b_pre * b_pre ))
-  **  ((( &( "c" ) )) # Int  |-> c_pre)
-  **  ((( &( "b" ) )) # Int  |-> b_pre)
   **  ((( &( "a" ) )) # Int  |-> a_pre)
+  **  ((( &( "b" ) )) # Int  |-> b_pre)
+  **  ((( &( "c" ) )) # Int  |-> c_pre)
 |--
   “ (4 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 4) ”
@@ -323,8 +323,8 @@ forall (c_pre: Z) (b_pre: Z) (a_pre: Z) (delta1: Z) (delta2: Z) (delta0: Z) (d: 
   **  ((( &( "b" ) )) # Int  |-> b_pre)
   **  ((( &( "c" ) )) # Int  |-> c_pre)
 |--
-  “ ((delta1 - delta2 ) <= 9223372036854775807) ” 
-  &&  “ ((-9223372036854775808) <= (delta1 - delta2 )) ”
+  “ ((delta1 - delta2 ) <= INT64_MAX) ” 
+  &&  “ ((INT64_MIN) <= (delta1 - delta2 )) ”
 .
 
 Definition Always_positive_safety_wit_9 := 
@@ -416,9 +416,9 @@ forall (c_pre: Z) (b_pre: Z) (a_pre: Z) (PreH1 : ((a_pre * c_pre ) <= 0)) (PreH2
   **  ((( &( "delta2" ) )) # Int64  |-> (a_pre * c_pre ))
   **  ((( &( "delta1" ) )) # Int64  |-> (b_pre * b_pre ))
   **  ((( &( "delta0" ) )) # Int64  |-> (b_pre * b_pre ))
-  **  ((( &( "c" ) )) # Int  |-> c_pre)
-  **  ((( &( "b" ) )) # Int  |-> b_pre)
   **  ((( &( "a" ) )) # Int  |-> a_pre)
+  **  ((( &( "b" ) )) # Int  |-> b_pre)
+  **  ((( &( "c" ) )) # Int  |-> c_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -471,9 +471,9 @@ forall (c_pre: Z) (b_pre: Z) (a_pre: Z) (PreH1 : ((a_pre * c_pre ) <= 0)) (PreH2
   **  ((( &( "delta2" ) )) # Int64  |-> (a_pre * c_pre ))
   **  ((( &( "delta1" ) )) # Int64  |-> (b_pre * b_pre ))
   **  ((( &( "delta0" ) )) # Int64  |-> (b_pre * b_pre ))
-  **  ((( &( "c" ) )) # Int  |-> c_pre)
-  **  ((( &( "b" ) )) # Int  |-> b_pre)
   **  ((( &( "a" ) )) # Int  |-> a_pre)
+  **  ((( &( "b" ) )) # Int  |-> b_pre)
+  **  ((( &( "c" ) )) # Int  |-> c_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -577,13 +577,13 @@ forall (c_pre: Z) (b_pre: Z) (a_pre: Z) (delta1: Z) (delta2: Z) (delta0: Z) (d: 
 forall (c_pre: Z) (b_pre: Z) (a_pre: Z) (delta1: Z) (delta2: Z) (delta0: Z) (d: Z) (PreH1 : ((d - 1 ) <> 0)) (PreH2 : (delta2 <= delta1)) (PreH3 : (0 < d)) (PreH4 : (d <= 4)) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) (PreH9 : (INT_MIN < c_pre)) (PreH10 : (c_pre <= INT_MAX)) (PreH11 : (0 < (a_pre * c_pre ))) (PreH12 : (delta0 = (b_pre * b_pre ))) (PreH13 : (delta2 = (a_pre * c_pre ))) (PreH14 : (delta0 = (delta1 + ((4 - d ) * delta2 ) ))) ,
   TT && emp 
 |--
-  “ (delta0 = ((delta1 - delta2 ) + ((4 - (d - 1 ) ) * delta2 ) )) ”
+  “ ((b_pre * b_pre ) = ((delta1 - (a_pre * c_pre ) ) + ((4 - (d - 1 ) ) * (a_pre * c_pre ) ) )) ”
   &&  emp
 ).
 
 Definition Always_positive_entail_wit_2_split_goal_1 := 
 forall (c_pre: Z) (b_pre: Z) (a_pre: Z) (delta1: Z) (delta2: Z) (delta0: Z) (d: Z) (PreH1 : ((d - 1 ) <> 0)) (PreH2 : (delta2 <= delta1)) (PreH3 : (0 < d)) (PreH4 : (d <= 4)) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) (PreH9 : (INT_MIN < c_pre)) (PreH10 : (c_pre <= INT_MAX)) (PreH11 : (0 < (a_pre * c_pre ))) (PreH12 : (delta0 = (b_pre * b_pre ))) (PreH13 : (delta2 = (a_pre * c_pre ))) (PreH14 : (delta0 = (delta1 + ((4 - d ) * delta2 ) ))) ,
-  (delta0 = ((delta1 - delta2 ) + ((4 - (d - 1 ) ) * delta2 ) ))
+  ((b_pre * b_pre ) = ((delta1 - (a_pre * c_pre ) ) + ((4 - (d - 1 ) ) * (a_pre * c_pre ) ) ))
 .
 
 Definition Always_positive_return_wit_1 := 
@@ -682,13 +682,13 @@ forall (c_pre: Z) (b_pre: Z) (a_pre: Z) (PreH1 : (a_pre = 0)) (PreH2 : (INT_MIN 
 forall (c_pre: Z) (b_pre: Z) (a_pre: Z) (PreH1 : (a_pre = 0)) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
   TT && emp 
 |--
-  “ (0 = (Always_pos (a_pre) (b_pre) (c_pre))) ”
+  “ (0 = (Always_pos (0) (b_pre) (c_pre))) ”
   &&  emp
 ).
 
 Definition Always_positive_return_wit_5_split_goal_1 := 
 forall (c_pre: Z) (b_pre: Z) (a_pre: Z) (PreH1 : (a_pre = 0)) (PreH2 : (INT_MIN < a_pre)) (PreH3 : (a_pre <= INT_MAX)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (INT_MIN < c_pre)) (PreH7 : (c_pre <= INT_MAX)) ,
-  (0 = (Always_pos (a_pre) (b_pre) (c_pre)))
+  (0 = (Always_pos (0) (b_pre) (c_pre)))
 .
 
 Module Type VC_Correct.

@@ -37,7 +37,7 @@ Ltac kmp_solve :=
 
 Lemma proof_of_inner_entail_wit_2 : inner_entail_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(lia || int_auto).
   prop_apply CharArray.full_Zlength.
   prop_apply IntArray.full_Zlength.
   rewrite Zlength_app.
@@ -76,7 +76,7 @@ Qed.
 
 Lemma proof_of_inner_entail_wit_3 : inner_entail_wit_3.
 Proof. 
-  pre_process.
+  LLM_pre_process ltac:(lia || int_auto).
   split_pure_spatial.
   - cancel.
   - split_pures.
@@ -96,7 +96,7 @@ Qed.
 
 Lemma proof_of_inner_return_wit_2 : inner_return_wit_2.
 Proof. 
-  pre_process.
+  LLM_pre_process ltac:(lia || int_auto).
   split_pure_spatial.
   - cancel.
   - split_pures.
@@ -115,7 +115,7 @@ Qed.
 
 Lemma proof_of_inner_return_wit_1 : inner_return_wit_1.
 Proof. 
-  pre_process.
+  LLM_pre_process ltac:(lia || int_auto).
   split_pure_spatial.
   - cancel.
   - split_pures.
@@ -136,7 +136,7 @@ Qed.
 
 Lemma proof_of_constr_entail_wit_1 : constr_entail_wit_1.
 Proof. 
-  pre_process; subst.
+  (LLM_pre_process ltac:(lia || int_auto)); subst.
   Exists (sublist 1 n_low_level_spec l) (0::nil).
   kmp_solve.
   prop_apply IntArray.full_Zlength; Intros_p Hlen.
@@ -175,7 +175,7 @@ Qed.
 
 Lemma proof_of_constr_entail_wit_2 : constr_entail_wit_2.
 Proof. 
-  pre_process.
+  LLM_pre_process ltac:(lia || int_auto).
   Exists (vnext0 ++ l0).
   prop_apply (IntArray.full_Zlength vnext).
   split_pure_spatial.
@@ -206,7 +206,7 @@ Qed.
 
 Lemma proof_of_constr_entail_wit_3 : constr_entail_wit_3.
 Proof. 
-  pre_process.
+  LLM_pre_process ltac:(lia || int_auto).
   unfold constr_loop_from_after in PreH1.
   destruct l0_2.
   - prop_apply (IntArray.full_Zlength vnext).
@@ -249,6 +249,8 @@ Proof.
         - rewrite Hzj. lia.
       }
       rewrite Hprefix, Hsuffix.
+      replace (vnext + (i + 1) * 4) with (vnext + (i + 1) * sizeof (INT))
+        by (rewrite sizeof_int; lia).
       cancel.
     + split_pures.
       * dump_pre_spatial.
@@ -261,7 +263,7 @@ Qed.
 
 Lemma proof_of_constr_return_wit_1 : constr_return_wit_1.
 Proof. 
-  pre_process.
+  LLM_pre_process ltac:(lia || int_auto).
   prop_apply (IntArray.full_length (vnext_2 + i * sizeof ( INT ))); Intros.
   assert (i = n_low_level_spec) by lia; subst i.
   prop_apply CharArray.full_Zlength.
@@ -287,7 +289,7 @@ Qed.
 
 Lemma proof_of_constr_partial_solve_wit_5_pure : constr_partial_solve_wit_5_pure.
 Proof. 
-  pre_process.
+  LLM_pre_process ltac:(lia || int_auto).
   prop_apply (IntArray.full_length vnext).
   Intros_p Hvnext_len.
   prop_apply CharArray.full_Zlength.
@@ -321,7 +323,7 @@ Qed.
 
 Lemma proof_of_match_entail_wit_1 : match_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(lia || int_auto).
   subst; kmp_solve.
   - cancel (&( "text_len") # Int |-> m_low_level_spec).
     cancel (CharArray.full patn_pre (n_low_level_spec + 1) (patn0_low_level_spec ++ 0 :: nil)).
@@ -344,7 +346,7 @@ Qed.
 
 Lemma proof_of_match_entail_wit_2 : match_entail_wit_2.
 Proof. 
-  pre_process.
+  LLM_pre_process ltac:(lia || int_auto).
   prop_apply CharArray.full_Zlength.
   Intros_p Htext.
   kmp_solve.
@@ -370,7 +372,7 @@ Qed.
 
 Lemma proof_of_match_return_wit_2 : match_return_wit_2.
 Proof.
-  pre_process; subst.
+  (LLM_pre_process ltac:(lia || int_auto)); subst.
   match goal with
   | H : safeExec ATrue (applyf _ _) _ |- _ =>
       unfold match_loop_from_after, applyf in H
@@ -395,7 +397,7 @@ Qed.
 
 Lemma proof_of_match_return_wit_1 : match_return_wit_1.
 Proof. 
-  pre_process.
+  LLM_pre_process ltac:(lia || int_auto).
   prop_apply (CharArray.full_Zlength text_pre).
   Intros_p Htext.
   Exists None.
@@ -422,7 +424,7 @@ Qed.
 
 Lemma proof_of_match_partial_solve_wit_4_pure : match_partial_solve_wit_4_pure.
 Proof. 
-  pre_process.
+  LLM_pre_process ltac:(lia || int_auto).
   prop_apply CharArray.full_Zlength.
   Intros_p Htext.
   apply string_Zlength in Htext.
@@ -450,7 +452,7 @@ Qed.
 
 Lemma proof_of_match_derive_high_level_spec_by_low_level_spec : match_derive_high_level_spec_by_low_level_spec.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(lia || int_auto).
   Exists patn0_high_level_spec text0_high_level_spec vnext0_high_level_spec n_high_level_spec.
   remember (match_loop 0 patn0_high_level_spec text0_high_level_spec vnext0_high_level_spec) as prog.
   Exists m_high_level_spec (fun (r: option Z) x => prog.(MonadErr.nrm) tt r x).
@@ -507,7 +509,7 @@ Qed.
 
 Lemma proof_of_constr_derive_high_level_spec_by_low_level_spec : constr_derive_high_level_spec_by_low_level_spec.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(lia || int_auto).
   prop_apply CharArray.full_Zlength; Intros.
   apply string_Zlength in H1.
   Exists str_high_level_spec n_high_level_spec.
@@ -542,7 +544,7 @@ Qed.
 
 Lemma proof_of_inner_derive_bind_spec_by_low_level_spec : inner_derive_bind_spec_by_low_level_spec.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(lia || int_auto).
   prop_apply CharArray.full_Zlength; Intros.
   prop_apply IntArray.full_Zlength; Intros.
   apply string_Zlength in H2.

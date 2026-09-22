@@ -28,7 +28,7 @@ Proof. Abort.
 
 Lemma proof_of_max_fill_safety_wit_6 : max_fill_safety_wit_6.
 Proof.
-  pre_process_default; try entailer!.
+  pre_process_default.
   all: try match goal with
   | Hlen : forall r : Z, _ -> Zlength (Znth r ?rs ?d) = ?m
     |- Zlength (Znth ?r ?rs ?d2) = ?m =>
@@ -50,6 +50,9 @@ Proof.
         (split; [apply Z.quot_pos; lia | apply Z.quot_le_upper_bound; nia])
   end.
   all: try lia; try nia.
+  split_pures.
+  - dump_pre_spatial; nia.
+  - dump_pre_spatial; nia.
 Qed.
 Lemma proof_of_max_fill_safety_wit_8_split_goal_1 : max_fill_safety_wit_8_split_goal_1.
 Proof. Abort.
@@ -59,7 +62,7 @@ Proof. Abort.
 
 Lemma proof_of_max_fill_safety_wit_8 : max_fill_safety_wit_8.
 Proof.
-  pre_process_default; try entailer!.
+  pre_process_default.
   all: try match goal with
   | Hlen : forall r : Z, _ -> Zlength (Znth r ?rs ?d) = ?m
     |- Zlength (Znth ?r ?rs ?d2) = ?m =>
@@ -81,6 +84,9 @@ Proof.
         (split; [apply Z.quot_pos; lia | apply Z.quot_le_upper_bound; nia])
   end.
   all: try lia; try nia.
+  split_pures.
+  - dump_pre_spatial; nia.
+  - dump_pre_spatial; nia.
 Qed.
 Lemma proof_of_max_fill_safety_wit_9_split_goal_1 : max_fill_safety_wit_9_split_goal_1.
 Proof. Abort.
@@ -90,7 +96,7 @@ Proof. Abort.
 
 Lemma proof_of_max_fill_safety_wit_9 : max_fill_safety_wit_9.
 Proof.
-  pre_process_default; try entailer!.
+  pre_process_default.
   all: try match goal with
   | Hlen : forall r : Z, _ -> Zlength (Znth r ?rs ?d) = ?m
     |- Zlength (Znth ?r ?rs ?d2) = ?m =>
@@ -112,13 +118,16 @@ Proof.
         (split; [apply Z.quot_pos; lia | apply Z.quot_le_upper_bound; nia])
   end.
   all: try lia; try nia.
+  split_pures.
+  - dump_pre_spatial; nia.
+  - dump_pre_spatial; nia.
 Qed.
 Lemma proof_of_max_fill_entail_wit_1_split_goal_1 : max_fill_entail_wit_1_split_goal_1.
 Proof. Abort.
 
 Lemma proof_of_max_fill_entail_wit_1 : max_fill_entail_wit_1.
 Proof.
-  pre_process_default; try entailer!.
+  pre_process_default.
   all: try match goal with
   | Hlen : forall r : Z, _ -> Zlength (Znth r ?rs ?d) = ?m
     |- Zlength (Znth ?r ?rs ?d2) = ?m =>
@@ -166,7 +175,15 @@ Proof.
       (Znth i rows __default__List_Z)) with
       (IntArray.full row_ptr (Zlength (Znth i rows __default__List_Z))
         (Znth i rows __default__List_Z)).
-    entailer!.
+    normalize.
+    repeat (eapply derivable1s_coq_prop_andp_r;
+      [ | try solve [auto | lia | nia | apply PreH11; lia]]).
+    cancel (IntArray.full row_ptr (Zlength (Znth i rows __default__List_Z))
+      (Znth i rows __default__List_Z)).
+    cancel (IntPtrArray2.missing_i grid_pre grid_rows_pre i row_ptr rows).
+    change (sizeof (PTR)) with ptr_size_Z.
+    fold_arch.
+    cancel.
 Qed.
 
 Lemma proof_of_max_fill_entail_wit_3_split_goal_1 : max_fill_entail_wit_3_split_goal_1.
@@ -176,7 +193,11 @@ Lemma proof_of_max_fill_entail_wit_3 : max_fill_entail_wit_3.
 Proof.
   pre_process_default.
   Exists row_ptr_2.
-  entailer!.
+  normalize.
+  repeat (eapply derivable1s_coq_prop_andp_r;
+    [ | try solve [auto | lia | nia | apply PreH16; lia]]).
+  cancel (IntPtrArray2.missing_i grid_pre grid_rows_pre i row_ptr_2 rows).
+  cancel.
 Qed.
 Lemma proof_of_max_fill_entail_wit_4_split_goal_1 : max_fill_entail_wit_4_split_goal_1.
 Proof. Abort.
@@ -196,7 +217,8 @@ Proof.
   rewrite (Znth_indep rows i nil __default__List_Z) by lia.
   pose proof (PreH18 i j ltac:(repeat split; lia)).
   Exists row_ptr_2.
-  entailer!.
+  repeat (split_pure_spatial || split_pures);
+    try solve [cancel | dump_pre_spatial; auto | dump_pre_spatial; lia].
 Qed.
 Lemma proof_of_max_fill_entail_wit_5_split_goal_1 : max_fill_entail_wit_5_split_goal_1.
 Proof. Abort.
@@ -212,15 +234,20 @@ Proof.
     grid_pre i grid_rows_pre row_ptr rows
     (Znth i rows __default__List_Z)) as Hmerge.
   unfold StorePtrAsElement.storeA in Hmerge.
-  rewrite sizeof_ptr.
+  change (sizeof (PTR)) with ptr_size_Z in Hmerge.
+  fold_arch.
   change (IntPtrArray2.ElemArray.full row_ptr
     (Zlength (Znth i rows __default__List_Z))
     (Znth i rows __default__List_Z)) with
     (IntArray.full row_ptr (Zlength (Znth i rows __default__List_Z))
       (Znth i rows __default__List_Z)) in Hmerge.
+  change (sizeof (PTR)) with ptr_size_Z.
+  fold_arch.
   sep_apply Hmerge; try lia.
   rewrite replace_Znth_Znth by lia.
-  entailer!.
+  repeat (eapply derivable1s_coq_prop_andp_r;
+    [ | try solve [auto | lia | nia]]).
+  cancel.
 Qed.
 Lemma proof_of_max_fill_entail_wit_6_1_split_goal_1 : max_fill_entail_wit_6_1_split_goal_1.
 Proof. Abort.
@@ -233,7 +260,7 @@ Proof. Abort.
 
 Lemma proof_of_max_fill_entail_wit_6_1 : max_fill_entail_wit_6_1.
 Proof.
-  pre_process_default; try entailer!.
+  pre_process_default.
   all: try match goal with
   | Hlen : forall r : Z, _ -> Zlength (Znth r ?rs ?d) = ?m
     |- Zlength (Znth ?r ?rs ?d2) = ?m =>
@@ -255,6 +282,9 @@ Proof.
         (split; [apply Z.quot_pos; lia | apply Z.quot_le_upper_bound; nia])
   end.
   all: try lia; try nia.
+  repeat (eapply derivable1s_coq_prop_andp_r;
+    [ | try solve [auto | lia | nia]]).
+  cancel.
 Qed.
 Lemma proof_of_max_fill_entail_wit_6_2_split_goal_1 : max_fill_entail_wit_6_2_split_goal_1.
 Proof. Abort.
@@ -264,7 +294,7 @@ Proof. Abort.
 
 Lemma proof_of_max_fill_entail_wit_6_2 : max_fill_entail_wit_6_2.
 Proof.
-  pre_process_default; try entailer!.
+  pre_process_default.
   all: try match goal with
   | Hlen : forall r : Z, _ -> Zlength (Znth r ?rs ?d) = ?m
     |- Zlength (Znth ?r ?rs ?d2) = ?m =>

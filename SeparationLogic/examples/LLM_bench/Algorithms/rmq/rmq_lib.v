@@ -9,6 +9,41 @@ Local Open Scope list_scope.
 
 Definition Power2 (j : Z) : Z := Z.pow 2 j.
 
+(** Program-safety and data-representation predicates.  These predicates do
+    not claim that any sparse-table cell contains the right answer. *)
+Definition RMQSizeSafe (n K : Z) : Prop :=
+  1 <= n /\
+  n <= 100000 /\
+  1 <= K /\
+  K <= 30 /\
+  n * K <= 1000000 /\
+  n < Power2 K.
+
+Definition RMQInputValues (l : list Z) (n : Z) : Prop :=
+  Zlength l = n /\
+  forall i, 0 <= i < n -> -2147483648 <= Znth i l 0 <= 2147483647.
+
+Definition STTableShape (st_ls : list Z) (K n : Z) : Prop :=
+  Zlength st_ls = n * K.
+
+Definition STCellBounds (st_ls : list Z) (K i j : Z) : Prop :=
+  0 < K /\
+  0 <= i /\
+  0 <= j /\ j < K /\
+  0 <= i * K + j < Zlength st_ls.
+
+Definition STZeroPrefixBounds (st_ls : list Z) (upto : Z) : Prop :=
+  0 <= upto /\ upto <= Zlength st_ls.
+
+Definition STBasePrefixBounds (n upto : Z) : Prop :=
+  0 <= upto /\ upto <= n.
+
+Definition STBuiltBeforeLevelBounds (K level : Z) : Prop :=
+  0 <= level /\ level <= K.
+
+Definition STLevelPrefixBounds (K n j upto : Z) : Prop :=
+  0 <= j /\ j < K /\ 0 <= upto /\ upto <= n.
+
 Definition RangeMaxValue (l : list Z) (lo hi ans : Z) : Prop :=
   0 <= lo /\
   lo < hi /\
@@ -20,45 +55,23 @@ Definition RangeMaxValue (l : list Z) (lo hi ans : Z) : Prop :=
 
 Definition STCellRangeMax
     (l st_ls : list Z) (K i j : Z) : Prop :=
-  0 < K /\
-  0 <= i /\
-  0 <= j /\
-  0 <= i * K + j < Zlength st_ls /\
   RangeMaxValue l i (i + Power2 j) (Znth (i * K + j) st_ls 0).
 
 Definition STZeroPrefix (st_ls : list Z) (upto : Z) : Prop :=
-  0 <= upto /\
-  upto <= Zlength st_ls /\
   forall p, 0 <= p < upto -> Znth p st_ls 0 = 0.
 
 Definition STBasePrefix
     (l st_ls : list Z) (K n upto : Z) : Prop :=
-  Zlength l = n /\
-  Zlength st_ls = n * K /\
-  0 < K /\
-  0 <= upto /\
-  upto <= n /\
   forall i, 0 <= i < upto -> STCellRangeMax l st_ls K i 0.
 
 Definition STBuiltBeforeLevel
     (l st_ls : list Z) (K n level : Z) : Prop :=
-  Zlength l = n /\
-  Zlength st_ls = n * K /\
-  0 < K /\
-  0 <= level /\
-  level <= K /\
   forall i j,
     0 <= i /\ 0 <= j /\ j < level /\ i + Power2 j <= n ->
     STCellRangeMax l st_ls K i j.
 
 Definition STLevelPrefix
     (l st_ls : list Z) (K n j upto : Z) : Prop :=
-  Zlength l = n /\
-  Zlength st_ls = n * K /\
-  0 < K /\
-  0 <= j /\
-  j < K /\
-  0 <= upto /\
   forall i,
     0 <= i /\ i < upto /\ i + Power2 j <= n ->
     STCellRangeMax l st_ls K i j.
@@ -66,20 +79,27 @@ Definition STLevelPrefix
 Definition STBuilt (l st_ls : list Z) (K n : Z) : Prop :=
   STBuiltBeforeLevel l st_ls K n K.
 
-Definition QueryLogLoopState
-    (K n len k pow : Z) : Prop :=
+Definition QueryIntervalBounds (n left right : Z) : Prop :=
+  0 <= left /\ left <= right /\ right < n.
+
+Definition QueryLogBounds (K n len k pow : Z) : Prop :=
   1 <= len /\
   len <= n /\
   1 <= K /\
   n < Power2 K /\
   0 <= k /\
   k < K /\
+  1 <= pow.
+
+(** Mathematical progress of the integer-logarithm loop, independent of the
+    enclosing C bounds used to justify arithmetic and table access. *)
+Definition QueryLogLoopState (len k pow : Z) : Prop :=
+  0 <= k /\
   pow = Power2 k /\
   Power2 k <= len.
 
-Definition QueryLogFinalState
-    (K n len k pow : Z) : Prop :=
-  QueryLogLoopState K n len k pow /\
+Definition QueryLogFinalState (len k pow : Z) : Prop :=
+  QueryLogLoopState len k pow /\
   len < Power2 (k + 1).
 
 (* Helper imports migrated from rmq__vc_proving_subagent_merged_proof_manual.v. *)
@@ -144,16 +164,12 @@ Lemma STZeroPrefix_replace_zero_step:
 Proof.
   intros st_ls idx Hprefix Hidx.
   unfold STZeroPrefix in *.
-  destruct Hprefix as [Hnonneg [Hlen Hzero]].
-  repeat split.
-  - lia.
-  - rewrite Zlength_replace_Znth; lia.
-  - intros p Hp.
-    destruct (Z.eq_dec p idx) as [Heq | Hneq].
-    + subst.
-      rewrite Znth_replace_Znth_Same; lia.
-    + rewrite Znth_replace_Znth_Diff; try lia.
-      apply Hzero; lia.
+  intros p Hp.
+  destruct (Z.eq_dec p idx) as [Heq | Hneq].
+  - subst.
+    rewrite Znth_replace_Znth_Same; lia.
+  - rewrite Znth_replace_Znth_Diff; try lia.
+    apply Hprefix; lia.
 Qed.
 
 Lemma worker_Power2_0_1 : Power2 0 = 1.
@@ -175,20 +191,9 @@ Lemma worker_STBasePrefix_write_base_step :
 Proof.
   intros l st_ls K n i Hl Hst HK Hi0 Hin Hidx0 Hidxn Hbase.
   unfold STBasePrefix in *.
-  destruct Hbase as [_ [_ [_ [_ [_ Hcells]]]]].
-  split; [lia|].
-  split; [rewrite Zlength_replace_Znth; lia|].
-  split; [lia|].
-  split; [lia|].
-  split; [lia|].
   intros p Hp.
   destruct (Z.eq_dec p i) as [-> | Hne].
   - unfold STCellRangeMax.
-    rewrite Zlength_replace_Znth, Hst.
-    split; [lia|].
-    split; [lia|].
-    split; [lia|].
-    split; [lia|].
     unfold RangeMaxValue.
     rewrite worker_Power2_0_1.
     replace (i * K + 0) with (i * K) by lia.
@@ -198,15 +203,9 @@ Proof.
              (fun k : Z => i <= k < i + 1) (fun k : Z => Znth k l 0)).
     intros k; split; intros Hk; lia.
   - assert (Hp_old : 0 <= p < i) by lia.
-    specialize (Hcells p Hp_old).
+    specialize (Hbase p Hp_old).
     unfold STCellRangeMax in *.
-    destruct Hcells as (HK' & Hp0 & Hj0 & Hidx & Hrange).
-    rewrite Zlength_replace_Znth.
-    split; [lia|].
-    split; [lia|].
-    split; [lia|].
-    split; [lia|].
-    rewrite Znth_replace_Znth_Diff; try exact Hrange; try rewrite Hst; try lia; try nia.
+    rewrite Znth_replace_Znth_Diff; try exact Hbase; try rewrite Hst; try lia; try nia.
 Qed.
 
 Lemma worker_STBasePrefix_complete_level1 :
@@ -219,17 +218,11 @@ Proof.
   intros l st_ls K n i Hge Hle Hbase.
   unfold STBasePrefix in Hbase.
   unfold STBuiltBeforeLevel.
-  destruct Hbase as (Hl & Hst & HK & Hupto0 & HuptoN & Hcells).
-  split; [lia|].
-  split; [lia|].
-  split; [lia|].
-  split; [lia|].
-  split; [lia|].
   intros p j Hj.
   destruct Hj as (Hp0 & Hj0 & Hjlt & Hrange).
   assert (j = 0) by lia; subst j.
   rewrite worker_Power2_0_1 in Hrange.
-  apply Hcells.
+  apply Hbase.
   lia.
 Qed.
 
@@ -316,19 +309,14 @@ Lemma STCellRangeMax_replace_other :
   forall l st K row col idx v,
     STCellRangeMax l st K row col ->
     0 <= idx < Zlength st ->
+    0 <= row * K + col < Zlength st ->
     idx <> row * K + col ->
     STCellRangeMax l (replace_Znth idx v st) K row col.
 Proof.
   intros.
   unfold STCellRangeMax in *.
-  destruct H as [HK [Hrow [Hcol [Hcell Hrange]]]].
-  split; [exact HK|].
-  split; [exact Hrow|].
-  split; [exact Hcol|].
-  split.
-  - rewrite Zlength_replace_Znth; exact Hcell.
-  - rewrite Znth_replace_Znth_Diff by auto.
-    exact Hrange.
+  rewrite Znth_replace_Znth_Diff by auto.
+  exact H.
 Qed.
 
 Lemma STBuiltBeforeLevel_replace_level_cell :
@@ -336,22 +324,62 @@ Lemma STBuiltBeforeLevel_replace_level_cell :
     STBuiltBeforeLevel l st K n level ->
     level < K ->
     0 <= row * K + level < Zlength st ->
+    (forall row0 col,
+      0 <= row0 /\ 0 <= col /\ col < level /\ row0 + Power2 col <= n ->
+      0 <= row0 * K + col < Zlength st) ->
     STBuiltBeforeLevel l (replace_Znth (row * K + level) v st) K n level.
 Proof.
   intros.
   unfold STBuiltBeforeLevel in *.
-  destruct H as [Hl [Hst [HK [Hlevel0 [HlevelK Hall]]]]].
-  split; [exact Hl|].
-  split; [rewrite Zlength_replace_Znth; exact Hst|].
-  split; [exact HK|].
-  split; [exact Hlevel0|].
-  split; [exact HlevelK|].
   intros row0 col Hcell_args.
   eapply STCellRangeMax_replace_other.
-  - apply Hall; exact Hcell_args.
+  - apply H; exact Hcell_args.
   - exact H1.
+  - apply H2; exact Hcell_args.
   - destruct Hcell_args as [Hrow0 [Hcol0 [Hcollt _]]].
     apply cell_index_diff_col_neq with (K := K); lia.
+Qed.
+
+Lemma RangeMaxValue_join_max :
+  forall l i j half a b,
+    1 <= j ->
+    half = Power2 (j - 1) ->
+    RangeMaxValue l i (i + Power2 (j - 1)) a ->
+    RangeMaxValue l (i + half) (i + half + Power2 (j - 1)) b ->
+    RangeMaxValue l i (i + Power2 j) (Z.max a b).
+Proof.
+  intros l i j half a b Hj Hhalf Hleft Hright.
+  unfold RangeMaxValue in *.
+  destruct Hleft as [Hi0 [Hilt1 [Hhi1 Hmax1]]].
+  destruct Hright as [Hi20 [Hilt2 [Hhi2 Hmax2]]].
+  repeat split.
+  - exact Hi0.
+  - pose proof (Power2_pos j ltac:(lia)); lia.
+  - rewrite (Power2_sub1_double j) by lia.
+    rewrite Hhalf in *; lia.
+  - assert (Hcover : forall x : Z,
+      (i <= x < i + Power2 (j - 1) \/
+       i + half <= x < i + half + Power2 (j - 1)) <->
+      i <= x < i + Power2 j).
+    { intro x.
+      rewrite (Power2_sub1_double j) by lia.
+      rewrite Hhalf in *.
+      split.
+      - intros [[? ?] | [? ?]]; lia.
+      - intros [? ?].
+        destruct (Z_lt_ge_dec x (i + half)); [left | right]; lia.
+    }
+    pose proof (@MaxMin.max_union Z Z.le Interface.Zle_TotalOrder Z
+      a b (fun x : Z => Znth x l 0)
+      (fun x : Z => i <= x < i + Power2 (j - 1))
+      (fun x : Z => i + half <= x < i + half + Power2 (j - 1))
+      (fun x : Z => i <= x < i + Power2 j)
+      Hmax1 Hmax2 Hcover) as Hmax.
+    replace (MaxMin.le_max Z.le a b) with (Z.max a b) in Hmax by
+      (unfold MaxMin.le_max; simpl;
+       destruct (Interface.Z_le_total a b) as [Hab | Hba];
+       [rewrite Z.max_r by lia | rewrite Z.max_l by lia]; reflexivity).
+    exact Hmax.
 Qed.
 
 Lemma RangeMaxValue_join_left :
@@ -364,41 +392,9 @@ Lemma RangeMaxValue_join_left :
     RangeMaxValue l i (i + Power2 j) a.
 Proof.
   intros l i j half a b Hj Hhalf Hge Hleft Hright.
-  unfold RangeMaxValue in *.
-  destruct Hleft as [Hi0 [Hilt1 [Hhi1 Hmax1]]].
-  destruct Hright as [Hi20 [Hilt2 [Hhi2 Hmax2]]].
-  repeat split.
-  - exact Hi0.
-  - pose proof (Power2_pos j ltac:(lia)); lia.
-  - rewrite (Power2_sub1_double j) by lia.
-    rewrite Hhalf in *; lia.
-  - unfold max_value_of_subset in *.
-    destruct Hmax1 as [x [Hxobj Hxa]].
-    destruct Hmax2 as [y [Hyobj Hyb]].
-    exists x; split; [| exact Hxa].
-    unfold max_object_of_subset in *.
-    destruct Hxobj as [Hxin Hxmax].
-    destruct Hyobj as [Hyin Hymax].
-    sets_unfold in Hxin.
-    sets_unfold in Hyin.
-    split.
-    + destruct Hxin as [Hxi Hxhi].
-      split; [exact Hxi|].
-      rewrite (Power2_sub1_double j) by lia.
-      rewrite Hhalf in *; lia.
-    + intros k Hk.
-      destruct Hk as [Hki Hkhi].
-      destruct (Z_lt_ge_dec k (i + half)) as [Hkleft | Hkright].
-      * apply Hxmax.
-        split; [lia|].
-        rewrite <- Hhalf; exact Hkleft.
-      * eapply Z.le_trans.
-        -- apply Hymax.
-           split; [lia|].
-           rewrite Hhalf in *.
-           rewrite (Power2_sub1_double j) in Hkhi by lia.
-           lia.
-        -- lia.
+  assert (Hmax : Z.max a b = a) by (apply Z.max_l; lia).
+  rewrite <- Hmax.
+  eapply RangeMaxValue_join_max; eauto.
 Qed.
 
 Lemma RangeMaxValue_join_right :
@@ -411,41 +407,9 @@ Lemma RangeMaxValue_join_right :
     RangeMaxValue l i (i + Power2 j) b.
 Proof.
   intros l i j half a b Hj Hhalf Hlt Hleft Hright.
-  unfold RangeMaxValue in *.
-  destruct Hleft as [Hi0 [Hilt1 [Hhi1 Hmax1]]].
-  destruct Hright as [Hi20 [Hilt2 [Hhi2 Hmax2]]].
-  repeat split.
-  - exact Hi0.
-  - pose proof (Power2_pos j ltac:(lia)); lia.
-  - rewrite (Power2_sub1_double j) by lia.
-    rewrite Hhalf in *; lia.
-  - unfold max_value_of_subset in *.
-    destruct Hmax1 as [x [Hxobj Hxa]].
-    destruct Hmax2 as [y [Hyobj Hyb]].
-    exists y; split; [| exact Hyb].
-    unfold max_object_of_subset in *.
-    destruct Hxobj as [Hxin Hxmax].
-    destruct Hyobj as [Hyin Hymax].
-    sets_unfold in Hxin.
-    sets_unfold in Hyin.
-    split.
-    + destruct Hyin as [Hyi Hyhi].
-      split; [lia|].
-      rewrite (Power2_sub1_double j) by lia.
-      rewrite Hhalf in *; lia.
-    + intros k Hk.
-      destruct Hk as [Hki Hkhi].
-      destruct (Z_lt_ge_dec k (i + half)) as [Hkleft | Hkright].
-      * eapply Z.le_trans.
-        -- apply Hxmax.
-           split; [lia|].
-           rewrite <- Hhalf; exact Hkleft.
-        -- lia.
-      * apply Hymax.
-        split; [lia|].
-        rewrite Hhalf in *.
-        rewrite (Power2_sub1_double j) in Hkhi by lia.
-        lia.
+  assert (Hmax : Z.max a b = b) by (apply Z.max_r; lia).
+  rewrite <- Hmax.
+  eapply RangeMaxValue_join_max; eauto.
 Qed.
 
 Lemma STCellRangeMax_extend_by_left_max :
@@ -462,17 +426,10 @@ Lemma STCellRangeMax_extend_by_left_max :
 Proof.
   intros l st K i j half a b Hj Hhalf Hidx Ha Hb Hge Hleft Hright.
   unfold STCellRangeMax in *.
-  destruct Hleft as [HK [Hi [Hjm1 [Holdidx Hrange1]]]].
-  destruct Hright as [_ [_ [_ [_ Hrange2]]]].
-  rewrite <- Ha in Hrange1.
-  rewrite <- Hb in Hrange2.
-  split; [exact HK|].
-  split; [exact Hi|].
-  split; [lia|].
-  split.
-  - rewrite Zlength_replace_Znth; lia.
-  - rewrite Znth_replace_Znth_Same by exact Hidx.
-    eapply RangeMaxValue_join_left; eauto.
+  rewrite <- Ha in Hleft.
+  rewrite <- Hb in Hright.
+  rewrite Znth_replace_Znth_Same by exact Hidx.
+  eapply RangeMaxValue_join_left; eauto.
 Qed.
 
 Lemma STCellRangeMax_extend_by_right_max :
@@ -489,17 +446,10 @@ Lemma STCellRangeMax_extend_by_right_max :
 Proof.
   intros l st K i j half a b Hj Hhalf Hidx Ha Hb Hlt Hleft Hright.
   unfold STCellRangeMax in *.
-  destruct Hleft as [HK [Hi [Hjm1 [Holdidx Hrange1]]]].
-  destruct Hright as [_ [_ [_ [_ Hrange2]]]].
-  rewrite <- Ha in Hrange1.
-  rewrite <- Hb in Hrange2.
-  split; [exact HK|].
-  split; [exact Hi|].
-  split; [lia|].
-  split.
-  - rewrite Zlength_replace_Znth; lia.
-  - rewrite Znth_replace_Znth_Same by exact Hidx.
-    eapply RangeMaxValue_join_right; eauto.
+  rewrite <- Ha in Hleft.
+  rewrite <- Hb in Hright.
+  rewrite Znth_replace_Znth_Same by exact Hidx.
+  eapply RangeMaxValue_join_right; eauto.
 Qed.
 
 Lemma STLevelPrefix_extend_by_left_max :
@@ -518,19 +468,13 @@ Lemma STLevelPrefix_extend_by_left_max :
 Proof.
   intros l st K n j i half a b Hj HjK Hhalf Hidx Ha Hb Hge Hpref Hleft Hright.
   unfold STLevelPrefix in *.
-  destruct Hpref as [Hl [Hst [HK [Hj0 [HjK0 [Hupto Hall]]]]]].
-  split; [exact Hl|].
-  split; [rewrite Zlength_replace_Znth; exact Hst|].
-  split; [exact HK|].
-  split; [exact Hj0|].
-  split; [exact HjK0|].
-  split; [lia|].
   intros row Hrow.
   destruct Hrow as [Hrow0 [Hrowlt Hrowlen]].
   assert (row < i \/ row = i) as [Hlt | Heq] by lia.
   - eapply STCellRangeMax_replace_other.
-    + apply Hall; repeat split; lia.
+    + apply Hpref; repeat split; lia.
     + exact Hidx.
+    + split; nia.
     + apply cell_index_same_col_neq; lia.
   - subst row.
     eapply STCellRangeMax_extend_by_left_max; eauto.
@@ -552,19 +496,13 @@ Lemma STLevelPrefix_extend_by_right_max :
 Proof.
   intros l st K n j i half a b Hj HjK Hhalf Hidx Ha Hb Hltab Hpref Hleft Hright.
   unfold STLevelPrefix in *.
-  destruct Hpref as [Hl [Hst [HK [Hj0 [HjK0 [Hupto Hall]]]]]].
-  split; [exact Hl|].
-  split; [rewrite Zlength_replace_Znth; exact Hst|].
-  split; [exact HK|].
-  split; [exact Hj0|].
-  split; [exact HjK0|].
-  split; [lia|].
   intros row Hrow.
   destruct Hrow as [Hrow0 [Hrowlt Hrowlen]].
   assert (row < i \/ row = i) as [Hlt | Heq] by lia.
   - eapply STCellRangeMax_replace_other.
-    + apply Hall; repeat split; lia.
+    + apply Hpref; repeat split; lia.
     + exact Hidx.
+    + split; nia.
     + apply cell_index_same_col_neq; lia.
   - subst row.
     eapply STCellRangeMax_extend_by_right_max; eauto.
@@ -580,24 +518,15 @@ Lemma STLevelPrefix_exit_to_built_step :
 Proof.
   intros l st_ls K n j upto len Hbuilt_before Hprefix Hlen Hexit.
   unfold STBuiltBeforeLevel, STLevelPrefix in *.
-  destruct Hbuilt_before as
-    (Hlen_l & Hlen_st & HK & Hj_nonneg & Hj_le_K & Hbuilt).
-  destruct Hprefix as
-    (_ & _ & _ & _ & Hj_lt_K & Hupto_nonneg & Hprefix_cells).
-  split; [exact Hlen_l |].
-  split; [exact Hlen_st |].
-  split; [exact HK |].
-  split; [lia |].
-  split; [lia |].
   intros p q Hcell_bound.
   destruct Hcell_bound as (Hp_nonneg & Hq_nonneg & Hq_lt_next & Hp_range).
   destruct (Z_lt_dec q j) as [Hq_lt_j | Hq_ge_j].
-  - apply Hbuilt.
+  - apply Hbuilt_before.
     repeat split; lia.
   - assert (q = j) by lia.
     subst q.
     assert (p < upto) by (rewrite <- Hlen in Hp_range; lia).
-    apply Hprefix_cells.
+    apply Hprefix.
     repeat split; lia.
 Qed.
 
@@ -623,31 +552,44 @@ Proof.
   lia.
 Qed.
 
-Lemma QueryLogLoopState_init : forall K n left right,
+Lemma QueryLogBounds_init : forall K n left right,
   1 <= n ->
   1 <= K ->
   n < Power2 K ->
   0 <= left ->
   left <= right ->
   right < n ->
-  QueryLogLoopState K n (right - left + 1) 0 1.
+  QueryLogBounds K n (right - left + 1) 0 1.
 Proof.
   intros K n left right Hn HK Hpow Hleft Hle Hright.
-  unfold QueryLogLoopState, Power2 in *.
+  unfold QueryLogBounds, Power2 in *.
   simpl in *.
   lia.
 Qed.
 
-Lemma QueryLogLoopState_step : forall K n len k pow,
-  pow * 2 <= len ->
-  QueryLogLoopState K n len k pow ->
-  QueryLogLoopState K n len (k + 1) (pow * 2).
+Lemma QueryLogLoopState_init : forall left right,
+  0 <= left ->
+  left <= right ->
+  QueryLogLoopState (right - left + 1) 0 1.
 Proof.
-  intros K n len k pow Hpow_len Hstate.
-  unfold QueryLogLoopState in Hstate |- *.
-  destruct Hstate as
-    (Hlen_pos & Hlen_n & HK_pos & Hn_pow &
-     Hk_pos & Hk_lt & Hpow & Hpow_le).
+  intros left right Hleft Hle.
+  unfold QueryLogLoopState, Power2.
+  simpl.
+  lia.
+Qed.
+
+Lemma QueryLogBounds_step : forall K n len k pow,
+  pow * 2 <= len ->
+  QueryLogBounds K n len k pow ->
+  QueryLogLoopState len k pow ->
+  QueryLogBounds K n len (k + 1) (pow * 2).
+Proof.
+  intros K n len k pow Hpow_len Hbounds Hstate.
+  unfold QueryLogBounds in Hbounds |- *.
+  unfold QueryLogLoopState in Hstate.
+  destruct Hbounds as
+    (Hlen_pos & Hlen_n & HK_pos & Hn_pow & Hk_pos & Hk_lt & Hpow_pos).
+  destruct Hstate as (Hk_nonneg & Hpow & Hpow_le).
   assert (Hnext_eq : Power2 (k + 1) = Power2 k * 2) by
     (apply Power2_step_query; lia).
   assert (Hnext_le : Power2 (k + 1) <= len) by
@@ -663,26 +605,40 @@ Proof.
   repeat split; try lia.
 Qed.
 
-Lemma RangeMaxValue_sparse_query_left :
+Lemma QueryLogLoopState_step : forall len k pow,
+  pow * 2 <= len ->
+  QueryLogLoopState len k pow ->
+  QueryLogLoopState len (k + 1) (pow * 2).
+Proof.
+  intros len k pow Hpow_len Hstate.
+  unfold QueryLogLoopState in Hstate |- *.
+  destruct Hstate as (Hk_nonneg & Hpow & Hpow_le).
+  assert (Hnext_eq : Power2 (k + 1) = Power2 k * 2) by
+    (apply Power2_step_query; lia).
+  split.
+  - lia.
+  - split.
+    + rewrite Hnext_eq, <- Hpow; lia.
+    + rewrite Hnext_eq, <- Hpow; lia.
+Qed.
+
+Lemma RangeMaxValue_sparse_query_max :
   forall (l st_l : list Z) (K n len left right j pow a b : Z),
     len = right - left + 1 ->
     a = Znth (left * K + j) st_l 0 ->
     b = Znth ((right - pow + 1) * K + j) st_l 0 ->
-    QueryLogFinalState K n len j pow ->
+    QueryLogFinalState len j pow ->
     STCellRangeMax l st_l K left j ->
     STCellRangeMax l st_l K (right - pow + 1) j ->
-    a >= b ->
-    RangeMaxValue l left (right + 1) a.
+    RangeMaxValue l left (right + 1) (Z.max a b).
 Proof.
-  intros l st_l K n len left right j pow a b Hlen Ha Hb Hq HcellL HcellR Hab.
+  intros l st_l K n len left right j pow a b Hlen Ha Hb Hq HcellL HcellR.
   unfold QueryLogFinalState, QueryLogLoopState in Hq.
-  destruct Hq as [[Hlen_ge [Hlen_le [HK_ge [Hn_pow [Hj_ge [Hj_lt [Hpow Hpow_le]]]]]]] Hlen_pow_next].
+  destruct Hq as [[Hj_nonneg [Hpow Hpow_le]] Hlen_pow_next].
   unfold STCellRangeMax in HcellL, HcellR.
-  destruct HcellL as [_ [Hleft_nonneg [_ [_ HrangeL]]]].
-  destruct HcellR as [_ [Hright_nonneg [_ [_ HrangeR]]]].
-  unfold RangeMaxValue in HrangeL, HrangeR.
-  destruct HrangeL as [HL0 [HLlt [HLhi HmaxL]]].
-  destruct HrangeR as [HR0 [HRlt [HRhi HmaxR]]].
+  unfold RangeMaxValue in HcellL, HcellR.
+  destruct HcellL as [HL0 [HLlt [HLhi HmaxL]]].
+  destruct HcellR as [HR0 [HRlt [HRhi HmaxR]]].
   rewrite <- Ha in HmaxL.
   rewrite <- Hb in HmaxR.
   rewrite <- Hpow in HmaxL.
@@ -708,9 +664,28 @@ Proof.
     (fun x : Z => right - pow + 1 <= x < right + 1)
     (fun x : Z => left <= x < right + 1)
     HmaxL HmaxR Hcover) as Hmax.
-  replace (MaxMin.le_max Z.le a b) with a in Hmax by
-    (unfold MaxMin.le_max; simpl; destruct (Interface.Z_le_total a b); lia).
+  replace (MaxMin.le_max Z.le a b) with (Z.max a b) in Hmax by
+    (unfold MaxMin.le_max; simpl;
+     destruct (Interface.Z_le_total a b) as [Hab | Hba];
+     [rewrite Z.max_r by lia | rewrite Z.max_l by lia]; reflexivity).
   exact Hmax.
+Qed.
+
+Lemma RangeMaxValue_sparse_query_left :
+  forall (l st_l : list Z) (K n len left right j pow a b : Z),
+    len = right - left + 1 ->
+    a = Znth (left * K + j) st_l 0 ->
+    b = Znth ((right - pow + 1) * K + j) st_l 0 ->
+    QueryLogFinalState len j pow ->
+    STCellRangeMax l st_l K left j ->
+    STCellRangeMax l st_l K (right - pow + 1) j ->
+    a >= b ->
+    RangeMaxValue l left (right + 1) a.
+Proof.
+  intros l st_l K n len left right j pow a b Hlen Ha Hb Hq HcellL HcellR Hab.
+  assert (Hmax : Z.max a b = a) by (apply Z.max_l; lia).
+  rewrite <- Hmax.
+  eapply RangeMaxValue_sparse_query_max; eauto.
 Qed.
 
 Lemma RangeMaxValue_sparse_query_right :
@@ -718,47 +693,14 @@ Lemma RangeMaxValue_sparse_query_right :
     len = right - left + 1 ->
     a = Znth (left * K + j) st_l 0 ->
     b = Znth ((right - pow + 1) * K + j) st_l 0 ->
-    QueryLogFinalState K n len j pow ->
+    QueryLogFinalState len j pow ->
     STCellRangeMax l st_l K left j ->
     STCellRangeMax l st_l K (right - pow + 1) j ->
     a < b ->
     RangeMaxValue l left (right + 1) b.
 Proof.
   intros l st_l K n len left right j pow a b Hlen Ha Hb Hq HcellL HcellR Hab.
-  unfold QueryLogFinalState, QueryLogLoopState in Hq.
-  destruct Hq as [[Hlen_ge [Hlen_le [HK_ge [Hn_pow [Hj_ge [Hj_lt [Hpow Hpow_le]]]]]]] Hlen_pow_next].
-  unfold STCellRangeMax in HcellL, HcellR.
-  destruct HcellL as [_ [Hleft_nonneg [_ [_ HrangeL]]]].
-  destruct HcellR as [_ [Hright_nonneg [_ [_ HrangeR]]]].
-  unfold RangeMaxValue in HrangeL, HrangeR.
-  destruct HrangeL as [HL0 [HLlt [HLhi HmaxL]]].
-  destruct HrangeR as [HR0 [HRlt [HRhi HmaxR]]].
-  rewrite <- Ha in HmaxL.
-  rewrite <- Hb in HmaxR.
-  rewrite <- Hpow in HmaxL.
-  rewrite <- Hpow in HmaxR.
-  replace (right - pow + 1 + pow) with (right + 1) in HmaxR by lia.
-  assert (Hpow_next : Power2 (j + 1) = 2 * pow).
-  { rewrite Hpow. unfold Power2. rewrite Z.pow_add_r by lia.
-    change (2 ^ 1) with 2; lia. }
-  assert (Hcover : forall x : Z,
-    (left <= x < left + pow \/ right - pow + 1 <= x < right + 1) <->
-    left <= x < right + 1).
-  { intro x; split.
-    - intros [[? ?] | [? ?]]; lia.
-    - intros [? ?]. destruct (Z_lt_ge_dec x (left + pow)) as [Hxlt | Hxge].
-      + left; lia.
-      + right; lia.
-  }
-  unfold RangeMaxValue.
-  repeat split; try lia.
-  pose proof (@MaxMin.max_union Z Z.le Interface.Zle_TotalOrder Z
-    a b (fun x : Z => Znth x l 0)
-    (fun x : Z => left <= x < left + pow)
-    (fun x : Z => right - pow + 1 <= x < right + 1)
-    (fun x : Z => left <= x < right + 1)
-    HmaxL HmaxR Hcover) as Hmax.
-  replace (MaxMin.le_max Z.le a b) with b in Hmax by
-    (unfold MaxMin.le_max; simpl; destruct (Interface.Z_le_total a b); lia).
-  exact Hmax.
+  assert (Hmax : Z.max a b = b) by (apply Z.max_r; lia).
+  rewrite <- Hmax.
+  eapply RangeMaxValue_sparse_query_max; eauto.
 Qed.

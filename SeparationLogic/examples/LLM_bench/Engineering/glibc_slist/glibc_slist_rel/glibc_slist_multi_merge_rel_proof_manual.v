@@ -31,18 +31,21 @@ Local Open Scope sac.
 
 Lemma proof_of_glibc_slist_clean_multi_merge_entail_wit_1_1 : glibc_slist_clean_multi_merge_entail_wit_1_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   sep_apply_left (sll_zero x_pre l1_low_level_spec PreH2).
   subst_eqs.
   sep_apply_left (sll_not_zero y_pre l2_low_level_spec PreH1).
   Intros y x l0.
   subst_eqs.
-  Left.
   Exists nil. Exists (x :: l0). Exists nil. Exists l3_low_level_spec.
   split_pure_spatial.
   - unfold sllseg, sll.
     Exists y.
-    entailer!.
+    split_pure_spatial.
+    + cancel (&( y_pre # "list" ->ₛ"data") # Int |-> x).
+      cancel (&( y_pre # "list" ->ₛ"next") # Ptr |-> y).
+      cancel.
+    + split_pures; dump_pre_spatial; try unfold NULL in *; auto.
   - split_pures.
     + dump_pre_spatial.
       unfold glibc_slist_clean_multi_merge_M in PreH3 at 1.
@@ -52,24 +55,27 @@ Proof.
       unfold glibc_slist_clean_multi_merge_M_loop.
       prog_nf.
       exact PreH3.
-    + entailer!.
-    + entailer!.
-    + entailer!.
+    + dump_pre_spatial; auto.
+    + dump_pre_spatial; auto.
+    + dump_pre_spatial; auto.
 Qed. 
 Lemma proof_of_glibc_slist_clean_multi_merge_entail_wit_1_2 : glibc_slist_clean_multi_merge_entail_wit_1_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst_eqs.
   sep_apply_left (sll_not_zero x_pre l1_low_level_spec PreH1).
   Intros y x l0.
   subst_eqs.
-  Right.
   Exists nil. Exists (x :: l0). Exists l2_low_level_spec. Exists l3_low_level_spec.
   split_pure_spatial.
-  - entailer!.
+  - cancel.
     unfold sllseg, sll.
     Exists y.
-    entailer!.
+    split_pure_spatial.
+    + cancel (&( x_pre # "list" ->ₛ"data") # Int |-> x).
+      cancel (&( x_pre # "list" ->ₛ"next") # Ptr |-> y).
+      cancel.
+    + split_pures; dump_pre_spatial; try unfold NULL in *; auto.
   - split_pures.
     + dump_pre_spatial.
       unfold glibc_slist_clean_multi_merge_M in PreH3 at 1.
@@ -79,13 +85,13 @@ Proof.
       unfold glibc_slist_clean_multi_merge_M_loop.
       prog_nf.
       exact PreH3.
-    + entailer!.
-    + entailer!.
-    + entailer!.
+    + dump_pre_spatial; auto.
+    + dump_pre_spatial; auto.
+    + dump_pre_spatial; auto.
 Qed. 
 Lemma proof_of_glibc_slist_clean_multi_merge_entail_wit_2_1 : glibc_slist_clean_multi_merge_entail_wit_2_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   sep_apply_left (sll_zero z l4_3 PreH5).
   Intros.
   subst_eqs.
@@ -93,7 +99,7 @@ Proof.
   - unfold sll.
     Intros.
     contradiction.
-  - Right.
+  -
     Exists (l1_3 ++ x_3 :: x_2 :: nil). Exists (l0_2_head :: l0_2_tail). Exists l0. Exists nil.
     split_pure_spatial.
     + sep_apply_left (sllseg_len1 cursor x_3 y_3 PreH9).
@@ -104,10 +110,13 @@ Proof.
       with (l1_3 ++ x_3 :: x_2 :: nil).
     2: { rewrite <- app_assoc. reflexivity. }
     unfold sll at 2.
-    entailer!.
+    cancel.
     sep_apply_left (store_ptr_undef_store_ptr (&("node")) y_3).
     unfold sll at 2.
-    entailer!.
+    split_pure_spatial.
+    * fold sll.
+      cancel.
+    * split_pures; dump_pre_spatial; try unfold NULL in *; auto.
     + split_pures.
       * dump_pre_spatial.
       unfold glibc_slist_clean_multi_merge_M_loop in PreH8 at 1.
@@ -135,19 +144,19 @@ Proof.
         - intro Hnil; discriminate Hnil. }
       { unfold glibc_slist_clean_multi_merge_guardP; simpl.
         left; intro Hnil; discriminate Hnil. }
-      * entailer!.
-      * entailer!.
-      * entailer!.
+      * dump_pre_spatial; try unfold NULL in *; auto.
+      * dump_pre_spatial; try unfold NULL in *; auto.
+      * dump_pre_spatial; try unfold NULL in *; auto.
 Qed. 
 Lemma proof_of_glibc_slist_clean_multi_merge_entail_wit_2_2 : glibc_slist_clean_multi_merge_entail_wit_2_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst_eqs.
   destruct l0_2 as [| l0_2_head l0_2_tail].
   - unfold sll.
     Intros.
     contradiction.
-  - Left.
+  -
     Exists (l1_3 ++ x_3 :: x_2 :: nil).
     Exists (l0_2_head :: l0_2_tail).
     Exists l0.
@@ -160,9 +169,10 @@ Proof.
       replace ((l1_3 ++ x_3 :: nil) ++ x_2 :: nil)
         with (l1_3 ++ x_3 :: x_2 :: nil).
       2: { rewrite <- app_assoc. reflexivity. }
-      entailer!.
+      cancel.
       sep_apply_left (store_ptr_undef_store_ptr (&("node")) y_3).
-      entailer!.
+    fold sll.
+    cancel.
     + split_pures.
       * dump_pre_spatial.
         unfold glibc_slist_clean_multi_merge_M_loop in PreH8 at 1.
@@ -190,19 +200,19 @@ Proof.
           - intro Hnil; discriminate Hnil. }
         { unfold glibc_slist_clean_multi_merge_guardP; simpl.
           left; intro Hnil; discriminate Hnil. }
-      * entailer!.
-      * entailer!.
-      * entailer!.
+      * dump_pre_spatial; try unfold NULL in *; auto.
+      * dump_pre_spatial; try unfold NULL in *; auto.
+      * dump_pre_spatial; try unfold NULL in *; auto.
 Qed. 
 Lemma proof_of_glibc_slist_clean_multi_merge_entail_wit_2_3 : glibc_slist_clean_multi_merge_entail_wit_2_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst_eqs.
   destruct l0_2 as [| l0_2_head l0_2_tail].
   - unfold sll.
     Intros.
     contradiction.
-  - Right.
+  -
     Exists (l1_3 ++ x_3 :: x_2 :: nil).
     Exists (l0_2_head :: l0_2_tail).
     Exists l3_3.
@@ -215,9 +225,10 @@ Proof.
       replace ((l1_3 ++ x_3 :: nil) ++ x_2 :: nil)
         with (l1_3 ++ x_3 :: x_2 :: nil).
       2: { rewrite <- app_assoc. reflexivity. }
-      entailer!.
+    cancel.
       sep_apply_left (store_ptr_undef_store_ptr (&("node")) z).
-      entailer!.
+    fold sll.
+    cancel.
     + split_pures.
       * dump_pre_spatial.
         unfold glibc_slist_clean_multi_merge_M_loop in PreH10 at 1.
@@ -245,19 +256,19 @@ Proof.
           - intro Hnil; discriminate Hnil. }
         { unfold glibc_slist_clean_multi_merge_guardP; simpl.
           right; intro Hnil; discriminate Hnil. }
-      * entailer!.
-      * entailer!.
-      * entailer!.
+      * dump_pre_spatial; try unfold NULL in *; auto.
+      * dump_pre_spatial; try unfold NULL in *; auto.
+      * dump_pre_spatial; try unfold NULL in *; auto.
 Qed. 
 Lemma proof_of_glibc_slist_clean_multi_merge_entail_wit_2_4 : glibc_slist_clean_multi_merge_entail_wit_2_4.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst_eqs.
   destruct l0_2 as [| l0_2_head l0_2_tail].
   - unfold sll.
     Intros.
     contradiction.
-  - Left.
+  -
     Exists (l1_3 ++ x_3 :: x_2 :: nil).
     Exists (l0_2_head :: l0_2_tail).
     Exists l3_3.
@@ -270,9 +281,10 @@ Proof.
       replace ((l1_3 ++ x_3 :: nil) ++ x_2 :: nil)
         with (l1_3 ++ x_3 :: x_2 :: nil).
       2: { rewrite <- app_assoc. reflexivity. }
-      entailer!.
+    cancel.
       sep_apply_left (store_ptr_undef_store_ptr (&("node")) z).
-      entailer!.
+    fold sll.
+    cancel.
     + split_pures.
       * dump_pre_spatial.
         unfold glibc_slist_clean_multi_merge_M_loop in PreH10 at 1.
@@ -300,19 +312,19 @@ Proof.
           - intro Hnil; discriminate Hnil. }
         { unfold glibc_slist_clean_multi_merge_guardP; simpl.
           right; intro Hnil; discriminate Hnil. }
-      * entailer!.
-      * entailer!.
-      * entailer!.
+      * dump_pre_spatial; try unfold NULL in *; auto.
+      * dump_pre_spatial; try unfold NULL in *; auto.
+      * dump_pre_spatial; try unfold NULL in *; auto.
 Qed. 
 Lemma proof_of_glibc_slist_clean_multi_merge_entail_wit_2_5 : glibc_slist_clean_multi_merge_entail_wit_2_5.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst_eqs.
   destruct l0_2 as [| l0_2_head l0_2_tail].
   - unfold sll.
     Intros.
     contradiction.
-  - Right.
+  -
     Exists (l1_3 ++ x_3 :: x_2 :: nil).
     Exists (l0_2_head :: l0_2_tail).
     Exists l3_3.
@@ -325,9 +337,10 @@ Proof.
       replace ((l1_3 ++ x_3 :: nil) ++ x_2 :: nil)
         with (l1_3 ++ x_3 :: x_2 :: nil).
       2: { rewrite <- app_assoc. reflexivity. }
-      entailer!.
+    cancel.
       sep_apply_left (store_ptr_undef_store_ptr (&("node")) z).
-      entailer!.
+    fold sll.
+    cancel.
     + split_pures.
       * dump_pre_spatial.
         unfold glibc_slist_clean_multi_merge_M_loop in PreH8 at 1.
@@ -355,19 +368,19 @@ Proof.
           - intro Hnil; discriminate Hnil. }
         { unfold glibc_slist_clean_multi_merge_guardP; simpl.
           right; intro Hnil; discriminate Hnil. }
-      * entailer!.
-      * entailer!.
-      * entailer!.
+      * dump_pre_spatial; try unfold NULL in *; auto.
+      * dump_pre_spatial; try unfold NULL in *; auto.
+      * dump_pre_spatial; try unfold NULL in *; auto.
 Qed. 
 Lemma proof_of_glibc_slist_clean_multi_merge_entail_wit_2_6 : glibc_slist_clean_multi_merge_entail_wit_2_6.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst_eqs.
   destruct l0_2 as [| l0_2_head l0_2_tail].
   - unfold sll.
     Intros.
     contradiction.
-  - Left.
+  -
     Exists (l1_3 ++ x_3 :: x_2 :: nil).
     Exists (l0_2_head :: l0_2_tail).
     Exists l3_3.
@@ -380,9 +393,10 @@ Proof.
       replace ((l1_3 ++ x_3 :: nil) ++ x_2 :: nil)
         with (l1_3 ++ x_3 :: x_2 :: nil).
       2: { rewrite <- app_assoc. reflexivity. }
-      entailer!.
+    cancel.
       sep_apply_left (store_ptr_undef_store_ptr (&("node")) z).
-      entailer!.
+    fold sll.
+    cancel.
     + split_pures.
       * dump_pre_spatial.
         unfold glibc_slist_clean_multi_merge_M_loop in PreH8 at 1.
@@ -410,19 +424,19 @@ Proof.
           - intro Hnil; discriminate Hnil. }
         { unfold glibc_slist_clean_multi_merge_guardP; simpl.
           right; intro Hnil; discriminate Hnil. }
-      * entailer!.
-      * entailer!.
-      * entailer!.
+      * dump_pre_spatial; try unfold NULL in *; auto.
+      * dump_pre_spatial; try unfold NULL in *; auto.
+      * dump_pre_spatial; try unfold NULL in *; auto.
 Qed. 
 Lemma proof_of_glibc_slist_clean_multi_merge_entail_wit_2_7 : glibc_slist_clean_multi_merge_entail_wit_2_7.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst_eqs.
   destruct l0_2 as [| l0_2_head l0_2_tail].
   - unfold sll.
     Intros.
     contradiction.
-  - Left.
+  -
     Exists (l1_3 ++ x_3 :: x_2 :: nil).
     Exists (l0_2_head :: l0_2_tail).
     Exists l3_3.
@@ -435,9 +449,10 @@ Proof.
       replace ((l1_3 ++ x_3 :: nil) ++ x_2 :: nil)
         with (l1_3 ++ x_3 :: x_2 :: nil).
       2: { rewrite <- app_assoc. reflexivity. }
-      entailer!.
+    cancel.
       sep_apply_left (store_ptr_undef_store_ptr (&("node")) z).
-      entailer!.
+    fold sll.
+    cancel.
     + split_pures.
       * dump_pre_spatial.
         unfold glibc_slist_clean_multi_merge_M_loop in PreH9 at 1.
@@ -465,19 +480,19 @@ Proof.
           - intro Hnil; discriminate Hnil. }
         { unfold glibc_slist_clean_multi_merge_guardP; simpl.
           right; intro Hnil; discriminate Hnil. }
-      * entailer!.
-      * entailer!.
-      * entailer!.
+      * dump_pre_spatial; try unfold NULL in *; auto.
+      * dump_pre_spatial; try unfold NULL in *; auto.
+      * dump_pre_spatial; try unfold NULL in *; auto.
 Qed. 
 Lemma proof_of_glibc_slist_clean_multi_merge_entail_wit_2_8 : glibc_slist_clean_multi_merge_entail_wit_2_8.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst_eqs.
   destruct l0_2 as [| l0_2_head l0_2_tail].
   - unfold sll.
     Intros.
     contradiction.
-  - Right.
+  -
     Exists (l1_3 ++ x_3 :: x_2 :: nil).
     Exists (l0_2_head :: l0_2_tail).
     Exists l3_3.
@@ -490,9 +505,10 @@ Proof.
       replace ((l1_3 ++ x_3 :: nil) ++ x_2 :: nil)
         with (l1_3 ++ x_3 :: x_2 :: nil).
       2: { rewrite <- app_assoc. reflexivity. }
-      entailer!.
+    cancel.
       sep_apply_left (store_ptr_undef_store_ptr (&("node")) z).
-      entailer!.
+    fold sll.
+    cancel.
     + split_pures.
       * dump_pre_spatial.
         unfold glibc_slist_clean_multi_merge_M_loop in PreH9 at 1.
@@ -520,19 +536,19 @@ Proof.
           - intro Hnil; discriminate Hnil. }
         { unfold glibc_slist_clean_multi_merge_guardP; simpl.
           right; intro Hnil; discriminate Hnil. }
-      * entailer!.
-      * entailer!.
-      * entailer!.
+      * dump_pre_spatial; try unfold NULL in *; auto.
+      * dump_pre_spatial; try unfold NULL in *; auto.
+      * dump_pre_spatial; try unfold NULL in *; auto.
 Qed. 
 Lemma proof_of_glibc_slist_clean_multi_merge_entail_wit_2_9 : glibc_slist_clean_multi_merge_entail_wit_2_9.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst_eqs.
   destruct l0_2 as [| l0_2_head l0_2_tail].
   - unfold sll.
     Intros.
     contradiction.
-  - Left.
+  -
     Exists (l1_3 ++ x_3 :: x_2 :: nil).
     Exists (l0_2_head :: l0_2_tail).
     Exists l0.
@@ -545,9 +561,10 @@ Proof.
       replace ((l1_3 ++ x_3 :: nil) ++ x_2 :: nil)
         with (l1_3 ++ x_3 :: x_2 :: nil).
       2: { rewrite <- app_assoc. reflexivity. }
-      entailer!.
+    cancel.
       sep_apply_left (store_ptr_undef_store_ptr (&("node")) y_3).
-      entailer!.
+    fold sll.
+    cancel.
     + split_pures.
       * dump_pre_spatial.
         unfold glibc_slist_clean_multi_merge_M_loop in PreH8 at 1.
@@ -575,19 +592,19 @@ Proof.
           - intro Hnil; discriminate Hnil. }
         { unfold glibc_slist_clean_multi_merge_guardP; simpl.
           left; intro Hnil; discriminate Hnil. }
-      * entailer!.
-      * entailer!.
-      * entailer!.
+      * dump_pre_spatial; try unfold NULL in *; auto.
+      * dump_pre_spatial; try unfold NULL in *; auto.
+      * dump_pre_spatial; try unfold NULL in *; auto.
 Qed. 
 Lemma proof_of_glibc_slist_clean_multi_merge_entail_wit_2_10 : glibc_slist_clean_multi_merge_entail_wit_2_10.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst_eqs.
   destruct l0_2 as [| l0_2_head l0_2_tail].
   - unfold sll.
     Intros.
     contradiction.
-  - Right.
+  -
     Exists (l1_3 ++ x_3 :: x_2 :: nil).
     Exists (l0_2_head :: l0_2_tail).
     Exists l0.
@@ -600,9 +617,10 @@ Proof.
       replace ((l1_3 ++ x_3 :: nil) ++ x_2 :: nil)
         with (l1_3 ++ x_3 :: x_2 :: nil).
       2: { rewrite <- app_assoc. reflexivity. }
-      entailer!.
+    cancel.
       sep_apply_left (store_ptr_undef_store_ptr (&("node")) y_3).
-      entailer!.
+    fold sll.
+    cancel.
     + split_pures.
       * dump_pre_spatial.
         unfold glibc_slist_clean_multi_merge_M_loop in PreH8 at 1.
@@ -630,27 +648,29 @@ Proof.
           - intro Hnil; discriminate Hnil. }
         { unfold glibc_slist_clean_multi_merge_guardP; simpl.
           left; intro Hnil; discriminate Hnil. }
-      * entailer!.
-      * entailer!.
-      * entailer!.
+      * dump_pre_spatial; try unfold NULL in *; auto.
+      * dump_pre_spatial; try unfold NULL in *; auto.
+      * dump_pre_spatial; try unfold NULL in *; auto.
 Qed. 
 Lemma proof_of_glibc_slist_clean_multi_merge_entail_wit_2_11 : glibc_slist_clean_multi_merge_entail_wit_2_11.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst_eqs.
   sep_apply_left (sll_zero 0 l0_2 eq_refl).
   Intros.
   subst l0_2.
-  Right.
   Exists (l1_3 ++ x_3 :: nil). Exists (x_2 :: nil). Exists l0. Exists l4_3.
   split_pure_spatial.
   - sep_apply_left (sllseg_len1 cursor x_3 y PreH9).
     sep_apply_left (sllseg_sllseg x cursor y l1_3 (x_3 :: nil)).
     unfold sll.
     Exists 0.
-    entailer!.
+    cancel.
     sep_apply_left (store_ptr_undef_store_ptr (&("node")) y).
-    entailer!.
+    fold sll.
+    split_pure_spatial.
+    + cancel.
+    + split_pures; dump_pre_spatial; try unfold NULL in *; auto.
   - split_pures.
     + dump_pre_spatial.
       unfold glibc_slist_clean_multi_merge_M_loop in PreH8 at 1.
@@ -677,27 +697,29 @@ Proof.
         -- intro Hnil; discriminate Hnil.
       * unfold glibc_slist_clean_multi_merge_guardP; simpl.
         left; intro Hnil; discriminate Hnil.
-    + entailer!.
-    + entailer!.
-    + entailer!.
+    + dump_pre_spatial; try unfold NULL in *; auto.
+    + dump_pre_spatial; try unfold NULL in *; auto.
+    + dump_pre_spatial; try unfold NULL in *; auto.
 Qed. 
 Lemma proof_of_glibc_slist_clean_multi_merge_entail_wit_2_12 : glibc_slist_clean_multi_merge_entail_wit_2_12.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst_eqs.
   sep_apply_left (sll_zero 0 l0_2 eq_refl).
   Intros.
   subst l0_2.
-  Left.
   Exists (l1_3 ++ x_3 :: nil). Exists (x_2 :: nil). Exists l0. Exists l4_3.
   split_pure_spatial.
   - sep_apply_left (sllseg_len1 cursor x_3 y PreH9).
     sep_apply_left (sllseg_sllseg x cursor y l1_3 (x_3 :: nil)).
     unfold sll.
     Exists 0.
-    entailer!.
-    sep_apply_left (store_ptr_undef_store_ptr (&("node")) y).
-    entailer!.
+    cancel.
+sep_apply_left (store_ptr_undef_store_ptr (&("node")) y).
+    fold sll.
+    split_pure_spatial.
++ cancel.
++ split_pures; dump_pre_spatial; try unfold NULL in *; auto.
   - split_pures.
     + dump_pre_spatial.
       unfold glibc_slist_clean_multi_merge_M_loop in PreH8 at 1.
@@ -724,18 +746,17 @@ Proof.
         -- intro Hnil; discriminate Hnil.
       * unfold glibc_slist_clean_multi_merge_guardP; simpl.
         left; intro Hnil; discriminate Hnil.
-    + entailer!.
-    + entailer!.
-    + entailer!.
+    + dump_pre_spatial; try unfold NULL in *; auto.
+    + dump_pre_spatial; try unfold NULL in *; auto.
+    + dump_pre_spatial; try unfold NULL in *; auto.
 Qed. 
 Lemma proof_of_glibc_slist_clean_multi_merge_entail_wit_2_13 : glibc_slist_clean_multi_merge_entail_wit_2_13.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst_eqs.
   sep_apply_left (sll_zero 0 l0_2 eq_refl).
   Intros.
   subst l0_2.
-  Right.
   Exists (l1_3 ++ x_3 :: nil).
   Exists (x_2 :: nil).
   Exists l3_3.
@@ -745,9 +766,12 @@ Proof.
     sep_apply_left (sllseg_sllseg x cursor z l1_3 (x_3 :: nil)).
     unfold sll.
     Exists 0.
-    entailer!.
-    sep_apply_left (store_ptr_undef_store_ptr (&("node")) z).
-    entailer!.
+    cancel.
+sep_apply_left (store_ptr_undef_store_ptr (&("node")) z).
+    fold sll.
+    split_pure_spatial.
++ cancel.
++ split_pures; dump_pre_spatial; try unfold NULL in *; auto.
   - split_pures.
     + dump_pre_spatial.
       unfold glibc_slist_clean_multi_merge_M_loop in PreH10 at 1.
@@ -774,18 +798,17 @@ Proof.
         -- intro Hnil; discriminate Hnil.
       * unfold glibc_slist_clean_multi_merge_guardP; simpl.
         right; intro Hnil; discriminate Hnil.
-    + entailer!.
-    + entailer!.
-    + entailer!.
+    + dump_pre_spatial; try unfold NULL in *; auto.
+    + dump_pre_spatial; try unfold NULL in *; auto.
+    + dump_pre_spatial; try unfold NULL in *; auto.
 Qed. 
 Lemma proof_of_glibc_slist_clean_multi_merge_entail_wit_2_14 : glibc_slist_clean_multi_merge_entail_wit_2_14.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst_eqs.
   sep_apply_left (sll_zero 0 l0_2 eq_refl).
   Intros.
   subst l0_2.
-  Left.
   Exists (l1_3 ++ x_3 :: nil).
   Exists (x_2 :: nil).
   Exists l3_3.
@@ -795,9 +818,12 @@ Proof.
     sep_apply_left (sllseg_sllseg x cursor z l1_3 (x_3 :: nil)).
     unfold sll.
     Exists 0.
-    entailer!.
-    sep_apply_left (store_ptr_undef_store_ptr (&("node")) z).
-    entailer!.
+    cancel.
+sep_apply_left (store_ptr_undef_store_ptr (&("node")) z).
+    fold sll.
+    split_pure_spatial.
++ cancel.
++ split_pures; dump_pre_spatial; try unfold NULL in *; auto.
   - split_pures.
     + dump_pre_spatial.
       unfold glibc_slist_clean_multi_merge_M_loop in PreH10 at 1.
@@ -824,18 +850,17 @@ Proof.
         -- intro Hnil; discriminate Hnil.
       * unfold glibc_slist_clean_multi_merge_guardP; simpl.
         right; intro Hnil; discriminate Hnil.
-    + entailer!.
-    + entailer!.
-    + entailer!.
+    + dump_pre_spatial; try unfold NULL in *; auto.
+    + dump_pre_spatial; try unfold NULL in *; auto.
+    + dump_pre_spatial; try unfold NULL in *; auto.
 Qed. 
 Lemma proof_of_glibc_slist_clean_multi_merge_entail_wit_2_15 : glibc_slist_clean_multi_merge_entail_wit_2_15.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst_eqs.
   sep_apply_left (sll_zero 0 l0_2 eq_refl).
   Intros.
   subst l0_2.
-  Right.
   Exists (l1_3 ++ x_3 :: nil).
   Exists (x_2 :: nil).
   Exists l3_3.
@@ -845,9 +870,12 @@ Proof.
     sep_apply_left (sllseg_sllseg x cursor z l1_3 (x_3 :: nil)).
     unfold sll.
     Exists 0.
-    entailer!.
-    sep_apply_left (store_ptr_undef_store_ptr (&("node")) z).
-    entailer!.
+    cancel.
+sep_apply_left (store_ptr_undef_store_ptr (&("node")) z).
+    fold sll.
+    split_pure_spatial.
++ cancel.
++ split_pures; dump_pre_spatial; try unfold NULL in *; auto.
   - split_pures.
     + dump_pre_spatial.
       unfold glibc_slist_clean_multi_merge_M_loop in PreH8 at 1.
@@ -874,18 +902,17 @@ Proof.
         -- intro Hnil; discriminate Hnil.
       * unfold glibc_slist_clean_multi_merge_guardP; simpl.
         right; intro Hnil; discriminate Hnil.
-    + entailer!.
-    + entailer!.
-    + entailer!.
+    + dump_pre_spatial; try unfold NULL in *; auto.
+    + dump_pre_spatial; try unfold NULL in *; auto.
+    + dump_pre_spatial; try unfold NULL in *; auto.
 Qed. 
 Lemma proof_of_glibc_slist_clean_multi_merge_entail_wit_2_16 : glibc_slist_clean_multi_merge_entail_wit_2_16.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst_eqs.
   sep_apply_left (sll_zero 0 l0_2 eq_refl).
   Intros.
   subst l0_2.
-  Left.
   Exists (l1_3 ++ x_3 :: nil).
   Exists (x_2 :: nil).
   Exists l3_3.
@@ -895,9 +922,12 @@ Proof.
     sep_apply_left (sllseg_sllseg x cursor z l1_3 (x_3 :: nil)).
     unfold sll.
     Exists 0.
-    entailer!.
-    sep_apply_left (store_ptr_undef_store_ptr (&("node")) z).
-    entailer!.
+    cancel.
+sep_apply_left (store_ptr_undef_store_ptr (&("node")) z).
+    fold sll.
+    split_pure_spatial.
++ cancel.
++ split_pures; dump_pre_spatial; try unfold NULL in *; auto.
   - split_pures.
     + dump_pre_spatial.
       unfold glibc_slist_clean_multi_merge_M_loop in PreH8 at 1.
@@ -924,18 +954,17 @@ Proof.
         -- intro Hnil; discriminate Hnil.
       * unfold glibc_slist_clean_multi_merge_guardP; simpl.
         right; intro Hnil; discriminate Hnil.
-    + entailer!.
-    + entailer!.
-    + entailer!.
+    + dump_pre_spatial; try unfold NULL in *; auto.
+    + dump_pre_spatial; try unfold NULL in *; auto.
+    + dump_pre_spatial; try unfold NULL in *; auto.
 Qed. 
 Lemma proof_of_glibc_slist_clean_multi_merge_entail_wit_2_17 : glibc_slist_clean_multi_merge_entail_wit_2_17.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst_eqs.
   sep_apply_left (sll_zero 0 l0_2 eq_refl).
   Intros.
   subst l0_2.
-  Left.
   Exists (l1_3 ++ x_3 :: nil).
   Exists (x_2 :: nil).
   Exists l3_3.
@@ -945,9 +974,12 @@ Proof.
     sep_apply_left (sllseg_sllseg x cursor z l1_3 (x_3 :: nil)).
     unfold sll.
     Exists 0.
-    entailer!.
-    sep_apply_left (store_ptr_undef_store_ptr (&("node")) z).
-    entailer!.
+    cancel.
+sep_apply_left (store_ptr_undef_store_ptr (&("node")) z).
+    fold sll.
+    split_pure_spatial.
++ cancel.
++ split_pures; dump_pre_spatial; try unfold NULL in *; auto.
   - split_pures.
     + dump_pre_spatial.
       unfold glibc_slist_clean_multi_merge_M_loop in PreH9 at 1.
@@ -974,18 +1006,17 @@ Proof.
         -- intro Hnil; discriminate Hnil.
       * unfold glibc_slist_clean_multi_merge_guardP; simpl.
         right; intro Hnil; discriminate Hnil.
-    + entailer!.
-    + entailer!.
-    + entailer!.
+    + dump_pre_spatial; try unfold NULL in *; auto.
+    + dump_pre_spatial; try unfold NULL in *; auto.
+    + dump_pre_spatial; try unfold NULL in *; auto.
 Qed. 
 Lemma proof_of_glibc_slist_clean_multi_merge_entail_wit_2_18 : glibc_slist_clean_multi_merge_entail_wit_2_18.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst_eqs.
   sep_apply_left (sll_zero 0 l0_2 eq_refl).
   Intros.
   subst l0_2.
-  Right.
   Exists (l1_3 ++ x_3 :: nil).
   Exists (x_2 :: nil).
   Exists l3_3.
@@ -995,9 +1026,12 @@ Proof.
     sep_apply_left (sllseg_sllseg x cursor z l1_3 (x_3 :: nil)).
     unfold sll.
     Exists 0.
-    entailer!.
-    sep_apply_left (store_ptr_undef_store_ptr (&("node")) z).
-    entailer!.
+    cancel.
+sep_apply_left (store_ptr_undef_store_ptr (&("node")) z).
+    fold sll.
+    split_pure_spatial.
++ cancel.
++ split_pures; dump_pre_spatial; try unfold NULL in *; auto.
   - split_pures.
     + dump_pre_spatial.
       unfold glibc_slist_clean_multi_merge_M_loop in PreH9 at 1.
@@ -1024,18 +1058,17 @@ Proof.
         -- intro Hnil; discriminate Hnil.
       * unfold glibc_slist_clean_multi_merge_guardP; simpl.
         right; intro Hnil; discriminate Hnil.
-    + entailer!.
-    + entailer!.
-    + entailer!.
+    + dump_pre_spatial; try unfold NULL in *; auto.
+    + dump_pre_spatial; try unfold NULL in *; auto.
+    + dump_pre_spatial; try unfold NULL in *; auto.
 Qed. 
 Lemma proof_of_glibc_slist_clean_multi_merge_entail_wit_2_19 : glibc_slist_clean_multi_merge_entail_wit_2_19.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst_eqs.
   sep_apply_left (sll_zero 0 l0_2 eq_refl).
   Intros.
   subst l0_2.
-  Left.
   Exists (l1_3 ++ x_3 :: nil).
   Exists (x_2 :: nil).
   Exists l0.
@@ -1045,9 +1078,12 @@ Proof.
     sep_apply_left (sllseg_sllseg x cursor y l1_3 (x_3 :: nil)).
     unfold sll.
     Exists 0.
-    entailer!.
-    sep_apply_left (store_ptr_undef_store_ptr (&("node")) y).
-    entailer!.
+    cancel.
+sep_apply_left (store_ptr_undef_store_ptr (&("node")) y).
+    fold sll.
+    split_pure_spatial.
++ cancel.
++ split_pures; dump_pre_spatial; try unfold NULL in *; auto.
   - split_pures.
     + dump_pre_spatial.
       unfold glibc_slist_clean_multi_merge_M_loop in PreH8 at 1.
@@ -1074,18 +1110,17 @@ Proof.
         -- intro Hnil; discriminate Hnil.
       * unfold glibc_slist_clean_multi_merge_guardP; simpl.
         left; intro Hnil; discriminate Hnil.
-    + entailer!.
-    + entailer!.
-    + entailer!.
+    + dump_pre_spatial; try unfold NULL in *; auto.
+    + dump_pre_spatial; try unfold NULL in *; auto.
+    + dump_pre_spatial; try unfold NULL in *; auto.
 Qed. 
 Lemma proof_of_glibc_slist_clean_multi_merge_entail_wit_2_20 : glibc_slist_clean_multi_merge_entail_wit_2_20.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst_eqs.
   sep_apply_left (sll_zero 0 l0_2 eq_refl).
   Intros.
   subst l0_2.
-  Right.
   Exists (l1_3 ++ x_3 :: nil).
   Exists (x_2 :: nil).
   Exists l0.
@@ -1095,9 +1130,12 @@ Proof.
     sep_apply_left (sllseg_sllseg x cursor y l1_3 (x_3 :: nil)).
     unfold sll.
     Exists 0.
-    entailer!.
-    sep_apply_left (store_ptr_undef_store_ptr (&("node")) y).
-    entailer!.
+    cancel.
+sep_apply_left (store_ptr_undef_store_ptr (&("node")) y).
+    fold sll.
+    split_pure_spatial.
++ cancel.
++ split_pures; dump_pre_spatial; try unfold NULL in *; auto.
   - split_pures.
     + dump_pre_spatial.
       unfold glibc_slist_clean_multi_merge_M_loop in PreH8 at 1.
@@ -1124,13 +1162,13 @@ Proof.
         -- intro Hnil; discriminate Hnil.
       * unfold glibc_slist_clean_multi_merge_guardP; simpl.
         left; intro Hnil; discriminate Hnil.
-    + entailer!.
-    + entailer!.
-    + entailer!.
+    + dump_pre_spatial; try unfold NULL in *; auto.
+    + dump_pre_spatial; try unfold NULL in *; auto.
+    + dump_pre_spatial; try unfold NULL in *; auto.
 Qed. 
 Lemma proof_of_glibc_slist_clean_multi_merge_return_wit_1 : glibc_slist_clean_multi_merge_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst_eqs.
   Exists (l1 ++ l2).
   split_pure_spatial.
@@ -1139,7 +1177,7 @@ Proof.
     sep_apply_left (sll_zero 0 l1_low_level_spec eq_refl). Intros.
     subst l3. subst l4_2. subst l1_low_level_spec.
     sep_apply_left (sllseg_sll x cursor l1 l2).
-    entailer!.
+    cancel.
   - sep_apply_left (sll_zero 0 l3 eq_refl). Intros.
     sep_apply_left (sll_zero 0 l4_2 eq_refl). Intros.
     sep_apply_left (sll_zero 0 l1_low_level_spec eq_refl). Intros.
@@ -1158,7 +1196,7 @@ Proof.
 Qed. 
 Lemma proof_of_glibc_slist_clean_multi_merge_return_wit_2 : glibc_slist_clean_multi_merge_return_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst_eqs.
   Exists (l1 ++ l2).
   split_pure_spatial.
@@ -1166,7 +1204,7 @@ Proof.
     sep_apply_left (sll_zero 0 l4_2 eq_refl). Intros.
     subst l3. subst l4_2.
     sep_apply_left (sllseg_sll x cursor l1 l2).
-    entailer!.
+    cancel.
   - sep_apply_left (sll_zero 0 l3 eq_refl). Intros.
     sep_apply_left (sll_zero 0 l4_2 eq_refl). Intros.
     subst l3. subst l4_2.
@@ -1184,14 +1222,14 @@ Proof.
 Qed. 
 Lemma proof_of_glibc_slist_clean_multi_merge_return_wit_3 : glibc_slist_clean_multi_merge_return_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst_eqs.
   Exists l3_low_level_spec.
   split_pure_spatial.
   - sep_apply_left (sll_zero 0 l1_low_level_spec eq_refl). Intros.
     sep_apply_left (sll_zero 0 l2_low_level_spec eq_refl). Intros.
     subst l1_low_level_spec. subst l2_low_level_spec.
-    entailer!.
+    cancel.
   - sep_apply_left (sll_zero 0 l1_low_level_spec eq_refl). Intros.
     sep_apply_left (sll_zero 0 l2_low_level_spec eq_refl). Intros.
     subst l1_low_level_spec. subst l2_low_level_spec.
@@ -1203,20 +1241,25 @@ Qed.
 
 Lemma proof_of_glibc_slist_clean_multi_merge_derive_high_level_spec_by_low_level_spec : glibc_slist_clean_multi_merge_derive_high_level_spec_by_low_level_spec.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists (MonadErr.nrm
     (glibc_slist_clean_multi_merge_M
       l1_high_level_spec l2_high_level_spec l3_high_level_spec) tt).
   Exists l1_high_level_spec.
   Exists l2_high_level_spec.
   Exists l3_high_level_spec.
-  entailer!.
-  - apply derivable1_wand_sepcon_adjoint.
+  split_pure_spatial.
+  - cancel (sll x_pre l1_high_level_spec).
+    cancel (sll y_pre l2_high_level_spec).
+    cancel (sll z_pre l3_high_level_spec).
+    apply derivable1_wand_sepcon_adjoint.
     Intros l4.
     Intros retval_2.
     Exists l4.
     Exists retval_2.
-    entailer!.
+    split_pure_spatial.
+    + cancel.
+    + dump_pre_spatial.
     destruct (@Hoare_safeexec_compose unit (list Z)
                 ATrue
                 (glibc_slist_clean_multi_merge_M
@@ -1230,7 +1273,8 @@ Proof.
                   l3_high_level_spec)
                 ATrue l4 tt H I) as [sigma' [Hperm _]].
     exact Hperm.
-  - apply safeExec_monad_Atrue_finnal.
+  - dump_pre_spatial.
+    apply safeExec_monad_Atrue_finnal.
     destruct (glibc_slist_clean_multi_merge_M_Hoare
       l1_high_level_spec l2_high_level_spec l3_high_level_spec) as [_ Herr].
     intro Herr0.

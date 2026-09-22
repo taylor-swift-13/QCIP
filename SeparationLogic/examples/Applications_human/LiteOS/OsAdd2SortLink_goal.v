@@ -33,9 +33,9 @@ forall (type_pre: Z) (waitTicks_pre: Z) (startTime_pre: Z) (node_pre: Z) (l: (@l
   **  ((( &( "node" ) )) # Ptr  |-> node_pre)
   **  (task_store sg &((node_pre)  # "SortLinkList" ->ₛ "sortLinkNode") a )
   **  ((&((node_pre)  # "SortLinkList" ->ₛ "responseTime")) # UInt64  |-> t)
-  **  ((( &( "type" ) )) # Int  |-> type_pre)
-  **  ((( &( "waitTicks" ) )) # UInt64  |-> waitTicks_pre)
   **  ((( &( "startTime" ) )) # UInt64  |-> startTime_pre)
+  **  ((( &( "waitTicks" ) )) # UInt64  |-> waitTicks_pre)
+  **  ((( &( "type" ) )) # Int  |-> type_pre)
   **  ((&((node_pre)  # "SortLinkList" ->ₛ "sortLinkNode" .ₛ "pstPrev")) # Ptr  |-> pu)
   **  ((&((node_pre)  # "SortLinkList" ->ₛ "sortLinkNode" .ₛ "pstNext")) # Ptr  |-> un)
   **  (store_task_sorted_dll sg l )
@@ -50,9 +50,9 @@ forall (type_pre: Z) (waitTicks_pre: Z) (startTime_pre: Z) (node_pre: Z) (l: (@l
   **  ((( &( "node" ) )) # Ptr  |-> node_pre)
   **  (task_store sg &((node_pre)  # "SortLinkList" ->ₛ "sortLinkNode") a )
   **  ((&((node_pre)  # "SortLinkList" ->ₛ "responseTime")) # UInt64  |-> t)
-  **  ((( &( "type" ) )) # Int  |-> type_pre)
-  **  ((( &( "waitTicks" ) )) # UInt64  |-> waitTicks_pre)
   **  ((( &( "startTime" ) )) # UInt64  |-> startTime_pre)
+  **  ((( &( "waitTicks" ) )) # UInt64  |-> waitTicks_pre)
+  **  ((( &( "type" ) )) # Int  |-> type_pre)
   **  ((&((node_pre)  # "SortLinkList" ->ₛ "sortLinkNode" .ₛ "pstPrev")) # Ptr  |-> pu)
   **  ((&((node_pre)  # "SortLinkList" ->ₛ "sortLinkNode" .ₛ "pstNext")) # Ptr  |-> un)
   **  (store_task_sorted_dll sg l )
@@ -63,6 +63,7 @@ forall (type_pre: Z) (waitTicks_pre: Z) (startTime_pre: Z) (node_pre: Z) (l: (@l
 .
 
 Definition OsAdd2SortLink_return_wit_1 := 
+(
 forall (waitTicks_pre: Z) (startTime_pre: Z) (node_pre: Z) (l: (@list (@DL_Node (@sortedLinkNode Z)))) (sg: StableGlobVars) (g: Z) (a: Z) (l1_2: (@list (@DL_Node (@sortedLinkNode Z)))) (l2_2: (@list (@DL_Node (@sortedLinkNode Z)))) (PreH1 : (l = (app (l1_2) (l2_2)))) (PreH2 : ((startTime_pre + ((waitTicks_pre * g ) ÷ 100 ) ) <= ULLONG_MAX)) (PreH3 : ((startTime_pre + ((waitTicks_pre * g ) ÷ 100 ) ) >= 0)) (PreH4 : ((waitTicks_pre * g ) <= ULLONG_MAX)) (PreH5 : ((waitTicks_pre * g ) >= 0)) ,
   (store_task_sorted_dll sg (app (l1_2) ((cons ((Build_DL_Node ((mksortedLinkNode (a) ((startTime_pre + ((waitTicks_pre * g ) ÷ 100 ) )))) (node_pre))) (l2_2)))) )
   **  ((( &( "g_sysClock" ) )) # UInt64  |-> g)
@@ -71,7 +72,16 @@ forall (waitTicks_pre: Z) (startTime_pre: Z) (node_pre: Z) (l: (@list (@DL_Node 
   “ (l = (app (l1) (l2))) ”
   &&  ((( &( "g_sysClock" ) )) # UInt64  |-> g)
   **  (store_task_sorted_dll sg (app (l1) ((cons ((Build_DL_Node ((mksortedLinkNode (a) ((startTime_pre + ((waitTicks_pre * g ) ÷ 100 ) )))) (node_pre))) (l2)))) )
-.
+) \/
+(
+forall (waitTicks_pre: Z) (startTime_pre: Z) (node_pre: Z) (l: (@list (@DL_Node (@sortedLinkNode Z)))) (g: Z) (a: Z) (l1_2: (@list (@DL_Node (@sortedLinkNode Z)))) (l2_2: (@list (@DL_Node (@sortedLinkNode Z)))) (PreH1 : (l = (app (l1_2) (l2_2)))) (PreH2 : ((startTime_pre + ((waitTicks_pre * g ) ÷ 100 ) ) <= ULLONG_MAX)) (PreH3 : ((startTime_pre + ((waitTicks_pre * g ) ÷ 100 ) ) >= 0)) (PreH4 : ((waitTicks_pre * g ) <= ULLONG_MAX)) (PreH5 : ((waitTicks_pre * g ) >= 0)) ,
+  TT && emp 
+|--
+  EX (l1: (@list (@DL_Node (@sortedLinkNode Z))))  (l2: (@list (@DL_Node (@sortedLinkNode Z)))) ,
+  “ ((app (l1_2) ((cons ((Build_DL_Node ((mksortedLinkNode (a) ((startTime_pre + ((waitTicks_pre * g ) ÷ 100 ) )))) (node_pre))) (l2_2)))) = (app (l1) ((cons ((Build_DL_Node ((mksortedLinkNode (a) ((startTime_pre + ((waitTicks_pre * g ) ÷ 100 ) )))) (node_pre))) (l2))))) ” 
+  &&  “ ((app (l1_2) (l2_2)) = (app (l1) (l2))) ”
+  &&  emp
+).
 
 Definition OsAdd2SortLink_partial_solve_wit_1 := 
 forall (waitTicks_pre: Z) (startTime_pre: Z) (node_pre: Z) (l: (@list (@DL_Node (@sortedLinkNode Z)))) (sg: StableGlobVars) (g: Z) (t: Z) (a: Z) (pu: Z) (un: Z) (PreH1 : ((startTime_pre + ((waitTicks_pre * g ) ÷ 100 ) ) <= ULLONG_MAX)) (PreH2 : ((startTime_pre + ((waitTicks_pre * g ) ÷ 100 ) ) >= 0)) (PreH3 : ((waitTicks_pre * g ) <= ULLONG_MAX)) (PreH4 : ((waitTicks_pre * g ) >= 0)) ,
@@ -99,9 +109,9 @@ forall (type_pre: Z) (waitTicks_pre: Z) (startTime_pre: Z) (node_pre: Z) (l: (@l
   **  ((( &( "node" ) )) # Ptr  |-> node_pre)
   **  (task_store sg &((node_pre)  # "SortLinkList" ->ₛ "sortLinkNode") a )
   **  ((&((node_pre)  # "SortLinkList" ->ₛ "responseTime")) # UInt64  |-> (unsigned_last_nbits ((startTime_pre + ((unsigned_last_nbits ((waitTicks_pre * g )) (64)) ÷ 100 ) )) (64)))
-  **  ((( &( "type" ) )) # Int  |-> type_pre)
-  **  ((( &( "waitTicks" ) )) # UInt64  |-> waitTicks_pre)
   **  ((( &( "startTime" ) )) # UInt64  |-> startTime_pre)
+  **  ((( &( "waitTicks" ) )) # UInt64  |-> waitTicks_pre)
+  **  ((( &( "type" ) )) # Int  |-> type_pre)
   **  ((&((node_pre)  # "SortLinkList" ->ₛ "sortLinkNode" .ₛ "pstPrev")) # Ptr  |-> pu)
   **  ((&((node_pre)  # "SortLinkList" ->ₛ "sortLinkNode" .ₛ "pstNext")) # Ptr  |-> un)
   **  (store_task_sorted_dll sg l )
@@ -111,14 +121,14 @@ forall (type_pre: Z) (waitTicks_pre: Z) (startTime_pre: Z) (node_pre: Z) (l: (@l
   &&  “ ((unsigned_last_nbits ((startTime_pre + ((unsigned_last_nbits ((waitTicks_pre * g )) (64)) ÷ 100 ) )) (64)) = (startTime_pre + ((waitTicks_pre * g ) ÷ 100 ) )) ”
 ) \/
 (
-forall (type_pre: Z) (waitTicks_pre: Z) (startTime_pre: Z) (node_pre: Z) (l: (@list (@DL_Node (@sortedLinkNode Z)))) (sg: StableGlobVars) (g: Z) (a: Z) (pu: Z) (un: Z) (PreH1 : (type_pre <= INT_MAX)) (PreH2 : (type_pre >= INT_MIN)) (PreH3 : ((startTime_pre + ((waitTicks_pre * g ) ÷ 100 ) ) <= ULLONG_MAX)) (PreH4 : ((startTime_pre + ((waitTicks_pre * g ) ÷ 100 ) ) >= 0)) (PreH5 : ((waitTicks_pre * g ) <= ULLONG_MAX)) (PreH6 : ((waitTicks_pre * g ) >= 0)) ,
+forall (type_pre: Z) (waitTicks_pre: Z) (startTime_pre: Z) (node_pre: Z) (l: (@list (@DL_Node (@sortedLinkNode Z)))) (sg: StableGlobVars) (g: Z) (a: Z) (pu: Z) (un: Z) (PreH1 : (g <= UINT64_MAX)) (PreH2 : (waitTicks_pre <= UINT64_MAX)) (PreH3 : (startTime_pre <= UINT64_MAX)) (PreH4 : ((unsigned_last_nbits ((startTime_pre + ((unsigned_last_nbits ((waitTicks_pre * g )) (64)) ÷ 100 ) )) (64)) <= UINT64_MAX)) (PreH5 : (g >= 0)) (PreH6 : (waitTicks_pre >= 0)) (PreH7 : (startTime_pre >= 0)) (PreH8 : ((unsigned_last_nbits ((startTime_pre + ((unsigned_last_nbits ((waitTicks_pre * g )) (64)) ÷ 100 ) )) (64)) >= 0)) (PreH9 : (type_pre <= INT_MAX)) (PreH10 : (type_pre >= INT_MIN)) (PreH11 : ((startTime_pre + ((waitTicks_pre * g ) ÷ 100 ) ) <= ULLONG_MAX)) (PreH12 : ((startTime_pre + ((waitTicks_pre * g ) ÷ 100 ) ) >= 0)) (PreH13 : ((waitTicks_pre * g ) <= ULLONG_MAX)) (PreH14 : ((waitTicks_pre * g ) >= 0)) ,
   ((( &( "sortLinkHead" ) )) # Ptr  |-> ( &( "g_taskSortLink" ) ))
   **  ((( &( "node" ) )) # Ptr  |-> node_pre)
   **  (task_store sg &((node_pre)  # "SortLinkList" ->ₛ "sortLinkNode") a )
   **  ((&((node_pre)  # "SortLinkList" ->ₛ "responseTime")) # UInt64  |-> (unsigned_last_nbits ((startTime_pre + ((unsigned_last_nbits ((waitTicks_pre * g )) (64)) ÷ 100 ) )) (64)))
-  **  ((( &( "type" ) )) # Int  |-> type_pre)
-  **  ((( &( "waitTicks" ) )) # UInt64  |-> waitTicks_pre)
   **  ((( &( "startTime" ) )) # UInt64  |-> startTime_pre)
+  **  ((( &( "waitTicks" ) )) # UInt64  |-> waitTicks_pre)
+  **  ((( &( "type" ) )) # Int  |-> type_pre)
   **  ((&((node_pre)  # "SortLinkList" ->ₛ "sortLinkNode" .ₛ "pstPrev")) # Ptr  |-> pu)
   **  ((&((node_pre)  # "SortLinkList" ->ₛ "sortLinkNode" .ₛ "pstNext")) # Ptr  |-> un)
   **  (store_task_sorted_dll sg l )
@@ -128,14 +138,14 @@ forall (type_pre: Z) (waitTicks_pre: Z) (startTime_pre: Z) (node_pre: Z) (l: (@l
 ).
 
 Definition OsAdd2SortLink_partial_solve_wit_2_pure_split_goal_1 := 
-forall (type_pre: Z) (waitTicks_pre: Z) (startTime_pre: Z) (node_pre: Z) (l: (@list (@DL_Node (@sortedLinkNode Z)))) (sg: StableGlobVars) (g: Z) (a: Z) (pu: Z) (un: Z) (PreH1 : (type_pre <= INT_MAX)) (PreH2 : (type_pre >= INT_MIN)) (PreH3 : ((startTime_pre + ((waitTicks_pre * g ) ÷ 100 ) ) <= ULLONG_MAX)) (PreH4 : ((startTime_pre + ((waitTicks_pre * g ) ÷ 100 ) ) >= 0)) (PreH5 : ((waitTicks_pre * g ) <= ULLONG_MAX)) (PreH6 : ((waitTicks_pre * g ) >= 0)) ,
+forall (type_pre: Z) (waitTicks_pre: Z) (startTime_pre: Z) (node_pre: Z) (l: (@list (@DL_Node (@sortedLinkNode Z)))) (sg: StableGlobVars) (g: Z) (a: Z) (pu: Z) (un: Z) (PreH1 : (g <= UINT64_MAX)) (PreH2 : (waitTicks_pre <= UINT64_MAX)) (PreH3 : (startTime_pre <= UINT64_MAX)) (PreH4 : ((unsigned_last_nbits ((startTime_pre + ((unsigned_last_nbits ((waitTicks_pre * g )) (64)) ÷ 100 ) )) (64)) <= UINT64_MAX)) (PreH5 : (g >= 0)) (PreH6 : (waitTicks_pre >= 0)) (PreH7 : (startTime_pre >= 0)) (PreH8 : ((unsigned_last_nbits ((startTime_pre + ((unsigned_last_nbits ((waitTicks_pre * g )) (64)) ÷ 100 ) )) (64)) >= 0)) (PreH9 : (type_pre <= INT_MAX)) (PreH10 : (type_pre >= INT_MIN)) (PreH11 : ((startTime_pre + ((waitTicks_pre * g ) ÷ 100 ) ) <= ULLONG_MAX)) (PreH12 : ((startTime_pre + ((waitTicks_pre * g ) ÷ 100 ) ) >= 0)) (PreH13 : ((waitTicks_pre * g ) <= ULLONG_MAX)) (PreH14 : ((waitTicks_pre * g ) >= 0)) ,
   ((( &( "sortLinkHead" ) )) # Ptr  |-> ( &( "g_taskSortLink" ) ))
   **  ((( &( "node" ) )) # Ptr  |-> node_pre)
   **  (task_store sg &((node_pre)  # "SortLinkList" ->ₛ "sortLinkNode") a )
   **  ((&((node_pre)  # "SortLinkList" ->ₛ "responseTime")) # UInt64  |-> (unsigned_last_nbits ((startTime_pre + ((unsigned_last_nbits ((waitTicks_pre * g )) (64)) ÷ 100 ) )) (64)))
-  **  ((( &( "type" ) )) # Int  |-> type_pre)
-  **  ((( &( "waitTicks" ) )) # UInt64  |-> waitTicks_pre)
   **  ((( &( "startTime" ) )) # UInt64  |-> startTime_pre)
+  **  ((( &( "waitTicks" ) )) # UInt64  |-> waitTicks_pre)
+  **  ((( &( "type" ) )) # Int  |-> type_pre)
   **  ((&((node_pre)  # "SortLinkList" ->ₛ "sortLinkNode" .ₛ "pstPrev")) # Ptr  |-> pu)
   **  ((&((node_pre)  # "SortLinkList" ->ₛ "sortLinkNode" .ₛ "pstNext")) # Ptr  |-> un)
   **  (store_task_sorted_dll sg l )
@@ -240,7 +250,7 @@ forall (sg: StableGlobVars) (g: Z) (a: Z) (node: Z) (node_responseTime: Z) (star
   (storesortedLinkTaskNode task_store sg &((node)  # "SortLinkList" ->ₛ "sortLinkNode") (mksortedLinkNode (a) ((startTime + ((waitTicks * g ) ÷ 100 ) ))) )
 ) \/
 (
-forall (sg: StableGlobVars) (g: Z) (a: Z) (node: Z) (node_responseTime: Z) (startTime: Z) (waitTicks: Z) (PreH1 : (node_responseTime = (startTime + ((waitTicks * g ) ÷ 100 ) ))) ,
+forall (sg: StableGlobVars) (g: Z) (a: Z) (node: Z) (node_responseTime: Z) (startTime: Z) (waitTicks: Z) (PreH1 : (node_responseTime <= UINT64_MAX)) (PreH2 : (node_responseTime >= 0)) (PreH3 : (node_responseTime = (startTime + ((waitTicks * g ) ÷ 100 ) ))) ,
   (task_store sg &((node)  # "SortLinkList" ->ₛ "sortLinkNode") a )
   **  ((&((node)  # "SortLinkList" ->ₛ "responseTime")) # UInt64  |-> node_responseTime)
 |--
@@ -248,7 +258,7 @@ forall (sg: StableGlobVars) (g: Z) (a: Z) (node: Z) (node_responseTime: Z) (star
 ).
 
 Definition OsAdd2SortLink_which_implies_wit_2_split_goal_spatial := 
-forall (sg: StableGlobVars) (g: Z) (a: Z) (node: Z) (node_responseTime: Z) (startTime: Z) (waitTicks: Z) (PreH1 : (node_responseTime = (startTime + ((waitTicks * g ) ÷ 100 ) ))) ,
+forall (sg: StableGlobVars) (g: Z) (a: Z) (node: Z) (node_responseTime: Z) (startTime: Z) (waitTicks: Z) (PreH1 : (node_responseTime <= UINT64_MAX)) (PreH2 : (node_responseTime >= 0)) (PreH3 : (node_responseTime = (startTime + ((waitTicks * g ) ÷ 100 ) ))) ,
   (task_store sg &((node)  # "SortLinkList" ->ₛ "sortLinkNode") a )
   **  ((&((node)  # "SortLinkList" ->ₛ "responseTime")) # UInt64  |-> node_responseTime)
 |--

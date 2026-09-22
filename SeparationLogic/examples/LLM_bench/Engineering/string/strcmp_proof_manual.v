@@ -21,7 +21,7 @@ Local Open Scope sac.
 
 Lemma proof_of_strcmp_safety_wit_4 : strcmp_safety_wit_4.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   match goal with
   | Hvalid : valid_string str1,
     Hlo : 0 <= i,
@@ -34,12 +34,13 @@ Proof.
     Hhi : i <= string_length str2 |- _ =>
       pose proof (c_string_char_bound str2 i Hvalid ltac:(lia)) as Hbound2
   end.
-  entailer!.
+  split_pures.
+  all: dump_pre_spatial; try lia; try assumption.
 Qed.
 
 Lemma proof_of_strcmp_safety_wit_5 : strcmp_safety_wit_5.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   match goal with
   | Hvalid : valid_string str1,
     Hlo : 0 <= i,
@@ -52,20 +53,24 @@ Proof.
     Hhi : i <= string_length str2 |- _ =>
       pose proof (c_string_char_bound str2 i Hvalid ltac:(lia)) as Hbound2
   end.
-  entailer!.
+  split_pures.
+  all: dump_pre_spatial; try lia; try assumption.
 Qed.
 
 Lemma proof_of_strcmp_entail_wit_1 : strcmp_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (0 <= string_length str1) by (unfold string_length; apply Zlength_nonneg).
   assert (0 <= string_length str2) by (unfold string_length; apply Zlength_nonneg).
-  entailer!.
+  split_pure_spatial.
+  - cancel.
+  - split_pures.
+    all: dump_pre_spatial; try lia; try assumption.
 Qed.
 
 Lemma proof_of_strcmp_entail_wit_2 : strcmp_entail_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   match goal with
   | Hvalid : valid_string str1,
     Hlo : 0 <= i,
@@ -73,9 +78,11 @@ Proof.
     Hnz : Znth i (c_string str1) 0 <> 0 |- _ =>
       pose proof (c_string_nonzero_lt_length str1 i Hvalid ltac:(lia) Hnz)
   end.
-  entailer!.
-  - apply prefix_eq_extend; auto.
-  - match goal with
+  split_pure_spatial.
+  - cancel.
+  - split_pures.
+    all: dump_pre_spatial; try lia; try assumption.
+    + match goal with
     | Hvalid : valid_string str2,
       Hlo : 0 <= i,
       Hhi : i <= string_length str2,
@@ -85,29 +92,34 @@ Proof.
                       ltac:(rewrite <- Heq; exact Hnz))
     end.
     auto with zarith.
+    + apply prefix_eq_extend; auto.
 Qed.
 
 Lemma proof_of_strcmp_return_wit_1 : strcmp_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (strcmp_result str1 str2
             (Znth i (c_string str1) 0 - Znth i (c_string str2) 0)).
   { exists i. repeat split; auto with zarith. }
-  entailer!.
+  split_pure_spatial.
+  - cancel.
+  - dump_pre_spatial; exact H.
 Qed.
 
 Lemma proof_of_strcmp_return_wit_2 : strcmp_return_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (strcmp_result str1 str2
             (Znth i (c_string str1) 0 - Znth i (c_string str2) 0)).
   { exists i. repeat split; auto with zarith. }
-  entailer!.
+  split_pure_spatial.
+  - cancel.
+  - dump_pre_spatial; exact H.
 Qed.
 
 Lemma proof_of_strncmp_safety_wit_8 : strncmp_safety_wit_8.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   match goal with
   | Hvalid : valid_string str1,
     Hlo : 0 <= i,
@@ -120,12 +132,13 @@ Proof.
     Hhi : i <= string_length str2 |- _ =>
       pose proof (c_string_char_bound str2 i Hvalid ltac:(lia)) as Hbound2
   end.
-  entailer!.
+  split_pures.
+  all: dump_pre_spatial; try lia; try assumption.
 Qed.
 
 Lemma proof_of_strncmp_safety_wit_9 : strncmp_safety_wit_9.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   match goal with
   | Hvalid : valid_string str1,
     Hlo : 0 <= i,
@@ -138,20 +151,24 @@ Proof.
     Hhi : i <= string_length str2 |- _ =>
       pose proof (c_string_char_bound str2 i Hvalid ltac:(lia)) as Hbound2
   end.
-  entailer!.
+  split_pures.
+  all: dump_pre_spatial; try lia; try assumption.
 Qed.
 
 Lemma proof_of_strncmp_entail_wit_1 : strncmp_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (0 <= string_length str1) by (unfold string_length; apply Zlength_nonneg).
   assert (0 <= string_length str2) by (unfold string_length; apply Zlength_nonneg).
-  entailer!.
+  split_pure_spatial.
+  - cancel.
+  - split_pures.
+    all: dump_pre_spatial; try lia; try assumption.
 Qed.
 
 Lemma proof_of_strncmp_entail_wit_2 : strncmp_entail_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   match goal with
   | Hvalid : valid_string str1,
     Hlo : 0 <= i,
@@ -159,9 +176,11 @@ Proof.
     Hnz : Znth i (c_string str1) 0 <> 0 |- _ =>
       pose proof (c_string_nonzero_lt_length str1 i Hvalid ltac:(lia) Hnz)
   end.
-  entailer!.
-  - apply prefix_eq_extend; auto.
-  - match goal with
+  split_pure_spatial.
+  - cancel.
+  - split_pures.
+    all: dump_pre_spatial; try lia; try assumption.
+    + match goal with
     | Hvalid : valid_string str2,
       Hlo : 0 <= i,
       Hhi : i <= string_length str2,
@@ -171,30 +190,37 @@ Proof.
                       ltac:(rewrite <- Heq; exact Hnz))
     end.
     auto with zarith.
+    + apply prefix_eq_extend; auto.
 Qed.
 
 Lemma proof_of_strncmp_return_wit_1 : strncmp_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (strncmp_result str1 str2 n_pre
             (Znth i (c_string str1) 0 - Znth i (c_string str2) 0)).
   { exists i. repeat split; auto with zarith. }
-  entailer!.
+  split_pure_spatial.
+  - cancel.
+  - dump_pre_spatial; exact H.
 Qed.
 
 Lemma proof_of_strncmp_return_wit_2 : strncmp_return_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (strncmp_result str1 str2 n_pre
             (Znth i (c_string str1) 0 - Znth i (c_string str2) 0)).
   { exists i. repeat split; auto with zarith. }
-  entailer!.
+  split_pure_spatial.
+  - cancel.
+  - dump_pre_spatial; exact H.
 Qed.
 
 Lemma proof_of_strncmp_return_wit_3 : strncmp_return_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (strncmp_result str1 str2 n_pre 0).
   { exists i. repeat split; auto with zarith. }
-  entailer!.
+  split_pure_spatial.
+  - cancel.
+  - dump_pre_spatial; exact H.
 Qed.

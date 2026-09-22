@@ -21,16 +21,20 @@ Local Open Scope sac.
 
 Lemma proof_of_div_test_return_wit_3 : div_test_return_wit_3.
 Proof.
-  pre_process.
-  entailer!.
+  LLM_pre_process ltac:(int_auto).
+  split_pure_spatial.
+  - cancel.
+  - dump_pre_spatial.
   unfold Pos_Div.
   subst c_pre. simpl. lia.
 Qed.
 
 Lemma proof_of_div_test_return_wit_2 : div_test_return_wit_2.
 Proof.
-  pre_process.
-  entailer!.
+  LLM_pre_process ltac:(int_auto).
+  split_pure_spatial.
+  - cancel.
+  - dump_pre_spatial.
   unfold Pos_Div.
   destruct (Z.eq_dec c_pre 0) ; try lia.
   destruct (Z_lt_ge_dec (a_pre * b_pre ÷ c_pre) 0) ; try lia.
@@ -38,8 +42,10 @@ Qed.
 
 Lemma proof_of_div_test_return_wit_1 : div_test_return_wit_1.
 Proof.
-  pre_process.
-  entailer!.
+  LLM_pre_process ltac:(int_auto).
+  split_pure_spatial.
+  - cancel.
+  - dump_pre_spatial.
   unfold Pos_Div.
   destruct (Z.eq_dec c_pre 0) ; try lia.
   destruct (Z_lt_ge_dec (a_pre * b_pre ÷ c_pre) 0) ; try lia.

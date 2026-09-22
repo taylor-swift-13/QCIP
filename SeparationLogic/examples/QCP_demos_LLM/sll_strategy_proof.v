@@ -114,7 +114,7 @@ Proof.
   cancel (q # Ptr |-> v1).
   Intros_r l2.
   Intros_r v2.
-  apply_sepcon_adjoint.
+  wand_elim.
   Intros_p H.
   subst l2.
   cancel (q # Ptr |-> v2).
@@ -127,7 +127,7 @@ Proof.
   cancel (poly_undef_store ty q).
   Intros_r l2.
   Intros_r r.
-  apply_sepcon_adjoint.
+  wand_elim.
   Intros_p H.
   Intros_p H0.
   subst r l2.
@@ -184,8 +184,8 @@ Proof.
   Exists q.
   Exists l0.
   normalize.
-  rewrite <- elim_wand_emp_emp.
-  elim_emp.
+  wand_elim.
+  cancel.
   split_pures.
   rewrite <- logic_equiv_coq_prop_or.
   split_pure_spatial.
@@ -207,8 +207,8 @@ Proof.
   simpl.
   Exists q.
   normalize.
-  rewrite <- elim_wand_emp_emp.
-  elim_emp.
+  wand_elim.
+  cancel.
   split_pures.
   rewrite <- logic_equiv_coq_prop_or.
   split_pure_spatial.
@@ -242,8 +242,7 @@ Proof.
   Intros y.
   Exists y.
   normalize.
-  rewrite <- elim_wand_emp_emp.
-  elim_emp.
+  wand_elim.
   cancel.
   cancel.
 Qed.
@@ -289,7 +288,7 @@ Proof.
     cancel (&( p # "list" ->ₛ "data") # Int |-> x).
     Intros_r q.
     apply_sepcon_adjoint.
-    elim_emp.
+    normalize.
     cancel.
   - split_pures.
     + dump_pre_spatial.

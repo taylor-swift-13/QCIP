@@ -37,7 +37,9 @@ Proof.
   intros.
   rewrite CharArray.undef_seg_empty.
   rewrite CharArray.full_empty.
-  entailer!.
+  split_pure_spatial.
+  - cancel.
+  - dump_pre_spatial. reflexivity.
 Qed.
 
 Lemma strncpy_c_string_nonzero_lt : forall (src : list Z) i,

@@ -265,7 +265,8 @@ Lemma dllseg_head_neq_destruct_tail: forall x y px py l,
 Proof.
   intros x y px py l Hxy.
   sep_apply dllseg_head_neq_destruct_tail_aux.
-  apply derivable1_orp_elim.
+  normalize.
+  Split.
   - Intros_p Hxy'.
     contradiction.
   - cancel.
@@ -284,7 +285,8 @@ Lemma dllseg_head_neq_destruct_tail': forall x y px py l,
 Proof.
   intros x y px py l Hpxpy.
   sep_apply dllseg_head_neq_destruct_tail_aux.
-  apply derivable1_orp_elim.
+  normalize.
+  Split.
   - Intros_p Hxy.
     Intros_p Hpxpy'.
     contradiction.

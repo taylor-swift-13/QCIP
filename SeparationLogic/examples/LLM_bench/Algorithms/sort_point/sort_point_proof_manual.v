@@ -22,148 +22,153 @@ Local Open Scope sac.
 
 Lemma proof_of_cmp_polar_values_safety_wit_1 : cmp_polar_values_safety_wit_1.
 Proof.
-  pre_process; entailer!; unfold CoordInBounds in *; nia.
+  LLM_pre_process ltac:(int_auto).
+  split_pures; try dump_pre_spatial; unfold CoordInBounds in *; try lia; nia.
 Qed.
 
 Lemma proof_of_cmp_polar_values_safety_wit_2 : cmp_polar_values_safety_wit_2.
 Proof.
-  pre_process; entailer!; unfold CoordInBounds in *; nia.
+  LLM_pre_process ltac:(int_auto).
+  split_pures; try dump_pre_spatial; unfold CoordInBounds in *; try lia; nia.
 Qed.
 
 Lemma proof_of_cmp_polar_values_safety_wit_3 : cmp_polar_values_safety_wit_3.
 Proof.
-  pre_process; entailer!; unfold CoordInBounds in *; nia.
+  LLM_pre_process ltac:(int_auto).
+  split_pures; try dump_pre_spatial; unfold CoordInBounds in *; try lia; nia.
 Qed.
 
 Lemma proof_of_cmp_polar_values_safety_wit_4 : cmp_polar_values_safety_wit_4.
 Proof.
-  pre_process; entailer!; unfold CoordInBounds in *; nia.
+  LLM_pre_process ltac:(int_auto).
+  split_pures; try dump_pre_spatial; unfold CoordInBounds in *; try lia; nia.
 Qed.
 
 Lemma proof_of_cmp_polar_values_safety_wit_5 : cmp_polar_values_safety_wit_5.
 Proof.
-  pre_process; entailer!; unfold CoordInBounds in *; nia.
+  LLM_pre_process ltac:(int_auto).
+  split_pures; try dump_pre_spatial; unfold CoordInBounds in *; try lia; nia.
 Qed.
 
 Lemma proof_of_cmp_polar_values_safety_wit_6 : cmp_polar_values_safety_wit_6.
 Proof.
-  pre_process; entailer!; unfold CoordInBounds in *; nia.
+  LLM_pre_process ltac:(int_auto).
+  split_pures; try dump_pre_spatial; unfold CoordInBounds in *; try lia; nia.
 Qed.
 
 Lemma proof_of_cmp_polar_values_safety_wit_7 : cmp_polar_values_safety_wit_7.
 Proof.
-  pre_process; entailer!; unfold CoordInBounds in *; nia.
+  LLM_pre_process ltac:(int_auto).
+  split_pures; try dump_pre_spatial; unfold CoordInBounds in *; try lia; nia.
 Qed.
 
 Lemma proof_of_cmp_polar_values_safety_wit_8 : cmp_polar_values_safety_wit_8.
 Proof.
-  pre_process; entailer!; unfold CoordInBounds in *; nia.
+  LLM_pre_process ltac:(int_auto).
+  split_pures; try dump_pre_spatial; unfold CoordInBounds in *; try lia; nia.
 Qed.
 
 Lemma proof_of_cmp_polar_values_safety_wit_9 : cmp_polar_values_safety_wit_9.
 Proof.
-  pre_process; entailer!; unfold CoordInBounds in *; nia.
+  LLM_pre_process ltac:(int_auto).
+  split_pures; try dump_pre_spatial; unfold CoordInBounds in *; try lia; nia.
 Qed.
 
 Lemma proof_of_cmp_polar_values_safety_wit_10 : cmp_polar_values_safety_wit_10.
 Proof.
-  pre_process; entailer!; unfold CoordInBounds in *; nia.
+  LLM_pre_process ltac:(int_auto).
+  split_pures; try dump_pre_spatial; unfold CoordInBounds in *; try lia; nia.
 Qed.
 
 Lemma proof_of_cmp_polar_values_safety_wit_11 : cmp_polar_values_safety_wit_11.
 Proof.
-  pre_process; entailer!; unfold CoordInBounds in *; nia.
+  LLM_pre_process ltac:(int_auto).
+  split_pures; try dump_pre_spatial; unfold CoordInBounds in *; try lia; nia.
 Qed.
 
 Lemma proof_of_cmp_polar_values_safety_wit_12 : cmp_polar_values_safety_wit_12.
 Proof.
-  pre_process; entailer!; unfold CoordInBounds in *; nia.
+  LLM_pre_process ltac:(int_auto).
+  split_pures; try dump_pre_spatial; unfold CoordInBounds in *; try lia; nia.
 Qed.
 
 Lemma proof_of_cmp_polar_values_safety_wit_13 : cmp_polar_values_safety_wit_13.
 Proof.
-  pre_process; entailer!; unfold CoordInBounds in *; nia.
+  LLM_pre_process ltac:(int_auto).
+  split_pures; try dump_pre_spatial; unfold CoordInBounds in *; try lia; nia.
 Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_1 : cmp_polar_values_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - cancel.
-  - cbv [derivable1 emp andp coq_prop].
-    intros m Hm.
-    split.
-    + split.
-      * unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y; simpl.
-        assert (Heqy : a_y_pre = b_y_pre) by lia.
-        assert (Heqx : a_x_pre = b_x_pre) by lia.
-        subst b_y_pre b_x_pre.
-        repeat right.
-        repeat split; try reflexivity; try ring.
-      * lia.
-    + lia.
-Qed. 
+  - repeat split_pures.
+    + dump_pre_spatial.
+      unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y; simpl.
+      assert (Heqy : a_y_pre = b_y_pre) by lia.
+      assert (Heqx : a_x_pre = b_x_pre) by lia.
+      subst b_y_pre b_x_pre.
+      repeat right.
+      repeat split; try reflexivity; try ring.
+    + dump_pre_spatial. lia.
+    + dump_pre_spatial. lia.
+Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_2 : cmp_polar_values_return_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - cancel.
-  - cbv [derivable1 emp andp coq_prop].
-    intros m Hm.
-    split.
-    + split.
-      * unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y; simpl.
-        assert (Heqy : a_y_pre = b_y_pre) by lia.
-        assert (Heqx : a_x_pre = b_x_pre) by lia.
-        subst b_y_pre b_x_pre.
-        repeat right.
-        repeat split; try reflexivity; try ring.
-      * lia.
-    + lia.
-Qed. 
+  - repeat split_pures.
+    + dump_pre_spatial.
+      unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y; simpl.
+      assert (Heqy : a_y_pre = b_y_pre) by lia.
+      assert (Heqx : a_x_pre = b_x_pre) by lia.
+      subst b_y_pre b_x_pre.
+      repeat right.
+      repeat split; try reflexivity; try ring.
+    + dump_pre_spatial. lia.
+    + dump_pre_spatial. lia.
+Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_3 : cmp_polar_values_return_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - cancel.
-  - cbv [derivable1 emp andp coq_prop].
-    intros m Hm.
-    split.
-    + split.
-      * unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y; simpl.
-        assert (Heqy : a_y_pre = b_y_pre) by lia.
-        assert (Heqx : a_x_pre = b_x_pre) by lia.
-        subst b_y_pre b_x_pre.
-        repeat right.
-        repeat split; try reflexivity; try ring.
-      * lia.
-    + lia.
-Qed. 
+  - repeat split_pures.
+    + dump_pre_spatial.
+      unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y; simpl.
+      assert (Heqy : a_y_pre = b_y_pre) by lia.
+      assert (Heqx : a_x_pre = b_x_pre) by lia.
+      subst b_y_pre b_x_pre.
+      repeat right.
+      repeat split; try reflexivity; try ring.
+    + dump_pre_spatial. lia.
+    + dump_pre_spatial. lia.
+Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_4 : cmp_polar_values_return_wit_4.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - cancel.
-  - cbv [derivable1 emp andp coq_prop].
-    intros m Hm.
-    split.
-    + split.
-      * unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y; simpl.
-        assert (Heqy : a_y_pre = b_y_pre) by lia.
-        assert (Heqx : a_x_pre = b_x_pre) by lia.
-        subst b_y_pre b_x_pre.
-        repeat right.
-        repeat split; try reflexivity; try ring.
-      * lia.
-    + lia.
-Qed. 
+  - repeat split_pures.
+    + dump_pre_spatial.
+      unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2, point_x, point_y; simpl.
+      assert (Heqy : a_y_pre = b_y_pre) by lia.
+      assert (Heqx : a_x_pre = b_x_pre) by lia.
+      subst b_y_pre b_x_pre.
+      repeat right.
+      repeat split; try reflexivity; try ring.
+    + dump_pre_spatial. lia.
+    + dump_pre_spatial. lia.
+Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_5 : cmp_polar_values_return_wit_5.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - cancel.
   - repeat split_pures.
@@ -183,18 +188,30 @@ Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_6 : cmp_polar_values_return_wit_6.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
+  split_pure_spatial.
+  - cancel.
+  - repeat split_pures.
+    + dump_pre_spatial.
+      unfold PolarCmpResult.
+      cbn.
+      do 9 right; left.
+      repeat split; try lia.
+      * rewrite (polar_upper_half_true_of_pos_y gx_pre gy_pre a_x_pre a_y_pre) by lia.
+        rewrite (polar_upper_half_true_of_zero_y_nonneg_x gx_pre gy_pre b_x_pre b_y_pre) by lia.
+        reflexivity.
+      * unfold polar_cross. cbn. lia.
+      * unfold point_dist2. cbn. nia.
+    + dump_pre_spatial. lia.
+    + dump_pre_spatial. lia.
 Qed.
 
-Lemma proof_of_cmp_polar_values_return_wit_7 : cmp_polar_values_return_wit_7.
+Lemma proof_of_cmp_polar_values_return_wit_7_split_goal_1 :
+  cmp_polar_values_return_wit_7_split_goal_1.
 Proof.
-  pre_process.
-Qed.
+  LLM_pre_process ltac:(int_auto).
 
-Lemma proof_of_cmp_polar_values_return_wit_8 : cmp_polar_values_return_wit_8.
-Proof.
-  pre_process.
-  entailer!.
+  split_pures; try dump_pre_spatial; try lia; try nia.
   unfold PolarCmpResult.
   cbn.
   do 9 right; left.
@@ -206,513 +223,533 @@ Proof.
   - unfold point_dist2. cbn. nia.
 Qed.
 
+Lemma proof_of_cmp_polar_values_return_wit_7 : cmp_polar_values_return_wit_7.
+Proof.
+  aggressive_pre_process.
+  Goal_apply proof_of_cmp_polar_values_return_wit_7_split_goal_1.
+Qed.
+
+Lemma proof_of_cmp_polar_values_return_wit_8 : cmp_polar_values_return_wit_8.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  split_pure_spatial.
+  - cancel.
+  - repeat split_pures.
+    + dump_pre_spatial.
+      unfold PolarCmpResult.
+      do 8 right; left.
+      cbn.
+      repeat split; try lia.
+      * rewrite (polar_upper_half_true_of_pos_y gx_pre gy_pre a_x_pre a_y_pre) by lia.
+        rewrite (polar_upper_half_true_of_pos_y gx_pre gy_pre b_x_pre b_y_pre) by lia.
+        reflexivity.
+      * unfold polar_cross. cbn. lia.
+      * unfold point_dist2. cbn. nia.
+    + dump_pre_spatial. lia.
+    + dump_pre_spatial. lia.
+Qed.
+
 Lemma proof_of_cmp_polar_values_return_wit_9 : cmp_polar_values_return_wit_9.
 Proof.
-  pre_process.
-  entailer!.
-  unfold PolarCmpResult.
-  cbn.
-  do 8 right; left.
-  repeat split; try lia.
-  - rewrite (polar_upper_half_true_of_pos_y gx_pre gy_pre a_x_pre a_y_pre) by lia.
-    rewrite (polar_upper_half_true_of_pos_y gx_pre gy_pre b_x_pre b_y_pre) by lia.
-    reflexivity.
-  - unfold polar_cross. cbn. lia.
-  - unfold point_dist2. cbn. nia.
+  LLM_pre_process ltac:(int_auto).
+  split_pures; try dump_pre_spatial; auto; try lia; try nia.
 Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_10 : cmp_polar_values_return_wit_10.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
+  split_pure_spatial.
+  - cancel.
+  - repeat split_pures.
+    + dump_pre_spatial.
+      unfold PolarCmpResult.
+      do 8 right; left.
+      cbn.
+      repeat split; try lia.
+      * rewrite (polar_upper_half_false_of_nonpos_nonzero_y gx_pre gy_pre a_x_pre a_y_pre) by lia.
+        rewrite (polar_upper_half_false_of_nonpos_nonzero_y gx_pre gy_pre b_x_pre b_y_pre) by lia.
+        reflexivity.
+      * unfold polar_cross. cbn. lia.
+      * unfold point_dist2. cbn. lia.
+    + dump_pre_spatial. lia.
+    + dump_pre_spatial. lia.
 Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_11 : cmp_polar_values_return_wit_11.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
+  try
+      (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
+       simpl in *;
+       split_pure_spatial;
+       [ cancel
+       | split_pures; try dump_pre_spatial; auto; try lia; try nia ]).
 Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_12 : cmp_polar_values_return_wit_12.
 Proof.
-  pre_process.
-  entailer!.
-  unfold PolarCmpResult.
-  cbn.
-  do 8 right; left.
-  repeat split; try lia.
-  - rewrite (polar_upper_half_false_of_nonpos_nonzero_y gx_pre gy_pre a_x_pre a_y_pre) by lia.
-    rewrite (polar_upper_half_false_of_nonpos_nonzero_y gx_pre gy_pre b_x_pre b_y_pre) by lia.
-    reflexivity.
-  - unfold polar_cross. cbn. lia.
-  - unfold point_dist2. cbn. lia.
+  (LLM_pre_process ltac:(int_auto));
+    try
+      (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
+       simpl in *;
+       split_pure_spatial;
+       [ cancel
+       | split_pures; try dump_pre_spatial; auto; try lia; try nia ]).
 Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_13 : cmp_polar_values_return_wit_13.
 Proof.
-  pre_process;
-    try
-      (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
+  (LLM_pre_process ltac:(int_auto));
+     try
+       (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
+        simpl in *;
+       split_pure_spatial;
+       [ cancel
+       | split_pures; try dump_pre_spatial; auto; try lia; try nia ]).
+Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_14 : cmp_polar_values_return_wit_14.
 Proof.
-  pre_process;
+  (LLM_pre_process ltac:(int_auto));
     try
       (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
+       simpl in *;
+       split_pure_spatial;
+       [ cancel
+       | split_pures; try dump_pre_spatial; auto; try lia; try nia ]).
+Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_15 : cmp_polar_values_return_wit_15.
 Proof.
-  pre_process;
+  (LLM_pre_process ltac:(int_auto));
     try
       (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
+       simpl in *;
+       split_pure_spatial;
+       [ cancel
+       | split_pures; try dump_pre_spatial; auto; try lia; try nia ]).
+Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_16 : cmp_polar_values_return_wit_16.
 Proof.
-  pre_process;
+  (LLM_pre_process ltac:(int_auto));
     try
       (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
+       simpl in *;
+       split_pure_spatial;
+       [ cancel
+       | split_pures; try dump_pre_spatial; auto; try lia; try nia ]).
+Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_17 : cmp_polar_values_return_wit_17.
 Proof.
-  pre_process;
+  (LLM_pre_process ltac:(int_auto));
     try
       (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
+       simpl in *;
+       split_pure_spatial;
+       [ cancel
+       | split_pures; try dump_pre_spatial; auto; try lia; try nia ]).
+Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_18 : cmp_polar_values_return_wit_18.
 Proof.
-  pre_process;
+  (LLM_pre_process ltac:(int_auto));
     try
       (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
+       simpl in *;
+       split_pure_spatial;
+       [ cancel
+       | split_pures; try dump_pre_spatial; auto; try lia; try nia ]).
+Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_19 : cmp_polar_values_return_wit_19.
 Proof.
-  pre_process;
+  (LLM_pre_process ltac:(int_auto));
     try
       (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
+       simpl in *;
+       split_pure_spatial;
+       [ cancel
+       | split_pures; try dump_pre_spatial; auto; try lia; try nia ]).
+Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_20 : cmp_polar_values_return_wit_20.
 Proof.
-  pre_process;
+  (LLM_pre_process ltac:(int_auto));
     try
       (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
+       simpl in *;
+       split_pure_spatial;
+       [ cancel
+       | split_pures; try dump_pre_spatial; auto; try lia; try nia ]).
+Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_21 : cmp_polar_values_return_wit_21.
 Proof.
-  pre_process;
+  (LLM_pre_process ltac:(int_auto));
     try
       (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
+       simpl in *;
+       split_pure_spatial;
+       [ cancel
+       | split_pures; try dump_pre_spatial; auto; try lia; try nia ]).
+Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_22 : cmp_polar_values_return_wit_22.
 Proof.
-  pre_process;
+  (LLM_pre_process ltac:(int_auto));
     try
       (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
+       simpl in *;
+       split_pure_spatial;
+       [ cancel
+       | split_pures; try dump_pre_spatial; auto; try lia; try nia ]).
+Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_23 : cmp_polar_values_return_wit_23.
 Proof.
-  pre_process;
+  (LLM_pre_process ltac:(int_auto));
     try
       (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
+       simpl in *;
+       split_pure_spatial;
+       [ cancel
+       | split_pures; try dump_pre_spatial; auto; try lia; try nia ]).
+Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_24 : cmp_polar_values_return_wit_24.
 Proof.
-  pre_process;
+  (LLM_pre_process ltac:(int_auto));
     try
       (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
+       simpl in *;
+       split_pure_spatial;
+       [ cancel
+       | split_pures; try dump_pre_spatial; auto; try lia; try nia ]).
+Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_25 : cmp_polar_values_return_wit_25.
 Proof.
-  pre_process;
+  (LLM_pre_process ltac:(int_auto));
     try
       (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
+       simpl in *;
+       split_pure_spatial;
+       [ cancel
+       | split_pures; try dump_pre_spatial; auto; try lia; try nia ]).
+Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_26 : cmp_polar_values_return_wit_26.
 Proof.
-  pre_process;
+  (LLM_pre_process ltac:(int_auto));
     try
       (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
+       simpl in *;
+       split_pure_spatial;
+       [ cancel
+       | split_pures; try dump_pre_spatial; auto; try lia; try nia ]).
+Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_27 : cmp_polar_values_return_wit_27.
 Proof.
-  pre_process;
+  (LLM_pre_process ltac:(int_auto));
     try
       (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
+       simpl in *;
+       split_pure_spatial;
+       [ cancel
+       | split_pures; try dump_pre_spatial; auto; try lia; try nia ]).
+Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_28 : cmp_polar_values_return_wit_28.
 Proof.
-  pre_process;
+  (LLM_pre_process ltac:(int_auto));
     try
       (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
+       simpl in *;
+       split_pure_spatial;
+       [ cancel
+       | split_pures; try dump_pre_spatial; auto; try lia; try nia ]).
+Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_29 : cmp_polar_values_return_wit_29.
 Proof.
-  pre_process;
+  (LLM_pre_process ltac:(int_auto));
     try (
-      unfold PolarCmpResult; entailer!;
+      split_pure_spatial;
+      [ cancel
+      | repeat split_pures; try solve [dump_pre_spatial; lia];
+        dump_pre_spatial;
+        unfold PolarCmpResult;
       first
-        [ do 5 right; left; repeat split;
+        [ do 2 right; left; repeat split;
+          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
+        | do 3 right; left; repeat split;
+          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
+        | do 5 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
         | do 4 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
-        ]).
+        ]]).
 Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_30 : cmp_polar_values_return_wit_30.
 Proof.
-  pre_process;
+  (LLM_pre_process ltac:(int_auto));
     try (
-      unfold PolarCmpResult; entailer!;
+      split_pure_spatial;
+      [ cancel
+      | repeat split_pures; try solve [dump_pre_spatial; lia];
+        dump_pre_spatial;
+        unfold PolarCmpResult;
       first
-        [ do 5 right; left; repeat split;
+        [ do 2 right; left; repeat split;
+          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
+        | do 3 right; left; repeat split;
+          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
+        | do 5 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
         | do 4 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
-        ]).
+        ]]).
 Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_31 : cmp_polar_values_return_wit_31.
 Proof.
-  pre_process;
+  (LLM_pre_process ltac:(int_auto));
     try (
-      unfold PolarCmpResult; entailer!;
+      split_pure_spatial;
+      [ cancel
+      | repeat split_pures; try solve [dump_pre_spatial; lia];
+        dump_pre_spatial;
+        unfold PolarCmpResult;
       first
-        [ do 5 right; left; repeat split;
+        [ do 2 right; left; repeat split;
+          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
+        | do 3 right; left; repeat split;
+          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
+        | do 5 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
         | do 4 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
-        ]).
+        ]]).
 Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_32 : cmp_polar_values_return_wit_32.
 Proof.
-  pre_process;
+  (LLM_pre_process ltac:(int_auto));
     try (
-      unfold PolarCmpResult; entailer!;
+      split_pure_spatial;
+      [ cancel
+      | repeat split_pures; try solve [dump_pre_spatial; lia];
+        dump_pre_spatial;
+        unfold PolarCmpResult;
       first
-        [ do 5 right; left; repeat split;
+        [ do 2 right; left; repeat split;
+          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
+        | do 3 right; left; repeat split;
+          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
+        | do 5 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
         | do 4 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
-        ]).
+        ]]).
 Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_33 : cmp_polar_values_return_wit_33.
 Proof.
-  pre_process;
+  (LLM_pre_process ltac:(int_auto));
     try (
-      unfold PolarCmpResult; entailer!;
+      split_pure_spatial;
+      [ cancel
+      | repeat split_pures; try solve [dump_pre_spatial; lia];
+        dump_pre_spatial;
+        unfold PolarCmpResult;
       first
-        [ do 5 right; left; repeat split;
+        [ do 3 right; left; repeat split;
+          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
+        | do 5 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
         | do 4 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
-        ]).
+        ]]).
 Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_34 : cmp_polar_values_return_wit_34.
 Proof.
-  pre_process;
+  (LLM_pre_process ltac:(int_auto));
     try (
-      unfold PolarCmpResult; entailer!;
+      split_pure_spatial;
+      [ cancel
+      | repeat split_pures; try solve [dump_pre_spatial; lia];
+        dump_pre_spatial;
+        unfold PolarCmpResult;
       first
-        [ do 5 right; left; repeat split;
+        [ do 3 right; left; repeat split;
+          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
+        | do 5 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
         | do 4 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
-        ]).
+        ]]).
 Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_35 : cmp_polar_values_return_wit_35.
 Proof.
-  pre_process;
+  (LLM_pre_process ltac:(int_auto));
     try (
-      unfold PolarCmpResult; entailer!;
+      split_pure_spatial;
+      [ cancel
+      | repeat split_pures; try solve [dump_pre_spatial; lia];
+        dump_pre_spatial;
+        unfold PolarCmpResult;
       first
-        [ do 5 right; left; repeat split;
+        [ do 3 right; left; repeat split;
+          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
+        | do 5 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
         | do 4 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
-        ]).
+        ]]).
 Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_36 : cmp_polar_values_return_wit_36.
 Proof.
-  pre_process;
+  (LLM_pre_process ltac:(int_auto));
     try (
-      unfold PolarCmpResult; entailer!;
+      split_pure_spatial;
+      [ cancel
+      | repeat split_pures; try solve [dump_pre_spatial; lia];
+        dump_pre_spatial;
+        unfold PolarCmpResult;
       first
-        [ do 5 right; left; repeat split;
+        [ do 3 right; left; repeat split;
+          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
+        | do 5 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
         | do 4 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
-        ]).
+        ]]).
 Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_37 : cmp_polar_values_return_wit_37.
 Proof.
-  pre_process;
+  (LLM_pre_process ltac:(int_auto));
     try (
-      unfold PolarCmpResult; entailer!;
+      split_pure_spatial;
+      [ cancel
+      | repeat split_pures; try solve [dump_pre_spatial; lia];
+        dump_pre_spatial;
+        unfold PolarCmpResult;
       first
-        [ do 5 right; left; repeat split;
+        [ do 3 right; left; repeat split;
+          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
+        | do 5 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
         | do 4 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
-        ]).
+        ]]).
 Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_38 : cmp_polar_values_return_wit_38.
 Proof.
-  pre_process;
+  (LLM_pre_process ltac:(int_auto));
     try (
-      unfold PolarCmpResult; entailer!;
+      split_pure_spatial;
+      [ cancel
+      | repeat split_pures; try solve [dump_pre_spatial; lia];
+        dump_pre_spatial;
+        unfold PolarCmpResult;
       first
-        [ do 5 right; left; repeat split;
+        [ do 3 right; left; repeat split;
+          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
+        | do 5 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
         | do 4 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
-        ]).
+        ]]).
 Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_39 : cmp_polar_values_return_wit_39.
 Proof.
-  pre_process;
-    try (
-      unfold PolarCmpResult; entailer!;
-      first
-        [ do 5 right; left; repeat split;
-          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
-        | do 4 right; left; repeat split;
-          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
-        ]).
+  LLM_pre_process ltac:(int_auto).
+  split_pure_spatial.
+  - cancel.
+  - repeat split_pures.
+    + dump_pre_spatial.
+      unfold PolarCmpResult.
+      cbn.
+      do 2 right; left.
+      repeat split; try lia.
+      * rewrite (polar_upper_half_true_of_pos_y gx_pre gy_pre a_x_pre a_y_pre) by lia.
+        rewrite (polar_upper_half_true_of_pos_y gx_pre gy_pre b_x_pre b_y_pre) by lia.
+        reflexivity.
+      * unfold polar_cross. cbn. lia.
+    + dump_pre_spatial. lia.
+    + dump_pre_spatial. lia.
 Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_40 : cmp_polar_values_return_wit_40.
 Proof.
-  pre_process;
-    try (
-      unfold PolarCmpResult; entailer!;
-      first
-        [ do 5 right; left; repeat split;
-          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
-        | do 4 right; left; repeat split;
-          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
-        ]).
+  LLM_pre_process ltac:(int_auto).
+  split_pure_spatial.
+  - cancel.
+  - repeat split_pures.
+    + dump_pre_spatial.
+      unfold PolarCmpResult.
+      cbn.
+      do 2 right; left.
+      repeat split; try lia.
+      * rewrite (polar_upper_half_true_of_zero_y_nonneg_x gx_pre gy_pre a_x_pre a_y_pre) by lia.
+        rewrite (polar_upper_half_true_of_pos_y gx_pre gy_pre b_x_pre b_y_pre) by lia.
+        reflexivity.
+      * unfold polar_cross. cbn. lia.
+    + dump_pre_spatial. lia.
+    + dump_pre_spatial. lia.
 Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_41 : cmp_polar_values_return_wit_41.
 Proof.
-  pre_process;
-    try (
-      unfold PolarCmpResult; entailer!;
-      first
-        [ do 5 right; left; repeat split;
-          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
-        | do 4 right; left; repeat split;
-          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
-        ]).
+  LLM_pre_process ltac:(int_auto).
+  split_pure_spatial.
+  - cancel.
+  - repeat split_pures.
+    + dump_pre_spatial.
+      unfold PolarCmpResult.
+      cbn.
+      do 2 right; left.
+      repeat split; try lia.
+      * rewrite (polar_upper_half_false_of_zero_y_neg_x gx_pre gy_pre a_x_pre a_y_pre) by lia.
+        rewrite (polar_upper_half_false_of_nonpos_nonzero_y gx_pre gy_pre b_x_pre b_y_pre) by lia.
+        reflexivity.
+      * unfold polar_cross. cbn. lia.
+    + dump_pre_spatial. lia.
+    + dump_pre_spatial. lia.
 Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_42 : cmp_polar_values_return_wit_42.
 Proof.
-  pre_process;
-    try (
-      unfold PolarCmpResult; entailer!;
-      first
-        [ do 5 right; left; repeat split;
-          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
-        | do 4 right; left; repeat split;
-          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
-        ]).
+  LLM_pre_process ltac:(int_auto).
+  split_pure_spatial.
+  - cancel.
+  - repeat split_pures.
+    + dump_pre_spatial.
+      unfold PolarCmpResult.
+      cbn.
+      do 2 right; left.
+      repeat split; try lia.
+      * rewrite (polar_upper_half_false_of_nonpos_nonzero_y gx_pre gy_pre a_x_pre a_y_pre) by lia.
+        rewrite (polar_upper_half_false_of_nonpos_nonzero_y gx_pre gy_pre b_x_pre b_y_pre) by lia.
+        reflexivity.
+      * unfold polar_cross. cbn. lia.
+    + dump_pre_spatial. lia.
+    + dump_pre_spatial. lia.
 Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_43 : cmp_polar_values_return_wit_43.
 Proof.
-  pre_process;
-    try (
-      unfold PolarCmpResult; entailer!;
-      first
-        [ do 5 right; left; repeat split;
-          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
-        | do 4 right; left; repeat split;
-          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
-        ]).
-Qed.
-
-Lemma proof_of_cmp_polar_values_return_wit_44 : cmp_polar_values_return_wit_44.
-Proof.
-  pre_process;
-    try (
-      unfold PolarCmpResult; entailer!;
-      first
-        [ do 5 right; left; repeat split;
-          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
-        | do 4 right; left; repeat split;
-          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
-        ]).
-Qed.
-
-Lemma proof_of_cmp_polar_values_return_wit_45 : cmp_polar_values_return_wit_45.
-Proof.
-  pre_process;
-    try
-      (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
-
-Lemma proof_of_cmp_polar_values_return_wit_46 : cmp_polar_values_return_wit_46.
-Proof.
-  pre_process;
-    try
-      (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
-
-Lemma proof_of_cmp_polar_values_return_wit_47 : cmp_polar_values_return_wit_47.
-Proof.
-  pre_process;
-    try
-      (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
-
-Lemma proof_of_cmp_polar_values_return_wit_48 : cmp_polar_values_return_wit_48.
-Proof.
-  pre_process;
-    try
-      (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
-
-Lemma proof_of_cmp_polar_values_return_wit_49 : cmp_polar_values_return_wit_49.
-Proof.
-  pre_process;
-    try
-      (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
-
-Lemma proof_of_cmp_polar_values_return_wit_50 : cmp_polar_values_return_wit_50.
-Proof.
-  pre_process;
-    try
-      (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
-
-Lemma proof_of_cmp_polar_values_return_wit_51 : cmp_polar_values_return_wit_51.
-Proof.
-  pre_process;
-    try
-      (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
-
-Lemma proof_of_cmp_polar_values_return_wit_52 : cmp_polar_values_return_wit_52.
-Proof.
-  pre_process;
-    try
-      (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
-
-Lemma proof_of_cmp_polar_values_return_wit_53 : cmp_polar_values_return_wit_53.
-Proof.
-  pre_process;
-    try
-      (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
-
-Lemma proof_of_cmp_polar_values_return_wit_54 : cmp_polar_values_return_wit_54.
-Proof.
-  pre_process;
-    try
-      (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
-
-Lemma proof_of_cmp_polar_values_return_wit_55 : cmp_polar_values_return_wit_55.
-Proof.
-  pre_process;
-    try
-      (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
-
-Lemma proof_of_cmp_polar_values_return_wit_56 : cmp_polar_values_return_wit_56.
-Proof.
-  pre_process;
-    try
-      (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
-
-Lemma proof_of_cmp_polar_values_return_wit_57 : cmp_polar_values_return_wit_57.
-Proof.
-  pre_process;
-    try
-      (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
-
-Lemma proof_of_cmp_polar_values_return_wit_58 : cmp_polar_values_return_wit_58.
-Proof.
-  pre_process;
-    try
-      (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
-
-Lemma proof_of_cmp_polar_values_return_wit_59 : cmp_polar_values_return_wit_59.
-Proof.
-  pre_process;
-    try
-      (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
-
-Lemma proof_of_cmp_polar_values_return_wit_60 : cmp_polar_values_return_wit_60.
-Proof.
-  pre_process;
-    try
-      (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
-
-Lemma proof_of_cmp_polar_values_return_wit_61 : cmp_polar_values_return_wit_61.
-Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - cancel.
   - repeat split_pures.
@@ -721,8 +758,7 @@ Proof.
       cbn.
       right; left.
       repeat split; try lia.
-      * pose proof (polar_upper_half_false_of_zero_y_neg_x gx_pre gy_pre a_x_pre a_y_pre PreH2 PreH3) as Ha_upper.
-        rewrite Ha_upper.
+      * rewrite (polar_upper_half_false_of_zero_y_neg_x gx_pre gy_pre a_x_pre a_y_pre) by lia.
         reflexivity.
       * rewrite (polar_upper_half_true_of_pos_y gx_pre gy_pre b_x_pre b_y_pre) by lia.
         reflexivity.
@@ -730,9 +766,9 @@ Proof.
     + dump_pre_spatial. lia.
 Qed.
 
-Lemma proof_of_cmp_polar_values_return_wit_62 : cmp_polar_values_return_wit_62.
+Lemma proof_of_cmp_polar_values_return_wit_44 : cmp_polar_values_return_wit_44.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - cancel.
   - repeat split_pures.
@@ -741,15 +777,17 @@ Proof.
       cbn.
       right; left.
       repeat split; try lia.
-      * apply polar_upper_half_false_of_nonpos_nonzero_y; lia.
-      * apply polar_upper_half_true_of_pos_y; lia.
+      * rewrite (polar_upper_half_false_of_nonpos_nonzero_y gx_pre gy_pre a_x_pre a_y_pre) by lia.
+        reflexivity.
+      * rewrite (polar_upper_half_true_of_pos_y gx_pre gy_pre b_x_pre b_y_pre) by lia.
+        reflexivity.
     + dump_pre_spatial. lia.
     + dump_pre_spatial. lia.
 Qed.
 
-Lemma proof_of_cmp_polar_values_return_wit_63 : cmp_polar_values_return_wit_63.
+Lemma proof_of_cmp_polar_values_return_wit_45 : cmp_polar_values_return_wit_45.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - cancel.
   - repeat split_pures.
@@ -758,15 +796,17 @@ Proof.
       cbn.
       right; left.
       repeat split; try lia.
-      * apply polar_upper_half_false_of_zero_y_neg_x; lia.
-      * apply polar_upper_half_true_of_zero_y_nonneg_x; lia.
+      * rewrite (polar_upper_half_false_of_zero_y_neg_x gx_pre gy_pre a_x_pre a_y_pre) by lia.
+        reflexivity.
+      * rewrite (polar_upper_half_true_of_zero_y_nonneg_x gx_pre gy_pre b_x_pre b_y_pre) by lia.
+        reflexivity.
     + dump_pre_spatial. lia.
     + dump_pre_spatial. lia.
 Qed.
 
-Lemma proof_of_cmp_polar_values_return_wit_64 : cmp_polar_values_return_wit_64.
+Lemma proof_of_cmp_polar_values_return_wit_46 : cmp_polar_values_return_wit_46.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - cancel.
   - repeat split_pures.
@@ -775,15 +815,17 @@ Proof.
       cbn.
       right; left.
       repeat split; try lia.
-      * apply polar_upper_half_false_of_nonpos_nonzero_y; lia.
-      * apply polar_upper_half_true_of_zero_y_nonneg_x; lia.
+      * rewrite (polar_upper_half_false_of_nonpos_nonzero_y gx_pre gy_pre a_x_pre a_y_pre) by lia.
+        reflexivity.
+      * rewrite (polar_upper_half_true_of_zero_y_nonneg_x gx_pre gy_pre b_x_pre b_y_pre) by lia.
+        reflexivity.
     + dump_pre_spatial. lia.
     + dump_pre_spatial. lia.
 Qed.
 
-Lemma proof_of_cmp_polar_values_return_wit_65 : cmp_polar_values_return_wit_65.
+Lemma proof_of_cmp_polar_values_return_wit_47 : cmp_polar_values_return_wit_47.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - cancel.
   - repeat split_pures.
@@ -792,15 +834,17 @@ Proof.
       cbn.
       left.
       repeat split; try lia.
-      * apply polar_upper_half_true_of_pos_y; lia.
-      * apply polar_upper_half_false_of_zero_y_neg_x; lia.
+      * rewrite (polar_upper_half_true_of_pos_y gx_pre gy_pre a_x_pre a_y_pre) by lia.
+        reflexivity.
+      * rewrite (polar_upper_half_false_of_zero_y_neg_x gx_pre gy_pre b_x_pre b_y_pre) by lia.
+        reflexivity.
     + dump_pre_spatial. lia.
     + dump_pre_spatial. lia.
 Qed.
 
-Lemma proof_of_cmp_polar_values_return_wit_66 : cmp_polar_values_return_wit_66.
+Lemma proof_of_cmp_polar_values_return_wit_48 : cmp_polar_values_return_wit_48.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - cancel.
   - repeat split_pures.
@@ -809,85 +853,55 @@ Proof.
       cbn.
       left.
       repeat split; try lia.
-      * apply polar_upper_half_true_of_zero_y_nonneg_x; lia.
-      * apply polar_upper_half_false_of_zero_y_neg_x; lia.
+      * rewrite (polar_upper_half_true_of_zero_y_nonneg_x gx_pre gy_pre a_x_pre a_y_pre) by lia.
+        reflexivity.
+      * rewrite (polar_upper_half_false_of_zero_y_neg_x gx_pre gy_pre b_x_pre b_y_pre) by lia.
+        reflexivity.
     + dump_pre_spatial. lia.
     + dump_pre_spatial. lia.
 Qed.
 
-Lemma proof_of_cmp_polar_values_return_wit_67 : cmp_polar_values_return_wit_67.
+Lemma proof_of_cmp_polar_values_return_wit_49 : cmp_polar_values_return_wit_49.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - cancel.
   - repeat split_pures.
     + dump_pre_spatial.
       unfold PolarCmpResult.
       cbn.
-      match goal with
-      | H : a_y_pre > b_y_pre |- _ =>
-          assert (Ha_upper :
-            polar_upper_half (mk_point gx_pre gy_pre) (mk_point a_x_pre a_y_pre) = false)
-            by (apply polar_upper_half_false_of_nonpos_nonzero_y; lia);
-          assert (Hb_upper :
-            polar_upper_half (mk_point gx_pre gy_pre) (mk_point b_x_pre b_y_pre) = false)
-            by (apply polar_upper_half_false_of_nonpos_nonzero_y; lia);
-          do 9 right; left;
-          repeat split;
-          [ rewrite Ha_upper; rewrite Hb_upper; reflexivity
-          | unfold polar_cross; cbn; lia
-          | unfold point_dist2; cbn; lia
-          | cbn; lia
-          | cbn; lia
-          | lia ]
-      | _ =>
-          left;
-          repeat split; try lia;
-          [ apply polar_upper_half_true_of_pos_y; lia
-          | apply polar_upper_half_false_of_nonpos_nonzero_y; lia ]
-      end.
+      left.
+      repeat split; try lia.
+      * rewrite (polar_upper_half_true_of_pos_y gx_pre gy_pre a_x_pre a_y_pre) by lia.
+        reflexivity.
+      * rewrite (polar_upper_half_false_of_nonpos_nonzero_y gx_pre gy_pre b_x_pre b_y_pre) by lia.
+        reflexivity.
     + dump_pre_spatial. lia.
     + dump_pre_spatial. lia.
 Qed.
 
-Lemma proof_of_cmp_polar_values_return_wit_68 : cmp_polar_values_return_wit_68.
+Lemma proof_of_cmp_polar_values_return_wit_50 : cmp_polar_values_return_wit_50.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - cancel.
   - repeat split_pures.
     + dump_pre_spatial.
       unfold PolarCmpResult.
       cbn.
-      match goal with
-      | H : a_y_pre > b_y_pre |- _ =>
-          assert (Ha_upper :
-            polar_upper_half (mk_point gx_pre gy_pre) (mk_point a_x_pre a_y_pre) = false)
-            by (apply polar_upper_half_false_of_nonpos_nonzero_y; lia);
-          assert (Hb_upper :
-            polar_upper_half (mk_point gx_pre gy_pre) (mk_point b_x_pre b_y_pre) = false)
-            by (apply polar_upper_half_false_of_nonpos_nonzero_y; lia);
-          do 9 right; left;
-          repeat split;
-          [ rewrite Ha_upper; rewrite Hb_upper; reflexivity
-          | unfold polar_cross; cbn; lia
-          | unfold point_dist2; cbn; lia
-          | cbn; lia
-          | cbn; lia
-          | lia ]
-      | _ =>
-          left;
-          repeat split; try lia;
-          [ apply polar_upper_half_true_of_zero_y_nonneg_x; lia
-          | apply polar_upper_half_false_of_nonpos_nonzero_y; lia ]
-      end.
+      left.
+      repeat split; try lia.
+      * rewrite (polar_upper_half_true_of_zero_y_nonneg_x gx_pre gy_pre a_x_pre a_y_pre) by lia.
+        reflexivity.
+      * rewrite (polar_upper_half_false_of_nonpos_nonzero_y gx_pre gy_pre b_x_pre b_y_pre) by lia.
+        reflexivity.
     + dump_pre_spatial. lia.
     + dump_pre_spatial. lia.
 Qed.
 
 Lemma proof_of_swap_points_return_wit_1 : swap_points_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   pose proof PreH8 as Hflat.
   destruct PreH8 as [Hflat_len _].
   replace
@@ -902,20 +916,22 @@ Proof.
     symmetry.
     apply point_swap_flat_preprocess_form with (n := n_pre); try lia.
   }
-  entailer!.
-  - eapply PointCoordsBound_permutation.
+  split_pure_spatial.
+  - cancel.
+  - split_pures; try dump_pre_spatial.
+    + apply FlatPoints_swap_points.
+      * exact Hflat.
+      * lia.
+      * lia.
     + apply PointPermutation_swap_points_any; lia.
-    + exact PreH9.
-  - apply PointPermutation_swap_points_any; lia.
-  - apply FlatPoints_swap_points.
-    + exact Hflat.
-    + lia.
-    + lia.
+    + eapply PointCoordsBound_permutation.
+      * apply PointPermutation_swap_points_any; lia.
+      * exact PreH9.
 Qed.
 
 Lemma proof_of_partition_points_entail_wit_1 : partition_points_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (Hhigh : 0 <= high_pre < Zlength pts_l).
   { rewrite PreH6. lia. }
   assert (Hpts_bound : PointCoordsBound pts_l).
@@ -927,8 +943,17 @@ Proof.
   Exists flat. Exists pts_l.
   split_pure_spatial.
   - cancel.
-  - entailer!.
-    + unfold PointPartitionScanInv, PointSameOutsideRange.
+  - repeat split_pures; try solve [dump_pre_spatial; lia].
+    + dump_pre_spatial.
+      exact Hpivot.
+    + dump_pre_spatial.
+      exact PreH7.
+    + dump_pre_spatial.
+      exact Hpts_bound.
+    + dump_pre_spatial.
+      exact PreH8.
+    + dump_pre_spatial.
+      unfold PointPartitionScanInv, PointSameOutsideRange.
       repeat split.
       * apply Permutation_refl.
       * symmetry. exact Hpivot.
@@ -938,7 +963,7 @@ Qed.
 
 Lemma proof_of_partition_points_entail_wit_2_1 : partition_points_entail_wit_2_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (Hjrange : 0 <= j < Zlength pts_cur_2) by (rewrite PreH18; lia).
   assert (Hi1 : 0 <= i + 1 < Zlength pts_cur_2) by (rewrite PreH18; lia).
   assert (Hhighrange : 0 <= high_pre < Zlength pts_cur_2) by (rewrite PreH18; lia).
@@ -1068,11 +1093,11 @@ Proof.
                  lia.
               ** lia.
               ** exact Hneq.
-Qed. 
+Qed.
 
 Lemma proof_of_partition_points_entail_wit_2_2 : partition_points_entail_wit_2_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (Hret1 : retval = 1) by lia.
   assert (Hjrange : 0 <= j < Zlength pts_cur_2) by (rewrite PreH15; lia).
   assert (
@@ -1132,11 +1157,11 @@ Proof.
         -- exact Hjgt.
         -- apply Hmid.
            lia.
-Qed. 
+Qed.
 
 Lemma proof_of_partition_points_return_wit_1 : partition_points_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (Hj : j = high_pre) by lia.
   subst j.
   assert (Hgpbound : CoordInBounds gx_pre /\ CoordInBounds gy_pre).
@@ -1150,24 +1175,30 @@ Proof.
   Exists (point_swap_points pts_cur (i + 1) high_pre).
   split_pure_spatial.
   - cancel.
-  - entailer!.
-    + eapply PointPartitionedAt_after_final_swap; eauto; lia.
-    + pose proof PreH19 as Hscan.
-      destruct Hscan as [_ [Hsame _]].
-      eapply PointSameOutsideRange_trans.
-      * exact Hsame.
-      * apply PointSameOutsideRange_swap_inside; lia.
-    + pose proof PreH19 as Hscan.
+  - repeat split_pures; try solve [dump_pre_spatial; lia].
+    + dump_pre_spatial.
+      exact PreH1.
+    + dump_pre_spatial.
+      constructor; [exact Hgpbound | exact PreH3].
+    + dump_pre_spatial.
+      pose proof PreH19 as Hscan.
       destruct Hscan as [Hperm_scan _].
       eapply Permutation_trans.
       * exact Hperm_scan.
       * exact PreH2.
-    + constructor; [exact Hgpbound | exact PreH3].
-Qed. 
+    + dump_pre_spatial.
+      pose proof PreH19 as Hscan.
+      destruct Hscan as [_ [Hsame _]].
+      eapply PointSameOutsideRange_trans.
+      * exact Hsame.
+      * apply PointSameOutsideRange_swap_inside; lia.
+    + dump_pre_spatial.
+      eapply PointPartitionedAt_after_final_swap; eauto; lia.
+Qed.
 
 Lemma proof_of_partition_points_partial_solve_wit_5_pure : partition_points_partial_solve_wit_5_pure.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (Hjrange : 0 <= j < Zlength pts_cur).
   { rewrite PreH11. lia. }
   assert (Hhigh : 0 <= high_pre < Zlength pts_cur).
@@ -1180,38 +1211,55 @@ Proof.
   pose proof (point_coords_bound_lookup pts_cur j Hjrange PreH14) as Hjcoords.
   pose proof (point_coords_bound_lookup pts_cur high_pre Hhigh PreH14) as Hpivotcoords.
   pose proof (flat_points_lookup_point flat_cur pts_cur j Hjrange PreH13) as Hlookupj.
-  entailer!.
-  - change (Znth (2 * j) flat_cur 0) with
-      (point_x (mk_point (Znth (2 * j) flat_cur 0) (Znth (2 * j + 1) flat_cur 0))).
-    rewrite Hlookupj.
-    exact (proj1 Hjcoords).
-  - change (Znth (2 * j + 1) flat_cur 0) with
+  repeat split_pures; try solve [dump_pre_spatial; unfold CoordInBounds in *; lia | dump_pre_spatial; eauto].
+  - dump_pre_spatial.
+    change pivot_y with (point_y (mk_point pivot_x pivot_y)).
+    rewrite PreH12.
+    exact (proj2 Hpivotcoords).
+  - dump_pre_spatial.
+    change pivot_x with (point_x (mk_point pivot_x pivot_y)).
+    rewrite PreH12.
+    exact (proj1 Hpivotcoords).
+  - dump_pre_spatial.
+    change (Znth (2 * j + 1) flat_cur 0) with
       (point_y (mk_point (Znth (2 * j) flat_cur 0) (Znth (2 * j + 1) flat_cur 0))).
     rewrite Hlookupj.
     exact (proj2 Hjcoords).
-  - change pivot_x with (point_x (mk_point pivot_x pivot_y)).
-    rewrite PreH12.
-    exact (proj1 Hpivotcoords).
-  - change pivot_y with (point_y (mk_point pivot_x pivot_y)).
-    rewrite PreH12.
-    exact (proj2 Hpivotcoords).
+  - dump_pre_spatial.
+    change (Znth (2 * j) flat_cur 0) with
+      (point_x (mk_point (Znth (2 * j) flat_cur 0) (Znth (2 * j + 1) flat_cur 0))).
+    rewrite Hlookupj.
+    exact (proj1 Hjcoords).
 Qed.
 
 Lemma proof_of_quicksort_points_range_entail_wit_1 : quicksort_points_range_entail_wit_1.
 Proof.
   intros.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   unfold PointMemoryModel in PreH7.
-  destruct PreH7 as [pts_l [? [? ?]]].
+  destruct PreH7 as [pts_l [Hlen [Hflat Hbound]]].
   Exists pts_l.
-  entailer!.
-  unfold PointMemoryModel.
-  eauto 10.
-Qed. 
+  split_pure_spatial.
+  - cancel.
+  - split_pures.
+    + dump_pre_spatial. exact PreH2.
+    + dump_pre_spatial. exact PreH3.
+    + dump_pre_spatial. exact PreH4.
+    + dump_pre_spatial. exact PreH1.
+    + dump_pre_spatial. exact PreH6.
+    + dump_pre_spatial.
+      unfold PointMemoryModel.
+      exists pts_l.
+      split; [exact Hlen |].
+      split; [exact Hflat | exact Hbound].
+    + dump_pre_spatial. exact Hlen.
+    + dump_pre_spatial. exact Hflat.
+    + dump_pre_spatial. exact Hbound.
+Qed.
 
 Lemma proof_of_quicksort_points_range_return_wit_4 : quicksort_points_range_return_wit_4.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (Hge : left_pre >= right_pre) by lia.
   destruct PreH7 as [pts_l [Hlen [Hflat_mem Hbound_mem]]].
   Exists flat. Exists pts_l.
@@ -1227,11 +1275,11 @@ Proof.
     + split.
       * apply PointSameOutsideRange_refl.
       * apply PointSortedRange_degenerate. exact Hge.
-Qed. 
+Qed.
 
 Lemma proof_of_quicksort_points_range_return_wit_3 : quicksort_points_range_return_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply (IntArray.full_length coords_pre (2 * n_pre) flat_out_3).
   Intros.
   assert (Hretval : retval = right_pre) by lia.
@@ -1240,8 +1288,11 @@ Proof.
   Exists pts_out_3.
   split_pure_spatial.
   - cancel.
-  - entailer!.
-    match goal with
+  - split_pures.
+    + dump_pre_spatial. exact PreH2.
+    + dump_pre_spatial. exact PreH3.
+    + { dump_pre_spatial.
+        match goal with
     | Hflat3 : FlatPoints flat_out_3 pts_out_3 |- _ =>
         destruct Hflat3 as [Hlenflat3 _]
     end.
@@ -1293,20 +1344,23 @@ Proof.
         -- lia.
         -- rewrite Hlen3. lia.
         -- exact Hpart3.
-        -- exact Hsorted23.
-Qed. 
+        -- exact Hsorted23. }
+Qed.
 
 Lemma proof_of_quicksort_points_range_return_wit_1 : quicksort_points_range_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply (IntArray.full_length coords_pre (2 * n_pre) flat_out_4).
   Intros.
   Exists flat_out_4.
   Exists pts_out_4.
   split_pure_spatial.
   - cancel.
-  - entailer!.
-    match goal with
+  - split_pures.
+    + dump_pre_spatial. exact PreH1.
+    + dump_pre_spatial. exact PreH2.
+    + { dump_pre_spatial.
+        match goal with
     | Hflat4 : FlatPoints flat_out_4 pts_out_4 |- _ =>
         destruct Hflat4 as [Hlenflat4 _]
     end.
@@ -1404,12 +1458,12 @@ Proof.
         -- rewrite Hlen4. lia.
         -- exact Hpart4.
         -- exact Hsorted_left4.
-        -- exact Hsorted34.
-Qed. 
+        -- exact Hsorted34. }
+Qed.
 
 Lemma proof_of_quicksort_points_range_return_wit_2 : quicksort_points_range_return_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply (IntArray.full_length coords_pre (2 * n_pre) flat_out_3).
   Intros.
   assert (Hretval : retval = left_pre) by lia.
@@ -1418,8 +1472,11 @@ Proof.
   Exists pts_out_3.
   split_pure_spatial.
   - cancel.
-  - entailer!.
-    match goal with
+  - split_pures.
+    + dump_pre_spatial. exact PreH1.
+    + dump_pre_spatial. exact PreH2.
+    + { dump_pre_spatial.
+        match goal with
     | Hflat3 : FlatPoints flat_out_3 pts_out_3 |- _ =>
         destruct Hflat3 as [Hlenflat3 _]
     end.
@@ -1470,14 +1527,15 @@ Proof.
         -- lia.
         -- rewrite Hlen3. lia.
         -- exact Hpart3.
-        -- exact Hsorted23.
-Qed. 
+        -- exact Hsorted23. }
+Qed.
 
 Lemma proof_of_quicksort_points_range_partial_solve_wit_2_pure : quicksort_points_range_partial_solve_wit_2_pure.
 Proof.
   intros.
-  pre_process.
-  entailer!.
+  LLM_pre_process ltac:(int_auto).
+  repeat split_pures; try solve [dump_pre_spatial; lia].
+  dump_pre_spatial.
   unfold PointMemoryModel.
   exists pts_out.
   repeat split; auto.
@@ -1489,13 +1547,14 @@ Proof.
     tauto.
   - unfold FlatPoints in PreH4.
     tauto.
-Qed. 
+Qed.
 
 Lemma proof_of_quicksort_points_range_partial_solve_wit_3_pure : quicksort_points_range_partial_solve_wit_3_pure.
 Proof.
   intros.
-  pre_process.
-  entailer!.
+  LLM_pre_process ltac:(int_auto).
+  repeat split_pures; try solve [dump_pre_spatial; lia].
+  dump_pre_spatial.
   unfold PointMemoryModel.
   exists pts_out_2.
   repeat split; auto.
@@ -1508,13 +1567,14 @@ Proof.
     reflexivity.
   - unfold FlatPoints in PreH2; tauto.
   - unfold FlatPoints in PreH2; tauto.
-Qed. 
+Qed.
 
 Lemma proof_of_quicksort_points_range_partial_solve_wit_4_pure : quicksort_points_range_partial_solve_wit_4_pure.
 Proof.
   intros.
-  pre_process.
-  entailer!.
+  LLM_pre_process ltac:(int_auto).
+  repeat split_pures; try solve [dump_pre_spatial; lia].
+  dump_pre_spatial.
   unfold PointMemoryModel.
   exists pts_out.
   repeat split; auto.
@@ -1524,16 +1584,22 @@ Proof.
     reflexivity.
   - unfold FlatPoints in PreH5; tauto.
   - unfold FlatPoints in PreH5; tauto.
-Qed. 
+Qed.
 
 Lemma proof_of_sort_return_wit_1 : sort_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists flat_out_2. Exists pts_out_2.
   split_pure_spatial.
   - cancel.
-  - entailer!.
-    + destruct (PreH3 pts_l PreH7 PreH8) as [Hperm [_ Hsorted]].
+  - split_pures.
+    + dump_pre_spatial. exact PreH1.
+    + dump_pre_spatial. exact PreH2.
+    + dump_pre_spatial.
+      destruct (PreH3 pts_l PreH7 PreH8) as [Hperm _].
+      exact Hperm.
+    + dump_pre_spatial.
+      destruct (PreH3 pts_l PreH7 PreH8) as [Hperm [_ Hsorted]].
       unfold PolarSorted.
       intros i j Hi Hij Hj.
       assert (HZlen : Zlength pts_out_2 = n_pre).
@@ -1544,15 +1610,14 @@ Proof.
         reflexivity.
       }
       eapply Hsorted; lia.
-    + destruct (PreH3 pts_l PreH7 PreH8) as [Hperm _].
-      exact Hperm.
-Qed. 
+Qed.
 
 Lemma proof_of_sort_partial_solve_wit_1_pure : sort_partial_solve_wit_1_pure.
 Proof.
-  pre_process.
-  entailer!.
+  LLM_pre_process ltac:(int_auto).
+  repeat split_pures; try solve [dump_pre_spatial; lia].
+  dump_pre_spatial.
   unfold PointMemoryModel.
   exists pts_l.
   auto.
-Qed. 
+Qed.

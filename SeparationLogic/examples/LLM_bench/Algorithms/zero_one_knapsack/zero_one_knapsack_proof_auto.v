@@ -32,6 +32,12 @@ Proof. Admitted.
 Lemma proof_of_zeroOneKnapsack_safety_wit_4 : zeroOneKnapsack_safety_wit_4.
 Proof. Admitted. 
 
+Lemma proof_of_zeroOneKnapsack_safety_wit_5 : zeroOneKnapsack_safety_wit_5.
+Proof. Admitted. 
+
+Lemma proof_of_zeroOneKnapsack_safety_wit_6 : zeroOneKnapsack_safety_wit_6.
+Proof. Admitted. 
+
 Lemma proof_of_zeroOneKnapsack_safety_wit_7 : zeroOneKnapsack_safety_wit_7.
 Proof. Admitted. 
 
@@ -77,31 +83,25 @@ Proof. Admitted.
 Lemma proof_of_zeroOneKnapsack_safety_wit_21 : zeroOneKnapsack_safety_wit_21.
 Proof. Admitted. 
 
-Lemma proof_of_zeroOneKnapsack_safety_wit_22 : zeroOneKnapsack_safety_wit_22.
-Proof. Admitted. 
-
 Lemma proof_of_zeroOneKnapsack_safety_wit_23 : zeroOneKnapsack_safety_wit_23.
 Proof. Admitted. 
 
 Lemma proof_of_zeroOneKnapsack_safety_wit_24 : zeroOneKnapsack_safety_wit_24.
 Proof. Admitted. 
 
-Lemma proof_of_zeroOneKnapsack_entail_wit_1 : zeroOneKnapsack_entail_wit_1.
+Lemma proof_of_zeroOneKnapsack_safety_wit_25 : zeroOneKnapsack_safety_wit_25.
 Proof. Admitted. 
 
-Lemma proof_of_zeroOneKnapsack_entail_wit_14_1 : zeroOneKnapsack_entail_wit_14_1.
+Lemma proof_of_zeroOneKnapsack_safety_wit_26 : zeroOneKnapsack_safety_wit_26.
 Proof. Admitted. 
 
-Lemma proof_of_zeroOneKnapsack_entail_wit_14_2 : zeroOneKnapsack_entail_wit_14_2.
+Lemma proof_of_zeroOneKnapsack_safety_wit_27 : zeroOneKnapsack_safety_wit_27.
 Proof. Admitted. 
 
-Lemma proof_of_zeroOneKnapsack_entail_wit_14_3 : zeroOneKnapsack_entail_wit_14_3.
+Lemma proof_of_zeroOneKnapsack_safety_wit_28 : zeroOneKnapsack_safety_wit_28.
 Proof. Admitted. 
 
-Lemma proof_of_zeroOneKnapsack_entail_wit_14_4 : zeroOneKnapsack_entail_wit_14_4.
-Proof. Admitted. 
-
-Lemma proof_of_zeroOneKnapsack_entail_wit_14_5 : zeroOneKnapsack_entail_wit_14_5.
+Lemma proof_of_zeroOneKnapsack_entail_wit_4 : zeroOneKnapsack_entail_wit_4.
 Proof. Admitted. 
 
 Lemma proof_of_zeroOneKnapsack_return_wit_1 : zeroOneKnapsack_return_wit_1.

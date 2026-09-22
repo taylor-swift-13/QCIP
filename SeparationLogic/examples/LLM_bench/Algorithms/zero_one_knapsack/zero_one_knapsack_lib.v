@@ -7,6 +7,34 @@ Import ListNotations.
 Local Open Scope Z_scope.
 Local Open Scope list_scope.
 
+(* Safety and C-data representation: these declarations deliberately do not
+   state the knapsack optimum. *)
+Definition KnapsackInputsBounded
+    (weights values : list Z) (item_count capacity : Z) : Prop :=
+  Zlength weights = item_count /\
+  Zlength values = item_count /\
+  (forall k, 0 <= k < item_count ->
+     1 <= Znth k weights 0 <= capacity + 1) /\
+  (forall k, 0 <= k < item_count ->
+     0 <= Znth k values 0 <= 10000).
+
+Definition KnapsackTableValuesBounded (dp : list Z) : Prop :=
+  forall k, 0 <= k < Zlength dp -> 0 <= Znth k dp 0 <= 4000000.
+
+Definition KnapsackTablePrefixShape
+    (dp : list Z) (written : Z) : Prop :=
+  0 <= written /\ Zlength dp = written.
+
+(* The following annotation-facing states compose, rather than redefine, the
+   separate safety/representation and mathematical predicates. *)
+Definition KnapsackStaticSafety
+    (weights values : list Z) (item_count capacity width : Z) : Prop :=
+  0 <= item_count <= 300 /\
+  0 <= capacity <= 300 /\
+  width = capacity + 1 /\
+  1 <= width <= 301 /\
+  KnapsackInputsBounded weights values item_count capacity.
+
 Definition KnapsackPlanWeight (weights picks : list Z) (weight : Z) : Prop :=
   weight = sum (map (fun i => Znth i weights 0) picks).
 
@@ -44,8 +72,6 @@ Definition KnapsackCellIndex (capacity row col : Z) : Z :=
 Definition KnapsackTablePrefix
     (weights values : list Z) (capacity : Z) (dp : list Z)
     (written : Z) : Prop :=
-  0 <= capacity /\
-  0 <= written <= Zlength dp /\
   forall row col,
     0 <= row ->
     0 <= col <= capacity ->
@@ -56,17 +82,44 @@ Definition KnapsackTablePrefix
 Definition KnapsackRowsDone
     (weights values : list Z) (capacity : Z) (dp : list Z)
     (rows_done : Z) : Prop :=
-  0 <= rows_done /\
   KnapsackTablePrefix weights values capacity dp
     (rows_done * (capacity + 1)).
 
 Definition KnapsackRowProgress
     (weights values : list Z) (capacity : Z) (dp : list Z)
     (row col : Z) : Prop :=
-  0 <= row /\
-  0 <= col <= capacity + 1 /\
   KnapsackTablePrefix weights values capacity dp
     (row * (capacity + 1) + col).
+
+Definition KnapsackRowsAnnotationState
+    (weights values : list Z) (item_count capacity width : Z)
+    (dp : list Z) (rows_done : Z) : Prop :=
+  KnapsackStaticSafety weights values item_count capacity width /\
+  0 <= rows_done <= item_count + 1 /\
+  0 <= rows_done * width <= (item_count + 1) * (capacity + 1) /\
+  KnapsackTablePrefixShape dp (rows_done * width) /\
+  KnapsackTableValuesBounded dp /\
+  KnapsackRowsDone weights values capacity dp rows_done.
+
+Definition KnapsackRowAnnotationState
+    (weights values : list Z) (item_count capacity width : Z)
+    (dp : list Z) (row col : Z) : Prop :=
+  KnapsackStaticSafety weights values item_count capacity width /\
+  0 <= row <= item_count /\
+  0 <= col <= capacity + 1 /\
+  0 <= row * width + col <= (item_count + 1) * (capacity + 1) /\
+  KnapsackTablePrefixShape dp (row * width + col) /\
+  KnapsackTableValuesBounded dp /\
+  KnapsackRowProgress weights values capacity dp row col.
+
+Definition KnapsackResultState
+    (weights values : list Z) (item_count capacity : Z)
+    (dp : list Z) (answer : Z) : Prop :=
+  KnapsackMaxValue weights values item_count capacity answer /\
+  0 <= answer <= 4000000 /\
+  KnapsackTablePrefixShape dp ((item_count + 1) * (capacity + 1)) /\
+  KnapsackTableValuesBounded dp /\
+  KnapsackRowsDone weights values capacity dp (item_count + 1).
 
 (* Helper imports migrated from zero_one_knapsack__vc_proving_subagent_merged_proof_manual.v. *)
 Require Import Coq.Bool.Bool.
@@ -91,11 +144,8 @@ Proof.
   intros weights values capacity dp row Hcap Hdone.
   unfold KnapsackRowsDone in Hdone.
   unfold KnapsackRowProgress.
-  destruct Hdone as [Hrow Hprefix].
-  split; [lia |].
-  split; [lia |].
   replace (row * (capacity + 1) + 0) with (row * (capacity + 1)) by lia.
-  exact Hprefix.
+  exact Hdone.
 Qed.
 
 Lemma KnapsackRowProgress_end_to_RowsDone :
@@ -107,21 +157,19 @@ Proof.
   intros weights values capacity dp row col Hcol Hprogress.
   unfold KnapsackRowProgress in Hprogress.
   unfold KnapsackRowsDone.
-  destruct Hprogress as [Hrow [[Hcol_nonneg Hcol_bound] Hprefix]].
-  split; [lia |].
   replace ((row + 1) * (capacity + 1)) with (row * (capacity + 1) + col) by nia.
-  exact Hprefix.
+  exact Hprogress.
 Qed.
 
 Lemma KnapsackRowProgress_index_bound :
   forall weights values capacity dp row col idx,
+    KnapsackTablePrefixShape dp (row * (capacity + 1) + col) ->
     KnapsackRowProgress weights values capacity dp row col ->
     0 <= idx < row * (capacity + 1) + col ->
     0 <= idx < Zlength dp.
 Proof.
-  intros weights values capacity dp row col idx Hprogress Hidx.
-  unfold KnapsackRowProgress, KnapsackTablePrefix in Hprogress.
-  destruct Hprogress as [_ [_ [_ [Hwritten _]]]].
+  intros weights values capacity dp row col idx Hshape Hprogress Hidx.
+  unfold KnapsackTablePrefixShape in Hshape.
   lia.
 Qed.
 
@@ -138,19 +186,18 @@ Proof.
   intros weights values capacity dp row col lookup_row lookup_col
     Hprogress Hrow Hcol Hidx.
   unfold KnapsackRowProgress, KnapsackTablePrefix in Hprogress.
-  destruct Hprogress as [_ [_ [_ [_ Hlookup]]]].
-  apply Hlookup; lia.
+  apply Hprogress; lia.
 Qed.
 
 Lemma KnapsackRowsDone_index_bound :
   forall weights values capacity dp rows_done idx,
+    KnapsackTablePrefixShape dp (rows_done * (capacity + 1)) ->
     KnapsackRowsDone weights values capacity dp rows_done ->
     0 <= idx < rows_done * (capacity + 1) ->
     0 <= idx < Zlength dp.
 Proof.
-  intros weights values capacity dp rows_done idx Hdone Hidx.
-  unfold KnapsackRowsDone, KnapsackTablePrefix in Hdone.
-  destruct Hdone as [_ [_ [Hwritten _]]].
+  intros weights values capacity dp rows_done idx Hshape Hdone Hidx.
+  unfold KnapsackTablePrefixShape in Hshape.
   lia.
 Qed.
 
@@ -167,8 +214,7 @@ Proof.
   intros weights values capacity dp rows_done lookup_row lookup_col
     Hdone Hrow Hcol Hidx.
   unfold KnapsackRowsDone, KnapsackTablePrefix in Hdone.
-  destruct Hdone as [_ [_ [_ Hlookup]]].
-  apply Hlookup; lia.
+  apply Hdone; lia.
 Qed.
 
 Lemma Forall_Z_lt_0_nil:
@@ -299,18 +345,12 @@ Lemma KnapsackRowProgress_append_cell:
 Proof.
   intros weights values capacity dp row col value Hlen Hprog Hcol Hcell.
   unfold KnapsackRowProgress in *.
-  destruct Hprog as (Hrow & Hcol_old & Hprefix).
   unfold KnapsackTablePrefix in *.
-  destruct Hprefix as (Hcap & Hwritten & Hcells).
-  repeat split; try lia.
-  - rewrite Zlength_app_cons.
-    unfold KnapsackCellIndex in *.
-    lia.
-  - intros r c Hr Hc Hidx.
+  intros r c Hr Hc Hidx.
     unfold KnapsackCellIndex in *.
     destruct (Z_lt_ge_dec (r * (capacity + 1) + c)
                (row * (capacity + 1) + col)) as [Hlt|Hge].
-    + rewrite app_Znth1; [apply Hcells; lia|].
+    + rewrite app_Znth1; [apply Hprog; lia|].
       rewrite Hlen.
       unfold KnapsackCellIndex.
       lia.
@@ -759,25 +799,118 @@ Lemma KnapsackRowProgress_append_cell_recurrence : forall weights values capacit
 Proof.
   intros weights values capacity dp row col value Hcol Hprogress Hdp_len Hcell.
   unfold KnapsackRowProgress in *.
-  destruct Hprogress as [Hrow [Hcol_progress Hprefix]].
   unfold KnapsackTablePrefix in *.
-  destruct Hprefix as [Hcapacity [Hwritten Hcells]].
-  split; [lia |].
-  split; [lia |].
-  split; [lia |].
-  split.
-  - rewrite Zlength_app_cons. lia.
-  - intros r c Hr Hc Hidx.
+  intros r c Hr Hc Hidx.
     unfold KnapsackCellIndex in *.
     destruct (Z_lt_dec (r * (capacity + 1) + c) (row * (capacity + 1) + col)) as [Hlt_old | Hnot_lt_old].
     + rewrite app_Znth1.
-      * apply Hcells; try lia.
+      * apply Hprogress; try lia.
       * rewrite Hdp_len. lia.
     + assert (Heq_idx : r * (capacity + 1) + c = row * (capacity + 1) + col) by lia.
-      pose proof (Z_index_unique r row c col capacity Hcapacity Hc Hcol Heq_idx) as [Hr_eq Hc_eq].
+      pose proof (Z_index_unique r row c col capacity (ltac:(lia)) Hc Hcol Heq_idx) as [Hr_eq Hc_eq].
       subst r c.
       rewrite app_Znth2 by lia.
       replace (row * (capacity + 1) + col - Zlength dp) with 0 by lia.
       simpl.
       exact Hcell.
+Qed.
+
+Lemma KnapsackMaxValue_parameters_nonnegative__dp_refinement_and_exit :
+  forall weights values item_count capacity answer,
+    KnapsackMaxValue weights values item_count capacity answer ->
+    0 <= item_count /\ 0 <= capacity.
+Proof.
+  intros weights values item_count capacity answer Hmax.
+  unfold KnapsackMaxValue, MaxMin.max_value_of_subset,
+    MaxMin.max_object_of_subset in Hmax.
+  destruct Hmax as [obj [[Hplan _] _]].
+  unfold KnapsackPlan in Hplan.
+  destruct Hplan as [Hitem [_ [Hcapacity _]]].
+  lia.
+Qed.
+
+Lemma KnapsackRowAnnotationState_append_cell__row_state_result_refactor :
+  forall weights values item_count capacity width dp row col value,
+    KnapsackRowAnnotationState weights values item_count capacity width
+      dp row col ->
+    0 <= col <= capacity ->
+    KnapsackCellCorrect weights values row col value ->
+    0 <= value <= 4000000 ->
+    KnapsackRowAnnotationState weights values item_count capacity width
+      (dp ++ value :: nil) row (col + 1).
+Proof.
+  intros weights values item_count capacity width dp row col value
+    Hstate Hcol Hcell Hvalue.
+  unfold KnapsackRowAnnotationState in *.
+  destruct Hstate as
+    [Hsafety [Hrow [Hcol_state [Hwritten [Hshape [Hbounded Hprogress]]]]]].
+  destruct Hsafety as [Hitems [Hcapacity [Hwidth [Hwidth_bounds Hinputs]]]].
+  split.
+  - exact (conj Hitems
+      (conj Hcapacity (conj Hwidth (conj Hwidth_bounds Hinputs)))).
+  - split; [exact Hrow|].
+    split; [nia|].
+    split; [nia|].
+    split.
+    + unfold KnapsackTablePrefixShape in *.
+      destruct Hshape as [Hwritten_nonnegative Hlength].
+      split; [lia|].
+      rewrite Zlength_app_cons, Hlength.
+      lia.
+    + split.
+      * unfold KnapsackTableValuesBounded in *.
+        intros k Hk.
+        rewrite Zlength_app_cons in Hk.
+        destruct (Z_lt_ge_dec k (Zlength dp)) as [Hold | Hnew].
+        -- rewrite app_Znth1 by lia.
+           apply Hbounded; lia.
+        -- rewrite app_Znth2 by lia.
+           replace (k - Zlength dp) with 0 by lia.
+           rewrite Znth0_cons.
+           exact Hvalue.
+      * apply KnapsackRowProgress_append_cell_recurrence; try assumption.
+        unfold KnapsackTablePrefixShape in Hshape.
+        destruct Hshape as [_ Hlength].
+        rewrite Hlength, Hwidth.
+        reflexivity.
+Qed.
+Lemma KnapsackRowsAnnotationState_to_Result__row_state_result_refactor :
+  forall weights values item_count capacity width dp,
+    KnapsackRowsAnnotationState weights values item_count capacity width
+      dp (item_count + 1) ->
+    KnapsackResultState weights values item_count capacity dp
+      (Znth (item_count * width + capacity) dp 0).
+Proof.
+  intros weights values item_count capacity width dp Hstate.
+  unfold KnapsackRowsAnnotationState in Hstate.
+  destruct Hstate as
+    [Hsafety [_ [_ [Hshape [Hbounded Hdone]]]]].
+  destruct Hsafety as [Hitems [Hcapacity [Hwidth [Hwidth_bounds Hinputs]]]].
+  unfold KnapsackResultState.
+  split.
+  - pose proof Hdone as Hcell_source.
+    unfold KnapsackRowsDone, KnapsackTablePrefix in Hcell_source.
+    specialize (Hcell_source item_count capacity (proj1 Hitems) (ltac:(lia))).
+    assert (Hindex :
+      0 <= KnapsackCellIndex capacity item_count capacity <
+        (item_count + 1) * (capacity + 1)) by
+      (unfold KnapsackCellIndex; nia).
+    specialize (Hcell_source Hindex).
+    replace (item_count * width + capacity) with
+      (KnapsackCellIndex capacity item_count capacity) by
+      (unfold KnapsackCellIndex; nia).
+    exact Hcell_source.
+  - split.
+    + apply Hbounded.
+      unfold KnapsackTablePrefixShape in Hshape.
+      destruct Hshape as [_ Hlength].
+      rewrite Hlength, Hwidth.
+      nia.
+    + split.
+      * unfold KnapsackTablePrefixShape in *.
+        destruct Hshape as [Hnonnegative Hlength].
+        split; [nia|].
+        rewrite Hlength, Hwidth.
+        reflexivity.
+      * split; [exact Hbounded|exact Hdone].
 Qed.

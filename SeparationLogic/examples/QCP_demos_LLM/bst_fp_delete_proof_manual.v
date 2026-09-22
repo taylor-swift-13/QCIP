@@ -21,7 +21,7 @@ Local Open Scope sac.
 
 Lemma proof_of_replace_min_entail_wit_1 : replace_min_entail_wit_1.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	Exists b_pre_v.
 	Exists nil.
 	Exists tr.
@@ -48,7 +48,7 @@ Qed.
 
 Lemma proof_of_replace_min_entail_wit_2 : replace_min_entail_wit_2.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	sep_apply_l_atomic (store_tree_not_zero b_v_2 fa tr0_2).
 	- dump_pre_spatial.
 	  lia.
@@ -94,7 +94,7 @@ Qed.
 
 Lemma proof_of_replace_min_entail_wit_3 : replace_min_entail_wit_3.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	sep_apply_l_atomic (store_tree_not_zero b_v_right_2 b_v r0_2).
 	- dump_pre_spatial.
 	  tauto.
@@ -161,7 +161,7 @@ Qed.
 
 Lemma proof_of_replace_min_entail_wit_4 : replace_min_entail_wit_4.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	subst b_v_father.
 	sep_apply_l_atomic (store_tree_not_zero b_v_left b_v_2 l0).
 	- dump_pre_spatial.
@@ -224,7 +224,7 @@ Qed.
 
 Lemma proof_of_replace_min_return_wit_2 : replace_min_return_wit_2.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	sep_apply_l_atomic (store_tree_zero b_v_right b_v r0).
 	- dump_pre_spatial.
 	  tauto.
@@ -271,7 +271,7 @@ Qed.
 
 Lemma proof_of_replace_min_return_wit_1 : replace_min_return_wit_1.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	subst b_v_father.
 	sep_apply_l_atomic (store_tree_make_tree b_v_right b_v_right_key b_v_right_value b_v_right_left b_v_right_right fa l0 r0).
 	- dump_pre_spatial.
@@ -318,7 +318,7 @@ Qed.
 
 Lemma proof_of_Delete_entail_wit_1 : Delete_entail_wit_1.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	Exists b_pre_v.
 	Exists nil.
 	Exists tr_low_level_spec.
@@ -342,7 +342,7 @@ Qed.
 
 Lemma proof_of_Delete_entail_wit_2 : Delete_entail_wit_2.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	sep_apply_l_atomic (store_tree_not_zero b_v_2 fa tr0_2).
 	- dump_pre_spatial.
 	  tauto.
@@ -390,7 +390,7 @@ Qed.
 
 Lemma proof_of_Delete_entail_wit_3 : Delete_entail_wit_3.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	sep_apply_l_atomic (store_tree_not_zero b_v_left_2 b_v l0_2).
 	- dump_pre_spatial.
 	  tauto.
@@ -469,7 +469,7 @@ Qed.
 
 Lemma proof_of_Delete_entail_wit_4 : Delete_entail_wit_4.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	sep_apply_l_atomic (store_tree_not_zero b_v_right_2 b_v r0_2).
 	- dump_pre_spatial.
 	  tauto.
@@ -519,7 +519,7 @@ Qed.
 
 Lemma proof_of_Delete_entail_wit_5 : Delete_entail_wit_5.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	sep_apply_l_atomic (store_tree_not_zero b_v_left_2 b_v_2 l0).
 	- dump_pre_spatial.
 	  exact PreH1.
@@ -599,7 +599,7 @@ Qed.
 
 Lemma proof_of_Delete_entail_wit_6_2 : Delete_entail_wit_6_2.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	subst b_v_father.
 	Exists b_v_right.
 	Exists (RH b_v_key b_v_value l0 :: pt0_2).
@@ -632,7 +632,7 @@ Qed.
 
 Lemma proof_of_Delete_entail_wit_6_1 : Delete_entail_wit_6_1.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	subst b_v_father.
 	Exists b_v_left.
 	Exists (LH b_v_key b_v_value r0 :: pt0_2).
@@ -665,7 +665,7 @@ Qed.
 
 Lemma proof_of_Delete_return_wit_1 : Delete_return_wit_1.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	sep_apply (store_tree_zero b_v fa tr0 PreH1).
 	Intros_p Htr0.
 	assert (Hb : (b # Ptr |-> b_v) |-- (b # Ptr |-> b_v ** store_tree b_v fa tr0)).
@@ -691,7 +691,7 @@ Qed.
 
 Lemma proof_of_Delete_return_wit_2 : Delete_return_wit_2.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	subst b_v_father.
 	assert (Hkey : INT_MIN <= ptr_callee_key <= INT_MAX) by lia.
 	sep_apply_l_atomic (store_tree_make_tree b_v ptr_callee_key ptr_callee_value b_v_left b_callee_v fa l1 (delete_min tr0)).
@@ -727,7 +727,7 @@ Qed.
 
 Lemma proof_of_Delete_return_wit_3 : Delete_return_wit_3.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	assert (Hright_key : INT_MIN <= b_v_right_key <= INT_MAX) by lia.
 	sep_apply_l_atomic (store_tree_make_tree b_v_right b_v_right_key b_v_right_value b_v_right_left b_v_right_right fa l0 r0).
 	- dump_pre_spatial.
@@ -760,7 +760,7 @@ Qed.
 
 Lemma proof_of_Delete_return_wit_5 : Delete_return_wit_5.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	sep_apply_l_atomic (store_tree_zero b_v_right b_v r0).
 	- dump_pre_spatial.
 	  exact PreH2.
@@ -800,7 +800,7 @@ Qed.
 
 Lemma proof_of_Delete_return_wit_4 : Delete_return_wit_4.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	assert (Hleft_key : INT_MIN <= b_v_left_key <= INT_MAX) by lia.
 	sep_apply_l_atomic (store_tree_make_tree b_v_left b_v_left_key b_v_left_value b_v_left_left b_v_left_right fa l0 r0).
 	- dump_pre_spatial.
@@ -833,7 +833,7 @@ Qed.
 
 Lemma proof_of_Delete_derive_high_level_spec_by_low_level_spec : Delete_derive_high_level_spec_by_low_level_spec.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	Intros b_pre_v.
 	unfold Bst.store_map.
 	Intros tr.

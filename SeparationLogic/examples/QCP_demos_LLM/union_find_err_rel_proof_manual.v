@@ -25,7 +25,7 @@ Local Open Scope sac.
 
 Lemma proof_of_uf_find_c_entail_wit_1 : uf_find_c_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial; [cancel | idtac].
   split_pures; try (dump_pre_spatial; lia); try (dump_pre_spatial; reflexivity).
   dump_pre_spatial.
@@ -59,7 +59,7 @@ Qed.
 
 Lemma proof_of_uf_find_c_entail_wit_2 : uf_find_c_entail_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial; [cancel | idtac].
   rename PreH7 into Hsafe.
   assert (Hvalid_p : valid (uf_state_of n_pre ps_low_level_spec rs_low_level_spec) p).
@@ -102,7 +102,7 @@ Qed.
 
 Lemma proof_of_uf_find_c_entail_wit_4 : uf_find_c_entail_wit_4.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply (IntArray.full_Zlength parent_pre n_pre (replace_Znth x_pre r ps1_2)).
   Intros_p Hlen.
   rewrite replace_Znth_Zlength in Hlen.
@@ -129,7 +129,7 @@ Qed.
 
 Lemma proof_of_uf_find_c_return_wit_2 : uf_find_c_return_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists ps_low_level_spec.
   split_pure_spatial.
   - cancel.
@@ -144,12 +144,12 @@ Qed.
 
 Lemma proof_of_uf_union_c_entail_wit_1 : uf_union_c_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
 Qed.
 
 Lemma proof_of_uf_union_c_entail_wit_4 : uf_union_c_entail_wit_4.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists ps2_2 rs2_2.
   split_pure_spatial.
   - cancel.
@@ -166,7 +166,7 @@ Qed.
 
 Lemma proof_of_uf_union_c_entail_wit_5 : uf_union_c_entail_wit_5.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists ps2_2 rs2.
   split_pure_spatial.
   - cancel.
@@ -197,7 +197,7 @@ Qed.
 
 Lemma proof_of_uf_union_c_entail_wit_6 : uf_union_c_entail_wit_6.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists ps2_2 rs2.
   split_pure_spatial.
   - cancel.
@@ -225,7 +225,7 @@ Qed.
 
 Lemma proof_of_uf_union_c_entail_wit_7 : uf_union_c_entail_wit_7.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply (IntArray.full_Zlength parent_pre n_pre (replace_Znth ry rx ps2_2)).
   Intros_p Hlen_replace.
   rewrite replace_Znth_Zlength in Hlen_replace.
@@ -255,7 +255,7 @@ Qed.
 
 Lemma proof_of_uf_union_c_entail_wit_8 : uf_union_c_entail_wit_8.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply (IntArray.full_Zlength parent_pre n_pre (replace_Znth rx ry ps2_2)).
   Intros_p Hlen_replace.
   rewrite replace_Znth_Zlength in Hlen_replace.
@@ -286,7 +286,7 @@ Qed.
 
 Lemma proof_of_uf_union_c_entail_wit_9 : uf_union_c_entail_wit_9.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists ps2_2 rs2_2.
   split_pure_spatial.
   - cancel.
@@ -347,7 +347,7 @@ Qed.
 
 Lemma proof_of_uf_union_c_entail_wit_10 : uf_union_c_entail_wit_10.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply (IntArray.full_Zlength rank_pre n_pre (replace_Znth ry (ry_rank + 1) rs2_2)).
   Intros_p Hlen_replace.
   rewrite replace_Znth_Zlength in Hlen_replace.
@@ -376,12 +376,12 @@ Qed.
 
 Lemma proof_of_uf_union_c_partial_solve_wit_2_pure : uf_union_c_partial_solve_wit_2_pure.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
 Qed.
 
 Lemma proof_of_uf_union_c_derive_high_level_spec_by_low_level_spec : uf_union_c_derive_high_level_spec_by_low_level_spec.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists ps_high_level_spec rs_high_level_spec
     (fun r s =>
        (uf_union x_pre y_pre).(MonadErr.nrm)
@@ -447,7 +447,7 @@ Qed.
 
 Lemma proof_of_uf_find_c_derive_low_level_spec_aux_by_low_level_spec : uf_find_c_derive_low_level_spec_aux_by_low_level_spec.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   rename H3 into Hsafe_bind.
   apply safeExec_bind in Hsafe_bind as (X_find & Hsafe_find & Hsafe_cont).
   Exists ps_low_level_spec_aux rs_low_level_spec_aux X_find.
@@ -468,7 +468,7 @@ Qed.
 
 Lemma proof_of_uf_find_c_derive_high_level_spec_by_low_level_spec : uf_find_c_derive_high_level_spec_by_low_level_spec.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists ps_high_level_spec rs_high_level_spec
     (fun r s =>
        (uf_find x_pre).(MonadErr.nrm)

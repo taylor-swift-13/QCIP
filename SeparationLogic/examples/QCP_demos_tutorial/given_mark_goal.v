@@ -79,14 +79,12 @@ forall (retval: Z) (t: Z) (PreH1 : (0 < t)) (PreH2 : (t < 10)) (PreH3 : (retval 
 |--
   EX (u: Z) ,
   “ ((Z.shiftl 1 (t + 2 )) = (Z.shiftl 1 u)) ” 
-  &&  “ (u >= 2) ” 
-  &&  “ (0 < t) ” 
-  &&  “ (t < 10) ” 
-  &&  “ (retval = (Z.shiftl 1 (t + 2 ))) ”
+  &&  “ (u >= 2) ”
   &&  emp
 ).
 
 Definition given_of_marked_call_return_wit_1 := 
+(
 forall (retval: Z) (t: Z) (u_2: Z) (PreH1 : ((Z.shiftl 1 u_2) = (Z.shiftl 1 u_2))) (PreH2 : (u_2 >= 2)) (PreH3 : (0 < t)) (PreH4 : (t < 10)) (PreH5 : (retval = (Z.shiftl 1 (t + 2 )))) ,
   TT && emp 
 |--
@@ -94,7 +92,16 @@ forall (retval: Z) (t: Z) (u_2: Z) (PreH1 : ((Z.shiftl 1 u_2) = (Z.shiftl 1 u_2)
   “ ((Z.shiftl 1 u_2) = (Z.shiftl 1 u)) ” 
   &&  “ (u >= 2) ”
   &&  emp
-.
+) \/
+(
+forall (retval: Z) (t: Z) (u_2: Z) (PreH1 : (u_2 >= 2)) (PreH2 : (0 < t)) (PreH3 : (t < 10)) (PreH4 : (retval = (Z.shiftl 1 (t + 2 )))) ,
+  TT && emp 
+|--
+  EX (u: Z) ,
+  “ ((Z.shiftl 1 u_2) = (Z.shiftl 1 u)) ” 
+  &&  “ (u >= 2) ”
+  &&  emp
+).
 
 Definition given_of_marked_call_partial_solve_wit_1 := 
   TT && emp 

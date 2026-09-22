@@ -24,24 +24,28 @@ Local Open Scope sac.
 
 Lemma proof_of_test_prime_entail_wit_1 : test_prime_entail_wit_1.
 Proof.
-  left.
-  pre_process.
-  entailer!.
+  LLM_pre_process ltac:(int_auto).
+  split_pure_spatial.
+  - cancel.
+  - repeat split_pures; dump_pre_spatial; try lia.
   apply no_factor_between_empty; lia.
 Qed.
 
 Lemma proof_of_test_prime_entail_wit_2 : test_prime_entail_wit_2.
 Proof.
-  left.
-  pre_process.
-  entailer!.
+  LLM_pre_process ltac:(int_auto).
+  split_pure_spatial.
+  - cancel.
+  - repeat split_pures; dump_pre_spatial; try lia.
   apply no_factor_between_snoc; try lia; auto.
 Qed.
 
 Lemma proof_of_test_prime_return_wit_1 : test_prime_return_wit_1.
 Proof.
-  pre_process.
-  entailer!.
+  LLM_pre_process ltac:(int_auto).
+  split_pure_spatial.
+  - cancel.
+  - repeat split_pures; dump_pre_spatial; try lia.
   apply prime_of_no_factor_from_2; try lia.
   replace d with x_pre in PreH6 by lia.
   exact PreH6.
@@ -49,56 +53,68 @@ Qed.
 
 Lemma proof_of_test_prime_return_wit_2 : test_prime_return_wit_2.
 Proof.
-  pre_process.
-  entailer!.
+  LLM_pre_process ltac:(int_auto).
+  split_pure_spatial.
+  - cancel.
+  - repeat split_pures; dump_pre_spatial; try lia.
   apply not_prime_of_mod_factor with (d := d); lia.
 Qed.
 
 Lemma proof_of_test_prime_return_wit_3 : test_prime_return_wit_3.
 Proof.
-  pre_process.
-  entailer!.
+  LLM_pre_process ltac:(int_auto).
+  split_pure_spatial.
+  - cancel.
+  - repeat split_pures; dump_pre_spatial; try lia.
   apply not_prime_lt_2; lia.
 Qed.
 
 Lemma proof_of_test_prime_sqrt_entail_wit_1 : test_prime_sqrt_entail_wit_1.
 Proof.
-  left.
-  pre_process.
-  entailer!.
+  LLM_pre_process ltac:(int_auto).
+  split_pure_spatial.
+  - cancel.
+  - repeat split_pures; dump_pre_spatial; try lia.
   apply no_factor_between_empty; lia.
 Qed.
 
 Lemma proof_of_test_prime_sqrt_entail_wit_2 : test_prime_sqrt_entail_wit_2.
 Proof.
-  left.
-  pre_process.
-  entailer!.
+  LLM_pre_process ltac:(int_auto).
+  split_pure_spatial.
+  - cancel.
+  - repeat split_pures; dump_pre_spatial; try lia.
   apply no_factor_between_snoc; try lia; auto.
 Qed.
 
 Lemma proof_of_test_prime_sqrt_return_wit_1 : test_prime_sqrt_return_wit_1.
 Proof.
-  pre_process.
-  entailer!.
+  LLM_pre_process ltac:(int_auto).
+  split_pure_spatial.
+  - cancel.
+  - repeat split_pures; dump_pre_spatial; try lia.
   apply prime_of_no_factor_before_square with (d := d).
-  - lia.
-  - lia.
-  - nia.
-  - exact PreH6.
+  + lia.
+  + lia.
+  + nia.
+  + exact PreH6.
 Qed.
 
 Lemma proof_of_test_prime_sqrt_return_wit_2 : test_prime_sqrt_return_wit_2.
 Proof.
-  pre_process.
-  entailer!.
+  LLM_pre_process ltac:(int_auto).
+  split_pure_spatial.
+  - cancel.
+  - repeat split_pures; dump_pre_spatial; try lia.
   apply not_prime_of_mod_factor with (d := d); try lia.
   nia.
 Qed.
 
 Lemma proof_of_test_prime_sqrt_return_wit_3 : test_prime_sqrt_return_wit_3.
 Proof.
-  pre_process.
-  entailer!.
+  LLM_pre_process ltac:(int_auto).
+  split_pure_spatial.
+  - cancel.
+  - repeat split_pures; dump_pre_spatial; try lia.
   apply not_prime_lt_2; lia.
 Qed.

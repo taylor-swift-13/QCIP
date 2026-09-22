@@ -21,7 +21,7 @@ Local Open Scope sac.
 
 Lemma proof_of_coinChange_entail_wit_1 : coinChange_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - sep_apply (IntArray.seg_single dp_pre 0 1).
     replace (0 + 1) with 1 by lia.
@@ -33,7 +33,7 @@ Qed.
 
 Lemma proof_of_coinChange_entail_wit_2 : coinChange_entail_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists (1 :: nil).
   split_pure_spatial.
   - cancel (IntArray.full coins_pre coinsSize_pre coins_l).
@@ -48,22 +48,23 @@ Qed.
 
 Lemma proof_of_coinChange_entail_wit_3 : coinChange_entail_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists (dp_l_2 ++ 0 :: nil).
   split_pure_spatial.
   - cancel.
     reflexivity.
-  - prop_apply_p (store_array_rec_Zlength Z
+  - prop_apply (store_array_rec_Zlength Z
       (fun (x lo a : Z) => (x + lo * sizeof( INT )) # Int |-> a)
       dp_pre 0 (j + 1) (dp_l_2 ++ 0 :: nil)).
     Intros.
-    entailer!.
+    split_pures.
+    all: try (dump_pre_spatial; auto; try lia).
     eapply DpPrefixZeroed_snoc_zero; eauto; lia.
 Qed. 
 
 Lemma proof_of_coinChange_entail_wit_4 : coinChange_entail_wit_4.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (j = amount_pre + 1) by lia.
   subst j.
   Exists dp_l_2.
@@ -74,22 +75,24 @@ Proof.
     simpl.
     Intros.
     reflexivity.
-  - entailer!.
+  - split_pures.
+    all: try (dump_pre_spatial; auto; try lia).
     apply DpPrefixZeroed_to_DpReachableTable_nil; auto.
 Qed. 
 
 Lemma proof_of_coinChange_entail_wit_5 : coinChange_entail_wit_5.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists dp_l_2.
   split_pure_spatial.
   - reflexivity.
-  - entailer!.
-Qed. 
+  - split_pures.
+    all: dump_pre_spatial; try lia; try auto.
+Qed.
 
 Lemma proof_of_coinChange_entail_wit_6 : coinChange_entail_wit_6.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists dp_l_2.
   split_pure_spatial.
   - cancel (IntArray.full coins_pre coinsSize_pre coins_l).
@@ -101,7 +104,7 @@ Qed.
 
 Lemma proof_of_coinChange_entail_wit_7 : coinChange_entail_wit_7.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists dp_l_2.
   split_pure_spatial.
   - cancel (IntArray.full coins_pre coinsSize_pre coins_l).
@@ -137,7 +140,7 @@ Qed.
 
 Lemma proof_of_coinChange_entail_wit_8_1 : coinChange_entail_wit_8_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists (replace_Znth j 1 dp_l_2).
   split_pure_spatial.
   - cancel (IntArray.full coins_pre coinsSize_pre coins_l).
@@ -151,7 +154,7 @@ Qed.
 
 Lemma proof_of_coinChange_entail_wit_8_2 : coinChange_entail_wit_8_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists dp_l_2.
   split_pure_spatial.
   - cancel (IntArray.full dp_pre (amount_pre + 1) dp_l_2).
@@ -196,9 +199,9 @@ Proof.
     + apply (proj2 (Hsuffix k ltac:(lia))).
 Qed. 
 
-Lemma proof_of_coinChange_entail_wit_9_1 : coinChange_entail_wit_9_1.
+Lemma proof_of_coinChange_entail_wit_9_2 : coinChange_entail_wit_9_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists dp_l_2.
   split_pure_spatial.
   - cancel (IntArray.full coins_pre coinsSize_pre coins_l).
@@ -218,9 +221,9 @@ Proof.
         apply (proj2 (Htable idx ltac:(lia))); assumption.
 Qed. 
 
-Lemma proof_of_coinChange_entail_wit_9_2 : coinChange_entail_wit_9_2.
+Lemma proof_of_coinChange_entail_wit_9_1 : coinChange_entail_wit_9_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists dp_l_2.
   split_pure_spatial.
   - cancel (IntArray.full coins_pre coinsSize_pre coins_l).
@@ -240,9 +243,26 @@ Proof.
       apply Hprefix; lia.
 Qed. 
 
+Lemma proof_of_coinChange_entail_wit_10_split_goal_1 : coinChange_entail_wit_10_split_goal_1.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  apply PreH12.
+  exact H.
+Qed.
+
+Lemma proof_of_coinChange_entail_wit_10 : coinChange_entail_wit_10.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  Exists dp_l_2.
+  split_pure_spatial.
+  - cancel (IntArray.full coins_pre coinsSize_pre coins_l).
+    cancel (IntArray.full dp_pre (amount_pre + 1) dp_l_2).
+  - split_pures; dump_pre_spatial; try lia; auto.
+Qed.
+
 Lemma proof_of_coinChange_entail_wit_11 : coinChange_entail_wit_11.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists dp_l_2.
   split_pure_spatial.
   - cancel (IntArray.full coins_pre coinsSize_pre coins_l).
@@ -258,7 +278,7 @@ Qed.
 
 Lemma proof_of_coinChange_entail_wit_12 : coinChange_entail_wit_12.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists dp_l_2.
   split_pure_spatial.
   - cancel (IntArray.full coins_pre coinsSize_pre coins_l).
@@ -278,9 +298,9 @@ Proof.
     + apply (Hno k); lia || exact HR.
 Qed.
 
-Lemma proof_of_coinChange_entail_wit_13_2 : coinChange_entail_wit_13_2.
+Lemma proof_of_coinChange_entail_wit_13_1 : coinChange_entail_wit_13_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists dp_l_2.
   split_pure_spatial.
   - cancel (IntArray.full coins_pre coinsSize_pre coins_l).
@@ -294,9 +314,9 @@ Proof.
     + exact PreH10.
 Qed.
 
-Lemma proof_of_coinChange_entail_wit_13_1 : coinChange_entail_wit_13_1.
+Lemma proof_of_coinChange_entail_wit_13_2 : coinChange_entail_wit_13_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists dp_l_2.
   split_pure_spatial.
   - cancel (IntArray.full coins_pre coinsSize_pre coins_l).

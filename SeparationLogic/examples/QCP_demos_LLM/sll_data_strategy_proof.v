@@ -15,7 +15,7 @@ Lemma sll_data_strategy3_correctness : sll_data_strategy3.
 Proof.
   pre_process_default.
   sep_apply (sll_zero 0 l eq_refl).
-  entailer!.
+  cancel.
 Qed.
 
 Lemma sll_data_strategy4_correctness : sll_data_strategy4.
@@ -24,7 +24,7 @@ Proof.
   Intros_p Hl.
   subst l.
   simpl.
-  entailer!.
+  cancel.
 Qed.
 
 Lemma sll_data_strategy5_correctness : sll_data_strategy5.
@@ -38,7 +38,7 @@ Proof.
     Intros_p Hl.
     subst l.
     simpl.
-    destruct H as [H | H]; subst p; entailer!.
+    destruct H as [H | H]; subst p; cancel.
   - dump_pre_spatial.
     exact H.
 Qed.
@@ -50,7 +50,7 @@ Proof.
   Intros_p H.
   assert (Hp : p = 0) by (destruct H; lia).
   sep_apply (sll_zero p l Hp).
-  entailer!.
+  cancel.
 Qed.
 
 Lemma sll_data_strategy7_correctness : sll_data_strategy7.
@@ -77,9 +77,10 @@ Proof.
     cancel (sll y l0).
     Intros_r q.
     apply_sepcon_adjoint.
-    elim_emp.
     cancel.
-  - entailer!.
+    cancel.
+  - dump_pre_spatial.
+    exact Hnz.
 Qed.
 
 Lemma sll_data_strategy9_correctness : sll_data_strategy9.
@@ -140,7 +141,7 @@ Proof.
   Intros_p Hl.
   subst l.
   simpl.
-  entailer!.
+  cancel.
 Qed.
 
 Lemma sll_data_strategy15_correctness : sll_data_strategy15.
@@ -210,7 +211,10 @@ Proof.
   Intros_p Hl.
   subst l.
   simpl.
-  entailer!.
+  repeat (split_pure_spatial || split_pures).
+  - cancel.
+  - dump_pre_spatial.
+    reflexivity.
 Qed.
 
 Lemma sll_data_strategy20_correctness : sll_data_strategy20.
@@ -221,7 +225,7 @@ Proof.
   subst p.
   subst q.
   simpl.
-  entailer!.
+  cancel.
 Qed.
 
 Lemma sll_data_strategy21_correctness : sll_data_strategy21.
@@ -232,8 +236,8 @@ Proof.
   subst q.
   revert p.
   induction l1; intros p.
-  - simpl. entailer!.
-  - simpl. Intros y. Exists y. sep_apply IHl1. entailer!.
+  - simpl. cancel.
+  - simpl. Intros y. Exists y. sep_apply IHl1. cancel.
 Qed.
 
 Lemma sll_data_strategy23_correctness : sll_data_strategy23.
@@ -242,7 +246,7 @@ Proof.
   Intros_p Hl.
   subst l.
   simpl.
-  entailer!.
+  cancel.
 Qed.
 
 Lemma sll_data_strategy24_correctness : sll_data_strategy24.
@@ -250,7 +254,7 @@ Proof.
   pre_process_default.
   subst p.
   destruct l as [| a l0].
-  - simpl. Intros_p Hq. subst q. entailer!.
+  - simpl. Intros_p Hq. subst q. cancel.
   - simpl. Intros z. contradiction.
 Qed.
 
@@ -260,9 +264,9 @@ Proof.
   subst p.
   Exists (@app Z l1 l2).
   sep_apply (sllseg_sll q q l1 l2).
-  entailer!.
+  cancel.
   apply_sepcon_adjoint.
-  elim_emp.
+  cancel.
   cancel.
 Qed.
 
@@ -287,7 +291,7 @@ Proof.
     Intros_r v.
     Intros_r n.
     apply_sepcon_adjoint.
-    elim_emp.
     cancel.
-  - entailer!.
+    cancel.
+  - repeat split_pures; dump_pre_spatial; auto.
 Qed.

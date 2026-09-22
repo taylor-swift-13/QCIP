@@ -38,8 +38,8 @@ forall (y_pre: Z) (x_pre: Z) (l2_low_level_spec: (@list Z)) (l1_low_level_spec: 
   ((( &( "node" ) )) # Ptr  |->_)
   **  ((( &( "cursor" ) )) # Ptr  |->_)
   **  ((( &( "head" ) )) # Ptr  |->_)
-  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
   **  ((( &( "x" ) )) # Ptr  |-> x_pre)
+  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
   **  (sll x_pre l1_low_level_spec )
   **  (sll y_pre l2_low_level_spec )
 |--
@@ -105,9 +105,7 @@ forall (x_pre: Z) (l2_low_level_spec: (@list Z)) (l1_low_level_spec: (@list Z)) 
 
 Definition glibc_slist_clean_merge_entail_wit_1_split_goal_1 := 
 forall (x_pre: Z) (l2_low_level_spec: (@list Z)) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (PreH1 : (x_pre <> 0)) (PreH2 : (safeExec ATrue (glibc_slist_clean_merge_M (l1_low_level_spec) (l2_low_level_spec)) X_low_level_spec )) ,
-  TT && emp 
-|--
-  “ (safeExec ATrue (bind ((glibc_slist_clean_merge_M_loop ((@nil Z)) (l1_low_level_spec) (l2_low_level_spec))) (glibc_slist_clean_merge_M_after_loop)) X_low_level_spec ) ”
+  (safeExec ATrue (bind ((glibc_slist_clean_merge_M_loop ((@nil Z)) (l1_low_level_spec) (l2_low_level_spec))) (glibc_slist_clean_merge_M_after_loop)) X_low_level_spec )
 .
 
 Definition glibc_slist_clean_merge_entail_wit_2 := 
@@ -223,13 +221,20 @@ forall (x_pre: Z) (l2_low_level_spec: (@list Z)) (l1_low_level_spec: (@list Z)) 
   “ (safeExec ATrue (return (l2_low_level_spec)) X_low_level_spec ) ”
 .
 
+Definition glibc_slist_clean_merge_return_wit_3_split_goal_spatial := 
+forall (x_pre: Z) (l2_low_level_spec: (@list Z)) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (PreH1 : (x_pre = 0)) (PreH2 : (safeExec ATrue (glibc_slist_clean_merge_M (l1_low_level_spec) (l2_low_level_spec)) X_low_level_spec )) ,
+  (sll x_pre l1_low_level_spec )
+|--
+  TT && emp 
+.
+
 Definition glibc_slist_clean_merge_partial_solve_wit_1 := 
 forall (x_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (y: Z) (head: Z) (cursor: Z) (l1: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (PreH1 : (y <> 0)) (PreH2 : (safeExec ATrue (bind ((glibc_slist_clean_merge_M_loop (l1) (l2) (l3))) (glibc_slist_clean_merge_M_after_loop)) X_low_level_spec )) (PreH3 : (cursor <> 0)) (PreH4 : (x_pre <> 0)) ,
   (sllseg head cursor l1 )
   **  (sll cursor l2 )
   **  (sll y l3 )
 |--
-  EX (y_2: Z)  (l0: (@list Z))  (x: Z) ,
+  EX (x: Z)  (l0: (@list Z))  (y_2: Z) ,
   “ (l3 = (cons (x) (l0))) ” 
   &&  “ (y <> 0) ” 
   &&  “ (safeExec ATrue (bind ((glibc_slist_clean_merge_M_loop (l1) (l2) (l3))) (glibc_slist_clean_merge_M_after_loop)) X_low_level_spec ) ” 
@@ -250,7 +255,7 @@ forall (x_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (y: Z) (head
   **  (sllseg head cursor l1 )
   **  (sll cursor l2 )
 |--
-  EX (y_3: Z)  (l0_2: (@list Z))  (x_2: Z) ,
+  EX (x_2: Z)  (l0_2: (@list Z))  (y_3: Z) ,
   “ (l2 = (cons (x_2) (l0_2))) ” 
   &&  “ (l3 = (cons (x) (l0))) ” 
   &&  “ (y <> 0) ” 

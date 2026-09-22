@@ -21,19 +21,23 @@ Local Open Scope sac.
 
 Lemma proof_of_strcpy_entail_wit_1 : strcpy_entail_wit_1.
 Proof.
-  pre_process.
-  entailer!.
+  LLM_pre_process ltac:(int_auto).
+  split_pure_spatial.
   - rewrite Zsublist_nil by lia.
     rewrite CharArray.full_empty.
-    entailer!.
-    apply CharArray.undef_full_to_undef_seg.
-  - unfold string_lib.string_length; apply Zlength_nonneg.
+    split_pure_spatial.
+    + sep_apply (CharArray.undef_full_to_undef_seg
+        dest_pre (string_lib.string_length src_str + 1)).
+      cancel.
+    + dump_pre_spatial; reflexivity.
+  - split_pures; dump_pre_spatial; try lia; try assumption.
+    unfold string_lib.string_length; apply Zlength_nonneg.
 Qed.
 
 Lemma proof_of_strcpy_entail_wit_2 : strcpy_entail_wit_2.
 Proof.
-  pre_process.
-  entailer!.
+  LLM_pre_process ltac:(int_auto).
+  split_pure_spatial.
   - assert (Hi : i < string_lib.string_length src_str).
     {
       unfold string_lib.c_string, string_lib.string_length in *.
@@ -58,8 +62,10 @@ Proof.
       - unfold string_lib.string_length in Hi; lia.
     }
     unfold string_lib.store_string.
-    entailer!.
-  - assert (Hi : i < string_lib.string_length src_str).
+    cancel.
+  - split_pures.
+    all: dump_pre_spatial; try lia; try assumption.
+    assert (Hi : i < string_lib.string_length src_str).
     {
       unfold string_lib.c_string, string_lib.string_length in *.
       destruct (Z_lt_ge_dec i (Zlength src_str)) as [Hlt | Hge]; [lia |].
@@ -72,16 +78,17 @@ Proof.
     lia.
 Qed.
 
-Lemma proof_of_strcpy_return_wit_1 : strcpy_return_wit_1.
+Lemma proof_of_strcpy_return_wit_1_split_goal_spatial :
+  strcpy_return_wit_1_split_goal_spatial.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (Hi : i = string_lib.string_length src_str).
   {
-    unfold string_lib.valid_string in PreH3.
-    destruct PreH3 as [_ Hno].
+    unfold string_lib.valid_string in PreH4.
+    destruct PreH4 as [_ Hno].
     unfold string_lib.c_string, string_lib.string_length in *.
     destruct (Z_lt_ge_dec i (Zlength src_str)) as [Hlt | Hge].
-    - rewrite app_Znth1 in PreH2 by lia.
+    - rewrite app_Znth1 in PreH3 by lia.
       exfalso.
       apply (Hno i); [lia | assumption].
     - lia.
@@ -89,45 +96,56 @@ Proof.
   subst i.
   unfold string_lib.store_string, string_lib.c_string, string_lib.string_length in *.
   rewrite sublist_self by reflexivity.
-  entailer!.
   rewrite CharArray.undef_seg_empty.
-  entailer!.
+  cancel (CharArray.full dest_pre (Zlength src_str + 1) (src_str ++ 0 :: nil)).
+  normalize.
+  cancel.
+Qed.
+
+Lemma proof_of_strcpy_return_wit_1 : strcpy_return_wit_1.
+Proof.
+  aggressive_pre_process.
+  Goal_apply proof_of_strcpy_return_wit_1_split_goal_spatial.
 Qed.
 
 Lemma proof_of_strncpy_entail_wit_1 : strncpy_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - rewrite (Zsublist_nil src_str 0 0) by lia.
     sep_apply (CharArray.undef_full_split_to_undef_seg dest_pre 0 n_pre).
     + sep_apply (strncpy_undef_seg_empty_to_full_nil dest_pre).
-      entailer!.
+      cancel.
     + lia.
-  - entailer!.
+  - split_pures.
+    all: dump_pre_spatial; try lia; try assumption.
     unfold string_lib.string_length.
     apply Zlength_nonneg.
 Qed.
 
 Lemma proof_of_strncpy_entail_wit_2 : strncpy_entail_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - rewrite (strncpy_sublist_succ src_str i PreH2 PreH7 PreH9).
     unfold string_lib.store_string.
-    entailer!.
-  - entailer!.
+    cancel.
+  - split_pures.
+    all: dump_pre_spatial; try lia; try assumption.
     pose proof (strncpy_c_string_nonzero_lt src_str i PreH2 PreH7 PreH9).
     lia.
 Qed.
 
 Lemma proof_of_strncpy_entail_wit_3_1 : strncpy_entail_wit_3_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists (sublist 0 i src_str).
   split_pure_spatial.
   - unfold string_lib.store_string.
-    entailer!.
-  - entailer!.
+    cancel.
+    reflexivity.
+  - split_pures.
+    all: dump_pre_spatial; try lia; try assumption.
     unfold strncpy_content.
     split; [lia |].
     left; split; [lia | reflexivity].
@@ -135,7 +153,7 @@ Qed.
 
 Lemma proof_of_strncpy_entail_wit_3_2 : strncpy_entail_wit_3_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists (sublist 0 i src_str).
   split_pure_spatial.
   - cancel (CharArray.full dest_pre i (sublist 0 i src_str)).
@@ -152,7 +170,7 @@ Qed.
 
 Lemma proof_of_strncpy_entail_wit_4 : strncpy_entail_wit_4.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists (out_2 ++ 0 :: nil).
   split_pure_spatial.
   - unfold string_lib.store_string.
@@ -166,7 +184,7 @@ Qed.
 
 Lemma proof_of_strncpy_return_wit_1 : strncpy_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (i = n_pre) by lia.
   subst i.
   Exists out_2.
@@ -175,4 +193,4 @@ Proof.
     cancel (string_lib.store_string src_pre src_str).
     apply (proj1 (CharArray.undef_seg_empty dest_pre n_pre)).
   - split_pures; dump_pre_spatial; auto.
-Qed. 
+Qed.

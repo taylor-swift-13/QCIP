@@ -245,9 +245,16 @@ Lemma snode_chain_singleton : forall n nxt,
   &(n # "sys_snode_t" ->ₛ "next") # Ptr |-> nxt |-- snode_chain n nxt [n].
 Proof.
   intros n nxt Hn.
-  simpl.
+  change (snode_chain n nxt [n]) with
+    (“ n = n /\ n <> NULL ” &&
+     (EX x : addr, &(n # "sys_snode_t" ->ₛ "next") # Ptr |-> x **
+       snode_chain x nxt [])).
   Exists nxt.
-  entailer!.
+  split_pure_spatial.
+  - cancel (&(n # "sys_snode_t" ->ₛ "next") # Ptr |-> nxt).
+    apply snode_chain_emp_to_nil.
+  - dump_pre_spatial.
+    split; [reflexivity | exact Hn].
 Qed.
 
 (* Concatenation: glue two segments. *)
@@ -334,14 +341,19 @@ Proof.
   induction ns1 as [| n ns1' IH]; intros ns2 h.
   - simpl.
     Exists h.
-    entailer!.
+    cancel (snode_listrep h ns2).
+    apply snode_chain_emp_to_nil.
   - simpl.
     Intros nxt.
     destruct H as [Hhn Hne].
     sep_apply (IH ns2 nxt).
     Intros m.
     Exists m nxt.
-    entailer!.
+    split_pure_spatial.
+    + cancel (&(n # "sys_snode_t" ->ₛ "next") # Ptr |-> nxt).
+      cancel.
+    + dump_pre_spatial.
+      split; [exact Hhn | exact Hne].
 Qed.
 
 (* --------------------------------------------------------------------------
@@ -381,8 +393,7 @@ Proof.
     split_pure_spatial.
     + cancel.
     + dump_pre_spatial. reflexivity.
-  - dump_pre_spatial.
-    split; reflexivity.
+  - repeat split_pures; dump_pre_spatial; auto.
 Qed.
 
 Lemma slist_spine_singleton_intro : forall l n,
@@ -395,7 +406,11 @@ Proof.
   Exists n n.
   simpl.
   Exists NULL.
-  entailer!.
+  split_pure_spatial.
+  - cancel (&(l # "sys_slist_t" ->ₛ "head") # Ptr |-> n).
+    cancel (&(l # "sys_slist_t" ->ₛ "tail") # Ptr |-> n).
+    cancel.
+  - repeat split_pures; dump_pre_spatial; auto.
 Qed.
 
 (* Prepend at head: state matches `sys_slist_prepend`'s effect. *)
@@ -412,7 +427,11 @@ Proof.
   Exists n (slist_last_default (n :: ns)).
   simpl snode_listrep.
   Exists (slist_head_default ns).
-  entailer!.
+  split_pure_spatial.
+  - cancel (&(l # "sys_slist_t" ->ₛ "head") # Ptr |-> n).
+    cancel (&(l # "sys_slist_t" ->ₛ "tail") # Ptr |-> slist_last_default (n :: ns)).
+    cancel.
+  - repeat split_pures; dump_pre_spatial; auto.
 Qed.
 
 (* Pop head: dual of prepend. Strips the first node out of the spine
@@ -437,7 +456,15 @@ Proof.
   simpl snode_listrep.
   Intros nxt.
   Exists nxt.
-  entailer!.
+  change (match ns with | [] => n | _ :: _ => last ns NULL end) with
+    (slist_last_default (n :: ns)).
+  split_pure_spatial.
+  - cancel (&(l # "sys_slist_t" ->ₛ "head") # Ptr |-> n).
+    cancel (&(l # "sys_slist_t" ->ₛ "tail") # Ptr |-> slist_last_default (n :: ns)).
+    cancel (&(n # "sys_snode_t" ->ₛ "next") # Ptr |-> nxt).
+    cancel (snode_listrep nxt ns).
+  - dump_pre_spatial.
+    exact (proj2 H).
 Qed.
 
 (* Segment split via `snode_listrep_app`: exposes an intermediate
@@ -460,7 +487,13 @@ Proof.
   sep_apply (snode_listrep_app ns1 ns2 h).
   Intros m.
   Exists h m t.
-  entailer!.
+  split_pure_spatial.
+  - cancel (&(l # "sys_slist_t" ->ₛ "head") # Ptr |-> h).
+    cancel (&(l # "sys_slist_t" ->ₛ "tail") # Ptr |-> t).
+    cancel (snode_chain h m ns1).
+    cancel (snode_listrep m ns2).
+  - dump_pre_spatial.
+    exact H.
 Qed.
 
 (* --------------------------------------------------------------------------
@@ -476,20 +509,21 @@ Proof.
   intros p q v1 v2.
   destruct (Z.eq_dec p q) as [Heq | Hne].
   - subst q.
-    sep_apply (dup_store_ptr (&( p # "sys_snode_t" ->ₛ "next")) v1 v2).
-    entailer!.
-  - entailer!.
+    prop_apply (dup_store_ptr (&( p # "sys_snode_t" ->ₛ "next")) v1 v2).
+    Intros_p Hfalse. contradiction.
+  - dump_pre_spatial. exact Hne.
 Qed.
 
 Lemma snode_next_not_in_listrep : forall ns p v h,
   &(p # "sys_snode_t" ->ₛ "next") # Ptr |-> v ** snode_listrep h ns |-- “ ~ In p ns ”.
 Proof.
   induction ns as [| n ns' IH]; intros p v h; simpl.
-  - entailer!.
+  - dump_pre_spatial.
+    intros [].
   - Intros nxt.
     prop_apply (snode_next_neq p n v nxt). Intros.
     prop_apply (IH p v nxt). Intros.
-    entailer!.
+    dump_pre_spatial.
     intros [Heq | Hin]; [apply H0; symmetry; exact Heq | apply H1; exact Hin].
 Qed.
 
@@ -497,11 +531,11 @@ Lemma snode_listrep_distinct : forall ns h,
   snode_listrep h ns |-- “ NoDup ns ”.
 Proof.
   induction ns as [| n ns' IH]; intros h; simpl.
-  - entailer!. constructor.
+  - dump_pre_spatial. constructor.
   - Intros nxt.
     prop_apply (snode_next_not_in_listrep ns' n nxt nxt). Intros.
     prop_apply (IH nxt). Intros.
-    entailer!.
+    dump_pre_spatial.
     constructor; assumption.
 Qed.
 
@@ -522,10 +556,15 @@ Lemma zephyr_slist_of_nil_intro : forall l m,
   zephyr_slist_of l [] m.
 Proof.
   intros l m Hempty.
-  unfold zephyr_slist_of. sep_apply (slist_spine_nil_intro l). entailer!.
-  simpl. intros n; split;
-    [contradiction
-    | intros [v Hv]; rewrite Hempty in Hv; discriminate].
+  unfold zephyr_slist_of.
+  split_pure_spatial.
+  - sep_apply (slist_spine_nil_intro l).
+    cancel (slist_spine l []).
+    cancel.
+  - dump_pre_spatial.
+    simpl. intros n; split;
+      [contradiction
+      | intros [v Hv]; rewrite Hempty in Hv; discriminate].
 Qed.
 
 Lemma zephyr_slist_of_nil : forall l m,
@@ -536,15 +575,19 @@ Lemma zephyr_slist_of_nil : forall l m,
   store_map (fun n v => &(n # "zephyr_slist_item" ->ₛ "value") # Int |-> v) m.
 Proof.
   intros l m.
-  unfold zephyr_slist_of. Intros. sep_apply (slist_spine_nil l). entailer!.
-  intros n. specialize (H n). simpl in H.
-  destruct (m n) eqn:Heq;
-    [exfalso; apply H; exists z; reflexivity | reflexivity].
+  unfold zephyr_slist_of. Intros.
+  split_pure_spatial.
+  - sep_apply (slist_spine_nil l).
+    cancel.
+  - dump_pre_spatial.
+    intros n. specialize (H n). simpl in H.
+    destruct (m n) eqn:Heq;
+      [exfalso; apply H; exists z; reflexivity | reflexivity].
 Qed.
 
 Lemma zephyr_slist_nil_intro : forall l m,
   zephyr_slist_of l [] m |-- zephyr_slist l m.
 Proof.
   intros l m.
-  unfold zephyr_slist. Exists (@nil addr). entailer!.
+  unfold zephyr_slist. Exists (@nil addr). cancel.
 Qed.

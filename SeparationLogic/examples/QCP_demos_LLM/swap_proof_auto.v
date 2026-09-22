@@ -17,31 +17,21 @@ Local Open Scope sets.
 Local Open Scope string_scope.
 Local Open Scope list.
 Import naive_C_Rules.
-Require Import SimpleC.EE.QCP_demos_LLM.swap_lib.
 Local Open Scope sac.
 
-Lemma proof_of_swap0_return_wit_1_eq : swap0_return_wit_1_eq.
+Lemma proof_of_swap_return_wit_1_eq : swap_return_wit_1_eq.
 Proof. Admitted. 
 
-Lemma proof_of_swap0_return_wit_2_neq : swap0_return_wit_2_neq.
+Lemma proof_of_swap_return_wit_2_neq : swap_return_wit_2_neq.
 Proof. Admitted. 
 
-Lemma proof_of_swap0_partial_solve_wit_1_eq : swap0_partial_solve_wit_1_eq.
+Lemma proof_of_swap_partial_solve_wit_1_eq : swap_partial_solve_wit_1_eq.
 Proof. Admitted. 
 
-Lemma proof_of_swap0_partial_solve_wit_2_eq : swap0_partial_solve_wit_2_eq.
+Lemma proof_of_swap_partial_solve_wit_2_eq : swap_partial_solve_wit_2_eq.
 Proof. Admitted. 
 
-Lemma proof_of_swap0_partial_solve_wit_3_eq : swap0_partial_solve_wit_3_eq.
-Proof. Admitted. 
-
-Lemma proof_of_swap_partial_solve_wit_1 : swap_partial_solve_wit_1.
-Proof. Admitted. 
-
-Lemma proof_of_swap_partial_solve_wit_2 : swap_partial_solve_wit_2.
-Proof. Admitted. 
-
-Lemma proof_of_swap_partial_solve_wit_3 : swap_partial_solve_wit_3.
+Lemma proof_of_swap_partial_solve_wit_3_eq : swap_partial_solve_wit_3_eq.
 Proof. Admitted. 
 
 Lemma proof_of_swap_test1_return_wit_1 : swap_test1_return_wit_1.

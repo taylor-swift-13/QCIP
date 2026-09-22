@@ -205,6 +205,9 @@ Proof. Admitted.
 Lemma proof_of_thm_apply_partial_solve_wit_7 : thm_apply_partial_solve_wit_7.
 Proof. Admitted. 
 
+Lemma proof_of_thm_apply_partial_solve_wit_8_pure : thm_apply_partial_solve_wit_8_pure.
+Proof. Admitted. 
+
 Lemma proof_of_thm_apply_partial_solve_wit_8 : thm_apply_partial_solve_wit_8.
 Proof. Admitted. 
 

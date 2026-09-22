@@ -77,9 +77,6 @@ Proof. Admitted.
 Lemma proof_of_splitArrayLargestSum_safety_wit_8 : splitArrayLargestSum_safety_wit_8.
 Proof. Admitted. 
 
-Lemma proof_of_splitArrayLargestSum_entail_wit_1 : splitArrayLargestSum_entail_wit_1.
-Proof. Admitted. 
-
 Lemma proof_of_splitArrayLargestSum_partial_solve_wit_1 : splitArrayLargestSum_partial_solve_wit_1.
 Proof. Admitted. 
 

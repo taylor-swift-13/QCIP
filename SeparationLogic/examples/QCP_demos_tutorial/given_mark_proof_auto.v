@@ -25,9 +25,6 @@ Proof. Admitted.
 Lemma proof_of_given_of_marked_call_entail_wit_1 : given_of_marked_call_entail_wit_1.
 Proof. Admitted. 
 
-Lemma proof_of_given_of_marked_call_return_wit_1 : given_of_marked_call_return_wit_1.
-Proof. Admitted. 
-
 Lemma proof_of_given_of_marked_call_partial_solve_wit_1 : given_of_marked_call_partial_solve_wit_1.
 Proof. Admitted. 
 

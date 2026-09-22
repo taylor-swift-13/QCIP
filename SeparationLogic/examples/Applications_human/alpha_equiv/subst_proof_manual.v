@@ -27,243 +27,464 @@ Local Open Scope sac.
 
 Lemma proof_of_subst_var_safety_wit_5 : subst_var_safety_wit_5.
 Proof. 
-    pre_process.
+    LLM_pre_process ltac:(int_auto).
     unfold termtypeID in *.
     destruct trm; lia.
 Qed.
 
-Lemma proof_of_subst_var_return_wit_6 : subst_var_return_wit_6.
+Lemma proof_of_subst_var_return_wit_6_split_goal_spatial :
+    subst_var_return_wit_6_split_goal_spatial.
 Proof.    
-    pre_process.
-    unfold list_Z_cmp in PreH1.
-    rewrite PreH12 in PreH1.
+    LLM_pre_process ltac:(int_auto).
+    unfold list_Z_cmp in PreH5.
+    rewrite PreH16 in PreH5.
     destruct (list_Z_eqb qvar src_str) eqn:Heq; [ | discriminate ].
     unfold term_subst_v.
-    rewrite PreH3, Heq.
+    rewrite PreH7, Heq.
     unfold store_term.
     simpl.
     Exists y z.
-    entailer!.
-Qed.  
+    split_pure_spatial.
+    - cancel (&( t_pre # "term" ->ₛ "type") # Int |-> 3).
+      cancel (&( t_pre # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type") # Int |-> qtID qt).
+      cancel (&( t_pre # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var") # Ptr |-> y).
+      cancel (&( t_pre # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body") # Ptr |-> z).
+      cancel (store_string y qvar).
+      cancel (store_term z qterm).
+      cancel (store_string den_pre den_str).
+      cancel (store_string src_pre src_str).
+    - split_pures; dump_pre_spatial; try assumption.
+Qed.
+
+Lemma proof_of_subst_var_return_wit_6 : subst_var_return_wit_6.
+Proof.
+    aggressive_pre_process.
+    Goal_apply proof_of_subst_var_return_wit_6_split_goal_spatial.
+Qed.
+
+Lemma proof_of_subst_var_return_wit_5_split_goal_spatial :
+    subst_var_return_wit_5_split_goal_spatial.
+Proof. 
+    LLM_pre_process ltac:(int_auto).
+    unfold list_Z_cmp in PreH6.
+    destruct (list_Z_eqb qvar src_str) eqn:Heq; [ rewrite PreH6 in PreH17; contradiction | ].
+    unfold term_subst_v.
+    rewrite PreH8, Heq.
+    unfold store_term.
+    simpl.
+    rewrite PreH5 in *.
+    Exists y z.
+    split_pure_spatial.
+    - cancel (&( t_pre # "term" ->ₛ "type") # Int |-> 3).
+      cancel (&( t_pre # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type") # Int |-> qtID qt).
+      cancel (&( t_pre # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var") # Ptr |-> y).
+      cancel (&( t_pre # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body") # Ptr |-> z).
+      cancel (store_string y qvar).
+      cancel (store_term z (term_subst_v den_str src_str qterm)).
+      cancel (store_string den_pre den_str).
+      cancel (store_string src_pre src_str).
+    - split_pures; dump_pre_spatial; try assumption.
+Qed.
 
 Lemma proof_of_subst_var_return_wit_5 : subst_var_return_wit_5.
+Proof.
+    aggressive_pre_process.
+    Goal_apply proof_of_subst_var_return_wit_5_split_goal_spatial.
+Qed.
+
+Lemma proof_of_subst_var_return_wit_4_split_goal_spatial :
+    subst_var_return_wit_4_split_goal_spatial.
 Proof. 
-    pre_process.
-    unfold list_Z_cmp in PreH2.
-    destruct (list_Z_eqb qvar src_str) eqn:Heq; [ rewrite PreH2 in PreH13; contradiction | ].
+    LLM_pre_process ltac:(int_auto).
     unfold term_subst_v.
-    rewrite PreH4, Heq.
+    rewrite PreH4.
+    rewrite PreH6.
     unfold store_term.
     simpl.
-    rewrite PreH1 in *.
+    rewrite PreH3 in *.
     Exists y z.
-    entailer!.
+    split_pure_spatial.
+    - cancel (&( t_pre # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left") # Ptr |-> y).
+      cancel (&( t_pre # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right") # Ptr |-> z).
+      cancel (store_term y (term_subst_v den_str src_str lt)).
+      cancel (store_term z (term_subst_v den_str src_str rt)).
+      cancel (&( t_pre # "term" ->ₛ "type") # Int |-> 2).
+      cancel (store_string den_pre den_str).
+      cancel (store_string src_pre src_str).
+    - split_pures; dump_pre_spatial; try assumption.
 Qed.
 
 Lemma proof_of_subst_var_return_wit_4 : subst_var_return_wit_4.
-Proof. 
-    pre_process.
+Proof.
+    aggressive_pre_process.
+    Goal_apply proof_of_subst_var_return_wit_4_split_goal_spatial.
+Qed.
+
+Lemma proof_of_subst_var_return_wit_3_split_goal_spatial :
+  subst_var_return_wit_3_split_goal_spatial.
+Proof.
+    LLM_pre_process ltac:(int_auto).
+    subst trm.
     unfold term_subst_v.
-    rewrite PreH4.
     unfold store_term.
     simpl.
-    rewrite PreH1 in *.
-    rewrite PreH2 in *.
-    Exists y z.
-    entailer!.
-Qed. 
+    split_pure_spatial.
+    - cancel (&( t_pre # "term" ->ₛ "type") # Int |-> 1).
+      cancel (&( t_pre # "term" ->ₛ "content" .ₛ "Const" .ₛ "type") # Int |-> ctID typ).
+      cancel (&( t_pre # "term" ->ₛ "content" .ₛ "Const" .ₛ "content") # Int |-> con).
+      cancel (store_string den_pre den_str).
+      cancel (store_string src_pre src_str).
+    - split_pures; dump_pre_spatial; try assumption.
+Qed.
 
 Lemma proof_of_subst_var_return_wit_3 : subst_var_return_wit_3.
 Proof.
-    pre_process.
-    unfold term_subst_v.
-    rewrite PreH2.
-    unfold store_term.
-    simpl.
-    entailer!.
-Qed. 
+    aggressive_pre_process.
+    Goal_apply proof_of_subst_var_return_wit_3_split_goal_spatial.
+Qed.
 
-Lemma proof_of_subst_var_return_wit_2 : subst_var_return_wit_2.
+Lemma proof_of_subst_var_return_wit_2_split_goal_spatial :
+    subst_var_return_wit_2_split_goal_spatial.
 Proof. 
-    pre_process.
-    unfold list_Z_cmp in PreH2.
-    destruct (list_Z_eqb var src_str) eqn:Heq; [ rewrite PreH2 in PreH1; contradiction | ].
+    LLM_pre_process ltac:(int_auto).
+    unfold list_Z_cmp in PreH4.
+    destruct (list_Z_eqb var src_str) eqn:Heq; [ simpl in PreH4; congruence | ].
     unfold term_subst_v.
-    rewrite PreH4, Heq.
+    rewrite PreH6, Heq.
     unfold store_term.
     simpl.
     fold term_subst_v.
     fold store_term.
     Exists y.
-    entailer!.
+    split_pure_spatial.
+    - cancel (&( t_pre # "term" ->ₛ "content" .ₛ "Var") # Ptr |-> y).
+      cancel (store_string y var).
+      cancel (&( t_pre # "term" ->ₛ "type") # Int |-> 0).
+      cancel (store_string den_pre den_str).
+      cancel (store_string src_pre src_str).
+    - split_pures; dump_pre_spatial; try assumption.
 Qed.
 
-Lemma proof_of_subst_var_return_wit_1 : subst_var_return_wit_1.
+Lemma proof_of_subst_var_return_wit_2 : subst_var_return_wit_2.
 Proof.
-    pre_process.
-    unfold list_Z_cmp in PreH3.
-    rewrite PreH2 in PreH3.
-    destruct (list_Z_eqb var src_str) eqn:Heq; [ | discriminate ].
+    aggressive_pre_process.
+    Goal_apply proof_of_subst_var_return_wit_2_split_goal_spatial.
+Qed.
+
+Lemma proof_of_subst_var_return_wit_1_split_goal_spatial :
+    subst_var_return_wit_1_split_goal_spatial.
+Proof.
+    LLM_pre_process ltac:(int_auto).
+    unfold list_Z_cmp in PreH5.
+    destruct (list_Z_eqb var src_str) eqn:Heq; [ | simpl in PreH5; lia ].
     unfold term_subst_v.
-    rewrite PreH5, Heq.
+    rewrite PreH7, Heq.
     unfold store_term.
     simpl.
     fold store_term.
     Exists retval_2.
-    entailer!.
+    split_pure_spatial.
+    - cancel (&( t_pre # "term" ->ₛ "content" .ₛ "Var") # Ptr |-> retval_2).
+      cancel (store_string retval_2 den_str).
+      cancel (&( t_pre # "term" ->ₛ "type") # Int |-> 0).
+      cancel (store_string den_pre den_str).
+      cancel (store_string src_pre src_str).
+    - split_pures; dump_pre_spatial; try assumption.
+Qed.
+
+Lemma proof_of_subst_var_return_wit_1 : subst_var_return_wit_1.
+Proof.
+    aggressive_pre_process.
+    Goal_apply proof_of_subst_var_return_wit_1_split_goal_spatial.
 Qed.
     
-Lemma proof_of_subst_var_partial_solve_wit_4_pure : subst_var_partial_solve_wit_4_pure.
+Lemma proof_of_subst_var_partial_solve_wit_4_pure_split_goal_1 :
+  subst_var_partial_solve_wit_4_pure_split_goal_1.
 Proof.
-    pre_process.
+    LLM_pre_process ltac:(int_auto).
     unfold store_string.
     Intros n1 n2 n3.
-    entailer!.
+    dump_pre_spatial.
+    assumption.
+Qed.
+
+Lemma proof_of_subst_var_partial_solve_wit_4_pure : subst_var_partial_solve_wit_4_pure.
+Proof.
+    aggressive_pre_process.
+    Goal_apply proof_of_subst_var_partial_solve_wit_4_pure_split_goal_1.
 Qed.
     
-Lemma proof_of_subst_var_partial_solve_wit_8_pure : subst_var_partial_solve_wit_8_pure.
+Lemma proof_of_subst_var_partial_solve_wit_8_pure_split_goal_1 :
+  subst_var_partial_solve_wit_8_pure_split_goal_1.
 Proof. 
-    pre_process.
+    LLM_pre_process ltac:(int_auto).
     unfold store_string.
     Intros n1 n2.
     sep_apply store_term_unfold.
-    entailer!.
+    Intros_p Hy.
+    unfold NULL in Hy.
+    split_pures; dump_pre_spatial; try assumption.
+Qed.
+
+Lemma proof_of_subst_var_partial_solve_wit_8_pure : subst_var_partial_solve_wit_8_pure.
+Proof.
+    aggressive_pre_process.
+    Goal_apply proof_of_subst_var_partial_solve_wit_8_pure_split_goal_1.
+Qed.
+
+Lemma proof_of_subst_var_partial_solve_wit_9_pure_split_goal_1 :
+  subst_var_partial_solve_wit_9_pure_split_goal_1.
+Proof.
+    LLM_pre_process ltac:(int_auto).
+    unfold store_string.
+    Intros n1 n2.
+    sep_apply store_term_unfold.
+    Intros_p Hz.
+    unfold NULL in Hz.
+    split_pures; dump_pre_spatial; try assumption.
 Qed.
 
 Lemma proof_of_subst_var_partial_solve_wit_9_pure : subst_var_partial_solve_wit_9_pure.
 Proof.
-    pre_process.
-    unfold store_string.
-    Intros n1 n2.
-    sep_apply store_term_unfold.
-    entailer!.
+    aggressive_pre_process.
+    Goal_apply proof_of_subst_var_partial_solve_wit_9_pure_split_goal_1.
 Qed.
     
-Lemma proof_of_subst_var_partial_solve_wit_12_pure : subst_var_partial_solve_wit_12_pure.
+Lemma proof_of_subst_var_partial_solve_wit_12_pure_split_goal_1 :
+  subst_var_partial_solve_wit_12_pure_split_goal_1.
 Proof.
-    pre_process.
+    LLM_pre_process ltac:(int_auto).
     unfold store_string.
     Intros n1 n2 n3.
     sep_apply (store_term_unfold z qterm).
-    entailer!.
+    Intros_p Hz.
+    unfold NULL in Hz.
+    split_pures; dump_pre_spatial; try assumption.
+Qed.
+
+Lemma proof_of_subst_var_partial_solve_wit_12_pure : subst_var_partial_solve_wit_12_pure.
+Proof.
+    aggressive_pre_process.
+    Goal_apply proof_of_subst_var_partial_solve_wit_12_pure_split_goal_1.
 Qed.
 
 Lemma proof_of_subst_var_which_implies_wit_1 : subst_var_which_implies_wit_1.
 Proof. 
-    pre_process.
+    LLM_pre_process ltac:(int_auto).
     sep_apply store_term_unfold.
-    entailer!.
+    Intros_p Ht.
+    unfold NULL in Ht.
+    split_pure_spatial.
+    - cancel.
+    - split_pures; dump_pre_spatial; try assumption.
 Qed.
 
 Lemma proof_of_subst_var_which_implies_wit_2 : subst_var_which_implies_wit_2.
 Proof.
-    pre_process.
+    LLM_pre_process ltac:(int_auto).
     sep_apply store_term'_Var; [ | tauto | tauto].
     Intros var y.
     Exists y var.
-    entailer!.
+    split_pure_spatial.
+    - cancel (&( t # "term" ->ₛ "content" .ₛ "Var") # Ptr |-> y).
+      cancel (&( t # "term" ->ₛ "type") # Int |-> termtypeID trm).
+      cancel (store_string y var).
+    - split_pures; dump_pre_spatial; try assumption.
 Qed. 
 
 Lemma proof_of_subst_var_which_implies_wit_3 : subst_var_which_implies_wit_3.
 Proof. 
-    pre_process.
+    LLM_pre_process ltac:(int_auto).
     sep_apply store_term'_Const; [ | tauto | tauto].
     Intros y z.
     Exists y z.
-    entailer!.
+    split_pure_spatial.
+    - cancel (&( t # "term" ->ₛ "content" .ₛ "Const" .ₛ "type") # Int |-> ctID y).
+      cancel (&( t # "term" ->ₛ "content" .ₛ "Const" .ₛ "content") # Int |-> z).
+      cancel (&( t # "term" ->ₛ "type") # Int |-> termtypeID trm).
+    - split_pures; dump_pre_spatial; try assumption.
 Qed. 
 
 Lemma proof_of_subst_var_which_implies_wit_4 : subst_var_which_implies_wit_4.
 Proof. 
-    pre_process.
+    LLM_pre_process ltac:(int_auto).
     sep_apply store_term'_Apply; [ | tauto | tauto].
     Intros lt rt y z.
     Exists z y lt rt.
-    entailer!.
+    split_pure_spatial.
+    - cancel (&( t # "term" ->ₛ "type") # Int |-> termtypeID trm).
+      cancel (&( t # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left") # Ptr |-> y).
+      cancel (&( t # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right") # Ptr |-> z).
+      cancel (store_term y lt).
+      cancel (store_term z rt).
+    - split_pures; dump_pre_spatial; try assumption.
 Qed.
 
 Lemma proof_of_subst_var_which_implies_wit_5 : subst_var_which_implies_wit_5.
 Proof. 
-    pre_process.
+    LLM_pre_process ltac:(int_auto).
     sep_apply store_term'_Quant; [ | tauto | tauto].
     Intros typ v b y z.
     Exists z y typ v b.
-    entailer!.
+    split_pure_spatial.
+    - cancel (&( t # "term" ->ₛ "type") # Int |-> termtypeID trm).
+      cancel (&( t # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type") # Int |-> qtID typ).
+      cancel (&( t # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var") # Ptr |-> y).
+      cancel (&( t # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body") # Ptr |-> z).
+      cancel (store_string y v).
+      cancel (store_term z b).
+    - split_pures; dump_pre_spatial; try assumption.
 Qed. 
 
 Lemma proof_of_subst_term_safety_wit_5 : subst_term_safety_wit_5.
 Proof. 
-    pre_process. 
+    LLM_pre_process ltac:(int_auto). 
     unfold termtypeID in *.
     destruct trm; lia.
 Qed.
 
-Lemma proof_of_subst_term_return_wit_6 : subst_term_return_wit_6.
+Lemma proof_of_subst_term_return_wit_6_split_goal_spatial :
+    subst_term_return_wit_6_split_goal_spatial.
 Proof. 
-    pre_process.
-    unfold list_Z_cmp in PreH1.
-    rewrite PreH12 in PreH1.
-    destruct (list_Z_eqb qvar src_str) eqn:Heq; [ | discriminate ].
-    unfold term_subst_t.
-    rewrite PreH3, Heq.
-    unfold store_term.
-    simpl.
-    Exists y z.
-    entailer!.
+    LLM_pre_process ltac:(int_auto).
+    unfold list_Z_cmp in PreH5.
+    destruct (list_Z_eqb qvar src_str) eqn:Heq.
+    -
+      unfold term_subst_t.
+      rewrite PreH7, Heq.
+      unfold store_term.
+      simpl.
+      Exists y z.
+      split_pure_spatial.
+      + cancel (&( t_pre # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type") # Int |-> qtID qt).
+        cancel (&( t_pre # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var") # Ptr |-> y).
+        cancel (&( t_pre # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body") # Ptr |-> z).
+        cancel (store_string y qvar).
+        cancel (store_term z qterm).
+        cancel (&( t_pre # "term" ->ₛ "type") # Int |-> 3).
+        cancel (store_term den_pre den_term).
+        cancel (store_string src_pre src_str).
+      + split_pures; dump_pre_spatial; try assumption.
+    - simpl in PreH5.
+      lia.
 Qed.
 
-Lemma proof_of_subst_term_return_wit_5 : subst_term_return_wit_5.
+Lemma proof_of_subst_term_return_wit_6 : subst_term_return_wit_6.
+Proof.
+    aggressive_pre_process.
+    Goal_apply proof_of_subst_term_return_wit_6_split_goal_spatial.
+Qed.
+
+Lemma proof_of_subst_term_return_wit_5_split_goal_spatial :
+    subst_term_return_wit_5_split_goal_spatial.
 Proof.  
-    pre_process.
-    unfold list_Z_cmp in PreH1.
-    destruct (list_Z_eqb qvar src_str) eqn:Heq; [ rewrite PreH1 in PreH12; contradiction | ].
+    LLM_pre_process ltac:(int_auto).
+    unfold list_Z_cmp in PreH5.
+    destruct (list_Z_eqb qvar src_str) eqn:Heq; [ simpl in PreH5; lia | ].
     unfold term_subst_t.
-    rewrite PreH3, Heq.
+    rewrite PreH7, Heq.
     unfold store_term.
     simpl.
     Exists y retval_2.
-    entailer!.
+    split_pure_spatial.
+    - cancel (&( t_pre # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type") # Int |-> qtID qt).
+      cancel (&( t_pre # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var") # Ptr |-> y).
+      cancel (&( t_pre # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body") # Ptr |-> retval_2).
+      cancel (store_string y qvar).
+      cancel (store_term retval_2 (term_subst_t den_term src_str qterm)).
+      cancel (&( t_pre # "term" ->ₛ "type") # Int |-> 3).
+      cancel (store_term den_pre den_term).
+      cancel (store_string src_pre src_str).
+    - split_pures; dump_pre_spatial; try assumption.
 Qed.
 
-Lemma proof_of_subst_term_return_wit_4 : subst_term_return_wit_4.
-Proof. 
-    pre_process.
+Lemma proof_of_subst_term_return_wit_5 : subst_term_return_wit_5.
+Proof.
+    aggressive_pre_process.
+    Goal_apply proof_of_subst_term_return_wit_5_split_goal_spatial.
+Qed.
+
+Lemma proof_of_subst_term_return_wit_4_split_goal_spatial :
+  subst_term_return_wit_4_split_goal_spatial.
+Proof.
+    LLM_pre_process ltac:(int_auto).
+    subst trm.
     unfold term_subst_t.
-    rewrite PreH2.
     unfold store_term.
     simpl.
     Exists retval retval_2.
-    entailer!.
+    split_pure_spatial.
+    - cancel (&( t_pre # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left") # Ptr |-> retval).
+      cancel (&( t_pre # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right") # Ptr |-> retval_2).
+      cancel (store_term retval (term_subst_t den_term src_str lt)).
+      cancel (store_term retval_2 (term_subst_t den_term src_str rt)).
+      cancel (&( t_pre # "term" ->ₛ "type") # Int |-> 2).
+      cancel (store_term den_pre den_term).
+      cancel (store_string src_pre src_str).
+    - split_pures; dump_pre_spatial; try assumption.
+Qed.
+
+Lemma proof_of_subst_term_return_wit_4 : subst_term_return_wit_4.
+Proof.
+    aggressive_pre_process.
+    Goal_apply proof_of_subst_term_return_wit_4_split_goal_spatial.
+Qed.
+
+Lemma proof_of_subst_term_return_wit_3_split_goal_spatial :
+  subst_term_return_wit_3_split_goal_spatial.
+Proof.
+    LLM_pre_process ltac:(int_auto).
+    subst trm.
+    unfold term_subst_t.
+    unfold store_term.
+    simpl.
+    split_pure_spatial.
+    - cancel (&( t_pre # "term" ->ₛ "type") # Int |-> 1).
+      cancel (&( t_pre # "term" ->ₛ "content" .ₛ "Const" .ₛ "type") # Int |-> ctID typ).
+      cancel (&( t_pre # "term" ->ₛ "content" .ₛ "Const" .ₛ "content") # Int |-> con).
+      cancel (store_term den_pre den_term).
+      cancel (store_string src_pre src_str).
+    - split_pures; dump_pre_spatial; try assumption.
 Qed.
 
 Lemma proof_of_subst_term_return_wit_3 : subst_term_return_wit_3.
-Proof.  
-    pre_process.
-    unfold term_subst_t.
-    rewrite PreH2.
-    unfold store_term.
-    simpl.
-    entailer!.
+Proof.
+    aggressive_pre_process.
+    Goal_apply proof_of_subst_term_return_wit_3_split_goal_spatial.
 Qed.
 
-Lemma proof_of_subst_term_return_wit_2 : subst_term_return_wit_2.
+Lemma proof_of_subst_term_return_wit_2_split_goal_spatial :
+    subst_term_return_wit_2_split_goal_spatial.
 Proof. 
-    pre_process.
-    unfold list_Z_cmp in PreH2.
-    destruct (list_Z_eqb var src_str) eqn:Heq; [ rewrite PreH2 in PreH1; contradiction | ].
+    LLM_pre_process ltac:(int_auto).
+    unfold list_Z_cmp in PreH4.
+    destruct (list_Z_eqb var src_str) eqn:Heq; [ simpl in PreH4; congruence | ].
     unfold term_subst_t.
-    rewrite PreH4, Heq.
+    rewrite PreH6, Heq.
     unfold store_term.
     simpl.
     fold term_subst_t.
     fold store_term.
     Exists y.
-    entailer!.
+    split_pure_spatial.
+    - cancel (&( t_pre # "term" ->ₛ "content" .ₛ "Var") # Ptr |-> y).
+      cancel (store_string y var).
+      cancel (&( t_pre # "term" ->ₛ "type") # Int |-> 0).
+      cancel (store_term den_pre den_term).
+      cancel (store_string src_pre src_str).
+    - split_pures; dump_pre_spatial; try assumption.
 Qed.
 
-Lemma proof_of_subst_term_return_wit_1 : subst_term_return_wit_1.
+Lemma proof_of_subst_term_return_wit_2 : subst_term_return_wit_2.
+Proof.
+    aggressive_pre_process.
+    Goal_apply proof_of_subst_term_return_wit_2_split_goal_spatial.
+Qed.
+
+Lemma proof_of_subst_term_return_wit_1_split_goal_spatial :
+    subst_term_return_wit_1_split_goal_spatial.
 Proof. 
-    pre_process.
+    LLM_pre_process ltac:(int_auto).
     unfold list_Z_cmp in PreH3.
     rewrite PreH2 in PreH3.
     destruct (list_Z_eqb var src_str) eqn:Heq; [ | discriminate ].
@@ -272,84 +493,162 @@ Proof.
     unfold store_term.
     simpl.
     fold store_term.
-    entailer!.
+    cancel.
+Qed.
+
+Lemma proof_of_subst_term_return_wit_1 : subst_term_return_wit_1.
+Proof.
+    aggressive_pre_process.
+    Goal_apply proof_of_subst_term_return_wit_1_split_goal_spatial.
+Qed.
+
+Lemma proof_of_subst_term_partial_solve_wit_9_pure_split_goal_1 :
+  subst_term_partial_solve_wit_9_pure_split_goal_1.
+Proof.
+    LLM_pre_process ltac:(int_auto).
+    unfold store_string.
+    Intros n.
+    sep_apply (store_term_unfold y lt).
+    Intros_p Hy.
+    split_pures; dump_pre_spatial; try assumption.
 Qed.
 
 Lemma proof_of_subst_term_partial_solve_wit_9_pure : subst_term_partial_solve_wit_9_pure.
 Proof.
-    pre_process.
-    unfold store_string.
-    Intros n.
-    sep_apply (store_term_unfold y lt).
-    entailer!.
+    aggressive_pre_process.
+    Goal_apply proof_of_subst_term_partial_solve_wit_9_pure_split_goal_1.
 Qed.
 
-Lemma proof_of_subst_term_partial_solve_wit_10_pure : subst_term_partial_solve_wit_10_pure.
+Lemma proof_of_subst_term_partial_solve_wit_10_pure_split_goal_1 :
+  subst_term_partial_solve_wit_10_pure_split_goal_1.
 Proof. 
-    pre_process.
+    LLM_pre_process ltac:(int_auto).
     unfold store_string.
     Intros n.
     sep_apply (store_term_unfold z rt).
-    entailer!.
+    Intros_p Hz.
+    unfold NULL in Hz.
+    split_pures; dump_pre_spatial; try assumption.
+Qed.
+
+Lemma proof_of_subst_term_partial_solve_wit_10_pure : subst_term_partial_solve_wit_10_pure.
+Proof.
+    aggressive_pre_process.
+    Goal_apply proof_of_subst_term_partial_solve_wit_10_pure_split_goal_1.
 Qed. 
 
-Lemma proof_of_subst_term_partial_solve_wit_13_pure : subst_term_partial_solve_wit_13_pure.
+Lemma proof_of_subst_term_partial_solve_wit_13_pure_split_goal_1 :
+  subst_term_partial_solve_wit_13_pure_split_goal_1.
 Proof.
-    pre_process.
+    LLM_pre_process ltac:(int_auto).
     unfold store_string.
     Intros n1 n2.
     sep_apply (store_term_unfold z qterm).
-    entailer!.
+    Intros_p Hz.
+    unfold NULL in Hz.
+    split_pures; dump_pre_spatial; try assumption.
+Qed.
+
+Lemma proof_of_subst_term_partial_solve_wit_13_pure : subst_term_partial_solve_wit_13_pure.
+Proof.
+    aggressive_pre_process.
+    Goal_apply proof_of_subst_term_partial_solve_wit_13_pure_split_goal_1.
 Qed. 
 
-Lemma proof_of_subst_term_which_implies_wit_1 : subst_term_which_implies_wit_1.
-Proof. 
-    pre_process.
+Lemma proof_of_subst_term_which_implies_wit_1_split_goal_1 :
+  subst_term_which_implies_wit_1_split_goal_1.
+Proof.
+    LLM_pre_process ltac:(int_auto).
     sep_apply store_term_unfold.
-    entailer!.
+    Intros_p Ht.
+    dump_pre_spatial.
+    exact Ht.
+Qed.
+
+Lemma proof_of_subst_term_which_implies_wit_1_split_goal_spatial :
+  subst_term_which_implies_wit_1_split_goal_spatial.
+Proof.
+    LLM_pre_process ltac:(int_auto).
+    sep_apply store_term_unfold.
+    Intros_p Ht.
+    cancel.
+Qed.
+
+Lemma proof_of_subst_term_which_implies_wit_1 : subst_term_which_implies_wit_1.
+Proof.
+    LLM_pre_process ltac:(int_auto).
+    sep_apply store_term_unfold.
+    Intros_p Ht.
+    split_pure_spatial.
+    - cancel.
+    - dump_pre_spatial.
+      exact Ht.
 Qed.
 
 Lemma proof_of_subst_term_which_implies_wit_2 : subst_term_which_implies_wit_2.
 Proof. 
-    pre_process.
+    LLM_pre_process ltac:(int_auto).
     sep_apply store_term'_Var; [ | tauto | tauto].
     Intros var y.
     Exists y var.
-    entailer!.
+    split_pure_spatial.
+    - cancel (&( t # "term" ->ₛ "content" .ₛ "Var") # Ptr |-> y).
+      cancel (&( t # "term" ->ₛ "type") # Int |-> termtypeID trm).
+      cancel (store_string y var).
+    - split_pures; dump_pre_spatial; try assumption.
 Qed. 
 
 Lemma proof_of_subst_term_which_implies_wit_3 : subst_term_which_implies_wit_3.
 Proof. 
-    pre_process.
+    LLM_pre_process ltac:(int_auto).
     rewrite PreH2.
     unfold store_term.
     Exists y.
-    entailer!.
+    split_pure_spatial.
+    - cancel.
+    - split_pures; dump_pre_spatial; try assumption; reflexivity.
 Qed.
 
 Lemma proof_of_subst_term_which_implies_wit_4 : subst_term_which_implies_wit_4.
 Proof.
-    pre_process.
+    LLM_pre_process ltac:(int_auto).
     sep_apply store_term'_Const; [ | tauto | tauto].
     Intros y z.
     Exists y z.
-    entailer!.
+    split_pure_spatial.
+    - cancel (&( t # "term" ->ₛ "content" .ₛ "Const" .ₛ "type") # Int |-> ctID y).
+      cancel (&( t # "term" ->ₛ "content" .ₛ "Const" .ₛ "content") # Int |-> z).
+      cancel (&( t # "term" ->ₛ "type") # Int |-> termtypeID trm).
+    - split_pures; dump_pre_spatial; try assumption.
 Qed. 
 
 Lemma proof_of_subst_term_which_implies_wit_5 : subst_term_which_implies_wit_5.
 Proof. 
-    pre_process.
+    LLM_pre_process ltac:(int_auto).
     sep_apply store_term'_Apply; [ | tauto | tauto].
     Intros lt rt y z.
     Exists z y lt rt.
-    entailer!.
+    split_pure_spatial.
+    - cancel (&( t # "term" ->ₛ "type") # Int |-> termtypeID trm).
+      cancel (&( t # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left") # Ptr |-> y).
+      cancel (&( t # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right") # Ptr |-> z).
+      cancel (store_term y lt).
+      cancel (store_term z rt).
+    - split_pures; dump_pre_spatial; try assumption.
 Qed.
 
 Lemma proof_of_subst_term_which_implies_wit_6 : subst_term_which_implies_wit_6.
 Proof. 
-    pre_process.
+    LLM_pre_process ltac:(int_auto).
     sep_apply store_term'_Quant; [ | tauto | tauto].
     Intros typ v b y z.
     Exists z y typ v b.
-    entailer!.
+    split_pure_spatial; [
+      cancel (&( t # "term" ->ₛ "type") # Int |-> termtypeID trm);
+      cancel (&( t # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type") # Int |-> qtID typ);
+      cancel (&( t # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var") # Ptr |-> y);
+      cancel (&( t # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body") # Ptr |-> z);
+      cancel (store_string y v);
+      cancel (store_term z b)
+    | split_pures; dump_pre_spatial; try assumption ].
 Qed.

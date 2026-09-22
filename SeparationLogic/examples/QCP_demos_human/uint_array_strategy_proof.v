@@ -85,6 +85,8 @@ Qed.
 Lemma uint_array_strategy2_correctness : uint_array_strategy2.
   pre_process_default.
   simpl.
+  replace (p + i * 4) with (p + i * sizeof (UINT))
+    by (rewrite sizeof_uint; lia).
   sep_apply (UIntArray.missing_i_merge_to_full); [ | tauto].
   rewrite replace_Znth_Znth by tauto.
   entailer!.
@@ -92,6 +94,8 @@ Qed.
 
 Lemma uint_array_strategy11_correctness : uint_array_strategy11.
   pre_process_default.
+  replace (p + i * 4) with (p + i * sizeof (UINT))
+    by (rewrite sizeof_uint; lia).
   sep_apply (UIntArray.missing_i_merge_to_seg); [ | tauto].
   rewrite replace_Znth_Znth by tauto.
   entailer!.
@@ -100,6 +104,8 @@ Qed.
 Lemma uint_array_strategy3_correctness : uint_array_strategy3.
   pre_process_default.
   simpl.
+  replace (p + i * 4) with (p + i * sizeof (UINT))
+    by (rewrite sizeof_uint; lia).
   sep_apply (UIntArray.missing_i_merge_to_full); [ | tauto].
   entailer!.
 Qed.
@@ -107,6 +113,8 @@ Qed.
 Lemma uint_array_strategy12_correctness : uint_array_strategy12.
   pre_process_default.
   simpl.
+  replace (p + i * 4) with (p + i * sizeof (UINT))
+    by (rewrite sizeof_uint; lia).
   sep_apply (UIntArray.missing_i_merge_to_seg); [ | tauto].
   entailer!.
 Qed.
@@ -123,8 +131,10 @@ Lemma uint_array_strategy14_correctness : uint_array_strategy14.
   Intros.
   subst.
   prop_apply (UIntArray.full_length p). Intros.
+  replace (p + n * 4) with (p + n * sizeof (UINT))
+    by (rewrite sizeof_uint; lia).
   sep_apply UIntArray.seg_single.
-  sep_apply UIntArray.seg_to_full.
+  sep_apply (UIntArray.seg_to_full p n (n + 1) (a :: nil)).
   sep_apply (UIntArray.full_merge_to_full p) ; try lia.
   entailer!.
 Qed.

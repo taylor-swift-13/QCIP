@@ -21,15 +21,10 @@ Import Aux.
 Local Open Scope sac.
 
 
-Lemma proof_of_gmp_umul_ppmm_return_wit_1 : gmp_umul_ppmm_return_wit_1.
+Lemma proof_of_gmp_umul_ppmm_return_wit_1_split_goal_1 :
+  gmp_umul_ppmm_return_wit_1_split_goal_1.
 Proof.
-  pre_process.
-  
-  Exists (unsigned_last_nbits (((unsigned_last_nbits ((Z.shiftl (unsigned_last_nbits (((unsigned_last_nbits (((unsigned_last_nbits (((Z.land u_pre 65535) * (Z.shiftr v_pre 16) )) (32)) + (Z.shiftr (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)) 16) )) (32)) + (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)) )) (32)) 16)) (32)) + (Z.land ((Z.land u_pre 65535) * (Z.land v_pre 65535) ) 65535) )) (32)).
-  Exists (unsigned_last_nbits (((unsigned_last_nbits (((unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.shiftr v_pre 16) )) (32)) + 65536 )) (32)) + (Z.shiftr (unsigned_last_nbits (((unsigned_last_nbits (((unsigned_last_nbits (((Z.land u_pre 65535) * (Z.shiftr v_pre 16) )) (32)) + (Z.shiftr (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)) 16) )) (32)) + (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)) )) (32)) 16) )) (32)).
-  
-  entailer!.
-  
+  LLM_pre_process ltac:(int_auto).
   unfold UINT_MOD.
   
   set (ul := Z.land u_pre 65535).
@@ -104,15 +99,16 @@ Proof.
   exact Hlemma.
 Qed.
 
-
-Lemma proof_of_gmp_umul_ppmm_return_wit_2 : gmp_umul_ppmm_return_wit_2.
+Lemma proof_of_gmp_umul_ppmm_return_wit_1 : gmp_umul_ppmm_return_wit_1.
 Proof.
-  pre_process.
-  Exists (unsigned_last_nbits (((unsigned_last_nbits ((Z.shiftl (unsigned_last_nbits (((unsigned_last_nbits (((unsigned_last_nbits (((Z.land u_pre 65535) * (Z.shiftr v_pre 16) )) (32)) + (Z.shiftr (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)) 16) )) (32)) + (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)) )) (32)) 16)) (32)) + (Z.land ((Z.land u_pre 65535) * (Z.land v_pre 65535) ) 65535) )) (32)).
-  Exists (unsigned_last_nbits (((unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.shiftr v_pre 16) )) (32)) + (Z.shiftr (unsigned_last_nbits (((unsigned_last_nbits (((unsigned_last_nbits (((Z.land u_pre 65535) * (Z.shiftr v_pre 16) )) (32)) + (Z.shiftr (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)) 16) )) (32)) + (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)) )) (32)) 16) )) (32)).
-  
-  entailer!.
-  
+  aggressive_pre_process.
+  Goal_apply proof_of_gmp_umul_ppmm_return_wit_1_split_goal_1.
+Qed.
+
+Lemma proof_of_gmp_umul_ppmm_return_wit_2_split_goal_1 :
+  gmp_umul_ppmm_return_wit_2_split_goal_1.
+Proof.
+  LLM_pre_process ltac:(int_auto).
   unfold UINT_MOD.
   
   set (ul := Z.land u_pre 65535).
@@ -194,79 +190,157 @@ Proof.
   exact Hlemma.
 Qed.
 
+Lemma proof_of_gmp_umul_ppmm_return_wit_2 : gmp_umul_ppmm_return_wit_2.
+Proof.
+  aggressive_pre_process.
+  Goal_apply proof_of_gmp_umul_ppmm_return_wit_2_split_goal_1.
+Qed.
+
+
+Lemma proof_of_mpn_mul_1_entail_wit_1_split_goal_1 :
+  mpn_mul_1_entail_wit_1_split_goal_1.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+Qed.
+
+Lemma proof_of_mpn_mul_1_entail_wit_1_split_goal_2 :
+  mpn_mul_1_entail_wit_1_split_goal_2.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+Qed.
+
+Lemma proof_of_mpn_mul_1_entail_wit_1_split_goal_3 :
+  mpn_mul_1_entail_wit_1_split_goal_3.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+Qed.
 
 Lemma proof_of_mpn_mul_1_entail_wit_1 : mpn_mul_1_entail_wit_1.
 Proof.
-  pre_process.
-  Exists (@nil Z).
-  entailer!.
-  sep_apply UIntArray.undef_full_to_undef_seg.
-  entailer!.
-  rewrite (UIntArray.seg_empty rp_pre 0 0).
-  entailer!.
-Qed. 
+  aggressive_pre_process.
+  - Goal_apply proof_of_mpn_mul_1_entail_wit_1_split_goal_1.
+  - Goal_apply proof_of_mpn_mul_1_entail_wit_1_split_goal_3.
+Qed.
 
+Lemma proof_of_mpn_mul_1_entail_wit_5_1_split_goal_1 :
+  mpn_mul_1_entail_wit_5_1_split_goal_1.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  subst i.
+  simpl.
+  apply mpn_mul_1_no_carry_invariant with (vl_pre := vl_pre); try lia; auto.
+  - unfold UINT_MOD. lia.
+  - assert (Hw0: 0 <= lpl < UINT_MOD) by (unfold UINT_MOD in *; lia).
+    unfold UINT_MOD in *; lia.
+  - assert (Hw1: 0 <= hpl < UINT_MOD) by (unfold UINT_MOD in *; lia).
+    unfold UINT_MOD in *; lia.
+  - unfold UINT_MOD. lia.
+Qed.
+
+Lemma proof_of_mpn_mul_1_entail_wit_5_1_split_goal_2 :
+  mpn_mul_1_entail_wit_5_1_split_goal_2.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  apply list_within_bound_concat; auto.
+  simpl; split; auto.
+  unfold unsigned_last_nbits, UINT_MOD.
+  pose proof (Z.mod_pos_bound (lpl + cl) (2 ^ 32)).
+  lia.
+Qed.
+
+Lemma proof_of_mpn_mul_1_entail_wit_5_1_split_goal_3 :
+  mpn_mul_1_entail_wit_5_1_split_goal_3.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  rewrite Zlength_app, Zlength_cons, Zlength_nil.
+  lia.
+Qed.
 
 Lemma proof_of_mpn_mul_1_entail_wit_5_1 : mpn_mul_1_entail_wit_5_1.
 Proof.
-  pre_process.
-  Exists (l_rp_2 ++ (unsigned_last_nbits (lpl + cl) 32 :: nil)).
-  entailer!.
-  - sep_apply (store_uint_undef_store_uint &("lpl")).
-    sep_apply (store_uint_undef_store_uint &("hpl")).
-    sep_apply (store_uint_undef_store_uint &("ul")).
-    entailer!.
-  - 
-    simpl. apply mpn_mul_1_no_carry_invariant with (vl_pre := vl_pre); try lia; auto.
-    + unfold UINT_MOD. lia.
-    + assert (Hw0: 0 <= lpl < UINT_MOD) by (unfold UINT_MOD in *; lia). unfold UINT_MOD in *. lia.
-    + assert (Hw1: 0 <= hpl < UINT_MOD) by (unfold UINT_MOD in *; lia). unfold UINT_MOD in *. lia.
-    + unfold UINT_MOD. lia.
-  - apply list_within_bound_concat; auto. simpl. split; auto.
-    unfold unsigned_last_nbits, UINT_MOD. pose proof (Z.mod_pos_bound (lpl + cl) (2^32)). lia.
-  - rewrite Zlength_app. rewrite Zlength_cons. rewrite Zlength_nil. lia.
-Qed. 
+  aggressive_pre_process.
+  - Goal_apply proof_of_mpn_mul_1_entail_wit_5_1_split_goal_1.
+  - Goal_apply proof_of_mpn_mul_1_entail_wit_5_1_split_goal_2.
+  - Goal_apply proof_of_mpn_mul_1_entail_wit_5_1_split_goal_3.
+Qed.
 
+Lemma proof_of_mpn_mul_1_entail_wit_5_2_split_goal_1 :
+  mpn_mul_1_entail_wit_5_2_split_goal_1.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  subst i.
+  simpl.
+  apply mpn_mul_1_carry_invariant with (vl_pre := vl_pre); try lia; auto.
+  - unfold UINT_MOD. lia.
+  - assert (Hw0: 0 <= lpl < UINT_MOD) by (unfold UINT_MOD in *; lia).
+    exact Hw0.
+  - assert (Hw1: 0 <= hpl < UINT_MOD) by (unfold UINT_MOD in *; lia).
+    exact Hw1.
+  - unfold UINT_MOD. lia.
+Qed.
+
+Lemma proof_of_mpn_mul_1_entail_wit_5_2_split_goal_2 :
+  mpn_mul_1_entail_wit_5_2_split_goal_2.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  apply list_within_bound_concat; auto.
+  simpl; split; auto.
+  unfold unsigned_last_nbits, UINT_MOD.
+  pose proof (Z.mod_pos_bound (lpl + cl) (2 ^ 32)).
+  lia.
+Qed.
+
+Lemma proof_of_mpn_mul_1_entail_wit_5_2_split_goal_3 :
+  mpn_mul_1_entail_wit_5_2_split_goal_3.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  rewrite Zlength_app, Zlength_cons, Zlength_nil.
+  lia.
+Qed.
+
+Lemma proof_of_mpn_mul_1_entail_wit_5_2_split_goal_4 :
+  mpn_mul_1_entail_wit_5_2_split_goal_4.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  unfold unsigned_last_nbits, UINT_MOD.
+  pose proof (Z.mod_pos_bound (1 + hpl) (2 ^ 32)).
+  lia.
+Qed.
+
+Lemma proof_of_mpn_mul_1_entail_wit_5_2_split_goal_5 :
+  mpn_mul_1_entail_wit_5_2_split_goal_5.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  unfold unsigned_last_nbits, UINT_MOD.
+  pose proof (Z.mod_pos_bound (1 + hpl) (2 ^ 32)).
+  lia.
+Qed.
 
 Lemma proof_of_mpn_mul_1_entail_wit_5_2 : mpn_mul_1_entail_wit_5_2.
 Proof.
-  pre_process.
-  Exists (l_rp_2 ++ (unsigned_last_nbits (lpl + cl) 32 :: nil)).
-  entailer!.
-  -
-    sep_apply (store_uint_undef_store_uint &("lpl")).
-    sep_apply (store_uint_undef_store_uint &("hpl")).
-    sep_apply (store_uint_undef_store_uint &("ul")).
-    entailer!.
-  -
-    simpl. apply mpn_mul_1_carry_invariant with (vl_pre := vl_pre); try lia; auto.
-    + unfold UINT_MOD. lia.
-    + assert (Hw0: 0 <= lpl < UINT_MOD) by (unfold UINT_MOD in *; lia). exact Hw0.
-    + assert (Hw1: 0 <= hpl < UINT_MOD) by (unfold UINT_MOD in *; lia). exact Hw1.
-    + unfold UINT_MOD. lia.
-  - 
-    apply list_within_bound_concat; auto. simpl. split; auto.
-    unfold unsigned_last_nbits, UINT_MOD. pose proof (Z.mod_pos_bound (lpl + cl) (2^32)). lia.
-  - 
-    rewrite Zlength_app. rewrite Zlength_cons. rewrite Zlength_nil. lia.
-  - unfold unsigned_last_nbits, UINT_MOD.
-    pose proof (Z.mod_pos_bound (1 + hpl) (2^32)).
-    lia.
-  - unfold unsigned_last_nbits, UINT_MOD.
-    pose proof (Z.mod_pos_bound (1 + hpl) (2^32)).
-    lia.
+  aggressive_pre_process.
+  - Goal_apply proof_of_mpn_mul_1_entail_wit_5_2_split_goal_1.
+  - Goal_apply proof_of_mpn_mul_1_entail_wit_5_2_split_goal_2.
+  - Goal_apply proof_of_mpn_mul_1_entail_wit_5_2_split_goal_3.
+  - Goal_apply proof_of_mpn_mul_1_entail_wit_5_2_split_goal_4.
+  - Goal_apply proof_of_mpn_mul_1_entail_wit_5_2_split_goal_5.
 Qed.
 
 
 Lemma proof_of_mpn_mul_1_return_wit_1 : mpn_mul_1_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists (list_to_Z UINT_MOD l_rp) l_rp.
-  entailer!.
+  split_pure_spatial.
   - assert (Hi_eq: i = n_pre) by lia. rewrite Hi_eq.
     rewrite (UIntArray.undef_seg_empty rp_pre n_pre).
-    unfold UIntArray.full, UIntArray.seg. entailer!.
-  - assert (Hi_eq: i = n_pre) by lia. rewrite Hi_eq in *.
+    normalize.
+    cancel.
+    sep_apply UIntArray.seg_to_full.
+    replace (rp_pre + 0 * sizeof ( UINT )) with rp_pre by lia.
+    replace (n_pre - 0) with n_pre by lia.
+    cancel.
+  - split_pures; dump_pre_spatial; try assumption; try reflexivity; try lia.
+    assert (Hi_eq: i = n_pre) by lia. rewrite Hi_eq in *.
     rewrite (sublist_self l n_pre) in PreH8 by lia. lia.
 Qed. 
-

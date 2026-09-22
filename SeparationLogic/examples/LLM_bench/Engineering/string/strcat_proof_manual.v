@@ -21,7 +21,7 @@ Local Open Scope sac.
 
 Lemma proof_of_strcat_safety_wit_3 : strcat_safety_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (Hi_lt : i < string_lib.string_length dst_str).
   { eapply string_lib.c_string_nonzero_index_lt; eauto. }
   split_pures; dump_pre_spatial;
@@ -33,7 +33,7 @@ Qed.
 
 Lemma proof_of_strcat_safety_wit_7 : strcat_safety_wit_7.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pures.
   - dump_pre_spatial.
     unfold string_lib.string_length in *.
@@ -46,7 +46,7 @@ Qed.
 
 Lemma proof_of_strcat_entail_wit_1 : strcat_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   cancel.
   split_pures; dump_pre_spatial; auto; try lia; apply Zlength_nonneg.
@@ -54,7 +54,7 @@ Qed.
 
 Lemma proof_of_strcat_entail_wit_2 : strcat_entail_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   unfold string_lib.store_string; split_pure_spatial.
   cancel.
   split_pures; dump_pre_spatial; auto; try lia.
@@ -83,7 +83,7 @@ Qed.
 
 Lemma proof_of_strcat_entail_wit_3 : strcat_entail_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (Hi : i = string_lib.string_length dst_str) by
     (match goal with
      | Hvalid : string_lib.valid_string dst_str |- _ =>
@@ -120,30 +120,34 @@ Proof.
      [replace (Zlength dst_str - Zlength dst_str) with 0 by lia;
       replace (Zlength dst_str + 1 - Zlength dst_str) with 1 by lia;
       reflexivity | reflexivity | lia]).
-  entailer!.
+  cancel.
   rewrite CharArray.full_unfold.
   replace (dest_pre + string_lib.string_length dst_str * sizeof ( CHAR ) +
              0 * sizeof ( CHAR ))
     with (dest_pre + string_lib.string_length dst_str * sizeof ( CHAR )) by lia.
   rewrite CharArray.seg_empty.
-  entailer!.
+  Intros_p Hstore_byte_valid.
+  cancel.
   split_pures; dump_pre_spatial; auto; try lia; apply Zlength_nonneg.
 Qed.
 
 Lemma proof_of_strcat_entail_wit_4 : strcat_entail_wit_4.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (Hj_lt : j < string_lib.string_length src_str) by
     (assert (j <> string_lib.string_length src_str) by
        (intro Hj; apply PreH1; rewrite Hj; unfold string_lib.c_string, string_lib.string_length;
         rewrite app_Znth2 by lia; rewrite Z.sub_diag; apply Znth0_cons);
      lia).
-  entailer!.
+  split_pure_spatial.
+  - cancel.
+  - split_pures.
+    all: dump_pre_spatial; try lia; try assumption.
 Qed.
 
 Lemma proof_of_strcat_entail_wit_5 : strcat_entail_wit_5.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst i.
   assert (Hprefix_len :
             Zlength (dst_str ++ sublist 0 j src_str) =
@@ -197,20 +201,21 @@ Proof.
       replace (Zlength (dst_str ++ sublist 0 (j + 1) src_str) + 1 -
                  Zlength (dst_str ++ sublist 0 (j + 1) src_str)) with 1 by lia;
       reflexivity | reflexivity | lia]).
-  entailer!.
+  cancel.
   rewrite CharArray.full_unfold.
   replace (dest_pre + (string_lib.string_length dst_str + (j + 1)) *
              sizeof ( CHAR ) + 0 * sizeof ( CHAR ))
     with (dest_pre + (string_lib.string_length dst_str + (j + 1)) *
              sizeof ( CHAR )) by lia.
   rewrite CharArray.seg_empty.
-  entailer!.
+  Intros_p Hstore_byte_valid.
+  cancel.
   split_pures; dump_pre_spatial; auto; try lia.
 Qed.
 
 Lemma proof_of_strcat_return_wit_1 : strcat_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (Hj_eq : j = string_lib.string_length src_str).
   {
     destruct (Z_lt_ge_dec j (string_lib.string_length src_str));
@@ -239,18 +244,22 @@ Proof.
     rewrite Zlength_app.
     cancel (CharArray.full src_pre (Zlength src_str + 1) (src_str ++ 0 :: nil)).
     rewrite CharArray.undef_seg_empty.
-    elim_emp.
-    apply helper_chararray_full_snoc.
-    pose proof (Zlength_nonneg dst_str).
-    pose proof (Zlength_nonneg src_str).
-    lia.
+    cancel.
+    sep_apply_l_atomic
+      (helper_chararray_full_snoc dest_pre
+         (Zlength dst_str + Zlength src_str) (dst_str ++ src_str) 0).
+    + dump_pre_spatial.
+      pose proof (Zlength_nonneg dst_str).
+      pose proof (Zlength_nonneg src_str).
+      lia.
+    + cancel.
   - dump_pre_spatial.
     reflexivity.
 Qed.
 
 Lemma proof_of_strncat_entail_wit_1 : strncat_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - cancel (string_lib.store_string dest_pre dst_str).
     cancel (CharArray.undef_seg dest_pre
@@ -267,7 +276,7 @@ Qed.
 
 Lemma proof_of_strncat_entail_wit_2 : strncat_entail_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   unfold string_lib.store_string.
   split_pure_spatial.
   - cancel (CharArray.full dest_pre (string_lib.string_length dst_str + 1)
@@ -309,7 +318,7 @@ Qed.
 
 Lemma proof_of_strncat_entail_wit_3 : strncat_entail_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (Hi_eq : i = string_lib.string_length dst_str).
   {
     destruct (Z_lt_ge_dec i (string_lib.string_length dst_str));
@@ -375,24 +384,28 @@ Qed.
 
 Lemma proof_of_strncat_entail_wit_4 : strncat_entail_wit_4.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (Hj_lt : j < string_lib.string_length src_str) by
     (assert (j <> string_lib.string_length src_str) by
        (intro Hj; apply PreH1; rewrite Hj; unfold string_lib.c_string, string_lib.string_length;
         rewrite app_Znth2 by lia; rewrite Z.sub_diag; apply Znth0_cons);
      lia).
-  entailer!.
+  split_pure_spatial.
+  - cancel.
+  - split_pures.
+    all: dump_pre_spatial; try lia; try assumption.
 Qed. 
 
 Lemma proof_of_strncat_entail_wit_5 : strncat_entail_wit_5.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst i.
   split_pure_spatial.
   - unfold string_lib.store_string, string_lib.string_length,
       string_lib.c_string in *.
     cancel (CharArray.full src_pre (Zlength src_str + 1) (src_str ++ 0 :: nil)).
-    cancel (CharArray.undef_seg dest_pre (Zlength dst_str + (j + 1) + 1)
+    replace (Zlength dst_str + (j + 1) + 1) with (Zlength dst_str + j + 1 + 1) by lia. 
+    cancel (CharArray.undef_seg dest_pre (Zlength dst_str + j + 1 + 1)
       (Zlength dst_str + n_pre + 1)).
     replace (((dst_str ++ sublist 0 j src_str) ++
                 Znth j (src_str ++ 0 :: nil) 0 :: nil) ++ 0 :: nil)
@@ -423,7 +436,7 @@ Qed.
 
 Lemma proof_of_strncat_return_wit_1 : strncat_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst i.
   assert (j = n_pre) by lia; subst j.
   Exists (dst_str ++ sublist 0 n_pre src_str).
@@ -454,7 +467,7 @@ Qed.
 
 Lemma proof_of_strncat_return_wit_2 : strncat_return_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst i.
   assert (j = string_lib.string_length src_str) as Hj.
   {

@@ -11,6 +11,7 @@ From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
 Require Import SetsClass.SetsClass. Import SetsNotation.
 From SimpleC.SL Require Import Mem SeparationLogic.
 From SimpleC.EE.LLM_bench.Algorithms.rmq Require Import rmq_goal.
+From SimpleC.EE.LLM_bench.Algorithms.rmq Require Import rmq_proof_auto.
 Require Import Logic.LogicGenerator.demo932.Interface.
 Local Open Scope Z_scope.
 Local Open Scope sets.
@@ -20,422 +21,1518 @@ Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.rmq.rmq_lib.
 Local Open Scope sac.
 
+Lemma proof_of_build_safety_wit_2_split_goal_1 : build_safety_wit_2_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe in *.
+  dump_pre_spatial.
+  lia.
+Qed.
+
+Lemma proof_of_build_safety_wit_2_split_goal_2 : build_safety_wit_2_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe in *.
+  dump_pre_spatial.
+  nia.
+Qed.
+
+Lemma proof_of_build_safety_wit_2 : build_safety_wit_2.
+Proof.
+  aggressive_pre_process.
+  - Goal_apply proof_of_build_safety_wit_2_split_goal_1.
+  - Goal_apply proof_of_build_safety_wit_2_split_goal_2.
+Qed.
+
+Lemma proof_of_build_safety_wit_4_split_goal_1 : build_safety_wit_4_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe in *.
+  dump_pre_spatial.
+  lia.
+Qed.
+
+Lemma proof_of_build_safety_wit_4_split_goal_2 : build_safety_wit_4_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  dump_pre_spatial.
+  lia.
+Qed.
+
+Lemma proof_of_build_safety_wit_4 : build_safety_wit_4.
+Proof.
+  aggressive_pre_process.
+  - Goal_apply proof_of_build_safety_wit_4_split_goal_1.
+  - Goal_apply proof_of_build_safety_wit_4_split_goal_2.
+Qed.
+
+Lemma proof_of_build_safety_wit_6_split_goal_1 : build_safety_wit_6_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe in *.
+  dump_pre_spatial.
+  lia.
+Qed.
+
+Lemma proof_of_build_safety_wit_6_split_goal_2 : build_safety_wit_6_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  dump_pre_spatial.
+  lia.
+Qed.
+
+Lemma proof_of_build_safety_wit_6 : build_safety_wit_6.
+Proof.
+  aggressive_pre_process.
+  - Goal_apply proof_of_build_safety_wit_6_split_goal_1.
+  - Goal_apply proof_of_build_safety_wit_6_split_goal_2.
+Qed.
+
+Lemma proof_of_build_safety_wit_12_split_goal_1 : build_safety_wit_12_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe, STLevelPrefixBounds in *.
+  assert (Hpow : Power2 j <= 536870912).
+  { apply worker_Power2_bound_lt_30 with (K := K_pre); lia. }
+  dump_pre_spatial.
+  lia.
+Qed.
+
+Lemma proof_of_build_safety_wit_12_split_goal_2 : build_safety_wit_12_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  unfold STLevelPrefixBounds in *.
+  pose proof (worker_Power2_nonneg j).
+  dump_pre_spatial.
+  lia.
+Qed.
+
 Lemma proof_of_build_safety_wit_12 : build_safety_wit_12.
 Proof.
-  pre_process.
-  entailer!; subst len.
-  - pose proof (worker_Power2_nonneg j).
-    lia.
-  - eapply worker_Power2_plus_n_int_bound_30; eauto.
+  aggressive_pre_process.
+  - Goal_apply proof_of_build_safety_wit_12_split_goal_1.
+  - Goal_apply proof_of_build_safety_wit_12_split_goal_2.
+Qed.
+
+Lemma proof_of_build_safety_wit_13_split_goal_1 : build_safety_wit_13_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe in *.
+  dump_pre_spatial.
+  lia.
+Qed.
+
+Lemma proof_of_build_safety_wit_13_split_goal_2 : build_safety_wit_13_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  dump_pre_spatial.
+  lia.
+Qed.
+
+Lemma proof_of_build_safety_wit_13 : build_safety_wit_13.
+Proof.
+  aggressive_pre_process.
+  - Goal_apply proof_of_build_safety_wit_13_split_goal_1.
+  - Goal_apply proof_of_build_safety_wit_13_split_goal_2.
+Qed.
+
+Lemma proof_of_build_safety_wit_14_split_goal_1 : build_safety_wit_14_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe in *.
+  dump_pre_spatial.
+  lia.
+Qed.
+
+Lemma proof_of_build_safety_wit_14_split_goal_2 : build_safety_wit_14_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  dump_pre_spatial.
+  lia.
+Qed.
+
+Lemma proof_of_build_safety_wit_14 : build_safety_wit_14.
+Proof.
+  aggressive_pre_process.
+  - Goal_apply proof_of_build_safety_wit_14_split_goal_1.
+  - Goal_apply proof_of_build_safety_wit_14_split_goal_2.
+Qed.
+
+Lemma proof_of_build_safety_wit_15_split_goal_1 : build_safety_wit_15_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe in *.
+  dump_pre_spatial.
+  lia.
+Qed.
+
+Lemma proof_of_build_safety_wit_15_split_goal_2 : build_safety_wit_15_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe in *.
+  dump_pre_spatial.
+  lia.
+Qed.
+
+Lemma proof_of_build_safety_wit_15 : build_safety_wit_15.
+Proof.
+  aggressive_pre_process.
+  - Goal_apply proof_of_build_safety_wit_15_split_goal_1.
+  - Goal_apply proof_of_build_safety_wit_15_split_goal_2.
+Qed.
+
+Lemma proof_of_build_safety_wit_17_split_goal_1 : build_safety_wit_17_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe in *.
+  dump_pre_spatial.
+  lia.
+Qed.
+
+Lemma proof_of_build_safety_wit_17_split_goal_2 : build_safety_wit_17_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  dump_pre_spatial.
+  lia.
+Qed.
+
+Lemma proof_of_build_safety_wit_17 : build_safety_wit_17.
+Proof.
+  aggressive_pre_process.
+  - Goal_apply proof_of_build_safety_wit_17_split_goal_1.
+  - Goal_apply proof_of_build_safety_wit_17_split_goal_2.
+Qed.
+
+Lemma proof_of_build_safety_wit_18_split_goal_1 : build_safety_wit_18_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe in *.
+  dump_pre_spatial.
+  lia.
+Qed.
+
+Lemma proof_of_build_safety_wit_18_split_goal_2 : build_safety_wit_18_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  dump_pre_spatial.
+  lia.
+Qed.
+
+Lemma proof_of_build_safety_wit_18 : build_safety_wit_18.
+Proof.
+  aggressive_pre_process.
+  - Goal_apply proof_of_build_safety_wit_18_split_goal_1.
+  - Goal_apply proof_of_build_safety_wit_18_split_goal_2.
+Qed.
+
+Lemma proof_of_build_safety_wit_19_split_goal_1 : build_safety_wit_19_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe in *.
+  dump_pre_spatial.
+  lia.
+Qed.
+
+Lemma proof_of_build_safety_wit_19_split_goal_2 : build_safety_wit_19_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe in *.
+  pose proof (worker_Power2_nonneg (j - 1)).
+  dump_pre_spatial.
+  nia.
+Qed.
+
+Lemma proof_of_build_safety_wit_19 : build_safety_wit_19.
+Proof.
+  aggressive_pre_process.
+  - Goal_apply proof_of_build_safety_wit_19_split_goal_1.
+  - Goal_apply proof_of_build_safety_wit_19_split_goal_2.
+Qed.
+
+Lemma proof_of_build_safety_wit_20_split_goal_1 : build_safety_wit_20_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe in *.
+  pose proof (Power2_sub1_double j ltac:(lia)).
+  pose proof (worker_Power2_nonneg (j - 1)).
+  dump_pre_spatial.
+  lia.
+Qed.
+
+Lemma proof_of_build_safety_wit_20_split_goal_2 : build_safety_wit_20_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  pose proof (worker_Power2_nonneg (j - 1)).
+  dump_pre_spatial.
+  lia.
 Qed.
 
 Lemma proof_of_build_safety_wit_20 : build_safety_wit_20.
 Proof.
-  pre_process.
+  aggressive_pre_process.
+  - Goal_apply proof_of_build_safety_wit_20_split_goal_1.
+  - Goal_apply proof_of_build_safety_wit_20_split_goal_2.
+Qed.
+
+Lemma proof_of_build_safety_wit_22_split_goal_1 : build_safety_wit_22_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe, STTableShape, STCellBounds in *.
+  dump_pre_spatial.
+  nia.
+Qed.
+
+Lemma proof_of_build_safety_wit_22_split_goal_2 : build_safety_wit_22_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  unfold STCellBounds in *.
+  dump_pre_spatial.
+  nia.
+Qed.
+
+Lemma proof_of_build_safety_wit_22 : build_safety_wit_22.
+Proof.
+  aggressive_pre_process.
+  - Goal_apply proof_of_build_safety_wit_22_split_goal_1.
+  - Goal_apply proof_of_build_safety_wit_22_split_goal_2.
+Qed.
+
+Lemma proof_of_build_safety_wit_23_split_goal_1 : build_safety_wit_23_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe, STTableShape, STCellBounds in *.
+  dump_pre_spatial.
+  nia.
+Qed.
+
+Lemma proof_of_build_safety_wit_23_split_goal_2 : build_safety_wit_23_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  unfold STCellBounds in *.
+  dump_pre_spatial.
+  nia.
+Qed.
+
+Lemma proof_of_build_safety_wit_23 : build_safety_wit_23.
+Proof.
+  aggressive_pre_process.
+  - Goal_apply proof_of_build_safety_wit_23_split_goal_1.
+  - Goal_apply proof_of_build_safety_wit_23_split_goal_2.
+Qed.
+
+Lemma proof_of_build_safety_wit_24_split_goal_1 : build_safety_wit_24_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe, STTableShape, STCellBounds in *.
+  dump_pre_spatial.
+  nia.
+Qed.
+
+Lemma proof_of_build_safety_wit_24_split_goal_2 : build_safety_wit_24_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  unfold STCellBounds in *.
+  dump_pre_spatial.
+  nia.
+Qed.
+
+Lemma proof_of_build_safety_wit_24 : build_safety_wit_24.
+Proof.
+  aggressive_pre_process.
+  - Goal_apply proof_of_build_safety_wit_24_split_goal_1.
+  - Goal_apply proof_of_build_safety_wit_24_split_goal_2.
+Qed.
+
+Lemma proof_of_build_safety_wit_25_split_goal_1 : build_safety_wit_25_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe, STTableShape, STCellBounds in *.
+  dump_pre_spatial.
+  nia.
+Qed.
+
+Lemma proof_of_build_safety_wit_25_split_goal_2 : build_safety_wit_25_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  unfold STCellBounds in *.
+  dump_pre_spatial.
+  nia.
+Qed.
+
+Lemma proof_of_build_safety_wit_25 : build_safety_wit_25.
+Proof.
+  aggressive_pre_process.
+  - Goal_apply proof_of_build_safety_wit_25_split_goal_1.
+  - Goal_apply proof_of_build_safety_wit_25_split_goal_2.
+Qed.
+
+Lemma proof_of_build_safety_wit_26_split_goal_1 : build_safety_wit_26_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe in *.
+  pose proof (worker_Power2_nonneg j) as Hpow_nonneg.
+  dump_pre_spatial.
+  lia.
+Qed.
+
+Lemma proof_of_build_safety_wit_26_split_goal_2 : build_safety_wit_26_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  dump_pre_spatial.
+  lia.
 Qed.
 
 Lemma proof_of_build_safety_wit_26 : build_safety_wit_26.
 Proof.
-  pre_process.
-  split_pures.
-  - assert (0 < len) by (subst len; unfold Power2; apply Z.pow_pos_nonneg; lia).
-    dump_pre_spatial; lia.
-  - dump_pre_spatial; lia.
+  aggressive_pre_process.
+  - Goal_apply proof_of_build_safety_wit_26_split_goal_1.
+  - Goal_apply proof_of_build_safety_wit_26_split_goal_2.
+Qed.
+
+Lemma proof_of_build_safety_wit_27_split_goal_1 : build_safety_wit_27_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe in *.
+  pose proof
+    (worker_Power2_double_int_bound_30 j K_pre ltac:(lia) ltac:(lia))
+    as Hpow_bound.
+  dump_pre_spatial.
+  lia.
+Qed.
+
+Lemma proof_of_build_safety_wit_27_split_goal_2 : build_safety_wit_27_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  pose proof (worker_Power2_nonneg j) as Hpow_nonneg.
+  dump_pre_spatial.
+  lia.
 Qed.
 
 Lemma proof_of_build_safety_wit_27 : build_safety_wit_27.
 Proof.
-  pre_process.
-  entailer!; subst len.
-  - pose proof (worker_Power2_nonneg j).
-    lia.
-  - eapply worker_Power2_double_int_bound_30; eauto.
+  aggressive_pre_process.
+  - Goal_apply proof_of_build_safety_wit_27_split_goal_1.
+  - Goal_apply proof_of_build_safety_wit_27_split_goal_2.
+Qed.
+
+Lemma proof_of_build_entail_wit_1_split_goal_1 : build_entail_wit_1_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  unfold STZeroPrefix.
+  intros; lia.
+Qed.
+
+Lemma proof_of_build_entail_wit_1_split_goal_2 : build_entail_wit_1_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  unfold STZeroPrefixBounds.
+  split.
+  - lia.
+  - apply Zlength_nonneg.
+Qed.
+
+Lemma proof_of_build_entail_wit_1_split_goal_3 : build_entail_wit_1_split_goal_3.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe in *.
+  lia.
 Qed.
 
 Lemma proof_of_build_entail_wit_1 : build_entail_wit_1.
 Proof.
-  pre_process.
-  Exists st0.
-  split_pure_spatial.
-  - cancel (IntArray.full arr_pre n_pre l).
-    cancel (IntArray.full st_pre (n_pre * K_pre) st0).
-  - split_pures.
-    all: dump_pre_spatial; try lia; try nia; try assumption;
-      try (unfold STZeroPrefix; repeat split; try nia; intros; lia).
+  aggressive_pre_process.
+  - Goal_apply proof_of_build_entail_wit_1_split_goal_1.
+  - Goal_apply proof_of_build_entail_wit_1_split_goal_2.
+  - Goal_apply proof_of_build_entail_wit_1_split_goal_3.
+Qed. 
+
+Lemma proof_of_build_entail_wit_2_split_goal_1 : build_entail_wit_2_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  eapply STZeroPrefix_replace_zero_step.
+  - exact PreH8.
+  - unfold STTableShape in PreH4.
+    lia.
+Qed.
+
+Lemma proof_of_build_entail_wit_2_split_goal_2 : build_entail_wit_2_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  unfold STZeroPrefixBounds, STTableShape in *.
+  rewrite Zlength_replace_Znth.
+  lia.
+Qed.
+
+Lemma proof_of_build_entail_wit_2_split_goal_3 : build_entail_wit_2_split_goal_3.
+Proof.
+  aggressive_pre_process.
+  unfold STTableShape in *.
+  rewrite Zlength_replace_Znth.
+  exact PreH4.
 Qed.
 
 Lemma proof_of_build_entail_wit_2 : build_entail_wit_2.
 Proof.
-  pre_process.
-  Exists (replace_Znth idx 0 st_l_2).
-  split_pure_spatial.
-  - cancel (IntArray.full arr_pre n_pre l).
-    cancel (IntArray.full st_pre (n_pre * K_pre) (replace_Znth idx 0 st_l_2)).
-  - split_pures.
-    all: dump_pre_spatial; try lia; try assumption;
-      try (rewrite Zlength_replace_Znth; lia);
-      try (eapply STZeroPrefix_replace_zero_step; [eassumption | rewrite PreH9; lia]).
+  aggressive_pre_process.
+  - Goal_apply proof_of_build_entail_wit_2_split_goal_1.
+  - Goal_apply proof_of_build_entail_wit_2_split_goal_2.
+  - Goal_apply proof_of_build_entail_wit_2_split_goal_3.
+Qed. 
+
+Lemma proof_of_build_entail_wit_3_split_goal_1 : build_entail_wit_3_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  assert (idx = n_pre * K_pre) by lia.
+  subst idx.
+  exact PreH8.
+Qed.
+
+Lemma proof_of_build_entail_wit_3_split_goal_2 : build_entail_wit_3_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  assert (idx = n_pre * K_pre) by lia.
+  subst idx.
+  exact PreH7.
 Qed.
 
 Lemma proof_of_build_entail_wit_3 : build_entail_wit_3.
 Proof.
-  pre_process.
-  Exists st_l_2.
-  split_pure_spatial.
-  - cancel (IntArray.full arr_pre n_pre l).
-    cancel (IntArray.full st_pre (n_pre * K_pre) st_l_2).
-  - split_pures.
-    all: dump_pre_spatial; try lia; try assumption;
-      try (replace (n_pre * K_pre) with idx by lia; assumption).
+  aggressive_pre_process.
+  - Goal_apply proof_of_build_entail_wit_3_split_goal_1.
+  - Goal_apply proof_of_build_entail_wit_3_split_goal_2.
+Qed. 
+
+Lemma proof_of_build_entail_wit_4_split_goal_1 : build_entail_wit_4_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  unfold STBasePrefix.
+  intros; lia.
+Qed.
+
+Lemma proof_of_build_entail_wit_4_split_goal_2 : build_entail_wit_4_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  unfold STBasePrefixBounds, RMQSizeSafe in *.
+  lia.
 Qed.
 
 Lemma proof_of_build_entail_wit_4 : build_entail_wit_4.
 Proof.
-  pre_process.
-  Exists st_l_2.
-  split_pure_spatial.
-  - cancel (IntArray.full arr_pre n_pre l).
-    cancel (IntArray.full st_pre (n_pre * K_pre) st_l_2).
-  - split_pures.
-    all: dump_pre_spatial; try lia; try assumption;
-      try (unfold STBasePrefix; repeat split; try lia; intros; lia).
+  aggressive_pre_process.
+  - Goal_apply proof_of_build_entail_wit_4_split_goal_1.
+  - Goal_apply proof_of_build_entail_wit_4_split_goal_2.
+Qed. 
+
+Lemma proof_of_build_entail_wit_5_split_goal_1 : build_entail_wit_5_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  unfold STCellBounds, STBasePrefixBounds, STTableShape, RMQSizeSafe in *.
+  repeat split; nia.
+Qed.
+
+Lemma proof_of_build_entail_wit_5_split_goal_2 : build_entail_wit_5_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe in *.
+  nia.
+Qed.
+
+Lemma proof_of_build_entail_wit_5_split_goal_3 : build_entail_wit_5_split_goal_3.
+Proof.
+  aggressive_pre_process.
+  unfold STBasePrefixBounds, RMQSizeSafe in *.
+  nia.
+Qed.
+
+Lemma proof_of_build_entail_wit_5_split_goal_4 : build_entail_wit_5_split_goal_4.
+Proof.
+  aggressive_pre_process.
+  unfold STBasePrefixBounds in *.
+  lia.
 Qed.
 
 Lemma proof_of_build_entail_wit_5 : build_entail_wit_5.
 Proof.
-  pre_process.
-  Exists st_l_2.
-  split_pure_spatial.
-  - cancel (IntArray.full arr_pre n_pre l).
-    cancel (IntArray.full st_pre (n_pre * K_pre) st_l_2).
-  - split_pures.
-    all: dump_pre_spatial; eauto; try lia.
-    nia.
+  aggressive_pre_process.
+  - Goal_apply proof_of_build_entail_wit_5_split_goal_1.
+  - Goal_apply proof_of_build_entail_wit_5_split_goal_2.
+  - Goal_apply proof_of_build_entail_wit_5_split_goal_3.
+  - Goal_apply proof_of_build_entail_wit_5_split_goal_4.
+Qed. 
+
+Lemma proof_of_build_entail_wit_6_split_goal_1 : build_entail_wit_6_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe, RMQInputValues, STTableShape in *.
+  eapply worker_STBasePrefix_write_base_step; eauto; try lia; try nia.
+Qed.
+
+Lemma proof_of_build_entail_wit_6_split_goal_2 : build_entail_wit_6_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  unfold STBasePrefixBounds in *.
+  lia.
+Qed.
+
+Lemma proof_of_build_entail_wit_6_split_goal_3 : build_entail_wit_6_split_goal_3.
+Proof.
+  aggressive_pre_process.
+  unfold STTableShape in *.
+  rewrite Zlength_replace_Znth.
+  exact PreH3.
 Qed.
 
 Lemma proof_of_build_entail_wit_6 : build_entail_wit_6.
 Proof.
-  pre_process.
-  Exists (replace_Znth (i * K_pre) (Znth i l 0) st_l_2).
-  split_pure_spatial.
-  - cancel (IntArray.full arr_pre n_pre l).
-    cancel (IntArray.full st_pre (n_pre * K_pre)
-              (replace_Znth (i * K_pre) (Znth i l 0) st_l_2)).
-  - split_pures.
-    all: dump_pre_spatial; eauto;
-      try rewrite Zlength_replace_Znth; eauto; try lia; try nia.
-    eapply worker_STBasePrefix_write_base_step; eauto; try lia; try nia.
+  aggressive_pre_process.
+  - Goal_apply proof_of_build_entail_wit_6_split_goal_1.
+  - Goal_apply proof_of_build_entail_wit_6_split_goal_2.
+  - Goal_apply proof_of_build_entail_wit_6_split_goal_3.
+Qed. 
+
+Lemma proof_of_build_entail_wit_8_split_goal_1 : build_entail_wit_8_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  eapply worker_STBasePrefix_complete_level1; eauto.
+  unfold STBasePrefixBounds in PreH5.
+  lia.
+Qed.
+
+Lemma proof_of_build_entail_wit_8_split_goal_2 : build_entail_wit_8_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  unfold STBuiltBeforeLevelBounds, RMQSizeSafe in *.
+  lia.
 Qed.
 
 Lemma proof_of_build_entail_wit_8 : build_entail_wit_8.
 Proof.
-  pre_process.
-  Exists st_l_2.
-  split_pure_spatial.
-  - cancel (IntArray.full arr_pre n_pre l).
-    cancel (IntArray.full st_pre (n_pre * K_pre) st_l_2).
-  - split_pures.
-    all: dump_pre_spatial; eauto; try lia.
-    eapply worker_STBasePrefix_complete_level1; eauto; try lia.
+  aggressive_pre_process.
+  - Goal_apply proof_of_build_entail_wit_8_split_goal_1.
+  - Goal_apply proof_of_build_entail_wit_8_split_goal_2.
+Qed. 
+
+Lemma proof_of_build_entail_wit_9_split_goal_1 : build_entail_wit_9_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  unfold Power2.
+  vm_compute.
+  reflexivity.
+Qed.
+
+Lemma proof_of_build_entail_wit_9_split_goal_2 : build_entail_wit_9_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  unfold Power2.
+  vm_compute.
+  reflexivity.
+Qed.
+
+Lemma proof_of_build_entail_wit_9_split_goal_3 : build_entail_wit_9_split_goal_3.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe in *.
+  lia.
 Qed.
 
 Lemma proof_of_build_entail_wit_9 : build_entail_wit_9.
 Proof.
-  pre_process.
-  Exists st_l_2.
-  split_pure_spatial.
-  - cancel (IntArray.full arr_pre n_pre l).
-    cancel (IntArray.full st_pre (n_pre * K_pre) st_l_2).
-  - split_pures.
-    all: dump_pre_spatial; try solve [auto | lia | unfold Power2; simpl; lia].
+  aggressive_pre_process.
+  - Goal_apply proof_of_build_entail_wit_9_split_goal_1.
+  - Goal_apply proof_of_build_entail_wit_9_split_goal_2.
+  - Goal_apply proof_of_build_entail_wit_9_split_goal_3.
 Qed. 
+
+Lemma proof_of_build_entail_wit_10_split_goal_1 : build_entail_wit_10_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  unfold STLevelPrefix.
+  intros.
+  lia.
+Qed.
+
+Lemma proof_of_build_entail_wit_10_split_goal_2 : build_entail_wit_10_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  unfold STLevelPrefixBounds, RMQSizeSafe in *.
+  lia.
+Qed.
 
 Lemma proof_of_build_entail_wit_10 : build_entail_wit_10.
 Proof.
-  pre_process.
-  Exists st_l_2.
-  split_pure_spatial.
-  - cancel (IntArray.full arr_pre n_pre l).
-    cancel (IntArray.full st_pre (n_pre * K_pre) st_l_2).
-  - split_pures.
-    all: dump_pre_spatial; try solve [auto | lia].
-    unfold STLevelPrefix; repeat split; auto; try lia.
+  aggressive_pre_process.
+  - Goal_apply proof_of_build_entail_wit_10_split_goal_1.
+  - Goal_apply proof_of_build_entail_wit_10_split_goal_2.
 Qed. 
+
+Lemma proof_of_build_entail_wit_11_split_goal_1 : build_entail_wit_11_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  unfold STBuiltBeforeLevel in PreH11.
+  unfold STBuiltBeforeLevelBounds in PreH9.
+  unfold STLevelPrefixBounds in PreH10.
+  destruct PreH9 as [Hj_nonneg Hj_le].
+  destruct PreH10 as [_ [_ [Hi_nonneg Hi_le]]].
+  pose proof (worker_Power2_nonneg (j - 1)) as Hhalf_nonneg.
+  pose proof (Power2_sub1_double j ltac:(lia)) as Hdouble.
+  apply PreH11.
+  rewrite Hdouble in PreH8.
+  repeat split; lia.
+Qed.
+
+Lemma proof_of_build_entail_wit_11_split_goal_2 : build_entail_wit_11_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  unfold STBuiltBeforeLevel in PreH11.
+  unfold STBuiltBeforeLevelBounds in PreH9.
+  unfold STLevelPrefixBounds in PreH10.
+  destruct PreH9 as [Hj_nonneg Hj_le].
+  destruct PreH10 as [_ [_ [Hi_nonneg Hi_le]]].
+  pose proof (worker_Power2_nonneg (j - 1)) as Hhalf_nonneg.
+  pose proof (Power2_sub1_double j ltac:(lia)) as Hdouble.
+  apply PreH11.
+  rewrite Hdouble in PreH8.
+  repeat split; lia.
+Qed.
+
+Lemma proof_of_build_entail_wit_11_split_goal_3 : build_entail_wit_11_split_goal_3.
+Proof.
+  aggressive_pre_process.
+  unfold STCellBounds.
+  unfold RMQSizeSafe in PreH2.
+  unfold STTableShape in PreH4.
+  unfold STLevelPrefixBounds in PreH10.
+  destruct PreH2 as [_ [_ [HK_pos [HK_le [_ Hn_pow]]]]].
+  destruct PreH10 as [_ [_ [Hi_nonneg Hi_le]]].
+  pose proof (Power2_pos j ltac:(lia)) as Hj_pow_pos.
+  repeat split; try lia.
+  all: rewrite PreH4; nia.
+Qed.
+
+Lemma proof_of_build_entail_wit_11_split_goal_4 : build_entail_wit_11_split_goal_4.
+Proof.
+  aggressive_pre_process.
+  unfold STCellBounds.
+  unfold RMQSizeSafe in PreH2.
+  unfold STTableShape in PreH4.
+  unfold STBuiltBeforeLevelBounds in PreH9.
+  unfold STLevelPrefixBounds in PreH10.
+  destruct PreH2 as [_ [_ [HK_pos [HK_le [_ Hn_pow]]]]].
+  destruct PreH9 as [Hj_nonneg Hj_le].
+  destruct PreH10 as [_ [_ [Hi_nonneg Hi_le]]].
+  pose proof (Power2_pos (j - 1) ltac:(lia)) as Hhalf_pos.
+  pose proof (Power2_sub1_double j ltac:(lia)) as Hdouble.
+  rewrite Hdouble in PreH8.
+  repeat split; try lia.
+  all: rewrite PreH4; nia.
+Qed.
+
+Lemma proof_of_build_entail_wit_11_split_goal_5 : build_entail_wit_11_split_goal_5.
+Proof.
+  aggressive_pre_process.
+  unfold STCellBounds.
+  unfold RMQSizeSafe in PreH2.
+  unfold STTableShape in PreH4.
+  unfold STBuiltBeforeLevelBounds in PreH9.
+  unfold STLevelPrefixBounds in PreH10.
+  destruct PreH2 as [_ [_ [HK_pos [HK_le [_ Hn_pow]]]]].
+  destruct PreH9 as [Hj_nonneg Hj_le].
+  destruct PreH10 as [_ [_ [Hi_nonneg Hi_le]]].
+  pose proof (Power2_pos (j - 1) ltac:(lia)) as Hhalf_pos.
+  pose proof (Power2_sub1_double j ltac:(lia)) as Hdouble.
+  rewrite Hdouble in PreH8.
+  repeat split; try lia.
+  all: rewrite PreH4; nia.
+Qed.
+
+Lemma proof_of_build_entail_wit_11_split_goal_6 : build_entail_wit_11_split_goal_6.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe in PreH2.
+  unfold STLevelPrefixBounds in PreH10.
+  destruct PreH2 as [_ [_ [HK_pos [HK_le [_ Hn_pow]]]]].
+  destruct PreH10 as [_ [_ [Hi_nonneg Hi_le]]].
+  pose proof (Power2_pos j ltac:(lia)) as Hj_pow_pos.
+  nia.
+Qed.
+
+Lemma proof_of_build_entail_wit_11_split_goal_7 : build_entail_wit_11_split_goal_7.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe in PreH2.
+  unfold STLevelPrefixBounds in PreH10.
+  destruct PreH2 as [_ [_ [HK_pos [HK_le [_ Hn_pow]]]]].
+  destruct PreH10 as [_ [_ [Hi_nonneg Hi_le]]].
+  nia.
+Qed.
+
+Lemma proof_of_build_entail_wit_11_split_goal_8 : build_entail_wit_11_split_goal_8.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe in PreH2.
+  unfold STBuiltBeforeLevelBounds in PreH9.
+  unfold STLevelPrefixBounds in PreH10.
+  destruct PreH2 as [_ [_ [HK_pos [HK_le [_ Hn_pow]]]]].
+  destruct PreH9 as [Hj_nonneg Hj_le].
+  destruct PreH10 as [_ [_ [Hi_nonneg Hi_le]]].
+  pose proof (Power2_pos (j - 1) ltac:(lia)) as Hhalf_pos.
+  pose proof (Power2_sub1_double j ltac:(lia)) as Hdouble.
+  rewrite Hdouble in PreH8.
+  nia.
+Qed.
+
+Lemma proof_of_build_entail_wit_11_split_goal_9 : build_entail_wit_11_split_goal_9.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe in PreH2.
+  unfold STBuiltBeforeLevelBounds in PreH9.
+  unfold STLevelPrefixBounds in PreH10.
+  destruct PreH2 as [_ [_ [HK_pos [HK_le [_ Hn_pow]]]]].
+  destruct PreH9 as [Hj_nonneg Hj_le].
+  destruct PreH10 as [_ [_ [Hi_nonneg Hi_le]]].
+  pose proof (worker_Power2_nonneg (j - 1)) as Hhalf_nonneg.
+  nia.
+Qed.
+
+Lemma proof_of_build_entail_wit_11_split_goal_10 : build_entail_wit_11_split_goal_10.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe in PreH2.
+  unfold STBuiltBeforeLevelBounds in PreH9.
+  unfold STLevelPrefixBounds in PreH10.
+  destruct PreH2 as [_ [_ [HK_pos [HK_le [_ Hn_pow]]]]].
+  destruct PreH9 as [Hj_nonneg Hj_le].
+  destruct PreH10 as [_ [_ [Hi_nonneg Hi_le]]].
+  pose proof (Power2_pos (j - 1) ltac:(lia)) as Hhalf_pos.
+  pose proof (Power2_sub1_double j ltac:(lia)) as Hdouble.
+  rewrite Hdouble in PreH8.
+  nia.
+Qed.
+
+Lemma proof_of_build_entail_wit_11_split_goal_11 : build_entail_wit_11_split_goal_11.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe in PreH2.
+  unfold STBuiltBeforeLevelBounds in PreH9.
+  unfold STLevelPrefixBounds in PreH10.
+  destruct PreH2 as [_ [_ [HK_pos [HK_le [_ Hn_pow]]]]].
+  destruct PreH9 as [Hj_nonneg Hj_le].
+  destruct PreH10 as [_ [_ [Hi_nonneg Hi_le]]].
+  nia.
+Qed.
+
+Lemma proof_of_build_entail_wit_11_split_goal_12 : build_entail_wit_11_split_goal_12.
+Proof.
+  aggressive_pre_process.
+  unfold STLevelPrefixBounds in PreH10.
+  destruct PreH10 as [_ [_ [Hi_nonneg Hi_le]]].
+  exact Hi_nonneg.
+Qed.
 
 Lemma proof_of_build_entail_wit_11 : build_entail_wit_11.
 Proof.
-  pre_process.
-  Exists st_l_2.
-  assert (Hhalf_pos : 0 < half) by
-    (rewrite PreH12; unfold Power2; apply Z.pow_pos_nonneg; lia).
-  assert (Hlen_half : len = 2 * half) by
-    (rewrite PreH13, PreH12; unfold Power2;
-     replace j with (Z.succ (j - 1)) by lia;
-     replace (Z.succ (j - 1) - 1) with (j - 1) by lia;
-     rewrite Z.pow_succ_r by lia; ring).
-  assert (Hcell_left : STCellRangeMax l st_l_2 K_pre i (j - 1)).
-  {
-    unfold STBuiltBeforeLevel in PreH16.
-    destruct PreH16 as (_ & _ & _ & _ & _ & Hbuilt).
-    apply Hbuilt; repeat split; try lia.
-  }
-  assert (Hcell_right : STCellRangeMax l st_l_2 K_pre (i + half) (j - 1)).
-  {
-    unfold STBuiltBeforeLevel in PreH16.
-    destruct PreH16 as (_ & _ & _ & _ & _ & Hbuilt).
-    apply Hbuilt; repeat split; try lia.
-  }
-  split_pure_spatial.
-  - cancel (IntArray.full arr_pre n_pre l).
-    cancel (IntArray.full st_pre (n_pre * K_pre) st_l_2).
-  - split_pures.
-    all: dump_pre_spatial; try solve [auto | lia | nia].
+  aggressive_pre_process.
+  - Goal_apply proof_of_build_entail_wit_11_split_goal_1.
+  - Goal_apply proof_of_build_entail_wit_11_split_goal_2.
+  - Goal_apply proof_of_build_entail_wit_11_split_goal_3.
+  - Goal_apply proof_of_build_entail_wit_11_split_goal_4.
+  - Goal_apply proof_of_build_entail_wit_11_split_goal_5.
+  - Goal_apply proof_of_build_entail_wit_11_split_goal_6.
+  - Goal_apply proof_of_build_entail_wit_11_split_goal_7.
+  - Goal_apply proof_of_build_entail_wit_11_split_goal_8.
+  - Goal_apply proof_of_build_entail_wit_11_split_goal_9.
+  - Goal_apply proof_of_build_entail_wit_11_split_goal_10.
+  - Goal_apply proof_of_build_entail_wit_11_split_goal_11.
+  - Goal_apply proof_of_build_entail_wit_11_split_goal_12.
 Qed. 
+
+Lemma proof_of_build_entail_wit_13_1_split_goal_1 : build_entail_wit_13_1_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  assert (Ha : a = Znth (i * K_pre + (j - 1)) st_l_2 0) by
+    (replace (i * K_pre + (j - 1)) with (i * K_pre + j - 1) by lia;
+     exact PreH17).
+  assert (Hb : b = Znth ((i + half) * K_pre + (j - 1)) st_l_2 0) by
+    (replace ((i + half) * K_pre + (j - 1))
+       with ((i + half) * K_pre + j - 1) by lia;
+     exact PreH18).
+  eapply STLevelPrefix_extend_by_left_max; eauto.
+  unfold STTableShape in PreH4.
+  lia.
+Qed.
+
+Lemma proof_of_build_entail_wit_13_1_split_goal_2 : build_entail_wit_13_1_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  eapply STBuiltBeforeLevel_replace_level_cell.
+  - exact PreH24.
+  - exact PreH6.
+  - unfold STTableShape in PreH4.
+    lia.
+  - intros row0 col (Hrow0 & Hcol0 & Hcolj & Hrow_range).
+    unfold STTableShape in PreH4.
+    unfold RMQSizeSafe in PreH2.
+    pose proof (Power2_pos col Hcol0).
+    split; nia.
+Qed.
+
+Lemma proof_of_build_entail_wit_13_1_split_goal_3 : build_entail_wit_13_1_split_goal_3.
+Proof.
+  aggressive_pre_process.
+  unfold STLevelPrefixBounds in *.
+  pose proof (Power2_pos j ltac:(lia)).
+  nia.
+Qed.
+
+Lemma proof_of_build_entail_wit_13_1_split_goal_4 : build_entail_wit_13_1_split_goal_4.
+Proof.
+  aggressive_pre_process.
+  rewrite Znth_replace_Znth_Diff.
+  - exact PreH18.
+  - unfold STTableShape in PreH4; lia.
+  - unfold STTableShape in PreH4; lia.
+  - unfold RMQSizeSafe in PreH2.
+    pose proof (Power2_pos (j - 1) ltac:(lia)).
+    nia.
+Qed.
+
+Lemma proof_of_build_entail_wit_13_1_split_goal_5 : build_entail_wit_13_1_split_goal_5.
+Proof.
+  aggressive_pre_process.
+  rewrite Znth_replace_Znth_Diff.
+  - exact PreH17.
+  - unfold STTableShape in PreH4; lia.
+  - unfold STTableShape in PreH4; lia.
+  - lia.
+Qed.
+
+Lemma proof_of_build_entail_wit_13_1_split_goal_6 : build_entail_wit_13_1_split_goal_6.
+Proof.
+  aggressive_pre_process.
+  unfold STTableShape in *.
+  rewrite Zlength_replace_Znth.
+  exact PreH4.
+Qed.
 
 Lemma proof_of_build_entail_wit_13_1 : build_entail_wit_13_1.
 Proof.
-  pre_process.
-  Exists (replace_Znth (i * K_pre + j) b st_l_2).
-  split_pure_spatial.
-  - cancel (IntArray.full arr_pre n_pre l).
-    cancel (IntArray.full st_pre (n_pre * K_pre)
-      (replace_Znth (i * K_pre + j) b st_l_2)).
-  - assert (Hidx_half_diff :
-        i * K_pre + j <> (i + half) * K_pre + j - 1).
-    {
-      replace ((i + half) * K_pre + j - 1)
-        with ((i + half) * K_pre + (j - 1)) by lia.
-      apply cell_index_diff_col_neq with (K := K_pre); lia.
-    }
-    assert (Ha_prev : a = Znth (i * K_pre + (j - 1)) st_l_2 0).
-    {
-      replace (i * K_pre + (j - 1)) with (i * K_pre + j - 1) by lia.
-      exact PreH22.
-    }
-    assert (Hb_prev : b = Znth ((i + half) * K_pre + (j - 1)) st_l_2 0).
-    {
-      replace ((i + half) * K_pre + (j - 1))
-        with ((i + half) * K_pre + j - 1) by lia.
-      exact PreH23.
-    }
-    split_pures; dump_pre_spatial; auto; try lia.
-    + rewrite Zlength_replace_Znth; auto.
-    + rewrite Znth_replace_Znth_Diff by lia.
-      exact PreH22.
-    + rewrite Znth_replace_Znth_Diff by lia.
-      exact PreH23.
-    + eapply STBuiltBeforeLevel_replace_level_cell; eauto; lia.
-    + eapply STLevelPrefix_extend_by_right_max; eauto; lia.
+  aggressive_pre_process.
+  - Goal_apply proof_of_build_entail_wit_13_1_split_goal_1.
+  - Goal_apply proof_of_build_entail_wit_13_1_split_goal_2.
+  - Goal_apply proof_of_build_entail_wit_13_1_split_goal_3.
+  - Goal_apply proof_of_build_entail_wit_13_1_split_goal_4.
+  - Goal_apply proof_of_build_entail_wit_13_1_split_goal_5.
+  - Goal_apply proof_of_build_entail_wit_13_1_split_goal_6.
 Qed. 
+
+Lemma proof_of_build_entail_wit_13_2_split_goal_1 : build_entail_wit_13_2_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  assert (Ha : a = Znth (i * K_pre + (j - 1)) st_l_2 0) by
+    (replace (i * K_pre + (j - 1)) with (i * K_pre + j - 1) by lia;
+     exact PreH17).
+  assert (Hb : b = Znth ((i + half) * K_pre + (j - 1)) st_l_2 0) by
+    (replace ((i + half) * K_pre + (j - 1))
+       with ((i + half) * K_pre + j - 1) by lia;
+     exact PreH18).
+  eapply STLevelPrefix_extend_by_right_max; eauto.
+  unfold STTableShape in PreH4.
+  lia.
+Qed.
+
+Lemma proof_of_build_entail_wit_13_2_split_goal_2 : build_entail_wit_13_2_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  eapply STBuiltBeforeLevel_replace_level_cell.
+  - exact PreH24.
+  - exact PreH6.
+  - unfold STTableShape in PreH4.
+    lia.
+  - intros row0 col (Hrow0 & Hcol0 & Hcolj & Hrow_range).
+    unfold STTableShape in PreH4.
+    unfold RMQSizeSafe in PreH2.
+    pose proof (Power2_pos col Hcol0).
+    split; nia.
+Qed.
+
+Lemma proof_of_build_entail_wit_13_2_split_goal_3 : build_entail_wit_13_2_split_goal_3.
+Proof.
+  aggressive_pre_process.
+  unfold STLevelPrefixBounds in *.
+  pose proof (Power2_pos j ltac:(lia)).
+  nia.
+Qed.
+
+Lemma proof_of_build_entail_wit_13_2_split_goal_4 : build_entail_wit_13_2_split_goal_4.
+Proof.
+  aggressive_pre_process.
+  rewrite Znth_replace_Znth_Diff.
+  - exact PreH18.
+  - unfold STTableShape in PreH4; lia.
+  - unfold STTableShape in PreH4; lia.
+  - unfold RMQSizeSafe in PreH2.
+    pose proof (Power2_pos (j - 1) ltac:(lia)).
+    nia.
+Qed.
+
+Lemma proof_of_build_entail_wit_13_2_split_goal_5 : build_entail_wit_13_2_split_goal_5.
+Proof.
+  aggressive_pre_process.
+  rewrite Znth_replace_Znth_Diff.
+  - exact PreH17.
+  - unfold STTableShape in PreH4; lia.
+  - unfold STTableShape in PreH4; lia.
+  - lia.
+Qed.
+
+Lemma proof_of_build_entail_wit_13_2_split_goal_6 : build_entail_wit_13_2_split_goal_6.
+Proof.
+  aggressive_pre_process.
+  unfold STTableShape in *.
+  rewrite Zlength_replace_Znth.
+  exact PreH4.
+Qed.
 
 Lemma proof_of_build_entail_wit_13_2 : build_entail_wit_13_2.
 Proof.
-  pre_process.
-  Exists (replace_Znth (i * K_pre + j) a st_l_2).
-  split_pure_spatial.
-  - cancel (IntArray.full arr_pre n_pre l).
-    cancel (IntArray.full st_pre (n_pre * K_pre)
-      (replace_Znth (i * K_pre + j) a st_l_2)).
-  - assert (Hidx_half_diff :
-        i * K_pre + j <> (i + half) * K_pre + j - 1).
-    {
-      replace ((i + half) * K_pre + j - 1)
-        with ((i + half) * K_pre + (j - 1)) by lia.
-      apply cell_index_diff_col_neq with (K := K_pre); lia.
-    }
-    assert (Ha_prev : a = Znth (i * K_pre + (j - 1)) st_l_2 0).
-    {
-      replace (i * K_pre + (j - 1)) with (i * K_pre + j - 1) by lia.
-      exact PreH22.
-    }
-    assert (Hb_prev : b = Znth ((i + half) * K_pre + (j - 1)) st_l_2 0).
-    {
-      replace ((i + half) * K_pre + (j - 1))
-        with ((i + half) * K_pre + j - 1) by lia.
-      exact PreH23.
-    }
-    split_pures; dump_pre_spatial; auto; try lia.
-    + rewrite Zlength_replace_Znth; auto.
-    + rewrite Znth_replace_Znth_Diff by lia.
-      exact PreH22.
-    + rewrite Znth_replace_Znth_Diff by lia.
-      exact PreH23.
-    + eapply STBuiltBeforeLevel_replace_level_cell; eauto; lia.
-    + eapply STLevelPrefix_extend_by_left_max; eauto; lia.
+  aggressive_pre_process.
+  - Goal_apply proof_of_build_entail_wit_13_2_split_goal_1.
+  - Goal_apply proof_of_build_entail_wit_13_2_split_goal_2.
+  - Goal_apply proof_of_build_entail_wit_13_2_split_goal_3.
+  - Goal_apply proof_of_build_entail_wit_13_2_split_goal_4.
+  - Goal_apply proof_of_build_entail_wit_13_2_split_goal_5.
+  - Goal_apply proof_of_build_entail_wit_13_2_split_goal_6.
 Qed. 
 
-Lemma proof_of_build_entail_wit_14 : build_entail_wit_14.
+Lemma proof_of_build_entail_wit_15_split_goal_1 : build_entail_wit_15_split_goal_1.
 Proof.
-  pre_process.
-  Exists st_l_2.
-  split_pure_spatial.
-  - cancel (IntArray.full arr_pre n_pre l).
-    cancel (IntArray.full st_pre (n_pre * K_pre) st_l_2).
-  - split_pures; dump_pre_spatial; auto; try lia.
-    pose proof (Power2_pos j ltac:(lia)).
-    subst len; lia.
-Qed. 
+  aggressive_pre_process.
+  eapply STLevelPrefix_exit_to_built_step; eauto.
+Qed.
+
+Lemma proof_of_build_entail_wit_15_split_goal_2 : build_entail_wit_15_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  unfold STBuiltBeforeLevelBounds in *.
+  lia.
+Qed.
 
 Lemma proof_of_build_entail_wit_15 : build_entail_wit_15.
 Proof.
-  pre_process.
-  Exists st_l_2.
-  split_pure_spatial.
-  - cancel.
-  - entailer!.
-    eapply STLevelPrefix_exit_to_built_step; eauto.
+  aggressive_pre_process.
+  - Goal_apply proof_of_build_entail_wit_15_split_goal_1.
+  - Goal_apply proof_of_build_entail_wit_15_split_goal_2.
+Qed. 
+
+Lemma proof_of_build_entail_wit_16_split_goal_1 : build_entail_wit_16_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  rewrite PreH7.
+  apply Power2_step.
+  lia.
+Qed.
+
+Lemma proof_of_build_entail_wit_16_split_goal_2 : build_entail_wit_16_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  replace (j + 1 - 1) with j by lia.
+  exact PreH7.
 Qed.
 
 Lemma proof_of_build_entail_wit_16 : build_entail_wit_16.
 Proof.
-  pre_process.
-  Exists st_l_2.
-  split_pure_spatial.
-  - cancel.
-  - entailer!.
-    + rewrite PreH12.
-      apply Power2_step; lia.
-    + rewrite PreH12.
-      f_equal; lia.
+  aggressive_pre_process.
+  - Goal_apply proof_of_build_entail_wit_16_split_goal_1.
+  - Goal_apply proof_of_build_entail_wit_16_split_goal_2.
+Qed. 
+
+Lemma proof_of_build_return_wit_1_split_goal_1 : build_return_wit_1_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  unfold STBuilt.
+  assert (j = K_pre) by lia.
+  subst j.
+  exact PreH10.
+Qed.
+
+Lemma proof_of_build_return_wit_1_split_goal_2 : build_return_wit_1_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  assert (j = K_pre) by lia.
+  subst j.
+  exact PreH9.
 Qed.
 
 Lemma proof_of_build_return_wit_1 : build_return_wit_1.
 Proof.
-  pre_process.
-  Exists st_l_2.
-  split_pure_spatial.
-  - cancel.
-  - entailer!.
-    unfold STBuilt.
-    assert (j = K_pre) by lia.
-    subst j.
-    exact PreH14.
+  aggressive_pre_process.
+  - Goal_apply proof_of_build_return_wit_1_split_goal_1.
+  - Goal_apply proof_of_build_return_wit_1_split_goal_2.
+Qed. 
+
+Lemma proof_of_query_safety_wit_1_split_goal_1 : query_safety_wit_1_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe, QueryIntervalBounds in *.
+  dump_pre_spatial.
+  lia.
+Qed.
+
+Lemma proof_of_query_safety_wit_1_split_goal_2 : query_safety_wit_1_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe, QueryIntervalBounds in *.
+  dump_pre_spatial.
+  lia.
+Qed.
+
+Lemma proof_of_query_safety_wit_1 : query_safety_wit_1.
+Proof.
+  aggressive_pre_process.
+  - Goal_apply proof_of_query_safety_wit_1_split_goal_1.
+  - Goal_apply proof_of_query_safety_wit_1_split_goal_2.
+Qed.
+
+Lemma proof_of_query_safety_wit_2_split_goal_1 : query_safety_wit_2_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe, QueryIntervalBounds in *.
+  dump_pre_spatial.
+  lia.
+Qed.
+
+Lemma proof_of_query_safety_wit_2_split_goal_2 : query_safety_wit_2_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe, QueryIntervalBounds in *.
+  dump_pre_spatial.
+  lia.
+Qed.
+
+Lemma proof_of_query_safety_wit_2 : query_safety_wit_2.
+Proof.
+  aggressive_pre_process.
+  - Goal_apply proof_of_query_safety_wit_2_split_goal_1.
+  - Goal_apply proof_of_query_safety_wit_2_split_goal_2.
+Qed.
+
+Lemma proof_of_query_safety_wit_6_split_goal_1 : query_safety_wit_6_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe, QueryLogBounds, QueryLogLoopState in *.
+  dump_pre_spatial.
+  pose proof (worker_Power2_double_int_bound_30 k K_pre) as Hbound.
+  lia.
+Qed.
+
+Lemma proof_of_query_safety_wit_6_split_goal_2 : query_safety_wit_6_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  unfold QueryLogBounds, QueryLogLoopState in *.
+  dump_pre_spatial.
+  lia.
 Qed.
 
 Lemma proof_of_query_safety_wit_6 : query_safety_wit_6.
 Proof.
-  pre_process.
-  apply _derivable1_andp_intros.
-  all: apply derivable1s_coq_prop_r.
-  all:
-    match goal with
-    | Hloop : QueryLogLoopState _ _ _ _ _ |- _ =>
-        unfold QueryLogLoopState in Hloop;
-        destruct Hloop as
-          (Hlen_pos & Hlen_le & HK_pos & Hn_pow &
-           Hk_nonneg & Hk_lt & Hpow & Hpow_len);
-        subst pow;
-        unfold Power2 in *;
-        pose proof (Z.pow_nonneg 2 k ltac:(lia));
-        lia
-    end.
+  aggressive_pre_process.
+  - Goal_apply proof_of_query_safety_wit_6_split_goal_1.
+  - Goal_apply proof_of_query_safety_wit_6_split_goal_2.
+Qed.
+
+Lemma proof_of_query_safety_wit_8_split_goal_1 : query_safety_wit_8_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe, QueryIntervalBounds in *.
+  dump_pre_spatial.
+  lia.
+Qed.
+
+Lemma proof_of_query_safety_wit_8_split_goal_2 : query_safety_wit_8_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  unfold QueryLogBounds, QueryLogLoopState in *.
+  dump_pre_spatial.
+  lia.
 Qed.
 
 Lemma proof_of_query_safety_wit_8 : query_safety_wit_8.
 Proof.
-  pre_process.
-  apply _derivable1_andp_intros.
-  all: apply derivable1s_coq_prop_r.
-  all:
-    match goal with
-    | Hloop : QueryLogLoopState _ _ _ _ _ |- _ =>
-        unfold QueryLogLoopState in Hloop;
-        destruct Hloop as
-          (Hlen_pos & Hlen_le & HK_pos & Hn_pow &
-           Hk_nonneg & Hk_lt & Hpow & Hpow_len);
-        subst pow;
-        unfold Power2 in *;
-        pose proof (Z.pow_nonneg 2 k ltac:(lia));
-        lia
-    end.
+  aggressive_pre_process.
+  - Goal_apply proof_of_query_safety_wit_8_split_goal_1.
+  - Goal_apply proof_of_query_safety_wit_8_split_goal_2.
+Qed.
+
+Lemma proof_of_query_safety_wit_10_split_goal_1 : query_safety_wit_10_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe, QueryLogBounds in *.
+  dump_pre_spatial.
+  lia.
+Qed.
+
+Lemma proof_of_query_safety_wit_10_split_goal_2 : query_safety_wit_10_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  unfold QueryLogBounds in *.
+  dump_pre_spatial.
+  lia.
 Qed.
 
 Lemma proof_of_query_safety_wit_10 : query_safety_wit_10.
 Proof.
-  pre_process.
-  apply _derivable1_andp_intros.
-  all: apply derivable1s_coq_prop_r.
-  all:
-    match goal with
-    | Hloop : QueryLogLoopState _ _ _ _ _ |- _ =>
-        unfold QueryLogLoopState in Hloop;
-        destruct Hloop as
-          (Hlen_pos & Hlen_le & HK_pos & Hn_pow &
-           Hk_nonneg & Hk_lt & Hpow & Hpow_len);
-        lia
-    end.
+  aggressive_pre_process.
+  - Goal_apply proof_of_query_safety_wit_10_split_goal_1.
+  - Goal_apply proof_of_query_safety_wit_10_split_goal_2.
+Qed.
+
+Lemma proof_of_query_safety_wit_11_split_goal_1 : query_safety_wit_11_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe in *.
+  dump_pre_spatial.
+  lia.
+Qed.
+
+Lemma proof_of_query_safety_wit_11_split_goal_2 : query_safety_wit_11_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  dump_pre_spatial.
+  lia.
+Qed.
+
+Lemma proof_of_query_safety_wit_11 : query_safety_wit_11.
+Proof.
+  aggressive_pre_process.
+  - Goal_apply proof_of_query_safety_wit_11_split_goal_1.
+  - Goal_apply proof_of_query_safety_wit_11_split_goal_2.
+Qed.
+
+Lemma proof_of_query_safety_wit_12_split_goal_1 : query_safety_wit_12_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe, QueryLogBounds in *.
+  dump_pre_spatial.
+  lia.
+Qed.
+
+Lemma proof_of_query_safety_wit_12_split_goal_2 : query_safety_wit_12_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe, QueryIntervalBounds in *.
+  dump_pre_spatial.
+  nia.
 Qed.
 
 Lemma proof_of_query_safety_wit_12 : query_safety_wit_12.
 Proof.
-  pre_process.
+  aggressive_pre_process.
+  - Goal_apply proof_of_query_safety_wit_12_split_goal_1.
+  - Goal_apply proof_of_query_safety_wit_12_split_goal_2.
+Qed.
+
+Lemma proof_of_query_safety_wit_13_split_goal_1 : query_safety_wit_13_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe in *.
+  dump_pre_spatial.
+  lia.
+Qed.
+
+Lemma proof_of_query_safety_wit_13_split_goal_2 : query_safety_wit_13_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  dump_pre_spatial.
+  lia.
+Qed.
+
+Lemma proof_of_query_safety_wit_13 : query_safety_wit_13.
+Proof.
+  aggressive_pre_process.
+  - Goal_apply proof_of_query_safety_wit_13_split_goal_1.
+  - Goal_apply proof_of_query_safety_wit_13_split_goal_2.
+Qed.
+
+Lemma proof_of_query_safety_wit_14_split_goal_1 : query_safety_wit_14_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe, QueryIntervalBounds, QueryLogBounds,
+    QueryLogFinalState, QueryLogLoopState in *.
+  dump_pre_spatial.
+  nia.
+Qed.
+
+Lemma proof_of_query_safety_wit_14_split_goal_2 : query_safety_wit_14_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  unfold QueryIntervalBounds, QueryLogBounds,
+    QueryLogFinalState, QueryLogLoopState in *.
+  dump_pre_spatial.
+  nia.
 Qed.
 
 Lemma proof_of_query_safety_wit_14 : query_safety_wit_14.
 Proof.
-  pre_process.
+  aggressive_pre_process.
+  - Goal_apply proof_of_query_safety_wit_14_split_goal_1.
+  - Goal_apply proof_of_query_safety_wit_14_split_goal_2.
+Qed.
+
+Lemma proof_of_query_safety_wit_15_split_goal_1 : query_safety_wit_15_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe, QueryIntervalBounds, QueryLogBounds,
+    QueryLogFinalState, QueryLogLoopState in *.
+  dump_pre_spatial.
+  nia.
+Qed.
+
+Lemma proof_of_query_safety_wit_15_split_goal_2 : query_safety_wit_15_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  unfold QueryIntervalBounds, QueryLogBounds,
+    QueryLogFinalState, QueryLogLoopState in *.
+  dump_pre_spatial.
+  lia.
 Qed.
 
 Lemma proof_of_query_safety_wit_15 : query_safety_wit_15.
 Proof.
-  pre_process.
+  aggressive_pre_process.
+  - Goal_apply proof_of_query_safety_wit_15_split_goal_1.
+  - Goal_apply proof_of_query_safety_wit_15_split_goal_2.
+Qed.
+
+Lemma proof_of_query_safety_wit_16_split_goal_1 : query_safety_wit_16_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  unfold RMQSizeSafe, QueryIntervalBounds, QueryLogBounds,
+    QueryLogFinalState, QueryLogLoopState in *.
+  dump_pre_spatial.
+  lia.
+Qed.
+
+Lemma proof_of_query_safety_wit_16_split_goal_2 : query_safety_wit_16_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  unfold QueryIntervalBounds, QueryLogBounds,
+    QueryLogFinalState, QueryLogLoopState in *.
+  dump_pre_spatial.
+  lia.
 Qed.
 
 Lemma proof_of_query_safety_wit_16 : query_safety_wit_16.
 Proof.
-  pre_process.
+  aggressive_pre_process.
+  - Goal_apply proof_of_query_safety_wit_16_split_goal_1.
+  - Goal_apply proof_of_query_safety_wit_16_split_goal_2.
+Qed.
+
+Lemma proof_of_query_entail_wit_1_split_goal_1 : query_entail_wit_1_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  apply QueryLogLoopState_init.
+  - unfold QueryIntervalBounds in PreH2; lia.
+  - unfold QueryIntervalBounds in PreH2; lia.
+Qed.
+
+Lemma proof_of_query_entail_wit_1_split_goal_2 : query_entail_wit_1_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  apply QueryLogBounds_init.
+  - unfold RMQSizeSafe in PreH1; lia.
+  - unfold RMQSizeSafe in PreH1; lia.
+  - unfold RMQSizeSafe in PreH1; lia.
+  - unfold QueryIntervalBounds in PreH2; lia.
+  - unfold QueryIntervalBounds in PreH2; lia.
+  - unfold QueryIntervalBounds in PreH2; lia.
 Qed.
 
 Lemma proof_of_query_entail_wit_1 : query_entail_wit_1.
 Proof.
-  pre_process.
-  split_pure_spatial.
-  - cancel.
-  - split_pures; (dump_pre_spatial; try lia; eauto using QueryLogLoopState_init).
+  aggressive_pre_process.
+  - Goal_apply proof_of_query_entail_wit_1_split_goal_1.
+  - Goal_apply proof_of_query_entail_wit_1_split_goal_2.
+Qed.
+
+Lemma proof_of_query_entail_wit_2_split_goal_1 : query_entail_wit_2_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  rewrite <- PreH4.
+  eapply QueryLogLoopState_step; eauto.
+Qed.
+
+Lemma proof_of_query_entail_wit_2_split_goal_2 : query_entail_wit_2_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  rewrite <- PreH4.
+  eapply QueryLogBounds_step; eauto.
 Qed.
 
 Lemma proof_of_query_entail_wit_2 : query_entail_wit_2.
 Proof.
-  pre_process.
-  split_pure_spatial.
-  - cancel.
-  - split_pures; (dump_pre_spatial; try lia; eauto using QueryLogLoopState_step).
+  aggressive_pre_process.
+  - Goal_apply proof_of_query_entail_wit_2_split_goal_1.
+  - Goal_apply proof_of_query_entail_wit_2_split_goal_2.
+Qed.
+
+Lemma proof_of_query_entail_wit_3_split_goal_1 : query_entail_wit_3_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  unfold STBuilt, STBuiltBeforeLevel in PreH8.
+  unfold QueryIntervalBounds in PreH3.
+  unfold QueryLogBounds in PreH9.
+  unfold QueryLogLoopState in PreH10.
+  destruct PreH3 as [Hleft_nonneg [Hleft_right Hright_n]].
+  destruct PreH9 as
+    [Hlen_pos [Hlen_n [HK_pos [Hn_pow [Hk_nonneg [Hk_K Hpow_pos]]]]]].
+  destruct PreH10 as [_ [Hpow_eq Hpow_le]].
+  apply PreH8.
+  repeat split; lia.
+Qed.
+
+Lemma proof_of_query_entail_wit_3_split_goal_2 : query_entail_wit_3_split_goal_2.
+Proof.
+  aggressive_pre_process.
+  unfold STBuilt, STBuiltBeforeLevel in PreH8.
+  unfold QueryIntervalBounds in PreH3.
+  unfold QueryLogBounds in PreH9.
+  unfold QueryLogLoopState in PreH10.
+  destruct PreH3 as [Hleft_nonneg [Hleft_right Hright_n]].
+  destruct PreH9 as
+    [Hlen_pos [Hlen_n [HK_pos [Hn_pow [Hk_nonneg [Hk_K Hpow_pos]]]]]].
+  destruct PreH10 as [_ [Hpow_eq Hpow_le]].
+  apply PreH8.
+  repeat split; lia.
+Qed.
+
+Lemma proof_of_query_entail_wit_3_split_goal_3 : query_entail_wit_3_split_goal_3.
+Proof.
+  aggressive_pre_process.
+  unfold STCellBounds.
+  unfold QueryIntervalBounds in PreH3.
+  unfold STTableShape in PreH6.
+  unfold QueryLogBounds in PreH9.
+  unfold QueryLogLoopState in PreH10.
+  destruct PreH3 as [Hleft_nonneg [Hleft_right Hright_n]].
+  destruct PreH9 as
+    [Hlen_pos [Hlen_n [HK_pos [Hn_pow [Hk_nonneg [Hk_K Hpow_pos]]]]]].
+  destruct PreH10 as [_ [Hpow_eq Hpow_le]].
+  repeat split; try lia.
+  all: try rewrite PreH6; nia.
+Qed.
+
+Lemma proof_of_query_entail_wit_3_split_goal_4 : query_entail_wit_3_split_goal_4.
+Proof.
+  aggressive_pre_process.
+  unfold STCellBounds.
+  unfold QueryIntervalBounds in PreH3.
+  unfold STTableShape in PreH6.
+  unfold QueryLogBounds in PreH9.
+  unfold QueryLogLoopState in PreH10.
+  destruct PreH3 as [Hleft_nonneg [Hleft_right Hright_n]].
+  destruct PreH9 as
+    [Hlen_pos [Hlen_n [HK_pos [Hn_pow [Hk_nonneg [Hk_K Hpow_pos]]]]]].
+  destruct PreH10 as [_ [Hpow_eq Hpow_le]].
+  repeat split; try lia.
+  all: try rewrite PreH6; nia.
+Qed.
+
+Lemma proof_of_query_entail_wit_3_split_goal_5 : query_entail_wit_3_split_goal_5.
+Proof.
+  aggressive_pre_process.
+  unfold QueryIntervalBounds in PreH3.
+  unfold QueryLogBounds in PreH9.
+  unfold QueryLogLoopState in PreH10.
+  destruct PreH3 as [Hleft_nonneg [Hleft_right Hright_n]].
+  destruct PreH9 as
+    [Hlen_pos [Hlen_n [HK_pos [Hn_pow [Hk_nonneg [Hk_K Hpow_pos]]]]]].
+  destruct PreH10 as [_ [Hpow_eq Hpow_le]].
+  nia.
+Qed.
+
+Lemma proof_of_query_entail_wit_3_split_goal_6 : query_entail_wit_3_split_goal_6.
+Proof.
+  aggressive_pre_process.
+  unfold QueryIntervalBounds in PreH3.
+  unfold QueryLogBounds in PreH9.
+  unfold QueryLogLoopState in PreH10.
+  destruct PreH3 as [Hleft_nonneg [Hleft_right Hright_n]].
+  destruct PreH9 as
+    [Hlen_pos [Hlen_n [HK_pos [Hn_pow [Hk_nonneg [Hk_K Hpow_pos]]]]]].
+  destruct PreH10 as [_ [Hpow_eq Hpow_le]].
+  nia.
+Qed.
+
+Lemma proof_of_query_entail_wit_3_split_goal_7 : query_entail_wit_3_split_goal_7.
+Proof.
+  aggressive_pre_process.
+  unfold QueryIntervalBounds in PreH3.
+  unfold QueryLogBounds in PreH9.
+  destruct PreH3 as [Hleft_nonneg [Hleft_right Hright_n]].
+  destruct PreH9 as
+    [Hlen_pos [Hlen_n [HK_pos [Hn_pow [Hk_nonneg [Hk_K Hpow_pos]]]]]].
+  nia.
+Qed.
+
+Lemma proof_of_query_entail_wit_3_split_goal_8 : query_entail_wit_3_split_goal_8.
+Proof.
+  aggressive_pre_process.
+  unfold QueryIntervalBounds in PreH3.
+  unfold QueryLogBounds in PreH9.
+  destruct PreH3 as [Hleft_nonneg [Hleft_right Hright_n]].
+  destruct PreH9 as
+    [Hlen_pos [Hlen_n [HK_pos [Hn_pow [Hk_nonneg [Hk_K Hpow_pos]]]]]].
+  nia.
+Qed.
+
+Lemma proof_of_query_entail_wit_3_split_goal_9 : query_entail_wit_3_split_goal_9.
+Proof.
+  aggressive_pre_process.
+  rewrite <- PreH4.
+  unfold QueryLogFinalState.
+  split.
+  - exact PreH10.
+  - unfold QueryLogLoopState in PreH10.
+    destruct PreH10 as [Hk_nonneg [Hpow_eq Hpow_le]].
+    pose proof (Power2_step_query k Hk_nonneg) as Hstep.
+    lia.
 Qed.
 
 Lemma proof_of_query_entail_wit_3 : query_entail_wit_3.
 Proof.
-  pre_process.
-  split_pure_spatial.
-  - cancel (IntArray.full st_pre (n_pre * K_pre) st_l).
-  - split_pures.
-    all: dump_pre_spatial; try solve [auto | lia].
-    all: try solve
-      [ unfold QueryLogFinalState; split; [exact PreH15|];
-        unfold QueryLogLoopState in PreH15;
-        destruct PreH15 as (_ & _ & _ & _ & Hk_nonneg & _ & Hpow & _);
-        unfold Power2 in *;
-        replace (k + 1) with (Z.succ k) by lia;
-        rewrite Z.pow_succ_r by lia;
-        rewrite <- Hpow; lia
-      | unfold QueryLogLoopState in PreH15; intuition nia
-      | unfold STBuilt, STBuiltBeforeLevel in PreH14;
-        destruct PreH14 as (_ & _ & _ & _ & _ & Hbuilt);
-        apply Hbuilt;
-        unfold QueryLogLoopState in PreH15; intuition nia ].
+  aggressive_pre_process.
+  - Goal_apply proof_of_query_entail_wit_3_split_goal_1.
+  - Goal_apply proof_of_query_entail_wit_3_split_goal_2.
+  - Goal_apply proof_of_query_entail_wit_3_split_goal_3.
+  - Goal_apply proof_of_query_entail_wit_3_split_goal_4.
+  - Goal_apply proof_of_query_entail_wit_3_split_goal_5.
+  - Goal_apply proof_of_query_entail_wit_3_split_goal_6.
+  - Goal_apply proof_of_query_entail_wit_3_split_goal_7.
+  - Goal_apply proof_of_query_entail_wit_3_split_goal_8.
+  - Goal_apply proof_of_query_entail_wit_3_split_goal_9.
 Qed. 
+
+Lemma proof_of_query_entail_wit_5_split_goal_1 : query_entail_wit_5_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  eapply RangeMaxValue_sparse_query_left; eauto.
+Qed.
 
 Lemma proof_of_query_entail_wit_5 : query_entail_wit_5.
 Proof.
-  pre_process.
-  split_pure_spatial.
-  - cancel (IntArray.full st_pre (n_pre * K_pre) st_l).
-  - split_pures; dump_pre_spatial; eauto using RangeMaxValue_sparse_query_left.
+  aggressive_pre_process.
+  Goal_apply proof_of_query_entail_wit_5_split_goal_1.
+Qed.
+
+Lemma proof_of_query_entail_wit_6_split_goal_1 : query_entail_wit_6_split_goal_1.
+Proof.
+  aggressive_pre_process.
+  eapply RangeMaxValue_sparse_query_right; eauto.
 Qed.
 
 Lemma proof_of_query_entail_wit_6 : query_entail_wit_6.
 Proof.
-  pre_process.
-  split_pure_spatial.
-  - cancel (IntArray.full st_pre (n_pre * K_pre) st_l).
-  - split_pures; dump_pre_spatial; eauto using RangeMaxValue_sparse_query_right.
+  aggressive_pre_process.
+  Goal_apply proof_of_query_entail_wit_6_split_goal_1.
 Qed.

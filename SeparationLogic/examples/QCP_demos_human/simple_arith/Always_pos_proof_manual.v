@@ -21,16 +21,20 @@ Local Open Scope sac.
 
 Lemma proof_of_Always_positive_simple_return_wit_4 : Always_positive_simple_return_wit_4.
 Proof.
-  pre_process.
-  entailer!.
+  LLM_pre_process ltac:(int_auto).
+  split_pure_spatial.
+  - cancel.
+  - dump_pre_spatial.
   unfold Always_pos. 
   subst. simpl. lia.
 Qed.
 
 Lemma proof_of_Always_positive_simple_return_wit_3 : Always_positive_simple_return_wit_3.
 Proof.
-  pre_process.
-  entailer!.
+  LLM_pre_process ltac:(int_auto).
+  split_pure_spatial.
+  - cancel.
+  - dump_pre_spatial.
   unfold Always_pos.
   destruct (Z.eq_dec a_pre 0) ; try lia.
   destruct (Z_ge_lt_dec (b_pre * b_pre - 4 * a_pre * c_pre) 0) ; try nia.
@@ -41,21 +45,25 @@ Qed.
 
 Lemma proof_of_Always_positive_simple_return_wit_2 : Always_positive_simple_return_wit_2.
 Proof.
-  pre_process.
-  entailer!.
+  LLM_pre_process ltac:(int_auto).
+  split_pure_spatial.
+  - cancel.
+  - dump_pre_spatial.
   unfold Always_pos.
   destruct (Z.eq_dec a_pre 0) ; try lia.
   destruct (Z_ge_lt_dec (b_pre * b_pre - 4 * a_pre * c_pre) 0) ; try nia.
-  - assert (a_pre * c_pre <= b_pre * b_pre ÷ 4).
+  + assert (a_pre * c_pre <= b_pre * b_pre ÷ 4).
     { apply Z.quot_le_lower_bound ; lia. }
     nia.
-  - destruct (Z_gt_le_dec a_pre 0) ; try lia.
+  + destruct (Z_gt_le_dec a_pre 0) ; try lia.
 Qed.
 
 Lemma proof_of_Always_positive_simple_return_wit_1 : Always_positive_simple_return_wit_1.
 Proof.
-  pre_process.
-  entailer!.
+  LLM_pre_process ltac:(int_auto).
+  split_pure_spatial.
+  - cancel.
+  - dump_pre_spatial.
   unfold Always_pos.
   destruct (Z.eq_dec a_pre 0) ; try lia.
   destruct (Z_ge_lt_dec (b_pre * b_pre - 4 * a_pre * c_pre) 0) ; try nia.
@@ -64,21 +72,25 @@ Qed.
 
 Lemma proof_of_Always_positive_entail_wit_2 : Always_positive_entail_wit_2.
 Proof. 
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
 Qed.  
 
 Lemma proof_of_Always_positive_return_wit_5 : Always_positive_return_wit_5.
 Proof.
-  pre_process.
-  entailer!.
+  LLM_pre_process ltac:(int_auto).
+  split_pure_spatial.
+  - cancel.
+  - dump_pre_spatial.
   unfold Always_pos.
   subst. simpl. lia.
 Qed.  
 
 Lemma proof_of_Always_positive_return_wit_4 : Always_positive_return_wit_4.
 Proof.
-  pre_process.
-  entailer!.
+  LLM_pre_process ltac:(int_auto).
+  split_pure_spatial.
+  - cancel.
+  - dump_pre_spatial.
   unfold Always_pos.
   destruct (Z.eq_dec a_pre 0) ; try lia.
   destruct (Z_ge_lt_dec (b_pre * b_pre - 4 * a_pre * c_pre) 0) ; try nia.
@@ -86,8 +98,10 @@ Qed.
 
 Lemma proof_of_Always_positive_return_wit_3 : Always_positive_return_wit_3.
 Proof.
-  pre_process.
-  entailer!. unfold Always_pos.
+  LLM_pre_process ltac:(int_auto).
+  split_pure_spatial.
+  - cancel.
+  - dump_pre_spatial. unfold Always_pos.
   subst.
   destruct (Z.eq_dec a_pre 0); try lia.
   destruct (Z_ge_lt_dec (b_pre * b_pre - 4 * a_pre * c_pre) 0); try nia.
@@ -95,8 +109,10 @@ Qed.
 
 Lemma proof_of_Always_positive_return_wit_2 : Always_positive_return_wit_2.
 Proof.
-  pre_process.
-  entailer!. unfold Always_pos.
+  LLM_pre_process ltac:(int_auto).
+  split_pure_spatial.
+  - cancel.
+  - dump_pre_spatial. unfold Always_pos.
   subst.
   destruct (Z.eq_dec a_pre 0); try lia.
   destruct (Z_ge_lt_dec (b_pre * b_pre - 4 * a_pre * c_pre) 0); try nia.
@@ -105,8 +121,10 @@ Qed.
 
 Lemma proof_of_Always_positive_return_wit_1 : Always_positive_return_wit_1.
 Proof.
-  pre_process.
-  entailer!. unfold Always_pos.
+  LLM_pre_process ltac:(int_auto).
+  split_pure_spatial.
+  - cancel.
+  - dump_pre_spatial. unfold Always_pos.
   subst.
   destruct (Z.eq_dec a_pre 0); try lia.
   destruct (Z_ge_lt_dec (b_pre * b_pre - 4 * a_pre * c_pre) 0); try nia.

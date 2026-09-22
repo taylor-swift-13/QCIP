@@ -21,12 +21,12 @@ Local Open Scope sac.
 
 Lemma proof_of_arr_sum_entail_wit_1 : arr_sum_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
 Qed.
 
 Lemma proof_of_arr_sum_entail_wit_2 : arr_sum_entail_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply IntArray.full_Zlength.
   Intros_p Hlen.
   split_pures.
@@ -70,7 +70,7 @@ Qed.
 
 Lemma proof_of_arr_sum_return_wit_1 : arr_sum_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply IntArray.full_length.
   Intros_p Hlen.
   assert (HlenZ : Zlength l = n_pre) by (rewrite Zlength_correct; exact Hlen).
@@ -89,7 +89,7 @@ Qed.
 
 Lemma proof_of_arr_sum_safety_wit_3 : arr_sum_safety_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply IntArray.full_length.
   Intros_p Hlen.
   assert (HlenZ : Zlength l = n_pre) by (rewrite Zlength_correct; exact Hlen).
@@ -123,7 +123,7 @@ Qed.
 
 Lemma proof_of_arr_sum_do_while_entail_wit_2 : arr_sum_do_while_entail_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply IntArray.full_length.
   Intros_p Hlen.
   assert (HlenZ : Zlength l = n_pre) by (rewrite Zlength_correct; exact Hlen).
@@ -144,7 +144,7 @@ Qed.
 
 Lemma proof_of_arr_sum_do_while_entail_wit_1 : arr_sum_do_while_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply IntArray.full_Zlength.
   Intros_p Hlen.
   assert (Hlt : i_2 < n_pre) by lia.
@@ -189,7 +189,7 @@ Qed.
 
 Lemma proof_of_arr_sum_do_while_return_wit_1 : arr_sum_do_while_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply IntArray.full_length.
   Intros_p Hlen.
   split_pure_spatial.
@@ -207,7 +207,7 @@ Qed.
 
 Lemma proof_of_arr_sum_do_while_safety_wit_6 : arr_sum_do_while_safety_wit_6.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply IntArray.full_length.
   Intros_p Hlen.
   assert (HlenZ : Zlength l = n_pre) by (rewrite Zlength_correct; exact Hlen).
@@ -242,12 +242,12 @@ Qed.
 
 Lemma proof_of_arr_sum_for_entail_wit_1 : arr_sum_for_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
 Qed.
 
 Lemma proof_of_arr_sum_for_entail_wit_2 : arr_sum_for_entail_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply IntArray.full_Zlength.
   Intros_p Hlen.
   split_pures.
@@ -291,7 +291,7 @@ Qed.
 
 Lemma proof_of_arr_sum_for_return_wit_1 : arr_sum_for_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply IntArray.full_length.
   Intros_p Hlen.
   split_pure_spatial.
@@ -309,7 +309,7 @@ Qed.
 
 Lemma proof_of_arr_sum_for_safety_wit_3 : arr_sum_for_safety_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply IntArray.full_length.
   Intros_p Hlen.
   assert (HlenZ : Zlength l = n_pre) by (rewrite Zlength_correct; exact Hlen).
@@ -343,12 +343,12 @@ Qed.
 
 Lemma proof_of_arr_sum_which_implies_entail_wit_1 : arr_sum_which_implies_entail_wit_1.
 Proof. 
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
 Qed.
 
 Lemma proof_of_arr_sum_which_implies_entail_wit_2 : arr_sum_which_implies_entail_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply IntArray.full_Zlength.
   Intros_p Hlen.
   split_pures.
@@ -392,7 +392,7 @@ Qed.
 
 Lemma proof_of_arr_sum_which_implies_return_wit_1 : arr_sum_which_implies_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply IntArray.full_length.
   Intros_p Hlen.
   split_pure_spatial.
@@ -410,7 +410,7 @@ Qed.
 
 Lemma proof_of_arr_sum_which_implies_safety_wit_3 : arr_sum_which_implies_safety_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply IntArray.full_length.
   Intros_p Hlen.
   assert (HlenZ : Zlength l = n_pre) by (rewrite Zlength_correct; exact Hlen).
@@ -444,15 +444,11 @@ Qed.
 
 Lemma proof_of_arr_sum_update_entail_wit_1 : arr_sum_update_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply IntArray.full_Zlength.
   Intros_p Hlen.
-  rewrite Zlength_correct in Hlen.
-  unfold zeros.
-  simpl repeat.
-  rewrite app_nil_l.
-  assert (HlenZ : Zlength l = n_pre) by (rewrite Zlength_correct; exact Hlen).
-  rewrite (sublist_self l n_pre) by exact (eq_sym HlenZ).
+  assert (HlenZ : Zlength l = n_pre) by exact Hlen.
+  Exists l.
   split_pure_spatial.
   - cancel (IntArray.full a_pre n_pre l).
   - split_pures.
@@ -461,64 +457,48 @@ Proof.
     + dump_pre_spatial. lia.
     + dump_pre_spatial. lia.
     + dump_pre_spatial. exact (eq_sym HlenZ).
+    + dump_pre_spatial. exact (eq_sym HlenZ).
     + dump_pre_spatial. exact PreH3.
-    + dump_pre_spatial. reflexivity.
+    + dump_pre_spatial. intros; lia.
+    + dump_pre_spatial. intros; reflexivity.
+    + dump_pre_spatial. rewrite Zsublist_nil by lia. reflexivity.
 Qed.
 
 Lemma proof_of_arr_sum_update_entail_wit_2 : arr_sum_update_entail_wit_2.
 Proof.
-  pre_process.
-  assert (Hrewrite :
-    replace_Znth i_2 0 (zeros i_2 ++ sublist i_2 n_pre l) =
-    zeros (i_2 + 1) ++ sublist (i_2 + 1) n_pre l).
-  {
-    assert (Hzlen : Zlength (zeros i_2) = i_2).
-    { rewrite Zlength_correct; unfold zeros; rewrite repeat_length; lia. }
-    rewrite replace_Znth_app_r; try lia.
-    rewrite replace_Znth_nothing; try lia.
-    replace (i_2 - Zlength (zeros i_2)) with 0 by lia.
-    replace (zeros (i_2 + 1)) with (zeros i_2 ++ (0 :: nil)).
-    2: {
-      unfold zeros.
-      replace (Z.to_nat (i_2 + 1)) with (Z.to_nat i_2 + 1)%nat by lia.
-      rewrite repeat_app. simpl. reflexivity.
-    }
-    rewrite sublist_split with (mid := (i_2 + 1)) ; try lia.
-    rewrite sublist_single with (d := 0) ; try lia.
-    simpl.
-    unfold replace_Znth. simpl.
-    rewrite <- app_assoc. simpl.
-    reflexivity.
-  }
-  rewrite Hrewrite.
+  LLM_pre_process ltac:(int_auto).
+  Exists (replace_Znth i_2 0 l1_2).
   split_pures.
   split_pure_spatial.
-  - cancel (IntArray.full a_pre n_pre (zeros (i_2 + 1) ++ sublist (i_2 + 1) n_pre l)).
+  - cancel (IntArray.full a_pre n_pre (replace_Znth i_2 0 l1_2)).
   - split_pures.
     + dump_pre_spatial. exact PreH2.
     + dump_pre_spatial. exact PreH3.
     + dump_pre_spatial. lia.
     + dump_pre_spatial. lia.
     + dump_pre_spatial. exact PreH6.
-    + dump_pre_spatial. exact PreH7.
+    + dump_pre_spatial. rewrite Zlength_replace_Znth. exact PreH7.
+    + dump_pre_spatial. exact PreH8.
+    + dump_pre_spatial.
+      intros k Hk.
+      destruct (Z.eq_dec k i_2) as [Heq | Hneq].
+      * subst k. rewrite Znth_replace_Znth_Same by lia. reflexivity.
+      * rewrite Znth_replace_Znth_Diff by lia.
+        apply PreH9. lia.
+    + dump_pre_spatial.
+      intros k Hk.
+      rewrite Znth_replace_Znth_Diff by lia.
+      apply PreH10. lia.
     + dump_pre_spatial.
       assert (Hzi :
-        Znth i_2 (zeros i_2 ++ sublist i_2 n_pre l) 0 = Znth i_2 l 0).
-      {
-        rewrite app_Znth2 by (rewrite Zlength_correct; unfold zeros; rewrite repeat_length; lia).
-        rewrite Zlength_correct; unfold zeros; rewrite repeat_length.
-        replace (i_2 - Z.of_nat (Z.to_nat i_2)) with 0 by lia.
-        rewrite Znth_sublist by lia.
-        replace (0 + i_2) with i_2 by lia.
-        apply Znth_indep. lia.
-      }
+        Znth i_2 l1_2 0 = Znth i_2 l 0) by (apply PreH10; lia).
       rewrite Hzi.
-      rewrite PreH8.
+      rewrite PreH11.
       rewrite (sublist_split 0 (i_2 + 1) i_2 l) by lia.
       rewrite sum_app.
       rewrite (sublist_single 0 i_2 l) by lia.
       simpl.
-      assert (Hrange : forall j : Z, 0 <= j < n_pre -> 0 <= Znth j l 0 < 100) by exact PreH7.
+      assert (Hrange : forall j : Z, 0 <= j < n_pre -> 0 <= Znth j l 0 < 100) by exact PreH8.
       destruct (Z.eq_dec i_2 0) as [Hi0 | Hi0].
       * subst i_2. simpl in *. subst ret.
         assert (Hcur : 0 <= Znth 0 l 0 < 100) by (apply Hrange; lia).
@@ -543,42 +523,26 @@ Qed.
 
 Lemma proof_of_arr_sum_update_return_wit_1 : arr_sum_update_return_wit_1.
 Proof.
-  pre_process.
-  assert (Hi : i_2 = n_pre) by lia.
-  subst i_2.
-  assert (Hzero_tail : zeros n_pre ++ sublist n_pre n_pre l = zeros n_pre).
-  {
-    unfold sublist.
-    rewrite firstn_all2 by (rewrite Zlength_correct in PreH6; lia).
-    rewrite skipn_all2 by (rewrite Zlength_correct in PreH6; lia).
-    rewrite app_nil_r.
-    reflexivity.
-  }
-  rewrite Hzero_tail.
+  LLM_pre_process ltac:(int_auto).
+  assert (Hi : i_3 = n_pre) by lia.
+  subst i_3.
+  Exists l1_2.
   split_pure_spatial.
-  - cancel (IntArray.full a_pre n_pre (zeros n_pre)).
-  - dump_pre_spatial.
-    rewrite PreH8.
-    unfold sublist.
-    simpl.
-    rewrite firstn_all2 by (rewrite Zlength_correct in PreH6; lia).
-    reflexivity.
+  - cancel (IntArray.full a_pre n_pre l1_2).
+  - split_pures.
+    + dump_pre_spatial.
+      rewrite <- (sublist_self l n_pre) by exact PreH6.
+      exact PreH11.
+    + dump_pre_spatial. exact PreH7.
+    + dump_pre_spatial. intros i Hi. apply PreH9. lia.
 Qed.
 
 Lemma proof_of_arr_sum_update_safety_wit_3 : arr_sum_update_safety_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (Hzi :
-    Znth i (zeros i ++ sublist i n_pre l) 0 = Znth i l 0).
-  {
-    rewrite app_Znth2 by (rewrite Zlength_correct; unfold zeros; rewrite repeat_length; lia).
-    rewrite Zlength_correct; unfold zeros; rewrite repeat_length.
-    replace (i - Z.of_nat (Z.to_nat i)) with 0 by lia.
-    rewrite Znth_sublist by lia.
-    replace (0 + i) with i by lia.
-    apply Znth_indep. lia.
-  }
-  assert (Hrange : forall j : Z, 0 <= j < n_pre -> 0 <= Znth j l 0 < 100) by exact PreH7.
+    Znth i l1 0 = Znth i l 0) by (apply PreH10; lia).
+  assert (Hrange : forall j : Z, 0 <= j < n_pre -> 0 <= Znth j l 0 < 100) by exact PreH8.
   destruct (Z.eq_dec i 0) as [Hi0 | Hi0].
   - subst i. simpl in *. subst ret.
     assert (Hcur : 0 <= Znth 0 l 0 < 100) by (apply Hrange; lia).
@@ -608,7 +572,7 @@ Qed.
 
 Lemma proof_of_arr_sum_pointer_entail_wit_1: arr_sum_pointer_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply IntArray.full_Zlength.
   Intros_p Hlen.
   split_pure_spatial.
@@ -626,7 +590,7 @@ Qed.
 
 Lemma proof_of_arr_sum_pointer_entail_wit_2: arr_sum_pointer_entail_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - cancel (IntArray.full a_pre n_pre l).
   - split_pures.
@@ -661,7 +625,7 @@ Qed.
 
 Lemma proof_of_arr_sum_pointer_entail_wit_3: arr_sum_pointer_entail_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply IntArray.full_Zlength.
   Intros_p Hlen.
   split_pures.
@@ -707,7 +671,7 @@ Qed.
 
 Lemma proof_of_arr_sum_pointer_return_wit_1: arr_sum_pointer_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply IntArray.full_length.
   Intros_p Hlen.
   split_pure_spatial.
@@ -734,7 +698,7 @@ Qed.
 
 Lemma proof_of_arr_sum_pointer_safety_wit_4: arr_sum_pointer_safety_wit_4.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply IntArray.full_length.
   Intros_p Hlen.
   assert (HlenZ : Zlength l = n_pre) by (rewrite Zlength_correct; exact Hlen).

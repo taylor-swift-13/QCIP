@@ -22,7 +22,7 @@ Local Open Scope sac.
 
 Lemma proof_of_insert_entail_wit_1 : insert_entail_wit_1.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	sep_apply store_tree_not_zero; [ | tauto].
 	Intros l0.
 	Intros k.
@@ -57,7 +57,7 @@ Qed.
 
 Lemma proof_of_insert_return_wit_1 : insert_return_wit_1.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	subst.
 	simpl.
 	destruct (Key.dec x_pre b_key) as [[Hlt | Hgt] | Heq]; try Key.order.
@@ -79,7 +79,7 @@ Qed.
 
 Lemma proof_of_insert_return_wit_2 : insert_return_wit_2.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	subst.
 	simpl.
 	destruct (Key.dec x_pre b_key) as [[Hlt | Hgt] | Heq]; try Key.order.
@@ -100,7 +100,7 @@ Qed.
 
 Lemma proof_of_insert_return_wit_3 : insert_return_wit_3.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	subst.
 	simpl.
 	destruct (Key.dec x_pre b_key) as [[Hlt | Hgt] | Heq]; try Key.order.
@@ -122,7 +122,7 @@ Qed.
 
 Lemma proof_of_insert_return_wit_4 : insert_return_wit_4.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	sep_apply_l_atomic (store_tree_zero b_pre tr_low_level_spec).
 	- dump_pre_spatial.
 	  assumption.
@@ -148,7 +148,7 @@ Qed.
 
 Lemma proof_of_insert_derive_high_level_spec_by_low_level_spec : insert_derive_high_level_spec_by_low_level_spec.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	unfold Bst.store_map.
 	Intros tr.
 	Exists tr.

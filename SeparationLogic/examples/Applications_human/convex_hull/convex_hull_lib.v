@@ -51,7 +51,7 @@ Proof.
 Qed.
 
 Lemma sizeof_front_end_type_Point :
-  sizeof_front_end_type (FET_alias "Point") = sizeof_Point.
+  sizeof_alias_type "Point" = sizeof_Point.
 Proof.
   reflexivity.
 Qed.
@@ -355,134 +355,6 @@ Proof.
   - symmetry.
     exact Hperm.
   - exact Hq.
-Qed.
-
-Lemma derivable1_orp_intros_left : forall (A B C S : Assertion),
-  S |-- A -> S |-- A || B || C.
-Proof.
-  intros A B C S HSA.
-  eapply derivable1_trans.
-  { exact HSA. }
-  eapply derivable1_trans.
-  { apply (derivable1_orp_intros1 A B). }
-  apply (derivable1_orp_intros1 (A || B) C).
-Qed.
-
-Lemma derivable1_orp_intros_mid : forall (A B C S : Assertion),
-  S |-- B -> S |-- A || B || C.
-Proof.
-  intros A B C S HSB.
-  pose proof (logic_equiv_orp_assoc A B C) as [Heq1 Heq2].
-  eapply derivable1_trans.
-  2: { apply Heq2. }
-  eapply derivable1_trans.
-  2: { apply (derivable1_orp_intros2 A (B || C)). }
-  eapply derivable1_trans.
-  2: { apply (derivable1_orp_intros1 B C). }
-  exact HSB.
-Qed.
-
-Lemma derivable1_orp_intros_right : forall (A B C S : Assertion),
-  S |-- C -> S |-- A || B || C.
-Proof.
-  intros A B C S HSC.
-  eapply derivable1_trans.
-  { exact HSC. }
-  apply derivable1_orp_intros2.
-Qed.
-
-Lemma emp_derives_pure : forall (P : Prop), P -> emp |-- “ P ”.
-Proof.
-  intros P HP.
-  apply (derivable1s_coq_prop_r P emp).
-  exact HP.
-Qed.
-
-Lemma emp_derives_pure_or3 : forall (P Q R : Prop),
-  (P \/ Q \/ R) -> emp |-- “ P ” || “ Q ” || “ R ”.
-Proof.
-  intros P Q R Hor.
-  destruct Hor as [HP | [HQ | HR]].
-  - apply emp_derives_pure in HP.
-    transitivity (“ P ”).
-    { exact HP. }
-    transitivity (“ P ” || “ Q ”).
-    { apply derivable1_orp_intros1. }
-    apply derivable1_orp_intros1.
-  - apply emp_derives_pure in HQ.
-    transitivity (“ Q ”).
-    { exact HQ. }
-    transitivity (“ P ” || “ Q ”).
-    { apply derivable1_orp_intros2. }
-    apply derivable1_orp_intros1.
-  - apply emp_derives_pure in HR.
-    transitivity (“ R ”).
-    { exact HR. }
-    apply derivable1_orp_intros2.
-Qed.
-
-Lemma andp_derives_coq_prop_and : forall (P Q R : Prop),
-  “ P /\ Q /\ R ” |-- “ P ” && “ Q ” && “ R ”.
-Proof.
-  intros P Q R.
-  apply derivable1s_coq_prop_l.
-  intros [HP [HQ HR]].
-  pose proof (derivable1s_coq_prop_r P truep HP) as HP'.
-  pose proof (derivable1s_coq_prop_r Q truep HQ) as HQ'.
-  pose proof (derivable1s_coq_prop_r R truep HR) as HR'.
-  assert (HPQ : derivable1 truep (“ P ” && “ Q ”)).
-  { eapply derivable1s_truep_intros; eauto. }
-  eapply derivable1s_truep_intros; eauto.
-Qed.
-
-Lemma derivable1_trans : forall x y z,
-  derivable1 x y -> derivable1 y z -> derivable1 x z.
-Proof.
-  intros x y z H1 H2 m H.
-  apply H2.
-  apply H1.
-  exact H.
-Qed.
-
-Lemma emp_derives_or3_and : forall (P1 Q1 R1 P2 Q2 R2 P3 Q3 R3 : Prop),
-  ((P1 /\ Q1 /\ R1) \/ (P2 /\ Q2 /\ R2) \/ (P3 /\ Q3 /\ R3)) ->
-  emp |-- (“ P1 ” && “ Q1 ” && “ R1 ”) ||
-          (“ P2 ” && “ Q2 ” && “ R2 ”) ||
-          (“ P3 ” && “ Q3 ” && “ R3 ”).
-Proof.
-  intros P1 Q1 R1 P2 Q2 R2 P3 Q3 R3 Hor.
-  destruct Hor as [[HP1 [HQ1 HR1]] | [[HP2 [HQ2 HR2]] | [HP3 [HQ3 HR3]]]].
-  - (* branch 1: A1 *)
-    apply emp_derives_pure in HP1. apply emp_derives_pure in HQ1. apply emp_derives_pure in HR1.
-    assert (Hgoal1 : emp |-- “ P1 ” && “ Q1 ” && “ R1 ”).
-    { assert (HPQ : emp |-- “ P1 ” && “ Q1 ”).
-      { eapply derivable1s_truep_intros; eauto. }
-      eapply derivable1s_truep_intros; eauto. }
-    eapply derivable1_trans.
-    { exact Hgoal1. }
-    eapply derivable1_trans.
-    { apply derivable1_orp_intros1. }
-    apply derivable1_orp_intros1.
-  - (* branch 2: A2 *)
-    apply emp_derives_pure in HP2. apply emp_derives_pure in HQ2. apply emp_derives_pure in HR2.
-    assert (Hgoal2 : emp |-- “ P2 ” && “ Q2 ” && “ R2 ”).
-    { assert (HPQ : emp |-- “ P2 ” && “ Q2 ”).
-      { eapply derivable1s_truep_intros; eauto. }
-      eapply derivable1s_truep_intros; eauto. }
-    eapply derivable1_trans.
-    { exact Hgoal2. }
-    eapply derivable1_trans.
-    { apply derivable1_orp_intros2. }
-    apply derivable1_orp_intros1.
-  - (* branch 3: A3 *)
-    apply emp_derives_pure in HP3. apply emp_derives_pure in HQ3. apply emp_derives_pure in HR3.
-    assert (Hgoal3 : emp |-- “ P3 ” && “ Q3 ” && “ R3 ”).
-    { assert (HPQ : emp |-- “ P3 ” && “ Q3 ”).
-      { eapply derivable1s_truep_intros; eauto. }
-      eapply derivable1s_truep_intros; eauto. }
-    eapply derivable1_trans.
-    { exact Hgoal3. }
-    apply derivable1_orp_intros2.
 Qed.
 
 Definition point_cross (a b c : Point) : Z :=
@@ -2165,7 +2037,7 @@ Lemma store_point_fold : forall p pt,
 Proof.
   intros.
   unfold store_point.
-  apply derivable1_refl.
+  reflexivity.
 Qed.
 
 Lemma store_point_to_undef_point : forall p pt,
@@ -2173,9 +2045,9 @@ Lemma store_point_to_undef_point : forall p pt,
 Proof.
   intros.
   unfold store_point, undef_point.
-  apply derivable1_sepcon_mono.
-  - apply store_int_undef_store_int.
-  - apply store_int_undef_store_int.
+  sep_apply store_int_undef_store_int.
+  sep_apply store_int_undef_store_int.
+  cancel.
 Qed.
 
 Lemma point_cmp_xy_range : forall a b,
@@ -2394,7 +2266,7 @@ Module StorePointAsElement <: ELEMENT_STORE.
     unfold storeA, sizeA.
     replace (base + n * sizeof_Point + lo * sizeof_Point)
       with (base + (lo + n) * sizeof_Point) by lia.
-    split; apply derivable1_refl.
+    split; reflexivity.
   Qed.
 
   Lemma undefstoreA_shift : forall base n lo,
@@ -2404,7 +2276,7 @@ Module StorePointAsElement <: ELEMENT_STORE.
     unfold undefstoreA, sizeA.
     replace (base + n * sizeof_Point + lo * sizeof_Point)
       with (base + (lo + n) * sizeof_Point) by lia.
-    split; apply derivable1_refl.
+    split; reflexivity.
   Qed.
 
   Lemma store_to_align : forall base lo a, storeA base lo a |-- store_align_n sizeA.
@@ -2430,6 +2302,16 @@ Module StorePointAsElement <: ELEMENT_STORE.
   Qed.
 End StorePointAsElement.
 
+Lemma point_array_undef_point_unfold : forall base i,
+  StorePointAsElement.undefstoreA base i |--
+  &( ((base + i * sizeof ( "Point" ))) # "Point" ->ₛ "x") # Int |->_ **
+  &( ((base + i * sizeof ( "Point" ))) # "Point" ->ₛ "y") # Int |->_.
+Proof.
+  intros.
+  unfold StorePointAsElement.undefstoreA, undef_point.
+  reflexivity.
+Qed.
+
 Module PointArray := ArrayLib (StorePointAsElement).
 
 Lemma point_array_store_missing_merge_to_full : forall base i n l d,
@@ -2439,15 +2321,10 @@ Lemma point_array_store_missing_merge_to_full : forall base i n l d,
   PointArray.full base n l.
 Proof.
   intros.
-  eapply derivable1_trans.
-  - apply derivable1_sepcon_mono.
-    + unfold StorePointAsElement.storeA.
-      apply derivable1_refl.
-    + apply derivable1_refl.
-  - eapply derivable1_trans.
-    + apply (PointArray.missing_i_merge_to_full base i n (Znth i l d) l); lia.
-    + rewrite replace_Znth_Znth.
-      apply derivable1_refl.
+  unfold StorePointAsElement.storeA.
+  sep_apply (PointArray.missing_i_merge_to_full base i n (Znth i l d) l); try lia.
+  rewrite replace_Znth_Znth.
+  reflexivity.
 Qed.
 
 Lemma point_array_seg_snoc_store : forall base lo hi l a,
@@ -2457,16 +2334,12 @@ Lemma point_array_seg_snoc_store : forall base lo hi l a,
   PointArray.seg base lo (hi + 1) (l ++ a :: nil).
 Proof.
   intros.
-  eapply derivable1_trans.
-  - apply derivable1_sepcon_mono.
-    + apply derivable1_refl.
-    + unfold StorePointAsElement.storeA.
-      apply derivable1_refl.
-  - eapply derivable1_trans.
-    + apply derivable1_sepcon_mono.
-      * apply derivable1_refl.
-      * apply PointArray.seg_single.
-    + apply (PointArray.seg_merge_to_seg base lo hi (hi + 1) l (a :: nil)); lia.
+  unfold StorePointAsElement.storeA.
+  sep_apply PointArray.seg_single.
+  transitivity (PointArray.seg base lo hi l **
+                PointArray.seg base hi (hi + 1) (a :: nil)).
+  - cancel.
+  - apply (PointArray.seg_merge_to_seg base lo hi (hi + 1) l (a :: nil)); lia.
 Qed.
 
 Lemma point_array_store_undef_tail_to_undef_seg : forall base lo hi a,
@@ -2476,20 +2349,10 @@ Lemma point_array_store_undef_tail_to_undef_seg : forall base lo hi a,
   PointArray.undef_seg base lo hi.
 Proof.
   intros.
-  eapply derivable1_trans.
-  - apply derivable1_sepcon_mono.
-    + apply store_point_to_undef_point.
-    + apply derivable1_refl.
-  - eapply derivable1_trans.
-    + apply derivable1_sepcon_mono.
-      * unfold StorePointAsElement.undefstoreA.
-        apply derivable1_refl.
-      * apply derivable1_refl.
-    + eapply derivable1_trans.
-      * apply derivable1_sepcon_mono.
-        -- apply PointArray.undef_seg_single.
-        -- apply derivable1_refl.
-	      * apply (PointArray.undef_seg_merge_to_undef_seg base lo (lo + 1) hi); lia.
+  sep_apply store_point_to_undef_point.
+  unfold StorePointAsElement.undefstoreA.
+  sep_apply PointArray.undef_seg_single.
+  apply (PointArray.undef_seg_merge_to_undef_seg base lo (lo + 1) hi); lia.
 Qed.
 
 Lemma point_array_seg_snoc_store_undef :
@@ -2504,7 +2367,7 @@ Lemma point_array_seg_snoc_store_undef :
 Proof.
   intros.
   sep_apply (point_array_seg_snoc_store base 0 hi l a); try lia.
-  entailer!.
+  cancel.
 Qed.
 
 Lemma point_array_seg_pop_tail : forall base top hi prefix last,
@@ -2526,7 +2389,7 @@ Proof.
                (sublist (top - 0) (top + 1 - 0) (prefix ++ last :: nil))).
   sep_apply (PointArray.undef_seg_merge_to_undef_seg base top (top + 1) hi);
     try lia.
-  entailer!.
+  cancel.
 Qed.
 
 Lemma point_array_cons_full : forall base n p tail,
@@ -2545,7 +2408,7 @@ Proof.
   replace (1 - 0) with 1 by lia.
   replace (base + sizeof("Point")) with (base + 1 * sizeof("Point")) by lia.
   sep_apply (PointArray.full_merge_to_full base 1 n (p :: nil) tail).
-  - simpl. apply derivable1_refl.
+  - simpl. reflexivity.
   - lia.
 Qed.
 

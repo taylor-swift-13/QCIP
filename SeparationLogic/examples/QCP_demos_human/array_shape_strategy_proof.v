@@ -15,6 +15,8 @@ Lemma array_shape_strategy1_correctness : array_shape_strategy1.
   sep_apply UIntArray.full_shape_split_to_missing_i_shape ; eauto.
   Intros a.
   Exists a.
+  replace (p + i * 4) with (p + i * sizeof (UINT))
+    by (rewrite sizeof_uint; lia).
   entailer!.
   Intros_r v.
   pre_process_default.
@@ -26,6 +28,8 @@ Lemma array_shape_strategy3_correctness : array_shape_strategy3.
   rewrite (UIntArray.seg_shape_unfold p x (x + 1)) ; try lia.
   Intros a. Exists a.
   rewrite (UIntArray.seg_shape_empty).
+  replace (p + x * 4) with (p + x * sizeof (UINT))
+    by (rewrite sizeof_uint; lia).
   entailer!.
   Intros_r v.
   pre_process_default.
@@ -72,6 +76,8 @@ Lemma array_shape_strategy11_correctness : array_shape_strategy11.
   sep_apply IntArray.full_shape_split_to_missing_i_shape ; eauto.
   Intros a.
   Exists a.
+  replace (p + i * 4) with (p + i * sizeof (INT))
+    by (rewrite sizeof_int; lia).
   entailer!.
   Intros_r v.
   pre_process_default.
@@ -83,6 +89,8 @@ Lemma array_shape_strategy13_correctness : array_shape_strategy13.
   rewrite (IntArray.seg_shape_unfold p x (x + 1)) ; try lia.
   Intros a. Exists a.
   rewrite (IntArray.seg_shape_empty).
+  replace (p + x * 4) with (p + x * sizeof (INT))
+    by (rewrite sizeof_int; lia).
   entailer!.
   Intros_r v.
   pre_process_default.
@@ -126,12 +134,16 @@ Qed.
 
 Lemma array_shape_strategy2_correctness : array_shape_strategy2.
   pre_process_default.
+  replace (p + i * 4) with (p + i * sizeof (UINT))
+    by (rewrite sizeof_uint; lia).
   sep_apply (UIntArray.missing_i_shape_merge_to_full_shape p i n v) ; try lia.
   entailer!.
 Qed.
 
 Lemma array_shape_strategy4_correctness : array_shape_strategy4.
   pre_process_default.
+  replace (p + i * 4) with (p + i * sizeof (UINT))
+    by (rewrite sizeof_uint; lia).
   sep_apply UIntArray.seg_single.
   sep_apply UIntArray.seg_to_seg_shape.
   subst x.
@@ -142,6 +154,8 @@ Qed.
 
 Lemma array_shape_strategy5_correctness : array_shape_strategy5.
   pre_process_default.
+  replace (p + z * 4) with (p + z * sizeof (UINT))
+    by (rewrite sizeof_uint; lia).
   sep_apply UIntArray.seg_single.
   sep_apply UIntArray.seg_to_seg_shape.
   prop_apply (UIntArray.seg_shape_valid p y z). Intros.
@@ -151,12 +165,16 @@ Qed.
 
 Lemma array_shape_strategy12_correctness : array_shape_strategy12.
   pre_process_default.
+  replace (p + i * 4) with (p + i * sizeof (INT))
+    by (rewrite sizeof_int; lia).
   sep_apply (IntArray.missing_i_shape_merge_to_full_shape p i n v) ; try lia.
   entailer!.
 Qed.
 
 Lemma array_shape_strategy14_correctness : array_shape_strategy14.
   pre_process_default.
+  replace (p + i * 4) with (p + i * sizeof (INT))
+    by (rewrite sizeof_int; lia).
   sep_apply IntArray.seg_single.
   sep_apply IntArray.seg_to_seg_shape.
   subst x.
@@ -167,6 +185,8 @@ Qed.
 
 Lemma array_shape_strategy15_correctness : array_shape_strategy15.
   pre_process_default.
+  replace (p + z * 4) with (p + z * sizeof (INT))
+    by (rewrite sizeof_int; lia).
   sep_apply IntArray.seg_single.
   sep_apply IntArray.seg_to_seg_shape.
   prop_apply (IntArray.seg_shape_valid p y z). Intros.

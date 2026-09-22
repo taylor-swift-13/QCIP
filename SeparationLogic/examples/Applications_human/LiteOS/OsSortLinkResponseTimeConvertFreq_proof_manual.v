@@ -25,40 +25,65 @@ Local Open Scope sac.
 
 Lemma proof_of_SortLinkNodeTimeUpdate_derive_swmtrSpec_by_highSpec : SortLinkNodeTimeUpdate_derive_swmtrSpec_by_highSpec.
 Proof. 
-   pre_process.
+   LLM_pre_process ltac:(int_auto).
    unfold store_swtmr_sorted_dll. 
    Intros y. subst y.
    Exists Z.
    Exists n_swmtrSpec (fun (p : addr) (swmtrID : SwtmrID) => “ p = &(((sg_swmtrSpec).(g_swtmrCBArray) # ("SWTMR_CTRL_S") + swmtrID % 5) ->ₛ "stSortList") ” && emp) l_swmtrSpec.
-   entailer!.
+   cancel.
    rewrite H0.
    unfold glob_vars_and_defs.SwtmrID.
    csimpl.
-   entailer!.
+   cancel.
    unfold SwtmrID.
-   entailer!.
-   rewrite <- derivable1_wand_sepcon_adjoint.
-   Exists (&( "g_swtmrSortLink")).
-   csimpl.
-   entailer!.
+   split_pure_spatial.
+   - cancel (store_sorted_dll
+       (fun (p : addr) (swmtrID : Z) =>
+        “ p =
+          &(
+          ((sg_swmtrSpec).(g_swtmrCBArray) # ("SWTMR_CTRL_S") + swmtrID % 5)
+          ->ₛ "stSortList") ” && emp)
+       &( &( "g_swtmrSortLink") ->ₛ "sortLink") l_swmtrSpec).
+     cancel (&( "g_sysClock") # UInt64 |-> n_swmtrSpec).
+     rewrite <- derivable1_wand_sepcon_adjoint.
+     Exists (&( "g_swtmrSortLink")).
+     csimpl.
+     split_pure_spatial.
+     + cancel.
+     + dump_pre_spatial.
+       reflexivity.
+   - dump_pre_spatial.
+     exact H.
 Qed. 
 
 Lemma proof_of_SortLinkNodeTimeUpdate_derive_taskSpec_by_highSpec : SortLinkNodeTimeUpdate_derive_taskSpec_by_highSpec.
 Proof. 
-   pre_process.
+   LLM_pre_process ltac:(int_auto).
    unfold store_task_sorted_dll.
    Intros y. subst y.
    Exists Z.
    Exists n_taskSpec (fun (p : addr) (taskID : glob_vars_and_defs.TaskID) =>
     “ p = &( ((glob_vars_and_defs.g_taskCBArray sg_taskSpec) # "LosTaskCB" + taskID) ->ₛ "sortList") ” &&
     emp) l_taskSpec.
-   entailer!.
+   cancel.
    rewrite H0.
    unfold glob_vars_and_defs.TaskID.
    csimpl.
-   entailer!.
-   rewrite <- derivable1_wand_sepcon_adjoint.
-   Exists (&( "g_taskSortLink")). 
-   csimpl.
-   entailer!.
+   split_pure_spatial.
+   - cancel (store_sorted_dll
+       (fun (p : addr) (taskID : glob_vars_and_defs.TaskID) =>
+        “ p = &(
+          ((glob_vars_and_defs.g_taskCBArray sg_taskSpec) # "LosTaskCB" + taskID)
+          ->ₛ "sortList") ” && emp)
+       &( &( "g_taskSortLink") ->ₛ "sortLink") l_taskSpec).
+     cancel (&( "g_sysClock") # UInt64 |-> n_taskSpec).
+     rewrite <- derivable1_wand_sepcon_adjoint.
+     Exists (&( "g_taskSortLink")).
+     csimpl.
+     split_pure_spatial.
+     + cancel.
+     + dump_pre_spatial.
+       reflexivity.
+   - dump_pre_spatial.
+     exact H.
 Qed.

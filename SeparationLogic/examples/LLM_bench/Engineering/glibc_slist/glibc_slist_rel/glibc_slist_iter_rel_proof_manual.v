@@ -31,7 +31,7 @@ Local Open Scope sac.
 
 Lemma proof_of_glibc_slist_clean_iter_safety_wit_3 : glibc_slist_clean_iter_safety_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst_eqs.
   unfold glibc_slist_clean_iter_M_loop in PreH3 at 1.
   unfold glibc_slist_clean_iter_M_loop_end in PreH3 at 1.
@@ -54,13 +54,16 @@ Proof.
 Qed.
 Lemma proof_of_glibc_slist_clean_iter_entail_wit_1 : glibc_slist_clean_iter_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst_eqs.
   Exists nil.
   Exists l1_low_level_spec.
   split_pure_spatial.
   - simpl.
-    entailer!.
+    cancel.
+    split_pure_spatial.
+    + cancel.
+    + dump_pre_spatial. reflexivity.
   - split_pure_and_solve.
     unfold glibc_slist_clean_iter_M in PreH2 at 1.
     unfold glibc_slist_clean_iter_M_loop_before in PreH2 at 1.
@@ -73,15 +76,15 @@ Proof.
 Qed.
 Lemma proof_of_glibc_slist_clean_iter_entail_wit_2 : glibc_slist_clean_iter_entail_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst_eqs.
   Exists (l1_2 ++ x :: nil).
   Exists l0.
   split_pure_spatial.
   - sep_apply_right (sllseg_sllseg x_pre x_2 y l1_2 (x :: nil)).
-    entailer!.
+    cancel.
     sep_apply_right (sllseg_len1 x_2 x y PreH2).
-    entailer!.
+    cancel.
   - split_pure_and_solve.
     unfold glibc_slist_clean_iter_M_loop in PreH3 at 1.
     unfold glibc_slist_clean_iter_M_loop_end in PreH3 at 1.
@@ -108,13 +111,13 @@ Proof.
 Qed.
 Lemma proof_of_glibc_slist_clean_iter_return_wit_1 : glibc_slist_clean_iter_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst_eqs.
   Exists (l1 ++ l2_2).
   Exists s.
   split_pure_spatial.
   - sep_apply_right (sllseg_sll x_pre 0 l1 l2_2).
-    entailer!.
+    cancel.
   - split_pure_and_solve.
     sep_apply_left (sll_zero 0 l2_2 eq_refl).
     Intros.
@@ -141,12 +144,21 @@ Qed.
 
 Lemma proof_of_glibc_slist_clean_iter_derive_high_level_spec_by_low_level_spec : glibc_slist_clean_iter_derive_high_level_spec_by_low_level_spec.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists (MonadErr.nrm
     (glibc_slist_clean_iter_M l1_high_level_spec) tt).
   Exists l1_high_level_spec.
-  entailer!.
+  apply sepcon_cancel_end.
+  - repeat (split_pure_spatial || split_pures).
+    + cancel.
+    + dump_pre_spatial. exact H.
+    + dump_pre_spatial.
+      apply safeExec_monad_Atrue_finnal.
+      destruct (glibc_slist_clean_iter_M_Hoare l1_high_level_spec) as [_ Herr].
+      intro Herr0.
+      eapply Herr; [exact H | exact Herr0].
   - apply derivable1_wand_sepcon_adjoint.
+    cancel.
     Intros l2.
     Intros r.
     Intros retval_2.
@@ -159,9 +171,7 @@ Proof.
                 ATrue (maketuple l2 r) tt H0 H) as [sigma' [Hret _]].
     unfold maketuple in Hret.
     inversion Hret; subst.
-    entailer!.
-  - apply safeExec_monad_Atrue_finnal.
-    destruct (glibc_slist_clean_iter_M_Hoare l1_high_level_spec) as [_ Herr].
-    intro Herr0.
-    eapply Herr; [exact H | exact Herr0].
+    split_pure_spatial.
+    + cancel.
+    + split_pures; dump_pre_spatial; reflexivity.
 Qed.

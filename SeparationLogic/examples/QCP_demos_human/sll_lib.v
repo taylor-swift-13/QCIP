@@ -204,7 +204,7 @@ Proof.
   - Intros. Intros y.
     sep_apply IHl.
     sep_apply store_int_align4.
-    sep_apply store_ptr_align4.
+    sep_apply store_ptr_align4_32.
     sep_apply store_align4_merge.
     sep_apply (store_align4_merge (1 + 1) (Zlength l * 2)).
     assert ( 1 + 1 + Zlength l * 2 = Zlength (a :: l) * 2) by (rewrite Zlength_cons ; lia).
@@ -218,5 +218,6 @@ Proof.
   sep_apply sll_length.
   prop_apply store_align4_n_valid.
   Intros.
+  rewrite addr_max_unsigned_eq_int in H.
   entailer!.
 Qed. 

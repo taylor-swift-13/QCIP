@@ -1,31 +1,48 @@
 Require Import Coq.ZArith.ZArith.
 Require Import Coq.Lists.List.
 From AUXLib Require Import ListLib.
-From MaxMinLib Require Import MaxMin Interface.
 
 Import ListNotations.
 Local Open Scope Z_scope.
 Local Open Scope list_scope.
 
-Definition WindowUpperBoundValue
-    (l : list Z) (lo hi ub : Z) : Prop :=
-  0 <= lo /\
-  lo < hi /\
-  hi <= Zlength l /\
-  exists pos,
-    lo <= pos < hi /\
-    ub = Znth pos l 0 /\
-    forall idx, lo <= idx < hi -> Znth idx l 0 <= ub.
+(** Safety and representation layer. *)
 
-Definition WindowMaxValue (l : list Z) (lo hi ans : Z) : Prop :=
-  min_value_of_subset Z.le
-    (fun ub => WindowUpperBoundValue l lo hi ub)
-    (fun ub => ub)
-    ans.
+Definition SWMInputSafe (l : list Z) (n k : Z) : Prop :=
+  1 <= k /\
+  k <= n /\
+  n <= 100000 /\
+  Zlength l = n /\
+  forall idx,
+    0 <= idx < n ->
+    -10000 <= Znth idx l 0 <= 10000.
 
-Definition SlidingWindowMaximum (l : list Z) (k : Z) (out : list Z) : Prop :=
+Definition SWMOutputPrefixShape
+    (l : list Z) (k out_idx : Z) (out : list Z) : Prop :=
   1 <= k /\
   k <= Zlength l /\
+  0 <= out_idx <= Zlength l - k + 1 /\
+  Zlength out = out_idx.
+
+Definition SWMQueueStorageSafe
+    (l q_l : list Z) (head tail processed : Z) : Prop :=
+  Zlength q_l = Zlength l /\
+  0 <= processed <= Zlength l /\
+  0 <= head <= tail /\
+  tail <= processed /\
+  forall pos,
+    head <= pos < tail ->
+    0 <= Znth pos q_l 0 < Zlength l.
+
+(** Functional and algorithmic layer. *)
+
+Definition WindowMaxValue (l : list Z) (lo hi ans : Z) : Prop :=
+  exists pos,
+    lo <= pos < hi /\
+    ans = Znth pos l 0 /\
+    forall idx, lo <= idx < hi -> Znth idx l 0 <= ans.
+
+Definition SlidingWindowMaximum (l : list Z) (k : Z) (out : list Z) : Prop :=
   Zlength out = Zlength l - k + 1 /\
   forall idx,
     0 <= idx < Zlength out ->
@@ -33,32 +50,21 @@ Definition SlidingWindowMaximum (l : list Z) (k : Z) (out : list Z) : Prop :=
 
 Definition SWMOutputPrefix
     (l : list Z) (k out_idx : Z) (out : list Z) : Prop :=
-  1 <= k /\
-  k <= Zlength l /\
-  0 <= out_idx /\
-  out_idx <= Zlength l - k + 1 /\
-  Zlength out = out_idx /\
   forall idx,
     0 <= idx < out_idx ->
     WindowMaxValue l idx (idx + k) (Znth idx out 0).
 
-Definition SWMQueueEntriesValid
-    (l q_l : list Z) (head tail processed k : Z) : Prop :=
+Definition SWMQueueEntriesInWindow
+    (q_l : list Z) (head tail lo hi : Z) : Prop :=
   forall pos,
     head <= pos < tail ->
-    0 <= Znth pos q_l 0 /\
-    Znth pos q_l 0 < Zlength l /\
-    processed - k <= Znth pos q_l 0 /\
-    Znth pos q_l 0 < processed.
+    lo <= Znth pos q_l 0 < hi.
 
-Definition SWMQueueEntriesValidAfterDrop
-    (l q_l : list Z) (head tail i k : Z) : Prop :=
+Definition SWMQueueEntriesInOpenWindow
+    (q_l : list Z) (head tail lo hi : Z) : Prop :=
   forall pos,
     head <= pos < tail ->
-    0 <= Znth pos q_l 0 /\
-    Znth pos q_l 0 < Zlength l /\
-    i - k < Znth pos q_l 0 /\
-    Znth pos q_l 0 < i.
+    lo < Znth pos q_l 0 < hi.
 
 Definition SWMQueueIndexIncreasing (q_l : list Z) (head tail : Z) : Prop :=
   forall p q,
@@ -72,385 +78,339 @@ Definition SWMQueueValueDecreasing
     Znth (Znth p q_l 0) l 0 > Znth (Znth q q_l 0) l 0.
 
 Definition SWMQueueCoversWindow
-    (l q_l : list Z) (head tail processed k : Z) : Prop :=
+    (l q_l : list Z) (head tail lo hi : Z) : Prop :=
   forall idx,
-    0 <= idx ->
-    idx < Zlength l ->
-    processed - k <= idx < processed ->
+    0 <= idx < Zlength l ->
+    lo <= idx < hi ->
     exists pos,
       head <= pos < tail /\
-      idx <= Znth pos q_l 0 /\
-      Znth pos q_l 0 < processed /\
+      idx <= Znth pos q_l 0 < hi /\
       Znth idx l 0 <= Znth (Znth pos q_l 0) l 0.
 
-Definition SWMQueueCoversAfterDrop
-    (l q_l : list Z) (head tail i k : Z) : Prop :=
+Definition SWMQueueCoversOpenWindow
+    (l q_l : list Z) (head tail lo hi : Z) : Prop :=
   forall idx,
-    0 <= idx ->
-    idx < Zlength l ->
-    i - k < idx < i ->
+    0 <= idx < Zlength l ->
+    lo < idx < hi ->
     exists pos,
       head <= pos < tail /\
-      idx <= Znth pos q_l 0 /\
-      Znth pos q_l 0 < i /\
+      idx <= Znth pos q_l 0 < hi /\
       Znth idx l 0 <= Znth (Znth pos q_l 0) l 0.
 
 Definition SWMQueueCoversWithPending
-    (l q_l : list Z) (head tail i k : Z) : Prop :=
+    (l q_l : list Z) (head tail lo i : Z) : Prop :=
   forall idx,
-    0 <= idx ->
-    idx < Zlength l ->
-    i - k < idx < i ->
+    0 <= idx < Zlength l ->
+    lo < idx < i ->
     (exists pos,
       head <= pos < tail /\
-      idx <= Znth pos q_l 0 /\
-      Znth pos q_l 0 < i /\
+      idx <= Znth pos q_l 0 < i /\
       Znth idx l 0 <= Znth (Znth pos q_l 0) l 0) \/
     Znth idx l 0 <= Znth i l 0.
 
 Definition SWMQueueDropLoopState
     (l q_l : list Z) (head tail i k : Z) : Prop :=
-  1 <= k /\
-  k <= Zlength l /\
-  0 <= i /\
-  i <= Zlength l /\
-  0 <= head /\
-  head <= tail /\
-  tail <= Zlength q_l /\
-  tail <= i /\
-  SWMQueueEntriesValid l q_l head tail i k /\
+  SWMQueueEntriesInWindow q_l head tail (i - k) i /\
   SWMQueueIndexIncreasing q_l head tail /\
   SWMQueueValueDecreasing l q_l head tail /\
-  SWMQueueCoversAfterDrop l q_l head tail i k.
+  SWMQueueCoversOpenWindow l q_l head tail (i - k) i.
 
 Definition SWMQueueAfterDrop
     (l q_l : list Z) (head tail i k : Z) : Prop :=
-  1 <= k /\
-  k <= Zlength l /\
-  0 <= i /\
-  i <= Zlength l /\
-  0 <= head /\
-  head <= tail /\
-  tail <= Zlength q_l /\
-  tail <= i /\
-  SWMQueueEntriesValidAfterDrop l q_l head tail i k /\
+  SWMQueueEntriesInOpenWindow q_l head tail (i - k) i /\
   SWMQueueIndexIncreasing q_l head tail /\
   SWMQueueValueDecreasing l q_l head tail /\
-  SWMQueueCoversAfterDrop l q_l head tail i k.
+  SWMQueueCoversOpenWindow l q_l head tail (i - k) i.
 
 Definition SWMQueuePendingState
     (l q_l : list Z) (head tail i k : Z) : Prop :=
-  1 <= k /\
-  k <= Zlength l /\
-  0 <= i /\
-  i < Zlength l /\
-  0 <= head /\
-  head <= tail /\
-  tail <= Zlength q_l /\
-  tail <= i /\
-  SWMQueueEntriesValidAfterDrop l q_l head tail i k /\
+  SWMQueueEntriesInOpenWindow q_l head tail (i - k) i /\
   SWMQueueIndexIncreasing q_l head tail /\
   SWMQueueValueDecreasing l q_l head tail /\
-  SWMQueueCoversWithPending l q_l head tail i k.
+  SWMQueueCoversWithPending l q_l head tail (i - k) i.
 
 Definition SWMQueueState
     (l q_l : list Z) (head tail processed k : Z) : Prop :=
-  1 <= k /\
-  k <= Zlength l /\
-  0 <= processed /\
-  processed <= Zlength l /\
-  0 <= head /\
-  head <= tail /\
-  tail <= Zlength q_l /\
-  tail <= processed /\
-  SWMQueueEntriesValid l q_l head tail processed k /\
+  SWMQueueEntriesInWindow q_l head tail (processed - k) processed /\
   SWMQueueIndexIncreasing q_l head tail /\
   SWMQueueValueDecreasing l q_l head tail /\
-  SWMQueueCoversWindow l q_l head tail processed k /\
+  SWMQueueCoversWindow l q_l head tail (processed - k) processed /\
   (head < tail /\ k <= processed ->
-      WindowMaxValue l (processed - k) processed
-        (Znth (Znth head q_l 0) l 0)).
+    WindowMaxValue l (processed - k) processed
+      (Znth (Znth head q_l 0) l 0)).
 
 Require Import Coq.micromega.Lia.
-
-(* Helper lemmas migrated from sliding_window_maximum__vc_proving_subagent_tmp_proof_manual__merged.v. *)
-
-Lemma SWMQueueAfterDrop_to_PendingState :
-  forall (l q_l : list Z) (head tail i k : Z),
-    SWMQueueAfterDrop l q_l head tail i k ->
-    i < Zlength l ->
-    SWMQueuePendingState l q_l head tail i k.
+Lemma replace_Znth_append_bounds__value_loop_exit_and_append :
+  forall q_l head tail i n,
+    Zlength q_l = n ->
+    0 <= head <= tail ->
+    tail <= i < n ->
+    (forall pos, head <= pos < tail -> 0 <= Znth pos q_l 0 < n) ->
+    forall pos, head <= pos < tail + 1 ->
+      0 <= Znth pos (replace_Znth tail i q_l) 0 < n.
 Proof.
-  intros l q_l head tail i k Hdrop Hi.
-  unfold SWMQueueAfterDrop, SWMQueuePendingState in *.
-  unfold SWMQueueCoversAfterDrop, SWMQueueCoversWithPending in *.
-  intuition eauto.
+  intros q_l head tail i n Hlen Hht Hit Hold pos Hpos.
+  assert (Htail : 0 <= tail < Zlength q_l) by lia.
+  destruct (Z.eq_dec pos tail) as [-> | Hne].
+  - rewrite Znth_replace_Znth_Same by exact Htail. lia.
+  - rewrite Znth_replace_Znth_Diff; try lia.
+    apply Hold. lia.
+Qed.
+Lemma queue_append_state__value_loop_exit_and_append :
+  forall l q_l head tail i k,
+    Zlength l = Zlength q_l ->
+    1 <= k ->
+    0 <= i < Zlength l ->
+    0 <= head <= tail ->
+    tail <= i ->
+    SWMQueuePendingState l q_l head tail i k ->
+    (head < tail ->
+      Znth (Znth (tail - 1) q_l 0) l 0 > Znth i l 0) ->
+    SWMQueueState l (replace_Znth tail i q_l) head (tail + 1) (i + 1) k.
+Proof.
+  intros l q_l head tail i k Hlen Hkpos Hi Hht Hti
+    [Hentries [Hinc [Hdec Hcovers]]] Hlast.
+  assert (Htail : 0 <= tail < Zlength q_l) by lia.
+  assert (Hsame : Znth tail (replace_Znth tail i q_l) 0 = i).
+  { apply Znth_replace_Znth_Same. lia. }
+  assert (Hdiff : forall p, head <= p < tail ->
+      Znth p (replace_Znth tail i q_l) 0 = Znth p q_l 0).
+  { intros p Hp. apply Znth_replace_Znth_Diff; lia. }
+  unfold SWMQueueState.
+  split.
+  - unfold SWMQueueEntriesInWindow.
+    intros p Hp.
+    destruct (Z.eq_dec p tail) as [-> | Hne].
+    + rewrite Hsame. lia.
+    + rewrite Hdiff by lia.
+      specialize (Hentries p ltac:(lia)).
+      lia.
+  - split.
+    + unfold SWMQueueIndexIncreasing.
+      intros p q [Hhp [Hpq Hqt]].
+      destruct (Z.eq_dec q tail) as [-> | Hqne].
+      * rewrite Hsame, Hdiff by lia.
+        specialize (Hentries p ltac:(lia)). lia.
+      * rewrite Hdiff by lia. rewrite Hdiff by lia.
+        apply Hinc. lia.
+    + split.
+      * unfold SWMQueueValueDecreasing.
+        intros p q [Hhp [Hpq Hqt]].
+        destruct (Z.eq_dec q tail) as [-> | Hqne].
+        -- rewrite Hsame, Hdiff by lia.
+           destruct (Z.eq_dec p (tail - 1)) as [-> | Hpne].
+           ++ apply Hlast. lia.
+           ++ pose proof (Hdec p (tail - 1) ltac:(lia)) as Hp_last.
+              pose proof (Hlast ltac:(lia)) as Hlast_i.
+              lia.
+        -- rewrite Hdiff by lia. rewrite Hdiff by lia.
+           apply Hdec. lia.
+      * split.
+        -- unfold SWMQueueCoversWindow.
+           intros idx Hidx Hwin.
+           destruct (Z.eq_dec idx i) as [-> | Hidxne].
+           ++ exists tail. rewrite Hsame. repeat split; lia.
+           ++ specialize (Hcovers idx Hidx ltac:(lia)).
+              destruct Hcovers as [[p [Hp [Hip Hval]]] | Hval].
+              ** exists p. split; [lia|].
+                 split.
+                 --- rewrite Hdiff by lia. lia.
+                 --- rewrite Hdiff by lia. exact Hval.
+              ** exists tail. rewrite Hsame. repeat split; lia.
+        -- intros [Hnonempty Hk].
+           unfold WindowMaxValue.
+           exists (Znth head (replace_Znth tail i q_l) 0).
+           assert (Hheadpos : head <= head < tail + 1) by lia.
+           assert (Hheadwin := Hentries).
+           unfold SWMQueueEntriesInOpenWindow in Hheadwin.
+           destruct (Z.eq_dec head tail) as [Heq | Hneq].
+           ++ subst head. rewrite Hsame. repeat split; try lia.
+              intros idx Hidx.
+              destruct (Z.eq_dec idx i) as [-> | Hidxne]; try lia.
+              specialize (Hcovers idx ltac:(lia) ltac:(lia)).
+              destruct Hcovers as [[p [Hp [Hip Hval]]] | Hval]; try lia.
+           ++ rewrite Hdiff by lia.
+              split.
+              ** specialize (Hheadwin head ltac:(lia)). lia.
+              ** split; [reflexivity|].
+                 intros idx Hidx.
+                 destruct (Z.eq_dec idx i) as [-> | Hidxne].
+                 --- destruct (Z.eq_dec head (tail - 1)) as [Heqhead | Hnehead].
+                     +++ subst head. pose proof (Hlast ltac:(lia)). lia.
+                     +++ pose proof (Hdec head (tail - 1) ltac:(lia)) as Hheadlast.
+                         pose proof (Hlast ltac:(lia)) as Hlasti.
+                         lia.
+                 --- specialize (Hcovers idx ltac:(lia) ltac:(lia)).
+                     destruct Hcovers as [[p [Hp [Hip Hval]]] | Hval].
+                      +++ destruct (Z.eq_dec p head) as [-> | Hpne]; try exact Hval.
+                          eapply Z.le_trans; [exact Hval|].
+                          pose proof (Hdec head p ltac:(lia)) as Hheadp.
+                          lia.
+                      +++ eapply Z.le_trans; [exact Hval|].
+                          destruct (Z.eq_dec head (tail - 1)) as [Heqhead | Hnehead].
+                          *** subst head. pose proof (Hlast ltac:(lia)) as Hlasti. lia.
+                          *** pose proof (Hdec head (tail - 1) ltac:(lia)) as Hheadlast.
+                              pose proof (Hlast ltac:(lia)) as Hlasti.
+                              lia.
+Qed.
+Lemma queue_append_storage__value_loop_exit_and_append :
+  forall l q_l head tail i,
+    Zlength q_l = Zlength l ->
+    0 <= i < Zlength l ->
+    0 <= head <= tail ->
+    tail <= i ->
+    (forall pos, head <= pos < tail ->
+      0 <= Znth pos q_l 0 < Zlength l) ->
+    SWMQueueStorageSafe l (replace_Znth tail i q_l)
+      head (tail + 1) (i + 1).
+Proof.
+  intros l q_l head tail i Hlen Hi Hht Hti Hb.
+  unfold SWMQueueStorageSafe.
+  split.
+  - rewrite Zlength_replace_Znth. exact Hlen.
+  - split; [lia|].
+    split; [lia|].
+    split; [lia|].
+    intros pos Hpos.
+    eapply replace_Znth_append_bounds__value_loop_exit_and_append;
+      try eassumption; lia.
+Qed.
+Lemma Znth_app_left__window_output_append :
+  forall (l1 l2 : list Z) (d i : Z),
+    0 <= i < Zlength l1 ->
+    Znth i (l1 ++ l2) d = Znth i l1 d.
+Proof.
+  intros l1 l2 d i Hi.
+  unfold Znth.
+  rewrite app_nth1; [reflexivity |].
+  rewrite Zlength_correct in Hi.
+  lia.
+Qed.
+Lemma Znth_app_last__window_output_append :
+  forall (l : list Z) (d x : Z),
+    Znth (Zlength l) (l ++ [x]) d = x.
+Proof.
+  intros l d x.
+  unfold Znth.
+  rewrite app_nth2.
+  - rewrite Zlength_correct.
+    replace (Z.to_nat (Z.of_nat (length l)) - length l)%nat with 0%nat by lia.
+    reflexivity.
+  - rewrite Zlength_correct.
+    lia.
+Qed.
+Lemma SWMOutputPrefix_app_single__window_output_append :
+  forall l k out_idx out value,
+    SWMOutputPrefixShape l k out_idx out ->
+    SWMOutputPrefix l k out_idx out ->
+    WindowMaxValue l out_idx (out_idx + k) value ->
+    SWMOutputPrefix l k (out_idx + 1) (out ++ [value]).
+Proof.
+  intros l k out_idx out value Hshape Hprefix Hvalue.
+  destruct Hshape as [_ [_ [_ Hlen]]].
+  unfold SWMOutputPrefix in *.
+  intros idx Hidx.
+  destruct (Z_lt_ge_dec idx out_idx) as [Hlt | Hge].
+  - rewrite Znth_app_left__window_output_append by (rewrite Hlen; lia).
+    apply Hprefix. lia.
+  - assert (idx = out_idx) by lia.
+    subst idx.
+    assert (HZ : Znth out_idx (out ++ [value]) 0 = value).
+    { rewrite <- Hlen. apply Znth_app_last__window_output_append. }
+    rewrite HZ.
+    exact Hvalue.
+Qed.
+Lemma SWMOutputPrefixShape_app_single__window_output_append :
+  forall l k out_idx out value,
+    SWMOutputPrefixShape l k out_idx out ->
+    out_idx < Zlength l - k + 1 ->
+    SWMOutputPrefixShape l k (out_idx + 1) (out ++ [value]).
+Proof.
+  intros l k out_idx out value [Hk [Hkl [Hidx Hlen]]] Hroom.
+  unfold SWMOutputPrefixShape.
+  split; [exact Hk |].
+  split; [exact Hkl |].
+  split; [lia |].
+  rewrite Zlength_app_cons. lia.
 Qed.
 
-Lemma SWMQueuePendingState_pop_back_dominated :
-  forall (l q_l : list Z) (head tail i k : Z),
+Lemma drop_loop_remove_expired_head__head_drop_transitions :
+  forall l q_l head tail i k,
+    head < tail ->
+    Znth head q_l 0 <= i - k ->
+    SWMQueueDropLoopState l q_l head tail i k ->
+    SWMQueueDropLoopState l q_l (head + 1) tail i k.
+Proof.
+  intros l q_l head tail i k Hnonempty Hexpired
+    [Hentries [Hindices [Hvalues Hcovers]]].
+  unfold SWMQueueDropLoopState.
+  split.
+  - unfold SWMQueueEntriesInWindow in *.
+    intros pos0 Hpos0. apply Hentries. lia.
+  - split.
+    + unfold SWMQueueIndexIncreasing in *.
+      intros p0 q0 Hp0. apply Hindices. lia.
+    + split.
+      * unfold SWMQueueValueDecreasing in *.
+        intros p0 q0 Hp0. apply Hvalues. lia.
+      * unfold SWMQueueCoversOpenWindow in *.
+        intros idx Hidx Hwindow.
+        destruct (Hcovers idx Hidx Hwindow)
+          as [cover_pos [Hcover_pos [Hidx_pos Hvalue]]].
+        destruct (Z.eq_dec cover_pos head) as [Heq | Hneq].
+        -- subst cover_pos. lia.
+        -- exists cover_pos. split; [lia |].
+           split; assumption.
+Qed.
+Lemma drop_loop_exit_nonexpired__head_drop_transitions :
+  forall l q_l head tail i k,
+    head < tail ->
+    i - k < Znth head q_l 0 ->
+    SWMQueueDropLoopState l q_l head tail i k ->
+    SWMQueueAfterDrop l q_l head tail i k.
+Proof.
+  intros l q_l head tail i k Hnonempty Hhead_open
+    [Hentries [Hindices [Hvalues Hcovers]]].
+  unfold SWMQueueAfterDrop.
+  split.
+  - unfold SWMQueueEntriesInWindow in Hentries.
+    unfold SWMQueueEntriesInOpenWindow.
+    intros pos0 Hpos0.
+    pose proof (Hentries pos0 Hpos0) as Hentry.
+    destruct (Z.eq_dec pos0 head) as [-> | Hneq].
+    + lia.
+    + unfold SWMQueueIndexIncreasing in Hindices.
+      pose proof (Hindices head pos0 ltac:(lia)) as Hafter_head.
+      lia.
+  - split; [exact Hindices |].
+    split; [exact Hvalues | exact Hcovers].
+Qed.
+Lemma SWMQueuePendingState_drop_tail__pending_and_tail_drop :
+  forall l q_l head tail i k,
     head < tail ->
     Znth (Znth (tail - 1) q_l 0) l 0 <= Znth i l 0 ->
     SWMQueuePendingState l q_l head tail i k ->
     SWMQueuePendingState l q_l head (tail - 1) i k.
 Proof.
-  intros l q_l head tail i k Hnonempty Hdom Hstate.
-  unfold SWMQueuePendingState in *.
-  unfold SWMQueueEntriesValidAfterDrop, SWMQueueIndexIncreasing,
-    SWMQueueValueDecreasing, SWMQueueCoversWithPending in *.
-  destruct Hstate as
-    [Hk1 [Hklen [Hi0 [Hilen [Hhead0 [Hhead_tail [Htail_len
-      [Htail_i [Hvalid [Hinc [Hdec Hcover]]]]]]]]]]].
-  repeat split; try lia; try (apply Hvalid; lia);
-    try solve [intros; apply Hinc; lia | intros; apply Hdec; lia].
-  intros idx Hidx0 Hidx_len Hidx_win.
-  specialize (Hcover idx Hidx0 Hidx_len Hidx_win) as Hcov.
-  destruct Hcov as [[pos [[Hpos_lo Hpos_hi] [Hidx_pos [Hpos_i Hval]]]] | Hval_i].
-  - destruct (Z_lt_ge_dec pos (tail - 1)) as [Hpos_short | Hpos_last].
-    + left. exists pos. repeat split; try lia; assumption.
-    + right.
-      assert (pos = tail - 1) by lia.
-      subst pos.
-      lia.
-  - right; assumption.
-Qed.
-
-Lemma SWMQueuePendingState_push_current :
-  forall (l q_l : list Z) (head tail i k : Z),
-    Zlength q_l = Zlength l ->
-    i < Zlength l ->
-    SWMQueuePendingState l q_l head tail i k ->
-    (head < tail ->
-       Znth (Znth (tail - 1) q_l 0) l 0 > Znth i l 0) ->
-    SWMQueueState l (replace_Znth tail i q_l) head (tail + 1) (i + 1) k.
-Proof.
-  intros l q_l head tail i k Hqlen Hi_lt Hstate Hlast_gt.
-  unfold SWMQueuePendingState in Hstate.
-  unfold SWMQueueState.
-  unfold SWMQueueEntriesValidAfterDrop, SWMQueueEntriesValid,
-    SWMQueueIndexIncreasing, SWMQueueValueDecreasing,
-    SWMQueueCoversWithPending, SWMQueueCoversWindow in *.
-  destruct Hstate as
-    [Hk1 [Hklen [Hi0 [Hilen [Hhead0 [Hhead_tail [Htail_len
-      [Htail_i [Hvalid [Hinc [Hdec Hcover]]]]]]]]]]].
-  assert (Htail_nonneg : 0 <= tail) by lia.
-  assert (Htail_bound : tail < Zlength q_l) by lia.
-  assert (Htail_len_l : tail < Zlength l) by lia.
-  assert (Hentries :
-    forall pos : Z,
-      head <= pos < tail + 1 ->
-      0 <= Znth pos (replace_Znth tail i q_l) 0 /\
-      Znth pos (replace_Znth tail i q_l) 0 < Zlength l /\
-      i + 1 - k <= Znth pos (replace_Znth tail i q_l) 0 < i + 1).
-  {
-    intros pos Hpos.
-    destruct (Z.eq_dec pos tail) as [-> | Hpos_ne].
-    - rewrite Znth_replace_Znth_Same by lia.
-      repeat split; lia.
-    - rewrite Znth_replace_Znth_Diff by lia.
-      specialize (Hvalid pos ltac:(lia)) as [? [? ?]].
-      repeat split; lia.
-  }
-  assert (Hindex :
-    forall p q : Z,
-      head <= p /\ p < q < tail + 1 ->
-      Znth p (replace_Znth tail i q_l) 0 <
-      Znth q (replace_Znth tail i q_l) 0).
-  {
-    intros p q Hpq.
-    destruct (Z.eq_dec q tail) as [-> | Hq_ne].
-    - rewrite Znth_replace_Znth_Same by lia.
-      rewrite Znth_replace_Znth_Diff by lia.
-      specialize (Hvalid p ltac:(lia)) as [? [? ?]].
-      lia.
-    - rewrite Znth_replace_Znth_Diff by lia.
-      rewrite Znth_replace_Znth_Diff by lia.
-      apply Hinc; lia.
-  }
-  assert (Hvalue :
-    forall p q : Z,
-      head <= p /\ p < q < tail + 1 ->
-      Znth (Znth p (replace_Znth tail i q_l) 0) l 0 >
-      Znth (Znth q (replace_Znth tail i q_l) 0) l 0).
-  {
-    intros p q Hpq.
-    destruct (Z.eq_dec q tail) as [-> | Hq_ne].
-    - rewrite Znth_replace_Znth_Same by lia.
-      rewrite Znth_replace_Znth_Diff by lia.
-      assert (Hhead_lt_tail : head < tail) by lia.
-      destruct (Z.eq_dec p (tail - 1)) as [-> | Hp_ne_last].
-      + apply Hlast_gt; lia.
-      + assert (p < tail - 1) by lia.
-        specialize (Hdec p (tail - 1) ltac:(lia)) as Hdec_last.
-        specialize (Hlast_gt Hhead_lt_tail) as Hlast.
-        lia.
-    - rewrite Znth_replace_Znth_Diff by lia.
-      rewrite Znth_replace_Znth_Diff by lia.
-      apply Hdec; lia.
-  }
-  assert (Hcover_win :
-    forall idx : Z,
-      0 <= idx ->
-      idx < Zlength l ->
-      i + 1 - k <= idx < i + 1 ->
-      exists pos : Z,
-        head <= pos < tail + 1 /\
-        idx <= Znth pos (replace_Znth tail i q_l) 0 /\
-        Znth pos (replace_Znth tail i q_l) 0 < i + 1 /\
-        Znth idx l 0 <= Znth (Znth pos (replace_Znth tail i q_l) 0) l 0).
-  {
-    intros idx Hidx0 Hidx_len Hidx_win.
-    destruct (Z.eq_dec idx i) as [-> | Hidx_ne_i].
-    - exists tail.
-      rewrite Znth_replace_Znth_Same by lia.
-      repeat split; try lia.
-    - assert (Hidx_old_win : i - k < idx < i) by lia.
-      specialize (Hcover idx Hidx0 Hidx_len Hidx_old_win) as Hcov.
-      destruct Hcov as [[pos [[Hpos_lo Hpos_hi] [Hidx_pos [Hpos_i Hval]]]] | Hval_i].
-      + exists pos.
-        rewrite Znth_replace_Znth_Diff by lia.
-        repeat split; try lia; assumption.
-      + exists tail.
-        rewrite Znth_replace_Znth_Same by lia.
-        repeat split; try lia; assumption.
-  }
-  assert (Hhead_max :
-    head < tail + 1 /\ k <= i + 1 ->
-    WindowMaxValue l (i + 1 - k) (i + 1)
-      (Znth (Znth head (replace_Znth tail i q_l) 0) l 0)).
-  {
-    intros [Hhead_nonempty Hk_proc].
-    unfold WindowMaxValue, MaxMin.min_value_of_subset,
-      MaxMin.min_object_of_subset, WindowUpperBoundValue.
-    exists (Znth (Znth head (replace_Znth tail i q_l) 0) l 0).
-    split.
-    - split.
-      + repeat split; try lia.
-        destruct (Z.eq_dec head tail) as [Hhead_eq_tail | Hhead_ne_tail].
-        * exists i.
-          subst tail.
-          rewrite Znth_replace_Znth_Same by lia.
-          repeat split; try lia.
-          intros idx Hidx_range.
-          destruct (Z.eq_dec idx i) as [-> | Hidx_ne_i].
-          -- lia.
-          -- assert (Hidx_old_win : i - k < idx < i) by lia.
-             specialize (Hcover idx ltac:(lia) ltac:(lia) Hidx_old_win) as Hcov.
-             destruct Hcov as [[pos [[Hpos_lo Hpos_hi] [Hidx_pos [Hpos_i Hval]]]] | Hval_i].
-             ++ lia.
-             ++ assumption.
-        * assert (head < tail) by lia.
-          rewrite Znth_replace_Znth_Diff by lia.
-          exists (Znth head q_l 0).
-          specialize (Hvalid head ltac:(lia)) as [Hhead_idx0 [Hhead_idx_len Hhead_idx_win]].
-          repeat split; try lia.
-          intros idx Hidx_range.
-          assert (Hhead_ge_current :
-            Znth i l 0 <= Znth (Znth head q_l 0) l 0).
-          {
-            destruct (Z.eq_dec head (tail - 1)) as [-> | Hhead_ne_last].
-            - specialize (Hlast_gt ltac:(lia)) as Hlast.
-              lia.
-            - assert (head < tail - 1) by lia.
-              specialize (Hdec head (tail - 1) ltac:(lia)) as Hdec_last.
-              specialize (Hlast_gt ltac:(lia)) as Hlast.
-              lia.
-          }
-          destruct (Z.eq_dec idx i) as [-> | Hidx_ne_i].
-          -- exact Hhead_ge_current.
-          -- assert (Hidx_old_win : i - k < idx < i) by lia.
-             specialize (Hcover idx ltac:(lia) ltac:(lia) Hidx_old_win) as Hcov.
-             destruct Hcov as [[pos [[Hpos_lo Hpos_hi] [Hidx_pos [Hpos_i Hval]]]] | Hval_i].
-             ++ assert (Hpos_head_cases : pos = head \/ head < pos) by lia.
-                destruct Hpos_head_cases as [Hpos_eq_head | Hhead_lt_pos].
-                ** subst pos; assumption.
-                ** specialize (Hdec head pos ltac:(lia)) as Hdec_head.
-                   lia.
-             ++ lia.
-      + intros ub Hub.
-        unfold WindowUpperBoundValue in Hub.
-        destruct Hub as [_ [_ [_ [pos [[Hpos_lo Hpos_hi] [Hub_eq Hub_upper]]]]]].
-        subst ub.
-        apply Hub_upper.
-        destruct (Z.eq_dec head tail) as [Hhead_eq_tail | Hhead_ne_tail].
-        * subst tail.
-          rewrite Znth_replace_Znth_Same by lia.
-          lia.
-        * assert (head < tail) by lia.
-          rewrite Znth_replace_Znth_Diff by lia.
-          specialize (Hvalid head ltac:(lia)) as [_ [_ Hhead_win]].
-          lia.
-    - reflexivity.
-  }
-  split; [lia|].
-  split; [lia|].
-  split; [lia|].
-  split; [lia|].
-  split; [lia|].
-  split; [lia|].
-  split; [rewrite Zlength_replace_Znth; lia|].
-  split; [lia|].
-  split; [exact Hentries|].
-  split; [exact Hindex|].
-  split; [exact Hvalue|].
-  split; [exact Hcover_win|].
-  exact Hhead_max.
-Qed.
-
-Lemma SWMQueueState_window_max :
-  forall (l q_l : list Z) (head tail processed k : Z),
-    SWMQueueState l q_l head tail processed k ->
-    head < tail ->
-    k <= processed ->
-    WindowMaxValue l (processed - k) processed (Znth (Znth head q_l 0) l 0).
-Proof.
-  intros l q_l head tail processed k Hstate Hhead Hprocessed.
-  unfold SWMQueueState in Hstate.
-  destruct Hstate as (_ & _ & _ & _ & _ & _ & _ & _ & _ & _ & _ & _ & Hmax).
-  apply Hmax; lia.
-Qed.
-
-Lemma SWMOutputPrefix_snoc :
-  forall (l out : list Z) (k out_idx ans : Z),
-    SWMOutputPrefix l k out_idx out ->
-    out_idx < Zlength l - k + 1 ->
-    WindowMaxValue l out_idx (out_idx + k) ans ->
-    SWMOutputPrefix l k (out_idx + 1) (out ++ ans :: nil).
-Proof.
-  intros l out k out_idx ans Hprefix Hroom Hmax.
-  unfold SWMOutputPrefix in *.
-  destruct Hprefix as
-    (Hk_pos & Hk_len & Hidx_nonneg & Hidx_bound & Hlen & Hprefix_values).
-  repeat split; try lia.
-  - rewrite Zlength_app_cons, Hlen; lia.
-  - intros idx Hidx.
-    destruct (Z_lt_ge_dec idx out_idx) as [Hlt | Hge].
-    + rewrite app_Znth1 by (rewrite Hlen; lia).
-      apply Hprefix_values; lia.
-    + assert (idx = out_idx) by lia; subst idx.
-      rewrite app_Znth2 by (rewrite Hlen; lia).
-      rewrite Hlen.
-      replace (out_idx - out_idx) with 0 by lia.
-      rewrite Znth0_cons.
-      exact Hmax.
-Qed.
-
-Lemma SWMOutputPrefix_complete :
-  forall (l out : list Z) (k out_idx : Z),
-    SWMOutputPrefix l k out_idx out ->
-    out_idx = Zlength l - k + 1 ->
-    SlidingWindowMaximum l k out.
-Proof.
-  intros l out k out_idx Hprefix Hcomplete.
-  unfold SWMOutputPrefix in Hprefix.
-  unfold SlidingWindowMaximum.
-  destruct Hprefix as
-    (Hk_pos & Hk_len & Hidx_nonneg & Hidx_bound & Hlen & Hprefix_values).
-  split; [lia |].
-  split; [lia |].
+  intros l q_l head tail i k Hnonempty Hdom
+    [Hentries [Hindices [Hvalues Hcovers]]].
+  unfold SWMQueuePendingState.
   split.
-  - rewrite Hlen, Hcomplete; reflexivity.
-  - intros idx Hidx.
-    apply Hprefix_values.
-    rewrite <- Hlen; exact Hidx.
+  - intros pos Hpos. apply Hentries. lia.
+  - split.
+    + intros p q Hpq. apply Hindices. lia.
+    + split.
+      * intros p q Hpq. apply Hvalues. lia.
+      * intros idx Hidx Hwindow.
+        specialize (Hcovers idx Hidx Hwindow).
+        destruct Hcovers as [[candidate [Hpos [Hidxpos Hvalue]]] | Hpending].
+        -- destruct (Z_lt_ge_dec candidate (tail - 1)) as [Hkept | Hdropped].
+           ++ left. exists candidate.
+              split; [lia |].
+              split; [lia | exact Hvalue].
+           ++ right.
+              assert (candidate = tail - 1) by lia.
+              subst candidate.
+              lia.
+        -- right. exact Hpending.
 Qed.

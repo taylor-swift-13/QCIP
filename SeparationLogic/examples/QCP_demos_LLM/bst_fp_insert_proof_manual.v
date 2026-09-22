@@ -21,7 +21,7 @@ Local Open Scope sac.
 
 Lemma proof_of_insert_entail_wit_1 : insert_entail_wit_1.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	Exists b_pre_v.
 	Exists nil.
 	Exists tr_low_level_spec.
@@ -41,7 +41,7 @@ Qed.
 
 Lemma proof_of_insert_entail_wit_2 : insert_entail_wit_2.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	sep_apply store_tree_not_zero; [ | tauto].
 	Intros l0.
 	Intros k.
@@ -90,7 +90,7 @@ Qed.
 
 Lemma proof_of_insert_return_wit_1 : insert_return_wit_1.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	subst b_v_father.
 	sep_apply store_tree_make_tree; [ | tauto ..].
 	sep_apply store_ptb_store_tree.
@@ -114,7 +114,7 @@ Qed.
 
 Lemma proof_of_insert_return_wit_2 : insert_return_wit_2.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	subst b_v.
 	sep_apply (store_tree_zero 0 fa tr0).
 	- Intros_p Hempty.
@@ -136,7 +136,7 @@ Qed.
 
 Lemma proof_of_insert_entail_wit_3_2 : insert_entail_wit_3_2.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	subst b_v_father.
 	Exists b_v_right.
 	Exists (RH b_v_key b_v_value l0 :: pt0_2).
@@ -163,7 +163,7 @@ Qed.
 
 Lemma proof_of_insert_entail_wit_3_1 : insert_entail_wit_3_1.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	subst b_v_father.
 	Exists b_v_left.
 	Exists (LH b_v_key b_v_value r0 :: pt0_2).
@@ -190,7 +190,7 @@ Qed.
 
 Lemma proof_of_insert_derive_high_level_spec_by_low_level_spec : insert_derive_high_level_spec_by_low_level_spec.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	Intros b_pre_v.
 	unfold Bst.store_map.
 	Intros tr.

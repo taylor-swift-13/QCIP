@@ -16,7 +16,7 @@ Import ListNotations.
 Local Open Scope list.
 Require Import String.
 Local Open Scope string.
-Require Import SL.ConAssertion SL.CriticalSTS SL.NestedCriticalSTS.
+From SimpleC.SL Require Import ConAssertion CriticalSTS NestedCriticalSTS.
 
 
 Require Import SimpleC.EE.Applications_human.LiteOS.lib.glob_vars_and_defs.

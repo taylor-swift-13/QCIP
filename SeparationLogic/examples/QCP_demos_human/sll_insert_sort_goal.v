@@ -178,7 +178,7 @@ forall (node_pre: Z) (a: Z) (l: (@list Z)) (p2_v: Z) (p2: Z) (l1: (@list Z)) (l2
   **  (sll p2_v l2 )
   **  ((&((node_pre)  # "list" ->ₛ "next")) # Ptr  |->_)
 |--
-  EX (y: Z)  (l0: (@list Z))  (x: Z) ,
+  EX (x: Z)  (l0: (@list Z))  (y: Z) ,
   “ (l2 = (cons (x) (l0))) ” 
   &&  “ (p2_v <> 0) ” 
   &&  “ (l = (app (l1) (l2))) ” 
@@ -416,9 +416,9 @@ forall (l: (@list Z)) (p: Z) (l0_2: (@list Z)) (l1_2: (@list Z)) (l2_2: (@list Z
   TT && emp 
 |--
   EX (l1: (@list Z)) ,
-  “ (l = (app (l1) (l3))) ” 
-  &&  “ (Permutation l1 l0_3 ) ” 
-  &&  “ (increasing l0_3 ) ”
+  “ ((app (l1_2) (l2_2)) = (app (l1) (l3))) ” 
+  &&  “ (Permutation l1 (insert (p_data) (l0_2)) ) ” 
+  &&  “ (increasing (insert (p_data) (l0_2)) ) ”
   &&  emp
 ).
 

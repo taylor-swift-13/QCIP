@@ -25,14 +25,6 @@ From FP Require Import PartialOrder_Setoid BourbakiWitt.
 Require Import SimpleC.EE.QCP_demos_LLM.union_find_err_rel_lib.
 Local Open Scope monad.
 Local Open Scope sac.
-From SimpleC.EE.QCP_demos_LLM Require Import int_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import int_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import uint_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import uint_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import undef_uint_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import undef_uint_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import array_shape_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import array_shape_strategy_proof.
 From SimpleC.EE.QCP_demos_LLM Require Import safeexecE_strategy_goal.
 From SimpleC.EE.QCP_demos_LLM Require Import safeexecE_strategy_proof.
 
@@ -57,19 +49,13 @@ forall (x_pre: Z) (rank_pre: Z) (parent_pre: Z) (n_pre: Z) (X_low_level_spec: (Z
 forall (x_pre: Z) (n_pre: Z) (X_low_level_spec: (Z -> (uf_state -> Prop))) (rs_low_level_spec: (@list Z)) (ps_low_level_spec: (@list Z)) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre <= INT_MAX)) (PreH3 : (0 <= x_pre)) (PreH4 : (x_pre < n_pre)) (PreH5 : (safeExec (equiv ((uf_state_of (n_pre) (ps_low_level_spec) (rs_low_level_spec)))) (uf_find (x_pre)) X_low_level_spec )) ,
   TT && emp 
 |--
-  “ (safeExec (equiv ((uf_state_of (n_pre) (ps_low_level_spec) (rs_low_level_spec)))) (uf_find_after_read (x_pre) ((Znth x_pre ps_low_level_spec 0))) X_low_level_spec ) ” 
-  &&  “ ((Znth x_pre ps_low_level_spec 0) = (Znth (x_pre) (ps_low_level_spec) (0))) ”
+  “ (safeExec (equiv ((uf_state_of (n_pre) (ps_low_level_spec) (rs_low_level_spec)))) (uf_find_after_read (x_pre) ((Znth x_pre ps_low_level_spec 0))) X_low_level_spec ) ”
   &&  emp
 ).
 
 Definition uf_find_c_entail_wit_1_split_goal_1 := 
 forall (x_pre: Z) (n_pre: Z) (X_low_level_spec: (Z -> (uf_state -> Prop))) (rs_low_level_spec: (@list Z)) (ps_low_level_spec: (@list Z)) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre <= INT_MAX)) (PreH3 : (0 <= x_pre)) (PreH4 : (x_pre < n_pre)) (PreH5 : (safeExec (equiv ((uf_state_of (n_pre) (ps_low_level_spec) (rs_low_level_spec)))) (uf_find (x_pre)) X_low_level_spec )) ,
   (safeExec (equiv ((uf_state_of (n_pre) (ps_low_level_spec) (rs_low_level_spec)))) (uf_find_after_read (x_pre) ((Znth x_pre ps_low_level_spec 0))) X_low_level_spec )
-.
-
-Definition uf_find_c_entail_wit_1_split_goal_2 := 
-forall (x_pre: Z) (n_pre: Z) (X_low_level_spec: (Z -> (uf_state -> Prop))) (rs_low_level_spec: (@list Z)) (ps_low_level_spec: (@list Z)) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre <= INT_MAX)) (PreH3 : (0 <= x_pre)) (PreH4 : (x_pre < n_pre)) (PreH5 : (safeExec (equiv ((uf_state_of (n_pre) (ps_low_level_spec) (rs_low_level_spec)))) (uf_find (x_pre)) X_low_level_spec )) ,
-  ((Znth x_pre ps_low_level_spec 0) = (Znth (x_pre) (ps_low_level_spec) (0)))
 .
 
 Definition uf_find_c_entail_wit_2 := 
@@ -154,11 +140,6 @@ forall (x_pre: Z) (n_pre: Z) (X_low_level_spec: (Z -> (uf_state -> Prop))) (rs_l
 |--
   EX (ps1: (@list Z)) ,
   “ ((replace_Znth (x_pre) (r) (ps1_2)) = (replace_Znth (x_pre) (r) (ps1))) ” 
-  &&  “ (0 <= n_pre) ” 
-  &&  “ (n_pre <= INT_MAX) ” 
-  &&  “ (p = (Znth (x_pre) (ps_low_level_spec) (0))) ” 
-  &&  “ (0 <= r) ” 
-  &&  “ (r < n_pre) ” 
   &&  “ (safeExec (equiv ((uf_state_of (n_pre) ((replace_Znth (x_pre) (r) (ps1))) (rs_low_level_spec)))) (return (r)) X_low_level_spec ) ”
   &&  emp
 ).
@@ -428,19 +409,13 @@ forall (rank_pre: Z) (parent_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (uf_
 forall (n_pre: Z) (X_low_level_spec: (unit -> (uf_state -> Prop))) (ps2_2: (@list Z)) (rs2: (@list Z)) (rx: Z) (ry: Z) (PreH1 : (rx <> ry)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= INT_MAX)) (PreH4 : (0 <= rx)) (PreH5 : (rx < n_pre)) (PreH6 : (0 <= ry)) (PreH7 : (ry < n_pre)) (PreH8 : (safeExec (equiv ((uf_state_of (n_pre) (ps2_2) (rs2)))) (applyf ((uf_union_after_find_y (rx))) (ry)) X_low_level_spec )) ,
   TT && emp 
 |--
-  “ (safeExec (equiv ((uf_state_of (n_pre) (ps2_2) (rs2)))) (uf_union_after_rank_rx (rx) (ry) ((Znth rx rs2 0))) X_low_level_spec ) ” 
-  &&  “ ((Znth rx rs2 0) = (Znth (rx) (rs2) (0))) ”
+  “ (safeExec (equiv ((uf_state_of (n_pre) (ps2_2) (rs2)))) (uf_union_after_rank_rx (rx) (ry) ((Znth rx rs2 0))) X_low_level_spec ) ”
   &&  emp
 ).
 
 Definition uf_union_c_entail_wit_5_split_goal_1 := 
 forall (n_pre: Z) (X_low_level_spec: (unit -> (uf_state -> Prop))) (ps2_2: (@list Z)) (rs2: (@list Z)) (rx: Z) (ry: Z) (PreH1 : (rx <> ry)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= INT_MAX)) (PreH4 : (0 <= rx)) (PreH5 : (rx < n_pre)) (PreH6 : (0 <= ry)) (PreH7 : (ry < n_pre)) (PreH8 : (safeExec (equiv ((uf_state_of (n_pre) (ps2_2) (rs2)))) (applyf ((uf_union_after_find_y (rx))) (ry)) X_low_level_spec )) ,
   (safeExec (equiv ((uf_state_of (n_pre) (ps2_2) (rs2)))) (uf_union_after_rank_rx (rx) (ry) ((Znth rx rs2 0))) X_low_level_spec )
-.
-
-Definition uf_union_c_entail_wit_5_split_goal_2 := 
-forall (n_pre: Z) (X_low_level_spec: (unit -> (uf_state -> Prop))) (ps2_2: (@list Z)) (rs2: (@list Z)) (rx: Z) (ry: Z) (PreH1 : (rx <> ry)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= INT_MAX)) (PreH4 : (0 <= rx)) (PreH5 : (rx < n_pre)) (PreH6 : (0 <= ry)) (PreH7 : (ry < n_pre)) (PreH8 : (safeExec (equiv ((uf_state_of (n_pre) (ps2_2) (rs2)))) (applyf ((uf_union_after_find_y (rx))) (ry)) X_low_level_spec )) ,
-  ((Znth rx rs2 0) = (Znth (rx) (rs2) (0)))
 .
 
 Definition uf_union_c_entail_wit_6 := 
@@ -467,19 +442,13 @@ forall (rank_pre: Z) (parent_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (uf_
 forall (n_pre: Z) (X_low_level_spec: (unit -> (uf_state -> Prop))) (ps2_2: (@list Z)) (rs2: (@list Z)) (rx: Z) (ry: Z) (rx_rank: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre <= INT_MAX)) (PreH3 : (0 <= rx)) (PreH4 : (rx < n_pre)) (PreH5 : (0 <= ry)) (PreH6 : (ry < n_pre)) (PreH7 : (rx <> ry)) (PreH8 : (rx_rank = (Znth (rx) (rs2) (0)))) (PreH9 : (safeExec (equiv ((uf_state_of (n_pre) (ps2_2) (rs2)))) (uf_union_after_rank_rx (rx) (ry) (rx_rank)) X_low_level_spec )) ,
   TT && emp 
 |--
-  “ (safeExec (equiv ((uf_state_of (n_pre) (ps2_2) (rs2)))) (uf_union_after_rank_ry (rx) (ry) (rx_rank) ((Znth ry rs2 0))) X_low_level_spec ) ” 
-  &&  “ ((Znth ry rs2 0) = (Znth (ry) (rs2) (0))) ”
+  “ (safeExec (equiv ((uf_state_of (n_pre) (ps2_2) (rs2)))) (uf_union_after_rank_ry (rx) (ry) (rx_rank) ((Znth ry rs2 0))) X_low_level_spec ) ”
   &&  emp
 ).
 
 Definition uf_union_c_entail_wit_6_split_goal_1 := 
 forall (n_pre: Z) (X_low_level_spec: (unit -> (uf_state -> Prop))) (ps2_2: (@list Z)) (rs2: (@list Z)) (rx: Z) (ry: Z) (rx_rank: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre <= INT_MAX)) (PreH3 : (0 <= rx)) (PreH4 : (rx < n_pre)) (PreH5 : (0 <= ry)) (PreH6 : (ry < n_pre)) (PreH7 : (rx <> ry)) (PreH8 : (rx_rank = (Znth (rx) (rs2) (0)))) (PreH9 : (safeExec (equiv ((uf_state_of (n_pre) (ps2_2) (rs2)))) (uf_union_after_rank_rx (rx) (ry) (rx_rank)) X_low_level_spec )) ,
   (safeExec (equiv ((uf_state_of (n_pre) (ps2_2) (rs2)))) (uf_union_after_rank_ry (rx) (ry) (rx_rank) ((Znth ry rs2 0))) X_low_level_spec )
-.
-
-Definition uf_union_c_entail_wit_6_split_goal_2 := 
-forall (n_pre: Z) (X_low_level_spec: (unit -> (uf_state -> Prop))) (ps2_2: (@list Z)) (rs2: (@list Z)) (rx: Z) (ry: Z) (rx_rank: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre <= INT_MAX)) (PreH3 : (0 <= rx)) (PreH4 : (rx < n_pre)) (PreH5 : (0 <= ry)) (PreH6 : (ry < n_pre)) (PreH7 : (rx <> ry)) (PreH8 : (rx_rank = (Znth (rx) (rs2) (0)))) (PreH9 : (safeExec (equiv ((uf_state_of (n_pre) (ps2_2) (rs2)))) (uf_union_after_rank_rx (rx) (ry) (rx_rank)) X_low_level_spec )) ,
-  ((Znth ry rs2 0) = (Znth (ry) (rs2) (0)))
 .
 
 Definition uf_union_c_entail_wit_7 := 
@@ -505,12 +474,6 @@ forall (n_pre: Z) (X_low_level_spec: (unit -> (uf_state -> Prop))) (ps2_2: (@lis
 |--
   EX (ps2: (@list Z)) ,
   “ ((replace_Znth (ry) (rx) (ps2_2)) = (replace_Znth (ry) (rx) (ps2))) ” 
-  &&  “ (0 <= rx) ” 
-  &&  “ (rx < n_pre) ” 
-  &&  “ (0 <= ry) ” 
-  &&  “ (ry < n_pre) ” 
-  &&  “ (rx <> ry) ” 
-  &&  “ (ry_rank < rx_rank) ” 
   &&  “ (safeExec (equiv ((uf_state_of (n_pre) ((replace_Znth (ry) (rx) (ps2))) (rs2_2)))) (return (tt)) X_low_level_spec ) ”
   &&  emp
 ).
@@ -538,12 +501,6 @@ forall (n_pre: Z) (X_low_level_spec: (unit -> (uf_state -> Prop))) (ps2_2: (@lis
 |--
   EX (ps2: (@list Z)) ,
   “ ((replace_Znth (rx) (ry) (ps2_2)) = (replace_Znth (rx) (ry) (ps2))) ” 
-  &&  “ (0 <= rx) ” 
-  &&  “ (rx < n_pre) ” 
-  &&  “ (0 <= ry) ” 
-  &&  “ (ry < n_pre) ” 
-  &&  “ (rx <> ry) ” 
-  &&  “ (rx_rank < ry_rank) ” 
   &&  “ (safeExec (equiv ((uf_state_of (n_pre) ((replace_Znth (rx) (ry) (ps2))) (rs2_2)))) (return (tt)) X_low_level_spec ) ”
   &&  emp
 ).
@@ -573,14 +530,8 @@ forall (n_pre: Z) (X_low_level_spec: (unit -> (uf_state -> Prop))) (ps2_2: (@lis
 |--
   EX (ps2: (@list Z)) ,
   “ ((replace_Znth (rx) (ry) (ps2_2)) = (replace_Znth (rx) (ry) (ps2))) ” 
-  &&  “ (0 <= rx) ” 
-  &&  “ (rx < n_pre) ” 
-  &&  “ (0 <= ry) ” 
-  &&  “ (ry < n_pre) ” 
-  &&  “ (rx <> ry) ” 
-  &&  “ (rx_rank = ry_rank) ” 
-  &&  “ (ry_rank = (Znth (ry) (rs2_2) (0))) ” 
-  &&  “ ((ry_rank + 1 ) <= INT_MAX) ” 
+  &&  “ ((Znth (rx) (rs2_2) (0)) = (Znth (ry) (rs2_2) (0))) ” 
+  &&  “ (((Znth (ry) (rs2_2) (0)) + 1 ) <= INT_MAX) ” 
   &&  “ (safeExec (equiv ((uf_state_of (n_pre) ((replace_Znth (rx) (ry) (ps2))) (rs2_2)))) (bump_rank (ry)) X_low_level_spec ) ”
   &&  emp
 ).
@@ -608,14 +559,8 @@ forall (n_pre: Z) (X_low_level_spec: (unit -> (uf_state -> Prop))) (ps2_2: (@lis
 |--
   EX (ps2: (@list Z))  (rs2: (@list Z)) ,
   “ ((replace_Znth (rx) (ry) (ps2_2)) = (replace_Znth (rx) (ry) (ps2))) ” 
-  &&  “ ((replace_Znth (ry) ((ry_rank + 1 )) (rs2_2)) = (replace_Znth (ry) ((ry_rank + 1 )) (rs2))) ” 
-  &&  “ (0 <= rx) ” 
-  &&  “ (rx < n_pre) ” 
-  &&  “ (0 <= ry) ” 
-  &&  “ (ry < n_pre) ” 
-  &&  “ (rx <> ry) ” 
-  &&  “ (rx_rank = ry_rank) ” 
-  &&  “ (safeExec (equiv ((uf_state_of (n_pre) ((replace_Znth (rx) (ry) (ps2))) ((replace_Znth (ry) ((ry_rank + 1 )) (rs2)))))) (return (tt)) X_low_level_spec ) ”
+  &&  “ ((replace_Znth (ry) (((Znth (ry) (rs2_2) (0)) + 1 )) (rs2_2)) = (replace_Znth (ry) (((Znth (ry) (rs2_2) (0)) + 1 )) (rs2))) ” 
+  &&  “ (safeExec (equiv ((uf_state_of (n_pre) ((replace_Znth (rx) (ry) (ps2))) ((replace_Znth (ry) (((Znth (ry) (rs2_2) (0)) + 1 )) (rs2)))))) (return (tt)) X_low_level_spec ) ”
   &&  emp
 ).
 
@@ -1002,10 +947,6 @@ EX (ps_low_level_spec: (@list Z)) (rs_low_level_spec: (@list Z)) (X_low_level_sp
 
 Module Type VC_Correct.
 
-Include int_array_Strategy_Correct.
-Include uint_array_Strategy_Correct.
-Include undef_uint_array_Strategy_Correct.
-Include array_shape_Strategy_Correct.
 Include safeexecE_Strategy_Correct.
 
 Axiom proof_of_uf_find_c_entail_wit_1 : uf_find_c_entail_wit_1.

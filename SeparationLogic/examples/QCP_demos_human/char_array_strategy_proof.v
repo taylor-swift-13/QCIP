@@ -43,6 +43,8 @@ Qed.
 Lemma char_array_strategy2_correctness : char_array_strategy2.
   pre_process_default.
   simpl.
+  replace (p + i * 1) with (p + i * sizeof (CHAR))
+    by (rewrite sizeof_char; lia).
   sep_apply (CharArray.missing_i_merge_to_full); [ | tauto].
   rewrite replace_Znth_Znth by tauto.
   entailer!.
@@ -51,6 +53,8 @@ Qed.
 Lemma char_array_strategy3_correctness : char_array_strategy3.
   pre_process_default.
   simpl.
+  replace (p + i * 1) with (p + i * sizeof (CHAR))
+    by (rewrite sizeof_char; lia).
   sep_apply (CharArray.missing_i_merge_to_full); [ | tauto].
   entailer!.
 Qed.

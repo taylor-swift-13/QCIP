@@ -20,29 +20,51 @@ Local Open Scope sac.
 
 Lemma proof_of_chars_initialize_entail_wit_1 : chars_initialize_entail_wit_1.
 Proof.
-  pre_process. 
-  entailer!. 
-  unfold repeat_Z. simpl. 
-  sep_apply CharArray.undef_full_to_undef_seg.
-  entailer!.
-  cbn.
-  entailer!. 
-Qed. 
+	LLM_pre_process ltac:(int_auto).
+	sep_apply CharArray.undef_full_to_undef_seg.
+	unfold repeat_Z.
+	simpl.
+	rewrite (CharArray.full_empty a_pre 0).
+	split_pure_spatial.
+	- cancel (CharArray.undef_seg a_pre 0 n_pre).
+	- split_pures.
+	  + dump_pre_spatial.
+	    lia.
+	  + dump_pre_spatial.
+	    exact PreH1.
+	  + dump_pre_spatial.
+	    exact PreH1.
+	  + dump_pre_spatial.
+	    exact PreH2.
+	  + dump_pre_spatial.
+	    lia.
+Qed.
 
 Lemma proof_of_chars_initialize_entail_wit_2 : chars_initialize_entail_wit_2.
 Proof.
-  pre_process. 
-  entailer!.
-  rewrite repeat_Z_tail ; try lia.
-  entailer!.
+	LLM_pre_process ltac:(int_auto).
+	rewrite repeat_Z_tail.
+	split_pure_spatial.
+	- cancel (CharArray.full a_pre (i + 1) (repeat_Z m_pre i ++ m_pre :: nil)).
+	  cancel (CharArray.undef_seg a_pre (i + 1) n_pre).
+	- split_pures.
+	  + dump_pre_spatial.
+	    lia.
+	  + dump_pre_spatial.
+	    lia.
+	  + dump_pre_spatial.
+	    exact PreH4.
+	  + dump_pre_spatial.
+	    exact PreH5.
+	- lia.
 Qed.
 
 Lemma proof_of_chars_initialize_return_wit_1 : chars_initialize_return_wit_1.
 Proof.
-  pre_process.
-  assert (i = n_pre) by lia. 
-  subst.
-  rewrite (CharArray.undef_seg_empty a_pre n_pre).
-  entailer!.
+	LLM_pre_process ltac:(int_auto).
+	assert (i = n_pre) by lia.
+	subst i.
+	rewrite (CharArray.undef_seg_empty a_pre n_pre).
+	normalize.
+	cancel (CharArray.full a_pre n_pre (repeat_Z m_pre n_pre)).
 Qed.
-

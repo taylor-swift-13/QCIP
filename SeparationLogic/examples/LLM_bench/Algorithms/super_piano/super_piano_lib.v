@@ -472,6 +472,25 @@ Proof.
   lia.
 Qed.
 
+Lemma ValidNodeFields_value_int_bound :
+  forall l ps n L R value start lo hi best,
+    PrefixSums l ps ->
+    Zlength l = n ->
+    n <= 100000 ->
+    1 <= L ->
+    (forall idx, 0 <= idx < n -> -1000 <= Znth idx l 0 <= 1000) ->
+    ValidNodeFields ps n L R value start lo hi best ->
+    -2147483648 <= value <= 2147483647.
+Proof.
+  intros l ps n L R value start lo hi best Hpref Hlen Hn HL Hbound Hvalid.
+  unfold ValidNodeFields, ValidNode in Hvalid.
+  cbn in Hvalid.
+  destruct Hvalid as
+    [Hps_len [Hstart1 [Hstartn [HloL [Hlohi [Hhin [Hlobest [Hbest_hi [Hvalue _]]]]]]]]].
+  rewrite Hvalue.
+  eapply PrefixSums_diff_int_bounds; eauto; lia.
+Qed.
+
 Require Import Coq.micromega.Psatz.
 Require Import Coq.Logic.Classical_Prop.
 

@@ -18,7 +18,9 @@ Proof.
   sep_apply_l_atomic (IntArray.full_split_to_missing_i p i n l 0).
   - dump_pre_spatial.
     lia.
-  - cancel (IntArray.missing_i p i 0 n l).
+  - replace (p + i * 4) with (p + i * sizeof (INT))
+      by (rewrite sizeof_int; lia).
+    cancel (IntArray.missing_i p i 0 n l).
     Intros_r v.
     apply_sepcon_adjoint.
     Intros_p H1.
@@ -53,7 +55,9 @@ Proof.
   sep_apply_l_atomic (IntArray.seg_split_to_missing_i p x i y l 0).
   - dump_pre_spatial.
     lia.
-  - cancel (IntArray.missing_i p i x y l).
+  - replace (p + i * 4) with (p + i * sizeof (INT))
+      by (rewrite sizeof_int; lia).
+    cancel (IntArray.missing_i p i x y l).
     Intros_r v.
     apply_sepcon_adjoint.
     Intros_p H1.
@@ -143,12 +147,16 @@ Proof.
     lia. }
   subst l.
   rewrite IntArray.seg_empty.
-  entailer!.
+  cancel.
+  Intros_p Htrivial.
+  cancel.
 Qed.
 
 Lemma int_array_strategy16_correctness : int_array_strategy16.
 Proof.
   pre_process_default.
+  replace (p + z * 4) with (p + z * sizeof (INT))
+    by (rewrite sizeof_int; lia).
   sep_apply_l_atomic (IntArray.seg_single p z v).
   prop_apply (IntArray.seg_valid p y z l).
   Intros.
@@ -162,6 +170,8 @@ Lemma int_array_strategy17_correctness : int_array_strategy17.
 Proof.
   pre_process_default.
   subst x.
+  replace (p + i * 4) with (p + i * sizeof (INT))
+    by (rewrite sizeof_int; lia).
   rewrite (IntArray.seg_unfold p i y l v).
   cancel.
 Qed.
@@ -169,6 +179,8 @@ Qed.
 Lemma int_array_strategy2_correctness : int_array_strategy2.
 Proof.
   pre_process_default.
+  replace (p + i * 4) with (p + i * sizeof (INT))
+    by (rewrite sizeof_int; lia).
   sep_apply_l_atomic (IntArray.missing_i_merge_to_full p i n (Znth i l 0) l).
   - dump_pre_spatial.
     lia.
@@ -176,9 +188,16 @@ Proof.
     cancel.
 Qed.
 
+Lemma int_array_strategy31_correctness : int_array_strategy31.
+Proof.
+  exact int_array_strategy2_correctness.
+Qed.
+
 Lemma int_array_strategy11_correctness : int_array_strategy11.
 Proof.
   pre_process_default.
+  replace (p + i * 4) with (p + i * sizeof (INT))
+    by (rewrite sizeof_int; lia).
   sep_apply_l_atomic (IntArray.missing_i_merge_to_seg p x i y (Znth (i - x) l 0) l).
   - dump_pre_spatial.
     lia.
@@ -189,6 +208,8 @@ Qed.
 Lemma int_array_strategy3_correctness : int_array_strategy3.
 Proof.
   pre_process_default.
+  replace (p + i * 4) with (p + i * sizeof (INT))
+    by (rewrite sizeof_int; lia).
   sep_apply_l_atomic (IntArray.missing_i_merge_to_full p i n v l).
   - dump_pre_spatial.
     lia.
@@ -198,6 +219,8 @@ Qed.
 Lemma int_array_strategy12_correctness : int_array_strategy12.
 Proof.
   pre_process_default.
+  replace (p + i * 4) with (p + i * sizeof (INT))
+    by (rewrite sizeof_int; lia).
   sep_apply_l_atomic (IntArray.missing_i_merge_to_seg p x i y v l).
   - dump_pre_spatial.
     lia.

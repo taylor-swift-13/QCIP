@@ -434,8 +434,8 @@ forall (ptr_pre: Z) (b_pre: Z) (v: Z) (k: Z) (tr: tree) (pt0: partial_tree) (tr1
   &&  “ (b_v_right_father = b_v) ”
   &&  ((&((to_free)  # "tree" ->ₛ "key")) # Int  |-> b_v_key)
   **  ((&((to_free)  # "tree" ->ₛ "value")) # Int  |-> b_v_value)
-  **  ((&((to_free)  # "tree" ->ₛ "father")) # Ptr  |-> b_v_father)
-  **  ((&((to_free)  # "tree" ->ₛ "left")) # Ptr  |-> b_v_left)
+  **  ((&((to_free)  # "tree" ->ₛ "father")) # Ptr  |-> fa)
+  **  ((&((to_free)  # "tree" ->ₛ "left")) # Ptr  |-> 0)
   **  ((&((to_free)  # "tree" ->ₛ "right")) # Ptr  |-> b_v_right)
   **  ((&((ptr_pre)  # "tree" ->ₛ "key")) # Int  |-> b_v_key)
   **  ((&((ptr_pre)  # "tree" ->ₛ "value")) # Int  |-> b_v_value)
@@ -495,8 +495,8 @@ forall (ptr_pre: Z) (b_pre: Z) (v: Z) (k: Z) (tr: tree) (pt0: partial_tree) (tr0
 Definition Delete_safety_wit_1 := 
 forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_pre_v: Z) (PreH1 : (INT_MIN <= x_pre)) (PreH2 : (x_pre <= INT_MAX)) ,
   ((( &( "fa" ) )) # Ptr  |->_)
-  **  ((( &( "x" ) )) # Int  |-> x_pre)
   **  ((( &( "b" ) )) # Ptr  |-> b_pre)
+  **  ((( &( "x" ) )) # Int  |-> x_pre)
   **  ((b_pre) # Ptr  |-> b_pre_v)
   **  (store_tree b_pre_v 0 tr_low_level_spec )
 |--
@@ -881,22 +881,14 @@ forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (pt0_2: partial_tree) (tr
   **  (store_tree b_v_right b_v tr0 )
 ) \/
 (
-forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (pt0_2: partial_tree) (tr0_2: tree) (l0: tree) (r0: tree) (b: Z) (b_v_2: Z) (b_v_key_2: Z) (b_v_father_2: Z) (fa: Z) (b_v_value_2: Z) (b_v_left_2: Z) (b_v_right_2: Z) (PreH1 : (b_v_left_2 <> 0)) (PreH2 : (b_v_right_2 <> 0)) (PreH3 : (b_v_key_2 >= x_pre)) (PreH4 : (x_pre >= b_v_key_2)) (PreH5 : (b_v_2 <> 0)) (PreH6 : ((combine_tree (pt0_2) ((tree_delete (x_pre) (tr0_2)))) = (tree_delete (x_pre) (tr_low_level_spec)))) (PreH7 : (INT_MIN <= b_v_key_2)) (PreH8 : (b_v_key_2 <= INT_MAX)) (PreH9 : (b_v_father_2 = fa)) (PreH10 : (tr0_2 = (make_tree (l0) (b_v_key_2) (b_v_value_2) (r0)))) ,
-  (store_ptb b b_pre fa 0 pt0_2 )
+forall (x_pre: Z) (tr_low_level_spec: tree) (pt0_2: partial_tree) (tr0_2: tree) (l0: tree) (r0: tree) (b_v_2: Z) (b_v_key_2: Z) (b_v_father_2: Z) (fa: Z) (b_v_value_2: Z) (b_v_left_2: Z) (b_v_right_2: Z) (PreH1 : (b_v_left_2 <> 0)) (PreH2 : (b_v_right_2 <> 0)) (PreH3 : (b_v_key_2 >= x_pre)) (PreH4 : (x_pre >= b_v_key_2)) (PreH5 : (b_v_2 <> 0)) (PreH6 : ((combine_tree (pt0_2) ((tree_delete (x_pre) (tr0_2)))) = (tree_delete (x_pre) (tr_low_level_spec)))) (PreH7 : (INT_MIN <= b_v_key_2)) (PreH8 : (b_v_key_2 <= INT_MAX)) (PreH9 : (b_v_father_2 = fa)) (PreH10 : (tr0_2 = (make_tree (l0) (b_v_key_2) (b_v_value_2) (r0)))) ,
+  TT && emp 
 |--
-  EX (tr0_left: tree)  (tr0_key: Z)  (tr0_value: Z)  (tr0_right: tree)  (l1_left: tree)  (l1_key: Z)  (l1_value: Z)  (l1_right: tree)  (pt0: partial_tree) ,
+  EX (tr0_left: tree)  (tr0_key: Z)  (tr0_value: Z)  (tr0_right: tree)  (l1_left: tree)  (l1_key: Z)  (l1_value: Z)  (l1_right: tree) ,
   “ (l0 = (make_tree (l1_left) (l1_key) (l1_value) (l1_right))) ” 
   &&  “ (r0 = (make_tree (tr0_left) (tr0_key) (tr0_value) (tr0_right))) ” 
-  &&  “ (b_v_father_2 = fa) ” 
-  &&  “ (b_v_2 <> 0) ” 
-  &&  “ (b_v_key_2 >= x_pre) ” 
-  &&  “ (x_pre >= b_v_key_2) ” 
-  &&  “ ((combine_tree (pt0) ((tree_delete (x_pre) ((make_tree ((make_tree (l1_left) (l1_key) (l1_value) (l1_right))) (b_v_key_2) (b_v_value_2) ((make_tree (tr0_left) (tr0_key) (tr0_value) (tr0_right)))))))) = (tree_delete (x_pre) (tr_low_level_spec))) ” 
-  &&  “ (INT_MIN <= b_v_key_2) ” 
-  &&  “ (b_v_key_2 <= INT_MAX) ” 
-  &&  “ (b_v_left_2 <> 0) ” 
-  &&  “ (b_v_right_2 <> 0) ”
-  &&  (store_ptb b b_pre fa 0 pt0 )
+  &&  “ ((combine_tree (pt0_2) ((tree_delete (x_pre) ((make_tree ((make_tree (l1_left) (l1_key) (l1_value) (l1_right))) (b_v_key_2) (b_v_value_2) ((make_tree (tr0_left) (tr0_key) (tr0_value) (tr0_right)))))))) = (tree_delete (x_pre) (tr_low_level_spec))) ”
+  &&  emp
 ).
 
 Definition Delete_entail_wit_6_1 := 
@@ -1154,9 +1146,9 @@ forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (pt0: partial_tree) (tr1:
   &&  “ (tr0 = (make_tree (l0) (b_v_left_key) (b_v_left_value) (r0))) ”
   &&  ((&((to_free)  # "tree" ->ₛ "key")) # Int  |-> b_v_key)
   **  ((&((to_free)  # "tree" ->ₛ "value")) # Int  |-> b_v_value)
-  **  ((&((to_free)  # "tree" ->ₛ "father")) # Ptr  |-> b_v_father)
+  **  ((&((to_free)  # "tree" ->ₛ "father")) # Ptr  |-> fa)
   **  ((&((to_free)  # "tree" ->ₛ "left")) # Ptr  |-> b_v_left)
-  **  ((&((to_free)  # "tree" ->ₛ "right")) # Ptr  |-> b_v_right)
+  **  ((&((to_free)  # "tree" ->ₛ "right")) # Ptr  |-> 0)
   **  ((b) # Ptr  |-> b_v_left)
   **  (store_ptb b b_pre fa 0 pt0 )
   **  (store_tree b_v_right b_v r1 )
@@ -1237,8 +1229,8 @@ forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (pt0: partial_tree) (tr1:
   &&  “ (tr0 = (make_tree (l0) (b_v_right_key) (b_v_right_value) (r0))) ”
   &&  ((&((to_free)  # "tree" ->ₛ "key")) # Int  |-> b_v_key)
   **  ((&((to_free)  # "tree" ->ₛ "value")) # Int  |-> b_v_value)
-  **  ((&((to_free)  # "tree" ->ₛ "father")) # Ptr  |-> b_v_father)
-  **  ((&((to_free)  # "tree" ->ₛ "left")) # Ptr  |-> b_v_left)
+  **  ((&((to_free)  # "tree" ->ₛ "father")) # Ptr  |-> fa)
+  **  ((&((to_free)  # "tree" ->ₛ "left")) # Ptr  |-> 0)
   **  ((&((to_free)  # "tree" ->ₛ "right")) # Ptr  |-> b_v_right)
   **  ((b) # Ptr  |-> b_v_right)
   **  (store_ptb b b_pre fa 0 pt0 )

@@ -79,7 +79,7 @@ Proof.
   rewrite CharArray.full_unfold.
   replace (p + 0 * sizeof ( CHAR )) with p by lia.
   cancel (p # Char |-> a).
-  rewrite CharArray.seg_empty; Intros; cancel emp.
+  rewrite CharArray.seg_empty; Intros; cancel.
 Qed.
 
 Lemma helper_chararray_point_to_full_single : forall p a,
@@ -90,7 +90,9 @@ Proof.
   replace (p + 0 * sizeof ( CHAR )) with p by lia.
   rewrite CharArray.seg_empty.
   cancel (p # Char |-> a).
-  apply coq_prop_andp_right; [cancel emp | auto].
+  split_pure_spatial.
+  - cancel.
+  - dump_pre_spatial. reflexivity.
 Qed.
 
 Lemma helper_chararray_full_snoc : forall p n l a,

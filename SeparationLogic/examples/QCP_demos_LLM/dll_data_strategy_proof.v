@@ -24,7 +24,7 @@ Proof.
   Intros_p Hl.
   subst l.
   simpl.
-  entailer!.
+  cancel.
 Qed.
 
 Lemma dll_data_strategy3_correctness : dll_data_strategy3.
@@ -36,7 +36,7 @@ Proof.
   - Intros_r l. Intros_r prev.
     apply_sepcon_adjoint.
     Intros_p Hl. subst l.
-    destruct H as [H | H]; subst p; simpl; entailer!.
+    destruct H as [H | H]; subst p; simpl; cancel.
   - dump_pre_spatial. exact H.
 Qed.
 
@@ -47,7 +47,7 @@ Proof.
   Intros_p H.
   assert (Hp : p = 0) by (destruct H; lia).
   sep_apply (dll_zero p prev l Hp).
-  entailer!.
+  cancel.
 Qed.
 
 Lemma dll_data_strategy12_correctness : dll_data_strategy12.
@@ -75,7 +75,7 @@ Proof.
   cancel (&( s # "list" ->ₛ "next") # Ptr |-> n).
   Intros_r l. Intros_r l0. Intros_r x.
   Intros_r p. Intros_r q. Intros_r y.
-  apply_sepcon_adjoint. elim_emp.
+  apply_sepcon_adjoint. cancel.
   subst m.
   Intros_p Hl. subst l.
   sep_apply_l_atomic (dllseg_len1 s y n x H0).
@@ -96,7 +96,7 @@ Proof.
     cancel (&( s # "list" ->ₛ "prev") # Ptr |-> y).
     cancel (&( s # "list" ->ₛ "next") # Ptr |-> m).
     cancel (&( s # "list" ->ₛ "data") # Int |-> x).
-    Intros_r n. apply_sepcon_adjoint. elim_emp. cancel.
+    Intros_r n. apply_sepcon_adjoint. cancel. cancel.
   - split_pures.
     + dump_pre_spatial. exact H1.
     + dump_pre_spatial. exact H0.
@@ -124,7 +124,7 @@ Proof.
     cancel (&( s # "list" ->ₛ "prev") # Ptr |-> y).
     cancel (&( s # "list" ->ₛ "next") # Ptr |-> m).
     cancel (&( s # "list" ->ₛ "data") # Int |-> x).
-    Intros_r n. apply_sepcon_adjoint. elim_emp. cancel.
+    Intros_r n. apply_sepcon_adjoint. cancel. cancel.
   - dump_pre_spatial. exact H1.
 Qed.
 
@@ -162,8 +162,8 @@ Proof.
     cancel (&( p # "list" ->ₛ "prev") # Ptr |-> prev).
     cancel (&( p # "list" ->ₛ "next") # Ptr |-> y).
     cancel (&( p # "list" ->ₛ "data") # Int |-> x).
-    Intros_r q. apply_sepcon_adjoint. elim_emp. cancel.
-  - entailer!.
+    Intros_r q. apply_sepcon_adjoint. cancel. cancel.
+  - dump_pre_spatial. exact Hnz.
 Qed.
 
 Lemma dll_data_strategy6_correctness : dll_data_strategy6.

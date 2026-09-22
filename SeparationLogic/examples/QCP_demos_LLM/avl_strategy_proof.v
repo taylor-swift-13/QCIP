@@ -68,8 +68,8 @@ Proof.
     Exists tr1.
     Exists tr2.
     normalize.
-    rewrite <- elim_wand_emp_emp.
-    elim_emp.
+    wand_elim.
+    cancel.
     split_pures.
     split_pure_spatial.
     + unfold single_tree_node.
@@ -99,7 +99,7 @@ Proof.
     Intros_r k.
     Intros_r r.
     apply_sepcon_adjoint.
-    elim_emp.
+    cancel.
     Intros_p H0.
     subst tr.
     simpl.
@@ -146,7 +146,7 @@ Proof.
   split_pure_spatial.
   - Intros_r tr.
     apply_sepcon_adjoint.
-    elim_emp.
+    cancel.
     Intros_p H0.
     subst tr p.
     simpl.
@@ -164,8 +164,7 @@ Proof.
   Intros tr.
   Exists tr.
   normalize.
-  rewrite <- elim_wand_emp_emp.
-  elim_emp.
+  wand_elim.
   cancel.
 Qed.
 
@@ -193,7 +192,7 @@ Proof.
   pre_process_default.
   split_pure_spatial.
   - apply_sepcon_adjoint.
-    elim_emp.
+    cancel.
     unfold store_non_empty_tree.
     split_pure_spatial.
     + cancel.
@@ -216,7 +215,7 @@ Proof.
     Intros_r k.
     Intros_r r.
     apply_sepcon_adjoint.
-    elim_emp.
+    cancel.
     Intros_p H0.
     subst tr.
     simpl.

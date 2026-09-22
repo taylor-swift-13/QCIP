@@ -75,6 +75,8 @@ Lemma fme_strategy16_correctness : fme_strategy16.
   pre_process_default.
   unfold coef_array.
   unfold coef_array_missing_i_rec.
+  replace (p + i * 4) with (p + i * sizeof (INT))
+    by (rewrite sizeof_int; lia).
   sep_apply IntArray.missing_i_merge_to_full; try lia.
   unfold coef_Znth.
   rewrite replace_Znth_Znth by tauto.
@@ -151,6 +153,8 @@ Lemma fme_strategy17_correctness : fme_strategy17.
   unfold coef_array.
   unfold coef_array_missing_i_rec.
   simpl.
+  replace (p + i * 4) with (p + i * sizeof (INT))
+    by (rewrite sizeof_int; lia).
   sep_apply IntArray.missing_i_merge_to_full; try lia.
   destruct i; try lia.
   unfold coef_replace_Znth.

@@ -21,213 +21,397 @@ Local Open Scope sac.
 
 Lemma proof_of_arr_sum_entail_wit_1 : arr_sum_entail_wit_1.
 Proof. 
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
 Qed.
 
 Lemma proof_of_arr_sum_entail_wit_2 : arr_sum_entail_wit_2.
-Proof. 
-  pre_process.
+Proof.
+  LLM_pre_process ltac:(int_auto).
   prop_apply IntArray.full_Zlength.
-  entailer!.
-  subst ret.
-  rewrite (sublist_split 0 (i_2 + 1) i_2)  ; try lia.
-  rewrite sum_app.
-  rewrite (sublist_single 0 _ _ ) ; try lia.
-  simpl.
-  lia.
+  Intros_p Hlen.
+  split_pures.
+  split_pure_spatial.
+  - cancel (IntArray.full a_pre n_pre l).
+  - split_pures.
+    + dump_pre_spatial. lia.
+    + dump_pre_spatial. lia.
+    + dump_pre_spatial.
+      rewrite PreH4.
+      rewrite (sublist_split 0 (i_2 + 1) i_2 l) by lia.
+      rewrite sum_app.
+      rewrite (sublist_single 0 i_2 l) by lia.
+      simpl.
+      assert (Hrange : forall j : Z, 0 <= j < n_pre -> 0 <= Znth j l 0 < 100) by exact PreH7.
+      destruct (Z.eq_dec i_2 0) as [Hi0 | Hi0].
+      * subst i_2. simpl in *. subst ret.
+        assert (Hcur : 0 <= Znth 0 l 0 < 100) by (apply Hrange; lia).
+        replace (Znth 0 l 0 + 0) with (Znth 0 l 0) by lia.
+        reflexivity.
+      * assert (Hsublen : i_2 = Z.of_nat (length (sublist 0 i_2 l))) by (rewrite sublist_length; lia).
+        assert (Hret_bound : 0 <= sum (sublist 0 i_2 l) < i_2 * 100).
+        {
+          replace (i_2 * 100) with (Z.of_nat (length (sublist 0 i_2 l)) * 100).
+          2: { rewrite <- Hsublen. reflexivity. }
+          apply sum_bound_lt.
+          - intro Hnil. rewrite Hnil in Hsublen. simpl in Hsublen. lia.
+          - intros idx Hidx.
+            rewrite <- Hsublen in Hidx.
+            rewrite Znth_sublist_lt by lia.
+            apply Hrange.
+            lia.
+        }
+        assert (Hcur : 0 <= Znth i_2 l 0 < 100) by (apply Hrange; lia).
+        rewrite Z.add_0_r.
+        reflexivity.
+    + dump_pre_spatial. exact PreH5.
+    + dump_pre_spatial. exact PreH6.
+    + dump_pre_spatial. exact PreH7.
 Qed.
 
 Lemma proof_of_arr_sum_return_wit_1 : arr_sum_return_wit_1.
-Proof. 
-  pre_process.
+Proof.
+  LLM_pre_process ltac:(int_auto).
   prop_apply IntArray.full_length.
-  entailer!.
-  replace i_2 with n_pre in * by lia.
-  subst n_pre ret.
-  unfold sublist.
-  simpl. rewrite firstn_all2 ; lia.
+  Intros_p Hlen.
+  assert (HlenZ : Zlength l = n_pre) by (rewrite Zlength_correct; exact Hlen).
+  split_pure_spatial.
+  - cancel (IntArray.full a_pre n_pre l).
+  - dump_pre_spatial.
+    rewrite PreH4.
+    assert (Hi : i_2 = n_pre) by lia.
+    subst i_2.
+    rewrite sublist_self by (symmetry; exact HlenZ).
+    reflexivity.
 Qed.
 
 Lemma proof_of_arr_sum_safety_wit_3 : arr_sum_safety_wit_3.
 Proof.
-  pre_process.
-  prop_apply IntArray.full_Zlength.
-  Intros.
-  destruct (Z.eq_dec i 0).
-  + subst i. simpl in *. subst ret.
-    specialize (PreH7 0). 
-    entailer!.  
-  + assert (0 <= ret < i * 100).
-    {  
+  LLM_pre_process ltac:(int_auto).
+  prop_apply IntArray.full_length.
+  Intros_p Hlen.
+  assert (HlenZ : Zlength l = n_pre) by (rewrite Zlength_correct; exact Hlen).
+  assert (Hrange : forall j : Z, 0 <= j < n_pre -> 0 <= Znth j l 0 < 100) by exact PreH7.
+  destruct (Z.eq_dec i 0) as [Hi0 | Hi0].
+  - subst i. simpl in *. subst ret.
+    assert (Hcur : 0 <= Znth 0 l 0 < 100) by (apply Hrange; lia).
+    split_pures.
+    + dump_pre_spatial. lia.
+    + dump_pre_spatial. lia.
+  - assert (0 <= ret < i * 100).
+    {
       subst ret.
-      assert (i = Z.of_nat (List.length (sublist 0 i l))).
-      { rewrite sublist_length ; lia. }
-      rewrite H0 at 3.
+      assert (Hsublen0 : length (sublist 0 i l) = Z.to_nat (i - 0))
+        by (apply sublist_length; lia).
+      assert (Hsublen : i = Z.of_nat (length (sublist 0 i l))).
+      { rewrite Hsublen0. lia. }
+      rewrite Hsublen at 3.
       apply sum_bound_lt.
-      - intro. rewrite H1 in H0. simpl in *; lia.
-      - intros. rewrite <- H0 in H1.
-        rewrite Znth_sublist_lt ; try lia.
-        apply PreH7. lia.
+      - intro Hnil. rewrite Hnil in Hsublen. simpl in *; lia.
+      - intros idx Hidx.
+        rewrite <- Hsublen in Hidx.
+        rewrite Znth_sublist_lt by lia.
+        apply Hrange. lia.
     }
-    assert (0 <= Znth i l 0 < 100).
-    { apply PreH7. lia. }
-    entailer!.
+    assert (Hcur : 0 <= Znth i l 0 < 100) by (apply Hrange; lia).
+    split_pures.
+    + dump_pre_spatial. lia.
+    + dump_pre_spatial. lia.
 Qed.
 
 Lemma proof_of_arr_sum_do_while_entail_wit_2 : arr_sum_do_while_entail_wit_2.
 Proof.
-   pre_process.
-   prop_apply IntArray.full_Zlength.
-   entailer!.
-   rewrite (sublist_single 0 0 l) by lia.
-   unfold sum; simpl.
-   lia.
+  LLM_pre_process ltac:(int_auto).
+  prop_apply IntArray.full_length.
+  Intros_p Hlen.
+  assert (HlenZ : Zlength l = n_pre) by (rewrite Zlength_correct; exact Hlen).
+  split_pure_spatial.
+  - cancel (IntArray.full a_pre n_pre l).
+  - split_pures.
+    + dump_pre_spatial. lia.
+    + dump_pre_spatial. lia.
+    + dump_pre_spatial.
+      rewrite (sublist_single 0 0 l) by (rewrite HlenZ; lia).
+      unfold sum.
+      simpl.
+      lia.
+    + dump_pre_spatial. exact PreH1.
+    + dump_pre_spatial. exact PreH2.
+    + dump_pre_spatial. exact PreH3.
 Qed.
 
 Lemma proof_of_arr_sum_do_while_entail_wit_1 : arr_sum_do_while_entail_wit_1.
 Proof.
-   pre_process.
-   prop_apply IntArray.full_Zlength.
-   entailer!.
-   subst ret.
-   rewrite (sublist_split 0 (i_2 + 1) i_2 l) by lia.
-   rewrite sum_app.
-   rewrite (sublist_single 0 i_2 l) by lia.
-   unfold sum; simpl.
-   lia. 
+  LLM_pre_process ltac:(int_auto).
+  prop_apply IntArray.full_Zlength.
+  Intros_p Hlen.
+  assert (Hlt : i_2 < n_pre) by lia.
+  split_pures.
+  split_pure_spatial.
+  - cancel (IntArray.full a_pre n_pre l).
+  - split_pures.
+    + dump_pre_spatial. lia.
+    + dump_pre_spatial. lia.
+    + dump_pre_spatial.
+      rewrite PreH4.
+      rewrite (sublist_split 0 (i_2 + 1) i_2 l) by lia.
+      rewrite sum_app.
+      rewrite (sublist_single 0 i_2 l) by lia.
+      simpl.
+      assert (Hrange : forall j : Z, 0 <= j < n_pre -> 0 <= Znth j l 0 < 100) by exact PreH7.
+      destruct (Z.eq_dec i_2 0) as [Hi0 | Hi0].
+      * subst i_2. simpl in *. subst ret.
+        assert (Hcur : 0 <= Znth 0 l 0 < 100) by (apply Hrange; lia).
+        replace (Znth 0 l 0 + 0) with (Znth 0 l 0) by lia.
+        reflexivity.
+      * assert (Hsublen : i_2 = Z.of_nat (length (sublist 0 i_2 l))) by (rewrite sublist_length; lia).
+        assert (Hret_bound : 0 <= sum (sublist 0 i_2 l) < i_2 * 100).
+        {
+          replace (i_2 * 100) with (Z.of_nat (length (sublist 0 i_2 l)) * 100).
+          2: { rewrite <- Hsublen. reflexivity. }
+          apply sum_bound_lt.
+          - intro Hnil. rewrite Hnil in Hsublen. simpl in Hsublen. lia.
+          - intros idx Hidx.
+            rewrite <- Hsublen in Hidx.
+            rewrite Znth_sublist_lt by lia.
+            apply Hrange.
+            lia.
+        }
+        assert (Hcur : 0 <= Znth i_2 l 0 < 100) by (apply Hrange; lia).
+        rewrite Z.add_0_r.
+        reflexivity.
+    + dump_pre_spatial. exact PreH5.
+    + dump_pre_spatial. exact PreH6.
+    + dump_pre_spatial. exact PreH7.
 Qed. 
 
 Lemma proof_of_arr_sum_do_while_return_wit_1 : arr_sum_do_while_return_wit_1.
 Proof.
-   pre_process.
-   prop_apply IntArray.full_length.
-   entailer!.
-   replace i_2 with n_pre in * by lia.
-   subst n_pre ret.
-   unfold sublist.
-   simpl. rewrite firstn_all2 ; lia.
+  LLM_pre_process ltac:(int_auto).
+  prop_apply IntArray.full_length.
+  Intros_p Hlen.
+  assert (HlenZ : Zlength l = n_pre) by (rewrite Zlength_correct; exact Hlen).
+  split_pure_spatial.
+  - cancel (IntArray.full a_pre n_pre l).
+  - dump_pre_spatial.
+    rewrite PreH4.
+    assert (Hi : i_2 = n_pre) by lia.
+    subst i_2.
+    rewrite sublist_self by (symmetry; exact HlenZ).
+    reflexivity.
 Qed. 
 
 Lemma proof_of_arr_sum_do_while_safety_wit_6 : arr_sum_do_while_safety_wit_6.
 Proof.
-   pre_process.
-   prop_apply IntArray.full_Zlength.
-   Intros.
-   destruct (Z.eq_dec i 0).
-   + subst i. simpl in *. subst ret.
-     specialize (PreH7 0).
-     entailer!.
-   + assert (0 <= ret < i * 100).
-     {  
+  LLM_pre_process ltac:(int_auto).
+  prop_apply IntArray.full_length.
+  Intros_p Hlen.
+  assert (HlenZ : Zlength l = n_pre) by (rewrite Zlength_correct; exact Hlen).
+  assert (Hlt : i < n_pre) by lia.
+  assert (Hrange : forall j : Z, 0 <= j < n_pre -> 0 <= Znth j l 0 < 100) by exact PreH7.
+  destruct (Z.eq_dec i 0) as [Hi0 | Hi0].
+  - subst i. simpl in *. subst ret.
+    assert (Hcur : 0 <= Znth 0 l 0 < 100) by (apply Hrange; lia).
+    split_pures.
+    + dump_pre_spatial. lia.
+    + dump_pre_spatial. lia.
+  - assert (0 <= ret < i * 100).
+    {
       subst ret.
-      assert (i = Z.of_nat (List.length (sublist 0 i l))).
-      { rewrite sublist_length ; lia. }
-      rewrite H0 at 3.
+      assert (Hsublen0 : length (sublist 0 i l) = Z.to_nat (i - 0))
+        by (apply sublist_length; lia).
+      assert (Hsublen : i = Z.of_nat (length (sublist 0 i l))).
+      { rewrite Hsublen0. lia. }
+      rewrite Hsublen at 3.
       apply sum_bound_lt.
-      - intro. rewrite H1 in H0. simpl in *; lia.
-      - intros. rewrite <- H0 in H1.
-        rewrite Znth_sublist_lt ; try lia.  
-        apply PreH7. lia.
-     }
-     assert (0 <= Znth i l 0 < 100).
-     { apply PreH7. lia. }
-     entailer!.
+      - intro Hnil. rewrite Hnil in Hsublen. simpl in *; lia.
+      - intros idx Hidx.
+        rewrite <- Hsublen in Hidx.
+        rewrite Znth_sublist_lt by lia.
+        apply Hrange. lia.
+    }
+    assert (Hcur : 0 <= Znth i l 0 < 100) by (apply Hrange; lia).
+    split_pures.
+    + dump_pre_spatial. lia.
+    + dump_pre_spatial. lia.
 Qed.
 
 Lemma proof_of_arr_sum_for_entail_wit_1 : arr_sum_for_entail_wit_1.
 Proof.
-   pre_process.
+   LLM_pre_process ltac:(int_auto).
 Qed.
 
 Lemma proof_of_arr_sum_for_entail_wit_2 : arr_sum_for_entail_wit_2.
 Proof.
-   pre_process.
-   prop_apply IntArray.full_Zlength.
-   entailer!. subst ret.
-   rewrite (sublist_split 0 (i_2 + 1) i_2)  ; try lia.
-   rewrite sum_app.
-   rewrite (sublist_single 0 _ _ ) ; try lia.
-   simpl.
-   lia.
+  LLM_pre_process ltac:(int_auto).
+  prop_apply IntArray.full_Zlength.
+  Intros_p Hlen.
+  split_pures.
+  split_pure_spatial.
+  - cancel (IntArray.full a_pre n_pre l).
+  - split_pures.
+    + dump_pre_spatial. lia.
+    + dump_pre_spatial. lia.
+    + dump_pre_spatial.
+      rewrite PreH4.
+      rewrite (sublist_split 0 (i_2 + 1) i_2 l) by lia.
+      rewrite sum_app.
+      rewrite (sublist_single 0 i_2 l) by lia.
+      simpl.
+      assert (Hrange : forall j : Z, 0 <= j < n_pre -> 0 <= Znth j l 0 < 100) by exact PreH7.
+      destruct (Z.eq_dec i_2 0) as [Hi0 | Hi0].
+      * subst i_2. simpl in *. subst ret.
+        assert (Hcur : 0 <= Znth 0 l 0 < 100) by (apply Hrange; lia).
+        replace (Znth 0 l 0 + 0) with (Znth 0 l 0) by lia.
+        reflexivity.
+      * assert (Hsublen : i_2 = Z.of_nat (length (sublist 0 i_2 l))) by (rewrite sublist_length; lia).
+        assert (Hret_bound : 0 <= sum (sublist 0 i_2 l) < i_2 * 100).
+        {
+          replace (i_2 * 100) with (Z.of_nat (length (sublist 0 i_2 l)) * 100).
+          2: { rewrite <- Hsublen. reflexivity. }
+          apply sum_bound_lt.
+          - intro Hnil. rewrite Hnil in Hsublen. simpl in Hsublen. lia.
+          - intros idx Hidx.
+            rewrite <- Hsublen in Hidx.
+            rewrite Znth_sublist_lt by lia.
+            apply Hrange.
+            lia.
+        }
+        assert (Hcur : 0 <= Znth i_2 l 0 < 100) by (apply Hrange; lia).
+        rewrite Z.add_0_r.
+        reflexivity.
+    + dump_pre_spatial. exact PreH5.
+    + dump_pre_spatial. exact PreH6.
+    + dump_pre_spatial. exact PreH7.
 Qed. 
 
 Lemma proof_of_arr_sum_for_return_wit_1 : arr_sum_for_return_wit_1.
 Proof.
-   pre_process.
-   prop_apply IntArray.full_length.
-   entailer!.
-   replace i_2 with n_pre in * by lia.
-   subst n_pre ret.
-   unfold sublist.
-   simpl. rewrite firstn_all2 ; lia.
+  LLM_pre_process ltac:(int_auto).
+  prop_apply IntArray.full_length.
+  Intros_p Hlen.
+  assert (HlenZ : Zlength l = n_pre) by (rewrite Zlength_correct; exact Hlen).
+  split_pure_spatial.
+  - cancel (IntArray.full a_pre n_pre l).
+  - dump_pre_spatial.
+    rewrite PreH4.
+    assert (Hi : i_2 = n_pre) by lia.
+    subst i_2.
+    rewrite sublist_self by (symmetry; exact HlenZ).
+    reflexivity.
 Qed.
 
 Lemma proof_of_arr_sum_for_safety_wit_3 : arr_sum_for_safety_wit_3.
 Proof.
-   pre_process.
-   prop_apply IntArray.full_Zlength.
-   Intros.
-   destruct (Z.eq_dec i 0).
-   + subst i. simpl in *. subst ret.
-   specialize (PreH7 0). 
-   entailer!.  
-   + assert (0 <= ret < i * 100).
-   {  
+  LLM_pre_process ltac:(int_auto).
+  prop_apply IntArray.full_length.
+  Intros_p Hlen.
+  assert (HlenZ : Zlength l = n_pre) by (rewrite Zlength_correct; exact Hlen).
+  assert (Hrange : forall j : Z, 0 <= j < n_pre -> 0 <= Znth j l 0 < 100) by exact PreH7.
+  destruct (Z.eq_dec i 0) as [Hi0 | Hi0].
+  - subst i. simpl in *. subst ret.
+    assert (Hcur : 0 <= Znth 0 l 0 < 100) by (apply Hrange; lia).
+    split_pures.
+    + dump_pre_spatial. lia.
+    + dump_pre_spatial. lia.
+  - assert (0 <= ret < i * 100).
+    {
       subst ret.
-      assert (i = Z.of_nat (List.length (sublist 0 i l))).
-      { rewrite sublist_length ; lia. }
-      rewrite H0 at 3.
+      assert (Hsublen0 : length (sublist 0 i l) = Z.to_nat (i - 0))
+        by (apply sublist_length; lia).
+      assert (Hsublen : i = Z.of_nat (length (sublist 0 i l))).
+      { rewrite Hsublen0. lia. }
+      rewrite Hsublen at 3.
       apply sum_bound_lt.
-      - intro. rewrite H1 in H0. simpl in *; lia.
-      - intros. rewrite <- H0 in H1.
-         rewrite Znth_sublist_lt ; try lia.
-         apply PreH7. lia.
-   }
-   assert (0 <= Znth i l 0 < 100).
-   { apply PreH7. lia. }
-   entailer!.
+      - intro Hnil. rewrite Hnil in Hsublen. simpl in *; lia.
+      - intros idx Hidx.
+        rewrite <- Hsublen in Hidx.
+        rewrite Znth_sublist_lt by lia.
+        apply Hrange. lia.
+    }
+    assert (Hcur : 0 <= Znth i l 0 < 100) by (apply Hrange; lia).
+    split_pures.
+    + dump_pre_spatial. lia.
+    + dump_pre_spatial. lia.
 Qed.
 
 Lemma proof_of_arr_sum_which_implies_entail_wit_1 : arr_sum_which_implies_entail_wit_1.
 Proof. 
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
 Qed.
 
 Lemma proof_of_arr_sum_which_implies_entail_wit_2 : arr_sum_which_implies_entail_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply IntArray.full_Zlength.
-  entailer!.
-  subst ret.
-  rewrite (sublist_split 0 (i_2 + 1) i_2)  ; try lia.
-  rewrite sum_app.
-  rewrite (sublist_single 0 _ _) ; try lia.
-  simpl.
-  lia.
+  Intros_p Hlen.
+  split_pures.
+  split_pure_spatial.
+  - cancel (IntArray.full a_pre n_pre l).
+  - split_pures.
+    + dump_pre_spatial. lia.
+    + dump_pre_spatial. lia.
+    + dump_pre_spatial.
+      rewrite PreH6.
+      rewrite (sublist_split 0 (i_2 + 1) i_2 l) by lia.
+      rewrite sum_app.
+      rewrite (sublist_single 0 i_2 l) by lia.
+      simpl.
+      assert (Hrange : forall j : Z, 0 <= j < n_pre -> 0 <= Znth j l 0 < 100) by exact PreH9.
+      destruct (Z.eq_dec i_2 0) as [Hi0 | Hi0].
+      * subst i_2. simpl in *. subst ret.
+        assert (Hcur : 0 <= Znth 0 l 0 < 100) by (apply Hrange; lia).
+        replace (Znth 0 l 0 + 0) with (Znth 0 l 0) by lia.
+        reflexivity.
+      * assert (Hsublen : i_2 = Z.of_nat (length (sublist 0 i_2 l))) by (rewrite sublist_length; lia).
+        assert (Hret_bound : 0 <= sum (sublist 0 i_2 l) < i_2 * 100).
+        {
+          replace (i_2 * 100) with (Z.of_nat (length (sublist 0 i_2 l)) * 100).
+          2: { rewrite <- Hsublen. reflexivity. }
+          apply sum_bound_lt.
+          - intro Hnil. rewrite Hnil in Hsublen. simpl in Hsublen. lia.
+          - intros idx Hidx.
+            rewrite <- Hsublen in Hidx.
+            rewrite Znth_sublist_lt by lia.
+            apply Hrange.
+            lia.
+        }
+        assert (Hcur : 0 <= Znth i_2 l 0 < 100) by (apply Hrange; lia).
+        rewrite Z.add_0_r.
+        reflexivity.
+    + dump_pre_spatial. exact PreH7.
+    + dump_pre_spatial. exact PreH8.
+    + dump_pre_spatial. exact PreH9.
 Qed. 
 
 Lemma proof_of_arr_sum_which_implies_return_wit_1 : arr_sum_which_implies_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply IntArray.full_length.
-  entailer!.
-  replace i_2 with n_pre in * by lia.
-  subst n_pre ret.
-  unfold sublist.
-  simpl. rewrite firstn_all2 ; lia.
+  Intros_p Hlen.
+  assert (HlenZ : Zlength l = n_pre) by (rewrite Zlength_correct; exact Hlen).
+  split_pure_spatial.
+  - cancel (IntArray.full a_pre n_pre l).
+  - dump_pre_spatial.
+    rewrite PreH4.
+    assert (Hi : i_2 = n_pre) by lia.
+    subst i_2.
+    rewrite sublist_self by (symmetry; exact HlenZ).
+    reflexivity.
 Qed. 
 
 Lemma proof_of_arr_sum_which_implies_which_implies_wit_2 : arr_sum_which_implies_which_implies_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   sep_apply (IntArray.missing_i_merge_to_full); [ | tauto].
   rewrite replace_Znth_Znth by tauto.
-  entailer!.
-Qed. 
+  split_pure_spatial.
+  - cancel (IntArray.full a n_pre l).
+  - split_pures; dump_pre_spatial; lia.
+Qed.
 
 Lemma proof_of_arr_sum_which_implies_safety_wit_3 : arr_sum_which_implies_safety_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply IntArray.full_length.
   Intros_p Hlen.
   assert (HlenZ : Zlength l = n_pre) by (rewrite Zlength_correct; exact Hlen).
@@ -261,23 +445,32 @@ Qed.
 
 Lemma proof_of_arr_sum_update_entail_wit_1 : arr_sum_update_entail_wit_1.
 Proof.
-  pre_process. 
-  rewrite Zlength_correct.
-  unfold zeros.
-  simpl repeat.
-  rewrite app_nil_l. 
-  prop_apply IntArray.full_length.
-  entailer!.
-  subst n_pre.
-  unfold sublist.
-  simpl. rewrite firstn_all2.
-  entailer!.
-  lia. 
+  LLM_pre_process ltac:(int_auto).
+  prop_apply IntArray.full_Zlength.
+  Intros_p Hlen.
+  assert (HlenZ : Zlength l = n_pre) by exact Hlen.
+  replace (zeros 0 ++ sublist 0 n_pre l) with l.
+  2: {
+    unfold zeros.
+    simpl.
+    rewrite sublist_self by (symmetry; exact HlenZ).
+    reflexivity.
+  }
+  split_pure_spatial.
+  - cancel (IntArray.full a_pre n_pre l).
+  - split_pures.
+    + dump_pre_spatial. lia.
+    + dump_pre_spatial. lia.
+    + dump_pre_spatial. exact (eq_sym HlenZ).
+    + dump_pre_spatial. rewrite Zsublist_nil by lia. reflexivity.
+    + dump_pre_spatial. exact PreH1.
+    + dump_pre_spatial. exact PreH2.
+    + dump_pre_spatial. exact PreH3.
 Qed.
 
 Lemma proof_of_arr_sum_update_entail_wit_2 : arr_sum_update_entail_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (Hbase_zi :
     Znth i_2 (zeros i_2 ++ sublist i_2 n_pre l) 0 = Znth i_2 l 0).
   {
@@ -372,26 +565,25 @@ Qed.
 
 Lemma proof_of_arr_sum_update_return_wit_1 : arr_sum_update_return_wit_1.
 Proof.
-  pre_process.
-  replace i_2 with n_pre in * by lia.
-  assert (zeros n_pre ++ sublist n_pre n_pre l = zeros n_pre).
-  {
-    rewrite Zsublist_nil by lia.
-    rewrite app_nil_r.
-    auto.
-  }
-  rewrite H.
-  entailer!.
-  subst n_pre ret.
-  rewrite sublist_self ; try lia.
+  LLM_pre_process ltac:(int_auto).
+  assert (Hi : i_2 = n_pre) by lia.
+  subst i_2.
+  replace (zeros n_pre ++ sublist n_pre n_pre l) with (zeros n_pre).
+  2: { rewrite Zsublist_nil by lia. rewrite app_nil_r. reflexivity. }
+  split_pure_spatial.
+  - cancel (IntArray.full a_pre n_pre (zeros n_pre)).
+  - split_pures.
+    + dump_pre_spatial.
+      rewrite <- (sublist_self l n_pre) by exact PreH4.
+      exact PreH5.
 Qed.
 
 Lemma proof_of_arr_sum_update_which_implies_wit_1 : arr_sum_update_which_implies_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   sep_apply (IntArray.full_split_to_missing_i a_pre i) ; try lia.
   replace (Znth i (zeros i ++ sublist i n_pre l) 0) with (Znth i l 0).
-  entailer!.
+  cancel.
   rewrite app_Znth2 ; rewrite Zlength_correct ; unfold zeros; rewrite repeat_length ; try lia.
   replace (i - Z.of_nat (Z.to_nat i)) with 0 by lia.
   rewrite Znth_sublist ; try lia.
@@ -401,7 +593,7 @@ Qed.
 
 Lemma proof_of_arr_sum_update_safety_wit_3 : arr_sum_update_safety_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (Hzi :
     Znth i (replace_Znth i (Znth i l 0) (zeros i ++ sublist i n_pre l)) 0 =
     Znth i l 0).
@@ -442,74 +634,131 @@ Qed.
 
 Lemma proof_of_arr_sum_pointer_entail_wit_1: arr_sum_pointer_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
 Qed.
 
 Lemma proof_of_arr_sum_pointer_entail_wit_2: arr_sum_pointer_entail_wit_2.
 Proof.
-  pre_process.
-  entailer!.
-  destruct (Z.eq_dec i_2 n_pre); [ | lia].
-  exfalso.
-  subst i_2.
-  replace (a_pre + n_pre * sizeof ( INT ) -
-  (a_pre + n_pre * sizeof ( INT ))) with 0 in PreH1 by lia.
-  pose proof Z.quot_0_l (sizeof(INT)).
-  rewrite sizeof_int in *.
-  lia.
+  LLM_pre_process ltac:(int_auto).
+  split_pure_spatial.
+  - cancel (IntArray.full a_pre n_pre l).
+  - split_pures.
+    + dump_pre_spatial.
+      intro Hi.
+      apply PreH1.
+      rewrite Hi.
+      replace (a_pre + n_pre * sizeof ( INT ) - (a_pre + n_pre * sizeof ( INT ))) with 0 by lia.
+      rewrite Z.quot_0_l.
+      { reflexivity. }
+      { rewrite sizeof_int; lia. }
+    + dump_pre_spatial. exact PreH1.
+    + dump_pre_spatial. exact PreH2.
+    + dump_pre_spatial. exact PreH3.
+    + dump_pre_spatial. exact PreH4.
+    + dump_pre_spatial. exact PreH5.
+    + dump_pre_spatial. exact PreH6.
+    + dump_pre_spatial. exact PreH7.
 Qed.
 
 Lemma proof_of_arr_sum_pointer_entail_wit_3: arr_sum_pointer_entail_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply IntArray.full_Zlength.
-  entailer!. subst ret.
-  rewrite (sublist_split 0 (i_2 + 1) i_2); try lia.
-  rewrite sum_app.
-  rewrite (sublist_single 0 _ _) ; try lia.
-  simpl.
-  lia.
+  Intros_p Hlen.
+  split_pure_spatial.
+  - cancel (IntArray.full a_pre n_pre l).
+  - split_pures.
+    + dump_pre_spatial. lia.
+    + dump_pre_spatial. lia.
+    + dump_pre_spatial.
+      rewrite PreH5.
+      rewrite (sublist_split 0 (i_2 + 1) i_2 l) by lia.
+      rewrite sum_app.
+      rewrite (sublist_single 0 i_2 l) by lia.
+      simpl.
+      assert (Hrange : forall j : Z, 0 <= j < n_pre -> 0 <= Znth j l 0 < 100) by exact PreH8.
+      destruct (Z.eq_dec i_2 0) as [Hi0 | Hi0].
+      * subst i_2. simpl in *. subst ret.
+        assert (Hcur : 0 <= Znth 0 l 0 < 100) by (apply Hrange; lia).
+        replace (Znth 0 l 0 + 0) with (Znth 0 l 0) by lia.
+        reflexivity.
+      * assert (Hsublen : i_2 = Z.of_nat (length (sublist 0 i_2 l))) by (rewrite sublist_length; lia).
+        assert (Hret_bound : 0 <= sum (sublist 0 i_2 l) < i_2 * 100).
+        {
+          replace (i_2 * 100) with (Z.of_nat (length (sublist 0 i_2 l)) * 100).
+          2: { rewrite <- Hsublen. reflexivity. }
+          apply sum_bound_lt.
+          - intro Hnil. rewrite Hnil in Hsublen. simpl in Hsublen. lia.
+          - intros idx Hidx.
+            rewrite <- Hsublen in Hidx.
+            rewrite Znth_sublist_lt by lia.
+            apply Hrange.
+            lia.
+        }
+        assert (Hcur : 0 <= Znth i_2 l 0 < 100) by (apply Hrange; lia).
+        rewrite Z.add_0_r.
+        reflexivity.
+    + dump_pre_spatial. exact PreH6.
+    + dump_pre_spatial. exact PreH7.
+    + dump_pre_spatial. exact PreH8.
 Qed.
 
 Lemma proof_of_arr_sum_pointer_return_wit_1: arr_sum_pointer_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply IntArray.full_length.
-  entailer!.
-  assert (i_2 = n_pre). {
-    destruct (Z.eq_dec i_2 n_pre); [auto | ].
-    assert (i_2 < n_pre) by lia; clear n.
-    rewrite sizeof_int in PreH1.
-    rewrite Z.quot_small_iff in PreH1 by lia.
-    lia.
-  }
-  subst i_2 ret.
-  unfold sublist.
-  simpl. rewrite firstn_all2 ; lia.
+  Intros_p Hlen.
+  split_pure_spatial.
+  - cancel (IntArray.full a_pre n_pre l).
+  - dump_pre_spatial.
+    assert (Hi : i_2 = n_pre).
+    {
+      destruct (Z.eq_dec i_2 n_pre) as [Heq | Hneq].
+      - exact Heq.
+      - assert (i_2 < n_pre) by lia.
+        exfalso.
+        rewrite sizeof_int in PreH1.
+        replace (a_pre + n_pre * 4 - (a_pre + i_2 * 4)) with ((n_pre - i_2) * 4) in PreH1 by lia.
+        rewrite Z.quot_mul in PreH1 by lia.
+        lia.
+    }
+    subst i_2 ret.
+    unfold sublist.
+    simpl.
+    rewrite firstn_all2 by lia.
+    reflexivity.
 Qed.
 
 Lemma proof_of_arr_sum_pointer_safety_wit_4: arr_sum_pointer_safety_wit_4.
 Proof.
-  pre_process.
-  prop_apply IntArray.full_Zlength.
-  Intros.
-  destruct (Z.eq_dec i 0).
-  + subst i. simpl in *. subst ret.
-    specialize (PreH8 0). 
-    entailer!.  
-  + assert (0 <= ret < i * 100).
-  {  
-     subst ret.
-     assert (i = Z.of_nat (List.length (sublist 0 i l))).
-     { rewrite sublist_length ; lia. }
-     rewrite H0 at 3.
-     apply sum_bound_lt.
-     - intro. rewrite H1 in H0. simpl in *; lia.
-     - intros. rewrite <- H0 in H1.
-        rewrite Znth_sublist_lt ; try lia.
-        apply PreH8. lia.
-  }
-  assert (0 <= Znth i l 0 < 100).
-  { apply PreH8. lia. }
-  entailer!.
+  LLM_pre_process ltac:(int_auto).
+  prop_apply IntArray.full_length.
+  Intros_p Hlen.
+  assert (HlenZ : Zlength l = n_pre) by (rewrite Zlength_correct; exact Hlen).
+  assert (Hrange : forall j : Z, 0 <= j < n_pre -> 0 <= Znth j l 0 < 100) by exact PreH8.
+  destruct (Z.eq_dec i 0) as [Hi0 | Hi0].
+  - subst i. simpl in *. subst ret.
+    assert (Hcur : 0 <= Znth 0 l 0 < 100) by (apply Hrange; lia).
+    split_pures.
+    + dump_pre_spatial. lia.
+    + dump_pre_spatial. lia.
+  - assert (0 <= ret < i * 100).
+    {
+      subst ret.
+      assert (Hsublen0 : length (sublist 0 i l) = Z.to_nat (i - 0))
+        by (apply sublist_length; lia).
+      assert (Hsublen : i = Z.of_nat (length (sublist 0 i l))).
+      { rewrite Hsublen0. lia. }
+      rewrite Hsublen at 3.
+      apply sum_bound_lt.
+      - intro Hnil. rewrite Hnil in Hsublen. simpl in *; lia.
+      - intros idx Hidx.
+        rewrite <- Hsublen in Hidx.
+        rewrite Znth_sublist_lt by lia.
+        apply Hrange. lia.
+    }
+    assert (Hcur : 0 <= Znth i l 0 < 100) by (apply Hrange; lia).
+    split_pures.
+    + dump_pre_spatial. lia.
+    + dump_pre_spatial. lia.
 Qed.

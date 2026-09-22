@@ -23,7 +23,7 @@ Local Open Scope sac.
 
 Lemma proof_of_split_while_entail_wit_3 : split_while_entail_wit_3.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	Exists pv.
 	Exists qv_2.
 	Exists x.
@@ -56,7 +56,7 @@ Qed.
 
 Lemma proof_of_split_while_entail_wit_5 : split_while_entail_wit_5.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	Exists qv.
 	Exists p_head_2.
 	Exists x.
@@ -97,7 +97,7 @@ Qed.
 
 Lemma proof_of_split_while_entail_wit_6_2 : split_while_entail_wit_6_2.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	sep_apply_l_atomic (sll_zero x l_new).
 	- dump_pre_spatial.
 		unfold NULL.
@@ -114,7 +114,6 @@ Proof.
 		  cancel (sll qv_2 l2_2).
 		  cancel (p_pre # Ptr |-> p_head).
 		  simpl sll.
-		  rewrite logic_equiv_coq_prop_andp_sepcon.
           Exists p_next.
           split_pure_spatial.
 		  * cancel.
@@ -137,7 +136,7 @@ Qed.
 
 Lemma proof_of_split_while_return_wit_1 : split_while_return_wit_1.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	sep_apply_l_atomic (sll_zero x l).
 	- dump_pre_spatial.
 		unfold NULL.

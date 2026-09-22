@@ -18,14 +18,6 @@ Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.sort_point.sort_point_lib.
 Local Open Scope sac.
-From SimpleC.EE.QCP_demos_LLM Require Import int_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import int_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import uint_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import uint_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import undef_uint_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import undef_uint_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import array_shape_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import array_shape_strategy_proof.
 
 (*----- Function cmp_polar_values -----*)
 
@@ -33,12 +25,12 @@ Definition cmp_polar_values_safety_wit_1 :=
 (
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (CoordInBounds gx_pre )) (PreH2 : (CoordInBounds gy_pre )) (PreH3 : (CoordInBounds a_x_pre )) (PreH4 : (CoordInBounds a_y_pre )) (PreH5 : (CoordInBounds b_x_pre )) (PreH6 : (CoordInBounds b_y_pre )) ,
   ((( &( "adx" ) )) # Int  |->_)
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((a_x_pre - gx_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (a_x_pre - gx_pre )) ”
@@ -46,12 +38,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
 (
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (CoordInBounds gx_pre )) (PreH2 : (CoordInBounds gy_pre )) (PreH3 : (CoordInBounds a_x_pre )) (PreH4 : (CoordInBounds a_y_pre )) (PreH5 : (CoordInBounds b_x_pre )) (PreH6 : (CoordInBounds b_y_pre )) ,
   ((( &( "adx" ) )) # Int  |->_)
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((a_x_pre - gx_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (a_x_pre - gx_pre )) ”
@@ -60,12 +52,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
 Definition cmp_polar_values_safety_wit_1_split_goal_1 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (CoordInBounds gx_pre )) (PreH2 : (CoordInBounds gy_pre )) (PreH3 : (CoordInBounds a_x_pre )) (PreH4 : (CoordInBounds a_y_pre )) (PreH5 : (CoordInBounds b_x_pre )) (PreH6 : (CoordInBounds b_y_pre )) ,
   ((( &( "adx" ) )) # Int  |->_)
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((a_x_pre - gx_pre ) <= INT_MAX) ”
 .
@@ -73,12 +65,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
 Definition cmp_polar_values_safety_wit_1_split_goal_2 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (CoordInBounds gx_pre )) (PreH2 : (CoordInBounds gy_pre )) (PreH3 : (CoordInBounds a_x_pre )) (PreH4 : (CoordInBounds a_y_pre )) (PreH5 : (CoordInBounds b_x_pre )) (PreH6 : (CoordInBounds b_y_pre )) ,
   ((( &( "adx" ) )) # Int  |->_)
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((INT_MIN) <= (a_x_pre - gx_pre )) ”
 .
@@ -88,12 +80,12 @@ Definition cmp_polar_values_safety_wit_2 :=
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (CoordInBounds gx_pre )) (PreH2 : (CoordInBounds gy_pre )) (PreH3 : (CoordInBounds a_x_pre )) (PreH4 : (CoordInBounds a_y_pre )) (PreH5 : (CoordInBounds b_x_pre )) (PreH6 : (CoordInBounds b_y_pre )) ,
   ((( &( "ady" ) )) # Int  |->_)
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((a_y_pre - gy_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (a_y_pre - gy_pre )) ”
@@ -102,12 +94,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (CoordInBounds gx_pre )) (PreH2 : (CoordInBounds gy_pre )) (PreH3 : (CoordInBounds a_x_pre )) (PreH4 : (CoordInBounds a_y_pre )) (PreH5 : (CoordInBounds b_x_pre )) (PreH6 : (CoordInBounds b_y_pre )) ,
   ((( &( "ady" ) )) # Int  |->_)
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((a_y_pre - gy_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (a_y_pre - gy_pre )) ”
@@ -117,12 +109,12 @@ Definition cmp_polar_values_safety_wit_2_split_goal_1 :=
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (CoordInBounds gx_pre )) (PreH2 : (CoordInBounds gy_pre )) (PreH3 : (CoordInBounds a_x_pre )) (PreH4 : (CoordInBounds a_y_pre )) (PreH5 : (CoordInBounds b_x_pre )) (PreH6 : (CoordInBounds b_y_pre )) ,
   ((( &( "ady" ) )) # Int  |->_)
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((a_y_pre - gy_pre ) <= INT_MAX) ”
 .
@@ -131,12 +123,12 @@ Definition cmp_polar_values_safety_wit_2_split_goal_2 :=
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (CoordInBounds gx_pre )) (PreH2 : (CoordInBounds gy_pre )) (PreH3 : (CoordInBounds a_x_pre )) (PreH4 : (CoordInBounds a_y_pre )) (PreH5 : (CoordInBounds b_x_pre )) (PreH6 : (CoordInBounds b_y_pre )) ,
   ((( &( "ady" ) )) # Int  |->_)
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((INT_MIN) <= (a_y_pre - gy_pre )) ”
 .
@@ -147,12 +139,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   ((( &( "bdx" ) )) # Int  |->_)
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((b_x_pre - gx_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (b_x_pre - gx_pre )) ”
@@ -162,12 +154,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   ((( &( "bdx" ) )) # Int  |->_)
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((b_x_pre - gx_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (b_x_pre - gx_pre )) ”
@@ -178,12 +170,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   ((( &( "bdx" ) )) # Int  |->_)
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((b_x_pre - gx_pre ) <= INT_MAX) ”
 .
@@ -193,12 +185,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   ((( &( "bdx" ) )) # Int  |->_)
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((INT_MIN) <= (b_x_pre - gx_pre )) ”
 .
@@ -210,12 +202,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((b_y_pre - gy_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (b_y_pre - gy_pre )) ”
@@ -226,12 +218,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((b_y_pre - gy_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (b_y_pre - gy_pre )) ”
@@ -243,12 +235,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((b_y_pre - gy_pre ) <= INT_MAX) ”
 .
@@ -259,12 +251,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((INT_MIN) <= (b_y_pre - gy_pre )) ”
 .
@@ -277,12 +269,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) )) ”
@@ -294,12 +286,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) )) ”
@@ -312,12 +304,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= INT_MAX) ”
 .
@@ -329,12 +321,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((INT_MIN) <= (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) )) ”
 .
@@ -347,12 +339,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) )) ”
@@ -364,12 +356,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) )) ”
@@ -382,12 +374,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) <= INT_MAX) ”
 .
@@ -399,12 +391,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((INT_MIN) <= ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) )) ”
 .
@@ -417,12 +409,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) )) ”
@@ -434,12 +426,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) )) ”
@@ -452,12 +444,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) <= INT_MAX) ”
 .
@@ -469,12 +461,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((INT_MIN) <= ((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) )) ”
 .
@@ -488,12 +480,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) )) ”
@@ -506,12 +498,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) )) ”
@@ -525,12 +517,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= INT_MAX) ”
 .
@@ -543,12 +535,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((INT_MIN) <= (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) )) ”
 .
@@ -562,12 +554,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) )) ”
@@ -580,12 +572,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) )) ”
@@ -599,12 +591,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) <= INT_MAX) ”
 .
@@ -617,12 +609,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((INT_MIN) <= ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) )) ”
 .
@@ -636,12 +628,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) )) ”
@@ -654,12 +646,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) )) ”
@@ -673,12 +665,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) <= INT_MAX) ”
 .
@@ -691,12 +683,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((INT_MIN) <= ((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) )) ”
 .
@@ -711,12 +703,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) )) ”
@@ -730,12 +722,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) )) ”
@@ -750,12 +742,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ) <= INT_MAX) ”
 .
@@ -769,12 +761,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((INT_MIN) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) )) ”
 .
@@ -789,12 +781,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) )) ”
@@ -808,12 +800,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) )) ”
@@ -828,12 +820,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) <= INT_MAX) ”
 .
@@ -847,12 +839,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((INT_MIN) <= ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) )) ”
 .
@@ -867,12 +859,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) )) ”
@@ -886,12 +878,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) )) ”
@@ -906,12 +898,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) <= INT_MAX) ”
 .
@@ -925,12 +917,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((INT_MIN) <= ((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) )) ”
 .
@@ -945,12 +937,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -966,12 +958,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -987,12 +979,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -1008,12 +1000,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1029,12 +1021,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1050,12 +1042,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -1072,12 +1064,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1094,12 +1086,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1116,12 +1108,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1138,12 +1130,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1160,12 +1152,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1182,12 +1174,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1204,12 +1196,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1226,12 +1218,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1248,12 +1240,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -1270,12 +1262,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -1292,12 +1284,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -1314,12 +1306,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -1336,12 +1328,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1358,12 +1350,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1380,12 +1372,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1402,12 +1394,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1424,12 +1416,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1446,12 +1438,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1468,12 +1460,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1490,12 +1482,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1512,12 +1504,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -1534,12 +1526,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -1556,12 +1548,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -1578,12 +1570,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -1600,12 +1592,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <> (INT_MIN)) ”
 .
@@ -1621,12 +1613,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <> (INT_MIN)) ”
 .
@@ -1642,12 +1634,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <> (INT_MIN)) ”
 .
@@ -1663,12 +1655,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <> (INT_MIN)) ”
 .
@@ -1684,12 +1676,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -1706,12 +1698,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -1728,12 +1720,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -1750,12 +1742,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -1772,12 +1764,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -1794,12 +1786,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -1816,12 +1808,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -1838,12 +1830,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -1860,12 +1852,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1882,12 +1874,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1904,12 +1896,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1926,12 +1918,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1948,12 +1940,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1970,12 +1962,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1992,12 +1984,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -2014,123 +2006,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
 Definition cmp_polar_values_safety_wit_64 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_y_pre - gy_pre ) <> 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_y_pre - gy_pre ) <> 0)) (PreH5 : ((a_y_pre - gy_pre ) <= 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 0)
-  **  ((( &( "ah" ) )) # Int  |-> 0)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <> (INT_MIN)) ”
-.
-
-Definition cmp_polar_values_safety_wit_65 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_y_pre - gy_pre ) <> 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_x_pre - gx_pre ) < 0)) (PreH5 : ((a_y_pre - gy_pre ) = 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 0)
-  **  ((( &( "ah" ) )) # Int  |-> 0)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <> (INT_MIN)) ”
-.
-
-Definition cmp_polar_values_safety_wit_66 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_x_pre - gx_pre ) < 0)) (PreH3 : ((b_y_pre - gy_pre ) = 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_y_pre - gy_pre ) <> 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 0)
-  **  ((( &( "ah" ) )) # Int  |-> 0)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <> (INT_MIN)) ”
-.
-
-Definition cmp_polar_values_safety_wit_67 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_x_pre - gx_pre ) < 0)) (PreH3 : ((b_y_pre - gy_pre ) = 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_x_pre - gx_pre ) < 0)) (PreH6 : ((a_y_pre - gy_pre ) = 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 0)
-  **  ((( &( "ah" ) )) # Int  |-> 0)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <> (INT_MIN)) ”
-.
-
-Definition cmp_polar_values_safety_wit_68 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_x_pre - gx_pre ) >= 0)) (PreH3 : ((b_y_pre - gy_pre ) = 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_x_pre - gx_pre ) >= 0)) (PreH6 : ((a_y_pre - gy_pre ) = 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 1)
-  **  ((( &( "ah" ) )) # Int  |-> 1)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <> (INT_MIN)) ”
-.
-
-Definition cmp_polar_values_safety_wit_69 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_x_pre - gx_pre ) >= 0)) (PreH3 : ((b_y_pre - gy_pre ) = 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_y_pre - gy_pre ) > 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 1)
   **  ((( &( "ah" ) )) # Int  |-> 1)
@@ -2141,17 +2028,143 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
+|--
+  “ False ”
+.
+
+Definition cmp_polar_values_safety_wit_65 := 
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_x_pre - gx_pre ) >= 0)) (PreH3 : ((b_y_pre - gy_pre ) = 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_x_pre - gx_pre ) >= 0)) (PreH6 : ((a_y_pre - gy_pre ) = 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
+  ((( &( "bh" ) )) # Int  |-> 1)
+  **  ((( &( "ah" ) )) # Int  |-> 1)
+  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
+  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
+  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
+  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
+  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
+  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
+  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
+|--
+  “ False ”
+.
+
+Definition cmp_polar_values_safety_wit_66 := 
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_x_pre - gx_pre ) < 0)) (PreH3 : ((b_y_pre - gy_pre ) = 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_x_pre - gx_pre ) < 0)) (PreH6 : ((a_y_pre - gy_pre ) = 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
+  ((( &( "bh" ) )) # Int  |-> 0)
+  **  ((( &( "ah" ) )) # Int  |-> 0)
+  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
+  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
+  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
+  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
+  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
+  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
+  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
+|--
+  “ False ”
+.
+
+Definition cmp_polar_values_safety_wit_67 := 
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_x_pre - gx_pre ) < 0)) (PreH3 : ((b_y_pre - gy_pre ) = 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_y_pre - gy_pre ) <> 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
+  ((( &( "bh" ) )) # Int  |-> 0)
+  **  ((( &( "ah" ) )) # Int  |-> 0)
+  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
+  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
+  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
+  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
+  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
+  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
+  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
+|--
+  “ False ”
+.
+
+Definition cmp_polar_values_safety_wit_68 := 
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH2 : ((b_y_pre - gy_pre ) <> 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_x_pre - gx_pre ) < 0)) (PreH5 : ((a_y_pre - gy_pre ) = 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
+  ((( &( "bh" ) )) # Int  |-> 0)
+  **  ((( &( "ah" ) )) # Int  |-> 0)
+  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
+  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
+  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
+  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
+  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
+  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
+  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
+|--
+  “ False ”
+.
+
+Definition cmp_polar_values_safety_wit_69 := 
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_y_pre - gy_pre ) <> 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_y_pre - gy_pre ) <> 0)) (PreH5 : ((a_y_pre - gy_pre ) <= 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
+  ((( &( "bh" ) )) # Int  |-> 0)
+  **  ((( &( "ah" ) )) # Int  |-> 0)
+  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
+  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
+  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
+  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
+  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
+  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
+  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <> (INT_MIN)) ”
 .
 
 Definition cmp_polar_values_safety_wit_70 := 
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_y_pre - gy_pre ) <> 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_x_pre - gx_pre ) < 0)) (PreH5 : ((a_y_pre - gy_pre ) = 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
+  ((( &( "bh" ) )) # Int  |-> 0)
+  **  ((( &( "ah" ) )) # Int  |-> 0)
+  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
+  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
+  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
+  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
+  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
+  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
+  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
+|--
+  “ (1 <> (INT_MIN)) ”
+.
+
+Definition cmp_polar_values_safety_wit_71 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_y_pre - gy_pre ) > 0)) (PreH3 : ((a_x_pre - gx_pre ) >= 0)) (PreH4 : ((a_y_pre - gy_pre ) = 0)) (PreH5 : ((a_y_pre - gy_pre ) <= 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 1)
   **  ((( &( "ah" ) )) # Int  |-> 1)
@@ -2162,33 +2175,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <> (INT_MIN)) ”
-.
-
-Definition cmp_polar_values_safety_wit_71 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_y_pre - gy_pre ) > 0)) (PreH3 : ((a_y_pre - gy_pre ) > 0)) (PreH4 : (CoordInBounds gx_pre )) (PreH5 : (CoordInBounds gy_pre )) (PreH6 : (CoordInBounds a_x_pre )) (PreH7 : (CoordInBounds a_y_pre )) (PreH8 : (CoordInBounds b_x_pre )) (PreH9 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 1)
-  **  ((( &( "ah" ) )) # Int  |-> 1)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
   **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <> (INT_MIN)) ”
 .
@@ -2204,18 +2196,39 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
+|--
+  “ (1 <> (INT_MIN)) ”
+.
+
+Definition cmp_polar_values_safety_wit_73 := 
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_y_pre - gy_pre ) > 0)) (PreH3 : ((a_y_pre - gy_pre ) > 0)) (PreH4 : (CoordInBounds gx_pre )) (PreH5 : (CoordInBounds gy_pre )) (PreH6 : (CoordInBounds a_x_pre )) (PreH7 : (CoordInBounds a_y_pre )) (PreH8 : (CoordInBounds b_x_pre )) (PreH9 : (CoordInBounds b_y_pre )) ,
+  ((( &( "bh" ) )) # Int  |-> 1)
+  **  ((( &( "ah" ) )) # Int  |-> 1)
+  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
+  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
+  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
+  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
+  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
+  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
+  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition cmp_polar_values_safety_wit_73 := 
+Definition cmp_polar_values_safety_wit_74 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_y_pre - gy_pre ) > 0)) (PreH3 : ((a_x_pre - gx_pre ) >= 0)) (PreH4 : ((a_y_pre - gy_pre ) = 0)) (PreH5 : ((a_y_pre - gy_pre ) <= 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 1)
   **  ((( &( "ah" ) )) # Int  |-> 1)
@@ -2226,106 +2239,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= 1) ”
-.
-
-Definition cmp_polar_values_safety_wit_74 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_x_pre - gx_pre ) >= 0)) (PreH3 : ((b_y_pre - gy_pre ) = 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_y_pre - gy_pre ) > 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 1)
-  **  ((( &( "ah" ) )) # Int  |-> 1)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
   **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
 Definition cmp_polar_values_safety_wit_75 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_x_pre - gx_pre ) >= 0)) (PreH3 : ((b_y_pre - gy_pre ) = 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_x_pre - gx_pre ) >= 0)) (PreH6 : ((a_y_pre - gy_pre ) = 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 1)
-  **  ((( &( "ah" ) )) # Int  |-> 1)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= 1) ”
-.
-
-Definition cmp_polar_values_safety_wit_76 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_x_pre - gx_pre ) < 0)) (PreH3 : ((b_y_pre - gy_pre ) = 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_x_pre - gx_pre ) < 0)) (PreH6 : ((a_y_pre - gy_pre ) = 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 0)
-  **  ((( &( "ah" ) )) # Int  |-> 0)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= 1) ”
-.
-
-Definition cmp_polar_values_safety_wit_77 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_x_pre - gx_pre ) < 0)) (PreH3 : ((b_y_pre - gy_pre ) = 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_y_pre - gy_pre ) <> 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 0)
-  **  ((( &( "ah" ) )) # Int  |-> 0)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= 1) ”
-.
-
-Definition cmp_polar_values_safety_wit_78 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_y_pre - gy_pre ) <> 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_x_pre - gx_pre ) < 0)) (PreH5 : ((a_y_pre - gy_pre ) = 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 0)
   **  ((( &( "ah" ) )) # Int  |-> 0)
@@ -2336,18 +2261,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition cmp_polar_values_safety_wit_79 := 
+Definition cmp_polar_values_safety_wit_76 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_y_pre - gy_pre ) <> 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_y_pre - gy_pre ) <> 0)) (PreH5 : ((a_y_pre - gy_pre ) <= 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 0)
   **  ((( &( "ah" ) )) # Int  |-> 0)
@@ -2358,18 +2283,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition cmp_polar_values_safety_wit_80 := 
+Definition cmp_polar_values_safety_wit_77 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH2 : ((b_y_pre - gy_pre ) > 0)) (PreH3 : ((a_y_pre - gy_pre ) > 0)) (PreH4 : (CoordInBounds gx_pre )) (PreH5 : (CoordInBounds gy_pre )) (PreH6 : (CoordInBounds a_x_pre )) (PreH7 : (CoordInBounds a_y_pre )) (PreH8 : (CoordInBounds b_x_pre )) (PreH9 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 1)
   **  ((( &( "ah" ) )) # Int  |-> 1)
@@ -2380,18 +2305,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition cmp_polar_values_safety_wit_81 := 
+Definition cmp_polar_values_safety_wit_78 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH2 : ((b_y_pre - gy_pre ) > 0)) (PreH3 : ((a_x_pre - gx_pre ) >= 0)) (PreH4 : ((a_y_pre - gy_pre ) = 0)) (PreH5 : ((a_y_pre - gy_pre ) <= 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 1)
   **  ((( &( "ah" ) )) # Int  |-> 1)
@@ -2402,18 +2327,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition cmp_polar_values_safety_wit_82 := 
+Definition cmp_polar_values_safety_wit_79 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH2 : ((b_x_pre - gx_pre ) >= 0)) (PreH3 : ((b_y_pre - gy_pre ) = 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_y_pre - gy_pre ) > 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 1)
   **  ((( &( "ah" ) )) # Int  |-> 1)
@@ -2424,18 +2349,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition cmp_polar_values_safety_wit_83 := 
+Definition cmp_polar_values_safety_wit_80 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH2 : ((b_x_pre - gx_pre ) >= 0)) (PreH3 : ((b_y_pre - gy_pre ) = 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_x_pre - gx_pre ) >= 0)) (PreH6 : ((a_y_pre - gy_pre ) = 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 1)
   **  ((( &( "ah" ) )) # Int  |-> 1)
@@ -2446,18 +2371,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition cmp_polar_values_safety_wit_84 := 
+Definition cmp_polar_values_safety_wit_81 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH2 : ((b_x_pre - gx_pre ) < 0)) (PreH3 : ((b_y_pre - gy_pre ) = 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_x_pre - gx_pre ) < 0)) (PreH6 : ((a_y_pre - gy_pre ) = 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 0)
   **  ((( &( "ah" ) )) # Int  |-> 0)
@@ -2468,18 +2393,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition cmp_polar_values_safety_wit_85 := 
+Definition cmp_polar_values_safety_wit_82 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH2 : ((b_x_pre - gx_pre ) < 0)) (PreH3 : ((b_y_pre - gy_pre ) = 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_y_pre - gy_pre ) <> 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 0)
   **  ((( &( "ah" ) )) # Int  |-> 0)
@@ -2490,40 +2415,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition cmp_polar_values_safety_wit_86 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH2 : ((b_y_pre - gy_pre ) <> 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_x_pre - gx_pre ) < 0)) (PreH5 : ((a_y_pre - gy_pre ) = 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 0)
-  **  ((( &( "ah" ) )) # Int  |-> 0)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (0 <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= 0) ”
-.
-
-Definition cmp_polar_values_safety_wit_87 := 
+Definition cmp_polar_values_safety_wit_83 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH2 : ((b_y_pre - gy_pre ) <> 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_y_pre - gy_pre ) <> 0)) (PreH5 : ((a_y_pre - gy_pre ) <= 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 0)
   **  ((( &( "ah" ) )) # Int  |-> 0)
@@ -2534,15 +2437,99 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
+.
+
+Definition cmp_polar_values_safety_wit_84 := 
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_y_pre - gy_pre ) > 0)) (PreH4 : ((a_x_pre - gx_pre ) >= 0)) (PreH5 : ((a_y_pre - gy_pre ) = 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
+  ((( &( "bh" ) )) # Int  |-> 1)
+  **  ((( &( "ah" ) )) # Int  |-> 1)
+  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
+  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
+  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
+  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
+  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
+  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
+  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
+|--
+  “ False ”
+.
+
+Definition cmp_polar_values_safety_wit_85 := 
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_x_pre - gx_pre ) >= 0)) (PreH4 : ((b_y_pre - gy_pre ) = 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_x_pre - gx_pre ) >= 0)) (PreH7 : ((a_y_pre - gy_pre ) = 0)) (PreH8 : ((a_y_pre - gy_pre ) <= 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
+  ((( &( "bh" ) )) # Int  |-> 1)
+  **  ((( &( "ah" ) )) # Int  |-> 1)
+  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
+  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
+  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
+  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
+  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
+  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
+  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
+|--
+  “ False ”
+.
+
+Definition cmp_polar_values_safety_wit_86 := 
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_x_pre - gx_pre ) < 0)) (PreH4 : ((b_y_pre - gy_pre ) = 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_x_pre - gx_pre ) < 0)) (PreH7 : ((a_y_pre - gy_pre ) = 0)) (PreH8 : ((a_y_pre - gy_pre ) <= 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
+  ((( &( "bh" ) )) # Int  |-> 0)
+  **  ((( &( "ah" ) )) # Int  |-> 0)
+  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
+  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
+  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
+  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
+  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
+  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
+  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
+|--
+  “ False ”
+.
+
+Definition cmp_polar_values_safety_wit_87 := 
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_x_pre - gx_pre ) < 0)) (PreH4 : ((b_y_pre - gy_pre ) = 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_y_pre - gy_pre ) <> 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
+  ((( &( "bh" ) )) # Int  |-> 0)
+  **  ((( &( "ah" ) )) # Int  |-> 0)
+  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
+  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
+  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
+  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
+  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
+  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
+  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
+|--
+  “ False ”
 .
 
 Definition cmp_polar_values_safety_wit_88 := 
@@ -2556,40 +2543,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
 Definition cmp_polar_values_safety_wit_89 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_y_pre - gy_pre ) > 0)) (PreH4 : ((a_x_pre - gx_pre ) >= 0)) (PreH5 : ((a_y_pre - gy_pre ) = 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 1)
-  **  ((( &( "ah" ) )) # Int  |-> 1)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= 1) ”
-.
-
-Definition cmp_polar_values_safety_wit_90 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_x_pre - gx_pre ) >= 0)) (PreH4 : ((b_y_pre - gy_pre ) = 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_y_pre - gy_pre ) > 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 1)
   **  ((( &( "ah" ) )) # Int  |-> 1)
@@ -2600,62 +2565,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition cmp_polar_values_safety_wit_91 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_x_pre - gx_pre ) >= 0)) (PreH4 : ((b_y_pre - gy_pre ) = 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_x_pre - gx_pre ) >= 0)) (PreH7 : ((a_y_pre - gy_pre ) = 0)) (PreH8 : ((a_y_pre - gy_pre ) <= 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 1)
-  **  ((( &( "ah" ) )) # Int  |-> 1)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= 1) ”
-.
-
-Definition cmp_polar_values_safety_wit_92 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_x_pre - gx_pre ) < 0)) (PreH4 : ((b_y_pre - gy_pre ) = 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_x_pre - gx_pre ) < 0)) (PreH7 : ((a_y_pre - gy_pre ) = 0)) (PreH8 : ((a_y_pre - gy_pre ) <= 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 0)
-  **  ((( &( "ah" ) )) # Int  |-> 0)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= 1) ”
-.
-
-Definition cmp_polar_values_safety_wit_93 := 
+Definition cmp_polar_values_safety_wit_90 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_x_pre - gx_pre ) < 0)) (PreH4 : ((b_y_pre - gy_pre ) = 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_y_pre - gy_pre ) <> 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 0)
   **  ((( &( "ah" ) )) # Int  |-> 0)
@@ -2666,40 +2587,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition cmp_polar_values_safety_wit_94 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_y_pre - gy_pre ) <> 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_x_pre - gx_pre ) < 0)) (PreH6 : ((a_y_pre - gy_pre ) = 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 0)
-  **  ((( &( "ah" ) )) # Int  |-> 0)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= 1) ”
-.
-
-Definition cmp_polar_values_safety_wit_95 := 
+Definition cmp_polar_values_safety_wit_91 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_y_pre - gy_pre ) <> 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_y_pre - gy_pre ) <> 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 0)
   **  ((( &( "ah" ) )) # Int  |-> 0)
@@ -2710,18 +2609,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition cmp_polar_values_safety_wit_96 := 
+Definition cmp_polar_values_safety_wit_92 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_y_pre - gy_pre ) <> 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_y_pre - gy_pre ) <> 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 0)
   **  ((( &( "ah" ) )) # Int  |-> 0)
@@ -2732,20 +2631,104 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
+|--
+  “ (1 <> (INT_MIN)) ”
+.
+
+Definition cmp_polar_values_safety_wit_93 := 
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_x_pre - gx_pre ) < 0)) (PreH5 : ((b_y_pre - gy_pre ) = 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_x_pre - gx_pre ) < 0)) (PreH8 : ((a_y_pre - gy_pre ) = 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
+  ((( &( "bh" ) )) # Int  |-> 0)
+  **  ((( &( "ah" ) )) # Int  |-> 0)
+  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
+  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
+  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
+  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
+  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
+  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
+  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
+|--
+  “ (1 <> (INT_MIN)) ”
+.
+
+Definition cmp_polar_values_safety_wit_94 := 
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_x_pre - gx_pre ) >= 0)) (PreH5 : ((b_y_pre - gy_pre ) = 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_x_pre - gx_pre ) >= 0)) (PreH8 : ((a_y_pre - gy_pre ) = 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
+  ((( &( "bh" ) )) # Int  |-> 1)
+  **  ((( &( "ah" ) )) # Int  |-> 1)
+  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
+  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
+  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
+  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
+  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
+  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
+  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
+|--
+  “ (1 <> (INT_MIN)) ”
+.
+
+Definition cmp_polar_values_safety_wit_95 := 
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_x_pre - gx_pre ) >= 0)) (PreH5 : ((b_y_pre - gy_pre ) = 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_y_pre - gy_pre ) > 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
+  ((( &( "bh" ) )) # Int  |-> 1)
+  **  ((( &( "ah" ) )) # Int  |-> 1)
+  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
+  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
+  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
+  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
+  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
+  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
+  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
+|--
+  “ (1 <> (INT_MIN)) ”
+.
+
+Definition cmp_polar_values_safety_wit_96 := 
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_y_pre - gy_pre ) > 0)) (PreH5 : ((a_x_pre - gx_pre ) >= 0)) (PreH6 : ((a_y_pre - gy_pre ) = 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
+  ((( &( "bh" ) )) # Int  |-> 1)
+  **  ((( &( "ah" ) )) # Int  |-> 1)
+  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
+  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
+  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
+  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
+  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
+  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
+  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <> (INT_MIN)) ”
 .
 
 Definition cmp_polar_values_safety_wit_97 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_y_pre - gy_pre ) <> 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_x_pre - gx_pre ) < 0)) (PreH7 : ((a_y_pre - gy_pre ) = 0)) (PreH8 : ((a_y_pre - gy_pre ) <= 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 0)
-  **  ((( &( "ah" ) )) # Int  |-> 0)
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_y_pre - gy_pre ) > 0)) (PreH5 : ((a_y_pre - gy_pre ) > 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
+  ((( &( "bh" ) )) # Int  |-> 1)
+  **  ((( &( "ah" ) )) # Int  |-> 1)
   **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
   **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
   **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
@@ -2753,20 +2736,20 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <> (INT_MIN)) ”
 .
 
 Definition cmp_polar_values_safety_wit_98 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_x_pre - gx_pre ) < 0)) (PreH5 : ((b_y_pre - gy_pre ) = 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_y_pre - gy_pre ) <> 0)) (PreH8 : ((a_y_pre - gy_pre ) <= 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 0)
-  **  ((( &( "ah" ) )) # Int  |-> 0)
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_y_pre - gy_pre ) > 0)) (PreH5 : ((a_y_pre - gy_pre ) > 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
+  ((( &( "bh" ) )) # Int  |-> 1)
+  **  ((( &( "ah" ) )) # Int  |-> 1)
   **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
   **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
   **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
@@ -2774,20 +2757,21 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
-  “ (1 <> (INT_MIN)) ”
+  “ (1 <= INT_MAX) ” 
+  &&  “ ((INT_MIN) <= 1) ”
 .
 
 Definition cmp_polar_values_safety_wit_99 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_x_pre - gx_pre ) < 0)) (PreH5 : ((b_y_pre - gy_pre ) = 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_x_pre - gx_pre ) < 0)) (PreH8 : ((a_y_pre - gy_pre ) = 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 0)
-  **  ((( &( "ah" ) )) # Int  |-> 0)
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_y_pre - gy_pre ) > 0)) (PreH5 : ((a_x_pre - gx_pre ) >= 0)) (PreH6 : ((a_y_pre - gy_pre ) = 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
+  ((( &( "bh" ) )) # Int  |-> 1)
+  **  ((( &( "ah" ) )) # Int  |-> 1)
   **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
   **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
   **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
@@ -2795,18 +2779,19 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
-  “ (1 <> (INT_MIN)) ”
+  “ (1 <= INT_MAX) ” 
+  &&  “ ((INT_MIN) <= 1) ”
 .
 
 Definition cmp_polar_values_safety_wit_100 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_x_pre - gx_pre ) >= 0)) (PreH5 : ((b_y_pre - gy_pre ) = 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_x_pre - gx_pre ) >= 0)) (PreH8 : ((a_y_pre - gy_pre ) = 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_x_pre - gx_pre ) >= 0)) (PreH5 : ((b_y_pre - gy_pre ) = 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_y_pre - gy_pre ) > 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 1)
   **  ((( &( "ah" ) )) # Int  |-> 1)
   **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
@@ -2816,146 +2801,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
-  “ (1 <> (INT_MIN)) ”
+  “ (1 <= INT_MAX) ” 
+  &&  “ ((INT_MIN) <= 1) ”
 .
 
 Definition cmp_polar_values_safety_wit_101 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_x_pre - gx_pre ) >= 0)) (PreH5 : ((b_y_pre - gy_pre ) = 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_y_pre - gy_pre ) > 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 1)
-  **  ((( &( "ah" ) )) # Int  |-> 1)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <> (INT_MIN)) ”
-.
-
-Definition cmp_polar_values_safety_wit_102 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_y_pre - gy_pre ) > 0)) (PreH5 : ((a_x_pre - gx_pre ) >= 0)) (PreH6 : ((a_y_pre - gy_pre ) = 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 1)
-  **  ((( &( "ah" ) )) # Int  |-> 1)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <> (INT_MIN)) ”
-.
-
-Definition cmp_polar_values_safety_wit_103 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_y_pre - gy_pre ) > 0)) (PreH5 : ((a_y_pre - gy_pre ) > 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 1)
-  **  ((( &( "ah" ) )) # Int  |-> 1)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <> (INT_MIN)) ”
-.
-
-Definition cmp_polar_values_safety_wit_104 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_y_pre - gy_pre ) > 0)) (PreH5 : ((a_y_pre - gy_pre ) > 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 1)
-  **  ((( &( "ah" ) )) # Int  |-> 1)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= 1) ”
-.
-
-Definition cmp_polar_values_safety_wit_105 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_y_pre - gy_pre ) > 0)) (PreH5 : ((a_x_pre - gx_pre ) >= 0)) (PreH6 : ((a_y_pre - gy_pre ) = 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 1)
-  **  ((( &( "ah" ) )) # Int  |-> 1)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= 1) ”
-.
-
-Definition cmp_polar_values_safety_wit_106 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_x_pre - gx_pre ) >= 0)) (PreH5 : ((b_y_pre - gy_pre ) = 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_y_pre - gy_pre ) > 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 1)
-  **  ((( &( "ah" ) )) # Int  |-> 1)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= 1) ”
-.
-
-Definition cmp_polar_values_safety_wit_107 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_x_pre - gx_pre ) >= 0)) (PreH5 : ((b_y_pre - gy_pre ) = 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_x_pre - gx_pre ) >= 0)) (PreH8 : ((a_y_pre - gy_pre ) = 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 1)
   **  ((( &( "ah" ) )) # Int  |-> 1)
@@ -2966,18 +2823,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition cmp_polar_values_safety_wit_108 := 
+Definition cmp_polar_values_safety_wit_102 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_x_pre - gx_pre ) < 0)) (PreH5 : ((b_y_pre - gy_pre ) = 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_x_pre - gx_pre ) < 0)) (PreH8 : ((a_y_pre - gy_pre ) = 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 0)
   **  ((( &( "ah" ) )) # Int  |-> 0)
@@ -2988,62 +2845,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition cmp_polar_values_safety_wit_109 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_x_pre - gx_pre ) < 0)) (PreH5 : ((b_y_pre - gy_pre ) = 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_y_pre - gy_pre ) <> 0)) (PreH8 : ((a_y_pre - gy_pre ) <= 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 0)
-  **  ((( &( "ah" ) )) # Int  |-> 0)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= 1) ”
-.
-
-Definition cmp_polar_values_safety_wit_110 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_y_pre - gy_pre ) <> 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_x_pre - gx_pre ) < 0)) (PreH7 : ((a_y_pre - gy_pre ) = 0)) (PreH8 : ((a_y_pre - gy_pre ) <= 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 0)
-  **  ((( &( "ah" ) )) # Int  |-> 0)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= 1) ”
-.
-
-Definition cmp_polar_values_safety_wit_111 := 
+Definition cmp_polar_values_safety_wit_103 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_y_pre - gy_pre ) <> 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_y_pre - gy_pre ) <> 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 0)
   **  ((( &( "ah" ) )) # Int  |-> 0)
@@ -3054,18 +2867,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition cmp_polar_values_safety_wit_112 := 
+Definition cmp_polar_values_safety_wit_104 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_y_pre - gy_pre ) > 0)) (PreH6 : ((a_y_pre - gy_pre ) > 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 1)
   **  ((( &( "ah" ) )) # Int  |-> 1)
@@ -3076,18 +2889,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition cmp_polar_values_safety_wit_113 := 
+Definition cmp_polar_values_safety_wit_105 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_y_pre - gy_pre ) > 0)) (PreH6 : ((a_x_pre - gx_pre ) >= 0)) (PreH7 : ((a_y_pre - gy_pre ) = 0)) (PreH8 : ((a_y_pre - gy_pre ) <= 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 1)
   **  ((( &( "ah" ) )) # Int  |-> 1)
@@ -3098,18 +2911,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition cmp_polar_values_safety_wit_114 := 
+Definition cmp_polar_values_safety_wit_106 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_x_pre - gx_pre ) >= 0)) (PreH6 : ((b_y_pre - gy_pre ) = 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_y_pre - gy_pre ) > 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 1)
   **  ((( &( "ah" ) )) # Int  |-> 1)
@@ -3120,18 +2933,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition cmp_polar_values_safety_wit_115 := 
+Definition cmp_polar_values_safety_wit_107 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_x_pre - gx_pre ) >= 0)) (PreH6 : ((b_y_pre - gy_pre ) = 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_x_pre - gx_pre ) >= 0)) (PreH9 : ((a_y_pre - gy_pre ) = 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 1)
   **  ((( &( "ah" ) )) # Int  |-> 1)
@@ -3142,18 +2955,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition cmp_polar_values_safety_wit_116 := 
+Definition cmp_polar_values_safety_wit_108 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_x_pre - gx_pre ) < 0)) (PreH6 : ((b_y_pre - gy_pre ) = 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_x_pre - gx_pre ) < 0)) (PreH9 : ((a_y_pre - gy_pre ) = 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 0)
   **  ((( &( "ah" ) )) # Int  |-> 0)
@@ -3164,62 +2977,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition cmp_polar_values_safety_wit_117 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_x_pre - gx_pre ) < 0)) (PreH6 : ((b_y_pre - gy_pre ) = 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_y_pre - gy_pre ) <> 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 0)
-  **  ((( &( "ah" ) )) # Int  |-> 0)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= 1) ”
-.
-
-Definition cmp_polar_values_safety_wit_118 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_y_pre - gy_pre ) <> 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_x_pre - gx_pre ) < 0)) (PreH8 : ((a_y_pre - gy_pre ) = 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 0)
-  **  ((( &( "ah" ) )) # Int  |-> 0)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= 1) ”
-.
-
-Definition cmp_polar_values_safety_wit_119 := 
+Definition cmp_polar_values_safety_wit_109 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_y_pre - gy_pre ) <> 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_y_pre - gy_pre ) <> 0)) (PreH8 : ((a_y_pre - gy_pre ) <= 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 0)
   **  ((( &( "ah" ) )) # Int  |-> 0)
@@ -3230,19 +2999,233 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
+|--
+  “ (1 <= INT_MAX) ” 
+  &&  “ ((INT_MIN) <= 1) ”
+.
+
+Definition cmp_polar_values_safety_wit_110 := 
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_y_pre - gy_pre ) <> 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_y_pre - gy_pre ) <> 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
+  ((( &( "bh" ) )) # Int  |-> 0)
+  **  ((( &( "ah" ) )) # Int  |-> 0)
+  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
+  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
+  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
+  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
+  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
+  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
+  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
+|--
+  “ (1 <> (INT_MIN)) ”
+.
+
+Definition cmp_polar_values_safety_wit_111 := 
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_x_pre - gx_pre ) < 0)) (PreH7 : ((b_y_pre - gy_pre ) = 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_x_pre - gx_pre ) < 0)) (PreH10 : ((a_y_pre - gy_pre ) = 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
+  ((( &( "bh" ) )) # Int  |-> 0)
+  **  ((( &( "ah" ) )) # Int  |-> 0)
+  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
+  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
+  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
+  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
+  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
+  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
+  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
+|--
+  “ (1 <> (INT_MIN)) ”
+.
+
+Definition cmp_polar_values_safety_wit_112 := 
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_x_pre - gx_pre ) >= 0)) (PreH7 : ((b_y_pre - gy_pre ) = 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_x_pre - gx_pre ) >= 0)) (PreH10 : ((a_y_pre - gy_pre ) = 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
+  ((( &( "bh" ) )) # Int  |-> 1)
+  **  ((( &( "ah" ) )) # Int  |-> 1)
+  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
+  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
+  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
+  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
+  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
+  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
+  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
+|--
+  “ (1 <> (INT_MIN)) ”
+.
+
+Definition cmp_polar_values_safety_wit_113 := 
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_x_pre - gx_pre ) >= 0)) (PreH7 : ((b_y_pre - gy_pre ) = 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_y_pre - gy_pre ) > 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
+  ((( &( "bh" ) )) # Int  |-> 1)
+  **  ((( &( "ah" ) )) # Int  |-> 1)
+  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
+  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
+  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
+  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
+  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
+  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
+  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
+|--
+  “ (1 <> (INT_MIN)) ”
+.
+
+Definition cmp_polar_values_safety_wit_114 := 
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_y_pre - gy_pre ) > 0)) (PreH7 : ((a_x_pre - gx_pre ) >= 0)) (PreH8 : ((a_y_pre - gy_pre ) = 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
+  ((( &( "bh" ) )) # Int  |-> 1)
+  **  ((( &( "ah" ) )) # Int  |-> 1)
+  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
+  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
+  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
+  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
+  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
+  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
+  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
+|--
+  “ (1 <> (INT_MIN)) ”
+.
+
+Definition cmp_polar_values_safety_wit_115 := 
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_y_pre - gy_pre ) > 0)) (PreH7 : ((a_y_pre - gy_pre ) > 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
+  ((( &( "bh" ) )) # Int  |-> 1)
+  **  ((( &( "ah" ) )) # Int  |-> 1)
+  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
+  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
+  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
+  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
+  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
+  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
+  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
+|--
+  “ (1 <> (INT_MIN)) ”
+.
+
+Definition cmp_polar_values_safety_wit_116 := 
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_y_pre - gy_pre ) > 0)) (PreH7 : ((a_y_pre - gy_pre ) > 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
+  ((( &( "bh" ) )) # Int  |-> 1)
+  **  ((( &( "ah" ) )) # Int  |-> 1)
+  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
+  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
+  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
+  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
+  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
+  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
+  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
+|--
+  “ (1 <= INT_MAX) ” 
+  &&  “ ((INT_MIN) <= 1) ”
+.
+
+Definition cmp_polar_values_safety_wit_117 := 
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_y_pre - gy_pre ) > 0)) (PreH7 : ((a_x_pre - gx_pre ) >= 0)) (PreH8 : ((a_y_pre - gy_pre ) = 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
+  ((( &( "bh" ) )) # Int  |-> 1)
+  **  ((( &( "ah" ) )) # Int  |-> 1)
+  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
+  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
+  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
+  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
+  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
+  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
+  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
+|--
+  “ (1 <= INT_MAX) ” 
+  &&  “ ((INT_MIN) <= 1) ”
+.
+
+Definition cmp_polar_values_safety_wit_118 := 
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_x_pre - gx_pre ) >= 0)) (PreH7 : ((b_y_pre - gy_pre ) = 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_y_pre - gy_pre ) > 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
+  ((( &( "bh" ) )) # Int  |-> 1)
+  **  ((( &( "ah" ) )) # Int  |-> 1)
+  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
+  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
+  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
+  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
+  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
+  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
+  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
+|--
+  “ (1 <= INT_MAX) ” 
+  &&  “ ((INT_MIN) <= 1) ”
+.
+
+Definition cmp_polar_values_safety_wit_119 := 
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_x_pre - gx_pre ) >= 0)) (PreH7 : ((b_y_pre - gy_pre ) = 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_x_pre - gx_pre ) >= 0)) (PreH10 : ((a_y_pre - gy_pre ) = 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
+  ((( &( "bh" ) )) # Int  |-> 1)
+  **  ((( &( "ah" ) )) # Int  |-> 1)
+  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
+  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
+  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
+  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
+  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
+  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
+  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
 Definition cmp_polar_values_safety_wit_120 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_y_pre - gy_pre ) <> 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_y_pre - gy_pre ) <> 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_x_pre - gx_pre ) < 0)) (PreH7 : ((b_y_pre - gy_pre ) = 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_x_pre - gx_pre ) < 0)) (PreH10 : ((a_y_pre - gy_pre ) = 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 0)
   **  ((( &( "ah" ) )) # Int  |-> 0)
   **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
@@ -3252,318 +3235,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
-  “ (1 <> (INT_MIN)) ”
+  “ (1 <= INT_MAX) ” 
+  &&  “ ((INT_MIN) <= 1) ”
 .
 
 Definition cmp_polar_values_safety_wit_121 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_y_pre - gy_pre ) <> 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_x_pre - gx_pre ) < 0)) (PreH9 : ((a_y_pre - gy_pre ) = 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 0)
-  **  ((( &( "ah" ) )) # Int  |-> 0)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <> (INT_MIN)) ”
-.
-
-Definition cmp_polar_values_safety_wit_122 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_x_pre - gx_pre ) < 0)) (PreH7 : ((b_y_pre - gy_pre ) = 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_y_pre - gy_pre ) <> 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 0)
-  **  ((( &( "ah" ) )) # Int  |-> 0)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <> (INT_MIN)) ”
-.
-
-Definition cmp_polar_values_safety_wit_123 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_x_pre - gx_pre ) < 0)) (PreH7 : ((b_y_pre - gy_pre ) = 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_x_pre - gx_pre ) < 0)) (PreH10 : ((a_y_pre - gy_pre ) = 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 0)
-  **  ((( &( "ah" ) )) # Int  |-> 0)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <> (INT_MIN)) ”
-.
-
-Definition cmp_polar_values_safety_wit_124 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_x_pre - gx_pre ) >= 0)) (PreH7 : ((b_y_pre - gy_pre ) = 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_x_pre - gx_pre ) >= 0)) (PreH10 : ((a_y_pre - gy_pre ) = 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 1)
-  **  ((( &( "ah" ) )) # Int  |-> 1)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <> (INT_MIN)) ”
-.
-
-Definition cmp_polar_values_safety_wit_125 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_x_pre - gx_pre ) >= 0)) (PreH7 : ((b_y_pre - gy_pre ) = 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_y_pre - gy_pre ) > 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 1)
-  **  ((( &( "ah" ) )) # Int  |-> 1)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <> (INT_MIN)) ”
-.
-
-Definition cmp_polar_values_safety_wit_126 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_y_pre - gy_pre ) > 0)) (PreH7 : ((a_x_pre - gx_pre ) >= 0)) (PreH8 : ((a_y_pre - gy_pre ) = 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 1)
-  **  ((( &( "ah" ) )) # Int  |-> 1)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <> (INT_MIN)) ”
-.
-
-Definition cmp_polar_values_safety_wit_127 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_y_pre - gy_pre ) > 0)) (PreH7 : ((a_y_pre - gy_pre ) > 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 1)
-  **  ((( &( "ah" ) )) # Int  |-> 1)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <> (INT_MIN)) ”
-.
-
-Definition cmp_polar_values_safety_wit_128 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_y_pre - gy_pre ) > 0)) (PreH7 : ((a_y_pre - gy_pre ) > 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 1)
-  **  ((( &( "ah" ) )) # Int  |-> 1)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= 1) ”
-.
-
-Definition cmp_polar_values_safety_wit_129 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_y_pre - gy_pre ) > 0)) (PreH7 : ((a_x_pre - gx_pre ) >= 0)) (PreH8 : ((a_y_pre - gy_pre ) = 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 1)
-  **  ((( &( "ah" ) )) # Int  |-> 1)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= 1) ”
-.
-
-Definition cmp_polar_values_safety_wit_130 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_x_pre - gx_pre ) >= 0)) (PreH7 : ((b_y_pre - gy_pre ) = 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_y_pre - gy_pre ) > 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 1)
-  **  ((( &( "ah" ) )) # Int  |-> 1)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= 1) ”
-.
-
-Definition cmp_polar_values_safety_wit_131 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_x_pre - gx_pre ) >= 0)) (PreH7 : ((b_y_pre - gy_pre ) = 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_x_pre - gx_pre ) >= 0)) (PreH10 : ((a_y_pre - gy_pre ) = 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 1)
-  **  ((( &( "ah" ) )) # Int  |-> 1)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= 1) ”
-.
-
-Definition cmp_polar_values_safety_wit_132 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_x_pre - gx_pre ) < 0)) (PreH7 : ((b_y_pre - gy_pre ) = 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_x_pre - gx_pre ) < 0)) (PreH10 : ((a_y_pre - gy_pre ) = 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 0)
-  **  ((( &( "ah" ) )) # Int  |-> 0)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= 1) ”
-.
-
-Definition cmp_polar_values_safety_wit_133 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_x_pre - gx_pre ) < 0)) (PreH7 : ((b_y_pre - gy_pre ) = 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_y_pre - gy_pre ) <> 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 0)
-  **  ((( &( "ah" ) )) # Int  |-> 0)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= 1) ”
-.
-
-Definition cmp_polar_values_safety_wit_134 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_y_pre - gy_pre ) <> 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_x_pre - gx_pre ) < 0)) (PreH9 : ((a_y_pre - gy_pre ) = 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 0)
-  **  ((( &( "ah" ) )) # Int  |-> 0)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= 1) ”
-.
-
-Definition cmp_polar_values_safety_wit_135 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_y_pre - gy_pre ) <> 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_y_pre - gy_pre ) <> 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 0)
   **  ((( &( "ah" ) )) # Int  |-> 0)
@@ -3574,18 +3257,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition cmp_polar_values_safety_wit_136 := 
+Definition cmp_polar_values_safety_wit_122 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_y_pre - gy_pre ) > 0)) (PreH8 : ((a_y_pre - gy_pre ) > 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 1)
   **  ((( &( "ah" ) )) # Int  |-> 1)
@@ -3596,18 +3279,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition cmp_polar_values_safety_wit_137 := 
+Definition cmp_polar_values_safety_wit_123 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_y_pre - gy_pre ) > 0)) (PreH8 : ((a_x_pre - gx_pre ) >= 0)) (PreH9 : ((a_y_pre - gy_pre ) = 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 1)
   **  ((( &( "ah" ) )) # Int  |-> 1)
@@ -3618,18 +3301,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition cmp_polar_values_safety_wit_138 := 
+Definition cmp_polar_values_safety_wit_124 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_x_pre - gx_pre ) >= 0)) (PreH8 : ((b_y_pre - gy_pre ) = 0)) (PreH9 : ((b_y_pre - gy_pre ) <= 0)) (PreH10 : ((a_y_pre - gy_pre ) > 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 1)
   **  ((( &( "ah" ) )) # Int  |-> 1)
@@ -3640,18 +3323,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition cmp_polar_values_safety_wit_139 := 
+Definition cmp_polar_values_safety_wit_125 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_x_pre - gx_pre ) >= 0)) (PreH8 : ((b_y_pre - gy_pre ) = 0)) (PreH9 : ((b_y_pre - gy_pre ) <= 0)) (PreH10 : ((a_x_pre - gx_pre ) >= 0)) (PreH11 : ((a_y_pre - gy_pre ) = 0)) (PreH12 : ((a_y_pre - gy_pre ) <= 0)) (PreH13 : (CoordInBounds gx_pre )) (PreH14 : (CoordInBounds gy_pre )) (PreH15 : (CoordInBounds a_x_pre )) (PreH16 : (CoordInBounds a_y_pre )) (PreH17 : (CoordInBounds b_x_pre )) (PreH18 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 1)
   **  ((( &( "ah" ) )) # Int  |-> 1)
@@ -3662,18 +3345,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition cmp_polar_values_safety_wit_140 := 
+Definition cmp_polar_values_safety_wit_126 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_x_pre - gx_pre ) < 0)) (PreH8 : ((b_y_pre - gy_pre ) = 0)) (PreH9 : ((b_y_pre - gy_pre ) <= 0)) (PreH10 : ((a_x_pre - gx_pre ) < 0)) (PreH11 : ((a_y_pre - gy_pre ) = 0)) (PreH12 : ((a_y_pre - gy_pre ) <= 0)) (PreH13 : (CoordInBounds gx_pre )) (PreH14 : (CoordInBounds gy_pre )) (PreH15 : (CoordInBounds a_x_pre )) (PreH16 : (CoordInBounds a_y_pre )) (PreH17 : (CoordInBounds b_x_pre )) (PreH18 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 0)
   **  ((( &( "ah" ) )) # Int  |-> 0)
@@ -3684,62 +3367,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition cmp_polar_values_safety_wit_141 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_x_pre - gx_pre ) < 0)) (PreH8 : ((b_y_pre - gy_pre ) = 0)) (PreH9 : ((b_y_pre - gy_pre ) <= 0)) (PreH10 : ((a_y_pre - gy_pre ) <> 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 0)
-  **  ((( &( "ah" ) )) # Int  |-> 0)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= 1) ”
-.
-
-Definition cmp_polar_values_safety_wit_142 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_y_pre - gy_pre ) <> 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_x_pre - gx_pre ) < 0)) (PreH10 : ((a_y_pre - gy_pre ) = 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 0)
-  **  ((( &( "ah" ) )) # Int  |-> 0)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= 1) ”
-.
-
-Definition cmp_polar_values_safety_wit_143 := 
+Definition cmp_polar_values_safety_wit_127 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_y_pre - gy_pre ) <> 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_y_pre - gy_pre ) <> 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 0)
   **  ((( &( "ah" ) )) # Int  |-> 0)
@@ -3750,18 +3389,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition cmp_polar_values_safety_wit_144 := 
+Definition cmp_polar_values_safety_wit_128 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre >= b_y_pre)) (PreH2 : (a_x_pre <= b_x_pre)) (PreH3 : (a_x_pre >= b_x_pre)) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH8 : ((b_y_pre - gy_pre ) > 0)) (PreH9 : ((a_x_pre - gx_pre ) >= 0)) (PreH10 : ((a_y_pre - gy_pre ) = 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 1)
   **  ((( &( "ah" ) )) # Int  |-> 1)
@@ -3772,17 +3411,17 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ False ”
 .
 
-Definition cmp_polar_values_safety_wit_145 := 
+Definition cmp_polar_values_safety_wit_129 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre < b_y_pre)) (PreH2 : (a_x_pre <= b_x_pre)) (PreH3 : (a_x_pre >= b_x_pre)) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH8 : ((b_x_pre - gx_pre ) >= 0)) (PreH9 : ((b_y_pre - gy_pre ) = 0)) (PreH10 : ((b_y_pre - gy_pre ) <= 0)) (PreH11 : ((a_y_pre - gy_pre ) > 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 1)
   **  ((( &( "ah" ) )) # Int  |-> 1)
@@ -3793,17 +3432,17 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ False ”
 .
 
-Definition cmp_polar_values_safety_wit_146 := 
+Definition cmp_polar_values_safety_wit_130 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre < b_y_pre)) (PreH2 : (a_x_pre <= b_x_pre)) (PreH3 : (a_x_pre >= b_x_pre)) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH8 : ((b_x_pre - gx_pre ) >= 0)) (PreH9 : ((b_y_pre - gy_pre ) = 0)) (PreH10 : ((b_y_pre - gy_pre ) <= 0)) (PreH11 : ((a_x_pre - gx_pre ) >= 0)) (PreH12 : ((a_y_pre - gy_pre ) = 0)) (PreH13 : ((a_y_pre - gy_pre ) <= 0)) (PreH14 : (CoordInBounds gx_pre )) (PreH15 : (CoordInBounds gy_pre )) (PreH16 : (CoordInBounds a_x_pre )) (PreH17 : (CoordInBounds a_y_pre )) (PreH18 : (CoordInBounds b_x_pre )) (PreH19 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 1)
   **  ((( &( "ah" ) )) # Int  |-> 1)
@@ -3814,17 +3453,17 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ False ”
 .
 
-Definition cmp_polar_values_safety_wit_147 := 
+Definition cmp_polar_values_safety_wit_131 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre < b_y_pre)) (PreH2 : (a_x_pre <= b_x_pre)) (PreH3 : (a_x_pre >= b_x_pre)) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH8 : ((b_x_pre - gx_pre ) < 0)) (PreH9 : ((b_y_pre - gy_pre ) = 0)) (PreH10 : ((b_y_pre - gy_pre ) <= 0)) (PreH11 : ((a_x_pre - gx_pre ) < 0)) (PreH12 : ((a_y_pre - gy_pre ) = 0)) (PreH13 : ((a_y_pre - gy_pre ) <= 0)) (PreH14 : (CoordInBounds gx_pre )) (PreH15 : (CoordInBounds gy_pre )) (PreH16 : (CoordInBounds a_x_pre )) (PreH17 : (CoordInBounds a_y_pre )) (PreH18 : (CoordInBounds b_x_pre )) (PreH19 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 0)
   **  ((( &( "ah" ) )) # Int  |-> 0)
@@ -3835,59 +3474,17 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ False ”
 .
 
-Definition cmp_polar_values_safety_wit_148 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre >= b_y_pre)) (PreH2 : (a_x_pre <= b_x_pre)) (PreH3 : (a_x_pre >= b_x_pre)) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH8 : ((b_x_pre - gx_pre ) < 0)) (PreH9 : ((b_y_pre - gy_pre ) = 0)) (PreH10 : ((b_y_pre - gy_pre ) <= 0)) (PreH11 : ((a_y_pre - gy_pre ) <> 0)) (PreH12 : ((a_y_pre - gy_pre ) <= 0)) (PreH13 : (CoordInBounds gx_pre )) (PreH14 : (CoordInBounds gy_pre )) (PreH15 : (CoordInBounds a_x_pre )) (PreH16 : (CoordInBounds a_y_pre )) (PreH17 : (CoordInBounds b_x_pre )) (PreH18 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 0)
-  **  ((( &( "ah" ) )) # Int  |-> 0)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ False ”
-.
-
-Definition cmp_polar_values_safety_wit_149 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre < b_y_pre)) (PreH2 : (a_x_pre <= b_x_pre)) (PreH3 : (a_x_pre >= b_x_pre)) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH8 : ((b_y_pre - gy_pre ) <> 0)) (PreH9 : ((b_y_pre - gy_pre ) <= 0)) (PreH10 : ((a_x_pre - gx_pre ) < 0)) (PreH11 : ((a_y_pre - gy_pre ) = 0)) (PreH12 : ((a_y_pre - gy_pre ) <= 0)) (PreH13 : (CoordInBounds gx_pre )) (PreH14 : (CoordInBounds gy_pre )) (PreH15 : (CoordInBounds a_x_pre )) (PreH16 : (CoordInBounds a_y_pre )) (PreH17 : (CoordInBounds b_x_pre )) (PreH18 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 0)
-  **  ((( &( "ah" ) )) # Int  |-> 0)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ False ”
-.
-
-Definition cmp_polar_values_safety_wit_150 := 
+Definition cmp_polar_values_safety_wit_132 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre < b_y_pre)) (PreH2 : (a_x_pre <= b_x_pre)) (PreH3 : (a_x_pre >= b_x_pre)) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH8 : ((b_y_pre - gy_pre ) <> 0)) (PreH9 : ((b_y_pre - gy_pre ) <= 0)) (PreH10 : ((a_y_pre - gy_pre ) <> 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 0)
   **  ((( &( "ah" ) )) # Int  |-> 0)
@@ -3898,38 +3495,17 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <> (INT_MIN)) ”
 .
 
-Definition cmp_polar_values_safety_wit_151 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre < b_y_pre)) (PreH2 : (a_x_pre <= b_x_pre)) (PreH3 : (a_x_pre >= b_x_pre)) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH8 : ((b_x_pre - gx_pre ) < 0)) (PreH9 : ((b_y_pre - gy_pre ) = 0)) (PreH10 : ((b_y_pre - gy_pre ) <= 0)) (PreH11 : ((a_y_pre - gy_pre ) <> 0)) (PreH12 : ((a_y_pre - gy_pre ) <= 0)) (PreH13 : (CoordInBounds gx_pre )) (PreH14 : (CoordInBounds gy_pre )) (PreH15 : (CoordInBounds a_x_pre )) (PreH16 : (CoordInBounds a_y_pre )) (PreH17 : (CoordInBounds b_x_pre )) (PreH18 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 0)
-  **  ((( &( "ah" ) )) # Int  |-> 0)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <> (INT_MIN)) ”
-.
-
-Definition cmp_polar_values_safety_wit_152 := 
+Definition cmp_polar_values_safety_wit_133 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre < b_y_pre)) (PreH2 : (a_x_pre <= b_x_pre)) (PreH3 : (a_x_pre >= b_x_pre)) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH8 : ((b_y_pre - gy_pre ) > 0)) (PreH9 : ((a_x_pre - gx_pre ) >= 0)) (PreH10 : ((a_y_pre - gy_pre ) = 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 1)
   **  ((( &( "ah" ) )) # Int  |-> 1)
@@ -3940,17 +3516,17 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <> (INT_MIN)) ”
 .
 
-Definition cmp_polar_values_safety_wit_153 := 
+Definition cmp_polar_values_safety_wit_134 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre < b_y_pre)) (PreH2 : (a_x_pre <= b_x_pre)) (PreH3 : (a_x_pre >= b_x_pre)) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH8 : ((b_y_pre - gy_pre ) > 0)) (PreH9 : ((a_y_pre - gy_pre ) > 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 1)
   **  ((( &( "ah" ) )) # Int  |-> 1)
@@ -3961,17 +3537,17 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <> (INT_MIN)) ”
 .
 
-Definition cmp_polar_values_safety_wit_154 := 
+Definition cmp_polar_values_safety_wit_135 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre < b_y_pre)) (PreH2 : (a_x_pre <= b_x_pre)) (PreH3 : (a_x_pre >= b_x_pre)) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH8 : ((b_y_pre - gy_pre ) > 0)) (PreH9 : ((a_y_pre - gy_pre ) > 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 1)
   **  ((( &( "ah" ) )) # Int  |-> 1)
@@ -3982,18 +3558,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition cmp_polar_values_safety_wit_155 := 
+Definition cmp_polar_values_safety_wit_136 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre < b_y_pre)) (PreH2 : (a_x_pre <= b_x_pre)) (PreH3 : (a_x_pre >= b_x_pre)) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH8 : ((b_y_pre - gy_pre ) > 0)) (PreH9 : ((a_x_pre - gx_pre ) >= 0)) (PreH10 : ((a_y_pre - gy_pre ) = 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 1)
   **  ((( &( "ah" ) )) # Int  |-> 1)
@@ -4004,40 +3580,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition cmp_polar_values_safety_wit_156 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre < b_y_pre)) (PreH2 : (a_x_pre <= b_x_pre)) (PreH3 : (a_x_pre >= b_x_pre)) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH8 : ((b_x_pre - gx_pre ) < 0)) (PreH9 : ((b_y_pre - gy_pre ) = 0)) (PreH10 : ((b_y_pre - gy_pre ) <= 0)) (PreH11 : ((a_y_pre - gy_pre ) <> 0)) (PreH12 : ((a_y_pre - gy_pre ) <= 0)) (PreH13 : (CoordInBounds gx_pre )) (PreH14 : (CoordInBounds gy_pre )) (PreH15 : (CoordInBounds a_x_pre )) (PreH16 : (CoordInBounds a_y_pre )) (PreH17 : (CoordInBounds b_x_pre )) (PreH18 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 0)
-  **  ((( &( "ah" ) )) # Int  |-> 0)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= 1) ”
-.
-
-Definition cmp_polar_values_safety_wit_157 := 
+Definition cmp_polar_values_safety_wit_137 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre < b_y_pre)) (PreH2 : (a_x_pre <= b_x_pre)) (PreH3 : (a_x_pre >= b_x_pre)) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH8 : ((b_y_pre - gy_pre ) <> 0)) (PreH9 : ((b_y_pre - gy_pre ) <= 0)) (PreH10 : ((a_y_pre - gy_pre ) <> 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 0)
   **  ((( &( "ah" ) )) # Int  |-> 0)
@@ -4048,18 +3602,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition cmp_polar_values_safety_wit_158 := 
+Definition cmp_polar_values_safety_wit_138 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre <= b_y_pre)) (PreH2 : (a_y_pre >= b_y_pre)) (PreH3 : (a_x_pre <= b_x_pre)) (PreH4 : (a_x_pre >= b_x_pre)) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH8 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH9 : ((b_x_pre - gx_pre ) >= 0)) (PreH10 : ((b_y_pre - gy_pre ) = 0)) (PreH11 : ((b_y_pre - gy_pre ) <= 0)) (PreH12 : ((a_y_pre - gy_pre ) > 0)) (PreH13 : (CoordInBounds gx_pre )) (PreH14 : (CoordInBounds gy_pre )) (PreH15 : (CoordInBounds a_x_pre )) (PreH16 : (CoordInBounds a_y_pre )) (PreH17 : (CoordInBounds b_x_pre )) (PreH18 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 1)
   **  ((( &( "ah" ) )) # Int  |-> 1)
@@ -4070,17 +3624,17 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ False ”
 .
 
-Definition cmp_polar_values_safety_wit_159 := 
+Definition cmp_polar_values_safety_wit_139 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre > b_y_pre)) (PreH2 : (a_y_pre >= b_y_pre)) (PreH3 : (a_x_pre <= b_x_pre)) (PreH4 : (a_x_pre >= b_x_pre)) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH8 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH9 : ((b_x_pre - gx_pre ) >= 0)) (PreH10 : ((b_y_pre - gy_pre ) = 0)) (PreH11 : ((b_y_pre - gy_pre ) <= 0)) (PreH12 : ((a_x_pre - gx_pre ) >= 0)) (PreH13 : ((a_y_pre - gy_pre ) = 0)) (PreH14 : ((a_y_pre - gy_pre ) <= 0)) (PreH15 : (CoordInBounds gx_pre )) (PreH16 : (CoordInBounds gy_pre )) (PreH17 : (CoordInBounds a_x_pre )) (PreH18 : (CoordInBounds a_y_pre )) (PreH19 : (CoordInBounds b_x_pre )) (PreH20 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 1)
   **  ((( &( "ah" ) )) # Int  |-> 1)
@@ -4091,17 +3645,17 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ False ”
 .
 
-Definition cmp_polar_values_safety_wit_160 := 
+Definition cmp_polar_values_safety_wit_140 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre > b_y_pre)) (PreH2 : (a_y_pre >= b_y_pre)) (PreH3 : (a_x_pre <= b_x_pre)) (PreH4 : (a_x_pre >= b_x_pre)) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH8 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH9 : ((b_x_pre - gx_pre ) < 0)) (PreH10 : ((b_y_pre - gy_pre ) = 0)) (PreH11 : ((b_y_pre - gy_pre ) <= 0)) (PreH12 : ((a_x_pre - gx_pre ) < 0)) (PreH13 : ((a_y_pre - gy_pre ) = 0)) (PreH14 : ((a_y_pre - gy_pre ) <= 0)) (PreH15 : (CoordInBounds gx_pre )) (PreH16 : (CoordInBounds gy_pre )) (PreH17 : (CoordInBounds a_x_pre )) (PreH18 : (CoordInBounds a_y_pre )) (PreH19 : (CoordInBounds b_x_pre )) (PreH20 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 0)
   **  ((( &( "ah" ) )) # Int  |-> 0)
@@ -4112,38 +3666,17 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ False ”
 .
 
-Definition cmp_polar_values_safety_wit_161 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre <= b_y_pre)) (PreH2 : (a_y_pre >= b_y_pre)) (PreH3 : (a_x_pre <= b_x_pre)) (PreH4 : (a_x_pre >= b_x_pre)) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH8 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH9 : ((b_y_pre - gy_pre ) <> 0)) (PreH10 : ((b_y_pre - gy_pre ) <= 0)) (PreH11 : ((a_x_pre - gx_pre ) < 0)) (PreH12 : ((a_y_pre - gy_pre ) = 0)) (PreH13 : ((a_y_pre - gy_pre ) <= 0)) (PreH14 : (CoordInBounds gx_pre )) (PreH15 : (CoordInBounds gy_pre )) (PreH16 : (CoordInBounds a_x_pre )) (PreH17 : (CoordInBounds a_y_pre )) (PreH18 : (CoordInBounds b_x_pre )) (PreH19 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 0)
-  **  ((( &( "ah" ) )) # Int  |-> 0)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ False ”
-.
-
-Definition cmp_polar_values_safety_wit_162 := 
+Definition cmp_polar_values_safety_wit_141 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre > b_y_pre)) (PreH2 : (a_y_pre >= b_y_pre)) (PreH3 : (a_x_pre <= b_x_pre)) (PreH4 : (a_x_pre >= b_x_pre)) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH8 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH9 : ((b_y_pre - gy_pre ) > 0)) (PreH10 : ((a_y_pre - gy_pre ) > 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 1)
   **  ((( &( "ah" ) )) # Int  |-> 1)
@@ -4154,18 +3687,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition cmp_polar_values_safety_wit_163 := 
+Definition cmp_polar_values_safety_wit_142 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre > b_y_pre)) (PreH2 : (a_y_pre >= b_y_pre)) (PreH3 : (a_x_pre <= b_x_pre)) (PreH4 : (a_x_pre >= b_x_pre)) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH8 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH9 : ((b_x_pre - gx_pre ) >= 0)) (PreH10 : ((b_y_pre - gy_pre ) = 0)) (PreH11 : ((b_y_pre - gy_pre ) <= 0)) (PreH12 : ((a_y_pre - gy_pre ) > 0)) (PreH13 : (CoordInBounds gx_pre )) (PreH14 : (CoordInBounds gy_pre )) (PreH15 : (CoordInBounds a_x_pre )) (PreH16 : (CoordInBounds a_y_pre )) (PreH17 : (CoordInBounds b_x_pre )) (PreH18 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 1)
   **  ((( &( "ah" ) )) # Int  |-> 1)
@@ -4176,40 +3709,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition cmp_polar_values_safety_wit_164 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre > b_y_pre)) (PreH2 : (a_y_pre >= b_y_pre)) (PreH3 : (a_x_pre <= b_x_pre)) (PreH4 : (a_x_pre >= b_x_pre)) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH8 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH9 : ((b_y_pre - gy_pre ) <> 0)) (PreH10 : ((b_y_pre - gy_pre ) <= 0)) (PreH11 : ((a_x_pre - gx_pre ) < 0)) (PreH12 : ((a_y_pre - gy_pre ) = 0)) (PreH13 : ((a_y_pre - gy_pre ) <= 0)) (PreH14 : (CoordInBounds gx_pre )) (PreH15 : (CoordInBounds gy_pre )) (PreH16 : (CoordInBounds a_x_pre )) (PreH17 : (CoordInBounds a_y_pre )) (PreH18 : (CoordInBounds b_x_pre )) (PreH19 : (CoordInBounds b_y_pre )) ,
-  ((( &( "bh" ) )) # Int  |-> 0)
-  **  ((( &( "ah" ) )) # Int  |-> 0)
-  **  ((( &( "db" ) )) # Int  |-> (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))
-  **  ((( &( "da" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ))
-  **  ((( &( "cr" ) )) # Int  |-> (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ))
-  **  ((( &( "bdy" ) )) # Int  |-> (b_y_pre - gy_pre ))
-  **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
-  **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
-  **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-|--
-  “ (1 <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= 1) ”
-.
-
-Definition cmp_polar_values_safety_wit_165 := 
+Definition cmp_polar_values_safety_wit_143 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre > b_y_pre)) (PreH2 : (a_y_pre >= b_y_pre)) (PreH3 : (a_x_pre <= b_x_pre)) (PreH4 : (a_x_pre >= b_x_pre)) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH8 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH9 : ((b_y_pre - gy_pre ) <> 0)) (PreH10 : ((b_y_pre - gy_pre ) <= 0)) (PreH11 : ((a_y_pre - gy_pre ) <> 0)) (PreH12 : ((a_y_pre - gy_pre ) <= 0)) (PreH13 : (CoordInBounds gx_pre )) (PreH14 : (CoordInBounds gy_pre )) (PreH15 : (CoordInBounds a_x_pre )) (PreH16 : (CoordInBounds a_y_pre )) (PreH17 : (CoordInBounds b_x_pre )) (PreH18 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 0)
   **  ((( &( "ah" ) )) # Int  |-> 0)
@@ -4220,18 +3731,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition cmp_polar_values_safety_wit_166 := 
+Definition cmp_polar_values_safety_wit_144 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre <= b_y_pre)) (PreH2 : (a_y_pre >= b_y_pre)) (PreH3 : (a_x_pre <= b_x_pre)) (PreH4 : (a_x_pre >= b_x_pre)) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH8 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH9 : ((b_y_pre - gy_pre ) > 0)) (PreH10 : ((a_y_pre - gy_pre ) > 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 1)
   **  ((( &( "ah" ) )) # Int  |-> 1)
@@ -4242,18 +3753,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition cmp_polar_values_safety_wit_167 := 
+Definition cmp_polar_values_safety_wit_145 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre <= b_y_pre)) (PreH2 : (a_y_pre >= b_y_pre)) (PreH3 : (a_x_pre <= b_x_pre)) (PreH4 : (a_x_pre >= b_x_pre)) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH8 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH9 : ((b_x_pre - gx_pre ) >= 0)) (PreH10 : ((b_y_pre - gy_pre ) = 0)) (PreH11 : ((b_y_pre - gy_pre ) <= 0)) (PreH12 : ((a_x_pre - gx_pre ) >= 0)) (PreH13 : ((a_y_pre - gy_pre ) = 0)) (PreH14 : ((a_y_pre - gy_pre ) <= 0)) (PreH15 : (CoordInBounds gx_pre )) (PreH16 : (CoordInBounds gy_pre )) (PreH17 : (CoordInBounds a_x_pre )) (PreH18 : (CoordInBounds a_y_pre )) (PreH19 : (CoordInBounds b_x_pre )) (PreH20 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 1)
   **  ((( &( "ah" ) )) # Int  |-> 1)
@@ -4264,18 +3775,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition cmp_polar_values_safety_wit_168 := 
+Definition cmp_polar_values_safety_wit_146 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre <= b_y_pre)) (PreH2 : (a_y_pre >= b_y_pre)) (PreH3 : (a_x_pre <= b_x_pre)) (PreH4 : (a_x_pre >= b_x_pre)) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH8 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH9 : ((b_x_pre - gx_pre ) < 0)) (PreH10 : ((b_y_pre - gy_pre ) = 0)) (PreH11 : ((b_y_pre - gy_pre ) <= 0)) (PreH12 : ((a_x_pre - gx_pre ) < 0)) (PreH13 : ((a_y_pre - gy_pre ) = 0)) (PreH14 : ((a_y_pre - gy_pre ) <= 0)) (PreH15 : (CoordInBounds gx_pre )) (PreH16 : (CoordInBounds gy_pre )) (PreH17 : (CoordInBounds a_x_pre )) (PreH18 : (CoordInBounds a_y_pre )) (PreH19 : (CoordInBounds b_x_pre )) (PreH20 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 0)
   **  ((( &( "ah" ) )) # Int  |-> 0)
@@ -4286,18 +3797,18 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition cmp_polar_values_safety_wit_169 := 
+Definition cmp_polar_values_safety_wit_147 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre <= b_y_pre)) (PreH2 : (a_y_pre >= b_y_pre)) (PreH3 : (a_x_pre <= b_x_pre)) (PreH4 : (a_x_pre >= b_x_pre)) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH8 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH9 : ((b_y_pre - gy_pre ) <> 0)) (PreH10 : ((b_y_pre - gy_pre ) <= 0)) (PreH11 : ((a_y_pre - gy_pre ) <> 0)) (PreH12 : ((a_y_pre - gy_pre ) <= 0)) (PreH13 : (CoordInBounds gx_pre )) (PreH14 : (CoordInBounds gy_pre )) (PreH15 : (CoordInBounds a_x_pre )) (PreH16 : (CoordInBounds a_y_pre )) (PreH17 : (CoordInBounds b_x_pre )) (PreH18 : (CoordInBounds b_y_pre )) ,
   ((( &( "bh" ) )) # Int  |-> 0)
   **  ((( &( "ah" ) )) # Int  |-> 0)
@@ -4308,12 +3819,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -4339,9 +3850,7 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
 
 Definition cmp_polar_values_return_wit_1_split_goal_1 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre <= b_y_pre)) (PreH2 : (a_y_pre >= b_y_pre)) (PreH3 : (a_x_pre <= b_x_pre)) (PreH4 : (a_x_pre >= b_x_pre)) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH8 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH9 : ((b_y_pre - gy_pre ) > 0)) (PreH10 : ((a_y_pre - gy_pre ) > 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 0 ) ”
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 0 )
 .
 
 Definition cmp_polar_values_return_wit_2 := 
@@ -4364,9 +3873,7 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
 
 Definition cmp_polar_values_return_wit_2_split_goal_1 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre <= b_y_pre)) (PreH2 : (a_y_pre >= b_y_pre)) (PreH3 : (a_x_pre <= b_x_pre)) (PreH4 : (a_x_pre >= b_x_pre)) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH8 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH9 : ((b_x_pre - gx_pre ) >= 0)) (PreH10 : ((b_y_pre - gy_pre ) = 0)) (PreH11 : ((b_y_pre - gy_pre ) <= 0)) (PreH12 : ((a_x_pre - gx_pre ) >= 0)) (PreH13 : ((a_y_pre - gy_pre ) = 0)) (PreH14 : ((a_y_pre - gy_pre ) <= 0)) (PreH15 : (CoordInBounds gx_pre )) (PreH16 : (CoordInBounds gy_pre )) (PreH17 : (CoordInBounds a_x_pre )) (PreH18 : (CoordInBounds a_y_pre )) (PreH19 : (CoordInBounds b_x_pre )) (PreH20 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 0 ) ”
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 0 )
 .
 
 Definition cmp_polar_values_return_wit_3 := 
@@ -4389,9 +3896,7 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
 
 Definition cmp_polar_values_return_wit_3_split_goal_1 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre <= b_y_pre)) (PreH2 : (a_y_pre >= b_y_pre)) (PreH3 : (a_x_pre <= b_x_pre)) (PreH4 : (a_x_pre >= b_x_pre)) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH8 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH9 : ((b_x_pre - gx_pre ) < 0)) (PreH10 : ((b_y_pre - gy_pre ) = 0)) (PreH11 : ((b_y_pre - gy_pre ) <= 0)) (PreH12 : ((a_x_pre - gx_pre ) < 0)) (PreH13 : ((a_y_pre - gy_pre ) = 0)) (PreH14 : ((a_y_pre - gy_pre ) <= 0)) (PreH15 : (CoordInBounds gx_pre )) (PreH16 : (CoordInBounds gy_pre )) (PreH17 : (CoordInBounds a_x_pre )) (PreH18 : (CoordInBounds a_y_pre )) (PreH19 : (CoordInBounds b_x_pre )) (PreH20 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 0 ) ”
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 0 )
 .
 
 Definition cmp_polar_values_return_wit_4 := 
@@ -4414,9 +3919,7 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
 
 Definition cmp_polar_values_return_wit_4_split_goal_1 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre <= b_y_pre)) (PreH2 : (a_y_pre >= b_y_pre)) (PreH3 : (a_x_pre <= b_x_pre)) (PreH4 : (a_x_pre >= b_x_pre)) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH8 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH9 : ((b_y_pre - gy_pre ) <> 0)) (PreH10 : ((b_y_pre - gy_pre ) <= 0)) (PreH11 : ((a_y_pre - gy_pre ) <> 0)) (PreH12 : ((a_y_pre - gy_pre ) <= 0)) (PreH13 : (CoordInBounds gx_pre )) (PreH14 : (CoordInBounds gy_pre )) (PreH15 : (CoordInBounds a_x_pre )) (PreH16 : (CoordInBounds a_y_pre )) (PreH17 : (CoordInBounds b_x_pre )) (PreH18 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 0 ) ”
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 0 )
 .
 
 Definition cmp_polar_values_return_wit_5 := 
@@ -4439,9 +3942,7 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
 
 Definition cmp_polar_values_return_wit_5_split_goal_1 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre > b_y_pre)) (PreH2 : (a_y_pre >= b_y_pre)) (PreH3 : (a_x_pre <= b_x_pre)) (PreH4 : (a_x_pre >= b_x_pre)) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH8 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH9 : ((b_y_pre - gy_pre ) > 0)) (PreH10 : ((a_y_pre - gy_pre ) > 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 )
 .
 
 Definition cmp_polar_values_return_wit_6 := 
@@ -4464,14 +3965,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
 
 Definition cmp_polar_values_return_wit_6_split_goal_1 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre > b_y_pre)) (PreH2 : (a_y_pre >= b_y_pre)) (PreH3 : (a_x_pre <= b_x_pre)) (PreH4 : (a_x_pre >= b_x_pre)) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH8 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH9 : ((b_x_pre - gx_pre ) >= 0)) (PreH10 : ((b_y_pre - gy_pre ) = 0)) (PreH11 : ((b_y_pre - gy_pre ) <= 0)) (PreH12 : ((a_y_pre - gy_pre ) > 0)) (PreH13 : (CoordInBounds gx_pre )) (PreH14 : (CoordInBounds gy_pre )) (PreH15 : (CoordInBounds a_x_pre )) (PreH16 : (CoordInBounds a_y_pre )) (PreH17 : (CoordInBounds b_x_pre )) (PreH18 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 )
 .
 
 Definition cmp_polar_values_return_wit_7 := 
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre > b_y_pre)) (PreH2 : (a_y_pre >= b_y_pre)) (PreH3 : (a_x_pre <= b_x_pre)) (PreH4 : (a_x_pre >= b_x_pre)) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH8 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH9 : ((b_y_pre - gy_pre ) <> 0)) (PreH10 : ((b_y_pre - gy_pre ) <= 0)) (PreH11 : ((a_x_pre - gx_pre ) < 0)) (PreH12 : ((a_y_pre - gy_pre ) = 0)) (PreH13 : ((a_y_pre - gy_pre ) <= 0)) (PreH14 : (CoordInBounds gx_pre )) (PreH15 : (CoordInBounds gy_pre )) (PreH16 : (CoordInBounds a_x_pre )) (PreH17 : (CoordInBounds a_y_pre )) (PreH18 : (CoordInBounds b_x_pre )) (PreH19 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre > b_y_pre)) (PreH2 : (a_y_pre >= b_y_pre)) (PreH3 : (a_x_pre <= b_x_pre)) (PreH4 : (a_x_pre >= b_x_pre)) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH8 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH9 : ((b_y_pre - gy_pre ) <> 0)) (PreH10 : ((b_y_pre - gy_pre ) <= 0)) (PreH11 : ((a_y_pre - gy_pre ) <> 0)) (PreH12 : ((a_y_pre - gy_pre ) <= 0)) (PreH13 : (CoordInBounds gx_pre )) (PreH14 : (CoordInBounds gy_pre )) (PreH15 : (CoordInBounds a_x_pre )) (PreH16 : (CoordInBounds a_y_pre )) (PreH17 : (CoordInBounds b_x_pre )) (PreH18 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
   “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
@@ -4480,7 +3979,7 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   &&  emp
 ) \/
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre > b_y_pre)) (PreH2 : (a_y_pre >= b_y_pre)) (PreH3 : (a_x_pre <= b_x_pre)) (PreH4 : (a_x_pre >= b_x_pre)) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH8 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH9 : ((b_y_pre - gy_pre ) <> 0)) (PreH10 : ((b_y_pre - gy_pre ) <= 0)) (PreH11 : ((a_x_pre - gx_pre ) < 0)) (PreH12 : ((a_y_pre - gy_pre ) = 0)) (PreH13 : ((a_y_pre - gy_pre ) <= 0)) (PreH14 : (CoordInBounds gx_pre )) (PreH15 : (CoordInBounds gy_pre )) (PreH16 : (CoordInBounds a_x_pre )) (PreH17 : (CoordInBounds a_y_pre )) (PreH18 : (CoordInBounds b_x_pre )) (PreH19 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre > b_y_pre)) (PreH2 : (a_y_pre >= b_y_pre)) (PreH3 : (a_x_pre <= b_x_pre)) (PreH4 : (a_x_pre >= b_x_pre)) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH8 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH9 : ((b_y_pre - gy_pre ) <> 0)) (PreH10 : ((b_y_pre - gy_pre ) <= 0)) (PreH11 : ((a_y_pre - gy_pre ) <> 0)) (PreH12 : ((a_y_pre - gy_pre ) <= 0)) (PreH13 : (CoordInBounds gx_pre )) (PreH14 : (CoordInBounds gy_pre )) (PreH15 : (CoordInBounds a_x_pre )) (PreH16 : (CoordInBounds a_y_pre )) (PreH17 : (CoordInBounds b_x_pre )) (PreH18 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
   “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
@@ -4488,38 +3987,11 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
 ).
 
 Definition cmp_polar_values_return_wit_7_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre > b_y_pre)) (PreH2 : (a_y_pre >= b_y_pre)) (PreH3 : (a_x_pre <= b_x_pre)) (PreH4 : (a_x_pre >= b_x_pre)) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH8 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH9 : ((b_y_pre - gy_pre ) <> 0)) (PreH10 : ((b_y_pre - gy_pre ) <= 0)) (PreH11 : ((a_x_pre - gx_pre ) < 0)) (PreH12 : ((a_y_pre - gy_pre ) = 0)) (PreH13 : ((a_y_pre - gy_pre ) <= 0)) (PreH14 : (CoordInBounds gx_pre )) (PreH15 : (CoordInBounds gy_pre )) (PreH16 : (CoordInBounds a_x_pre )) (PreH17 : (CoordInBounds a_y_pre )) (PreH18 : (CoordInBounds b_x_pre )) (PreH19 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre > b_y_pre)) (PreH2 : (a_y_pre >= b_y_pre)) (PreH3 : (a_x_pre <= b_x_pre)) (PreH4 : (a_x_pre >= b_x_pre)) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH8 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH9 : ((b_y_pre - gy_pre ) <> 0)) (PreH10 : ((b_y_pre - gy_pre ) <= 0)) (PreH11 : ((a_y_pre - gy_pre ) <> 0)) (PreH12 : ((a_y_pre - gy_pre ) <= 0)) (PreH13 : (CoordInBounds gx_pre )) (PreH14 : (CoordInBounds gy_pre )) (PreH15 : (CoordInBounds a_x_pre )) (PreH16 : (CoordInBounds a_y_pre )) (PreH17 : (CoordInBounds b_x_pre )) (PreH18 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 )
 .
 
 Definition cmp_polar_values_return_wit_8 := 
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre > b_y_pre)) (PreH2 : (a_y_pre >= b_y_pre)) (PreH3 : (a_x_pre <= b_x_pre)) (PreH4 : (a_x_pre >= b_x_pre)) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH8 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH9 : ((b_y_pre - gy_pre ) <> 0)) (PreH10 : ((b_y_pre - gy_pre ) <= 0)) (PreH11 : ((a_y_pre - gy_pre ) <> 0)) (PreH12 : ((a_y_pre - gy_pre ) <= 0)) (PreH13 : (CoordInBounds gx_pre )) (PreH14 : (CoordInBounds gy_pre )) (PreH15 : (CoordInBounds a_x_pre )) (PreH16 : (CoordInBounds a_y_pre )) (PreH17 : (CoordInBounds b_x_pre )) (PreH18 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
-  &&  “ ((-1) <= 1) ” 
-  &&  “ (1 <= 1) ”
-  &&  emp
-) \/
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre > b_y_pre)) (PreH2 : (a_y_pre >= b_y_pre)) (PreH3 : (a_x_pre <= b_x_pre)) (PreH4 : (a_x_pre >= b_x_pre)) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH8 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH9 : ((b_y_pre - gy_pre ) <> 0)) (PreH10 : ((b_y_pre - gy_pre ) <= 0)) (PreH11 : ((a_y_pre - gy_pre ) <> 0)) (PreH12 : ((a_y_pre - gy_pre ) <= 0)) (PreH13 : (CoordInBounds gx_pre )) (PreH14 : (CoordInBounds gy_pre )) (PreH15 : (CoordInBounds a_x_pre )) (PreH16 : (CoordInBounds a_y_pre )) (PreH17 : (CoordInBounds b_x_pre )) (PreH18 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
-  &&  emp
-).
-
-Definition cmp_polar_values_return_wit_8_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre > b_y_pre)) (PreH2 : (a_y_pre >= b_y_pre)) (PreH3 : (a_x_pre <= b_x_pre)) (PreH4 : (a_x_pre >= b_x_pre)) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH8 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH9 : ((b_y_pre - gy_pre ) <> 0)) (PreH10 : ((b_y_pre - gy_pre ) <= 0)) (PreH11 : ((a_y_pre - gy_pre ) <> 0)) (PreH12 : ((a_y_pre - gy_pre ) <= 0)) (PreH13 : (CoordInBounds gx_pre )) (PreH14 : (CoordInBounds gy_pre )) (PreH15 : (CoordInBounds a_x_pre )) (PreH16 : (CoordInBounds a_y_pre )) (PreH17 : (CoordInBounds b_x_pre )) (PreH18 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
-.
-
-Definition cmp_polar_values_return_wit_9 := 
 (
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre < b_y_pre)) (PreH2 : (a_x_pre <= b_x_pre)) (PreH3 : (a_x_pre >= b_x_pre)) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH8 : ((b_y_pre - gy_pre ) > 0)) (PreH9 : ((a_y_pre - gy_pre ) > 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
   TT && emp 
@@ -4531,6 +4003,29 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
 ) \/
 (
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre < b_y_pre)) (PreH2 : (a_x_pre <= b_x_pre)) (PreH3 : (a_x_pre >= b_x_pre)) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH8 : ((b_y_pre - gy_pre ) > 0)) (PreH9 : ((a_y_pre - gy_pre ) > 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
+  TT && emp 
+|--
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
+  &&  emp
+).
+
+Definition cmp_polar_values_return_wit_8_split_goal_1 := 
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre < b_y_pre)) (PreH2 : (a_x_pre <= b_x_pre)) (PreH3 : (a_x_pre >= b_x_pre)) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH8 : ((b_y_pre - gy_pre ) > 0)) (PreH9 : ((a_y_pre - gy_pre ) > 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) )
+.
+
+Definition cmp_polar_values_return_wit_9 := 
+(
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre < b_y_pre)) (PreH2 : (a_x_pre <= b_x_pre)) (PreH3 : (a_x_pre >= b_x_pre)) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH8 : ((b_y_pre - gy_pre ) > 0)) (PreH9 : ((a_x_pre - gx_pre ) >= 0)) (PreH10 : ((a_y_pre - gy_pre ) = 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
+  TT && emp 
+|--
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
+  &&  “ ((-1) <= (-1)) ” 
+  &&  “ ((-1) <= 1) ”
+  &&  emp
+) \/
+(
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre < b_y_pre)) (PreH2 : (a_x_pre <= b_x_pre)) (PreH3 : (a_x_pre >= b_x_pre)) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH8 : ((b_y_pre - gy_pre ) > 0)) (PreH9 : ((a_x_pre - gx_pre ) >= 0)) (PreH10 : ((a_y_pre - gy_pre ) = 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
   “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
@@ -4538,15 +4033,13 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
 ).
 
 Definition cmp_polar_values_return_wit_9_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre < b_y_pre)) (PreH2 : (a_x_pre <= b_x_pre)) (PreH3 : (a_x_pre >= b_x_pre)) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH8 : ((b_y_pre - gy_pre ) > 0)) (PreH9 : ((a_y_pre - gy_pre ) > 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre < b_y_pre)) (PreH2 : (a_x_pre <= b_x_pre)) (PreH3 : (a_x_pre >= b_x_pre)) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH8 : ((b_y_pre - gy_pre ) > 0)) (PreH9 : ((a_x_pre - gx_pre ) >= 0)) (PreH10 : ((a_y_pre - gy_pre ) = 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) )
 .
 
 Definition cmp_polar_values_return_wit_10 := 
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre < b_y_pre)) (PreH2 : (a_x_pre <= b_x_pre)) (PreH3 : (a_x_pre >= b_x_pre)) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH8 : ((b_y_pre - gy_pre ) > 0)) (PreH9 : ((a_x_pre - gx_pre ) >= 0)) (PreH10 : ((a_y_pre - gy_pre ) = 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre < b_y_pre)) (PreH2 : (a_x_pre <= b_x_pre)) (PreH3 : (a_x_pre >= b_x_pre)) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH8 : ((b_y_pre - gy_pre ) <> 0)) (PreH9 : ((b_y_pre - gy_pre ) <= 0)) (PreH10 : ((a_y_pre - gy_pre ) <> 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
   “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
@@ -4555,7 +4048,7 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   &&  emp
 ) \/
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre < b_y_pre)) (PreH2 : (a_x_pre <= b_x_pre)) (PreH3 : (a_x_pre >= b_x_pre)) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH8 : ((b_y_pre - gy_pre ) > 0)) (PreH9 : ((a_x_pre - gx_pre ) >= 0)) (PreH10 : ((a_y_pre - gy_pre ) = 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre < b_y_pre)) (PreH2 : (a_x_pre <= b_x_pre)) (PreH3 : (a_x_pre >= b_x_pre)) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH8 : ((b_y_pre - gy_pre ) <> 0)) (PreH9 : ((b_y_pre - gy_pre ) <= 0)) (PreH10 : ((a_y_pre - gy_pre ) <> 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
   “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
@@ -4563,63 +4056,11 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
 ).
 
 Definition cmp_polar_values_return_wit_10_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre < b_y_pre)) (PreH2 : (a_x_pre <= b_x_pre)) (PreH3 : (a_x_pre >= b_x_pre)) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH8 : ((b_y_pre - gy_pre ) > 0)) (PreH9 : ((a_x_pre - gx_pre ) >= 0)) (PreH10 : ((a_y_pre - gy_pre ) = 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre < b_y_pre)) (PreH2 : (a_x_pre <= b_x_pre)) (PreH3 : (a_x_pre >= b_x_pre)) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH8 : ((b_y_pre - gy_pre ) <> 0)) (PreH9 : ((b_y_pre - gy_pre ) <= 0)) (PreH10 : ((a_y_pre - gy_pre ) <> 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) )
 .
 
 Definition cmp_polar_values_return_wit_11 := 
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre < b_y_pre)) (PreH2 : (a_x_pre <= b_x_pre)) (PreH3 : (a_x_pre >= b_x_pre)) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH8 : ((b_x_pre - gx_pre ) < 0)) (PreH9 : ((b_y_pre - gy_pre ) = 0)) (PreH10 : ((b_y_pre - gy_pre ) <= 0)) (PreH11 : ((a_y_pre - gy_pre ) <> 0)) (PreH12 : ((a_y_pre - gy_pre ) <= 0)) (PreH13 : (CoordInBounds gx_pre )) (PreH14 : (CoordInBounds gy_pre )) (PreH15 : (CoordInBounds a_x_pre )) (PreH16 : (CoordInBounds a_y_pre )) (PreH17 : (CoordInBounds b_x_pre )) (PreH18 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
-  &&  “ ((-1) <= (-1)) ” 
-  &&  “ ((-1) <= 1) ”
-  &&  emp
-) \/
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre < b_y_pre)) (PreH2 : (a_x_pre <= b_x_pre)) (PreH3 : (a_x_pre >= b_x_pre)) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH8 : ((b_x_pre - gx_pre ) < 0)) (PreH9 : ((b_y_pre - gy_pre ) = 0)) (PreH10 : ((b_y_pre - gy_pre ) <= 0)) (PreH11 : ((a_y_pre - gy_pre ) <> 0)) (PreH12 : ((a_y_pre - gy_pre ) <= 0)) (PreH13 : (CoordInBounds gx_pre )) (PreH14 : (CoordInBounds gy_pre )) (PreH15 : (CoordInBounds a_x_pre )) (PreH16 : (CoordInBounds a_y_pre )) (PreH17 : (CoordInBounds b_x_pre )) (PreH18 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
-  &&  emp
-).
-
-Definition cmp_polar_values_return_wit_11_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre < b_y_pre)) (PreH2 : (a_x_pre <= b_x_pre)) (PreH3 : (a_x_pre >= b_x_pre)) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH8 : ((b_x_pre - gx_pre ) < 0)) (PreH9 : ((b_y_pre - gy_pre ) = 0)) (PreH10 : ((b_y_pre - gy_pre ) <= 0)) (PreH11 : ((a_y_pre - gy_pre ) <> 0)) (PreH12 : ((a_y_pre - gy_pre ) <= 0)) (PreH13 : (CoordInBounds gx_pre )) (PreH14 : (CoordInBounds gy_pre )) (PreH15 : (CoordInBounds a_x_pre )) (PreH16 : (CoordInBounds a_y_pre )) (PreH17 : (CoordInBounds b_x_pre )) (PreH18 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
-.
-
-Definition cmp_polar_values_return_wit_12 := 
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre < b_y_pre)) (PreH2 : (a_x_pre <= b_x_pre)) (PreH3 : (a_x_pre >= b_x_pre)) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH8 : ((b_y_pre - gy_pre ) <> 0)) (PreH9 : ((b_y_pre - gy_pre ) <= 0)) (PreH10 : ((a_y_pre - gy_pre ) <> 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
-  &&  “ ((-1) <= (-1)) ” 
-  &&  “ ((-1) <= 1) ”
-  &&  emp
-) \/
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre < b_y_pre)) (PreH2 : (a_x_pre <= b_x_pre)) (PreH3 : (a_x_pre >= b_x_pre)) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH8 : ((b_y_pre - gy_pre ) <> 0)) (PreH9 : ((b_y_pre - gy_pre ) <= 0)) (PreH10 : ((a_y_pre - gy_pre ) <> 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
-  &&  emp
-).
-
-Definition cmp_polar_values_return_wit_12_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_y_pre < b_y_pre)) (PreH2 : (a_x_pre <= b_x_pre)) (PreH3 : (a_x_pre >= b_x_pre)) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH7 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH8 : ((b_y_pre - gy_pre ) <> 0)) (PreH9 : ((b_y_pre - gy_pre ) <= 0)) (PreH10 : ((a_y_pre - gy_pre ) <> 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
-.
-
-Definition cmp_polar_values_return_wit_13 := 
 (
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_y_pre - gy_pre ) > 0)) (PreH8 : ((a_y_pre - gy_pre ) > 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
   TT && emp 
@@ -4631,6 +4072,52 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
 ) \/
 (
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_y_pre - gy_pre ) > 0)) (PreH8 : ((a_y_pre - gy_pre ) > 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
+  TT && emp 
+|--
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
+  &&  emp
+).
+
+Definition cmp_polar_values_return_wit_11_split_goal_1 := 
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_y_pre - gy_pre ) > 0)) (PreH8 : ((a_y_pre - gy_pre ) > 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 )
+.
+
+Definition cmp_polar_values_return_wit_12 := 
+(
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_y_pre - gy_pre ) > 0)) (PreH8 : ((a_x_pre - gx_pre ) >= 0)) (PreH9 : ((a_y_pre - gy_pre ) = 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
+  TT && emp 
+|--
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
+  &&  “ ((-1) <= 1) ” 
+  &&  “ (1 <= 1) ”
+  &&  emp
+) \/
+(
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_y_pre - gy_pre ) > 0)) (PreH8 : ((a_x_pre - gx_pre ) >= 0)) (PreH9 : ((a_y_pre - gy_pre ) = 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
+  TT && emp 
+|--
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
+  &&  emp
+).
+
+Definition cmp_polar_values_return_wit_12_split_goal_1 := 
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_y_pre - gy_pre ) > 0)) (PreH8 : ((a_x_pre - gx_pre ) >= 0)) (PreH9 : ((a_y_pre - gy_pre ) = 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 )
+.
+
+Definition cmp_polar_values_return_wit_13 := 
+(
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_x_pre - gx_pre ) >= 0)) (PreH8 : ((b_y_pre - gy_pre ) = 0)) (PreH9 : ((b_y_pre - gy_pre ) <= 0)) (PreH10 : ((a_y_pre - gy_pre ) > 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
+  TT && emp 
+|--
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
+  &&  “ ((-1) <= 1) ” 
+  &&  “ (1 <= 1) ”
+  &&  emp
+) \/
+(
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_x_pre - gx_pre ) >= 0)) (PreH8 : ((b_y_pre - gy_pre ) = 0)) (PreH9 : ((b_y_pre - gy_pre ) <= 0)) (PreH10 : ((a_y_pre - gy_pre ) > 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
   “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
@@ -4638,15 +4125,13 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
 ).
 
 Definition cmp_polar_values_return_wit_13_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_y_pre - gy_pre ) > 0)) (PreH8 : ((a_y_pre - gy_pre ) > 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_x_pre - gx_pre ) >= 0)) (PreH8 : ((b_y_pre - gy_pre ) = 0)) (PreH9 : ((b_y_pre - gy_pre ) <= 0)) (PreH10 : ((a_y_pre - gy_pre ) > 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 )
 .
 
 Definition cmp_polar_values_return_wit_14 := 
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_y_pre - gy_pre ) > 0)) (PreH8 : ((a_x_pre - gx_pre ) >= 0)) (PreH9 : ((a_y_pre - gy_pre ) = 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_x_pre - gx_pre ) >= 0)) (PreH8 : ((b_y_pre - gy_pre ) = 0)) (PreH9 : ((b_y_pre - gy_pre ) <= 0)) (PreH10 : ((a_x_pre - gx_pre ) >= 0)) (PreH11 : ((a_y_pre - gy_pre ) = 0)) (PreH12 : ((a_y_pre - gy_pre ) <= 0)) (PreH13 : (CoordInBounds gx_pre )) (PreH14 : (CoordInBounds gy_pre )) (PreH15 : (CoordInBounds a_x_pre )) (PreH16 : (CoordInBounds a_y_pre )) (PreH17 : (CoordInBounds b_x_pre )) (PreH18 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
   “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
@@ -4655,7 +4140,7 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   &&  emp
 ) \/
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_y_pre - gy_pre ) > 0)) (PreH8 : ((a_x_pre - gx_pre ) >= 0)) (PreH9 : ((a_y_pre - gy_pre ) = 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_x_pre - gx_pre ) >= 0)) (PreH8 : ((b_y_pre - gy_pre ) = 0)) (PreH9 : ((b_y_pre - gy_pre ) <= 0)) (PreH10 : ((a_x_pre - gx_pre ) >= 0)) (PreH11 : ((a_y_pre - gy_pre ) = 0)) (PreH12 : ((a_y_pre - gy_pre ) <= 0)) (PreH13 : (CoordInBounds gx_pre )) (PreH14 : (CoordInBounds gy_pre )) (PreH15 : (CoordInBounds a_x_pre )) (PreH16 : (CoordInBounds a_y_pre )) (PreH17 : (CoordInBounds b_x_pre )) (PreH18 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
   “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
@@ -4663,15 +4148,13 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
 ).
 
 Definition cmp_polar_values_return_wit_14_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_y_pre - gy_pre ) > 0)) (PreH8 : ((a_x_pre - gx_pre ) >= 0)) (PreH9 : ((a_y_pre - gy_pre ) = 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_x_pre - gx_pre ) >= 0)) (PreH8 : ((b_y_pre - gy_pre ) = 0)) (PreH9 : ((b_y_pre - gy_pre ) <= 0)) (PreH10 : ((a_x_pre - gx_pre ) >= 0)) (PreH11 : ((a_y_pre - gy_pre ) = 0)) (PreH12 : ((a_y_pre - gy_pre ) <= 0)) (PreH13 : (CoordInBounds gx_pre )) (PreH14 : (CoordInBounds gy_pre )) (PreH15 : (CoordInBounds a_x_pre )) (PreH16 : (CoordInBounds a_y_pre )) (PreH17 : (CoordInBounds b_x_pre )) (PreH18 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 )
 .
 
 Definition cmp_polar_values_return_wit_15 := 
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_x_pre - gx_pre ) >= 0)) (PreH8 : ((b_y_pre - gy_pre ) = 0)) (PreH9 : ((b_y_pre - gy_pre ) <= 0)) (PreH10 : ((a_y_pre - gy_pre ) > 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_x_pre - gx_pre ) < 0)) (PreH8 : ((b_y_pre - gy_pre ) = 0)) (PreH9 : ((b_y_pre - gy_pre ) <= 0)) (PreH10 : ((a_x_pre - gx_pre ) < 0)) (PreH11 : ((a_y_pre - gy_pre ) = 0)) (PreH12 : ((a_y_pre - gy_pre ) <= 0)) (PreH13 : (CoordInBounds gx_pre )) (PreH14 : (CoordInBounds gy_pre )) (PreH15 : (CoordInBounds a_x_pre )) (PreH16 : (CoordInBounds a_y_pre )) (PreH17 : (CoordInBounds b_x_pre )) (PreH18 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
   “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
@@ -4680,7 +4163,7 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   &&  emp
 ) \/
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_x_pre - gx_pre ) >= 0)) (PreH8 : ((b_y_pre - gy_pre ) = 0)) (PreH9 : ((b_y_pre - gy_pre ) <= 0)) (PreH10 : ((a_y_pre - gy_pre ) > 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_x_pre - gx_pre ) < 0)) (PreH8 : ((b_y_pre - gy_pre ) = 0)) (PreH9 : ((b_y_pre - gy_pre ) <= 0)) (PreH10 : ((a_x_pre - gx_pre ) < 0)) (PreH11 : ((a_y_pre - gy_pre ) = 0)) (PreH12 : ((a_y_pre - gy_pre ) <= 0)) (PreH13 : (CoordInBounds gx_pre )) (PreH14 : (CoordInBounds gy_pre )) (PreH15 : (CoordInBounds a_x_pre )) (PreH16 : (CoordInBounds a_y_pre )) (PreH17 : (CoordInBounds b_x_pre )) (PreH18 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
   “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
@@ -4688,15 +4171,13 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
 ).
 
 Definition cmp_polar_values_return_wit_15_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_x_pre - gx_pre ) >= 0)) (PreH8 : ((b_y_pre - gy_pre ) = 0)) (PreH9 : ((b_y_pre - gy_pre ) <= 0)) (PreH10 : ((a_y_pre - gy_pre ) > 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_x_pre - gx_pre ) < 0)) (PreH8 : ((b_y_pre - gy_pre ) = 0)) (PreH9 : ((b_y_pre - gy_pre ) <= 0)) (PreH10 : ((a_x_pre - gx_pre ) < 0)) (PreH11 : ((a_y_pre - gy_pre ) = 0)) (PreH12 : ((a_y_pre - gy_pre ) <= 0)) (PreH13 : (CoordInBounds gx_pre )) (PreH14 : (CoordInBounds gy_pre )) (PreH15 : (CoordInBounds a_x_pre )) (PreH16 : (CoordInBounds a_y_pre )) (PreH17 : (CoordInBounds b_x_pre )) (PreH18 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 )
 .
 
 Definition cmp_polar_values_return_wit_16 := 
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_x_pre - gx_pre ) >= 0)) (PreH8 : ((b_y_pre - gy_pre ) = 0)) (PreH9 : ((b_y_pre - gy_pre ) <= 0)) (PreH10 : ((a_x_pre - gx_pre ) >= 0)) (PreH11 : ((a_y_pre - gy_pre ) = 0)) (PreH12 : ((a_y_pre - gy_pre ) <= 0)) (PreH13 : (CoordInBounds gx_pre )) (PreH14 : (CoordInBounds gy_pre )) (PreH15 : (CoordInBounds a_x_pre )) (PreH16 : (CoordInBounds a_y_pre )) (PreH17 : (CoordInBounds b_x_pre )) (PreH18 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_y_pre - gy_pre ) <> 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_y_pre - gy_pre ) <> 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
   “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
@@ -4705,7 +4186,7 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   &&  emp
 ) \/
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_x_pre - gx_pre ) >= 0)) (PreH8 : ((b_y_pre - gy_pre ) = 0)) (PreH9 : ((b_y_pre - gy_pre ) <= 0)) (PreH10 : ((a_x_pre - gx_pre ) >= 0)) (PreH11 : ((a_y_pre - gy_pre ) = 0)) (PreH12 : ((a_y_pre - gy_pre ) <= 0)) (PreH13 : (CoordInBounds gx_pre )) (PreH14 : (CoordInBounds gy_pre )) (PreH15 : (CoordInBounds a_x_pre )) (PreH16 : (CoordInBounds a_y_pre )) (PreH17 : (CoordInBounds b_x_pre )) (PreH18 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_y_pre - gy_pre ) <> 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_y_pre - gy_pre ) <> 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
   “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
@@ -4713,113 +4194,11 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
 ).
 
 Definition cmp_polar_values_return_wit_16_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_x_pre - gx_pre ) >= 0)) (PreH8 : ((b_y_pre - gy_pre ) = 0)) (PreH9 : ((b_y_pre - gy_pre ) <= 0)) (PreH10 : ((a_x_pre - gx_pre ) >= 0)) (PreH11 : ((a_y_pre - gy_pre ) = 0)) (PreH12 : ((a_y_pre - gy_pre ) <= 0)) (PreH13 : (CoordInBounds gx_pre )) (PreH14 : (CoordInBounds gy_pre )) (PreH15 : (CoordInBounds a_x_pre )) (PreH16 : (CoordInBounds a_y_pre )) (PreH17 : (CoordInBounds b_x_pre )) (PreH18 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_y_pre - gy_pre ) <> 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_y_pre - gy_pre ) <> 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 )
 .
 
 Definition cmp_polar_values_return_wit_17 := 
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_x_pre - gx_pre ) < 0)) (PreH8 : ((b_y_pre - gy_pre ) = 0)) (PreH9 : ((b_y_pre - gy_pre ) <= 0)) (PreH10 : ((a_x_pre - gx_pre ) < 0)) (PreH11 : ((a_y_pre - gy_pre ) = 0)) (PreH12 : ((a_y_pre - gy_pre ) <= 0)) (PreH13 : (CoordInBounds gx_pre )) (PreH14 : (CoordInBounds gy_pre )) (PreH15 : (CoordInBounds a_x_pre )) (PreH16 : (CoordInBounds a_y_pre )) (PreH17 : (CoordInBounds b_x_pre )) (PreH18 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
-  &&  “ ((-1) <= 1) ” 
-  &&  “ (1 <= 1) ”
-  &&  emp
-) \/
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_x_pre - gx_pre ) < 0)) (PreH8 : ((b_y_pre - gy_pre ) = 0)) (PreH9 : ((b_y_pre - gy_pre ) <= 0)) (PreH10 : ((a_x_pre - gx_pre ) < 0)) (PreH11 : ((a_y_pre - gy_pre ) = 0)) (PreH12 : ((a_y_pre - gy_pre ) <= 0)) (PreH13 : (CoordInBounds gx_pre )) (PreH14 : (CoordInBounds gy_pre )) (PreH15 : (CoordInBounds a_x_pre )) (PreH16 : (CoordInBounds a_y_pre )) (PreH17 : (CoordInBounds b_x_pre )) (PreH18 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
-  &&  emp
-).
-
-Definition cmp_polar_values_return_wit_17_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_x_pre - gx_pre ) < 0)) (PreH8 : ((b_y_pre - gy_pre ) = 0)) (PreH9 : ((b_y_pre - gy_pre ) <= 0)) (PreH10 : ((a_x_pre - gx_pre ) < 0)) (PreH11 : ((a_y_pre - gy_pre ) = 0)) (PreH12 : ((a_y_pre - gy_pre ) <= 0)) (PreH13 : (CoordInBounds gx_pre )) (PreH14 : (CoordInBounds gy_pre )) (PreH15 : (CoordInBounds a_x_pre )) (PreH16 : (CoordInBounds a_y_pre )) (PreH17 : (CoordInBounds b_x_pre )) (PreH18 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
-.
-
-Definition cmp_polar_values_return_wit_18 := 
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_x_pre - gx_pre ) < 0)) (PreH8 : ((b_y_pre - gy_pre ) = 0)) (PreH9 : ((b_y_pre - gy_pre ) <= 0)) (PreH10 : ((a_y_pre - gy_pre ) <> 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
-  &&  “ ((-1) <= 1) ” 
-  &&  “ (1 <= 1) ”
-  &&  emp
-) \/
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_x_pre - gx_pre ) < 0)) (PreH8 : ((b_y_pre - gy_pre ) = 0)) (PreH9 : ((b_y_pre - gy_pre ) <= 0)) (PreH10 : ((a_y_pre - gy_pre ) <> 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
-  &&  emp
-).
-
-Definition cmp_polar_values_return_wit_18_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_x_pre - gx_pre ) < 0)) (PreH8 : ((b_y_pre - gy_pre ) = 0)) (PreH9 : ((b_y_pre - gy_pre ) <= 0)) (PreH10 : ((a_y_pre - gy_pre ) <> 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
-.
-
-Definition cmp_polar_values_return_wit_19 := 
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_y_pre - gy_pre ) <> 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_x_pre - gx_pre ) < 0)) (PreH10 : ((a_y_pre - gy_pre ) = 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
-  &&  “ ((-1) <= 1) ” 
-  &&  “ (1 <= 1) ”
-  &&  emp
-) \/
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_y_pre - gy_pre ) <> 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_x_pre - gx_pre ) < 0)) (PreH10 : ((a_y_pre - gy_pre ) = 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
-  &&  emp
-).
-
-Definition cmp_polar_values_return_wit_19_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_y_pre - gy_pre ) <> 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_x_pre - gx_pre ) < 0)) (PreH10 : ((a_y_pre - gy_pre ) = 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
-.
-
-Definition cmp_polar_values_return_wit_20 := 
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_y_pre - gy_pre ) <> 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_y_pre - gy_pre ) <> 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
-  &&  “ ((-1) <= 1) ” 
-  &&  “ (1 <= 1) ”
-  &&  emp
-) \/
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_y_pre - gy_pre ) <> 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_y_pre - gy_pre ) <> 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
-  &&  emp
-).
-
-Definition cmp_polar_values_return_wit_20_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre > b_x_pre)) (PreH2 : (a_x_pre >= b_x_pre)) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH6 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH7 : ((b_y_pre - gy_pre ) <> 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_y_pre - gy_pre ) <> 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
-.
-
-Definition cmp_polar_values_return_wit_21 := 
 (
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_y_pre - gy_pre ) > 0)) (PreH7 : ((a_y_pre - gy_pre ) > 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
   TT && emp 
@@ -4831,6 +4210,98 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
 ) \/
 (
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_y_pre - gy_pre ) > 0)) (PreH7 : ((a_y_pre - gy_pre ) > 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
+  TT && emp 
+|--
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
+  &&  emp
+).
+
+Definition cmp_polar_values_return_wit_17_split_goal_1 := 
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_y_pre - gy_pre ) > 0)) (PreH7 : ((a_y_pre - gy_pre ) > 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) )
+.
+
+Definition cmp_polar_values_return_wit_18 := 
+(
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_y_pre - gy_pre ) > 0)) (PreH7 : ((a_x_pre - gx_pre ) >= 0)) (PreH8 : ((a_y_pre - gy_pre ) = 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
+  TT && emp 
+|--
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
+  &&  “ ((-1) <= (-1)) ” 
+  &&  “ ((-1) <= 1) ”
+  &&  emp
+) \/
+(
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_y_pre - gy_pre ) > 0)) (PreH7 : ((a_x_pre - gx_pre ) >= 0)) (PreH8 : ((a_y_pre - gy_pre ) = 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
+  TT && emp 
+|--
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
+  &&  emp
+).
+
+Definition cmp_polar_values_return_wit_18_split_goal_1 := 
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_y_pre - gy_pre ) > 0)) (PreH7 : ((a_x_pre - gx_pre ) >= 0)) (PreH8 : ((a_y_pre - gy_pre ) = 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) )
+.
+
+Definition cmp_polar_values_return_wit_19 := 
+(
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_x_pre - gx_pre ) >= 0)) (PreH7 : ((b_y_pre - gy_pre ) = 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_y_pre - gy_pre ) > 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
+  TT && emp 
+|--
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
+  &&  “ ((-1) <= (-1)) ” 
+  &&  “ ((-1) <= 1) ”
+  &&  emp
+) \/
+(
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_x_pre - gx_pre ) >= 0)) (PreH7 : ((b_y_pre - gy_pre ) = 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_y_pre - gy_pre ) > 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
+  TT && emp 
+|--
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
+  &&  emp
+).
+
+Definition cmp_polar_values_return_wit_19_split_goal_1 := 
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_x_pre - gx_pre ) >= 0)) (PreH7 : ((b_y_pre - gy_pre ) = 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_y_pre - gy_pre ) > 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) )
+.
+
+Definition cmp_polar_values_return_wit_20 := 
+(
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_x_pre - gx_pre ) >= 0)) (PreH7 : ((b_y_pre - gy_pre ) = 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_x_pre - gx_pre ) >= 0)) (PreH10 : ((a_y_pre - gy_pre ) = 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
+  TT && emp 
+|--
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
+  &&  “ ((-1) <= (-1)) ” 
+  &&  “ ((-1) <= 1) ”
+  &&  emp
+) \/
+(
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_x_pre - gx_pre ) >= 0)) (PreH7 : ((b_y_pre - gy_pre ) = 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_x_pre - gx_pre ) >= 0)) (PreH10 : ((a_y_pre - gy_pre ) = 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
+  TT && emp 
+|--
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
+  &&  emp
+).
+
+Definition cmp_polar_values_return_wit_20_split_goal_1 := 
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_x_pre - gx_pre ) >= 0)) (PreH7 : ((b_y_pre - gy_pre ) = 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_x_pre - gx_pre ) >= 0)) (PreH10 : ((a_y_pre - gy_pre ) = 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) )
+.
+
+Definition cmp_polar_values_return_wit_21 := 
+(
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_x_pre - gx_pre ) < 0)) (PreH7 : ((b_y_pre - gy_pre ) = 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_x_pre - gx_pre ) < 0)) (PreH10 : ((a_y_pre - gy_pre ) = 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
+  TT && emp 
+|--
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
+  &&  “ ((-1) <= (-1)) ” 
+  &&  “ ((-1) <= 1) ”
+  &&  emp
+) \/
+(
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_x_pre - gx_pre ) < 0)) (PreH7 : ((b_y_pre - gy_pre ) = 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_x_pre - gx_pre ) < 0)) (PreH10 : ((a_y_pre - gy_pre ) = 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
   “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
@@ -4838,15 +4309,13 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
 ).
 
 Definition cmp_polar_values_return_wit_21_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_y_pre - gy_pre ) > 0)) (PreH7 : ((a_y_pre - gy_pre ) > 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_x_pre - gx_pre ) < 0)) (PreH7 : ((b_y_pre - gy_pre ) = 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_x_pre - gx_pre ) < 0)) (PreH10 : ((a_y_pre - gy_pre ) = 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) )
 .
 
 Definition cmp_polar_values_return_wit_22 := 
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_y_pre - gy_pre ) > 0)) (PreH7 : ((a_x_pre - gx_pre ) >= 0)) (PreH8 : ((a_y_pre - gy_pre ) = 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_y_pre - gy_pre ) <> 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_y_pre - gy_pre ) <> 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
   “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
@@ -4855,7 +4324,7 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   &&  emp
 ) \/
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_y_pre - gy_pre ) > 0)) (PreH7 : ((a_x_pre - gx_pre ) >= 0)) (PreH8 : ((a_y_pre - gy_pre ) = 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_y_pre - gy_pre ) <> 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_y_pre - gy_pre ) <> 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
   “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
@@ -4863,140 +4332,151 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
 ).
 
 Definition cmp_polar_values_return_wit_22_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_y_pre - gy_pre ) > 0)) (PreH7 : ((a_x_pre - gx_pre ) >= 0)) (PreH8 : ((a_y_pre - gy_pre ) = 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_y_pre - gy_pre ) <> 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_y_pre - gy_pre ) <> 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) )
 .
 
 Definition cmp_polar_values_return_wit_23 := 
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_x_pre - gx_pre ) >= 0)) (PreH7 : ((b_y_pre - gy_pre ) = 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_y_pre - gy_pre ) > 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_y_pre - gy_pre ) > 0)) (PreH6 : ((a_y_pre - gy_pre ) > 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
-  &&  “ ((-1) <= (-1)) ” 
-  &&  “ ((-1) <= 1) ”
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
+  &&  “ ((-1) <= 1) ” 
+  &&  “ (1 <= 1) ”
   &&  emp
 ) \/
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_x_pre - gx_pre ) >= 0)) (PreH7 : ((b_y_pre - gy_pre ) = 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_y_pre - gy_pre ) > 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_y_pre - gy_pre ) > 0)) (PreH6 : ((a_y_pre - gy_pre ) > 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
   &&  emp
 ).
 
 Definition cmp_polar_values_return_wit_23_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_x_pre - gx_pre ) >= 0)) (PreH7 : ((b_y_pre - gy_pre ) = 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_y_pre - gy_pre ) > 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_y_pre - gy_pre ) > 0)) (PreH6 : ((a_y_pre - gy_pre ) > 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 )
 .
 
 Definition cmp_polar_values_return_wit_24 := 
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_x_pre - gx_pre ) >= 0)) (PreH7 : ((b_y_pre - gy_pre ) = 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_x_pre - gx_pre ) >= 0)) (PreH10 : ((a_y_pre - gy_pre ) = 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_y_pre - gy_pre ) > 0)) (PreH6 : ((a_x_pre - gx_pre ) >= 0)) (PreH7 : ((a_y_pre - gy_pre ) = 0)) (PreH8 : ((a_y_pre - gy_pre ) <= 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
-  &&  “ ((-1) <= (-1)) ” 
-  &&  “ ((-1) <= 1) ”
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
+  &&  “ ((-1) <= 1) ” 
+  &&  “ (1 <= 1) ”
   &&  emp
 ) \/
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_x_pre - gx_pre ) >= 0)) (PreH7 : ((b_y_pre - gy_pre ) = 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_x_pre - gx_pre ) >= 0)) (PreH10 : ((a_y_pre - gy_pre ) = 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_y_pre - gy_pre ) > 0)) (PreH6 : ((a_x_pre - gx_pre ) >= 0)) (PreH7 : ((a_y_pre - gy_pre ) = 0)) (PreH8 : ((a_y_pre - gy_pre ) <= 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
   &&  emp
 ).
 
 Definition cmp_polar_values_return_wit_24_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_x_pre - gx_pre ) >= 0)) (PreH7 : ((b_y_pre - gy_pre ) = 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_x_pre - gx_pre ) >= 0)) (PreH10 : ((a_y_pre - gy_pre ) = 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_y_pre - gy_pre ) > 0)) (PreH6 : ((a_x_pre - gx_pre ) >= 0)) (PreH7 : ((a_y_pre - gy_pre ) = 0)) (PreH8 : ((a_y_pre - gy_pre ) <= 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 )
 .
 
 Definition cmp_polar_values_return_wit_25 := 
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_x_pre - gx_pre ) < 0)) (PreH7 : ((b_y_pre - gy_pre ) = 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_x_pre - gx_pre ) < 0)) (PreH10 : ((a_y_pre - gy_pre ) = 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_x_pre - gx_pre ) >= 0)) (PreH6 : ((b_y_pre - gy_pre ) = 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_y_pre - gy_pre ) > 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
-  &&  “ ((-1) <= (-1)) ” 
-  &&  “ ((-1) <= 1) ”
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
+  &&  “ ((-1) <= 1) ” 
+  &&  “ (1 <= 1) ”
   &&  emp
 ) \/
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_x_pre - gx_pre ) < 0)) (PreH7 : ((b_y_pre - gy_pre ) = 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_x_pre - gx_pre ) < 0)) (PreH10 : ((a_y_pre - gy_pre ) = 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_x_pre - gx_pre ) >= 0)) (PreH6 : ((b_y_pre - gy_pre ) = 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_y_pre - gy_pre ) > 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
   &&  emp
 ).
 
 Definition cmp_polar_values_return_wit_25_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_x_pre - gx_pre ) < 0)) (PreH7 : ((b_y_pre - gy_pre ) = 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_x_pre - gx_pre ) < 0)) (PreH10 : ((a_y_pre - gy_pre ) = 0)) (PreH11 : ((a_y_pre - gy_pre ) <= 0)) (PreH12 : (CoordInBounds gx_pre )) (PreH13 : (CoordInBounds gy_pre )) (PreH14 : (CoordInBounds a_x_pre )) (PreH15 : (CoordInBounds a_y_pre )) (PreH16 : (CoordInBounds b_x_pre )) (PreH17 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_x_pre - gx_pre ) >= 0)) (PreH6 : ((b_y_pre - gy_pre ) = 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_y_pre - gy_pre ) > 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 )
 .
 
 Definition cmp_polar_values_return_wit_26 := 
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_x_pre - gx_pre ) < 0)) (PreH7 : ((b_y_pre - gy_pre ) = 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_y_pre - gy_pre ) <> 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_x_pre - gx_pre ) >= 0)) (PreH6 : ((b_y_pre - gy_pre ) = 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_x_pre - gx_pre ) >= 0)) (PreH9 : ((a_y_pre - gy_pre ) = 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
-  &&  “ ((-1) <= (-1)) ” 
-  &&  “ ((-1) <= 1) ”
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
+  &&  “ ((-1) <= 1) ” 
+  &&  “ (1 <= 1) ”
   &&  emp
 ) \/
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_x_pre - gx_pre ) < 0)) (PreH7 : ((b_y_pre - gy_pre ) = 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_y_pre - gy_pre ) <> 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_x_pre - gx_pre ) >= 0)) (PreH6 : ((b_y_pre - gy_pre ) = 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_x_pre - gx_pre ) >= 0)) (PreH9 : ((a_y_pre - gy_pre ) = 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
   &&  emp
 ).
 
 Definition cmp_polar_values_return_wit_26_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_x_pre - gx_pre ) < 0)) (PreH7 : ((b_y_pre - gy_pre ) = 0)) (PreH8 : ((b_y_pre - gy_pre ) <= 0)) (PreH9 : ((a_y_pre - gy_pre ) <> 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_x_pre - gx_pre ) >= 0)) (PreH6 : ((b_y_pre - gy_pre ) = 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_x_pre - gx_pre ) >= 0)) (PreH9 : ((a_y_pre - gy_pre ) = 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 )
 .
 
 Definition cmp_polar_values_return_wit_27 := 
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_y_pre - gy_pre ) <> 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_x_pre - gx_pre ) < 0)) (PreH9 : ((a_y_pre - gy_pre ) = 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_x_pre - gx_pre ) < 0)) (PreH6 : ((b_y_pre - gy_pre ) = 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_x_pre - gx_pre ) < 0)) (PreH9 : ((a_y_pre - gy_pre ) = 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
-  &&  “ ((-1) <= (-1)) ” 
-  &&  “ ((-1) <= 1) ”
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
+  &&  “ ((-1) <= 1) ” 
+  &&  “ (1 <= 1) ”
   &&  emp
 ) \/
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_y_pre - gy_pre ) <> 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_x_pre - gx_pre ) < 0)) (PreH9 : ((a_y_pre - gy_pre ) = 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_x_pre - gx_pre ) < 0)) (PreH6 : ((b_y_pre - gy_pre ) = 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_x_pre - gx_pre ) < 0)) (PreH9 : ((a_y_pre - gy_pre ) = 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
   &&  emp
 ).
 
 Definition cmp_polar_values_return_wit_27_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_y_pre - gy_pre ) <> 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_x_pre - gx_pre ) < 0)) (PreH9 : ((a_y_pre - gy_pre ) = 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_x_pre - gx_pre ) < 0)) (PreH6 : ((b_y_pre - gy_pre ) = 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_x_pre - gx_pre ) < 0)) (PreH9 : ((a_y_pre - gy_pre ) = 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 )
 .
 
 Definition cmp_polar_values_return_wit_28 := 
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_y_pre - gy_pre ) <> 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_y_pre - gy_pre ) <> 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_y_pre - gy_pre ) <> 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_y_pre - gy_pre ) <> 0)) (PreH8 : ((a_y_pre - gy_pre ) <= 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
+  TT && emp 
+|--
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
+  &&  “ ((-1) <= 1) ” 
+  &&  “ (1 <= 1) ”
+  &&  emp
+) \/
+(
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_y_pre - gy_pre ) <> 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_y_pre - gy_pre ) <> 0)) (PreH8 : ((a_y_pre - gy_pre ) <= 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
+  TT && emp 
+|--
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
+  &&  emp
+).
+
+Definition cmp_polar_values_return_wit_28_split_goal_1 := 
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_y_pre - gy_pre ) <> 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_y_pre - gy_pre ) <> 0)) (PreH8 : ((a_y_pre - gy_pre ) <= 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 )
+.
+
+Definition cmp_polar_values_return_wit_29 := 
+(
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_y_pre - gy_pre ) > 0)) (PreH5 : ((a_y_pre - gy_pre ) > 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
   “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
@@ -5005,173 +4485,136 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   &&  emp
 ) \/
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_y_pre - gy_pre ) <> 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_y_pre - gy_pre ) <> 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_y_pre - gy_pre ) > 0)) (PreH5 : ((a_y_pre - gy_pre ) > 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
   “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
-  &&  emp
-).
-
-Definition cmp_polar_values_return_wit_28_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (a_x_pre < b_x_pre)) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH5 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH6 : ((b_y_pre - gy_pre ) <> 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_y_pre - gy_pre ) <> 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
-.
-
-Definition cmp_polar_values_return_wit_29 := 
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_y_pre - gy_pre ) > 0)) (PreH6 : ((a_y_pre - gy_pre ) > 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
-  &&  “ ((-1) <= 1) ” 
-  &&  “ (1 <= 1) ”
-  &&  emp
-) \/
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_y_pre - gy_pre ) > 0)) (PreH6 : ((a_y_pre - gy_pre ) > 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
   &&  emp
 ).
 
 Definition cmp_polar_values_return_wit_29_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_y_pre - gy_pre ) > 0)) (PreH6 : ((a_y_pre - gy_pre ) > 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_y_pre - gy_pre ) > 0)) (PreH5 : ((a_y_pre - gy_pre ) > 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) )
 .
 
 Definition cmp_polar_values_return_wit_30 := 
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_y_pre - gy_pre ) > 0)) (PreH6 : ((a_x_pre - gx_pre ) >= 0)) (PreH7 : ((a_y_pre - gy_pre ) = 0)) (PreH8 : ((a_y_pre - gy_pre ) <= 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_y_pre - gy_pre ) > 0)) (PreH5 : ((a_x_pre - gx_pre ) >= 0)) (PreH6 : ((a_y_pre - gy_pre ) = 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
-  &&  “ ((-1) <= 1) ” 
-  &&  “ (1 <= 1) ”
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
+  &&  “ ((-1) <= (-1)) ” 
+  &&  “ ((-1) <= 1) ”
   &&  emp
 ) \/
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_y_pre - gy_pre ) > 0)) (PreH6 : ((a_x_pre - gx_pre ) >= 0)) (PreH7 : ((a_y_pre - gy_pre ) = 0)) (PreH8 : ((a_y_pre - gy_pre ) <= 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_y_pre - gy_pre ) > 0)) (PreH5 : ((a_x_pre - gx_pre ) >= 0)) (PreH6 : ((a_y_pre - gy_pre ) = 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
   &&  emp
 ).
 
 Definition cmp_polar_values_return_wit_30_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_y_pre - gy_pre ) > 0)) (PreH6 : ((a_x_pre - gx_pre ) >= 0)) (PreH7 : ((a_y_pre - gy_pre ) = 0)) (PreH8 : ((a_y_pre - gy_pre ) <= 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_y_pre - gy_pre ) > 0)) (PreH5 : ((a_x_pre - gx_pre ) >= 0)) (PreH6 : ((a_y_pre - gy_pre ) = 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) )
 .
 
 Definition cmp_polar_values_return_wit_31 := 
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_x_pre - gx_pre ) >= 0)) (PreH6 : ((b_y_pre - gy_pre ) = 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_y_pre - gy_pre ) > 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_x_pre - gx_pre ) >= 0)) (PreH5 : ((b_y_pre - gy_pre ) = 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_y_pre - gy_pre ) > 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
-  &&  “ ((-1) <= 1) ” 
-  &&  “ (1 <= 1) ”
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
+  &&  “ ((-1) <= (-1)) ” 
+  &&  “ ((-1) <= 1) ”
   &&  emp
 ) \/
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_x_pre - gx_pre ) >= 0)) (PreH6 : ((b_y_pre - gy_pre ) = 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_y_pre - gy_pre ) > 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_x_pre - gx_pre ) >= 0)) (PreH5 : ((b_y_pre - gy_pre ) = 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_y_pre - gy_pre ) > 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
   &&  emp
 ).
 
 Definition cmp_polar_values_return_wit_31_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_x_pre - gx_pre ) >= 0)) (PreH6 : ((b_y_pre - gy_pre ) = 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_y_pre - gy_pre ) > 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_x_pre - gx_pre ) >= 0)) (PreH5 : ((b_y_pre - gy_pre ) = 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_y_pre - gy_pre ) > 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) )
 .
 
 Definition cmp_polar_values_return_wit_32 := 
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_x_pre - gx_pre ) >= 0)) (PreH6 : ((b_y_pre - gy_pre ) = 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_x_pre - gx_pre ) >= 0)) (PreH9 : ((a_y_pre - gy_pre ) = 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_x_pre - gx_pre ) >= 0)) (PreH5 : ((b_y_pre - gy_pre ) = 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_x_pre - gx_pre ) >= 0)) (PreH8 : ((a_y_pre - gy_pre ) = 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
-  &&  “ ((-1) <= 1) ” 
-  &&  “ (1 <= 1) ”
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
+  &&  “ ((-1) <= (-1)) ” 
+  &&  “ ((-1) <= 1) ”
   &&  emp
 ) \/
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_x_pre - gx_pre ) >= 0)) (PreH6 : ((b_y_pre - gy_pre ) = 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_x_pre - gx_pre ) >= 0)) (PreH9 : ((a_y_pre - gy_pre ) = 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_x_pre - gx_pre ) >= 0)) (PreH5 : ((b_y_pre - gy_pre ) = 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_x_pre - gx_pre ) >= 0)) (PreH8 : ((a_y_pre - gy_pre ) = 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
   &&  emp
 ).
 
 Definition cmp_polar_values_return_wit_32_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_x_pre - gx_pre ) >= 0)) (PreH6 : ((b_y_pre - gy_pre ) = 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_x_pre - gx_pre ) >= 0)) (PreH9 : ((a_y_pre - gy_pre ) = 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_x_pre - gx_pre ) >= 0)) (PreH5 : ((b_y_pre - gy_pre ) = 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_x_pre - gx_pre ) >= 0)) (PreH8 : ((a_y_pre - gy_pre ) = 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) )
 .
 
 Definition cmp_polar_values_return_wit_33 := 
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_x_pre - gx_pre ) < 0)) (PreH6 : ((b_y_pre - gy_pre ) = 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_x_pre - gx_pre ) < 0)) (PreH9 : ((a_y_pre - gy_pre ) = 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_x_pre - gx_pre ) < 0)) (PreH5 : ((b_y_pre - gy_pre ) = 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_x_pre - gx_pre ) < 0)) (PreH8 : ((a_y_pre - gy_pre ) = 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
-  &&  “ ((-1) <= 1) ” 
-  &&  “ (1 <= 1) ”
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
+  &&  “ ((-1) <= (-1)) ” 
+  &&  “ ((-1) <= 1) ”
   &&  emp
 ) \/
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_x_pre - gx_pre ) < 0)) (PreH6 : ((b_y_pre - gy_pre ) = 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_x_pre - gx_pre ) < 0)) (PreH9 : ((a_y_pre - gy_pre ) = 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_x_pre - gx_pre ) < 0)) (PreH5 : ((b_y_pre - gy_pre ) = 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_x_pre - gx_pre ) < 0)) (PreH8 : ((a_y_pre - gy_pre ) = 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
   &&  emp
 ).
 
 Definition cmp_polar_values_return_wit_33_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_x_pre - gx_pre ) < 0)) (PreH6 : ((b_y_pre - gy_pre ) = 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_x_pre - gx_pre ) < 0)) (PreH9 : ((a_y_pre - gy_pre ) = 0)) (PreH10 : ((a_y_pre - gy_pre ) <= 0)) (PreH11 : (CoordInBounds gx_pre )) (PreH12 : (CoordInBounds gy_pre )) (PreH13 : (CoordInBounds a_x_pre )) (PreH14 : (CoordInBounds a_y_pre )) (PreH15 : (CoordInBounds b_x_pre )) (PreH16 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_x_pre - gx_pre ) < 0)) (PreH5 : ((b_y_pre - gy_pre ) = 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_x_pre - gx_pre ) < 0)) (PreH8 : ((a_y_pre - gy_pre ) = 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) )
 .
 
 Definition cmp_polar_values_return_wit_34 := 
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_x_pre - gx_pre ) < 0)) (PreH6 : ((b_y_pre - gy_pre ) = 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_y_pre - gy_pre ) <> 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_y_pre - gy_pre ) <> 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_y_pre - gy_pre ) <> 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
-  &&  “ ((-1) <= 1) ” 
-  &&  “ (1 <= 1) ”
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
+  &&  “ ((-1) <= (-1)) ” 
+  &&  “ ((-1) <= 1) ”
   &&  emp
 ) \/
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_x_pre - gx_pre ) < 0)) (PreH6 : ((b_y_pre - gy_pre ) = 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_y_pre - gy_pre ) <> 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_y_pre - gy_pre ) <> 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_y_pre - gy_pre ) <> 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
   &&  emp
 ).
 
 Definition cmp_polar_values_return_wit_34_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_x_pre - gx_pre ) < 0)) (PreH6 : ((b_y_pre - gy_pre ) = 0)) (PreH7 : ((b_y_pre - gy_pre ) <= 0)) (PreH8 : ((a_y_pre - gy_pre ) <> 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_y_pre - gy_pre ) <> 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_y_pre - gy_pre ) <> 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) )
 .
 
 Definition cmp_polar_values_return_wit_35 := 
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_y_pre - gy_pre ) <> 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_x_pre - gx_pre ) < 0)) (PreH8 : ((a_y_pre - gy_pre ) = 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_y_pre - gy_pre ) > 0)) (PreH4 : ((a_y_pre - gy_pre ) > 0)) (PreH5 : (CoordInBounds gx_pre )) (PreH6 : (CoordInBounds gy_pre )) (PreH7 : (CoordInBounds a_x_pre )) (PreH8 : (CoordInBounds a_y_pre )) (PreH9 : (CoordInBounds b_x_pre )) (PreH10 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
   “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
@@ -5180,7 +4623,7 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   &&  emp
 ) \/
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_y_pre - gy_pre ) <> 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_x_pre - gx_pre ) < 0)) (PreH8 : ((a_y_pre - gy_pre ) = 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_y_pre - gy_pre ) > 0)) (PreH4 : ((a_y_pre - gy_pre ) > 0)) (PreH5 : (CoordInBounds gx_pre )) (PreH6 : (CoordInBounds gy_pre )) (PreH7 : (CoordInBounds a_x_pre )) (PreH8 : (CoordInBounds a_y_pre )) (PreH9 : (CoordInBounds b_x_pre )) (PreH10 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
   “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
@@ -5188,15 +4631,13 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
 ).
 
 Definition cmp_polar_values_return_wit_35_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_y_pre - gy_pre ) <> 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_x_pre - gx_pre ) < 0)) (PreH8 : ((a_y_pre - gy_pre ) = 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_y_pre - gy_pre ) > 0)) (PreH4 : ((a_y_pre - gy_pre ) > 0)) (PreH5 : (CoordInBounds gx_pre )) (PreH6 : (CoordInBounds gy_pre )) (PreH7 : (CoordInBounds a_x_pre )) (PreH8 : (CoordInBounds a_y_pre )) (PreH9 : (CoordInBounds b_x_pre )) (PreH10 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 )
 .
 
 Definition cmp_polar_values_return_wit_36 := 
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_y_pre - gy_pre ) <> 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_y_pre - gy_pre ) <> 0)) (PreH8 : ((a_y_pre - gy_pre ) <= 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_x_pre - gx_pre ) >= 0)) (PreH4 : ((b_y_pre - gy_pre ) = 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_y_pre - gy_pre ) > 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
   “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
@@ -5205,7 +4646,7 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   &&  emp
 ) \/
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_y_pre - gy_pre ) <> 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_y_pre - gy_pre ) <> 0)) (PreH8 : ((a_y_pre - gy_pre ) <= 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_x_pre - gx_pre ) >= 0)) (PreH4 : ((b_y_pre - gy_pre ) = 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_y_pre - gy_pre ) > 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
   “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
@@ -5213,65 +4654,59 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
 ).
 
 Definition cmp_polar_values_return_wit_36_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) > (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) >= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH4 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH5 : ((b_y_pre - gy_pre ) <> 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_y_pre - gy_pre ) <> 0)) (PreH8 : ((a_y_pre - gy_pre ) <= 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_x_pre - gx_pre ) >= 0)) (PreH4 : ((b_y_pre - gy_pre ) = 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_y_pre - gy_pre ) > 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 )
 .
 
 Definition cmp_polar_values_return_wit_37 := 
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_y_pre - gy_pre ) > 0)) (PreH5 : ((a_y_pre - gy_pre ) > 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_x_pre - gx_pre ) < 0)) (PreH4 : ((b_y_pre - gy_pre ) = 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_y_pre - gy_pre ) <> 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
-  &&  “ ((-1) <= (-1)) ” 
-  &&  “ ((-1) <= 1) ”
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
+  &&  “ ((-1) <= 1) ” 
+  &&  “ (1 <= 1) ”
   &&  emp
 ) \/
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_y_pre - gy_pre ) > 0)) (PreH5 : ((a_y_pre - gy_pre ) > 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_x_pre - gx_pre ) < 0)) (PreH4 : ((b_y_pre - gy_pre ) = 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_y_pre - gy_pre ) <> 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
   &&  emp
 ).
 
 Definition cmp_polar_values_return_wit_37_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_y_pre - gy_pre ) > 0)) (PreH5 : ((a_y_pre - gy_pre ) > 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_x_pre - gx_pre ) < 0)) (PreH4 : ((b_y_pre - gy_pre ) = 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_y_pre - gy_pre ) <> 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 )
 .
 
 Definition cmp_polar_values_return_wit_38 := 
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_y_pre - gy_pre ) > 0)) (PreH5 : ((a_x_pre - gx_pre ) >= 0)) (PreH6 : ((a_y_pre - gy_pre ) = 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_y_pre - gy_pre ) <> 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_y_pre - gy_pre ) <> 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
-  &&  “ ((-1) <= (-1)) ” 
-  &&  “ ((-1) <= 1) ”
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
+  &&  “ ((-1) <= 1) ” 
+  &&  “ (1 <= 1) ”
   &&  emp
 ) \/
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_y_pre - gy_pre ) > 0)) (PreH5 : ((a_x_pre - gx_pre ) >= 0)) (PreH6 : ((a_y_pre - gy_pre ) = 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_y_pre - gy_pre ) <> 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_y_pre - gy_pre ) <> 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
   &&  emp
 ).
 
 Definition cmp_polar_values_return_wit_38_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_y_pre - gy_pre ) > 0)) (PreH5 : ((a_x_pre - gx_pre ) >= 0)) (PreH6 : ((a_y_pre - gy_pre ) = 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_y_pre - gy_pre ) <> 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_y_pre - gy_pre ) <> 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 )
 .
 
 Definition cmp_polar_values_return_wit_39 := 
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_x_pre - gx_pre ) >= 0)) (PreH5 : ((b_y_pre - gy_pre ) = 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_y_pre - gy_pre ) > 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_y_pre - gy_pre ) > 0)) (PreH3 : ((a_y_pre - gy_pre ) > 0)) (PreH4 : (CoordInBounds gx_pre )) (PreH5 : (CoordInBounds gy_pre )) (PreH6 : (CoordInBounds a_x_pre )) (PreH7 : (CoordInBounds a_y_pre )) (PreH8 : (CoordInBounds b_x_pre )) (PreH9 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
   “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
@@ -5280,7 +4715,7 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   &&  emp
 ) \/
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_x_pre - gx_pre ) >= 0)) (PreH5 : ((b_y_pre - gy_pre ) = 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_y_pre - gy_pre ) > 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_y_pre - gy_pre ) > 0)) (PreH3 : ((a_y_pre - gy_pre ) > 0)) (PreH4 : (CoordInBounds gx_pre )) (PreH5 : (CoordInBounds gy_pre )) (PreH6 : (CoordInBounds a_x_pre )) (PreH7 : (CoordInBounds a_y_pre )) (PreH8 : (CoordInBounds b_x_pre )) (PreH9 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
   “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
@@ -5288,15 +4723,13 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
 ).
 
 Definition cmp_polar_values_return_wit_39_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_x_pre - gx_pre ) >= 0)) (PreH5 : ((b_y_pre - gy_pre ) = 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_y_pre - gy_pre ) > 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_y_pre - gy_pre ) > 0)) (PreH3 : ((a_y_pre - gy_pre ) > 0)) (PreH4 : (CoordInBounds gx_pre )) (PreH5 : (CoordInBounds gy_pre )) (PreH6 : (CoordInBounds a_x_pre )) (PreH7 : (CoordInBounds a_y_pre )) (PreH8 : (CoordInBounds b_x_pre )) (PreH9 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) )
 .
 
 Definition cmp_polar_values_return_wit_40 := 
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_x_pre - gx_pre ) >= 0)) (PreH5 : ((b_y_pre - gy_pre ) = 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_x_pre - gx_pre ) >= 0)) (PreH8 : ((a_y_pre - gy_pre ) = 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_y_pre - gy_pre ) > 0)) (PreH3 : ((a_x_pre - gx_pre ) >= 0)) (PreH4 : ((a_y_pre - gy_pre ) = 0)) (PreH5 : ((a_y_pre - gy_pre ) <= 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
   “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
@@ -5305,7 +4738,7 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   &&  emp
 ) \/
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_x_pre - gx_pre ) >= 0)) (PreH5 : ((b_y_pre - gy_pre ) = 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_x_pre - gx_pre ) >= 0)) (PreH8 : ((a_y_pre - gy_pre ) = 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_y_pre - gy_pre ) > 0)) (PreH3 : ((a_x_pre - gx_pre ) >= 0)) (PreH4 : ((a_y_pre - gy_pre ) = 0)) (PreH5 : ((a_y_pre - gy_pre ) <= 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
   “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
@@ -5313,15 +4746,13 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
 ).
 
 Definition cmp_polar_values_return_wit_40_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_x_pre - gx_pre ) >= 0)) (PreH5 : ((b_y_pre - gy_pre ) = 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_x_pre - gx_pre ) >= 0)) (PreH8 : ((a_y_pre - gy_pre ) = 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_y_pre - gy_pre ) > 0)) (PreH3 : ((a_x_pre - gx_pre ) >= 0)) (PreH4 : ((a_y_pre - gy_pre ) = 0)) (PreH5 : ((a_y_pre - gy_pre ) <= 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) )
 .
 
 Definition cmp_polar_values_return_wit_41 := 
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_x_pre - gx_pre ) < 0)) (PreH5 : ((b_y_pre - gy_pre ) = 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_x_pre - gx_pre ) < 0)) (PreH8 : ((a_y_pre - gy_pre ) = 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_y_pre - gy_pre ) <> 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_x_pre - gx_pre ) < 0)) (PreH5 : ((a_y_pre - gy_pre ) = 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
   “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
@@ -5330,7 +4761,7 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   &&  emp
 ) \/
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_x_pre - gx_pre ) < 0)) (PreH5 : ((b_y_pre - gy_pre ) = 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_x_pre - gx_pre ) < 0)) (PreH8 : ((a_y_pre - gy_pre ) = 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_y_pre - gy_pre ) <> 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_x_pre - gx_pre ) < 0)) (PreH5 : ((a_y_pre - gy_pre ) = 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
   “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
@@ -5338,15 +4769,13 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
 ).
 
 Definition cmp_polar_values_return_wit_41_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_x_pre - gx_pre ) < 0)) (PreH5 : ((b_y_pre - gy_pre ) = 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_x_pre - gx_pre ) < 0)) (PreH8 : ((a_y_pre - gy_pre ) = 0)) (PreH9 : ((a_y_pre - gy_pre ) <= 0)) (PreH10 : (CoordInBounds gx_pre )) (PreH11 : (CoordInBounds gy_pre )) (PreH12 : (CoordInBounds a_x_pre )) (PreH13 : (CoordInBounds a_y_pre )) (PreH14 : (CoordInBounds b_x_pre )) (PreH15 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_y_pre - gy_pre ) <> 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_x_pre - gx_pre ) < 0)) (PreH5 : ((a_y_pre - gy_pre ) = 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) )
 .
 
 Definition cmp_polar_values_return_wit_42 := 
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_x_pre - gx_pre ) < 0)) (PreH5 : ((b_y_pre - gy_pre ) = 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_y_pre - gy_pre ) <> 0)) (PreH8 : ((a_y_pre - gy_pre ) <= 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_y_pre - gy_pre ) <> 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_y_pre - gy_pre ) <> 0)) (PreH5 : ((a_y_pre - gy_pre ) <= 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
   “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
@@ -5355,7 +4784,7 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   &&  emp
 ) \/
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_x_pre - gx_pre ) < 0)) (PreH5 : ((b_y_pre - gy_pre ) = 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_y_pre - gy_pre ) <> 0)) (PreH8 : ((a_y_pre - gy_pre ) <= 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_y_pre - gy_pre ) <> 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_y_pre - gy_pre ) <> 0)) (PreH5 : ((a_y_pre - gy_pre ) <= 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
   “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
@@ -5363,65 +4792,13 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
 ).
 
 Definition cmp_polar_values_return_wit_42_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_x_pre - gx_pre ) < 0)) (PreH5 : ((b_y_pre - gy_pre ) = 0)) (PreH6 : ((b_y_pre - gy_pre ) <= 0)) (PreH7 : ((a_y_pre - gy_pre ) <> 0)) (PreH8 : ((a_y_pre - gy_pre ) <= 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_y_pre - gy_pre ) <> 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_y_pre - gy_pre ) <> 0)) (PreH5 : ((a_y_pre - gy_pre ) <= 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) )
 .
 
 Definition cmp_polar_values_return_wit_43 := 
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_y_pre - gy_pre ) <> 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_x_pre - gx_pre ) < 0)) (PreH7 : ((a_y_pre - gy_pre ) = 0)) (PreH8 : ((a_y_pre - gy_pre ) <= 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
-  &&  “ ((-1) <= (-1)) ” 
-  &&  “ ((-1) <= 1) ”
-  &&  emp
-) \/
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_y_pre - gy_pre ) <> 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_x_pre - gx_pre ) < 0)) (PreH7 : ((a_y_pre - gy_pre ) = 0)) (PreH8 : ((a_y_pre - gy_pre ) <= 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
-  &&  emp
-).
-
-Definition cmp_polar_values_return_wit_43_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_y_pre - gy_pre ) <> 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_x_pre - gx_pre ) < 0)) (PreH7 : ((a_y_pre - gy_pre ) = 0)) (PreH8 : ((a_y_pre - gy_pre ) <= 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
-.
-
-Definition cmp_polar_values_return_wit_44 := 
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_y_pre - gy_pre ) <> 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_y_pre - gy_pre ) <> 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
-  &&  “ ((-1) <= (-1)) ” 
-  &&  “ ((-1) <= 1) ”
-  &&  emp
-) \/
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_y_pre - gy_pre ) <> 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_y_pre - gy_pre ) <> 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
-  &&  emp
-).
-
-Definition cmp_polar_values_return_wit_44_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) < (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ))) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) >= 0)) (PreH3 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH4 : ((b_y_pre - gy_pre ) <> 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_y_pre - gy_pre ) <> 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
-.
-
-Definition cmp_polar_values_return_wit_45 := 
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_y_pre - gy_pre ) > 0)) (PreH4 : ((a_y_pre - gy_pre ) > 0)) (PreH5 : (CoordInBounds gx_pre )) (PreH6 : (CoordInBounds gy_pre )) (PreH7 : (CoordInBounds a_x_pre )) (PreH8 : (CoordInBounds a_y_pre )) (PreH9 : (CoordInBounds b_x_pre )) (PreH10 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_y_pre - gy_pre ) > 0)) (PreH2 : ((a_x_pre - gx_pre ) < 0)) (PreH3 : ((a_y_pre - gy_pre ) = 0)) (PreH4 : ((a_y_pre - gy_pre ) <= 0)) (PreH5 : (CoordInBounds gx_pre )) (PreH6 : (CoordInBounds gy_pre )) (PreH7 : (CoordInBounds a_x_pre )) (PreH8 : (CoordInBounds a_y_pre )) (PreH9 : (CoordInBounds b_x_pre )) (PreH10 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
   “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
@@ -5430,7 +4807,53 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   &&  emp
 ) \/
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_y_pre - gy_pre ) > 0)) (PreH4 : ((a_y_pre - gy_pre ) > 0)) (PreH5 : (CoordInBounds gx_pre )) (PreH6 : (CoordInBounds gy_pre )) (PreH7 : (CoordInBounds a_x_pre )) (PreH8 : (CoordInBounds a_y_pre )) (PreH9 : (CoordInBounds b_x_pre )) (PreH10 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_y_pre - gy_pre ) > 0)) (PreH2 : ((a_x_pre - gx_pre ) < 0)) (PreH3 : ((a_y_pre - gy_pre ) = 0)) (PreH4 : ((a_y_pre - gy_pre ) <= 0)) (PreH5 : (CoordInBounds gx_pre )) (PreH6 : (CoordInBounds gy_pre )) (PreH7 : (CoordInBounds a_x_pre )) (PreH8 : (CoordInBounds a_y_pre )) (PreH9 : (CoordInBounds b_x_pre )) (PreH10 : (CoordInBounds b_y_pre )) ,
+  TT && emp 
+|--
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
+  &&  emp
+).
+
+Definition cmp_polar_values_return_wit_43_split_goal_1 := 
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_y_pre - gy_pre ) > 0)) (PreH2 : ((a_x_pre - gx_pre ) < 0)) (PreH3 : ((a_y_pre - gy_pre ) = 0)) (PreH4 : ((a_y_pre - gy_pre ) <= 0)) (PreH5 : (CoordInBounds gx_pre )) (PreH6 : (CoordInBounds gy_pre )) (PreH7 : (CoordInBounds a_x_pre )) (PreH8 : (CoordInBounds a_y_pre )) (PreH9 : (CoordInBounds b_x_pre )) (PreH10 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 )
+.
+
+Definition cmp_polar_values_return_wit_44 := 
+(
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_y_pre - gy_pre ) > 0)) (PreH2 : ((a_y_pre - gy_pre ) <> 0)) (PreH3 : ((a_y_pre - gy_pre ) <= 0)) (PreH4 : (CoordInBounds gx_pre )) (PreH5 : (CoordInBounds gy_pre )) (PreH6 : (CoordInBounds a_x_pre )) (PreH7 : (CoordInBounds a_y_pre )) (PreH8 : (CoordInBounds b_x_pre )) (PreH9 : (CoordInBounds b_y_pre )) ,
+  TT && emp 
+|--
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
+  &&  “ ((-1) <= 1) ” 
+  &&  “ (1 <= 1) ”
+  &&  emp
+) \/
+(
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_y_pre - gy_pre ) > 0)) (PreH2 : ((a_y_pre - gy_pre ) <> 0)) (PreH3 : ((a_y_pre - gy_pre ) <= 0)) (PreH4 : (CoordInBounds gx_pre )) (PreH5 : (CoordInBounds gy_pre )) (PreH6 : (CoordInBounds a_x_pre )) (PreH7 : (CoordInBounds a_y_pre )) (PreH8 : (CoordInBounds b_x_pre )) (PreH9 : (CoordInBounds b_y_pre )) ,
+  TT && emp 
+|--
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
+  &&  emp
+).
+
+Definition cmp_polar_values_return_wit_44_split_goal_1 := 
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_y_pre - gy_pre ) > 0)) (PreH2 : ((a_y_pre - gy_pre ) <> 0)) (PreH3 : ((a_y_pre - gy_pre ) <= 0)) (PreH4 : (CoordInBounds gx_pre )) (PreH5 : (CoordInBounds gy_pre )) (PreH6 : (CoordInBounds a_x_pre )) (PreH7 : (CoordInBounds a_y_pre )) (PreH8 : (CoordInBounds b_x_pre )) (PreH9 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 )
+.
+
+Definition cmp_polar_values_return_wit_45 := 
+(
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_x_pre - gx_pre ) >= 0)) (PreH2 : ((b_y_pre - gy_pre ) = 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_x_pre - gx_pre ) < 0)) (PreH5 : ((a_y_pre - gy_pre ) = 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
+  TT && emp 
+|--
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
+  &&  “ ((-1) <= 1) ” 
+  &&  “ (1 <= 1) ”
+  &&  emp
+) \/
+(
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_x_pre - gx_pre ) >= 0)) (PreH2 : ((b_y_pre - gy_pre ) = 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_x_pre - gx_pre ) < 0)) (PreH5 : ((a_y_pre - gy_pre ) = 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
   “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
@@ -5438,15 +4861,13 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
 ).
 
 Definition cmp_polar_values_return_wit_45_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_y_pre - gy_pre ) > 0)) (PreH4 : ((a_y_pre - gy_pre ) > 0)) (PreH5 : (CoordInBounds gx_pre )) (PreH6 : (CoordInBounds gy_pre )) (PreH7 : (CoordInBounds a_x_pre )) (PreH8 : (CoordInBounds a_y_pre )) (PreH9 : (CoordInBounds b_x_pre )) (PreH10 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_x_pre - gx_pre ) >= 0)) (PreH2 : ((b_y_pre - gy_pre ) = 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_x_pre - gx_pre ) < 0)) (PreH5 : ((a_y_pre - gy_pre ) = 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 )
 .
 
 Definition cmp_polar_values_return_wit_46 := 
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_y_pre - gy_pre ) > 0)) (PreH4 : ((a_x_pre - gx_pre ) >= 0)) (PreH5 : ((a_y_pre - gy_pre ) = 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_x_pre - gx_pre ) >= 0)) (PreH2 : ((b_y_pre - gy_pre ) = 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_y_pre - gy_pre ) <> 0)) (PreH5 : ((a_y_pre - gy_pre ) <= 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
   “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
@@ -5455,7 +4876,7 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   &&  emp
 ) \/
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_y_pre - gy_pre ) > 0)) (PreH4 : ((a_x_pre - gx_pre ) >= 0)) (PreH5 : ((a_y_pre - gy_pre ) = 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_x_pre - gx_pre ) >= 0)) (PreH2 : ((b_y_pre - gy_pre ) = 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_y_pre - gy_pre ) <> 0)) (PreH5 : ((a_y_pre - gy_pre ) <= 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
   “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
@@ -5463,560 +4884,100 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
 ).
 
 Definition cmp_polar_values_return_wit_46_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_y_pre - gy_pre ) > 0)) (PreH4 : ((a_x_pre - gx_pre ) >= 0)) (PreH5 : ((a_y_pre - gy_pre ) = 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_x_pre - gx_pre ) >= 0)) (PreH2 : ((b_y_pre - gy_pre ) = 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_y_pre - gy_pre ) <> 0)) (PreH5 : ((a_y_pre - gy_pre ) <= 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 )
 .
 
 Definition cmp_polar_values_return_wit_47 := 
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_x_pre - gx_pre ) >= 0)) (PreH4 : ((b_y_pre - gy_pre ) = 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_y_pre - gy_pre ) > 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_x_pre - gx_pre ) < 0)) (PreH2 : ((b_y_pre - gy_pre ) = 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_y_pre - gy_pre ) > 0)) (PreH5 : (CoordInBounds gx_pre )) (PreH6 : (CoordInBounds gy_pre )) (PreH7 : (CoordInBounds a_x_pre )) (PreH8 : (CoordInBounds a_y_pre )) (PreH9 : (CoordInBounds b_x_pre )) (PreH10 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
-  &&  “ ((-1) <= 1) ” 
-  &&  “ (1 <= 1) ”
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
+  &&  “ ((-1) <= (-1)) ” 
+  &&  “ ((-1) <= 1) ”
   &&  emp
 ) \/
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_x_pre - gx_pre ) >= 0)) (PreH4 : ((b_y_pre - gy_pre ) = 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_y_pre - gy_pre ) > 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_x_pre - gx_pre ) < 0)) (PreH2 : ((b_y_pre - gy_pre ) = 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_y_pre - gy_pre ) > 0)) (PreH5 : (CoordInBounds gx_pre )) (PreH6 : (CoordInBounds gy_pre )) (PreH7 : (CoordInBounds a_x_pre )) (PreH8 : (CoordInBounds a_y_pre )) (PreH9 : (CoordInBounds b_x_pre )) (PreH10 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
   &&  emp
 ).
 
 Definition cmp_polar_values_return_wit_47_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_x_pre - gx_pre ) >= 0)) (PreH4 : ((b_y_pre - gy_pre ) = 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_y_pre - gy_pre ) > 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_x_pre - gx_pre ) < 0)) (PreH2 : ((b_y_pre - gy_pre ) = 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_y_pre - gy_pre ) > 0)) (PreH5 : (CoordInBounds gx_pre )) (PreH6 : (CoordInBounds gy_pre )) (PreH7 : (CoordInBounds a_x_pre )) (PreH8 : (CoordInBounds a_y_pre )) (PreH9 : (CoordInBounds b_x_pre )) (PreH10 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) )
 .
 
 Definition cmp_polar_values_return_wit_48 := 
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_x_pre - gx_pre ) >= 0)) (PreH4 : ((b_y_pre - gy_pre ) = 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_x_pre - gx_pre ) >= 0)) (PreH7 : ((a_y_pre - gy_pre ) = 0)) (PreH8 : ((a_y_pre - gy_pre ) <= 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_x_pre - gx_pre ) < 0)) (PreH2 : ((b_y_pre - gy_pre ) = 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_x_pre - gx_pre ) >= 0)) (PreH5 : ((a_y_pre - gy_pre ) = 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
-  &&  “ ((-1) <= 1) ” 
-  &&  “ (1 <= 1) ”
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
+  &&  “ ((-1) <= (-1)) ” 
+  &&  “ ((-1) <= 1) ”
   &&  emp
 ) \/
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_x_pre - gx_pre ) >= 0)) (PreH4 : ((b_y_pre - gy_pre ) = 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_x_pre - gx_pre ) >= 0)) (PreH7 : ((a_y_pre - gy_pre ) = 0)) (PreH8 : ((a_y_pre - gy_pre ) <= 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_x_pre - gx_pre ) < 0)) (PreH2 : ((b_y_pre - gy_pre ) = 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_x_pre - gx_pre ) >= 0)) (PreH5 : ((a_y_pre - gy_pre ) = 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
   &&  emp
 ).
 
 Definition cmp_polar_values_return_wit_48_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_x_pre - gx_pre ) >= 0)) (PreH4 : ((b_y_pre - gy_pre ) = 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_x_pre - gx_pre ) >= 0)) (PreH7 : ((a_y_pre - gy_pre ) = 0)) (PreH8 : ((a_y_pre - gy_pre ) <= 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_x_pre - gx_pre ) < 0)) (PreH2 : ((b_y_pre - gy_pre ) = 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_x_pre - gx_pre ) >= 0)) (PreH5 : ((a_y_pre - gy_pre ) = 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) )
 .
 
 Definition cmp_polar_values_return_wit_49 := 
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_x_pre - gx_pre ) < 0)) (PreH4 : ((b_y_pre - gy_pre ) = 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_x_pre - gx_pre ) < 0)) (PreH7 : ((a_y_pre - gy_pre ) = 0)) (PreH8 : ((a_y_pre - gy_pre ) <= 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_y_pre - gy_pre ) <> 0)) (PreH2 : ((b_y_pre - gy_pre ) <= 0)) (PreH3 : ((a_y_pre - gy_pre ) > 0)) (PreH4 : (CoordInBounds gx_pre )) (PreH5 : (CoordInBounds gy_pre )) (PreH6 : (CoordInBounds a_x_pre )) (PreH7 : (CoordInBounds a_y_pre )) (PreH8 : (CoordInBounds b_x_pre )) (PreH9 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
-  &&  “ ((-1) <= 1) ” 
-  &&  “ (1 <= 1) ”
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
+  &&  “ ((-1) <= (-1)) ” 
+  &&  “ ((-1) <= 1) ”
   &&  emp
 ) \/
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_x_pre - gx_pre ) < 0)) (PreH4 : ((b_y_pre - gy_pre ) = 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_x_pre - gx_pre ) < 0)) (PreH7 : ((a_y_pre - gy_pre ) = 0)) (PreH8 : ((a_y_pre - gy_pre ) <= 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_y_pre - gy_pre ) <> 0)) (PreH2 : ((b_y_pre - gy_pre ) <= 0)) (PreH3 : ((a_y_pre - gy_pre ) > 0)) (PreH4 : (CoordInBounds gx_pre )) (PreH5 : (CoordInBounds gy_pre )) (PreH6 : (CoordInBounds a_x_pre )) (PreH7 : (CoordInBounds a_y_pre )) (PreH8 : (CoordInBounds b_x_pre )) (PreH9 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
   &&  emp
 ).
 
 Definition cmp_polar_values_return_wit_49_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_x_pre - gx_pre ) < 0)) (PreH4 : ((b_y_pre - gy_pre ) = 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_x_pre - gx_pre ) < 0)) (PreH7 : ((a_y_pre - gy_pre ) = 0)) (PreH8 : ((a_y_pre - gy_pre ) <= 0)) (PreH9 : (CoordInBounds gx_pre )) (PreH10 : (CoordInBounds gy_pre )) (PreH11 : (CoordInBounds a_x_pre )) (PreH12 : (CoordInBounds a_y_pre )) (PreH13 : (CoordInBounds b_x_pre )) (PreH14 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_y_pre - gy_pre ) <> 0)) (PreH2 : ((b_y_pre - gy_pre ) <= 0)) (PreH3 : ((a_y_pre - gy_pre ) > 0)) (PreH4 : (CoordInBounds gx_pre )) (PreH5 : (CoordInBounds gy_pre )) (PreH6 : (CoordInBounds a_x_pre )) (PreH7 : (CoordInBounds a_y_pre )) (PreH8 : (CoordInBounds b_x_pre )) (PreH9 : (CoordInBounds b_y_pre )) ,
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) )
 .
 
 Definition cmp_polar_values_return_wit_50 := 
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_x_pre - gx_pre ) < 0)) (PreH4 : ((b_y_pre - gy_pre ) = 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_y_pre - gy_pre ) <> 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_y_pre - gy_pre ) <> 0)) (PreH2 : ((b_y_pre - gy_pre ) <= 0)) (PreH3 : ((a_x_pre - gx_pre ) >= 0)) (PreH4 : ((a_y_pre - gy_pre ) = 0)) (PreH5 : ((a_y_pre - gy_pre ) <= 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
-  &&  “ ((-1) <= 1) ” 
-  &&  “ (1 <= 1) ”
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
+  &&  “ ((-1) <= (-1)) ” 
+  &&  “ ((-1) <= 1) ”
   &&  emp
 ) \/
 (
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_x_pre - gx_pre ) < 0)) (PreH4 : ((b_y_pre - gy_pre ) = 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_y_pre - gy_pre ) <> 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
+forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_y_pre - gy_pre ) <> 0)) (PreH2 : ((b_y_pre - gy_pre ) <= 0)) (PreH3 : ((a_x_pre - gx_pre ) >= 0)) (PreH4 : ((a_y_pre - gy_pre ) = 0)) (PreH5 : ((a_y_pre - gy_pre ) <= 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
   TT && emp 
 |--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
+  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
   &&  emp
 ).
 
 Definition cmp_polar_values_return_wit_50_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_x_pre - gx_pre ) < 0)) (PreH4 : ((b_y_pre - gy_pre ) = 0)) (PreH5 : ((b_y_pre - gy_pre ) <= 0)) (PreH6 : ((a_y_pre - gy_pre ) <> 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
-.
-
-Definition cmp_polar_values_return_wit_51 := 
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_y_pre - gy_pre ) <> 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_x_pre - gx_pre ) < 0)) (PreH6 : ((a_y_pre - gy_pre ) = 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
-  &&  “ ((-1) <= 1) ” 
-  &&  “ (1 <= 1) ”
-  &&  emp
-) \/
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_y_pre - gy_pre ) <> 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_x_pre - gx_pre ) < 0)) (PreH6 : ((a_y_pre - gy_pre ) = 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
-  &&  emp
-).
-
-Definition cmp_polar_values_return_wit_51_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_y_pre - gy_pre ) <> 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_x_pre - gx_pre ) < 0)) (PreH6 : ((a_y_pre - gy_pre ) = 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
-.
-
-Definition cmp_polar_values_return_wit_52 := 
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_y_pre - gy_pre ) <> 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_y_pre - gy_pre ) <> 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
-  &&  “ ((-1) <= 1) ” 
-  &&  “ (1 <= 1) ”
-  &&  emp
-) \/
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_y_pre - gy_pre ) <> 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_y_pre - gy_pre ) <> 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
-  &&  emp
-).
-
-Definition cmp_polar_values_return_wit_52_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) < 0)) (PreH2 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= 0)) (PreH3 : ((b_y_pre - gy_pre ) <> 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_y_pre - gy_pre ) <> 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
-.
-
-Definition cmp_polar_values_return_wit_53 := 
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_y_pre - gy_pre ) > 0)) (PreH3 : ((a_y_pre - gy_pre ) > 0)) (PreH4 : (CoordInBounds gx_pre )) (PreH5 : (CoordInBounds gy_pre )) (PreH6 : (CoordInBounds a_x_pre )) (PreH7 : (CoordInBounds a_y_pre )) (PreH8 : (CoordInBounds b_x_pre )) (PreH9 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
-  &&  “ ((-1) <= (-1)) ” 
-  &&  “ ((-1) <= 1) ”
-  &&  emp
-) \/
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_y_pre - gy_pre ) > 0)) (PreH3 : ((a_y_pre - gy_pre ) > 0)) (PreH4 : (CoordInBounds gx_pre )) (PreH5 : (CoordInBounds gy_pre )) (PreH6 : (CoordInBounds a_x_pre )) (PreH7 : (CoordInBounds a_y_pre )) (PreH8 : (CoordInBounds b_x_pre )) (PreH9 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
-  &&  emp
-).
-
-Definition cmp_polar_values_return_wit_53_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_y_pre - gy_pre ) > 0)) (PreH3 : ((a_y_pre - gy_pre ) > 0)) (PreH4 : (CoordInBounds gx_pre )) (PreH5 : (CoordInBounds gy_pre )) (PreH6 : (CoordInBounds a_x_pre )) (PreH7 : (CoordInBounds a_y_pre )) (PreH8 : (CoordInBounds b_x_pre )) (PreH9 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
-.
-
-Definition cmp_polar_values_return_wit_54 := 
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_y_pre - gy_pre ) > 0)) (PreH3 : ((a_x_pre - gx_pre ) >= 0)) (PreH4 : ((a_y_pre - gy_pre ) = 0)) (PreH5 : ((a_y_pre - gy_pre ) <= 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
-  &&  “ ((-1) <= (-1)) ” 
-  &&  “ ((-1) <= 1) ”
-  &&  emp
-) \/
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_y_pre - gy_pre ) > 0)) (PreH3 : ((a_x_pre - gx_pre ) >= 0)) (PreH4 : ((a_y_pre - gy_pre ) = 0)) (PreH5 : ((a_y_pre - gy_pre ) <= 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
-  &&  emp
-).
-
-Definition cmp_polar_values_return_wit_54_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_y_pre - gy_pre ) > 0)) (PreH3 : ((a_x_pre - gx_pre ) >= 0)) (PreH4 : ((a_y_pre - gy_pre ) = 0)) (PreH5 : ((a_y_pre - gy_pre ) <= 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
-.
-
-Definition cmp_polar_values_return_wit_55 := 
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_x_pre - gx_pre ) >= 0)) (PreH3 : ((b_y_pre - gy_pre ) = 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_y_pre - gy_pre ) > 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
-  &&  “ ((-1) <= (-1)) ” 
-  &&  “ ((-1) <= 1) ”
-  &&  emp
-) \/
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_x_pre - gx_pre ) >= 0)) (PreH3 : ((b_y_pre - gy_pre ) = 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_y_pre - gy_pre ) > 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
-  &&  emp
-).
-
-Definition cmp_polar_values_return_wit_55_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_x_pre - gx_pre ) >= 0)) (PreH3 : ((b_y_pre - gy_pre ) = 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_y_pre - gy_pre ) > 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
-.
-
-Definition cmp_polar_values_return_wit_56 := 
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_x_pre - gx_pre ) >= 0)) (PreH3 : ((b_y_pre - gy_pre ) = 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_x_pre - gx_pre ) >= 0)) (PreH6 : ((a_y_pre - gy_pre ) = 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
-  &&  “ ((-1) <= (-1)) ” 
-  &&  “ ((-1) <= 1) ”
-  &&  emp
-) \/
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_x_pre - gx_pre ) >= 0)) (PreH3 : ((b_y_pre - gy_pre ) = 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_x_pre - gx_pre ) >= 0)) (PreH6 : ((a_y_pre - gy_pre ) = 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
-  &&  emp
-).
-
-Definition cmp_polar_values_return_wit_56_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_x_pre - gx_pre ) >= 0)) (PreH3 : ((b_y_pre - gy_pre ) = 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_x_pre - gx_pre ) >= 0)) (PreH6 : ((a_y_pre - gy_pre ) = 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
-.
-
-Definition cmp_polar_values_return_wit_57 := 
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_x_pre - gx_pre ) < 0)) (PreH3 : ((b_y_pre - gy_pre ) = 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_x_pre - gx_pre ) < 0)) (PreH6 : ((a_y_pre - gy_pre ) = 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
-  &&  “ ((-1) <= (-1)) ” 
-  &&  “ ((-1) <= 1) ”
-  &&  emp
-) \/
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_x_pre - gx_pre ) < 0)) (PreH3 : ((b_y_pre - gy_pre ) = 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_x_pre - gx_pre ) < 0)) (PreH6 : ((a_y_pre - gy_pre ) = 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
-  &&  emp
-).
-
-Definition cmp_polar_values_return_wit_57_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_x_pre - gx_pre ) < 0)) (PreH3 : ((b_y_pre - gy_pre ) = 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_x_pre - gx_pre ) < 0)) (PreH6 : ((a_y_pre - gy_pre ) = 0)) (PreH7 : ((a_y_pre - gy_pre ) <= 0)) (PreH8 : (CoordInBounds gx_pre )) (PreH9 : (CoordInBounds gy_pre )) (PreH10 : (CoordInBounds a_x_pre )) (PreH11 : (CoordInBounds a_y_pre )) (PreH12 : (CoordInBounds b_x_pre )) (PreH13 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
-.
-
-Definition cmp_polar_values_return_wit_58 := 
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_x_pre - gx_pre ) < 0)) (PreH3 : ((b_y_pre - gy_pre ) = 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_y_pre - gy_pre ) <> 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
-  &&  “ ((-1) <= (-1)) ” 
-  &&  “ ((-1) <= 1) ”
-  &&  emp
-) \/
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_x_pre - gx_pre ) < 0)) (PreH3 : ((b_y_pre - gy_pre ) = 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_y_pre - gy_pre ) <> 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
-  &&  emp
-).
-
-Definition cmp_polar_values_return_wit_58_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_x_pre - gx_pre ) < 0)) (PreH3 : ((b_y_pre - gy_pre ) = 0)) (PreH4 : ((b_y_pre - gy_pre ) <= 0)) (PreH5 : ((a_y_pre - gy_pre ) <> 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
-.
-
-Definition cmp_polar_values_return_wit_59 := 
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_y_pre - gy_pre ) <> 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_x_pre - gx_pre ) < 0)) (PreH5 : ((a_y_pre - gy_pre ) = 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
-  &&  “ ((-1) <= (-1)) ” 
-  &&  “ ((-1) <= 1) ”
-  &&  emp
-) \/
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_y_pre - gy_pre ) <> 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_x_pre - gx_pre ) < 0)) (PreH5 : ((a_y_pre - gy_pre ) = 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
-  &&  emp
-).
-
-Definition cmp_polar_values_return_wit_59_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_y_pre - gy_pre ) <> 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_x_pre - gx_pre ) < 0)) (PreH5 : ((a_y_pre - gy_pre ) = 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
-.
-
-Definition cmp_polar_values_return_wit_60 := 
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_y_pre - gy_pre ) <> 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_y_pre - gy_pre ) <> 0)) (PreH5 : ((a_y_pre - gy_pre ) <= 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
-  &&  “ ((-1) <= (-1)) ” 
-  &&  “ ((-1) <= 1) ”
-  &&  emp
-) \/
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_y_pre - gy_pre ) <> 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_y_pre - gy_pre ) <> 0)) (PreH5 : ((a_y_pre - gy_pre ) <= 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
-  &&  emp
-).
-
-Definition cmp_polar_values_return_wit_60_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) > 0)) (PreH2 : ((b_y_pre - gy_pre ) <> 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_y_pre - gy_pre ) <> 0)) (PreH5 : ((a_y_pre - gy_pre ) <= 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
-.
-
-Definition cmp_polar_values_return_wit_61 := 
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_y_pre - gy_pre ) > 0)) (PreH2 : ((a_x_pre - gx_pre ) < 0)) (PreH3 : ((a_y_pre - gy_pre ) = 0)) (PreH4 : ((a_y_pre - gy_pre ) <= 0)) (PreH5 : (CoordInBounds gx_pre )) (PreH6 : (CoordInBounds gy_pre )) (PreH7 : (CoordInBounds a_x_pre )) (PreH8 : (CoordInBounds a_y_pre )) (PreH9 : (CoordInBounds b_x_pre )) (PreH10 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
-  &&  “ ((-1) <= 1) ” 
-  &&  “ (1 <= 1) ”
-  &&  emp
-) \/
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_y_pre - gy_pre ) > 0)) (PreH2 : ((a_x_pre - gx_pre ) < 0)) (PreH3 : ((a_y_pre - gy_pre ) = 0)) (PreH4 : ((a_y_pre - gy_pre ) <= 0)) (PreH5 : (CoordInBounds gx_pre )) (PreH6 : (CoordInBounds gy_pre )) (PreH7 : (CoordInBounds a_x_pre )) (PreH8 : (CoordInBounds a_y_pre )) (PreH9 : (CoordInBounds b_x_pre )) (PreH10 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
-  &&  emp
-).
-
-Definition cmp_polar_values_return_wit_61_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_y_pre - gy_pre ) > 0)) (PreH2 : ((a_x_pre - gx_pre ) < 0)) (PreH3 : ((a_y_pre - gy_pre ) = 0)) (PreH4 : ((a_y_pre - gy_pre ) <= 0)) (PreH5 : (CoordInBounds gx_pre )) (PreH6 : (CoordInBounds gy_pre )) (PreH7 : (CoordInBounds a_x_pre )) (PreH8 : (CoordInBounds a_y_pre )) (PreH9 : (CoordInBounds b_x_pre )) (PreH10 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
-.
-
-Definition cmp_polar_values_return_wit_62 := 
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_y_pre - gy_pre ) > 0)) (PreH2 : ((a_y_pre - gy_pre ) <> 0)) (PreH3 : ((a_y_pre - gy_pre ) <= 0)) (PreH4 : (CoordInBounds gx_pre )) (PreH5 : (CoordInBounds gy_pre )) (PreH6 : (CoordInBounds a_x_pre )) (PreH7 : (CoordInBounds a_y_pre )) (PreH8 : (CoordInBounds b_x_pre )) (PreH9 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
-  &&  “ ((-1) <= 1) ” 
-  &&  “ (1 <= 1) ”
-  &&  emp
-) \/
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_y_pre - gy_pre ) > 0)) (PreH2 : ((a_y_pre - gy_pre ) <> 0)) (PreH3 : ((a_y_pre - gy_pre ) <= 0)) (PreH4 : (CoordInBounds gx_pre )) (PreH5 : (CoordInBounds gy_pre )) (PreH6 : (CoordInBounds a_x_pre )) (PreH7 : (CoordInBounds a_y_pre )) (PreH8 : (CoordInBounds b_x_pre )) (PreH9 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
-  &&  emp
-).
-
-Definition cmp_polar_values_return_wit_62_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_y_pre - gy_pre ) > 0)) (PreH2 : ((a_y_pre - gy_pre ) <> 0)) (PreH3 : ((a_y_pre - gy_pre ) <= 0)) (PreH4 : (CoordInBounds gx_pre )) (PreH5 : (CoordInBounds gy_pre )) (PreH6 : (CoordInBounds a_x_pre )) (PreH7 : (CoordInBounds a_y_pre )) (PreH8 : (CoordInBounds b_x_pre )) (PreH9 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
-.
-
-Definition cmp_polar_values_return_wit_63 := 
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_x_pre - gx_pre ) >= 0)) (PreH2 : ((b_y_pre - gy_pre ) = 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_x_pre - gx_pre ) < 0)) (PreH5 : ((a_y_pre - gy_pre ) = 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
-  &&  “ ((-1) <= 1) ” 
-  &&  “ (1 <= 1) ”
-  &&  emp
-) \/
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_x_pre - gx_pre ) >= 0)) (PreH2 : ((b_y_pre - gy_pre ) = 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_x_pre - gx_pre ) < 0)) (PreH5 : ((a_y_pre - gy_pre ) = 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
-  &&  emp
-).
-
-Definition cmp_polar_values_return_wit_63_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_x_pre - gx_pre ) >= 0)) (PreH2 : ((b_y_pre - gy_pre ) = 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_x_pre - gx_pre ) < 0)) (PreH5 : ((a_y_pre - gy_pre ) = 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
-.
-
-Definition cmp_polar_values_return_wit_64 := 
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_x_pre - gx_pre ) >= 0)) (PreH2 : ((b_y_pre - gy_pre ) = 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_y_pre - gy_pre ) <> 0)) (PreH5 : ((a_y_pre - gy_pre ) <= 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ” 
-  &&  “ ((-1) <= 1) ” 
-  &&  “ (1 <= 1) ”
-  &&  emp
-) \/
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_x_pre - gx_pre ) >= 0)) (PreH2 : ((b_y_pre - gy_pre ) = 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_y_pre - gy_pre ) <> 0)) (PreH5 : ((a_y_pre - gy_pre ) <= 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
-  &&  emp
-).
-
-Definition cmp_polar_values_return_wit_64_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_x_pre - gx_pre ) >= 0)) (PreH2 : ((b_y_pre - gy_pre ) = 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_y_pre - gy_pre ) <> 0)) (PreH5 : ((a_y_pre - gy_pre ) <= 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) 1 ) ”
-.
-
-Definition cmp_polar_values_return_wit_65 := 
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_x_pre - gx_pre ) < 0)) (PreH2 : ((b_y_pre - gy_pre ) = 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_y_pre - gy_pre ) > 0)) (PreH5 : (CoordInBounds gx_pre )) (PreH6 : (CoordInBounds gy_pre )) (PreH7 : (CoordInBounds a_x_pre )) (PreH8 : (CoordInBounds a_y_pre )) (PreH9 : (CoordInBounds b_x_pre )) (PreH10 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
-  &&  “ ((-1) <= (-1)) ” 
-  &&  “ ((-1) <= 1) ”
-  &&  emp
-) \/
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_x_pre - gx_pre ) < 0)) (PreH2 : ((b_y_pre - gy_pre ) = 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_y_pre - gy_pre ) > 0)) (PreH5 : (CoordInBounds gx_pre )) (PreH6 : (CoordInBounds gy_pre )) (PreH7 : (CoordInBounds a_x_pre )) (PreH8 : (CoordInBounds a_y_pre )) (PreH9 : (CoordInBounds b_x_pre )) (PreH10 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
-  &&  emp
-).
-
-Definition cmp_polar_values_return_wit_65_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_x_pre - gx_pre ) < 0)) (PreH2 : ((b_y_pre - gy_pre ) = 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_y_pre - gy_pre ) > 0)) (PreH5 : (CoordInBounds gx_pre )) (PreH6 : (CoordInBounds gy_pre )) (PreH7 : (CoordInBounds a_x_pre )) (PreH8 : (CoordInBounds a_y_pre )) (PreH9 : (CoordInBounds b_x_pre )) (PreH10 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
-.
-
-Definition cmp_polar_values_return_wit_66 := 
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_x_pre - gx_pre ) < 0)) (PreH2 : ((b_y_pre - gy_pre ) = 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_x_pre - gx_pre ) >= 0)) (PreH5 : ((a_y_pre - gy_pre ) = 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
-  &&  “ ((-1) <= (-1)) ” 
-  &&  “ ((-1) <= 1) ”
-  &&  emp
-) \/
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_x_pre - gx_pre ) < 0)) (PreH2 : ((b_y_pre - gy_pre ) = 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_x_pre - gx_pre ) >= 0)) (PreH5 : ((a_y_pre - gy_pre ) = 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
-  &&  emp
-).
-
-Definition cmp_polar_values_return_wit_66_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_x_pre - gx_pre ) < 0)) (PreH2 : ((b_y_pre - gy_pre ) = 0)) (PreH3 : ((b_y_pre - gy_pre ) <= 0)) (PreH4 : ((a_x_pre - gx_pre ) >= 0)) (PreH5 : ((a_y_pre - gy_pre ) = 0)) (PreH6 : ((a_y_pre - gy_pre ) <= 0)) (PreH7 : (CoordInBounds gx_pre )) (PreH8 : (CoordInBounds gy_pre )) (PreH9 : (CoordInBounds a_x_pre )) (PreH10 : (CoordInBounds a_y_pre )) (PreH11 : (CoordInBounds b_x_pre )) (PreH12 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
-.
-
-Definition cmp_polar_values_return_wit_67 := 
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_y_pre - gy_pre ) <> 0)) (PreH2 : ((b_y_pre - gy_pre ) <= 0)) (PreH3 : ((a_y_pre - gy_pre ) > 0)) (PreH4 : (CoordInBounds gx_pre )) (PreH5 : (CoordInBounds gy_pre )) (PreH6 : (CoordInBounds a_x_pre )) (PreH7 : (CoordInBounds a_y_pre )) (PreH8 : (CoordInBounds b_x_pre )) (PreH9 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
-  &&  “ ((-1) <= (-1)) ” 
-  &&  “ ((-1) <= 1) ”
-  &&  emp
-) \/
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_y_pre - gy_pre ) <> 0)) (PreH2 : ((b_y_pre - gy_pre ) <= 0)) (PreH3 : ((a_y_pre - gy_pre ) > 0)) (PreH4 : (CoordInBounds gx_pre )) (PreH5 : (CoordInBounds gy_pre )) (PreH6 : (CoordInBounds a_x_pre )) (PreH7 : (CoordInBounds a_y_pre )) (PreH8 : (CoordInBounds b_x_pre )) (PreH9 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
-  &&  emp
-).
-
-Definition cmp_polar_values_return_wit_67_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_y_pre - gy_pre ) <> 0)) (PreH2 : ((b_y_pre - gy_pre ) <= 0)) (PreH3 : ((a_y_pre - gy_pre ) > 0)) (PreH4 : (CoordInBounds gx_pre )) (PreH5 : (CoordInBounds gy_pre )) (PreH6 : (CoordInBounds a_x_pre )) (PreH7 : (CoordInBounds a_y_pre )) (PreH8 : (CoordInBounds b_x_pre )) (PreH9 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
-.
-
-Definition cmp_polar_values_return_wit_68 := 
-(
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_y_pre - gy_pre ) <> 0)) (PreH2 : ((b_y_pre - gy_pre ) <= 0)) (PreH3 : ((a_x_pre - gx_pre ) >= 0)) (PreH4 : ((a_y_pre - gy_pre ) = 0)) (PreH5 : ((a_y_pre - gy_pre ) <= 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ” 
-  &&  “ ((-1) <= (-1)) ” 
-  &&  “ ((-1) <= 1) ”
-  &&  emp
-) \/
-(
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_y_pre - gy_pre ) <> 0)) (PreH2 : ((b_y_pre - gy_pre ) <= 0)) (PreH3 : ((a_x_pre - gx_pre ) >= 0)) (PreH4 : ((a_y_pre - gy_pre ) = 0)) (PreH5 : ((a_y_pre - gy_pre ) <= 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
-  &&  emp
-).
-
-Definition cmp_polar_values_return_wit_68_split_goal_1 := 
-forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : ((b_y_pre - gy_pre ) <> 0)) (PreH2 : ((b_y_pre - gy_pre ) <= 0)) (PreH3 : ((a_x_pre - gx_pre ) >= 0)) (PreH4 : ((a_y_pre - gy_pre ) = 0)) (PreH5 : ((a_y_pre - gy_pre ) <= 0)) (PreH6 : (CoordInBounds gx_pre )) (PreH7 : (CoordInBounds gy_pre )) (PreH8 : (CoordInBounds a_x_pre )) (PreH9 : (CoordInBounds a_y_pre )) (PreH10 : (CoordInBounds b_x_pre )) (PreH11 : (CoordInBounds b_y_pre )) ,
-  TT && emp 
-|--
-  “ (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) ) ”
+  (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point (a_x_pre) (a_y_pre)) (mk_point (b_x_pre) (b_y_pre)) (-1) )
 .
 
 (*----- Function swap_points -----*)
@@ -6024,10 +4985,10 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
 Definition swap_points_safety_wit_1 := 
 forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (flat: (@list Z)) (PreH1 : (0 <= i_pre)) (PreH2 : (i_pre < n_pre)) (PreH3 : (0 <= j_pre)) (PreH4 : (j_pre < n_pre)) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre <= 50000)) (PreH7 : ((Zlength (pts_l)) = n_pre)) (PreH8 : (FlatPoints flat pts_l )) (PreH9 : (PointCoordsBound pts_l )) ,
   ((( &( "tmp_x" ) )) # Int  |->_)
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
   **  (IntArray.full coords_pre (2 * n_pre ) flat )
 |--
   “ ((2 * i_pre ) <= INT_MAX) ” 
@@ -6037,10 +4998,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
 Definition swap_points_safety_wit_2 := 
 forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (flat: (@list Z)) (PreH1 : (0 <= i_pre)) (PreH2 : (i_pre < n_pre)) (PreH3 : (0 <= j_pre)) (PreH4 : (j_pre < n_pre)) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre <= 50000)) (PreH7 : ((Zlength (pts_l)) = n_pre)) (PreH8 : (FlatPoints flat pts_l )) (PreH9 : (PointCoordsBound pts_l )) ,
   ((( &( "tmp_x" ) )) # Int  |->_)
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
   **  (IntArray.full coords_pre (2 * n_pre ) flat )
 |--
   “ (2 <= INT_MAX) ” 
@@ -6052,10 +5013,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   ((( &( "tmp_y" ) )) # Int  |->_)
   **  (IntArray.full coords_pre (2 * n_pre ) flat )
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ (((2 * i_pre ) + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((2 * i_pre ) + 1 )) ”
@@ -6066,10 +5027,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   ((( &( "tmp_y" ) )) # Int  |->_)
   **  (IntArray.full coords_pre (2 * n_pre ) flat )
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ ((2 * i_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (2 * i_pre )) ”
@@ -6080,10 +5041,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   ((( &( "tmp_y" ) )) # Int  |->_)
   **  (IntArray.full coords_pre (2 * n_pre ) flat )
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ (2 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 2) ”
@@ -6094,10 +5055,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   ((( &( "tmp_y" ) )) # Int  |->_)
   **  (IntArray.full coords_pre (2 * n_pre ) flat )
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -6108,10 +5069,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   (IntArray.full coords_pre (2 * n_pre ) flat )
   **  ((( &( "tmp_y" ) )) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ ((2 * i_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (2 * i_pre )) ”
@@ -6122,10 +5083,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   (IntArray.full coords_pre (2 * n_pre ) flat )
   **  ((( &( "tmp_y" ) )) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ (2 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 2) ”
@@ -6136,10 +5097,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   (IntArray.full coords_pre (2 * n_pre ) flat )
   **  ((( &( "tmp_y" ) )) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ ((2 * j_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (2 * j_pre )) ”
@@ -6150,10 +5111,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   (IntArray.full coords_pre (2 * n_pre ) flat )
   **  ((( &( "tmp_y" ) )) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ (2 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 2) ”
@@ -6164,10 +5125,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   (IntArray.full coords_pre (2 * n_pre ) (replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)) )
   **  ((( &( "tmp_y" ) )) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ (((2 * i_pre ) + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((2 * i_pre ) + 1 )) ”
@@ -6178,10 +5139,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   (IntArray.full coords_pre (2 * n_pre ) (replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)) )
   **  ((( &( "tmp_y" ) )) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ ((2 * i_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (2 * i_pre )) ”
@@ -6192,10 +5153,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   (IntArray.full coords_pre (2 * n_pre ) (replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)) )
   **  ((( &( "tmp_y" ) )) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ (2 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 2) ”
@@ -6206,10 +5167,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   (IntArray.full coords_pre (2 * n_pre ) (replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)) )
   **  ((( &( "tmp_y" ) )) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -6220,10 +5181,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   (IntArray.full coords_pre (2 * n_pre ) (replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)) )
   **  ((( &( "tmp_y" ) )) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ (((2 * j_pre ) + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((2 * j_pre ) + 1 )) ”
@@ -6234,10 +5195,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   (IntArray.full coords_pre (2 * n_pre ) (replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)) )
   **  ((( &( "tmp_y" ) )) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ ((2 * j_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (2 * j_pre )) ”
@@ -6248,10 +5209,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   (IntArray.full coords_pre (2 * n_pre ) (replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)) )
   **  ((( &( "tmp_y" ) )) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ (2 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 2) ”
@@ -6262,10 +5223,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   (IntArray.full coords_pre (2 * n_pre ) (replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)) )
   **  ((( &( "tmp_y" ) )) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -6276,10 +5237,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   (IntArray.full coords_pre (2 * n_pre ) (replace_Znth (((2 * i_pre ) + 1 )) ((Znth ((2 * j_pre ) + 1 ) (replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)) 0)) ((replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)))) )
   **  ((( &( "tmp_y" ) )) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ ((2 * j_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (2 * j_pre )) ”
@@ -6290,10 +5251,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   (IntArray.full coords_pre (2 * n_pre ) (replace_Znth (((2 * i_pre ) + 1 )) ((Znth ((2 * j_pre ) + 1 ) (replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)) 0)) ((replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)))) )
   **  ((( &( "tmp_y" ) )) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ (2 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 2) ”
@@ -6304,10 +5265,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   (IntArray.full coords_pre (2 * n_pre ) (replace_Znth ((2 * j_pre )) ((Znth (2 * i_pre ) flat 0)) ((replace_Znth (((2 * i_pre ) + 1 )) ((Znth ((2 * j_pre ) + 1 ) (replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)) 0)) ((replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)))))) )
   **  ((( &( "tmp_y" ) )) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ (((2 * j_pre ) + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((2 * j_pre ) + 1 )) ”
@@ -6318,10 +5279,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   (IntArray.full coords_pre (2 * n_pre ) (replace_Znth ((2 * j_pre )) ((Znth (2 * i_pre ) flat 0)) ((replace_Znth (((2 * i_pre ) + 1 )) ((Znth ((2 * j_pre ) + 1 ) (replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)) 0)) ((replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)))))) )
   **  ((( &( "tmp_y" ) )) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ ((2 * j_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (2 * j_pre )) ”
@@ -6332,10 +5293,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   (IntArray.full coords_pre (2 * n_pre ) (replace_Znth ((2 * j_pre )) ((Znth (2 * i_pre ) flat 0)) ((replace_Znth (((2 * i_pre ) + 1 )) ((Znth ((2 * j_pre ) + 1 ) (replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)) 0)) ((replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)))))) )
   **  ((( &( "tmp_y" ) )) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ (2 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 2) ”
@@ -6346,10 +5307,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   (IntArray.full coords_pre (2 * n_pre ) (replace_Znth ((2 * j_pre )) ((Znth (2 * i_pre ) flat 0)) ((replace_Znth (((2 * i_pre ) + 1 )) ((Znth ((2 * j_pre ) + 1 ) (replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)) 0)) ((replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)))))) )
   **  ((( &( "tmp_y" ) )) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -6378,30 +5339,22 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (pts_l: (@list point)) (flat: (@list Z))
 
 Definition swap_points_return_wit_1_split_goal_1 := 
 forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (pts_l: (@list point)) (flat: (@list Z)) (PreH1 : (0 <= i_pre)) (PreH2 : (i_pre < n_pre)) (PreH3 : (0 <= j_pre)) (PreH4 : (j_pre < n_pre)) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre <= 50000)) (PreH7 : ((Zlength (pts_l)) = n_pre)) (PreH8 : (FlatPoints flat pts_l )) (PreH9 : (PointCoordsBound pts_l )) ,
-  TT && emp 
-|--
-  “ (PointCoordsBound (point_swap_points (pts_l) (i_pre) (j_pre)) ) ”
+  (PointCoordsBound (point_swap_points (pts_l) (i_pre) (j_pre)) )
 .
 
 Definition swap_points_return_wit_1_split_goal_2 := 
 forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (pts_l: (@list point)) (flat: (@list Z)) (PreH1 : (0 <= i_pre)) (PreH2 : (i_pre < n_pre)) (PreH3 : (0 <= j_pre)) (PreH4 : (j_pre < n_pre)) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre <= 50000)) (PreH7 : ((Zlength (pts_l)) = n_pre)) (PreH8 : (FlatPoints flat pts_l )) (PreH9 : (PointCoordsBound pts_l )) ,
-  TT && emp 
-|--
-  “ (PointPermutation pts_l (point_swap_points (pts_l) (i_pre) (j_pre)) ) ”
+  (PointPermutation pts_l (point_swap_points (pts_l) (i_pre) (j_pre)) )
 .
 
 Definition swap_points_return_wit_1_split_goal_3 := 
 forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (pts_l: (@list point)) (flat: (@list Z)) (PreH1 : (0 <= i_pre)) (PreH2 : (i_pre < n_pre)) (PreH3 : (0 <= j_pre)) (PreH4 : (j_pre < n_pre)) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre <= 50000)) (PreH7 : ((Zlength (pts_l)) = n_pre)) (PreH8 : (FlatPoints flat pts_l )) (PreH9 : (PointCoordsBound pts_l )) ,
-  TT && emp 
-|--
-  “ (FlatPoints (point_swap_flat (flat) (i_pre) (j_pre)) (point_swap_points (pts_l) (i_pre) (j_pre)) ) ”
+  (FlatPoints (point_swap_flat (flat) (i_pre) (j_pre)) (point_swap_points (pts_l) (i_pre) (j_pre)) )
 .
 
 Definition swap_points_return_wit_1_split_goal_4 := 
 forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (pts_l: (@list point)) (flat: (@list Z)) (PreH1 : (0 <= i_pre)) (PreH2 : (i_pre < n_pre)) (PreH3 : (0 <= j_pre)) (PreH4 : (j_pre < n_pre)) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre <= 50000)) (PreH7 : ((Zlength (pts_l)) = n_pre)) (PreH8 : (FlatPoints flat pts_l )) (PreH9 : (PointCoordsBound pts_l )) ,
-  TT && emp 
-|--
-  “ ((replace_Znth (((2 * j_pre ) + 1 )) ((Znth ((2 * i_pre ) + 1 ) flat 0)) ((replace_Znth ((2 * j_pre )) ((Znth (2 * i_pre ) flat 0)) ((replace_Znth (((2 * i_pre ) + 1 )) ((Znth ((2 * j_pre ) + 1 ) (replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)) 0)) ((replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)))))))) = (point_swap_flat (flat) (i_pre) (j_pre))) ”
+  ((replace_Znth (((2 * j_pre ) + 1 )) ((Znth ((2 * i_pre ) + 1 ) flat 0)) ((replace_Znth ((2 * j_pre )) ((Znth (2 * i_pre ) flat 0)) ((replace_Znth (((2 * i_pre ) + 1 )) ((Znth ((2 * j_pre ) + 1 ) (replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)) 0)) ((replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)))))))) = (point_swap_flat (flat) (i_pre) (j_pre)))
 .
 
 Definition swap_points_partial_solve_wit_1 := 
@@ -6417,7 +5370,7 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   &&  “ ((Zlength (pts_l)) = n_pre) ” 
   &&  “ (FlatPoints flat pts_l ) ” 
   &&  “ (PointCoordsBound pts_l ) ”
-  &&  (((coords_pre + ((2 * i_pre ) * sizeof(INT) ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
+  &&  (((coords_pre + ((2 * i_pre ) * sizeof(INT)))) # Int  |-> (Znth (2 * i_pre ) flat 0))
   **  (IntArray.missing_i coords_pre (2 * i_pre ) 0 (2 * n_pre ) flat )
 .
 
@@ -6434,7 +5387,7 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   &&  “ ((Zlength (pts_l)) = n_pre) ” 
   &&  “ (FlatPoints flat pts_l ) ” 
   &&  “ (PointCoordsBound pts_l ) ”
-  &&  (((coords_pre + (((2 * i_pre ) + 1 ) * sizeof(INT) ) )) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
+  &&  (((coords_pre + (((2 * i_pre ) + 1 ) * sizeof(INT)))) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
   **  (IntArray.missing_i coords_pre ((2 * i_pre ) + 1 ) 0 (2 * n_pre ) flat )
 .
 
@@ -6451,7 +5404,7 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   &&  “ ((Zlength (pts_l)) = n_pre) ” 
   &&  “ (FlatPoints flat pts_l ) ” 
   &&  “ (PointCoordsBound pts_l ) ”
-  &&  (((coords_pre + ((2 * j_pre ) * sizeof(INT) ) )) # Int  |-> (Znth (2 * j_pre ) flat 0))
+  &&  (((coords_pre + ((2 * j_pre ) * sizeof(INT)))) # Int  |-> (Znth (2 * j_pre ) flat 0))
   **  (IntArray.missing_i coords_pre (2 * j_pre ) 0 (2 * n_pre ) flat )
 .
 
@@ -6468,7 +5421,7 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   &&  “ ((Zlength (pts_l)) = n_pre) ” 
   &&  “ (FlatPoints flat pts_l ) ” 
   &&  “ (PointCoordsBound pts_l ) ”
-  &&  (((coords_pre + ((2 * i_pre ) * sizeof(INT) ) )) # Int  |->_)
+  &&  (((coords_pre + ((2 * i_pre ) * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i coords_pre (2 * i_pre ) 0 (2 * n_pre ) flat )
 .
 
@@ -6485,7 +5438,7 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   &&  “ ((Zlength (pts_l)) = n_pre) ” 
   &&  “ (FlatPoints flat pts_l ) ” 
   &&  “ (PointCoordsBound pts_l ) ”
-  &&  (((coords_pre + (((2 * j_pre ) + 1 ) * sizeof(INT) ) )) # Int  |-> (Znth ((2 * j_pre ) + 1 ) (replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)) 0))
+  &&  (((coords_pre + (((2 * j_pre ) + 1 ) * sizeof(INT)))) # Int  |-> (Znth ((2 * j_pre ) + 1 ) (replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)) 0))
   **  (IntArray.missing_i coords_pre ((2 * j_pre ) + 1 ) 0 (2 * n_pre ) (replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)) )
 .
 
@@ -6502,7 +5455,7 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   &&  “ ((Zlength (pts_l)) = n_pre) ” 
   &&  “ (FlatPoints flat pts_l ) ” 
   &&  “ (PointCoordsBound pts_l ) ”
-  &&  (((coords_pre + (((2 * i_pre ) + 1 ) * sizeof(INT) ) )) # Int  |->_)
+  &&  (((coords_pre + (((2 * i_pre ) + 1 ) * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i coords_pre ((2 * i_pre ) + 1 ) 0 (2 * n_pre ) (replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)) )
 .
 
@@ -6519,7 +5472,7 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   &&  “ ((Zlength (pts_l)) = n_pre) ” 
   &&  “ (FlatPoints flat pts_l ) ” 
   &&  “ (PointCoordsBound pts_l ) ”
-  &&  (((coords_pre + ((2 * j_pre ) * sizeof(INT) ) )) # Int  |->_)
+  &&  (((coords_pre + ((2 * j_pre ) * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i coords_pre (2 * j_pre ) 0 (2 * n_pre ) (replace_Znth (((2 * i_pre ) + 1 )) ((Znth ((2 * j_pre ) + 1 ) (replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)) 0)) ((replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)))) )
 .
 
@@ -6536,7 +5489,7 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   &&  “ ((Zlength (pts_l)) = n_pre) ” 
   &&  “ (FlatPoints flat pts_l ) ” 
   &&  “ (PointCoordsBound pts_l ) ”
-  &&  (((coords_pre + (((2 * j_pre ) + 1 ) * sizeof(INT) ) )) # Int  |->_)
+  &&  (((coords_pre + (((2 * j_pre ) + 1 ) * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i coords_pre ((2 * j_pre ) + 1 ) 0 (2 * n_pre ) (replace_Znth ((2 * j_pre )) ((Znth (2 * i_pre ) flat 0)) ((replace_Znth (((2 * i_pre ) + 1 )) ((Znth ((2 * j_pre ) + 1 ) (replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)) 0)) ((replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)))))) )
 .
 
@@ -6545,12 +5498,12 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
 Definition partition_points_safety_wit_1 := 
 forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (flat: (@list Z)) (PreH1 : (0 <= low_pre)) (PreH2 : (low_pre <= high_pre)) (PreH3 : (high_pre < n_pre)) (PreH4 : (0 <= n_pre)) (PreH5 : (n_pre <= 50000)) (PreH6 : ((Zlength (pts_l)) = n_pre)) (PreH7 : (FlatPoints flat pts_l )) (PreH8 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_l)) )) ,
   ((( &( "pivot_x" ) )) # Int  |->_)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-  **  ((( &( "high" ) )) # Int  |-> high_pre)
-  **  ((( &( "low" ) )) # Int  |-> low_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "low" ) )) # Int  |-> low_pre)
+  **  ((( &( "high" ) )) # Int  |-> high_pre)
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  (IntArray.full coords_pre (2 * n_pre ) flat )
 |--
   “ ((2 * high_pre ) <= INT_MAX) ” 
@@ -6560,12 +5513,12 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre
 Definition partition_points_safety_wit_2 := 
 forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (flat: (@list Z)) (PreH1 : (0 <= low_pre)) (PreH2 : (low_pre <= high_pre)) (PreH3 : (high_pre < n_pre)) (PreH4 : (0 <= n_pre)) (PreH5 : (n_pre <= 50000)) (PreH6 : ((Zlength (pts_l)) = n_pre)) (PreH7 : (FlatPoints flat pts_l )) (PreH8 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_l)) )) ,
   ((( &( "pivot_x" ) )) # Int  |->_)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-  **  ((( &( "high" ) )) # Int  |-> high_pre)
-  **  ((( &( "low" ) )) # Int  |-> low_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "low" ) )) # Int  |-> low_pre)
+  **  ((( &( "high" ) )) # Int  |-> high_pre)
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  (IntArray.full coords_pre (2 * n_pre ) flat )
 |--
   “ (2 <= INT_MAX) ” 
@@ -6577,12 +5530,12 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre
   ((( &( "pivot_y" ) )) # Int  |->_)
   **  (IntArray.full coords_pre (2 * n_pre ) flat )
   **  ((( &( "pivot_x" ) )) # Int  |-> (Znth (2 * high_pre ) flat 0))
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-  **  ((( &( "high" ) )) # Int  |-> high_pre)
-  **  ((( &( "low" ) )) # Int  |-> low_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "low" ) )) # Int  |-> low_pre)
+  **  ((( &( "high" ) )) # Int  |-> high_pre)
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
 |--
   “ (((2 * high_pre ) + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((2 * high_pre ) + 1 )) ”
@@ -6593,12 +5546,12 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre
   ((( &( "pivot_y" ) )) # Int  |->_)
   **  (IntArray.full coords_pre (2 * n_pre ) flat )
   **  ((( &( "pivot_x" ) )) # Int  |-> (Znth (2 * high_pre ) flat 0))
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-  **  ((( &( "high" ) )) # Int  |-> high_pre)
-  **  ((( &( "low" ) )) # Int  |-> low_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "low" ) )) # Int  |-> low_pre)
+  **  ((( &( "high" ) )) # Int  |-> high_pre)
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
 |--
   “ ((2 * high_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (2 * high_pre )) ”
@@ -6609,12 +5562,12 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre
   ((( &( "pivot_y" ) )) # Int  |->_)
   **  (IntArray.full coords_pre (2 * n_pre ) flat )
   **  ((( &( "pivot_x" ) )) # Int  |-> (Znth (2 * high_pre ) flat 0))
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-  **  ((( &( "high" ) )) # Int  |-> high_pre)
-  **  ((( &( "low" ) )) # Int  |-> low_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "low" ) )) # Int  |-> low_pre)
+  **  ((( &( "high" ) )) # Int  |-> high_pre)
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
 |--
   “ (2 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 2) ”
@@ -6625,12 +5578,12 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre
   ((( &( "pivot_y" ) )) # Int  |->_)
   **  (IntArray.full coords_pre (2 * n_pre ) flat )
   **  ((( &( "pivot_x" ) )) # Int  |-> (Znth (2 * high_pre ) flat 0))
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-  **  ((( &( "high" ) )) # Int  |-> high_pre)
-  **  ((( &( "low" ) )) # Int  |-> low_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "low" ) )) # Int  |-> low_pre)
+  **  ((( &( "high" ) )) # Int  |-> high_pre)
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -6642,12 +5595,12 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre
   **  (IntArray.full coords_pre (2 * n_pre ) flat )
   **  ((( &( "pivot_y" ) )) # Int  |-> (Znth ((2 * high_pre ) + 1 ) flat 0))
   **  ((( &( "pivot_x" ) )) # Int  |-> (Znth (2 * high_pre ) flat 0))
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-  **  ((( &( "high" ) )) # Int  |-> high_pre)
-  **  ((( &( "low" ) )) # Int  |-> low_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "low" ) )) # Int  |-> low_pre)
+  **  ((( &( "high" ) )) # Int  |-> high_pre)
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
 |--
   “ ((low_pre - 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (low_pre - 1 )) ”
@@ -6659,12 +5612,12 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre
   **  (IntArray.full coords_pre (2 * n_pre ) flat )
   **  ((( &( "pivot_y" ) )) # Int  |-> (Znth ((2 * high_pre ) + 1 ) flat 0))
   **  ((( &( "pivot_x" ) )) # Int  |-> (Znth (2 * high_pre ) flat 0))
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-  **  ((( &( "high" ) )) # Int  |-> high_pre)
-  **  ((( &( "low" ) )) # Int  |-> low_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "low" ) )) # Int  |-> low_pre)
+  **  ((( &( "high" ) )) # Int  |-> high_pre)
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -6789,7 +5742,7 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre
 .
 
 Definition partition_points_safety_wit_15 := 
-forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (flat_cur: (@list Z)) (pivot_x: Z) (pivot_y: Z) (pts_cur: (@list point)) (j: Z) (i: Z) (retval: Z) (PreH1 : (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point ((Znth (2 * j ) flat_cur 0)) ((Znth ((2 * j ) + 1 ) flat_cur 0))) (mk_point (pivot_x) (pivot_y)) retval )) (PreH2 : ((-1) <= retval)) (PreH3 : (retval <= 1)) (PreH4 : (j < high_pre)) (PreH5 : (0 <= low_pre)) (PreH6 : (low_pre <= high_pre)) (PreH7 : (high_pre < n_pre)) (PreH8 : (0 <= n_pre)) (PreH9 : (n_pre <= 50000)) (PreH10 : ((low_pre - 1 ) <= i)) (PreH11 : (i < j)) (PreH12 : (j <= high_pre)) (PreH13 : ((Zlength (pts_l)) = n_pre)) (PreH14 : ((Zlength (pts_cur)) = n_pre)) (PreH15 : ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur) (default_point)))) (PreH16 : (FlatPoints flat_cur pts_cur )) (PreH17 : (PointCoordsBound pts_cur )) (PreH18 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur)) )) (PreH19 : (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j )) ,
+forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (pivot_x: Z) (pivot_y: Z) (j: Z) (i: Z) (retval: Z) (flat_cur: (@list Z)) (pts_cur: (@list point)) (PreH1 : (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point ((Znth (2 * j ) flat_cur 0)) ((Znth ((2 * j ) + 1 ) flat_cur 0))) (mk_point (pivot_x) (pivot_y)) retval )) (PreH2 : ((-1) <= retval)) (PreH3 : (retval <= 1)) (PreH4 : (j < high_pre)) (PreH5 : (0 <= low_pre)) (PreH6 : (low_pre <= high_pre)) (PreH7 : (high_pre < n_pre)) (PreH8 : (0 <= n_pre)) (PreH9 : (n_pre <= 50000)) (PreH10 : ((low_pre - 1 ) <= i)) (PreH11 : (i < j)) (PreH12 : (j <= high_pre)) (PreH13 : ((Zlength (pts_l)) = n_pre)) (PreH14 : ((Zlength (pts_cur)) = n_pre)) (PreH15 : ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur) (default_point)))) (PreH16 : (FlatPoints flat_cur pts_cur )) (PreH17 : (PointCoordsBound pts_cur )) (PreH18 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur)) )) (PreH19 : (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j )) ,
   ((( &( "c" ) )) # Int  |-> retval)
   **  (IntArray.full coords_pre (2 * n_pre ) flat_cur )
   **  ((( &( "ay" ) )) # Int  |-> (Znth ((2 * j ) + 1 ) flat_cur 0))
@@ -6810,7 +5763,7 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre
 .
 
 Definition partition_points_safety_wit_16 := 
-forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (flat_cur: (@list Z)) (pivot_x: Z) (pivot_y: Z) (pts_cur: (@list point)) (j: Z) (i: Z) (retval: Z) (PreH1 : (retval <= 0)) (PreH2 : (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point ((Znth (2 * j ) flat_cur 0)) ((Znth ((2 * j ) + 1 ) flat_cur 0))) (mk_point (pivot_x) (pivot_y)) retval )) (PreH3 : ((-1) <= retval)) (PreH4 : (retval <= 1)) (PreH5 : (j < high_pre)) (PreH6 : (0 <= low_pre)) (PreH7 : (low_pre <= high_pre)) (PreH8 : (high_pre < n_pre)) (PreH9 : (0 <= n_pre)) (PreH10 : (n_pre <= 50000)) (PreH11 : ((low_pre - 1 ) <= i)) (PreH12 : (i < j)) (PreH13 : (j <= high_pre)) (PreH14 : ((Zlength (pts_l)) = n_pre)) (PreH15 : ((Zlength (pts_cur)) = n_pre)) (PreH16 : ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur) (default_point)))) (PreH17 : (FlatPoints flat_cur pts_cur )) (PreH18 : (PointCoordsBound pts_cur )) (PreH19 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur)) )) (PreH20 : (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j )) ,
+forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (pivot_x: Z) (pivot_y: Z) (j: Z) (i: Z) (retval: Z) (flat_cur: (@list Z)) (pts_cur: (@list point)) (PreH1 : (retval <= 0)) (PreH2 : (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point ((Znth (2 * j ) flat_cur 0)) ((Znth ((2 * j ) + 1 ) flat_cur 0))) (mk_point (pivot_x) (pivot_y)) retval )) (PreH3 : ((-1) <= retval)) (PreH4 : (retval <= 1)) (PreH5 : (j < high_pre)) (PreH6 : (0 <= low_pre)) (PreH7 : (low_pre <= high_pre)) (PreH8 : (high_pre < n_pre)) (PreH9 : (0 <= n_pre)) (PreH10 : (n_pre <= 50000)) (PreH11 : ((low_pre - 1 ) <= i)) (PreH12 : (i < j)) (PreH13 : (j <= high_pre)) (PreH14 : ((Zlength (pts_l)) = n_pre)) (PreH15 : ((Zlength (pts_cur)) = n_pre)) (PreH16 : ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur) (default_point)))) (PreH17 : (FlatPoints flat_cur pts_cur )) (PreH18 : (PointCoordsBound pts_cur )) (PreH19 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur)) )) (PreH20 : (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j )) ,
   ((( &( "c" ) )) # Int  |-> retval)
   **  (IntArray.full coords_pre (2 * n_pre ) flat_cur )
   **  ((( &( "ay" ) )) # Int  |-> (Znth ((2 * j ) + 1 ) flat_cur 0))
@@ -6831,7 +5784,7 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre
 .
 
 Definition partition_points_safety_wit_17 := 
-forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (flat_cur: (@list Z)) (pivot_x: Z) (pivot_y: Z) (pts_cur: (@list point)) (j: Z) (i: Z) (retval: Z) (PreH1 : (FlatPoints (point_swap_flat (flat_cur) ((i + 1 )) (j)) (point_swap_points (pts_cur) ((i + 1 )) (j)) )) (PreH2 : (PointPermutation pts_cur (point_swap_points (pts_cur) ((i + 1 )) (j)) )) (PreH3 : (PointCoordsBound (point_swap_points (pts_cur) ((i + 1 )) (j)) )) (PreH4 : (retval <= 0)) (PreH5 : (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point ((Znth (2 * j ) flat_cur 0)) ((Znth ((2 * j ) + 1 ) flat_cur 0))) (mk_point (pivot_x) (pivot_y)) retval )) (PreH6 : ((-1) <= retval)) (PreH7 : (retval <= 1)) (PreH8 : (j < high_pre)) (PreH9 : (0 <= low_pre)) (PreH10 : (low_pre <= high_pre)) (PreH11 : (high_pre < n_pre)) (PreH12 : (0 <= n_pre)) (PreH13 : (n_pre <= 50000)) (PreH14 : ((low_pre - 1 ) <= i)) (PreH15 : (i < j)) (PreH16 : (j <= high_pre)) (PreH17 : ((Zlength (pts_l)) = n_pre)) (PreH18 : ((Zlength (pts_cur)) = n_pre)) (PreH19 : ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur) (default_point)))) (PreH20 : (FlatPoints flat_cur pts_cur )) (PreH21 : (PointCoordsBound pts_cur )) (PreH22 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur)) )) (PreH23 : (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j )) ,
+forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (pivot_x: Z) (pivot_y: Z) (j: Z) (i: Z) (retval: Z) (flat_cur: (@list Z)) (pts_cur: (@list point)) (PreH1 : (FlatPoints (point_swap_flat (flat_cur) ((i + 1 )) (j)) (point_swap_points (pts_cur) ((i + 1 )) (j)) )) (PreH2 : (PointPermutation pts_cur (point_swap_points (pts_cur) ((i + 1 )) (j)) )) (PreH3 : (PointCoordsBound (point_swap_points (pts_cur) ((i + 1 )) (j)) )) (PreH4 : (retval <= 0)) (PreH5 : (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point ((Znth (2 * j ) flat_cur 0)) ((Znth ((2 * j ) + 1 ) flat_cur 0))) (mk_point (pivot_x) (pivot_y)) retval )) (PreH6 : ((-1) <= retval)) (PreH7 : (retval <= 1)) (PreH8 : (j < high_pre)) (PreH9 : (0 <= low_pre)) (PreH10 : (low_pre <= high_pre)) (PreH11 : (high_pre < n_pre)) (PreH12 : (0 <= n_pre)) (PreH13 : (n_pre <= 50000)) (PreH14 : ((low_pre - 1 ) <= i)) (PreH15 : (i < j)) (PreH16 : (j <= high_pre)) (PreH17 : ((Zlength (pts_l)) = n_pre)) (PreH18 : ((Zlength (pts_cur)) = n_pre)) (PreH19 : ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur) (default_point)))) (PreH20 : (FlatPoints flat_cur pts_cur )) (PreH21 : (PointCoordsBound pts_cur )) (PreH22 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur)) )) (PreH23 : (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j )) ,
   (IntArray.full coords_pre (2 * n_pre ) (point_swap_flat (flat_cur) ((i + 1 )) (j)) )
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -6849,7 +5802,7 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre
 .
 
 Definition partition_points_safety_wit_18 := 
-forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (flat_cur: (@list Z)) (pivot_x: Z) (pivot_y: Z) (pts_cur: (@list point)) (j: Z) (i: Z) (retval: Z) (PreH1 : (retval > 0)) (PreH2 : (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point ((Znth (2 * j ) flat_cur 0)) ((Znth ((2 * j ) + 1 ) flat_cur 0))) (mk_point (pivot_x) (pivot_y)) retval )) (PreH3 : ((-1) <= retval)) (PreH4 : (retval <= 1)) (PreH5 : (j < high_pre)) (PreH6 : (0 <= low_pre)) (PreH7 : (low_pre <= high_pre)) (PreH8 : (high_pre < n_pre)) (PreH9 : (0 <= n_pre)) (PreH10 : (n_pre <= 50000)) (PreH11 : ((low_pre - 1 ) <= i)) (PreH12 : (i < j)) (PreH13 : (j <= high_pre)) (PreH14 : ((Zlength (pts_l)) = n_pre)) (PreH15 : ((Zlength (pts_cur)) = n_pre)) (PreH16 : ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur) (default_point)))) (PreH17 : (FlatPoints flat_cur pts_cur )) (PreH18 : (PointCoordsBound pts_cur )) (PreH19 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur)) )) (PreH20 : (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j )) ,
+forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (pivot_x: Z) (pivot_y: Z) (j: Z) (i: Z) (retval: Z) (flat_cur: (@list Z)) (pts_cur: (@list point)) (PreH1 : (retval > 0)) (PreH2 : (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point ((Znth (2 * j ) flat_cur 0)) ((Znth ((2 * j ) + 1 ) flat_cur 0))) (mk_point (pivot_x) (pivot_y)) retval )) (PreH3 : ((-1) <= retval)) (PreH4 : (retval <= 1)) (PreH5 : (j < high_pre)) (PreH6 : (0 <= low_pre)) (PreH7 : (low_pre <= high_pre)) (PreH8 : (high_pre < n_pre)) (PreH9 : (0 <= n_pre)) (PreH10 : (n_pre <= 50000)) (PreH11 : ((low_pre - 1 ) <= i)) (PreH12 : (i < j)) (PreH13 : (j <= high_pre)) (PreH14 : ((Zlength (pts_l)) = n_pre)) (PreH15 : ((Zlength (pts_cur)) = n_pre)) (PreH16 : ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur) (default_point)))) (PreH17 : (FlatPoints flat_cur pts_cur )) (PreH18 : (PointCoordsBound pts_cur )) (PreH19 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur)) )) (PreH20 : (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j )) ,
   (IntArray.full coords_pre (2 * n_pre ) flat_cur )
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -6867,7 +5820,7 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre
 .
 
 Definition partition_points_safety_wit_19 := 
-forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (flat_cur: (@list Z)) (pivot_x: Z) (pivot_y: Z) (pts_cur: (@list point)) (j: Z) (i: Z) (PreH1 : (j >= high_pre)) (PreH2 : (0 <= low_pre)) (PreH3 : (low_pre <= high_pre)) (PreH4 : (high_pre < n_pre)) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre <= 50000)) (PreH7 : ((low_pre - 1 ) <= i)) (PreH8 : (i < j)) (PreH9 : (j <= high_pre)) (PreH10 : ((Zlength (pts_l)) = n_pre)) (PreH11 : ((Zlength (pts_cur)) = n_pre)) (PreH12 : ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur) (default_point)))) (PreH13 : (FlatPoints flat_cur pts_cur )) (PreH14 : (PointCoordsBound pts_cur )) (PreH15 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur)) )) (PreH16 : (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j )) ,
+forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (pivot_x: Z) (pivot_y: Z) (j: Z) (i: Z) (flat_cur: (@list Z)) (pts_cur: (@list point)) (PreH1 : (j >= high_pre)) (PreH2 : (0 <= low_pre)) (PreH3 : (low_pre <= high_pre)) (PreH4 : (high_pre < n_pre)) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre <= 50000)) (PreH7 : ((low_pre - 1 ) <= i)) (PreH8 : (i < j)) (PreH9 : (j <= high_pre)) (PreH10 : ((Zlength (pts_l)) = n_pre)) (PreH11 : ((Zlength (pts_cur)) = n_pre)) (PreH12 : ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur) (default_point)))) (PreH13 : (FlatPoints flat_cur pts_cur )) (PreH14 : (PointCoordsBound pts_cur )) (PreH15 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur)) )) (PreH16 : (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j )) ,
   ((( &( "coords" ) )) # Ptr  |-> coords_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "low" ) )) # Int  |-> low_pre)
@@ -6884,7 +5837,7 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre
 .
 
 Definition partition_points_safety_wit_20 := 
-forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (flat_cur: (@list Z)) (pivot_x: Z) (pivot_y: Z) (pts_cur: (@list point)) (j: Z) (i: Z) (PreH1 : (j >= high_pre)) (PreH2 : (0 <= low_pre)) (PreH3 : (low_pre <= high_pre)) (PreH4 : (high_pre < n_pre)) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre <= 50000)) (PreH7 : ((low_pre - 1 ) <= i)) (PreH8 : (i < j)) (PreH9 : (j <= high_pre)) (PreH10 : ((Zlength (pts_l)) = n_pre)) (PreH11 : ((Zlength (pts_cur)) = n_pre)) (PreH12 : ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur) (default_point)))) (PreH13 : (FlatPoints flat_cur pts_cur )) (PreH14 : (PointCoordsBound pts_cur )) (PreH15 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur)) )) (PreH16 : (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j )) ,
+forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (pivot_x: Z) (pivot_y: Z) (j: Z) (i: Z) (flat_cur: (@list Z)) (pts_cur: (@list point)) (PreH1 : (j >= high_pre)) (PreH2 : (0 <= low_pre)) (PreH3 : (low_pre <= high_pre)) (PreH4 : (high_pre < n_pre)) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre <= 50000)) (PreH7 : ((low_pre - 1 ) <= i)) (PreH8 : (i < j)) (PreH9 : (j <= high_pre)) (PreH10 : ((Zlength (pts_l)) = n_pre)) (PreH11 : ((Zlength (pts_cur)) = n_pre)) (PreH12 : ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur) (default_point)))) (PreH13 : (FlatPoints flat_cur pts_cur )) (PreH14 : (PointCoordsBound pts_cur )) (PreH15 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur)) )) (PreH16 : (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j )) ,
   ((( &( "coords" ) )) # Ptr  |-> coords_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "low" ) )) # Int  |-> low_pre)
@@ -6901,7 +5854,7 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre
 .
 
 Definition partition_points_safety_wit_21 := 
-forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (flat_cur: (@list Z)) (pivot_x: Z) (pivot_y: Z) (pts_cur: (@list point)) (j: Z) (i: Z) (PreH1 : (FlatPoints (point_swap_flat (flat_cur) ((i + 1 )) (high_pre)) (point_swap_points (pts_cur) ((i + 1 )) (high_pre)) )) (PreH2 : (PointPermutation pts_cur (point_swap_points (pts_cur) ((i + 1 )) (high_pre)) )) (PreH3 : (PointCoordsBound (point_swap_points (pts_cur) ((i + 1 )) (high_pre)) )) (PreH4 : (j >= high_pre)) (PreH5 : (0 <= low_pre)) (PreH6 : (low_pre <= high_pre)) (PreH7 : (high_pre < n_pre)) (PreH8 : (0 <= n_pre)) (PreH9 : (n_pre <= 50000)) (PreH10 : ((low_pre - 1 ) <= i)) (PreH11 : (i < j)) (PreH12 : (j <= high_pre)) (PreH13 : ((Zlength (pts_l)) = n_pre)) (PreH14 : ((Zlength (pts_cur)) = n_pre)) (PreH15 : ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur) (default_point)))) (PreH16 : (FlatPoints flat_cur pts_cur )) (PreH17 : (PointCoordsBound pts_cur )) (PreH18 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur)) )) (PreH19 : (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j )) ,
+forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (pivot_x: Z) (pivot_y: Z) (j: Z) (i: Z) (flat_cur: (@list Z)) (pts_cur: (@list point)) (PreH1 : (FlatPoints (point_swap_flat (flat_cur) ((i + 1 )) (high_pre)) (point_swap_points (pts_cur) ((i + 1 )) (high_pre)) )) (PreH2 : (PointPermutation pts_cur (point_swap_points (pts_cur) ((i + 1 )) (high_pre)) )) (PreH3 : (PointCoordsBound (point_swap_points (pts_cur) ((i + 1 )) (high_pre)) )) (PreH4 : (j >= high_pre)) (PreH5 : (0 <= low_pre)) (PreH6 : (low_pre <= high_pre)) (PreH7 : (high_pre < n_pre)) (PreH8 : (0 <= n_pre)) (PreH9 : (n_pre <= 50000)) (PreH10 : ((low_pre - 1 ) <= i)) (PreH11 : (i < j)) (PreH12 : (j <= high_pre)) (PreH13 : ((Zlength (pts_l)) = n_pre)) (PreH14 : ((Zlength (pts_cur)) = n_pre)) (PreH15 : ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur) (default_point)))) (PreH16 : (FlatPoints flat_cur pts_cur )) (PreH17 : (PointCoordsBound pts_cur )) (PreH18 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur)) )) (PreH19 : (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j )) ,
   (IntArray.full coords_pre (2 * n_pre ) (point_swap_flat (flat_cur) ((i + 1 )) (high_pre)) )
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -6918,7 +5871,7 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre
 .
 
 Definition partition_points_safety_wit_22 := 
-forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (flat_cur: (@list Z)) (pivot_x: Z) (pivot_y: Z) (pts_cur: (@list point)) (j: Z) (i: Z) (PreH1 : (FlatPoints (point_swap_flat (flat_cur) ((i + 1 )) (high_pre)) (point_swap_points (pts_cur) ((i + 1 )) (high_pre)) )) (PreH2 : (PointPermutation pts_cur (point_swap_points (pts_cur) ((i + 1 )) (high_pre)) )) (PreH3 : (PointCoordsBound (point_swap_points (pts_cur) ((i + 1 )) (high_pre)) )) (PreH4 : (j >= high_pre)) (PreH5 : (0 <= low_pre)) (PreH6 : (low_pre <= high_pre)) (PreH7 : (high_pre < n_pre)) (PreH8 : (0 <= n_pre)) (PreH9 : (n_pre <= 50000)) (PreH10 : ((low_pre - 1 ) <= i)) (PreH11 : (i < j)) (PreH12 : (j <= high_pre)) (PreH13 : ((Zlength (pts_l)) = n_pre)) (PreH14 : ((Zlength (pts_cur)) = n_pre)) (PreH15 : ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur) (default_point)))) (PreH16 : (FlatPoints flat_cur pts_cur )) (PreH17 : (PointCoordsBound pts_cur )) (PreH18 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur)) )) (PreH19 : (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j )) ,
+forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (pivot_x: Z) (pivot_y: Z) (j: Z) (i: Z) (flat_cur: (@list Z)) (pts_cur: (@list point)) (PreH1 : (FlatPoints (point_swap_flat (flat_cur) ((i + 1 )) (high_pre)) (point_swap_points (pts_cur) ((i + 1 )) (high_pre)) )) (PreH2 : (PointPermutation pts_cur (point_swap_points (pts_cur) ((i + 1 )) (high_pre)) )) (PreH3 : (PointCoordsBound (point_swap_points (pts_cur) ((i + 1 )) (high_pre)) )) (PreH4 : (j >= high_pre)) (PreH5 : (0 <= low_pre)) (PreH6 : (low_pre <= high_pre)) (PreH7 : (high_pre < n_pre)) (PreH8 : (0 <= n_pre)) (PreH9 : (n_pre <= 50000)) (PreH10 : ((low_pre - 1 ) <= i)) (PreH11 : (i < j)) (PreH12 : (j <= high_pre)) (PreH13 : ((Zlength (pts_l)) = n_pre)) (PreH14 : ((Zlength (pts_cur)) = n_pre)) (PreH15 : ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur) (default_point)))) (PreH16 : (FlatPoints flat_cur pts_cur )) (PreH17 : (PointCoordsBound pts_cur )) (PreH18 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur)) )) (PreH19 : (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j )) ,
   (IntArray.full coords_pre (2 * n_pre ) (point_swap_flat (flat_cur) ((i + 1 )) (high_pre)) )
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -6962,16 +5915,9 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (pts_l: (@l
   TT && emp 
 |--
   EX (pts_cur: (@list point)) ,
-  “ (0 <= low_pre) ” 
-  &&  “ (low_pre <= high_pre) ” 
-  &&  “ (high_pre < n_pre) ” 
-  &&  “ (0 <= n_pre) ” 
-  &&  “ (n_pre <= 50000) ” 
-  &&  “ ((low_pre - 1 ) <= (low_pre - 1 )) ” 
+  “ ((low_pre - 1 ) <= (low_pre - 1 )) ” 
   &&  “ ((low_pre - 1 ) < low_pre) ” 
-  &&  “ (low_pre <= high_pre) ” 
-  &&  “ ((Zlength (pts_l)) = n_pre) ” 
-  &&  “ ((Zlength (pts_cur)) = n_pre) ” 
+  &&  “ ((Zlength (pts_cur)) = (Zlength (pts_l))) ” 
   &&  “ ((mk_point ((Znth (2 * high_pre ) flat 0)) ((Znth ((2 * high_pre ) + 1 ) flat 0))) = (Znth (high_pre) (pts_cur) (default_point))) ” 
   &&  “ (FlatPoints flat pts_cur ) ” 
   &&  “ (PointCoordsBound pts_cur ) ” 
@@ -6982,7 +5928,7 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (pts_l: (@l
 
 Definition partition_points_entail_wit_2_1 := 
 (
-forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (flat_cur_2: (@list Z)) (pivot_x: Z) (pivot_y: Z) (pts_cur_2: (@list point)) (j: Z) (i: Z) (retval: Z) (PreH1 : (FlatPoints (point_swap_flat (flat_cur_2) ((i + 1 )) (j)) (point_swap_points (pts_cur_2) ((i + 1 )) (j)) )) (PreH2 : (PointPermutation pts_cur_2 (point_swap_points (pts_cur_2) ((i + 1 )) (j)) )) (PreH3 : (PointCoordsBound (point_swap_points (pts_cur_2) ((i + 1 )) (j)) )) (PreH4 : (retval <= 0)) (PreH5 : (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point ((Znth (2 * j ) flat_cur_2 0)) ((Znth ((2 * j ) + 1 ) flat_cur_2 0))) (mk_point (pivot_x) (pivot_y)) retval )) (PreH6 : ((-1) <= retval)) (PreH7 : (retval <= 1)) (PreH8 : (j < high_pre)) (PreH9 : (0 <= low_pre)) (PreH10 : (low_pre <= high_pre)) (PreH11 : (high_pre < n_pre)) (PreH12 : (0 <= n_pre)) (PreH13 : (n_pre <= 50000)) (PreH14 : ((low_pre - 1 ) <= i)) (PreH15 : (i < j)) (PreH16 : (j <= high_pre)) (PreH17 : ((Zlength (pts_l)) = n_pre)) (PreH18 : ((Zlength (pts_cur_2)) = n_pre)) (PreH19 : ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur_2) (default_point)))) (PreH20 : (FlatPoints flat_cur_2 pts_cur_2 )) (PreH21 : (PointCoordsBound pts_cur_2 )) (PreH22 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur_2)) )) (PreH23 : (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur_2 low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j )) ,
+forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (pivot_x: Z) (pivot_y: Z) (j: Z) (i: Z) (retval: Z) (flat_cur_2: (@list Z)) (pts_cur_2: (@list point)) (PreH1 : (FlatPoints (point_swap_flat (flat_cur_2) ((i + 1 )) (j)) (point_swap_points (pts_cur_2) ((i + 1 )) (j)) )) (PreH2 : (PointPermutation pts_cur_2 (point_swap_points (pts_cur_2) ((i + 1 )) (j)) )) (PreH3 : (PointCoordsBound (point_swap_points (pts_cur_2) ((i + 1 )) (j)) )) (PreH4 : (retval <= 0)) (PreH5 : (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point ((Znth (2 * j ) flat_cur_2 0)) ((Znth ((2 * j ) + 1 ) flat_cur_2 0))) (mk_point (pivot_x) (pivot_y)) retval )) (PreH6 : ((-1) <= retval)) (PreH7 : (retval <= 1)) (PreH8 : (j < high_pre)) (PreH9 : (0 <= low_pre)) (PreH10 : (low_pre <= high_pre)) (PreH11 : (high_pre < n_pre)) (PreH12 : (0 <= n_pre)) (PreH13 : (n_pre <= 50000)) (PreH14 : ((low_pre - 1 ) <= i)) (PreH15 : (i < j)) (PreH16 : (j <= high_pre)) (PreH17 : ((Zlength (pts_l)) = n_pre)) (PreH18 : ((Zlength (pts_cur_2)) = n_pre)) (PreH19 : ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur_2) (default_point)))) (PreH20 : (FlatPoints flat_cur_2 pts_cur_2 )) (PreH21 : (PointCoordsBound pts_cur_2 )) (PreH22 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur_2)) )) (PreH23 : (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur_2 low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j )) ,
   (IntArray.full coords_pre (2 * n_pre ) (point_swap_flat (flat_cur_2) ((i + 1 )) (j)) )
 |--
   EX (flat_cur: (@list Z))  (pts_cur: (@list point)) ,
@@ -7004,20 +5950,14 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre
   &&  (IntArray.full coords_pre (2 * n_pre ) flat_cur )
 ) \/
 (
-forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (pts_l: (@list point)) (flat_cur_2: (@list Z)) (pivot_x: Z) (pivot_y: Z) (pts_cur_2: (@list point)) (j: Z) (i: Z) (retval: Z) (PreH1 : (FlatPoints (point_swap_flat (flat_cur_2) ((i + 1 )) (j)) (point_swap_points (pts_cur_2) ((i + 1 )) (j)) )) (PreH2 : (PointPermutation pts_cur_2 (point_swap_points (pts_cur_2) ((i + 1 )) (j)) )) (PreH3 : (PointCoordsBound (point_swap_points (pts_cur_2) ((i + 1 )) (j)) )) (PreH4 : (retval <= 0)) (PreH5 : (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point ((Znth (2 * j ) flat_cur_2 0)) ((Znth ((2 * j ) + 1 ) flat_cur_2 0))) (mk_point (pivot_x) (pivot_y)) retval )) (PreH6 : ((-1) <= retval)) (PreH7 : (retval <= 1)) (PreH8 : (j < high_pre)) (PreH9 : (0 <= low_pre)) (PreH10 : (low_pre <= high_pre)) (PreH11 : (high_pre < n_pre)) (PreH12 : (0 <= n_pre)) (PreH13 : (n_pre <= 50000)) (PreH14 : ((low_pre - 1 ) <= i)) (PreH15 : (i < j)) (PreH16 : (j <= high_pre)) (PreH17 : ((Zlength (pts_l)) = n_pre)) (PreH18 : ((Zlength (pts_cur_2)) = n_pre)) (PreH19 : ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur_2) (default_point)))) (PreH20 : (FlatPoints flat_cur_2 pts_cur_2 )) (PreH21 : (PointCoordsBound pts_cur_2 )) (PreH22 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur_2)) )) (PreH23 : (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur_2 low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j )) ,
+forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (pts_l: (@list point)) (pivot_x: Z) (pivot_y: Z) (j: Z) (i: Z) (retval: Z) (flat_cur_2: (@list Z)) (pts_cur_2: (@list point)) (PreH1 : (FlatPoints (point_swap_flat (flat_cur_2) ((i + 1 )) (j)) (point_swap_points (pts_cur_2) ((i + 1 )) (j)) )) (PreH2 : (PointPermutation pts_cur_2 (point_swap_points (pts_cur_2) ((i + 1 )) (j)) )) (PreH3 : (PointCoordsBound (point_swap_points (pts_cur_2) ((i + 1 )) (j)) )) (PreH4 : (retval <= 0)) (PreH5 : (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point ((Znth (2 * j ) flat_cur_2 0)) ((Znth ((2 * j ) + 1 ) flat_cur_2 0))) (mk_point (pivot_x) (pivot_y)) retval )) (PreH6 : ((-1) <= retval)) (PreH7 : (retval <= 1)) (PreH8 : (j < high_pre)) (PreH9 : (0 <= low_pre)) (PreH10 : (low_pre <= high_pre)) (PreH11 : (high_pre < n_pre)) (PreH12 : (0 <= n_pre)) (PreH13 : (n_pre <= 50000)) (PreH14 : ((low_pre - 1 ) <= i)) (PreH15 : (i < j)) (PreH16 : (j <= high_pre)) (PreH17 : ((Zlength (pts_l)) = n_pre)) (PreH18 : ((Zlength (pts_cur_2)) = n_pre)) (PreH19 : ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur_2) (default_point)))) (PreH20 : (FlatPoints flat_cur_2 pts_cur_2 )) (PreH21 : (PointCoordsBound pts_cur_2 )) (PreH22 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur_2)) )) (PreH23 : (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur_2 low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j )) ,
   TT && emp 
 |--
   EX (pts_cur: (@list point)) ,
-  “ (0 <= low_pre) ” 
-  &&  “ (low_pre <= high_pre) ” 
-  &&  “ (high_pre < n_pre) ” 
-  &&  “ (0 <= n_pre) ” 
-  &&  “ (n_pre <= 50000) ” 
-  &&  “ ((low_pre - 1 ) <= (i + 1 )) ” 
+  “ ((low_pre - 1 ) <= (i + 1 )) ” 
   &&  “ ((i + 1 ) < (j + 1 )) ” 
   &&  “ ((j + 1 ) <= high_pre) ” 
-  &&  “ ((Zlength (pts_l)) = n_pre) ” 
-  &&  “ ((Zlength (pts_cur)) = n_pre) ” 
+  &&  “ ((Zlength (pts_cur)) = (Zlength (pts_l))) ” 
   &&  “ ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur) (default_point))) ” 
   &&  “ (FlatPoints (point_swap_flat (flat_cur_2) ((i + 1 )) (j)) pts_cur ) ” 
   &&  “ (PointCoordsBound pts_cur ) ” 
@@ -7028,7 +5968,7 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (pts_l: (@l
 
 Definition partition_points_entail_wit_2_2 := 
 (
-forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (flat_cur_2: (@list Z)) (pivot_x: Z) (pivot_y: Z) (pts_cur_2: (@list point)) (j: Z) (i: Z) (retval: Z) (PreH1 : (retval > 0)) (PreH2 : (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point ((Znth (2 * j ) flat_cur_2 0)) ((Znth ((2 * j ) + 1 ) flat_cur_2 0))) (mk_point (pivot_x) (pivot_y)) retval )) (PreH3 : ((-1) <= retval)) (PreH4 : (retval <= 1)) (PreH5 : (j < high_pre)) (PreH6 : (0 <= low_pre)) (PreH7 : (low_pre <= high_pre)) (PreH8 : (high_pre < n_pre)) (PreH9 : (0 <= n_pre)) (PreH10 : (n_pre <= 50000)) (PreH11 : ((low_pre - 1 ) <= i)) (PreH12 : (i < j)) (PreH13 : (j <= high_pre)) (PreH14 : ((Zlength (pts_l)) = n_pre)) (PreH15 : ((Zlength (pts_cur_2)) = n_pre)) (PreH16 : ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur_2) (default_point)))) (PreH17 : (FlatPoints flat_cur_2 pts_cur_2 )) (PreH18 : (PointCoordsBound pts_cur_2 )) (PreH19 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur_2)) )) (PreH20 : (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur_2 low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j )) ,
+forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (pivot_x: Z) (pivot_y: Z) (j: Z) (i: Z) (retval: Z) (flat_cur_2: (@list Z)) (pts_cur_2: (@list point)) (PreH1 : (retval > 0)) (PreH2 : (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point ((Znth (2 * j ) flat_cur_2 0)) ((Znth ((2 * j ) + 1 ) flat_cur_2 0))) (mk_point (pivot_x) (pivot_y)) retval )) (PreH3 : ((-1) <= retval)) (PreH4 : (retval <= 1)) (PreH5 : (j < high_pre)) (PreH6 : (0 <= low_pre)) (PreH7 : (low_pre <= high_pre)) (PreH8 : (high_pre < n_pre)) (PreH9 : (0 <= n_pre)) (PreH10 : (n_pre <= 50000)) (PreH11 : ((low_pre - 1 ) <= i)) (PreH12 : (i < j)) (PreH13 : (j <= high_pre)) (PreH14 : ((Zlength (pts_l)) = n_pre)) (PreH15 : ((Zlength (pts_cur_2)) = n_pre)) (PreH16 : ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur_2) (default_point)))) (PreH17 : (FlatPoints flat_cur_2 pts_cur_2 )) (PreH18 : (PointCoordsBound pts_cur_2 )) (PreH19 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur_2)) )) (PreH20 : (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur_2 low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j )) ,
   (IntArray.full coords_pre (2 * n_pre ) flat_cur_2 )
 |--
   EX (flat_cur: (@list Z))  (pts_cur: (@list point)) ,
@@ -7050,20 +5990,13 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre
   &&  (IntArray.full coords_pre (2 * n_pre ) flat_cur )
 ) \/
 (
-forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (pts_l: (@list point)) (flat_cur_2: (@list Z)) (pivot_x: Z) (pivot_y: Z) (pts_cur_2: (@list point)) (j: Z) (i: Z) (retval: Z) (PreH1 : (retval > 0)) (PreH2 : (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point ((Znth (2 * j ) flat_cur_2 0)) ((Znth ((2 * j ) + 1 ) flat_cur_2 0))) (mk_point (pivot_x) (pivot_y)) retval )) (PreH3 : ((-1) <= retval)) (PreH4 : (retval <= 1)) (PreH5 : (j < high_pre)) (PreH6 : (0 <= low_pre)) (PreH7 : (low_pre <= high_pre)) (PreH8 : (high_pre < n_pre)) (PreH9 : (0 <= n_pre)) (PreH10 : (n_pre <= 50000)) (PreH11 : ((low_pre - 1 ) <= i)) (PreH12 : (i < j)) (PreH13 : (j <= high_pre)) (PreH14 : ((Zlength (pts_l)) = n_pre)) (PreH15 : ((Zlength (pts_cur_2)) = n_pre)) (PreH16 : ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur_2) (default_point)))) (PreH17 : (FlatPoints flat_cur_2 pts_cur_2 )) (PreH18 : (PointCoordsBound pts_cur_2 )) (PreH19 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur_2)) )) (PreH20 : (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur_2 low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j )) ,
+forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (pts_l: (@list point)) (pivot_x: Z) (pivot_y: Z) (j: Z) (i: Z) (retval: Z) (flat_cur_2: (@list Z)) (pts_cur_2: (@list point)) (PreH1 : (retval > 0)) (PreH2 : (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point ((Znth (2 * j ) flat_cur_2 0)) ((Znth ((2 * j ) + 1 ) flat_cur_2 0))) (mk_point (pivot_x) (pivot_y)) retval )) (PreH3 : ((-1) <= retval)) (PreH4 : (retval <= 1)) (PreH5 : (j < high_pre)) (PreH6 : (0 <= low_pre)) (PreH7 : (low_pre <= high_pre)) (PreH8 : (high_pre < n_pre)) (PreH9 : (0 <= n_pre)) (PreH10 : (n_pre <= 50000)) (PreH11 : ((low_pre - 1 ) <= i)) (PreH12 : (i < j)) (PreH13 : (j <= high_pre)) (PreH14 : ((Zlength (pts_l)) = n_pre)) (PreH15 : ((Zlength (pts_cur_2)) = n_pre)) (PreH16 : ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur_2) (default_point)))) (PreH17 : (FlatPoints flat_cur_2 pts_cur_2 )) (PreH18 : (PointCoordsBound pts_cur_2 )) (PreH19 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur_2)) )) (PreH20 : (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur_2 low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j )) ,
   TT && emp 
 |--
   EX (pts_cur: (@list point)) ,
-  “ (0 <= low_pre) ” 
-  &&  “ (low_pre <= high_pre) ” 
-  &&  “ (high_pre < n_pre) ” 
-  &&  “ (0 <= n_pre) ” 
-  &&  “ (n_pre <= 50000) ” 
-  &&  “ ((low_pre - 1 ) <= i) ” 
-  &&  “ (i < (j + 1 )) ” 
+  “ (i < (j + 1 )) ” 
   &&  “ ((j + 1 ) <= high_pre) ” 
-  &&  “ ((Zlength (pts_l)) = n_pre) ” 
-  &&  “ ((Zlength (pts_cur)) = n_pre) ” 
+  &&  “ ((Zlength (pts_cur)) = (Zlength (pts_l))) ” 
   &&  “ ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur) (default_point))) ” 
   &&  “ (FlatPoints flat_cur_2 pts_cur ) ” 
   &&  “ (PointCoordsBound pts_cur ) ” 
@@ -7074,7 +6007,7 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (pts_l: (@l
 
 Definition partition_points_return_wit_1 := 
 (
-forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (flat_cur: (@list Z)) (pivot_x: Z) (pivot_y: Z) (pts_cur: (@list point)) (j: Z) (i: Z) (PreH1 : (FlatPoints (point_swap_flat (flat_cur) ((i + 1 )) (high_pre)) (point_swap_points (pts_cur) ((i + 1 )) (high_pre)) )) (PreH2 : (PointPermutation pts_cur (point_swap_points (pts_cur) ((i + 1 )) (high_pre)) )) (PreH3 : (PointCoordsBound (point_swap_points (pts_cur) ((i + 1 )) (high_pre)) )) (PreH4 : (j >= high_pre)) (PreH5 : (0 <= low_pre)) (PreH6 : (low_pre <= high_pre)) (PreH7 : (high_pre < n_pre)) (PreH8 : (0 <= n_pre)) (PreH9 : (n_pre <= 50000)) (PreH10 : ((low_pre - 1 ) <= i)) (PreH11 : (i < j)) (PreH12 : (j <= high_pre)) (PreH13 : ((Zlength (pts_l)) = n_pre)) (PreH14 : ((Zlength (pts_cur)) = n_pre)) (PreH15 : ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur) (default_point)))) (PreH16 : (FlatPoints flat_cur pts_cur )) (PreH17 : (PointCoordsBound pts_cur )) (PreH18 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur)) )) (PreH19 : (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j )) ,
+forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (pivot_x: Z) (pivot_y: Z) (j: Z) (i: Z) (flat_cur: (@list Z)) (pts_cur: (@list point)) (PreH1 : (FlatPoints (point_swap_flat (flat_cur) ((i + 1 )) (high_pre)) (point_swap_points (pts_cur) ((i + 1 )) (high_pre)) )) (PreH2 : (PointPermutation pts_cur (point_swap_points (pts_cur) ((i + 1 )) (high_pre)) )) (PreH3 : (PointCoordsBound (point_swap_points (pts_cur) ((i + 1 )) (high_pre)) )) (PreH4 : (j >= high_pre)) (PreH5 : (0 <= low_pre)) (PreH6 : (low_pre <= high_pre)) (PreH7 : (high_pre < n_pre)) (PreH8 : (0 <= n_pre)) (PreH9 : (n_pre <= 50000)) (PreH10 : ((low_pre - 1 ) <= i)) (PreH11 : (i < j)) (PreH12 : (j <= high_pre)) (PreH13 : ((Zlength (pts_l)) = n_pre)) (PreH14 : ((Zlength (pts_cur)) = n_pre)) (PreH15 : ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur) (default_point)))) (PreH16 : (FlatPoints flat_cur pts_cur )) (PreH17 : (PointCoordsBound pts_cur )) (PreH18 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur)) )) (PreH19 : (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j )) ,
   (IntArray.full coords_pre (2 * n_pre ) (point_swap_flat (flat_cur) ((i + 1 )) (high_pre)) )
 |--
   EX (flat_out: (@list Z))  (pts_out: (@list point)) ,
@@ -7088,7 +6021,7 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre
   &&  (IntArray.full coords_pre (2 * n_pre ) flat_out )
 ) \/
 (
-forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (pts_l: (@list point)) (flat_cur: (@list Z)) (pivot_x: Z) (pivot_y: Z) (pts_cur: (@list point)) (j: Z) (i: Z) (PreH1 : (FlatPoints (point_swap_flat (flat_cur) ((i + 1 )) (high_pre)) (point_swap_points (pts_cur) ((i + 1 )) (high_pre)) )) (PreH2 : (PointPermutation pts_cur (point_swap_points (pts_cur) ((i + 1 )) (high_pre)) )) (PreH3 : (PointCoordsBound (point_swap_points (pts_cur) ((i + 1 )) (high_pre)) )) (PreH4 : (j >= high_pre)) (PreH5 : (0 <= low_pre)) (PreH6 : (low_pre <= high_pre)) (PreH7 : (high_pre < n_pre)) (PreH8 : (0 <= n_pre)) (PreH9 : (n_pre <= 50000)) (PreH10 : ((low_pre - 1 ) <= i)) (PreH11 : (i < j)) (PreH12 : (j <= high_pre)) (PreH13 : ((Zlength (pts_l)) = n_pre)) (PreH14 : ((Zlength (pts_cur)) = n_pre)) (PreH15 : ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur) (default_point)))) (PreH16 : (FlatPoints flat_cur pts_cur )) (PreH17 : (PointCoordsBound pts_cur )) (PreH18 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur)) )) (PreH19 : (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j )) ,
+forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (pts_l: (@list point)) (pivot_x: Z) (pivot_y: Z) (j: Z) (i: Z) (flat_cur: (@list Z)) (pts_cur: (@list point)) (PreH1 : (FlatPoints (point_swap_flat (flat_cur) ((i + 1 )) (high_pre)) (point_swap_points (pts_cur) ((i + 1 )) (high_pre)) )) (PreH2 : (PointPermutation pts_cur (point_swap_points (pts_cur) ((i + 1 )) (high_pre)) )) (PreH3 : (PointCoordsBound (point_swap_points (pts_cur) ((i + 1 )) (high_pre)) )) (PreH4 : (j >= high_pre)) (PreH5 : (0 <= low_pre)) (PreH6 : (low_pre <= high_pre)) (PreH7 : (high_pre < n_pre)) (PreH8 : (0 <= n_pre)) (PreH9 : (n_pre <= 50000)) (PreH10 : ((low_pre - 1 ) <= i)) (PreH11 : (i < j)) (PreH12 : (j <= high_pre)) (PreH13 : ((Zlength (pts_l)) = n_pre)) (PreH14 : ((Zlength (pts_cur)) = n_pre)) (PreH15 : ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur) (default_point)))) (PreH16 : (FlatPoints flat_cur pts_cur )) (PreH17 : (PointCoordsBound pts_cur )) (PreH18 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur)) )) (PreH19 : (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j )) ,
   TT && emp 
 |--
   EX (pts_out: (@list point)) ,
@@ -7114,7 +6047,7 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre
   &&  “ ((Zlength (pts_l)) = n_pre) ” 
   &&  “ (FlatPoints flat pts_l ) ” 
   &&  “ (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_l)) ) ”
-  &&  (((coords_pre + ((2 * high_pre ) * sizeof(INT) ) )) # Int  |-> (Znth (2 * high_pre ) flat 0))
+  &&  (((coords_pre + ((2 * high_pre ) * sizeof(INT)))) # Int  |-> (Znth (2 * high_pre ) flat 0))
   **  (IntArray.missing_i coords_pre (2 * high_pre ) 0 (2 * n_pre ) flat )
 .
 
@@ -7130,7 +6063,7 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre
   &&  “ ((Zlength (pts_l)) = n_pre) ” 
   &&  “ (FlatPoints flat pts_l ) ” 
   &&  “ (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_l)) ) ”
-  &&  (((coords_pre + (((2 * high_pre ) + 1 ) * sizeof(INT) ) )) # Int  |-> (Znth ((2 * high_pre ) + 1 ) flat 0))
+  &&  (((coords_pre + (((2 * high_pre ) + 1 ) * sizeof(INT)))) # Int  |-> (Znth ((2 * high_pre ) + 1 ) flat 0))
   **  (IntArray.missing_i coords_pre ((2 * high_pre ) + 1 ) 0 (2 * n_pre ) flat )
 .
 
@@ -7154,7 +6087,7 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre
   &&  “ (PointCoordsBound pts_cur ) ” 
   &&  “ (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur)) ) ” 
   &&  “ (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j ) ”
-  &&  (((coords_pre + ((2 * j ) * sizeof(INT) ) )) # Int  |-> (Znth (2 * j ) flat_cur 0))
+  &&  (((coords_pre + ((2 * j ) * sizeof(INT)))) # Int  |-> (Znth (2 * j ) flat_cur 0))
   **  (IntArray.missing_i coords_pre (2 * j ) 0 (2 * n_pre ) flat_cur )
 .
 
@@ -7178,7 +6111,7 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre
   &&  “ (PointCoordsBound pts_cur ) ” 
   &&  “ (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur)) ) ” 
   &&  “ (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j ) ”
-  &&  (((coords_pre + (((2 * j ) + 1 ) * sizeof(INT) ) )) # Int  |-> (Znth ((2 * j ) + 1 ) flat_cur 0))
+  &&  (((coords_pre + (((2 * j ) + 1 ) * sizeof(INT)))) # Int  |-> (Znth ((2 * j ) + 1 ) flat_cur 0))
   **  (IntArray.missing_i coords_pre ((2 * j ) + 1 ) 0 (2 * n_pre ) flat_cur )
 .
 
@@ -7384,7 +6317,7 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre
 Definition partition_points_partial_solve_wit_5 := partition_points_partial_solve_wit_5_pure -> partition_points_partial_solve_wit_5_aux.
 
 Definition partition_points_partial_solve_wit_6_pure := 
-forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (flat_cur: (@list Z)) (pivot_x: Z) (pivot_y: Z) (pts_cur: (@list point)) (j: Z) (i: Z) (retval: Z) (PreH1 : (retval <= 0)) (PreH2 : (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point ((Znth (2 * j ) flat_cur 0)) ((Znth ((2 * j ) + 1 ) flat_cur 0))) (mk_point (pivot_x) (pivot_y)) retval )) (PreH3 : ((-1) <= retval)) (PreH4 : (retval <= 1)) (PreH5 : (j < high_pre)) (PreH6 : (0 <= low_pre)) (PreH7 : (low_pre <= high_pre)) (PreH8 : (high_pre < n_pre)) (PreH9 : (0 <= n_pre)) (PreH10 : (n_pre <= 50000)) (PreH11 : ((low_pre - 1 ) <= i)) (PreH12 : (i < j)) (PreH13 : (j <= high_pre)) (PreH14 : ((Zlength (pts_l)) = n_pre)) (PreH15 : ((Zlength (pts_cur)) = n_pre)) (PreH16 : ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur) (default_point)))) (PreH17 : (FlatPoints flat_cur pts_cur )) (PreH18 : (PointCoordsBound pts_cur )) (PreH19 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur)) )) (PreH20 : (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j )) ,
+forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (pivot_x: Z) (pivot_y: Z) (j: Z) (i: Z) (retval: Z) (flat_cur: (@list Z)) (pts_cur: (@list point)) (PreH1 : (retval <= 0)) (PreH2 : (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point ((Znth (2 * j ) flat_cur 0)) ((Znth ((2 * j ) + 1 ) flat_cur 0))) (mk_point (pivot_x) (pivot_y)) retval )) (PreH3 : ((-1) <= retval)) (PreH4 : (retval <= 1)) (PreH5 : (j < high_pre)) (PreH6 : (0 <= low_pre)) (PreH7 : (low_pre <= high_pre)) (PreH8 : (high_pre < n_pre)) (PreH9 : (0 <= n_pre)) (PreH10 : (n_pre <= 50000)) (PreH11 : ((low_pre - 1 ) <= i)) (PreH12 : (i < j)) (PreH13 : (j <= high_pre)) (PreH14 : ((Zlength (pts_l)) = n_pre)) (PreH15 : ((Zlength (pts_cur)) = n_pre)) (PreH16 : ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur) (default_point)))) (PreH17 : (FlatPoints flat_cur pts_cur )) (PreH18 : (PointCoordsBound pts_cur )) (PreH19 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur)) )) (PreH20 : (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j )) ,
   ((( &( "c" ) )) # Int  |-> retval)
   **  (IntArray.full coords_pre (2 * n_pre ) flat_cur )
   **  ((( &( "ay" ) )) # Int  |-> (Znth ((2 * j ) + 1 ) flat_cur 0))
@@ -7412,7 +6345,7 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre
 .
 
 Definition partition_points_partial_solve_wit_6_aux := 
-forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (flat_cur: (@list Z)) (pivot_x: Z) (pivot_y: Z) (pts_cur: (@list point)) (j: Z) (i: Z) (retval: Z) (PreH1 : (retval <= 0)) (PreH2 : (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point ((Znth (2 * j ) flat_cur 0)) ((Znth ((2 * j ) + 1 ) flat_cur 0))) (mk_point (pivot_x) (pivot_y)) retval )) (PreH3 : ((-1) <= retval)) (PreH4 : (retval <= 1)) (PreH5 : (j < high_pre)) (PreH6 : (0 <= low_pre)) (PreH7 : (low_pre <= high_pre)) (PreH8 : (high_pre < n_pre)) (PreH9 : (0 <= n_pre)) (PreH10 : (n_pre <= 50000)) (PreH11 : ((low_pre - 1 ) <= i)) (PreH12 : (i < j)) (PreH13 : (j <= high_pre)) (PreH14 : ((Zlength (pts_l)) = n_pre)) (PreH15 : ((Zlength (pts_cur)) = n_pre)) (PreH16 : ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur) (default_point)))) (PreH17 : (FlatPoints flat_cur pts_cur )) (PreH18 : (PointCoordsBound pts_cur )) (PreH19 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur)) )) (PreH20 : (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j )) ,
+forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (pivot_x: Z) (pivot_y: Z) (j: Z) (i: Z) (retval: Z) (flat_cur: (@list Z)) (pts_cur: (@list point)) (PreH1 : (retval <= 0)) (PreH2 : (PolarCmpResult (mk_point (gx_pre) (gy_pre)) (mk_point ((Znth (2 * j ) flat_cur 0)) ((Znth ((2 * j ) + 1 ) flat_cur 0))) (mk_point (pivot_x) (pivot_y)) retval )) (PreH3 : ((-1) <= retval)) (PreH4 : (retval <= 1)) (PreH5 : (j < high_pre)) (PreH6 : (0 <= low_pre)) (PreH7 : (low_pre <= high_pre)) (PreH8 : (high_pre < n_pre)) (PreH9 : (0 <= n_pre)) (PreH10 : (n_pre <= 50000)) (PreH11 : ((low_pre - 1 ) <= i)) (PreH12 : (i < j)) (PreH13 : (j <= high_pre)) (PreH14 : ((Zlength (pts_l)) = n_pre)) (PreH15 : ((Zlength (pts_cur)) = n_pre)) (PreH16 : ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur) (default_point)))) (PreH17 : (FlatPoints flat_cur pts_cur )) (PreH18 : (PointCoordsBound pts_cur )) (PreH19 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur)) )) (PreH20 : (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j )) ,
   (IntArray.full coords_pre (2 * n_pre ) flat_cur )
 |--
   “ (0 <= (i + 1 )) ” 
@@ -7450,7 +6383,7 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre
 Definition partition_points_partial_solve_wit_6 := partition_points_partial_solve_wit_6_pure -> partition_points_partial_solve_wit_6_aux.
 
 Definition partition_points_partial_solve_wit_7_pure := 
-forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (flat_cur: (@list Z)) (pivot_x: Z) (pivot_y: Z) (pts_cur: (@list point)) (j: Z) (i: Z) (PreH1 : (j >= high_pre)) (PreH2 : (0 <= low_pre)) (PreH3 : (low_pre <= high_pre)) (PreH4 : (high_pre < n_pre)) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre <= 50000)) (PreH7 : ((low_pre - 1 ) <= i)) (PreH8 : (i < j)) (PreH9 : (j <= high_pre)) (PreH10 : ((Zlength (pts_l)) = n_pre)) (PreH11 : ((Zlength (pts_cur)) = n_pre)) (PreH12 : ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur) (default_point)))) (PreH13 : (FlatPoints flat_cur pts_cur )) (PreH14 : (PointCoordsBound pts_cur )) (PreH15 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur)) )) (PreH16 : (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j )) ,
+forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (pivot_x: Z) (pivot_y: Z) (j: Z) (i: Z) (flat_cur: (@list Z)) (pts_cur: (@list point)) (PreH1 : (j >= high_pre)) (PreH2 : (0 <= low_pre)) (PreH3 : (low_pre <= high_pre)) (PreH4 : (high_pre < n_pre)) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre <= 50000)) (PreH7 : ((low_pre - 1 ) <= i)) (PreH8 : (i < j)) (PreH9 : (j <= high_pre)) (PreH10 : ((Zlength (pts_l)) = n_pre)) (PreH11 : ((Zlength (pts_cur)) = n_pre)) (PreH12 : ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur) (default_point)))) (PreH13 : (FlatPoints flat_cur pts_cur )) (PreH14 : (PointCoordsBound pts_cur )) (PreH15 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur)) )) (PreH16 : (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j )) ,
   ((( &( "coords" ) )) # Ptr  |-> coords_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "low" ) )) # Int  |-> low_pre)
@@ -7474,7 +6407,7 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre
 .
 
 Definition partition_points_partial_solve_wit_7_aux := 
-forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (flat_cur: (@list Z)) (pivot_x: Z) (pivot_y: Z) (pts_cur: (@list point)) (j: Z) (i: Z) (PreH1 : (j >= high_pre)) (PreH2 : (0 <= low_pre)) (PreH3 : (low_pre <= high_pre)) (PreH4 : (high_pre < n_pre)) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre <= 50000)) (PreH7 : ((low_pre - 1 ) <= i)) (PreH8 : (i < j)) (PreH9 : (j <= high_pre)) (PreH10 : ((Zlength (pts_l)) = n_pre)) (PreH11 : ((Zlength (pts_cur)) = n_pre)) (PreH12 : ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur) (default_point)))) (PreH13 : (FlatPoints flat_cur pts_cur )) (PreH14 : (PointCoordsBound pts_cur )) (PreH15 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur)) )) (PreH16 : (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j )) ,
+forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (pivot_x: Z) (pivot_y: Z) (j: Z) (i: Z) (flat_cur: (@list Z)) (pts_cur: (@list point)) (PreH1 : (j >= high_pre)) (PreH2 : (0 <= low_pre)) (PreH3 : (low_pre <= high_pre)) (PreH4 : (high_pre < n_pre)) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre <= 50000)) (PreH7 : ((low_pre - 1 ) <= i)) (PreH8 : (i < j)) (PreH9 : (j <= high_pre)) (PreH10 : ((Zlength (pts_l)) = n_pre)) (PreH11 : ((Zlength (pts_cur)) = n_pre)) (PreH12 : ((mk_point (pivot_x) (pivot_y)) = (Znth (high_pre) (pts_cur) (default_point)))) (PreH13 : (FlatPoints flat_cur pts_cur )) (PreH14 : (PointCoordsBound pts_cur )) (PreH15 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_cur)) )) (PreH16 : (PointPartitionScanInv (mk_point (gx_pre) (gy_pre)) pts_l pts_cur low_pre high_pre (mk_point (pivot_x) (pivot_y)) i j )) ,
   (IntArray.full coords_pre (2 * n_pre ) flat_cur )
 |--
   “ (0 <= (i + 1 )) ” 
@@ -7635,13 +6568,7 @@ forall (gy_pre: Z) (gx_pre: Z) (right_pre: Z) (left_pre: Z) (n_pre: Z) (flat: (@
   TT && emp 
 |--
   EX (pts_l: (@list point)) ,
-  “ (0 <= n_pre) ” 
-  &&  “ (n_pre <= 50000) ” 
-  &&  “ (0 <= left_pre) ” 
-  &&  “ (left_pre < right_pre) ” 
-  &&  “ (right_pre < n_pre) ” 
-  &&  “ (PointMemoryModel (mk_point (gx_pre) (gy_pre)) flat n_pre ) ” 
-  &&  “ ((Zlength (pts_l)) = n_pre) ” 
+  “ ((Zlength (pts_l)) = n_pre) ” 
   &&  “ (FlatPoints flat pts_l ) ” 
   &&  “ (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_l)) ) ”
   &&  emp
@@ -8031,8 +6958,8 @@ forall (n_pre: Z) (pts_pre: Z) (gy: Z) (gx: Z) (pts_l: (@list point)) (flat: (@l
   ((( &( "gy" ) )) # Int  |-> gy)
   **  ((( &( "gx" ) )) # Int  |-> gx)
   **  ((( &( "coords" ) )) # Ptr  |-> pts_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "pts" ) )) # Ptr  |-> pts_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((&(( &( "gp" ) )->ₛ "x")) # Int  |-> gx)
   **  ((&(( &( "gp" ) )->ₛ "y")) # Int  |-> gy)
   **  (IntArray.full pts_pre (2 * n_pre ) flat )
@@ -8046,8 +6973,8 @@ forall (n_pre: Z) (pts_pre: Z) (gy: Z) (gx: Z) (pts_l: (@list point)) (flat: (@l
   ((( &( "gy" ) )) # Int  |-> gy)
   **  ((( &( "gx" ) )) # Int  |-> gx)
   **  ((( &( "coords" ) )) # Ptr  |-> pts_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "pts" ) )) # Ptr  |-> pts_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((&(( &( "gp" ) )->ₛ "x")) # Int  |-> gx)
   **  ((&(( &( "gp" ) )->ₛ "y")) # Int  |-> gy)
   **  (IntArray.full pts_pre (2 * n_pre ) flat )
@@ -8061,8 +6988,8 @@ forall (n_pre: Z) (pts_pre: Z) (gy: Z) (gx: Z) (pts_l: (@list point)) (flat: (@l
   ((( &( "gy" ) )) # Int  |-> gy)
   **  ((( &( "gx" ) )) # Int  |-> gx)
   **  ((( &( "coords" ) )) # Ptr  |-> pts_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "pts" ) )) # Ptr  |-> pts_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((&(( &( "gp" ) )->ₛ "x")) # Int  |-> gx)
   **  ((&(( &( "gp" ) )->ₛ "y")) # Int  |-> gy)
   **  (IntArray.full pts_pre (2 * n_pre ) flat )
@@ -8105,8 +7032,8 @@ forall (n_pre: Z) (pts_pre: Z) (gy: Z) (gx: Z) (pts_l: (@list point)) (flat: (@l
   ((( &( "gy" ) )) # Int  |-> gy)
   **  ((( &( "gx" ) )) # Int  |-> gx)
   **  ((( &( "coords" ) )) # Ptr  |-> pts_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "pts" ) )) # Ptr  |-> pts_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((&(( &( "gp" ) )->ₛ "x")) # Int  |-> gx)
   **  ((&(( &( "gp" ) )->ₛ "y")) # Int  |-> gy)
   **  (IntArray.full pts_pre (2 * n_pre ) flat )
@@ -8123,8 +7050,8 @@ forall (n_pre: Z) (pts_pre: Z) (gy: Z) (gx: Z) (pts_l: (@list point)) (flat: (@l
   ((( &( "gy" ) )) # Int  |-> gy)
   **  ((( &( "gx" ) )) # Int  |-> gx)
   **  ((( &( "coords" ) )) # Ptr  |-> pts_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "pts" ) )) # Ptr  |-> pts_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((&(( &( "gp" ) )->ₛ "x")) # Int  |-> gx)
   **  ((&(( &( "gp" ) )->ₛ "y")) # Int  |-> gy)
   **  (IntArray.full pts_pre (2 * n_pre ) flat )
@@ -8137,8 +7064,8 @@ forall (n_pre: Z) (pts_pre: Z) (gy: Z) (gx: Z) (pts_l: (@list point)) (flat: (@l
   ((( &( "gy" ) )) # Int  |-> gy)
   **  ((( &( "gx" ) )) # Int  |-> gx)
   **  ((( &( "coords" ) )) # Ptr  |-> pts_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "pts" ) )) # Ptr  |-> pts_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((&(( &( "gp" ) )->ₛ "x")) # Int  |-> gx)
   **  ((&(( &( "gp" ) )->ₛ "y")) # Int  |-> gy)
   **  (IntArray.full pts_pre (2 * n_pre ) flat )
@@ -8172,10 +7099,6 @@ Definition sort_partial_solve_wit_1 := sort_partial_solve_wit_1_pure -> sort_par
 
 Module Type VC_Correct.
 
-Include int_array_Strategy_Correct.
-Include uint_array_Strategy_Correct.
-Include undef_uint_array_Strategy_Correct.
-Include array_shape_Strategy_Correct.
 
 Axiom proof_of_cmp_polar_values_safety_wit_1 : cmp_polar_values_safety_wit_1.
 Axiom proof_of_cmp_polar_values_safety_wit_2 : cmp_polar_values_safety_wit_2.
@@ -8324,28 +7247,6 @@ Axiom proof_of_cmp_polar_values_safety_wit_144 : cmp_polar_values_safety_wit_144
 Axiom proof_of_cmp_polar_values_safety_wit_145 : cmp_polar_values_safety_wit_145.
 Axiom proof_of_cmp_polar_values_safety_wit_146 : cmp_polar_values_safety_wit_146.
 Axiom proof_of_cmp_polar_values_safety_wit_147 : cmp_polar_values_safety_wit_147.
-Axiom proof_of_cmp_polar_values_safety_wit_148 : cmp_polar_values_safety_wit_148.
-Axiom proof_of_cmp_polar_values_safety_wit_149 : cmp_polar_values_safety_wit_149.
-Axiom proof_of_cmp_polar_values_safety_wit_150 : cmp_polar_values_safety_wit_150.
-Axiom proof_of_cmp_polar_values_safety_wit_151 : cmp_polar_values_safety_wit_151.
-Axiom proof_of_cmp_polar_values_safety_wit_152 : cmp_polar_values_safety_wit_152.
-Axiom proof_of_cmp_polar_values_safety_wit_153 : cmp_polar_values_safety_wit_153.
-Axiom proof_of_cmp_polar_values_safety_wit_154 : cmp_polar_values_safety_wit_154.
-Axiom proof_of_cmp_polar_values_safety_wit_155 : cmp_polar_values_safety_wit_155.
-Axiom proof_of_cmp_polar_values_safety_wit_156 : cmp_polar_values_safety_wit_156.
-Axiom proof_of_cmp_polar_values_safety_wit_157 : cmp_polar_values_safety_wit_157.
-Axiom proof_of_cmp_polar_values_safety_wit_158 : cmp_polar_values_safety_wit_158.
-Axiom proof_of_cmp_polar_values_safety_wit_159 : cmp_polar_values_safety_wit_159.
-Axiom proof_of_cmp_polar_values_safety_wit_160 : cmp_polar_values_safety_wit_160.
-Axiom proof_of_cmp_polar_values_safety_wit_161 : cmp_polar_values_safety_wit_161.
-Axiom proof_of_cmp_polar_values_safety_wit_162 : cmp_polar_values_safety_wit_162.
-Axiom proof_of_cmp_polar_values_safety_wit_163 : cmp_polar_values_safety_wit_163.
-Axiom proof_of_cmp_polar_values_safety_wit_164 : cmp_polar_values_safety_wit_164.
-Axiom proof_of_cmp_polar_values_safety_wit_165 : cmp_polar_values_safety_wit_165.
-Axiom proof_of_cmp_polar_values_safety_wit_166 : cmp_polar_values_safety_wit_166.
-Axiom proof_of_cmp_polar_values_safety_wit_167 : cmp_polar_values_safety_wit_167.
-Axiom proof_of_cmp_polar_values_safety_wit_168 : cmp_polar_values_safety_wit_168.
-Axiom proof_of_cmp_polar_values_safety_wit_169 : cmp_polar_values_safety_wit_169.
 Axiom proof_of_cmp_polar_values_return_wit_1 : cmp_polar_values_return_wit_1.
 Axiom proof_of_cmp_polar_values_return_wit_2 : cmp_polar_values_return_wit_2.
 Axiom proof_of_cmp_polar_values_return_wit_3 : cmp_polar_values_return_wit_3.
@@ -8396,24 +7297,6 @@ Axiom proof_of_cmp_polar_values_return_wit_47 : cmp_polar_values_return_wit_47.
 Axiom proof_of_cmp_polar_values_return_wit_48 : cmp_polar_values_return_wit_48.
 Axiom proof_of_cmp_polar_values_return_wit_49 : cmp_polar_values_return_wit_49.
 Axiom proof_of_cmp_polar_values_return_wit_50 : cmp_polar_values_return_wit_50.
-Axiom proof_of_cmp_polar_values_return_wit_51 : cmp_polar_values_return_wit_51.
-Axiom proof_of_cmp_polar_values_return_wit_52 : cmp_polar_values_return_wit_52.
-Axiom proof_of_cmp_polar_values_return_wit_53 : cmp_polar_values_return_wit_53.
-Axiom proof_of_cmp_polar_values_return_wit_54 : cmp_polar_values_return_wit_54.
-Axiom proof_of_cmp_polar_values_return_wit_55 : cmp_polar_values_return_wit_55.
-Axiom proof_of_cmp_polar_values_return_wit_56 : cmp_polar_values_return_wit_56.
-Axiom proof_of_cmp_polar_values_return_wit_57 : cmp_polar_values_return_wit_57.
-Axiom proof_of_cmp_polar_values_return_wit_58 : cmp_polar_values_return_wit_58.
-Axiom proof_of_cmp_polar_values_return_wit_59 : cmp_polar_values_return_wit_59.
-Axiom proof_of_cmp_polar_values_return_wit_60 : cmp_polar_values_return_wit_60.
-Axiom proof_of_cmp_polar_values_return_wit_61 : cmp_polar_values_return_wit_61.
-Axiom proof_of_cmp_polar_values_return_wit_62 : cmp_polar_values_return_wit_62.
-Axiom proof_of_cmp_polar_values_return_wit_63 : cmp_polar_values_return_wit_63.
-Axiom proof_of_cmp_polar_values_return_wit_64 : cmp_polar_values_return_wit_64.
-Axiom proof_of_cmp_polar_values_return_wit_65 : cmp_polar_values_return_wit_65.
-Axiom proof_of_cmp_polar_values_return_wit_66 : cmp_polar_values_return_wit_66.
-Axiom proof_of_cmp_polar_values_return_wit_67 : cmp_polar_values_return_wit_67.
-Axiom proof_of_cmp_polar_values_return_wit_68 : cmp_polar_values_return_wit_68.
 Axiom proof_of_swap_points_safety_wit_1 : swap_points_safety_wit_1.
 Axiom proof_of_swap_points_safety_wit_2 : swap_points_safety_wit_2.
 Axiom proof_of_swap_points_safety_wit_3 : swap_points_safety_wit_3.

@@ -349,13 +349,22 @@ Proof.
     simpl.
     replace (lo + 0) with lo by lia.
     replace (lo + 0 + 1) with (lo + 1) by lia.
-    entailer!.
+    split_pure_spatial.
+    + Intros_p Hlo_eq.
+      Intros_p Hnil_eq.
+      cancel.
+    + split_pures; dump_pre_spatial; auto.
   - simpl.
     rewrite Zlength_cons in H0.
     unfold Z.succ in H0.
     assert (Hhi: hi = lo + 1 + Zlength l) by lia.
+    change (fun (x : addr) (lo0 a0 : Z) => (x + lo0 * 4) # UInt |-> a0)
+      with (fun (x : addr) (lo0 a0 : Z) =>
+        (x + lo0 * sizeof (UINT)) # UInt |-> a0).
+    replace (rp + hi * 4) with (rp + hi * sizeof (UINT))
+      by (rewrite sizeof_uint; lia).
     sep_apply (IHl v rp (lo + 1) hi ltac:(lia) Hhi).
-    entailer!.
+    cancel.
 Qed.
 
 Lemma UIntArray_full_snoc: forall (l: list Z) (v: Z) (rp: Z),
@@ -376,7 +385,7 @@ Proof.
   intros.
   unfold UIntArray.full, store_array.
   sep_apply (store_array_rec_snoc l v rp 0 n); try lia.
-  entailer!.
+  cancel.
 Qed.
 
 (* 保留数组的同时提取长度信息 *)

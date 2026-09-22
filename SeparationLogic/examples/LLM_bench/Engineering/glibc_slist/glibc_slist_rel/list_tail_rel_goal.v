@@ -85,9 +85,7 @@ forall (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (((@list Z) 
 
 Definition list_tail_entail_wit_1_split_goal_1 := 
 forall (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (PreH1 : (x_pre <> 0)) (PreH2 : (safeExec ATrue (list_tail_M (l1_low_level_spec)) X_low_level_spec )) (PreH3 : (x_pre <> 0)) ,
-  TT && emp 
-|--
-  “ (safeExec ATrue (bind ((list_tail_M_loop ((@nil Z)) (l1_low_level_spec))) (list_tail_M_loop_end)) X_low_level_spec ) ”
+  (safeExec ATrue (bind ((list_tail_M_loop ((@nil Z)) (l1_low_level_spec))) (list_tail_M_loop_end)) X_low_level_spec )
 .
 
 Definition list_tail_entail_wit_2 := 
@@ -138,21 +136,31 @@ forall (x_pre: Z) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (x: Z)
 (
 forall (x_pre: Z) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (x: Z) (l1: (@list Z)) (l2_2: (@list Z)) (x_2: Z) (l0: (@list Z)) (y: Z) (PreH1 : (y = 0)) (PreH2 : (l2_2 = (cons (x_2) (l0)))) (PreH3 : (safeExec ATrue (bind ((list_tail_M_loop (l1) (l2_2))) (list_tail_M_loop_end)) X_low_level_spec )) (PreH4 : (x <> 0)) (PreH5 : (x_pre <> 0)) (PreH6 : (x_pre <> 0)) ,
   (sll y l0 )
-  **  (sllseg x_pre x l1 )
 |--
-  EX (l2: (@list Z)) ,
-  “ (y = 0) ” 
-  &&  “ (safeExec ATrue (return ((maketuple (l2) (x_2)))) X_low_level_spec ) ” 
-  &&  “ (x <> 0) ”
-  &&  (sllseg x_pre x l2 )
+  “ (safeExec ATrue (return ((maketuple (l1) (x_2)))) X_low_level_spec ) ”
+  &&  emp
 ).
+
+Definition list_tail_return_wit_1_split_goal_1 := 
+forall (x_pre: Z) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (x: Z) (l1: (@list Z)) (l2_2: (@list Z)) (x_2: Z) (l0: (@list Z)) (y: Z) (PreH1 : (y = 0)) (PreH2 : (l2_2 = (cons (x_2) (l0)))) (PreH3 : (safeExec ATrue (bind ((list_tail_M_loop (l1) (l2_2))) (list_tail_M_loop_end)) X_low_level_spec )) (PreH4 : (x <> 0)) (PreH5 : (x_pre <> 0)) (PreH6 : (x_pre <> 0)) ,
+  (sll y l0 )
+|--
+  “ (safeExec ATrue (return ((maketuple (l1) (x_2)))) X_low_level_spec ) ”
+.
+
+Definition list_tail_return_wit_1_split_goal_spatial := 
+forall (x_pre: Z) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (x: Z) (l1: (@list Z)) (l2_2: (@list Z)) (x_2: Z) (l0: (@list Z)) (y: Z) (PreH1 : (y = 0)) (PreH2 : (l2_2 = (cons (x_2) (l0)))) (PreH3 : (safeExec ATrue (bind ((list_tail_M_loop (l1) (l2_2))) (list_tail_M_loop_end)) X_low_level_spec )) (PreH4 : (x <> 0)) (PreH5 : (x_pre <> 0)) (PreH6 : (x_pre <> 0)) ,
+  (sll y l0 )
+|--
+  TT && emp 
+.
 
 Definition list_tail_partial_solve_wit_1 := 
 forall (x_pre: Z) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (x: Z) (l1: (@list Z)) (l2: (@list Z)) (PreH1 : (safeExec ATrue (bind ((list_tail_M_loop (l1) (l2))) (list_tail_M_loop_end)) X_low_level_spec )) (PreH2 : (x <> 0)) (PreH3 : (x_pre <> 0)) (PreH4 : (x_pre <> 0)) ,
   (sllseg x_pre x l1 )
   **  (sll x l2 )
 |--
-  EX (y: Z)  (l0: (@list Z))  (x_2: Z) ,
+  EX (x_2: Z)  (l0: (@list Z))  (y: Z) ,
   “ (l2 = (cons (x_2) (l0))) ” 
   &&  “ (safeExec ATrue (bind ((list_tail_M_loop (l1) (l2))) (list_tail_M_loop_end)) X_low_level_spec ) ” 
   &&  “ (x <> 0) ” 

@@ -6,14 +6,14 @@ Summary:
 - Promoted from `Applications_human/Project/mergeablelist` to `Applications_human/mergeablelist`.
 - Refreshed `symexec` and `StrategyCheck` outputs for the promoted logical path.
 - Repaired promoted-path hypothesis drift in manual witness proofs.
-- Added the case to `SeparationLogic/Makefile` and `run-example-linux.sh`.
+- Added the case to `Rocq/Makefile` and `run-example-linux.sh`.
 
 Checks:
 - `symexec`: passed.
 - `StrategyCheck`: passed.
 - `coqc sll_project_proof_manual.v`: passed.
 - `coqc sll_project_goal_check.v`: passed.
-- `make -C SeparationLogic examples/Applications_human/mergeablelist/sll_project_goal_check.vo examples/Applications_human/mergeablelist/sll_project_strategy_goal_check.vo`: passed.
+- `make -C Rocq examples/Applications_human/mergeablelist/sll_project_goal_check.vo examples/Applications_human/mergeablelist/sll_project_strategy_goal_check.vo`: passed.
 - Manual proof scan: no `Admitted.` or extra `Axiom`.
 
 Timing:

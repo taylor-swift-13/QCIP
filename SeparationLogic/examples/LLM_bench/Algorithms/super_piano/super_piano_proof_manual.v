@@ -22,7 +22,7 @@ Local Open Scope sac.
 
 Lemma proof_of_build_prefix_safety_wit_6 : build_prefix_safety_wit_6.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (Hpref_bound : (-1000) * i <= Znth i pref 0 <= 1000 * i).
   {
     eapply PrefixArrayPrefix_entry_abs_bound; [exact PreH7 | | lia].
@@ -38,7 +38,7 @@ Qed.
 
 Lemma proof_of_build_prefix_entail_wit_1 : build_prefix_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists (0 :: nil).
   split_pure_spatial.
   - sep_apply (IntArray.seg_single pre_pre 0 0).
@@ -54,7 +54,7 @@ Qed.
 
 Lemma proof_of_build_prefix_entail_wit_2 : build_prefix_entail_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists pref_2.
   split_pure_spatial.
   - replace (0 + 1) with 1 by lia.
@@ -66,7 +66,7 @@ Qed.
 
 Lemma proof_of_build_prefix_entail_wit_3 : build_prefix_entail_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists (app pref_2 (cons (((Znth (i - 0) pref_2 0) + (Znth i l 0))) nil)).
   split_pure_spatial.
   - cancel.
@@ -102,7 +102,7 @@ Qed.
 
 Lemma proof_of_build_prefix_return_wit_1 : build_prefix_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (Hi_eq : i = n_pre) by lia.
   Exists pref.
   subst i.
@@ -129,7 +129,7 @@ Qed.
 
 Lemma proof_of_superPiano_safety_wit_10 : superPiano_safety_wit_10.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (Hvalue_int : -2147483648 <= value <= 2147483647).
   {
     match goal with
@@ -140,55 +140,35 @@ Proof.
     end.
     eapply PrefixSums_diff_int_bounds; eauto; lia.
   }
-  assert (Htotal_bound : (-2147483648) * t <= total <= 2147483647 * t).
-  {
-    eapply frontier_total_int64_bound
-      with (l := l) (L := L_pre) (R := R_pre) (nodes := sublist 0 hsize slots);
-      eauto.
-  }
+  pose proof
+    (frontier_total_int64_bound
+       l ps n_pre L_pre R_pre chosen t total (sublist 0 hsize pop_slots)
+       PreH19 PreH18 PreH11 PreH41 PreH29) as Htotal_bound.
   split_pures.
   all: dump_pre_spatial; lia.
 Qed. 
 
 Lemma proof_of_superPiano_safety_wit_23 : superPiano_safety_wit_23.
 Proof.
-  pre_process.
-  assert (Hretval_int :
-    -2147483648 <= Znth retval ps 0 - Znth (start - 1) ps 0 <= 2147483647).
-  {
+  left; LLM_pre_process ltac:(int_auto);
     eapply PrefixSums_diff_int_bounds; eauto; lia.
-  }
-  split_pures.
-  all: dump_pre_spatial; lia.
-Qed. 
+Qed.
 
 Lemma proof_of_superPiano_safety_wit_39 : superPiano_safety_wit_39.
 Proof.
-  pre_process.
-  assert (Hretval_int :
-    -2147483648 <= Znth retval ps 0 - Znth (start - 1) ps 0 <= 2147483647).
-  {
+  left; LLM_pre_process ltac:(int_auto);
     eapply PrefixSums_diff_int_bounds; eauto; lia.
-  }
-  split_pures.
-  all: dump_pre_spatial; lia.
-Qed. 
+Qed.
 
 Lemma proof_of_superPiano_safety_wit_42 : superPiano_safety_wit_42.
 Proof.
-  pre_process.
-  assert (Hretval_int :
-    -2147483648 <= Znth retval ps 0 - Znth (start - 1) ps 0 <= 2147483647).
-  {
+  left; LLM_pre_process ltac:(int_auto);
     eapply PrefixSums_diff_int_bounds; eauto; lia.
-  }
-  split_pures.
-  all: dump_pre_spatial; lia.
-Qed. 
+Qed.
 
 Lemma proof_of_superPiano_entail_wit_1 : superPiano_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (Hps_eq : ps_3 = ps_2).
   {
     eapply PrefixSums_functional; eauto.
@@ -207,9 +187,20 @@ Proof.
       lia.
 Qed. 
 
+Lemma proof_of_superPiano_entail_wit_3 : superPiano_entail_wit_3.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  Exists vals_2; Exists starts_2; Exists los_2; Exists his_2; Exists bests_2.
+  Exists slots_2; Exists ans_2; Exists st_slots_2; Exists ps_2.
+  split_pure_spatial.
+  - repeat cancel.
+  - split_pures.
+    all: dump_pre_spatial; try assumption; try lia.
+Qed.
+
 Lemma proof_of_superPiano_entail_wit_4 : superPiano_entail_wit_4.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists vals_2; Exists starts_2; Exists los_2; Exists his_2; Exists bests_2.
   Exists slots_2; Exists ans_2; Exists st_slots_2; Exists ps_2.
   split_pure_spatial.
@@ -221,7 +212,7 @@ Qed.
 
 Lemma proof_of_superPiano_entail_wit_5 : superPiano_entail_wit_5.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists (@nil Z); Exists vals_2; Exists starts_2; Exists los_2; Exists his_2.
   Exists bests_2; Exists slots_2; Exists ans_2; Exists st_slots_2; Exists ps_2.
   split_pure_spatial.
@@ -233,7 +224,7 @@ Qed.
 
 Lemma proof_of_superPiano_entail_wit_6 : superPiano_entail_wit_6.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (Hhsize_pos : 0 < hsize) by (apply PreH38; exact PreH16).
   assert (Hslots_len : hsize <= Zlength slots_2).
   { rewrite PreH29. exact PreH34. }
@@ -267,48 +258,48 @@ Qed.
 
 Lemma proof_of_superPiano_entail_wit_7 : superPiano_entail_wit_7.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists chosen_2; Exists vals_out; Exists starts_out; Exists los_out; Exists his_out.
-  Exists bests_out; Exists slots_out; Exists ans_2; Exists st_slots_2; Exists ps.
+  Exists bests_out; Exists slots_out; Exists ans_2; Exists query_st_slots; Exists query_ps.
   split_pure_spatial.
   - repeat cancel.
   - split_pures.
-    all: dump_pre_spatial; try assumption; try lia.
-    + eapply frontier_pop_to_split_both_children; eauto.
-    + eapply valid_node_fields_left_child; eauto.
-    + eapply valid_node_fields_right_child; eauto.
-Qed. 
+    all: try (dump_pre_spatial; try assumption; try lia).
+    all: try (eapply frontier_pop_to_split_both_children; eauto; lia).
+    all: try (eapply valid_node_fields_left_child; eauto; lia).
+    all: try (eapply valid_node_fields_right_child; eauto; lia).
+Qed.
 
 Lemma proof_of_superPiano_entail_wit_8 : superPiano_entail_wit_8.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists chosen_2; Exists vals_out; Exists starts_out; Exists los_out; Exists his_out.
-  Exists bests_out; Exists slots_out; Exists ans_2; Exists st_slots_2; Exists ps.
+  Exists bests_out; Exists slots_out; Exists ans_2; Exists query_st_slots; Exists query_ps.
   split_pure_spatial.
   - repeat cancel.
   - split_pures.
-    all: dump_pre_spatial; try assumption; try lia.
-    + eapply frontier_pop_to_split_left_only; eauto; lia.
-    + eapply valid_node_fields_left_child; eauto.
-Qed. 
+    all: try (dump_pre_spatial; try assumption; try lia).
+    all: try (eapply frontier_pop_to_split_left_only; eauto; lia).
+    all: try (eapply valid_node_fields_left_child; eauto; lia).
+Qed.
 
 Lemma proof_of_superPiano_entail_wit_9 : superPiano_entail_wit_9.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists chosen_2; Exists vals_out; Exists starts_out; Exists los_out; Exists his_out.
-  Exists bests_out; Exists slots_out; Exists ans_2; Exists st_slots_2; Exists ps_2.
+  Exists bests_out; Exists slots_out; Exists ans_2; Exists query_st_slots; Exists query_ps.
   split_pure_spatial.
   - repeat cancel.
   - split_pures.
-    all: dump_pre_spatial; try assumption; try lia.
-    + eapply frontier_pop_to_split_singleton; eauto; lia.
-Qed. 
+    all: try (dump_pre_spatial; try assumption; try lia).
+    all: try (eapply frontier_pop_to_split_singleton; eauto; lia).
+Qed.
 
 Lemma proof_of_superPiano_entail_wit_13 : superPiano_entail_wit_13.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists chosen_2; Exists vals_out; Exists starts_out; Exists los_out; Exists his_out.
-  Exists bests_out; Exists slots_out; Exists ans_2; Exists st_slots_2; Exists ps_2.
+  Exists bests_out; Exists slots_out; Exists ans_2; Exists st_slots_2; Exists push_ps.
   split_pure_spatial.
   - repeat cancel.
   - split_pures.
@@ -322,63 +313,59 @@ Qed.
 
 Lemma proof_of_superPiano_entail_wit_14 : superPiano_entail_wit_14.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists chosen_2; Exists vals_out; Exists starts_out; Exists los_out; Exists his_out.
-  Exists bests_out; Exists slots_out; Exists ans_2; Exists st_slots_2; Exists ps.
+  Exists bests_out; Exists slots_out; Exists ans_2; Exists query_st_slots; Exists query_ps.
   split_pure_spatial.
   - repeat cancel.
   - split_pures.
     all: dump_pre_spatial; try assumption; try lia.
     + eapply frontier_pop_to_split_right_only; eauto; lia.
     + eapply valid_node_fields_right_child; eauto.
-Qed. 
+Qed.
 
-Lemma proof_of_superPiano_entail_wit_15_1 : superPiano_entail_wit_15_1.
+Lemma proof_of_superPiano_entail_wit_15_4 : superPiano_entail_wit_15_4.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (Hright_int : -2147483648 <= right_value <= 2147483647).
   {
     rewrite PreH46; lia.
   }
   assert (Hleft_int : -2147483648 <= left_value <= 2147483647).
   {
-    pose proof (valid_node_fields_chord_valid ps_2 n_pre L_pre R_pre
-      left_value start lo (best - 1) left_best PreH8 PreH43) as Hleft_code.
-    pose proof (valid_node_fields_code_value ps_2 n_pre L_pre R_pre
-      left_value start lo (best - 1) left_best PreH8 PreH43) as Hleft_value.
-    rewrite <- Hleft_value.
-    eapply valid_chord_value_int_bound; eauto.
+    eapply (ValidNodeFields_value_int_bound l push_ps n_pre L_pre R_pre
+      left_value start lo (best - 1) left_best); eauto; lia.
   }
   assert (Hstart_lo : start + L_pre - 1 <= lo).
   {
-    unfold ValidNodeFields, ValidNode in PreH43; cbn in PreH43.
+    unfold ValidNodeFields, ValidNode in PreH47; cbn in PreH47.
     lia.
   }
-  pose proof PreH43 as Hvalid_fields.
+  pose proof PreH47 as Hvalid_fields.
   unfold ValidNodeFields, ValidNode in Hvalid_fields; cbn in Hvalid_fields.
   destruct Hvalid_fields as
     [Hps_len [Hstart_ge [Hstart_le [Hstart_lo_field [Hlo_hi [Hhi_min
       [Hlo_best [Hbest_hi [Hvalue_field Hmax_field]]]]]]]]].
   Exists chosen_2; Exists vals_out; Exists starts_out; Exists los_out; Exists his_out.
-  Exists bests_out; Exists slots_out; Exists ans_2; Exists st_slots_2; Exists ps_2.
+  Exists bests_out; Exists slots_out; Exists ans_2; Exists st_slots_2; Exists push_ps.
   split_pure_spatial.
   - repeat cancel.
   - split_pures.
     all: dump_pre_spatial; try assumption; try lia.
     + unfold FrontierPushFields in PreH5.
       eapply (frontier_split_push_single_pending_forms_frontier
-        ps_2 n_pre L_pre R_pre
+        push_ps n_pre L_pre R_pre
         (ChordCode n_pre start best :: chosen_2)
-        (t + 1) total slots_2 hsize
+        (t + 1) total push_slots hsize
         (mkNode left_value start lo (best - 1) left_best)
         slots_out).
       * exact PreH5.
       * exact PreH27.
-Qed. 
+Qed.
 
-Lemma proof_of_superPiano_entail_wit_15_2 : superPiano_entail_wit_15_2.
+Lemma proof_of_superPiano_entail_wit_15_3 : superPiano_entail_wit_15_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (Hright_int : -2147483648 <= right_value <= 2147483647).
   {
     rewrite PreH20; lia.
@@ -403,21 +390,19 @@ Proof.
   - repeat cancel.
   - split_pures.
     all: dump_pre_spatial; try assumption; try lia.
-Qed. 
+Qed.
 
-Lemma proof_of_superPiano_entail_wit_15_3 : superPiano_entail_wit_15_3.
+Lemma proof_of_superPiano_entail_wit_15_2 : superPiano_entail_wit_15_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (Hleft_int : -2147483648 <= left_value <= 2147483647).
   {
     rewrite PreH21; lia.
   }
   assert (Hright_int : -2147483648 <= right_value <= 2147483647).
   {
-    unfold ValidNodeFields, ValidNode in PreH44; cbn in PreH44.
-    destruct PreH44 as [_ [_ [_ [_ [_ [_ [_ [_ [Hvalue _]]]]]]]]].
-    rewrite Hvalue.
-    eapply PrefixSums_diff_int_bounds; eauto; lia.
+    eapply (ValidNodeFields_value_int_bound l right_ps n_pre L_pre R_pre
+      right_value start (best + 1) hi right_best); eauto; lia.
   }
   assert (Hstart_lo : start + L_pre - 1 <= lo).
   {
@@ -430,95 +415,62 @@ Proof.
     [Hps_len [Hstart_ge [Hstart_le [Hstart_lo_field [Hlo_hi [Hhi_min
       [Hlo_best [Hbest_hi [Hvalue_field Hmax_field]]]]]]]]].
   Exists chosen_2; Exists vals_out; Exists starts_out; Exists los_out; Exists his_out.
-  Exists bests_out; Exists slots_out; Exists ans_2; Exists st_slots_2; Exists ps_2.
+  Exists bests_out; Exists slots_out; Exists ans_2; Exists st_slots_2; Exists right_ps.
   split_pure_spatial.
   - repeat cancel.
   - split_pures.
     all: dump_pre_spatial; try assumption; try lia.
     + unfold FrontierPushFields in PreH4.
       eapply (frontier_split_push_single_pending_forms_frontier
-        ps_2 n_pre L_pre R_pre
+        right_ps n_pre L_pre R_pre
         (ChordCode n_pre start best :: chosen_2)
-        (t + 1) total slots_2 hsize
+        (t + 1) total right_slots hsize
         (mkNode right_value start (best + 1) hi right_best)
         slots_out).
       * exact PreH4.
-      * match goal with
-        | Hsplit : FrontierSplitState _ _ _ _ _ _ _ _ _ |- _ => exact Hsplit
-        end.
-Qed. 
+      * exact PreH28.
+Qed.
 
-Lemma proof_of_superPiano_entail_wit_15_4 : superPiano_entail_wit_15_4.
+Lemma proof_of_superPiano_entail_wit_15_1 : superPiano_entail_wit_15_1.
 Proof.
-  pre_process.
-  Exists chosen_2; Exists vals_out; Exists starts_out; Exists los_out.
-  Exists his_out; Exists bests_out; Exists slots_out; Exists ans_2.
-  Exists st_slots_2; Exists ps_2.
+  LLM_pre_process ltac:(int_auto).
+  pose proof PreH26 as Hsplit_copy.
+  assert (Hright_int : -2147483648 <= right_value <= 2147483647).
+  {
+    eapply (ValidNodeFields_value_int_bound l right_ps n_pre L_pre R_pre
+      right_value start (best + 1) hi right_best); eauto; lia.
+  }
+  assert (Hleft_int : -2147483648 <= left_value <= 2147483647).
+  {
+    eapply (ValidNodeFields_value_int_bound l right_ps n_pre L_pre R_pre
+      left_value start lo (best - 1) left_best); eauto; lia.
+  }
+  pose proof PreH51 as Hleft_fields.
+  unfold ValidNodeFields, ValidNode in Hleft_fields; cbn in Hleft_fields.
+  destruct Hleft_fields as [_ [_ [_ [Hleft_startlo _]]]].
+  pose proof PreH52 as Hvalid.
+  unfold ValidNodeFields, ValidNode in Hvalid; cbn in Hvalid.
+  destruct Hvalid as [_ [_ [_ [Hstartlo [_ [Hhimin _]]]]]].
+  Exists chosen_2; Exists vals_out; Exists starts_out; Exists los_out; Exists his_out.
+  Exists bests_out; Exists slots_out; Exists ans_2; Exists st_slots_2; Exists right_ps.
   split_pure_spatial.
   - repeat cancel.
-  - match goal with
-    | Hsplit : FrontierSplitState _ _ _ _ _ _ _ _ _ |- _ =>
-        pose proof Hsplit as Hsplit_copy
-    end.
-    pose proof PreH42 as Hvalid.
-    pose proof PreH42 as Hright_valid.
-    pose proof PreH51 as Hleft_valid.
-    pose proof (valid_node_fields_chord_valid ps_2 n_pre L_pre R_pre
-      right_value start (best + 1) hi right_best PreH7 Hright_valid) as Hright_code.
-    pose proof (valid_chord_value_int_bound l ps_2 n_pre L_pre R_pre
-      (ChordCode n_pre start right_best) PreH14 PreH13 PreH6 PreH53 Hright_code)
-      as Hright_bound.
-    assert (Hright_value_eq :
-      right_value = ChordValueOfCode ps_2 n_pre (ChordCode n_pre start right_best)).
-    {
-      unfold ValidNodeFields, ValidNode in Hright_valid; cbn in Hright_valid.
-      destruct Hright_valid as [_ [_ [_ [_ [_ [_ [_ [_ [Hval _]]]]]]]]].
-      unfold ChordValueOfCode.
-      destruct (chord_code_start_end n_pre start right_best) as [Hs He]; try lia.
-      rewrite Hs, He. exact Hval.
-    }
-    rewrite <- Hright_value_eq in Hright_bound.
-    destruct Hright_bound as [Hright_min Hright_max].
-    pose proof (valid_node_fields_chord_valid ps_2 n_pre L_pre R_pre
-      left_value start lo (best - 1) left_best PreH7 Hleft_valid) as Hleft_code.
-    pose proof (valid_chord_value_int_bound l ps_2 n_pre L_pre R_pre
-      (ChordCode n_pre start left_best) PreH14 PreH13 PreH6 PreH53 Hleft_code)
-      as Hleft_bound.
-    assert (Hleft_value_eq :
-      left_value = ChordValueOfCode ps_2 n_pre (ChordCode n_pre start left_best)).
-    {
-      unfold ValidNodeFields, ValidNode in Hleft_valid; cbn in Hleft_valid.
-      destruct Hleft_valid as [_ [_ [_ [_ [_ [_ [_ [_ [Hval _]]]]]]]]].
-      unfold ChordValueOfCode.
-      destruct (chord_code_start_end n_pre start left_best) as [Hs He]; try lia.
-      rewrite Hs, He. exact Hval.
-    }
-    rewrite <- Hleft_value_eq in Hleft_bound.
-    destruct Hleft_bound as [Hleft_min Hleft_max].
-    pose proof Hleft_valid as Hleft_fields.
-    unfold ValidNodeFields, ValidNode in Hleft_fields; cbn in Hleft_fields.
-    destruct Hleft_fields as [_ [_ [_ [Hleft_startlo _]]]].
-    unfold FrontierSplitState in PreH26; simpl in PreH26.
-    unfold ValidNodeFields, ValidNode in Hvalid; cbn in Hvalid.
-    destruct Hvalid as [_ [_ [_ [Hstartlo [_ [Hhimin _]]]]]].
-    split_pures.
+  - split_pures.
     all: dump_pre_spatial; try assumption; try lia.
     + unfold FrontierPushFields in PreH4.
       eapply (frontier_split_push_single_pending_forms_frontier
-        ps_2 n_pre L_pre R_pre
+        right_ps n_pre L_pre R_pre
         (ChordCode n_pre start best :: chosen_2)
-        (t + 1) total slots_2 hsize
+        (t + 1) total right_slots hsize
         (mkNode right_value start (best + 1) hi right_best)
         slots_out).
       * exact PreH4.
       * exact Hsplit_copy.
-    Unshelve.
-    all: dump_pre_spatial; try assumption; try lia.
-Qed. 
+Qed.
 
 Lemma proof_of_superPiano_entail_wit_16 : superPiano_entail_wit_16.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists (ChordCode n_pre start best :: chosen_2).
   Exists vals_2; Exists starts_2; Exists los_2; Exists his_2; Exists bests_2.
   Exists slots_2; Exists ans_2; Exists st_slots_2; Exists ps_2.
@@ -537,7 +489,7 @@ Qed.
 
 Lemma proof_of_superPiano_return_wit_1 : superPiano_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists st_slots_2; Exists vals_2; Exists starts_2; Exists los_2; Exists his_2.
   Exists bests_2; Exists slots_2; Exists ps_2.
   split_pure_spatial.
@@ -551,9 +503,19 @@ Proof.
     exact PreH21.
 Qed. 
 
+Lemma proof_of_superPiano_partial_solve_wit_1_pure : superPiano_partial_solve_wit_1_pure.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  Exists ps_2.
+  split_pures.
+  all: dump_pre_spatial; try assumption; try lia.
+  - intros idx Hidx.
+    apply PreH10; lia.
+Qed.
+
 Lemma proof_of_superPiano_partial_solve_wit_2_pure : superPiano_partial_solve_wit_2_pure.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pures.
   all: dump_pre_spatial.
   all: unfold PrefixSums, PrefixArrayPrefix in PreH10; lia.
@@ -561,10 +523,17 @@ Qed.
 
 Lemma proof_of_superPiano_partial_solve_wit_3_pure : superPiano_partial_solve_wit_3_pure.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pures.
   all: dump_pre_spatial.
   all: unfold PrefixSums, PrefixArrayPrefix in PreH10.
   all: unfold SparseArgmaxBuilt in PreH12.
   all: try assumption; lia.
 Qed. 
+
+(* Blocker: these pure witnesses still need real arithmetic/invariant proofs.
+   Do not export admitted versions.
+Lemma proof_of_superPiano_partial_solve_wit_9_pure : superPiano_partial_solve_wit_9_pure.
+Lemma proof_of_superPiano_partial_solve_wit_10_pure : superPiano_partial_solve_wit_10_pure.
+Lemma proof_of_superPiano_partial_solve_wit_14_pure : superPiano_partial_solve_wit_14_pure.
+*)

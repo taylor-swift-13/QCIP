@@ -38,7 +38,7 @@ Proof.
   split_pure_spatial.
   - Intros_r x.
     apply_sepcon_adjoint.
-    elim_emp.
+    cancel.
     destruct H as [H | H].
     + subst p.
       unfold dlistrep_shape.
@@ -113,7 +113,7 @@ Proof.
   Intros_r y.
   Intros_r q.
   apply_sepcon_adjoint.
-  elim_emp.
+  cancel.
   subst m.
   sep_apply_l_atomic (dllseg_shape_len1 s y n x H0).
   sep_apply_l_atomic (dllseg_dllseg_shape p s n q y s).
@@ -142,7 +142,7 @@ Proof.
     cancel (&( s # "list" ->ₛ "data") # Int |-> x).
     Intros_r n.
     apply_sepcon_adjoint.
-    elim_emp.
+    cancel (&(s # "list" ->ₛ "prev") # Ptr |-> n).
     cancel.
   - dump_pre_spatial.
     exact H0.
@@ -207,7 +207,8 @@ Proof.
     cancel (&( p # "list" ->ₛ "data") # Int |-> x).
     Intros_r q.
     apply_sepcon_adjoint.
-    elim_emp.
+    cancel ((&(p # "list" ->ₛ "data") # Int |-> q) || (&(p # "list" ->ₛ "next") # Ptr |-> q) || (&(p # "list" ->ₛ "prev") # Ptr |-> q)).
+    normalize.
     cancel.
   - dump_pre_spatial.
     exact Hnz.
@@ -223,7 +224,7 @@ Proof.
     Intros_r x.
     Intros_r y.
     apply_sepcon_adjoint.
-    elim_emp.
+    cancel.
     unfold dlistrep_shape.
     Intros l.
     Exists (x :: l).
@@ -265,6 +266,6 @@ Proof.
   cancel (&( s # "list" ->ₛ "data") # Int |-> x).
   Intros_r n.
   apply_sepcon_adjoint.
-  elim_emp.
+  cancel (&(s # "list" ->ₛ "next") # Ptr |-> n).
   cancel.
 Qed.

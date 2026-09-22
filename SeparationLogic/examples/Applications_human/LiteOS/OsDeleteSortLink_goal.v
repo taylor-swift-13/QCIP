@@ -126,7 +126,7 @@ forall (A: Type) (node_pre: Z) (l2: (@list (@DL_Node (@sortedLinkNode A)))) (l1:
   **  ((( &( "OS_SCHED_MAX_RESPONSE_TIME" ) )) # UInt64  |-> o)
 ) \/
 (
-forall (A: Type) (node_pre: Z) (l2: (@list (@DL_Node (@sortedLinkNode A)))) (l1: (@list (@DL_Node (@sortedLinkNode A)))) (a: A) (storeA: (Z -> (A -> Assertion))) (t: Z) (x: Z) (v_pstPrev: Z) (v_5: Z) (v_pstNext: Z) (v_6: Z) (PreH1 : (t = (unsigned_last_nbits ((-1)) (64)))) (PreH2 : (v_pstNext = &((node_pre)  # "SortLinkList" ->ₛ "sortLinkNode"))) (PreH3 : (v_pstPrev = &((node_pre)  # "SortLinkList" ->ₛ "sortLinkNode"))) (PreH4 : (increasingSortedNode (app (l1) ((cons ((Build_DL_Node ((mksortedLinkNode (a) (t))) (node_pre))) (l2)))) )) ,
+forall (A: Type) (node_pre: Z) (l2: (@list (@DL_Node (@sortedLinkNode A)))) (l1: (@list (@DL_Node (@sortedLinkNode A)))) (a: A) (storeA: (Z -> (A -> Assertion))) (t: Z) (x: Z) (v_pstPrev: Z) (v_5: Z) (v_pstNext: Z) (v_6: Z) (PreH1 : (t <= UINT64_MAX)) (PreH2 : (t >= 0)) (PreH3 : (t = (unsigned_last_nbits ((-1)) (64)))) (PreH4 : (v_pstNext = &((node_pre)  # "SortLinkList" ->ₛ "sortLinkNode"))) (PreH5 : (v_pstPrev = &((node_pre)  # "SortLinkList" ->ₛ "sortLinkNode"))) (PreH6 : (increasingSortedNode (app (l1) ((cons ((Build_DL_Node ((mksortedLinkNode (a) (t))) (node_pre))) (l2)))) )) ,
   (storeA &((node_pre)  # "SortLinkList" ->ₛ "sortLinkNode") a )
   **  ((&((node_pre)  # "SortLinkList" ->ₛ "responseTime")) # UInt64  |-> t)
   **  ((&((node_pre)  # "SortLinkList" ->ₛ "sortLinkNode" .ₛ "pstPrev")) # Ptr  |-> v_6)
@@ -140,7 +140,7 @@ forall (A: Type) (node_pre: Z) (l2: (@list (@DL_Node (@sortedLinkNode A)))) (l1:
 ).
 
 Definition OsDeleteSortLink_return_wit_3_split_goal_spatial := 
-forall (A: Type) (node_pre: Z) (l2: (@list (@DL_Node (@sortedLinkNode A)))) (l1: (@list (@DL_Node (@sortedLinkNode A)))) (a: A) (storeA: (Z -> (A -> Assertion))) (t: Z) (x: Z) (v_pstPrev: Z) (v_5: Z) (v_pstNext: Z) (v_6: Z) (PreH1 : (t = (unsigned_last_nbits ((-1)) (64)))) (PreH2 : (v_pstNext = &((node_pre)  # "SortLinkList" ->ₛ "sortLinkNode"))) (PreH3 : (v_pstPrev = &((node_pre)  # "SortLinkList" ->ₛ "sortLinkNode"))) (PreH4 : (increasingSortedNode (app (l1) ((cons ((Build_DL_Node ((mksortedLinkNode (a) (t))) (node_pre))) (l2)))) )) ,
+forall (A: Type) (node_pre: Z) (l2: (@list (@DL_Node (@sortedLinkNode A)))) (l1: (@list (@DL_Node (@sortedLinkNode A)))) (a: A) (storeA: (Z -> (A -> Assertion))) (t: Z) (x: Z) (v_pstPrev: Z) (v_5: Z) (v_pstNext: Z) (v_6: Z) (PreH1 : (t <= UINT64_MAX)) (PreH2 : (t >= 0)) (PreH3 : (t = (unsigned_last_nbits ((-1)) (64)))) (PreH4 : (v_pstNext = &((node_pre)  # "SortLinkList" ->ₛ "sortLinkNode"))) (PreH5 : (v_pstPrev = &((node_pre)  # "SortLinkList" ->ₛ "sortLinkNode"))) (PreH6 : (increasingSortedNode (app (l1) ((cons ((Build_DL_Node ((mksortedLinkNode (a) (t))) (node_pre))) (l2)))) )) ,
   (storeA &((node_pre)  # "SortLinkList" ->ₛ "sortLinkNode") a )
   **  ((&((node_pre)  # "SortLinkList" ->ₛ "responseTime")) # UInt64  |-> t)
   **  ((&((node_pre)  # "SortLinkList" ->ₛ "sortLinkNode" .ₛ "pstPrev")) # Ptr  |-> v_6)
@@ -441,7 +441,7 @@ forall (A: Type) (l2: (@list (@DL_Node (@sortedLinkNode A)))) (l1: (@list (@DL_N
   (store_sorted_dll storeA x (app (l1) ((cons ((Build_DL_Node ((mksortedLinkNode (a) (t))) (node))) (l2)))) )
 ) \/
 (
-forall (A: Type) (l2: (@list (@DL_Node (@sortedLinkNode A)))) (l1: (@list (@DL_Node (@sortedLinkNode A)))) (a: A) (storeA: (Z -> (A -> Assertion))) (t: Z) (x: Z) (node: Z) (v: Z) (v_pstNext: Z) (v_2: Z) (v_pstPrev: Z) (PreH1 : (increasingSortedNode (app (l1) ((cons ((Build_DL_Node ((mksortedLinkNode (a) (t))) (node))) (l2)))) )) (PreH2 : (v_pstNext = &((node)  # "SortLinkList" ->ₛ "sortLinkNode"))) (PreH3 : (v_pstPrev = &((node)  # "SortLinkList" ->ₛ "sortLinkNode"))) ,
+forall (A: Type) (l2: (@list (@DL_Node (@sortedLinkNode A)))) (l1: (@list (@DL_Node (@sortedLinkNode A)))) (a: A) (storeA: (Z -> (A -> Assertion))) (t: Z) (x: Z) (node: Z) (v: Z) (v_pstNext: Z) (v_2: Z) (v_pstPrev: Z) (PreH1 : (t <= UINT64_MAX)) (PreH2 : (t >= 0)) (PreH3 : (increasingSortedNode (app (l1) ((cons ((Build_DL_Node ((mksortedLinkNode (a) (t))) (node))) (l2)))) )) (PreH4 : (v_pstNext = &((node)  # "SortLinkList" ->ₛ "sortLinkNode"))) (PreH5 : (v_pstPrev = &((node)  # "SortLinkList" ->ₛ "sortLinkNode"))) ,
   ((&((node)  # "SortLinkList" ->ₛ "sortLinkNode" .ₛ "pstPrev")) # Ptr  |-> v)
   **  ((&((v)  # "LOS_DL_LIST" ->ₛ "pstNext")) # Ptr  |-> v_pstNext)
   **  ((&((node)  # "SortLinkList" ->ₛ "sortLinkNode" .ₛ "pstNext")) # Ptr  |-> v_2)
@@ -455,7 +455,7 @@ forall (A: Type) (l2: (@list (@DL_Node (@sortedLinkNode A)))) (l1: (@list (@DL_N
 ).
 
 Definition OsDeleteSortLink_which_implies_wit_4_split_goal_spatial := 
-forall (A: Type) (l2: (@list (@DL_Node (@sortedLinkNode A)))) (l1: (@list (@DL_Node (@sortedLinkNode A)))) (a: A) (storeA: (Z -> (A -> Assertion))) (t: Z) (x: Z) (node: Z) (v: Z) (v_pstNext: Z) (v_2: Z) (v_pstPrev: Z) (PreH1 : (increasingSortedNode (app (l1) ((cons ((Build_DL_Node ((mksortedLinkNode (a) (t))) (node))) (l2)))) )) (PreH2 : (v_pstNext = &((node)  # "SortLinkList" ->ₛ "sortLinkNode"))) (PreH3 : (v_pstPrev = &((node)  # "SortLinkList" ->ₛ "sortLinkNode"))) ,
+forall (A: Type) (l2: (@list (@DL_Node (@sortedLinkNode A)))) (l1: (@list (@DL_Node (@sortedLinkNode A)))) (a: A) (storeA: (Z -> (A -> Assertion))) (t: Z) (x: Z) (node: Z) (v: Z) (v_pstNext: Z) (v_2: Z) (v_pstPrev: Z) (PreH1 : (t <= UINT64_MAX)) (PreH2 : (t >= 0)) (PreH3 : (increasingSortedNode (app (l1) ((cons ((Build_DL_Node ((mksortedLinkNode (a) (t))) (node))) (l2)))) )) (PreH4 : (v_pstNext = &((node)  # "SortLinkList" ->ₛ "sortLinkNode"))) (PreH5 : (v_pstPrev = &((node)  # "SortLinkList" ->ₛ "sortLinkNode"))) ,
   ((&((node)  # "SortLinkList" ->ₛ "sortLinkNode" .ₛ "pstPrev")) # Ptr  |-> v)
   **  ((&((v)  # "LOS_DL_LIST" ->ₛ "pstNext")) # Ptr  |-> v_pstNext)
   **  ((&((node)  # "SortLinkList" ->ₛ "sortLinkNode" .ₛ "pstNext")) # Ptr  |-> v_2)

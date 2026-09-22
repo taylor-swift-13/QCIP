@@ -60,6 +60,8 @@ Qed.
 
 Lemma undef_uint_array_strategy2_correctness : undef_uint_array_strategy2.
   pre_process_default.
+  replace (p + i * 4) with (p + i * sizeof (UINT))
+    by (rewrite sizeof_uint; lia).
   sep_apply UIntArray.undef_missing_i_merge_to_undef_full; [ | tauto].
   entailer!.
 Qed.
@@ -76,6 +78,8 @@ Qed.
 
 Lemma undef_uint_array_strategy12_correctness : undef_uint_array_strategy12.
   pre_process_default.
+  replace (p + i * 4) with (p + i * sizeof (INT))
+    by (rewrite sizeof_int; lia).
   sep_apply (IntArray.undef_missing_i_merge_to_undef_full p i n) ; try lia.
   entailer!.
 Qed.

@@ -25,12 +25,14 @@ Proof.
     change (IntPtrArray2.ElemArray.full row_ptr
 (Zlength (Znth i rows __default_app1_Z))
 (Znth i rows __default_app1_Z)) with (IntArray.full row_ptr (Zlength (Znth i rows __default_app1_Z)) (Znth i rows __default_app1_Z)).
-    entailer!.
+    normalize.
+    cancel (IntPtrArray2.missing_i p n i row_ptr rows).
+    cancel (IntArray.full row_ptr (Zlength (Znth i rows __default_app1_Z)) (Znth i rows __default_app1_Z)).
     Intros_r v.
     apply_sepcon_adjoint.
     Intros.
     subst v.
-    rewrite sizeof_ptr.
+    fold_arch.
     cancel.
 Qed.
 
@@ -53,7 +55,7 @@ Proof.
   pose proof (IntPtrArray2.missing_i_merge_to_full
         p i n row_ptr rows (Znth i rows __default_app1_Z)).
   unfold StorePtrAsElement.storeA in H1.
-  rewrite sizeof_ptr.
+  fold_arch.
   change (IntPtrArray2.ElemArray.full row_ptr
 (Zlength (Znth i rows __default_app1_Z))
 (Znth i rows __default_app1_Z)) with (IntArray.full row_ptr (Zlength (Znth i rows __default_app1_Z)) (Znth i rows __default_app1_Z)) in H1.

@@ -21,7 +21,7 @@ Local Open Scope sac.
 
 Lemma proof_of_memcpy_entail_wit_1 : memcpy_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   sep_apply_l_atomic (CharArray.undef_full_to_undef_seg dest_pre n_pre).
   change (sublist 0 0 bytes) with (@nil Z).
   rewrite (CharArray.full_empty dest_pre 0).
@@ -33,7 +33,7 @@ Qed.
 
 Lemma proof_of_memcpy_entail_wit_2 : memcpy_entail_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   replace (sublist 0 (i + 1) bytes)
     with (sublist 0 i bytes ++ Znth i bytes 0 :: nil).
   2: {
@@ -51,7 +51,7 @@ Qed.
 
 Lemma proof_of_memcpy_return_wit_1 : memcpy_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (Hi : i = n_pre) by lia.
   subst i.
   assert (HlenZ : Zlength bytes = n_pre) by lia.
@@ -65,7 +65,7 @@ Qed.
 
 Lemma proof_of_memmove_entail_wit_1 : memmove_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   sep_apply_l_atomic (CharArray.undef_full_to_undef_seg dest_pre n_pre).
   change (sublist 0 0 bytes) with (@nil Z).
   rewrite (CharArray.full_empty dest_pre 0).
@@ -77,7 +77,7 @@ Qed.
 
 Lemma proof_of_memmove_entail_wit_2 : memmove_entail_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   replace (sublist 0 (i + 1) bytes)
     with (sublist 0 i bytes ++ Znth i bytes 0 :: nil).
   2: {
@@ -95,7 +95,7 @@ Qed.
 
 Lemma proof_of_memmove_entail_wit_3 : memmove_entail_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   sep_apply_l_atomic (CharArray.undef_full_to_undef_seg dest_pre n_pre).
   rewrite (Zsublist_nil bytes n_pre n_pre) by lia.
   replace (n_pre - n_pre) with 0 by lia.
@@ -108,7 +108,7 @@ Qed.
 
 Lemma proof_of_memmove_entail_wit_4 : memmove_entail_wit_4.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   replace (sublist (i - 1) n_pre bytes)
     with ((Znth (i - 1) bytes 0 :: nil) ++ sublist i n_pre bytes).
   2: {
@@ -123,33 +123,17 @@ Proof.
     rewrite Hsingle_bytes.
     reflexivity.
   }
-  sep_apply_l_atomic (CharArray.undef_missing_i_to_undef_seg_tail dest_pre 0 i).
-  - dump_pre_spatial.
-    lia.
-  - sep_apply_l_atomic (CharArray.seg_single dest_pre (i - 1) (Znth (i - 1) bytes 0)).
-    sep_apply_l_atomic (CharArray.seg_to_full dest_pre (i - 1) (i - 1 + 1)
-      (Znth (i - 1) bytes 0 :: nil)).
-    replace (dest_pre + i * sizeof(CHAR))
-      with (dest_pre + (i - 1) * sizeof(CHAR) + 1 * sizeof(CHAR)) by lia.
-    replace (n_pre - i) with (n_pre - (i - 1) - 1) by lia.
-    replace (i - 1 + 1 - (i - 1)) with 1 by lia.
-    sep_apply_l_atomic (CharArray.full_merge_to_full
-      (dest_pre + (i - 1) * sizeof(CHAR)) 1 (n_pre - (i - 1))
-      (Znth (i - 1) bytes 0 :: nil) (sublist i n_pre bytes)).
-    + dump_pre_spatial.
-      lia.
-    + split_pure_spatial.
-      * cancel (CharArray.undef_seg dest_pre 0 (i - 1)).
-        cancel (CharArray.full (dest_pre + (i - 1) * sizeof(CHAR))
-          (n_pre - (i - 1))
-          ((Znth (i - 1) bytes 0 :: nil) ++ sublist i n_pre bytes)).
-        cancel (CharArray.full src_pre n_pre bytes).
-      * split_pures; dump_pre_spatial; try lia; try assumption.
+  split_pure_spatial.
+  - cancel (CharArray.undef_seg dest_pre 0 (i - 1)).
+    cancel (CharArray.full src_pre n_pre bytes).
+    replace (n_pre - (i - 1)) with (n_pre - i + 1) by lia.
+    simpl. cancel.
+  - split_pures; dump_pre_spatial; try lia; try assumption.
 Qed.
 
 Lemma proof_of_memmove_return_wit_2 : memmove_return_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (Hi : i = 0) by lia.
   subst i.
   assert (HlenZ : Zlength bytes = n_pre) by lia.
@@ -165,7 +149,7 @@ Qed.
 
 Lemma proof_of_memmove_return_wit_1 : memmove_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (Hi : i = n_pre) by lia.
   subst i.
   assert (HlenZ : Zlength bytes = n_pre) by lia.
@@ -179,7 +163,7 @@ Qed.
 
 Lemma proof_of_memset_entail_wit_1 : memset_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   sep_apply_l_atomic (CharArray.undef_full_to_undef_seg s_pre n_pre).
   unfold repeat_Z.
   simpl.
@@ -191,7 +175,7 @@ Qed.
 
 Lemma proof_of_memset_entail_wit_2 : memset_entail_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   rewrite repeat_Z_tail.
   split_pure_spatial.
   - cancel (CharArray.full s_pre (i + 1) (repeat_Z c_pre i ++ c_pre :: nil)).
@@ -202,7 +186,7 @@ Qed.
 
 Lemma proof_of_memset_return_wit_1 : memset_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (Hi : i = n_pre) by lia.
   subst i.
   rewrite (CharArray.undef_seg_empty s_pre n_pre).

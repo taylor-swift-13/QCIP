@@ -53,6 +53,9 @@ Proof. Admitted.
 Lemma proof_of_multipleKnapsack_safety_wit_11 : multipleKnapsack_safety_wit_11.
 Proof. Admitted. 
 
+Lemma proof_of_multipleKnapsack_safety_wit_13 : multipleKnapsack_safety_wit_13.
+Proof. Admitted. 
+
 Lemma proof_of_multipleKnapsack_safety_wit_14 : multipleKnapsack_safety_wit_14.
 Proof. Admitted. 
 
@@ -90,12 +93,6 @@ Lemma proof_of_multipleKnapsack_safety_wit_25 : multipleKnapsack_safety_wit_25.
 Proof. Admitted. 
 
 Lemma proof_of_multipleKnapsack_safety_wit_26 : multipleKnapsack_safety_wit_26.
-Proof. Admitted. 
-
-Lemma proof_of_multipleKnapsack_entail_wit_18 : multipleKnapsack_entail_wit_18.
-Proof. Admitted. 
-
-Lemma proof_of_multipleKnapsack_entail_wit_20 : multipleKnapsack_entail_wit_20.
 Proof. Admitted. 
 
 Lemma proof_of_multipleKnapsack_return_wit_1 : multipleKnapsack_return_wit_1.

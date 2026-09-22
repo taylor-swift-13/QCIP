@@ -21,7 +21,7 @@ Local Open Scope sac.
 
 Lemma proof_of_check_entail_wit_1 : check_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - cancel (IntArray.full arr_pre n_pre l).
   - split_pures.
@@ -30,7 +30,7 @@ Qed.
 
 Lemma proof_of_check_entail_wit_2_1 : check_entail_wit_2_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - cancel (IntArray.full arr_pre n_pre l).
   - split_pures.
@@ -39,7 +39,7 @@ Qed.
 
 Lemma proof_of_check_entail_wit_2_2 : check_entail_wit_2_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - cancel (IntArray.full arr_pre n_pre l).
   - split_pures.
@@ -51,7 +51,7 @@ Qed.
 
 Lemma proof_of_check_return_wit_1 : check_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - cancel (IntArray.full arr_pre n_pre l).
   - split_pures.
@@ -69,7 +69,7 @@ Qed.
 
 Lemma proof_of_check_return_wit_2 : check_return_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - cancel (IntArray.full arr_pre n_pre l).
   - split_pures.
@@ -84,7 +84,7 @@ Qed.
 
 Lemma proof_of_check_return_wit_3 : check_return_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - cancel (IntArray.full arr_pre n_pre l).
   - split_pures.
@@ -102,7 +102,7 @@ Qed.
 
 Lemma proof_of_splitArrayLargestSum_safety_wit_3 : splitArrayLargestSum_safety_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pures.
   - dump_pre_spatial.
     assert (Hdiff_nonneg : 0 <= right - left) by lia.
@@ -118,7 +118,7 @@ Qed.
 
 Lemma proof_of_splitArrayLargestSum_safety_wit_7 : splitArrayLargestSum_safety_wit_7.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pures.
   - dump_pre_spatial.
     assert (Hdiff_nonneg : 0 <= right - left) by lia.
@@ -132,13 +132,29 @@ Proof.
     lia.
 Qed. 
 
+Lemma proof_of_splitArrayLargestSum_entail_wit_1 : splitArrayLargestSum_entail_wit_1.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  Exists ans.
+  split_pure_spatial.
+  - cancel.
+  - split_pures; dump_pre_spatial; auto; lia.
+Qed.
+
 Lemma proof_of_splitArrayLargestSum_entail_wit_2_1 : splitArrayLargestSum_entail_wit_2_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists res_2.
   split_pure_spatial.
   - cancel.
-  - entailer!.
+  - split_pures.
+    all: dump_pre_spatial; try lia; try assumption.
+    + destruct (mid_quot_bounds left right PreH12 PreH5 PreH13) as [_ Hmid_upper].
+      exact Hmid_upper.
+    + assert (Hq_nonneg : 0 <= (right - left) ÷ 2) by (apply Z.quot_pos; lia).
+      pose proof (Zplus_le_compat_l _ _ left Hq_nonneg) as Hleft_mid.
+      replace (left + 0) with left in Hleft_mid by ring.
+      exact Hleft_mid.
     + assert (Hcan_mid :
         CanSplit l m_pre (left + (right - left) ÷ 2)) by
         (apply PreH3; lia).
@@ -148,21 +164,21 @@ Proof.
       specialize (Hcannot_bound ltac:(intros k Hk; pose proof (PreH11 k ltac:(lia)); lia)).
       specialize (Hcannot_bound PreH17 Hcan_mid).
       lia.
-    + assert (Hq_nonneg : 0 <= (right - left) ÷ 2) by (apply Z.quot_pos; lia).
-      pose proof (Zplus_le_compat_l _ _ left Hq_nonneg) as Hleft_mid.
-      replace (left + 0) with left in Hleft_mid by ring.
-      exact Hleft_mid.
-    + destruct (mid_quot_bounds left right PreH12 PreH5 PreH13) as [_ Hmid_upper].
-      exact Hmid_upper.
 Qed. 
 
 Lemma proof_of_splitArrayLargestSum_entail_wit_2_2 : splitArrayLargestSum_entail_wit_2_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists res_2.
   split_pure_spatial.
   - cancel.
-  - entailer!.
+  - split_pures.
+    all: dump_pre_spatial; try lia; try assumption.
+    + destruct (mid_quot_bounds left right PreH12 PreH5 PreH13) as [Hmid_nonneg _].
+      lia.
+    + assert (Hq_lt : (right - left) ÷ 2 < right - left) by
+        (apply Z.quot_lt; lia).
+      lia.
     + assert (Hcannot_mid :
         CannotSplit l m_pre (left + (right - left) ÷ 2)) by
         (apply PreH4; exact PreH18).
@@ -174,16 +190,11 @@ Proof.
       specialize (Hcan_bound ltac:(intros k Hk; pose proof (PreH11 k ltac:(lia)); lia)).
       specialize (Hcan_bound PreH17 Hcannot_mid).
       lia.
-    + assert (Hq_lt : (right - left) ÷ 2 < right - left) by
-        (apply Z.quot_lt; lia).
-      lia.
-    + destruct (mid_quot_bounds left right PreH12 PreH5 PreH13) as [Hmid_nonneg _].
-      lia.
 Qed. 
 
 Lemma proof_of_splitArrayLargestSum_partial_solve_wit_1_pure : splitArrayLargestSum_partial_solve_wit_1_pure.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pures; try solve [dump_pre_spatial; auto].
   - dump_pre_spatial.
     assert (Hdiff_nonneg : 0 <= right - left) by lia.
@@ -200,7 +211,7 @@ Qed.
 
 Lemma proof_of_splitArrayLargestSum_return_wit_1 : splitArrayLargestSum_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - cancel.
   - dump_pre_spatial.

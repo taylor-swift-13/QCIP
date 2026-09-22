@@ -52,6 +52,16 @@ Definition MKDPValueBound (dp : list Z) (capacity : Z) : Prop :=
     0 <= cap <= capacity ->
     0 <= Znth cap dp 0 <= 1000000.
 
+(** Pure representation invariant for the three caller-owned scratch arrays.
+    It is intentionally independent of every bounded-knapsack semantic
+    predicate so that initialization and loop-boundary assertions can retain
+    the logical list lengths even when spatial resources are split away. *)
+Definition MKScratchArraysSafety
+    (old q_idx q_val : list Z) (capacity : Z) : Prop :=
+  Zlength old = capacity + 1 /\
+  Zlength q_idx = capacity + 1 /\
+  Zlength q_val = capacity + 1.
+
 Definition MKDPTable
     (weights values counts : list Z) (i capacity : Z) (dp : list Z) : Prop :=
   0 <= i <= Zlength weights /\
@@ -323,6 +333,199 @@ Definition MKResidueLoopState
   Zlength q_val = capacity + 1 /\
   MKResiduePrefix old dp r w v cnt k capacity /\
   MKQueueState old q_idx q_val head tail r w v cnt k capacity.
+
+(** Layered views used by the C annotations.
+
+    The original predicates above remain the compact proof interface.  These
+    views make the annotation boundary explicit: [Safety] predicates contain
+    only bounds/list representation facts needed for safe C execution, while
+    [Semantics] predicates contain the bounded-knapsack mathematics. *)
+
+Definition MKDPTableSafety
+    (weights : list Z) (i capacity : Z) (dp : list Z) : Prop :=
+  0 <= i <= Zlength weights /\
+  0 <= capacity /\
+  Zlength dp = capacity + 1.
+
+Definition MKDPTableSemantics
+    (weights values counts : list Z) (i capacity : Z) (dp : list Z) : Prop :=
+  forall cap,
+    0 <= cap <= capacity ->
+    MultipleKnapsackPrefixAnswer weights values counts i cap (Znth cap dp 0).
+
+Definition MKZeroPrefixSafety (dp : list Z) (hi : Z) : Prop :=
+  0 <= hi /\ Zlength dp = hi.
+
+Definition MKZeroPrefixSemantics (dp : list Z) (hi : Z) : Prop :=
+  forall cap, 0 <= cap < hi -> Znth cap dp 0 = 0.
+
+Definition MKCopyPrefixSafety
+    (src dst : list Z) (j capacity : Z) : Prop :=
+  0 <= j <= capacity + 1 /\
+  Zlength src = capacity + 1 /\
+  Zlength dst = capacity + 1.
+
+Definition MKCopyPrefixSemantics
+    (src dst : list Z) (j : Z) : Prop :=
+  forall cap, 0 <= cap < j -> Znth cap dst 0 = Znth cap src 0.
+
+Definition MKTransitionSafety
+    (old : list Z) (w cnt capacity pos : Z) : Prop :=
+  0 < w /\
+  0 <= cnt /\
+  0 <= pos <= capacity /\
+  Zlength old = capacity + 1.
+
+Definition MKTransitionSemantics
+    (old : list Z) (w v cnt capacity pos ans : Z) : Prop :=
+  max_value_of_subset Z.le
+    (fun take =>
+       0 <= take <= cnt /\
+       take * w <= pos /\
+       0 <= pos - take * w <= capacity)
+    (fun take => Znth (pos - take * w) old 0 + take * v)
+    ans.
+
+Definition MKItemResidueProgressSafety
+    (old dp : list Z) (r w cnt capacity : Z) : Prop :=
+  0 < w /\
+  0 <= cnt /\
+  0 <= r /\
+  r <= w /\
+  r <= capacity + 1 /\
+  Zlength old = capacity + 1 /\
+  Zlength dp = capacity + 1.
+
+Definition MKItemResidueProgressSemantics
+    (old dp : list Z) (r w v cnt capacity : Z) : Prop :=
+  (forall rem k pos,
+     pos = rem + k * w ->
+     0 <= rem < r ->
+     0 <= k ->
+     0 <= pos <= capacity ->
+     MKTransitionSemantics old w v cnt capacity pos (Znth pos dp 0)) /\
+  (forall rem k pos,
+     pos = rem + k * w ->
+     r <= rem < w ->
+     0 <= k ->
+     0 <= pos <= capacity ->
+     Znth pos dp 0 = Znth pos old 0).
+
+Definition MKItemResiduePrefixSafety
+    (old dp : list Z) (r w cnt k capacity : Z) : Prop :=
+  0 < w /\
+  0 <= cnt /\
+  0 <= r < w /\
+  0 <= k /\
+  r <= capacity /\
+  Zlength old = capacity + 1 /\
+  Zlength dp = capacity + 1.
+
+Definition MKItemResiduePrefixSemantics
+    (old dp : list Z) (r w v cnt k capacity : Z) : Prop :=
+  (forall t,
+     0 <= t < k ->
+     r + t * w <= capacity ->
+     MKTransitionSemantics old w v cnt capacity (r + t * w)
+       (Znth (r + t * w) dp 0)) /\
+  forall pos,
+    0 <= pos <= capacity ->
+    (forall rem t,
+       pos = rem + t * w ->
+       0 <= rem < r ->
+       0 <= t ->
+       MKTransitionSemantics old w v cnt capacity pos (Znth pos dp 0)) /\
+    (forall rem t,
+       pos = rem + t * w ->
+       0 <= rem < w ->
+       0 <= t ->
+       (r < rem \/ (rem = r /\ k <= t)) ->
+       Znth pos dp 0 = Znth pos old 0).
+
+Definition MKQueueStorageSafety
+    (old q_idx q_val : list Z) (head tail limit capacity : Z) : Prop :=
+  0 <= head <= tail /\
+  tail <= limit /\
+  tail <= Zlength q_idx /\
+  Zlength q_idx = capacity + 1 /\
+  Zlength q_val = capacity + 1 /\
+  Zlength old = capacity + 1.
+
+Definition MKQueueDropSafety
+    (old q_idx q_val : list Z)
+    (head tail r w k capacity : Z) : Prop :=
+  0 <= r < w /\
+  0 <= k /\
+  MKQueueStorageSafety old q_idx q_val head tail k capacity.
+
+Definition MKQueueDropSemantics
+    (old q_idx q_val : list Z)
+    (head tail r w v cnt k : Z) : Prop :=
+  MKQueueEntriesValidForResult old q_idx q_val head tail r w v k cnt /\
+  MKQueueIndexIncreasing q_idx head tail /\
+  MKQueueValueDecreasing q_val head tail /\
+  MKQueueCoversWindow old q_idx q_val head tail r w v k cnt /\
+  MKQueueResultValueBound q_val head tail v (k - 1).
+
+Definition MKQueueAfterDropSemantics
+    (old q_idx q_val : list Z)
+    (head tail r w v cnt k : Z) : Prop :=
+  MKQueueEntriesValidAfterDrop old q_idx q_val head tail r w v k cnt /\
+  MKQueueIndexIncreasing q_idx head tail /\
+  MKQueueValueDecreasing q_val head tail /\
+  MKQueueCoversWindow old q_idx q_val head tail r w v k cnt /\
+  MKQueueResultValueBound q_val head tail v k.
+
+Definition MKQueuePendingSemantics
+    (old q_idx q_val : list Z)
+    (head tail r w v cnt k current : Z) : Prop :=
+  MKQueueEntriesValidAfterDrop old q_idx q_val head tail r w v k cnt /\
+  MKQueueIndexIncreasing q_idx head tail /\
+  MKQueueValueDecreasing q_val head tail /\
+  MKQueueCoversWithPending old q_idx q_val head tail r w v k cnt current /\
+  MKQueueResultValueBound q_val head tail v k /\
+  0 <= current + k * v <= 1000000.
+
+Definition MKQueueResultSafety
+    (old q_idx q_val : list Z)
+    (head tail r w processed capacity : Z) : Prop :=
+  0 <= r < w /\
+  0 <= processed /\
+  MKQueueStorageSafety old q_idx q_val head tail processed capacity.
+
+Definition MKQueueResultSemantics
+    (old q_idx q_val : list Z)
+    (head tail r w v cnt processed capacity : Z) : Prop :=
+  MKQueueEntriesValidForResult old q_idx q_val head tail r w v processed cnt /\
+  MKQueueIndexIncreasing q_idx head tail /\
+  MKQueueValueDecreasing q_val head tail /\
+  MKQueueCoversResultWindow old q_idx q_val head tail r w v processed cnt /\
+  MKQueueResultValueBound q_val head tail v (processed - 1) /\
+  (head < tail ->
+     MKTransitionSemantics old w v cnt capacity (r + (processed - 1) * w)
+       (Znth head q_val 0 + (processed - 1) * v)).
+
+Definition MKResidueLoopSafety
+    (old dp q_idx q_val : list Z)
+    (r w k head tail capacity : Z) : Prop :=
+  0 <= r < w /\
+  0 <= k /\
+  0 <= head <= tail /\
+  tail <= k /\
+  Zlength old = capacity + 1 /\
+  Zlength dp = capacity + 1 /\
+  Zlength q_idx = capacity + 1 /\
+  Zlength q_val = capacity + 1.
+
+Definition MKResidueLoopSemantics
+    (old dp q_idx q_val : list Z)
+    (r w v cnt k head tail capacity : Z) : Prop :=
+  (forall t,
+     0 <= t < k ->
+     r + t * w <= capacity ->
+     MKTransitionSemantics old w v cnt capacity (r + t * w)
+       (Znth (r + t * w) dp 0)) /\
+  MKQueueResultSemantics old q_idx q_val head tail r w v cnt k capacity.
 
 (* Helper imports migrated from multiple_knapsack__vc_proving_round9_merged_proof_manual.v. *)
 Require Import Coq.micromega.Lia.
@@ -1755,4 +1958,336 @@ Proof.
   replace (sublist 0 n counts) with counts in Hdp by
     (symmetry; apply sublist_self; symmetry; exact Hcounts).
   exact Hdp.
+Qed.
+
+Lemma MKQueuePending_layers_push__g08 :
+  forall old q_idx q_val head tail r w v cnt k capacity current,
+    MKQueueDropSafety old q_idx q_val head tail r w k capacity ->
+    MKQueuePendingSemantics old q_idx q_val head tail r w v cnt k current ->
+    current = Znth (r + k * w) old 0 - k * v ->
+    0 <= r + k * w <= capacity ->
+    0 <= cnt ->
+    k <= capacity ->
+    (head < tail -> Znth (tail - 1) q_val 0 > current) ->
+    MKQueueResultSafety old
+      (replace_Znth tail k q_idx) (replace_Znth tail current q_val)
+      head (tail + 1) r w (k + 1) capacity /\
+    MKQueueResultSemantics old
+      (replace_Znth tail k q_idx) (replace_Znth tail current q_val)
+      head (tail + 1) r w v cnt (k + 1) capacity.
+Proof.
+  intros old q_idx q_val head tail r w v cnt k capacity current
+    Hsafe Hsem Hcurrent Hpos Hcnt Hk Htail.
+  assert (Hpending :
+    MKQueuePendingState old q_idx q_val head tail r w v cnt k capacity current).
+  {
+    unfold MKQueuePendingState, MKQueueDropSafety, MKQueueStorageSafety,
+      MKQueuePendingSemantics in *.
+    tauto.
+  }
+  pose proof (MKQueuePendingState_push_to_MKQueueState
+    old q_idx q_val head tail r w v cnt k capacity current
+    Hpending Hcurrent Hpos Hcnt Hk Htail) as Hstate.
+  unfold MKQueueState, MKQueueResultSafety, MKQueueStorageSafety,
+    MKQueueResultSemantics, MKTransitionValue, MKTransitionSafety,
+    MKTransitionSemantics in *.
+  tauto.
+Qed.
+Lemma MKResidueLoopSemantics_after_dp_write__g09 :
+  forall old dp qidx qval r w v cnt k head tail capacity pos ans,
+    0 <= r ->
+    0 < w ->
+    pos = r + k * w ->
+    0 <= pos <= capacity ->
+    Zlength dp = capacity + 1 ->
+    MKItemResiduePrefixSemantics old dp r w v cnt k capacity ->
+    MKQueueResultSemantics old qidx qval head tail r w v cnt (k + 1) capacity ->
+    MKTransitionSemantics old w v cnt capacity pos ans ->
+    MKResidueLoopSemantics old (replace_Znth pos ans dp) qidx qval
+      r w v cnt (k + 1) head tail capacity.
+Proof.
+  intros old dp qidx qval r w v cnt k head tail capacity pos ans
+    Hr Hw Hpos Hpos_range Hdp_len Hprefix Hqueue Htrans.
+  unfold MKItemResiduePrefixSemantics in Hprefix.
+  unfold MKResidueLoopSemantics.
+  destruct Hprefix as [Hpref _].
+  split; [|exact Hqueue].
+  intros t Ht Hcap.
+  destruct (Z_lt_ge_dec t k) as [Ht_old | Ht_new].
+  - specialize (Hpref t ltac:(lia) Hcap).
+    rewrite Znth_replace_Znth_Diff.
+    + exact Hpref.
+    + rewrite Hdp_len; lia.
+    + rewrite Hdp_len; lia.
+    + subst pos; nia.
+  - assert (t = k) by lia.
+    subst t.
+    replace (r + k * w) with pos by lia.
+    rewrite Znth_replace_Znth_Same.
+    + exact Htrans.
+    + rewrite Hdp_len; lia.
+Qed.
+Lemma MKResidueLoopSafety_after_dp_write__g09 :
+  forall old dp qidx qval r w k head tail capacity pos ans,
+    Zlength dp = capacity + 1 ->
+    MKQueueResultSafety old qidx qval head tail r w (k + 1) capacity ->
+    MKResidueLoopSafety old (replace_Znth pos ans dp) qidx qval
+      r w (k + 1) head tail capacity.
+Proof.
+  intros old dp qidx qval r w k head tail capacity pos ans Hdp Hqueue.
+  unfold MKQueueResultSafety, MKQueueStorageSafety in Hqueue.
+  unfold MKResidueLoopSafety.
+  destruct Hqueue as (Hr & Hk & Hheadtail & Htail & _ & Hqidx & Hqval & Hold).
+  repeat split; try lia; try assumption.
+  rewrite Zlength_replace_Znth; exact Hdp.
+Qed.
+Lemma MKItemResiduePrefixSemantics_after_dp_write__g09 :
+  forall old dp r w v cnt k capacity pos ans,
+    0 < w ->
+    0 <= r ->
+    r < w ->
+    pos = r + k * w ->
+    0 <= pos <= capacity ->
+    Zlength dp = capacity + 1 ->
+    MKItemResiduePrefixSemantics old dp r w v cnt k capacity ->
+    MKTransitionSemantics old w v cnt capacity pos ans ->
+    MKItemResiduePrefixSemantics old (replace_Znth pos ans dp)
+      r w v cnt (k + 1) capacity.
+Proof.
+  intros old dp r w v cnt k capacity pos ans Hw Hr Hr_w Hpos Hpos_range Hdp_len Hprog Htrans.
+  unfold MKItemResiduePrefixSemantics in *.
+  destruct Hprog as [Hprefix Hrest].
+  split.
+  - intros t Ht Hcap.
+    destruct (Z_lt_ge_dec t k) as [Ht_old | Ht_new].
+    + specialize (Hprefix t ltac:(lia) Hcap).
+      rewrite Znth_replace_Znth_Diff.
+      * exact Hprefix.
+      * rewrite Hdp_len; lia.
+      * rewrite Hdp_len; lia.
+      * subst pos; nia.
+    + assert (t = k) by lia.
+      subst t.
+      replace (r + k * w) with pos by lia.
+      rewrite Znth_replace_Znth_Same.
+      * exact Htrans.
+      * rewrite Hdp_len; lia.
+  - intros p Hp_range.
+    specialize (Hrest p Hp_range) as [Hdone Hsame].
+    split.
+    + intros rem t Hp_eq Hrem_range Ht.
+      specialize (Hdone rem t Hp_eq Hrem_range Ht).
+      rewrite Znth_replace_Znth_Diff.
+      * exact Hdone.
+      * rewrite Hdp_len; lia.
+      * rewrite Hdp_len; lia.
+      * intro Heq.
+        assert (rem + t * w = r + k * w) as Hrepr by (subst p; subst pos; lia).
+        assert (rem = r) as Hrem_eq.
+        { eapply residue_repr_unique with (t1 := t) (t2 := k) (w := w);
+            try eassumption; lia. }
+        lia.
+    + intros rem t Hp_eq Hrem_range Ht Hcase.
+      assert (r < rem \/ rem = r /\ k <= t) as Hold_case by lia.
+      specialize (Hsame rem t Hp_eq Hrem_range Ht Hold_case).
+      rewrite Znth_replace_Znth_Diff.
+      * exact Hsame.
+      * rewrite Hdp_len; lia.
+      * rewrite Hdp_len; lia.
+      * intro Heq.
+        assert (rem + t * w = r + k * w) as Hrepr by (subst p; subst pos; lia).
+        assert (rem = r) as Hrem_eq.
+        { eapply residue_repr_unique with (t1 := t) (t2 := k) (w := w);
+            try eassumption; lia. }
+        subst rem.
+        destruct Hcase as [Hcase | [_ Ht_ge]]; nia.
+Qed.
+Lemma MKItemResiduePrefixSafety_after_dp_write__g09 :
+  forall old dp r w cnt k capacity pos ans,
+    Zlength dp = capacity + 1 ->
+    MKItemResiduePrefixSafety old dp r w cnt k capacity ->
+    MKItemResiduePrefixSafety old (replace_Znth pos ans dp)
+      r w cnt (k + 1) capacity.
+Proof.
+  intros old dp r w cnt k capacity pos ans Hdp Hsafe.
+  unfold MKItemResiduePrefixSafety in *.
+  destruct Hsafe as (Hw & Hcnt & Hr & Hk & Hrcap & Hold & _).
+  repeat split; try lia; try assumption.
+  rewrite Zlength_replace_Znth; exact Hdp.
+Qed.
+Lemma MKItemResidueProgressSemantics_next_residue__g09 :
+  forall old dp r w v cnt k capacity pos,
+    0 < w ->
+    0 <= r ->
+    pos = r + k * w ->
+    pos > capacity ->
+    MKItemResiduePrefixSemantics old dp r w v cnt k capacity ->
+    MKItemResidueProgressSemantics old dp (r + 1) w v cnt capacity.
+Proof.
+  intros old dp r w v cnt k capacity pos Hw Hr Hpos Hpast Hprog.
+  unfold MKItemResiduePrefixSemantics in Hprog.
+  destruct Hprog as [Hpref Hrest].
+  unfold MKItemResidueProgressSemantics.
+  split.
+  - intros rem t p Hp_eq Hrem_range Ht Hp_range.
+    assert (rem < r \/ rem = r) as [Hrem_lt | Hrem_eq] by lia.
+    + specialize (Hrest p Hp_range) as [Hdone _].
+      exact (Hdone rem t Hp_eq (conj (proj1 Hrem_range) Hrem_lt) Ht).
+    + subst rem.
+      assert (t < k) by (subst pos; subst p; nia).
+      replace p with (r + t * w) by lia.
+      eapply Hpref; lia.
+  - intros rem t p Hp_eq Hrem_range Ht Hp_range.
+    specialize (Hrest p Hp_range) as [_ Hsame].
+    assert (Hcase : r < rem \/ (rem = r /\ k <= t)) by (left; lia).
+    assert (Hrem0 : 0 <= rem) by lia.
+    exact (Hsame rem t Hp_eq (conj Hrem0 (proj2 Hrem_range)) Ht Hcase).
+Qed.
+Lemma MKItemResidueProgressSafety_next_residue__g09 :
+  forall old dp r w cnt k capacity pos,
+    pos > capacity ->
+    MKItemResiduePrefixSafety old dp r w cnt k capacity ->
+    MKItemResidueProgressSafety old dp (r + 1) w cnt capacity.
+Proof.
+  intros old dp r w cnt k capacity pos Hpast Hsafe.
+  unfold MKItemResiduePrefixSafety in Hsafe.
+  unfold MKItemResidueProgressSafety.
+  destruct Hsafe as (Hw & Hcnt & Hr & Hk & Hrcap & Hold & Hdp).
+  repeat split; try lia; assumption.
+Qed.
+Lemma MKDPTable_from_safety_semantics__g10 :
+  forall weights values counts i capacity dp,
+    MKDPTableSafety weights i capacity dp ->
+    MKDPTableSemantics weights values counts i capacity dp ->
+    MKDPTable weights values counts i capacity dp.
+Proof.
+  intros weights values counts i capacity dp Hsafe Hsem.
+  unfold MKDPTableSafety in Hsafe.
+  unfold MKDPTableSemantics in Hsem.
+  unfold MKDPTable.
+  destruct Hsafe as (Hi & Hcapacity & Hlength).
+  split; [exact Hi |].
+  split; [exact Hcapacity |].
+  split; assumption.
+Qed.
+Lemma MKItemResidueProgress_from_safety_semantics__g10 :
+  forall old dp r w v cnt capacity,
+    MKItemResidueProgressSafety old dp r w cnt capacity ->
+    MKItemResidueProgressSemantics old dp r w v cnt capacity ->
+    MKItemResidueProgress old dp r w v cnt capacity.
+Proof.
+  intros old dp r w v cnt capacity Hsafe Hsem.
+  unfold MKItemResidueProgressSafety in Hsafe.
+  unfold MKItemResidueProgressSemantics in Hsem.
+  unfold MKItemResidueProgress.
+  destruct Hsafe as
+    (Hw & Hcnt & Hr0 & Hrw & Hrcap & Holdlen & Hdplen).
+  destruct Hsem as (Hdone & Htodo).
+  split; [exact Hw |].
+  split; [exact Hcnt |].
+  split; [exact Hr0 |].
+  split; [exact Hrw |].
+  split; [exact Hrcap |].
+  split; [exact Holdlen |].
+  split; [exact Hdplen |].
+  split.
+  - intros rem k pos Hpos Hrem Hk Hposrange.
+    specialize (Hdone rem k pos Hpos Hrem Hk Hposrange).
+    unfold MKTransitionValue.
+    split; [exact Hw |].
+    split; [exact Hcnt |].
+    split; [exact Hposrange |].
+    split; assumption.
+  - exact Htodo.
+Qed.
+
+Lemma MKQueuePending_push_complete_outcome__g06 :
+  forall old q_idx q_val head tail r w v cnt k capacity current pos,
+    pos = r + k * w ->
+    MKQueueDropSafety old q_idx q_val head tail r w k capacity ->
+    MKQueuePendingSemantics old q_idx q_val head tail r w v cnt k current ->
+    current = Znth pos old 0 - k * v ->
+    0 <= pos <= capacity ->
+    0 <= cnt ->
+    k <= capacity ->
+    (head < tail -> Znth (tail - 1) q_val 0 > current) ->
+    MKQueueResultSafety old
+      (replace_Znth tail k q_idx) (replace_Znth tail current q_val)
+      head (tail + 1) r w (k + 1) capacity /\
+    MKQueueResultSemantics old
+      (replace_Znth tail k q_idx) (replace_Znth tail current q_val)
+      head (tail + 1) r w v cnt (k + 1) capacity /\
+    0 <= Znth head (replace_Znth tail current q_val) 0 + k * v <= 1000000 /\
+    MKTransitionSafety old w cnt capacity pos /\
+    MKTransitionSemantics old w v cnt capacity pos
+      (Znth head (replace_Znth tail current q_val) 0 + k * v).
+Proof.
+  intros old q_idx q_val head tail r w v cnt k capacity current pos
+    Hpos_eq Hsafe Hsem Hcurrent Hpos Hcnt Hk Htail.
+  assert (Hcurrent' : current = Znth (r + k * w) old 0 - k * v).
+  { rewrite <- Hpos_eq. exact Hcurrent. }
+  assert (Hpos' : 0 <= r + k * w <= capacity).
+  { rewrite <- Hpos_eq. exact Hpos. }
+  pose proof (MKQueuePending_layers_push__g08
+    old q_idx q_val head tail r w v cnt k capacity current
+    Hsafe Hsem Hcurrent' Hpos' Hcnt Hk Htail) as [Hresult_safe Hresult_sem].
+  assert (Hnonempty : head < tail + 1).
+  {
+    pose proof Hsafe as Hshape.
+    unfold MKQueueDropSafety, MKQueueStorageSafety in Hshape.
+    destruct Hshape as (_ & _ & Hheadtail & _).
+    lia.
+  }
+  assert (Htransition_safe : MKTransitionSafety old w cnt capacity pos).
+  {
+    unfold MKQueueDropSafety, MKQueueStorageSafety in Hsafe.
+    unfold MKTransitionSafety.
+    destruct Hsafe as (Hr & _ & _ & _ & _ & _ & _ & Holdlen).
+    repeat split; try lia; assumption.
+  }
+  pose proof Hresult_sem as Hresult_sem_full.
+  unfold MKQueueResultSemantics in Hresult_sem.
+  destruct Hresult_sem as
+    (Hvalid & Hinc & Hdec & Hcovers & Hbound & Htransition).
+  specialize (Hbound head (conj (Z.le_refl head) Hnonempty)).
+  specialize (Htransition Hnonempty).
+  replace (k + 1 - 1) with k in Hbound by lia.
+  replace (r + (k + 1 - 1) * w) with pos in Htransition by lia.
+  replace (k + 1 - 1) with k in Htransition by lia.
+  split; [exact Hresult_safe |].
+  split; [exact Hresult_sem_full |].
+  split; [exact Hbound |].
+  split; assumption.
+Qed.
+Lemma MKItemResidue_complete_table__g09 :
+  forall weights values counts i capacity old dp r w v cnt,
+    0 <= i < Zlength weights ->
+    Zlength values = Zlength weights ->
+    Zlength counts = Zlength weights ->
+    w = Znth i weights 0 ->
+    v = Znth i values 0 ->
+    cnt = Znth i counts 0 ->
+    (forall idx, 0 <= idx < Zlength weights -> 1 <= Znth idx weights 0) ->
+    r >= w ->
+    MKDPTableSafety weights i capacity old ->
+    MKDPTableSemantics weights values counts i capacity old ->
+    MKItemResidueProgressSafety old dp r w cnt capacity ->
+    MKItemResidueProgressSemantics old dp r w v cnt capacity ->
+    MKDPTableSafety weights (i + 1) capacity dp /\
+    MKDPTableSemantics weights values counts (i + 1) capacity dp.
+Proof.
+  intros weights values counts i capacity old dp r w v cnt
+    Hi Hvalues_len Hcounts_len Hw Hv Hcnt Hweights_pos Hr_ge
+    Htable_safe Htable_sem Hprogress_safe Hprogress_sem.
+  pose proof (MKDPTable_from_safety_semantics__g10
+    weights values counts i capacity old Htable_safe Htable_sem) as Htable.
+  pose proof (MKItemResidueProgress_from_safety_semantics__g10
+    old dp r w v cnt capacity Hprogress_safe Hprogress_sem) as Hprogress.
+  pose proof (MKItemResidueProgress_complete_implies_MKDPTable_next_item
+    weights values counts i capacity old dp r w v cnt
+    Hi Hvalues_len Hcounts_len Hw Hv Hcnt Hweights_pos Hr_ge
+    Htable Hprogress) as Hnext.
+  unfold MKDPTable in Hnext.
+  unfold MKDPTableSafety, MKDPTableSemantics.
+  tauto.
 Qed.

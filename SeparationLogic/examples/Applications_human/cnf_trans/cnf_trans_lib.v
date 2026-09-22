@@ -53,10 +53,12 @@ Lemma store_cnf_list_fold: forall x clause y,
   IntArray.full y 3%Z clause |--
   store_cnf_list_cell x clause.
 Proof.
-  pre_process.
+  intros.
   unfold store_cnf_list_cell.
   Exists y.
-  entailer!.
+  split_pure_spatial.
+  - cancel.
+  - split_pures; dump_pre_spatial; auto.
 Qed.
 
 Definition sll_cnf_list (x: addr) (l: cnf_list): Assertion :=

@@ -201,7 +201,7 @@ Proof.
   intros.
   simpl.
   Exists p1 p2.
-  pre_process.
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Definition store_expr_aux(p: addr)(t: Z)(e: expr) : Assertion :=

@@ -748,8 +748,8 @@ Definition append_safety_wit_1 :=
 forall (y_pre: Z) (x_pre: Z) (l2: (@list Z)) (l1: (@list Z)) ,
   ((( &( "u" ) )) # Ptr  |->_)
   **  ((( &( "t" ) )) # Ptr  |->_)
-  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
   **  ((( &( "x" ) )) # Ptr  |-> x_pre)
+  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
   **  (sll x_pre l1 )
   **  (sll y_pre l2 )
 |--
@@ -797,13 +797,13 @@ forall (y_pre: Z) (x_pre: Z) (l2: (@list Z)) (l1: (@list Z)) (x_next: Z) (x_data
 forall (x_pre: Z) (l1: (@list Z)) (x_data: Z) (l1n: (@list Z)) (PreH1 : (l1 = (cons (x_data) (l1n)))) (PreH2 : (x_pre <> 0)) ,
   TT && emp 
 |--
-  “ ((app ((@nil Z)) ((cons (x_data) (l1n)))) = l1) ”
+  “ ((app ((@nil Z)) (l1)) = l1) ”
   &&  emp
 ).
 
 Definition append_entail_wit_1_split_goal_1 := 
 forall (x_pre: Z) (l1: (@list Z)) (x_data: Z) (l1n: (@list Z)) (PreH1 : (l1 = (cons (x_data) (l1n)))) (PreH2 : (x_pre <> 0)) ,
-  ((app ((@nil Z)) ((cons (x_data) (l1n)))) = l1)
+  ((app ((@nil Z)) (l1)) = l1)
 .
 
 Definition append_entail_wit_2 := 
@@ -910,8 +910,8 @@ Definition append_partial_solve_wit_1_pure :=
 forall (y_pre: Z) (x_pre: Z) (l2: (@list Z)) (l1: (@list Z)) (PreH1 : (x_pre <> 0)) ,
   ((( &( "u" ) )) # Ptr  |->_)
   **  ((( &( "t" ) )) # Ptr  |->_)
-  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
   **  ((( &( "x" ) )) # Ptr  |-> x_pre)
+  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
   **  (sll x_pre l1 )
   **  (sll y_pre l2 )
 |--
@@ -998,8 +998,8 @@ Definition append_long_safety_wit_1 :=
 forall (y_pre: Z) (x_pre: Z) (l2: (@list Z)) (l1: (@list Z)) ,
   ((( &( "u" ) )) # Ptr  |->_)
   **  ((( &( "t" ) )) # Ptr  |->_)
-  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
   **  ((( &( "x" ) )) # Ptr  |-> x_pre)
+  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
   **  (sll x_pre l1 )
   **  (sll y_pre l2 )
 |--
@@ -1063,13 +1063,13 @@ forall (y_pre: Z) (x_pre: Z) (l2: (@list Z)) (l1: (@list Z)) (xn: Z) (a: Z) (l1b
 forall (x_pre: Z) (l1: (@list Z)) (xn: Z) (a: Z) (l1b: (@list Z)) (PreH1 : (xn <> 0)) (PreH2 : (l1 = (cons (a) (l1b)))) (PreH3 : (x_pre <> 0)) ,
   TT && emp 
 |--
-  “ ((app ((@nil Z)) ((cons (a) (l1b)))) = l1) ”
+  “ ((app ((@nil Z)) (l1)) = l1) ”
   &&  emp
 ).
 
 Definition append_long_entail_wit_1_split_goal_1 := 
 forall (x_pre: Z) (l1: (@list Z)) (xn: Z) (a: Z) (l1b: (@list Z)) (PreH1 : (xn <> 0)) (PreH2 : (l1 = (cons (a) (l1b)))) (PreH3 : (x_pre <> 0)) ,
-  ((app ((@nil Z)) ((cons (a) (l1b)))) = l1)
+  ((app ((@nil Z)) (l1)) = l1)
 .
 
 Definition append_long_entail_wit_2 := 
@@ -1210,8 +1210,8 @@ Definition append_long_partial_solve_wit_1_pure :=
 forall (y_pre: Z) (x_pre: Z) (l2: (@list Z)) (l1: (@list Z)) (PreH1 : (x_pre <> 0)) ,
   ((( &( "u" ) )) # Ptr  |->_)
   **  ((( &( "t" ) )) # Ptr  |->_)
-  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
   **  ((( &( "x" ) )) # Ptr  |-> x_pre)
+  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
   **  (sll x_pre l1 )
   **  (sll y_pre l2 )
 |--

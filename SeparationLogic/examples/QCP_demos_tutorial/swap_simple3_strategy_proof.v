@@ -41,8 +41,9 @@ Proof.
   unfold store_int_pair.
   cancel.
   apply_sepcon_adjoint.
-  elim_emp.
-  apply store_int_undef_store_int.
+  cancel.
+  sep_apply store_int_undef_store_int.
+  cancel.
 Qed.
 
 Lemma swap_simple3_strategy3_correctness : swap_simple3_strategy3.
@@ -51,8 +52,9 @@ Proof.
   unfold store_int_pair.
   cancel.
   apply_sepcon_adjoint.
-  elim_emp.
-  apply store_int_undef_store_int.
+  cancel.
+  sep_apply store_int_undef_store_int.
+  cancel.
 Qed.
 
 Lemma swap_simple3_strategy4_correctness : swap_simple3_strategy4.

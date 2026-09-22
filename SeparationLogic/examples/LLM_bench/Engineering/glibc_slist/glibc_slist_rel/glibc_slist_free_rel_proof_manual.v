@@ -31,10 +31,10 @@ Local Open Scope sac.
 
 Lemma proof_of_glibc_slist_clean_free_entail_wit_1 : glibc_slist_clean_free_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists l1_low_level_spec.
   split_pure_spatial.
-  - entailer!.
+  - cancel.
   - split_pure_and_solve.
     unfold glibc_slist_clean_free_M in PreH1 at 1.
     prog_nf in PreH1.
@@ -44,12 +44,12 @@ Proof.
 Qed. 
 Lemma proof_of_glibc_slist_clean_free_entail_wit_2 : glibc_slist_clean_free_entail_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst_eqs.
   Exists l0.
   split_pure_spatial.
   - sep_apply_left store_ptr_undef_store_ptr.
-    entailer!.
+    cancel.
   - split_pure_and_solve.
     unfold glibc_slist_clean_free_M_loop in PreH3 at 1.
     unfold glibc_slist_clean_free_M_loop_aux in PreH3 at 1.
@@ -76,13 +76,13 @@ Proof.
 Qed. 
 Lemma proof_of_glibc_slist_clean_free_return_wit_1 : glibc_slist_clean_free_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst_eqs.
   sep_apply_left (sll_zero 0 l1 eq_refl).
   Intros.
   subst_eqs.
   split_pure_spatial.
-  - entailer!.
+  - cancel.
   - split_pure_and_solve.
     unfold glibc_slist_clean_free_M_loop in PreH2 at 1.
     unfold glibc_slist_clean_free_M_loop_aux in PreH2 at 1.
@@ -103,14 +103,19 @@ Qed.
 
 Lemma proof_of_glibc_slist_clean_free_derive_high_level_spec_by_low_level_spec : glibc_slist_clean_free_derive_high_level_spec_by_low_level_spec.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists (MonadErr.nrm (glibc_slist_clean_free_M l1_high_level_spec) tt).
   Exists l1_high_level_spec.
-  entailer!.
+  apply sepcon_cancel_end.
+  - split_pure_spatial.
+    + cancel.
+    + dump_pre_spatial.
+      apply safeExec_monad_Atrue_finnal.
+      destruct (glibc_slist_clean_free_M_Hoare l1_high_level_spec) as [_ Herr].
+      intro Herr0.
+      eapply Herr; [exact I | exact Herr0].
   - apply derivable1_wand_sepcon_adjoint.
-    entailer!.
-  - apply safeExec_monad_Atrue_finnal.
-    destruct (glibc_slist_clean_free_M_Hoare l1_high_level_spec) as [_ Herr].
-    intro Herr0.
-    eapply Herr; [exact I | exact Herr0].
+    cancel.
+    Intros_p Hsafe.
+    cancel.
 Qed.

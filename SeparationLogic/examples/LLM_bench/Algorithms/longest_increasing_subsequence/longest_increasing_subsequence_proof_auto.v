@@ -41,7 +41,16 @@ Proof. Admitted.
 Lemma proof_of_lengthOfLIS_safety_wit_8 : lengthOfLIS_safety_wit_8.
 Proof. Admitted. 
 
+Lemma proof_of_lengthOfLIS_safety_wit_9 : lengthOfLIS_safety_wit_9.
+Proof. Admitted. 
+
+Lemma proof_of_lengthOfLIS_safety_wit_10 : lengthOfLIS_safety_wit_10.
+Proof. Admitted. 
+
 Lemma proof_of_lengthOfLIS_entail_wit_6 : lengthOfLIS_entail_wit_6.
+Proof. Admitted. 
+
+Lemma proof_of_lengthOfLIS_return_wit_1 : lengthOfLIS_return_wit_1.
 Proof. Admitted. 
 
 Lemma proof_of_lengthOfLIS_partial_solve_wit_1 : lengthOfLIS_partial_solve_wit_1.

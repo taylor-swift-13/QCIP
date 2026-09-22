@@ -17,7 +17,9 @@ Proof.
   sep_apply_l_atomic (CharArray.full_split_to_missing_i p i n l 0).
   - dump_pre_spatial.
     lia.
-  - cancel (CharArray.missing_i p i 0 n l).
+  - replace (p + i * 1) with (p + i * sizeof (CHAR))
+      by (rewrite sizeof_char; lia).
+    cancel (CharArray.missing_i p i 0 n l).
     Intros_r v.
     apply_sepcon_adjoint.
     Intros_p H1.
@@ -52,6 +54,8 @@ Qed.
 Lemma char_array_strategy2_correctness : char_array_strategy2.
 Proof.
   pre_process_default.
+  replace (p + i * 1) with (p + i * sizeof (CHAR))
+    by (rewrite sizeof_char; lia).
   sep_apply_l_atomic (CharArray.missing_i_merge_to_full p i n (Znth i l 0) l).
   - dump_pre_spatial.
     lia.
@@ -62,6 +66,8 @@ Qed.
 Lemma char_array_strategy3_correctness : char_array_strategy3.
 Proof.
   pre_process_default.
+  replace (p + i * 1) with (p + i * sizeof (CHAR))
+    by (rewrite sizeof_char; lia).
   sep_apply_l_atomic (CharArray.missing_i_merge_to_full p i n v l).
   - dump_pre_spatial.
     lia.
@@ -95,9 +101,11 @@ Proof.
   sep_apply_l_atomic (CharArray.undef_seg_split_to_undef_missing_i p l i n).
   - dump_pre_spatial.
     lia.
-  - cancel (CharArray.undef_missing_i p i l n).
+  - replace (p + i * 1) with (p + i * sizeof (CHAR))
+      by (rewrite sizeof_char; lia).
+    cancel (CharArray.undef_missing_i p i l n).
     apply_sepcon_adjoint.
-    elim_emp.
+    cancel (poly_undef_store FET_char (p + i * sizeof (CHAR))).
     cancel.
 Qed.
 
@@ -105,6 +113,8 @@ Lemma char_array_strategy10_correctness : char_array_strategy10.
 Proof.
   pre_process_default.
   subst i.
+  replace (p + n * 1) with (p + n * sizeof (CHAR))
+    by (rewrite sizeof_char; lia).
   sep_apply_l_atomic (CharArray.seg_single p n v).
   sep_apply_l_atomic (CharArray.seg_to_full p n (n + 1) (v :: nil)).
   prop_apply (CharArray.full_Zlength p n l).
@@ -125,5 +135,7 @@ Proof.
   sep_apply_l_atomic (CharArray.undef_missing_i_to_undef_seg_head p r n).
   - dump_pre_spatial.
     lia.
-  - cancel.
+  - replace (p + r * 1) with (p + r * sizeof (CHAR))
+      by (rewrite sizeof_char; lia).
+    cancel.
 Qed.

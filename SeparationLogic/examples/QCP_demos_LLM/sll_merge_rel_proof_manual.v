@@ -23,7 +23,7 @@ Local Open Scope sac.
 
 Lemma proof_of_merge_entail_wit_1 : merge_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists s1. Exists s2. Exists (@nil Z).
   repeat (split_pure_spatial || split_pures).
   + cancel (sll x_pre s1).
@@ -40,7 +40,7 @@ Qed.
 
 Lemma proof_of_merge_entail_wit_3_1 : merge_entail_wit_3_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists l1_new. Exists (ydata :: l2_new). Exists (l3_2 ++ (xdata :: nil))%list.
   simpl sll. Exists ynext.
   repeat (split_pure_spatial || split_pures).
@@ -70,7 +70,7 @@ Qed.
 
 Lemma proof_of_merge_entail_wit_3_2 : merge_entail_wit_3_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists (xdata :: l1_new). Exists l2_new. Exists (l3_2 ++ (ydata :: nil))%list.
   simpl sll. Exists xnext.
   repeat (split_pure_spatial || split_pures).
@@ -98,9 +98,9 @@ Proof.
   + dump_pre_spatial. exact PreH3.
 Qed.
 
-Lemma proof_of_merge_entail_wit_4_2 : merge_entail_wit_4_2.
+Lemma proof_of_merge_entail_wit_4_1 : merge_entail_wit_4_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst x.
   sep_apply_l_atomic (sll_zero 0 l1).
   * dump_pre_spatial. reflexivity.
@@ -123,9 +123,9 @@ Proof.
       exact PreH2.
 Qed.
 
-Lemma proof_of_merge_entail_wit_4_1 : merge_entail_wit_4_1.
+Lemma proof_of_merge_entail_wit_4_2 : merge_entail_wit_4_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst y.
   sep_apply_l_atomic (sll_zero 0 l2).
   * dump_pre_spatial. reflexivity.
@@ -149,7 +149,7 @@ Qed.
 
 Lemma proof_of_merge_return_wit_1_manual : merge_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists s3_2.
   repeat (split_pure_spatial || split_pures).
   + cancel (sll ret s3_2).
@@ -158,7 +158,7 @@ Qed.
 
 Lemma proof_of_split_rec_return_wit_2 : split_rec_return_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists pv'_2. Exists qv'_2. Exists s2_2. Exists s1_2.
   repeat (split_pure_spatial || split_pures).
   + cancel ((q_pre) # Ptr |-> pv'_2).
@@ -172,7 +172,7 @@ Qed.
 
 Lemma proof_of_split_rec_return_wit_1 : split_rec_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst x_pre.
   sep_apply_l_atomic (sll_zero 0 l_low_level_spec).
   * dump_pre_spatial. reflexivity.
@@ -193,7 +193,7 @@ Qed.
 
 Lemma proof_of_split_rec_entail_wit_2 : split_rec_entail_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists l_new_2. Exists x_data_2.
   repeat (split_pure_spatial || split_pures).
   + cancel ((q_pre) # Ptr |-> qv_low_level_spec).
@@ -205,7 +205,7 @@ Proof.
     - cancel (&((x_pre) # "list" ->ₛ"data") # Int |-> x_data_2).
       cancel (&((x_pre) # "list" ->ₛ"next") # Ptr |-> pv_low_level_spec).
       cancel (sll pv_low_level_spec l1_low_level_spec).
-      entailer!.
+      cancel.
     - dump_pre_spatial. exact PreH1.
   + dump_pre_spatial. exact PreH1.
   + dump_pre_spatial.
@@ -219,17 +219,17 @@ Qed.
 
 Lemma proof_of_split_rec_partial_solve_wit_1_pure_manual : split_rec_partial_solve_wit_1_pure.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
 Qed.
 
 Lemma proof_of_merge_sort_partial_solve_wit_1_pure : merge_sort_partial_solve_wit_1_pure.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
 Qed.
 
 Lemma proof_of_merge_sort_entail_wit_3 : merge_sort_entail_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst p. subst q.
   simpl sll.
   repeat (split_pure_spatial || split_pures).
@@ -247,7 +247,7 @@ Qed.
 
 Lemma proof_of_merge_sort_entail_wit_4 : merge_sort_entail_wit_4.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   sep_apply_l_atomic (sll_not_zero qv' s2).
   - dump_pre_spatial. exact PreH1.
   - Intros q_next. Intros h. Intros t.
@@ -270,7 +270,7 @@ Qed.
 
 Lemma proof_of_merge_sort_entail_wit_5 : merge_sort_entail_wit_5.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists l2_2. Exists l0.
   repeat (split_pure_spatial || split_pures).
   + cancel (sll retval l0).
@@ -284,7 +284,7 @@ Qed.
 
 Lemma proof_of_merge_sort_entail_wit_6 : merge_sort_entail_wit_6.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists l1_2. Exists l0.
   repeat (split_pure_spatial || split_pures).
   + cancel (sll retval l0).
@@ -298,7 +298,7 @@ Qed.
 
 Lemma proof_of_merge_sort_return_wit_2 : merge_sort_return_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   sep_apply_l_atomic (sll_zero qv' s2).
   * dump_pre_spatial. rewrite PreH1. reflexivity.
   * Intros_p Hs2nil.
@@ -314,12 +314,12 @@ Qed.
 
 Lemma proof_of_merge_sort_partial_solve_wit_3_pure_manual : merge_sort_partial_solve_wit_3_pure.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
 Qed.
 
 Lemma proof_of_merge_sort3_entail_wit_3 : merge_sort3_entail_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst p. subst q.
   simpl sll.
   repeat (split_pure_spatial || split_pures).
@@ -346,7 +346,7 @@ Qed.
 
 Lemma proof_of_merge_sort3_entail_wit_4 : merge_sort3_entail_wit_4.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists s1. Exists s2.
   repeat (split_pure_spatial || split_pures).
   + cancel (sll pv' s1).
@@ -361,7 +361,7 @@ Qed.
 
 Lemma proof_of_merge_sort3_entail_wit_5 : merge_sort3_entail_wit_5.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists l2_2. Exists l0.
   repeat (split_pure_spatial || split_pures).
   + cancel (sll retval l0).
@@ -373,7 +373,7 @@ Qed.
 
 Lemma proof_of_merge_sort3_entail_wit_6 : merge_sort3_entail_wit_6.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists l1_2. Exists l0.
   repeat (split_pure_spatial || split_pures).
   + cancel (sll retval l0).
@@ -385,12 +385,12 @@ Qed.
 
 Lemma proof_of_merge_sort3_partial_solve_wit_3_pure : merge_sort3_partial_solve_wit_3_pure.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
 Qed.
 
 Lemma proof_of_merge_sort3_return_wit_2 : merge_sort3_return_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists l0_2.
   repeat (split_pure_spatial || split_pures).
   + cancel (sll retval l0_2).
@@ -409,7 +409,7 @@ Qed.
 
 Lemma proof_of_merge_sort3_derive_low_level_spec_aux_by_low_level_spec : merge_sort3_derive_low_level_spec_aux_by_low_level_spec.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   apply safeExec_bind in H0 as (X_low_level_spec & Hsafe_first & Hsafe_cont).
   Exists l_low_level_spec_aux.
   Exists X_low_level_spec.
@@ -430,7 +430,7 @@ Qed.
 
 Lemma proof_of_merge_sort3_derive_high_level_spec_by_low_level_spec : merge_sort3_derive_high_level_spec_by_low_level_spec.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists l_high_level_spec.
   Exists (fun l0 _ => Permutation l_high_level_spec l0 /\ incr l0).
   split_pure_spatial.
@@ -460,7 +460,7 @@ Qed.
 
 Lemma proof_of_merge_sort2_derive_low_level_spec_aux_by_low_level_spec : merge_sort2_derive_low_level_spec_aux_by_low_level_spec.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   apply safeExec_bind in H as (X_low_level_spec & Hsafe_first & Hsafe_cont).
   Exists l_low_level_spec_aux.
   Exists X_low_level_spec.
@@ -479,7 +479,7 @@ Qed.
 
 Lemma proof_of_merge_sort2_derive_high_level_spec_by_low_level_spec : merge_sort2_derive_high_level_spec_by_low_level_spec.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists l_high_level_spec.
   Exists (fun l0 _ => Permutation l_high_level_spec l0 /\ incr l0).
   split_pure_spatial.
@@ -507,7 +507,7 @@ Qed.
 
 Lemma proof_of_merge_sort_derive_low_level_spec_aux_by_low_level_spec : merge_sort_derive_low_level_spec_aux_by_low_level_spec.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   apply safeExec_bind in H as (X_low_level_spec & Hsafe_first & Hsafe_cont).
   Exists l_low_level_spec_aux.
   Exists X_low_level_spec.
@@ -526,7 +526,7 @@ Qed.
 
 Lemma proof_of_merge_sort_derive_high_level_spec_by_low_level_spec : merge_sort_derive_high_level_spec_by_low_level_spec.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists l_high_level_spec.
   Exists (fun l0 _ => Permutation l_high_level_spec l0 /\ incr l0).
   split_pure_spatial.
@@ -554,7 +554,7 @@ Qed.
 
 Lemma proof_of_split_rec_derive_low_level_spec_aux_by_low_level_spec : split_rec_derive_low_level_spec_aux_by_low_level_spec.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   apply safeExec_bind in H as (X_low_level_spec & Hsafe_first & Hsafe_cont).
   Exists l_low_level_spec_aux. Exists l1_low_level_spec_aux. Exists l2_low_level_spec_aux.
   Exists X_low_level_spec.
@@ -582,7 +582,7 @@ Qed.
 
 Lemma proof_of_split_rec_derive_high_level_spec_by_low_level_spec : split_rec_derive_high_level_spec_by_low_level_spec.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists l_high_level_spec. Exists (@nil Z). Exists (@nil Z).
   Exists X_high_level_spec.
   Exists pv_high_level_spec. Exists qv_high_level_spec.

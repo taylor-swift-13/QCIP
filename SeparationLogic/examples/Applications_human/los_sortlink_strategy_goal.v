@@ -146,9 +146,9 @@ Definition los_sortlink_strategy20 :=
 Definition los_sortlink_strategy21 :=
   forall (rt : Z) (h : Z) (px : Z),
     TT &&
-    (“ (&( ((rt)) # "SortLinkList" ->ₛ "sortLinkNode") = h) ”) &&
+    (“ (&( ((rt)) # "anonymous struct 1" ->ₛ "sortLinkNode") = h) ”) &&
     emp **
-    ((poly_store FET_ptr &( ((&( ((rt)) # "SortLinkList" ->ₛ "sortLinkNode"))) # "LOS_DL_LIST" ->ₛ "pstNext") px))
+    ((poly_store FET_ptr &( ((&( ((rt)) # "anonymous struct 1" ->ₛ "sortLinkNode"))) # "LOS_DL_LIST" ->ₛ "pstNext") px))
     |--
     (
     TT &&
@@ -178,11 +178,11 @@ Definition los_sortlink_strategy22 :=
     ((poly_store FET_ptr la re))
     ) ** (
     TT &&
-    (“ (h = &( ((re)) # "SortLinkList" ->ₛ "sortLinkNode")) ”) &&
+    (“ (h = &( ((re)) # "anonymous struct 1" ->ₛ "sortLinkNode")) ”) &&
     emp -*
     TT &&
     emp **
-    ((dllseg_shift_rev (@storesortedLinkNode A storeA) &( ((re)) # "SortLinkList" ->ₛ "sortLinkNode") &( ((sp)) # "SortLinkAttribute" ->ₛ "sortLink") l))
+    ((dllseg_shift_rev (@storesortedLinkNode A storeA) &( ((re)) # "anonymous struct 1" ->ₛ "sortLinkNode") &( ((sp)) # "SortLinkAttribute" ->ₛ "sortLink") l))
     ).
 
 Definition los_sortlink_strategy17 :=

@@ -18,23 +18,15 @@ Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.longest_increasing_subsequence.longest_increasing_subsequence_lib.
 Local Open Scope sac.
-From SimpleC.EE.QCP_demos_LLM Require Import int_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import int_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import uint_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import uint_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import undef_uint_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import undef_uint_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import array_shape_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import array_shape_strategy_proof.
 
 (*----- Function lengthOfLIS -----*)
 
 Definition lengthOfLIS_safety_wit_1 := 
 forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (PreH1 : (1 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) ,
   ((( &( "ans" ) )) # Int  |->_)
-  **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
-  **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
+  **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
+  **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
   **  (IntArray.full nums_pre numsSize_pre l )
   **  (IntArray.undef_full dp_pre numsSize_pre )
 |--
@@ -46,9 +38,9 @@ Definition lengthOfLIS_safety_wit_2 :=
 forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (PreH1 : (1 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) ,
   ((( &( "i" ) )) # Int  |->_)
   **  ((( &( "ans" ) )) # Int  |-> 1)
-  **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
-  **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
+  **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
+  **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
   **  (IntArray.full nums_pre numsSize_pre l )
   **  (IntArray.undef_full dp_pre numsSize_pre )
 |--
@@ -57,10 +49,10 @@ forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (PreH1 : (1 <=
 .
 
 Definition lengthOfLIS_safety_wit_3 := 
-forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (ans: Z) (d: (@list Z)) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : ((Zlength (d)) = i)) (PreH8 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i)))) (PreH9 : (LISOuterState l d i ans )) ,
+forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d: (@list Z)) (ans: Z) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (1 <= ans)) (PreH8 : (ans <= numsSize_pre)) (PreH9 : (LISDPTablePrefix l d i )) (PreH10 : (LISBestSoFar l i ans )) ,
   ((( &( "nums" ) )) # Ptr  |-> nums_pre)
-  **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
+  **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
   **  ((( &( "i" ) )) # Int  |-> i)
   **  ((( &( "ans" ) )) # Int  |-> ans)
   **  (IntArray.full nums_pre numsSize_pre l )
@@ -72,16 +64,16 @@ forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (ans: Z) (d: (
 .
 
 Definition lengthOfLIS_safety_wit_4 := 
-forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d: (@list Z)) (i: Z) (ans: Z) (PreH1 : (1 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : (0 <= i)) (PreH5 : (i < numsSize_pre)) (PreH6 : ((Zlength (d)) = i)) (PreH7 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i)))) (PreH8 : (LISOuterState l d i ans )) (PreH9 : (LISInnerBest l d i 0 1 )) ,
+forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d: (@list Z)) (ans: Z) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (1 <= ans)) (PreH8 : (ans <= numsSize_pre)) (PreH9 : (LISDPTablePrefix l d i )) (PreH10 : (LISBestSoFar l i ans )) ,
   ((( &( "j" ) )) # Int  |->_)
+  **  (IntArray.seg dp_pre 0 (i + 1 ) (app (d) ((cons (1) ((@nil Z))))) )
+  **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
-  **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
+  **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
   **  ((( &( "i" ) )) # Int  |-> i)
   **  ((( &( "ans" ) )) # Int  |-> ans)
   **  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.seg dp_pre 0 (i + 1 ) (app (d) ((cons (1) ((@nil Z))))) )
-  **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -89,78 +81,78 @@ forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d: (@list Z))
 
 Definition lengthOfLIS_safety_wit_5 := 
 (
-forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (ans: Z) (best: Z) (d: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j l 0) < (Znth i l 0))) (PreH2 : (j < i)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100000)) (PreH5 : ((Zlength (l)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= j)) (PreH9 : (j <= i)) (PreH10 : ((Zlength (d)) = i)) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i)))) (PreH12 : (1 <= best)) (PreH13 : (best <= (i + 1 ))) (PreH14 : (LISOuterState l d i ans )) (PreH15 : (LISInnerBest l d i j best )) ,
-  (IntArray.seg dp_pre 0 (i + 1 ) (app (d) ((cons (best) ((@nil Z))))) )
+forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d: (@list Z)) (ans: Z) (j: Z) (i: Z) (PreH1 : ((Znth j l 0) < (Znth i l 0))) (PreH2 : (j < i)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100000)) (PreH5 : ((Zlength (l)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= j)) (PreH9 : (j <= i)) (PreH10 : (1 <= ans)) (PreH11 : (ans <= numsSize_pre)) (PreH12 : (LISBestSoFar l i ans )) (PreH13 : (LISInnerProgress l d i j )) ,
+  (IntArray.seg dp_pre 0 (i + 1 ) d )
   **  ((( &( "candidate" ) )) # Int  |->_)
   **  (IntArray.full nums_pre numsSize_pre l )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
-  **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
+  **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
   **  ((( &( "i" ) )) # Int  |-> i)
   **  ((( &( "j" ) )) # Int  |-> j)
   **  ((( &( "ans" ) )) # Int  |-> ans)
   **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
 |--
-  “ (((Znth (j - 0 ) (app (d) ((cons (best) ((@nil Z))))) 0) + 1 ) <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= ((Znth (j - 0 ) (app (d) ((cons (best) ((@nil Z))))) 0) + 1 )) ”
+  “ (((Znth (j - 0 ) d 0) + 1 ) <= INT_MAX) ” 
+  &&  “ ((INT_MIN) <= ((Znth (j - 0 ) d 0) + 1 )) ”
 ) \/
 (
-forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (ans: Z) (best: Z) (d: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j l 0) < (Znth i l 0))) (PreH2 : (j < i)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100000)) (PreH5 : ((Zlength (l)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= j)) (PreH9 : (j <= i)) (PreH10 : ((Zlength (d)) = i)) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i)))) (PreH12 : (1 <= best)) (PreH13 : (best <= (i + 1 ))) (PreH14 : (LISOuterState l d i ans )) (PreH15 : (LISInnerBest l d i j best )) ,
-  (IntArray.seg dp_pre 0 (i + 1 ) (app (d) ((cons (best) ((@nil Z))))) )
+forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d: (@list Z)) (ans: Z) (j: Z) (i: Z) (PreH1 : ((Znth j l 0) < (Znth i l 0))) (PreH2 : (j < i)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100000)) (PreH5 : ((Zlength (l)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= j)) (PreH9 : (j <= i)) (PreH10 : (1 <= ans)) (PreH11 : (ans <= numsSize_pre)) (PreH12 : (LISBestSoFar l i ans )) (PreH13 : (LISInnerProgress l d i j )) ,
+  (IntArray.seg dp_pre 0 (i + 1 ) d )
   **  ((( &( "candidate" ) )) # Int  |->_)
   **  (IntArray.full nums_pre numsSize_pre l )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
-  **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
+  **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
   **  ((( &( "i" ) )) # Int  |-> i)
   **  ((( &( "j" ) )) # Int  |-> j)
   **  ((( &( "ans" ) )) # Int  |-> ans)
   **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
 |--
-  “ (((Znth (j - 0 ) (app (d) ((cons (best) ((@nil Z))))) 0) + 1 ) <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= ((Znth (j - 0 ) (app (d) ((cons (best) ((@nil Z))))) 0) + 1 )) ”
+  “ (((Znth (j - 0 ) d 0) + 1 ) <= INT_MAX) ” 
+  &&  “ ((INT_MIN) <= ((Znth (j - 0 ) d 0) + 1 )) ”
 ).
 
 Definition lengthOfLIS_safety_wit_5_split_goal_1 := 
-forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (ans: Z) (best: Z) (d: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j l 0) < (Znth i l 0))) (PreH2 : (j < i)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100000)) (PreH5 : ((Zlength (l)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= j)) (PreH9 : (j <= i)) (PreH10 : ((Zlength (d)) = i)) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i)))) (PreH12 : (1 <= best)) (PreH13 : (best <= (i + 1 ))) (PreH14 : (LISOuterState l d i ans )) (PreH15 : (LISInnerBest l d i j best )) ,
-  (IntArray.seg dp_pre 0 (i + 1 ) (app (d) ((cons (best) ((@nil Z))))) )
+forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d: (@list Z)) (ans: Z) (j: Z) (i: Z) (PreH1 : ((Znth j l 0) < (Znth i l 0))) (PreH2 : (j < i)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100000)) (PreH5 : ((Zlength (l)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= j)) (PreH9 : (j <= i)) (PreH10 : (1 <= ans)) (PreH11 : (ans <= numsSize_pre)) (PreH12 : (LISBestSoFar l i ans )) (PreH13 : (LISInnerProgress l d i j )) ,
+  (IntArray.seg dp_pre 0 (i + 1 ) d )
   **  ((( &( "candidate" ) )) # Int  |->_)
   **  (IntArray.full nums_pre numsSize_pre l )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
-  **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
+  **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
   **  ((( &( "i" ) )) # Int  |-> i)
   **  ((( &( "j" ) )) # Int  |-> j)
   **  ((( &( "ans" ) )) # Int  |-> ans)
   **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
 |--
-  “ (((Znth (j - 0 ) (app (d) ((cons (best) ((@nil Z))))) 0) + 1 ) <= INT_MAX) ”
+  “ (((Znth (j - 0 ) d 0) + 1 ) <= INT_MAX) ”
 .
 
 Definition lengthOfLIS_safety_wit_5_split_goal_2 := 
-forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (ans: Z) (best: Z) (d: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j l 0) < (Znth i l 0))) (PreH2 : (j < i)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100000)) (PreH5 : ((Zlength (l)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= j)) (PreH9 : (j <= i)) (PreH10 : ((Zlength (d)) = i)) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i)))) (PreH12 : (1 <= best)) (PreH13 : (best <= (i + 1 ))) (PreH14 : (LISOuterState l d i ans )) (PreH15 : (LISInnerBest l d i j best )) ,
-  (IntArray.seg dp_pre 0 (i + 1 ) (app (d) ((cons (best) ((@nil Z))))) )
+forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d: (@list Z)) (ans: Z) (j: Z) (i: Z) (PreH1 : ((Znth j l 0) < (Znth i l 0))) (PreH2 : (j < i)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100000)) (PreH5 : ((Zlength (l)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= j)) (PreH9 : (j <= i)) (PreH10 : (1 <= ans)) (PreH11 : (ans <= numsSize_pre)) (PreH12 : (LISBestSoFar l i ans )) (PreH13 : (LISInnerProgress l d i j )) ,
+  (IntArray.seg dp_pre 0 (i + 1 ) d )
   **  ((( &( "candidate" ) )) # Int  |->_)
   **  (IntArray.full nums_pre numsSize_pre l )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
-  **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
+  **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
   **  ((( &( "i" ) )) # Int  |-> i)
   **  ((( &( "j" ) )) # Int  |-> j)
   **  ((( &( "ans" ) )) # Int  |-> ans)
   **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
 |--
-  “ ((INT_MIN) <= ((Znth (j - 0 ) (app (d) ((cons (best) ((@nil Z))))) 0) + 1 )) ”
+  “ ((INT_MIN) <= ((Znth (j - 0 ) d 0) + 1 )) ”
 .
 
 Definition lengthOfLIS_safety_wit_6 := 
-forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (ans: Z) (best: Z) (d: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j l 0) < (Znth i l 0))) (PreH2 : (j < i)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100000)) (PreH5 : ((Zlength (l)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= j)) (PreH9 : (j <= i)) (PreH10 : ((Zlength (d)) = i)) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i)))) (PreH12 : (1 <= best)) (PreH13 : (best <= (i + 1 ))) (PreH14 : (LISOuterState l d i ans )) (PreH15 : (LISInnerBest l d i j best )) ,
-  (IntArray.seg dp_pre 0 (i + 1 ) (app (d) ((cons (best) ((@nil Z))))) )
+forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d: (@list Z)) (ans: Z) (j: Z) (i: Z) (PreH1 : ((Znth j l 0) < (Znth i l 0))) (PreH2 : (j < i)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100000)) (PreH5 : ((Zlength (l)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= j)) (PreH9 : (j <= i)) (PreH10 : (1 <= ans)) (PreH11 : (ans <= numsSize_pre)) (PreH12 : (LISBestSoFar l i ans )) (PreH13 : (LISInnerProgress l d i j )) ,
+  (IntArray.seg dp_pre 0 (i + 1 ) d )
   **  ((( &( "candidate" ) )) # Int  |->_)
   **  (IntArray.full nums_pre numsSize_pre l )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
-  **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
+  **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
   **  ((( &( "i" ) )) # Int  |-> i)
   **  ((( &( "j" ) )) # Int  |-> j)
   **  ((( &( "ans" ) )) # Int  |-> ans)
@@ -171,15 +163,15 @@ forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (ans: Z) (best
 .
 
 Definition lengthOfLIS_safety_wit_7 := 
-forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d: (@list Z)) (best: Z) (i: Z) (j: Z) (ans: Z) (PreH1 : (1 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : (0 <= i)) (PreH5 : (i < numsSize_pre)) (PreH6 : (0 <= j)) (PreH7 : (j < i)) (PreH8 : ((Zlength (d)) = i)) (PreH9 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i)))) (PreH10 : (1 <= best)) (PreH11 : (best <= (i + 1 ))) (PreH12 : (LISOuterState l d i ans )) (PreH13 : (LISInnerBest l d i (j + 1 ) best )) ,
-  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
-  **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
+forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d: (@list Z)) (ans: Z) (j: Z) (i: Z) (PreH1 : (((Znth (j - 0 ) d 0) + 1 ) > (Znth (i - 0 ) d 0))) (PreH2 : ((Znth j l 0) < (Znth i l 0))) (PreH3 : (j < i)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100000)) (PreH6 : ((Zlength (l)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (0 <= j)) (PreH10 : (j <= i)) (PreH11 : (1 <= ans)) (PreH12 : (ans <= numsSize_pre)) (PreH13 : (LISBestSoFar l i ans )) (PreH14 : (LISInnerProgress l d i j )) ,
+  (IntArray.full dp_pre (i + 1 ) (replace_Znth (i) (((Znth (j - 0 ) d 0) + 1 )) (d)) )
+  **  (IntArray.full nums_pre numsSize_pre l )
+  **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
+  **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
   **  ((( &( "i" ) )) # Int  |-> i)
   **  ((( &( "j" ) )) # Int  |-> j)
   **  ((( &( "ans" ) )) # Int  |-> ans)
-  **  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.seg dp_pre 0 (i + 1 ) (app (d) ((cons (best) ((@nil Z))))) )
   **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
 |--
   “ ((j + 1 ) <= INT_MAX) ” 
@@ -187,14 +179,46 @@ forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d: (@list Z))
 .
 
 Definition lengthOfLIS_safety_wit_8 := 
-forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d: (@list Z)) (best: Z) (i: Z) (ans: Z) (PreH1 : (1 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : (0 <= i)) (PreH5 : (i < numsSize_pre)) (PreH6 : ((Zlength (d)) = i)) (PreH7 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i)))) (PreH8 : (1 <= best)) (PreH9 : (best <= (i + 1 ))) (PreH10 : (LISOuterState l (app (d) ((cons (best) ((@nil Z))))) (i + 1 ) ans )) ,
-  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
-  **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
+forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d: (@list Z)) (ans: Z) (j: Z) (i: Z) (PreH1 : (((Znth (j - 0 ) d 0) + 1 ) <= (Znth (i - 0 ) d 0))) (PreH2 : ((Znth j l 0) < (Znth i l 0))) (PreH3 : (j < i)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100000)) (PreH6 : ((Zlength (l)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (0 <= j)) (PreH10 : (j <= i)) (PreH11 : (1 <= ans)) (PreH12 : (ans <= numsSize_pre)) (PreH13 : (LISBestSoFar l i ans )) (PreH14 : (LISInnerProgress l d i j )) ,
+  (IntArray.seg dp_pre 0 (i + 1 ) d )
+  **  (IntArray.full nums_pre numsSize_pre l )
+  **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
+  **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
+  **  ((( &( "i" ) )) # Int  |-> i)
+  **  ((( &( "j" ) )) # Int  |-> j)
+  **  ((( &( "ans" ) )) # Int  |-> ans)
+  **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
+|--
+  “ ((j + 1 ) <= INT_MAX) ” 
+  &&  “ ((INT_MIN) <= (j + 1 )) ”
+.
+
+Definition lengthOfLIS_safety_wit_9 := 
+forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d: (@list Z)) (ans: Z) (j: Z) (i: Z) (PreH1 : ((Znth j l 0) >= (Znth i l 0))) (PreH2 : (j < i)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100000)) (PreH5 : ((Zlength (l)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= j)) (PreH9 : (j <= i)) (PreH10 : (1 <= ans)) (PreH11 : (ans <= numsSize_pre)) (PreH12 : (LISBestSoFar l i ans )) (PreH13 : (LISInnerProgress l d i j )) ,
+  (IntArray.full nums_pre numsSize_pre l )
+  **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
+  **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
+  **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
+  **  ((( &( "i" ) )) # Int  |-> i)
+  **  ((( &( "j" ) )) # Int  |-> j)
+  **  ((( &( "ans" ) )) # Int  |-> ans)
+  **  (IntArray.seg dp_pre 0 (i + 1 ) d )
+  **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
+|--
+  “ ((j + 1 ) <= INT_MAX) ” 
+  &&  “ ((INT_MIN) <= (j + 1 )) ”
+.
+
+Definition lengthOfLIS_safety_wit_10 := 
+forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d: (@list Z)) (i: Z) (ans: Z) (PreH1 : (1 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : (0 <= i)) (PreH5 : (i < numsSize_pre)) (PreH6 : (1 <= ans)) (PreH7 : (ans <= numsSize_pre)) (PreH8 : (LISBestSoFar l (i + 1 ) ans )) (PreH9 : (LISDPTablePrefix l d (i + 1 ) )) ,
+  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
+  **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
+  **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
   **  ((( &( "i" ) )) # Int  |-> i)
   **  ((( &( "ans" ) )) # Int  |-> ans)
   **  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.seg dp_pre 0 (i + 1 ) (app (d) ((cons (best) ((@nil Z))))) )
+  **  (IntArray.seg dp_pre 0 (i + 1 ) d )
   **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
 |--
   “ ((i + 1 ) <= INT_MAX) ” 
@@ -213,9 +237,10 @@ forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (PreH1 : (1 <=
   &&  “ ((Zlength (l)) = numsSize_pre) ” 
   &&  “ (0 <= 0) ” 
   &&  “ (0 <= numsSize_pre) ” 
-  &&  “ ((Zlength (d)) = 0) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < 0)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= 0))) ” 
-  &&  “ (LISOuterState l d 0 1 ) ”
+  &&  “ (1 <= 1) ” 
+  &&  “ (1 <= numsSize_pre) ” 
+  &&  “ (LISDPTablePrefix l d 0 ) ” 
+  &&  “ (LISBestSoFar l 0 1 ) ”
   &&  (IntArray.full nums_pre numsSize_pre l )
   **  (IntArray.seg dp_pre 0 0 d )
   **  (IntArray.undef_seg dp_pre 0 numsSize_pre )
@@ -224,28 +249,24 @@ forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (PreH1 : (1 <=
 forall (numsSize_pre: Z) (l: (@list Z)) (PreH1 : (1 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) ,
   TT && emp 
 |--
-  “ (LISOuterState l (@nil Z) 0 1 ) ” 
-  &&  “ ((Zlength ((@nil Z))) = 0) ”
+  “ (LISBestSoFar l 0 1 ) ” 
+  &&  “ (LISDPTablePrefix l (@nil Z) 0 ) ”
   &&  emp
 ).
 
 Definition lengthOfLIS_entail_wit_1_split_goal_1 := 
 forall (numsSize_pre: Z) (l: (@list Z)) (PreH1 : (1 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) ,
-  TT && emp 
-|--
-  “ (LISOuterState l (@nil Z) 0 1 ) ”
+  (LISBestSoFar l 0 1 )
 .
 
 Definition lengthOfLIS_entail_wit_1_split_goal_2 := 
 forall (numsSize_pre: Z) (l: (@list Z)) (PreH1 : (1 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) ,
-  TT && emp 
-|--
-  “ ((Zlength ((@nil Z))) = 0) ”
+  (LISDPTablePrefix l (@nil Z) 0 )
 .
 
 Definition lengthOfLIS_entail_wit_2 := 
 (
-forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (ans: Z) (d_2: (@list Z)) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : ((Zlength (d_2)) = i)) (PreH8 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < i)) -> ((1 <= (Znth k_2 d_2 0)) /\ ((Znth k_2 d_2 0) <= i)))) (PreH9 : (LISOuterState l d_2 i ans )) ,
+forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (ans: Z) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (1 <= ans)) (PreH8 : (ans <= numsSize_pre)) (PreH9 : (LISDPTablePrefix l d_2 i )) (PreH10 : (LISBestSoFar l i ans )) ,
   (IntArray.seg dp_pre 0 (i + 1 ) (app (d_2) ((cons (1) ((@nil Z))))) )
   **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
   **  (IntArray.full nums_pre numsSize_pre l )
@@ -256,281 +277,37 @@ forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (ans: Z) (d_2:
   &&  “ ((Zlength (l)) = numsSize_pre) ” 
   &&  “ (0 <= i) ” 
   &&  “ (i < numsSize_pre) ” 
-  &&  “ ((Zlength (d)) = i) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i))) ” 
-  &&  “ (LISOuterState l d i ans ) ” 
-  &&  “ (LISInnerBest l d i 0 1 ) ”
+  &&  “ (0 <= 0) ” 
+  &&  “ (0 <= i) ” 
+  &&  “ (1 <= ans) ” 
+  &&  “ (ans <= numsSize_pre) ” 
+  &&  “ (LISBestSoFar l i ans ) ” 
+  &&  “ (LISInnerProgress l d i 0 ) ”
   &&  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.seg dp_pre 0 (i + 1 ) (app (d) ((cons (1) ((@nil Z))))) )
+  **  (IntArray.seg dp_pre 0 (i + 1 ) d )
   **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
 ) \/
 (
-forall (numsSize_pre: Z) (l: (@list Z)) (ans: Z) (d_2: (@list Z)) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : ((Zlength (d_2)) = i)) (PreH8 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < i)) -> ((1 <= (Znth k_2 d_2 0)) /\ ((Znth k_2 d_2 0) <= i)))) (PreH9 : (LISOuterState l d_2 i ans )) ,
+forall (numsSize_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (ans: Z) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (1 <= ans)) (PreH8 : (ans <= numsSize_pre)) (PreH9 : (LISDPTablePrefix l d_2 i )) (PreH10 : (LISBestSoFar l i ans )) ,
   TT && emp 
+|--
+  “ (LISInnerProgress l (app (d_2) ((cons (1) ((@nil Z))))) i 0 ) ”
+  &&  emp
+).
+
+Definition lengthOfLIS_entail_wit_2_split_goal_1 := 
+forall (numsSize_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (ans: Z) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (1 <= ans)) (PreH8 : (ans <= numsSize_pre)) (PreH9 : (LISDPTablePrefix l d_2 i )) (PreH10 : (LISBestSoFar l i ans )) ,
+  (LISInnerProgress l (app (d_2) ((cons (1) ((@nil Z))))) i 0 )
+.
+
+Definition lengthOfLIS_entail_wit_3_1 := 
+(
+forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (ans: Z) (j: Z) (i: Z) (PreH1 : (((Znth (j - 0 ) d_2 0) + 1 ) > (Znth (i - 0 ) d_2 0))) (PreH2 : ((Znth j l 0) < (Znth i l 0))) (PreH3 : (j < i)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100000)) (PreH6 : ((Zlength (l)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (0 <= j)) (PreH10 : (j <= i)) (PreH11 : (1 <= ans)) (PreH12 : (ans <= numsSize_pre)) (PreH13 : (LISBestSoFar l i ans )) (PreH14 : (LISInnerProgress l d_2 i j )) ,
+  (IntArray.full dp_pre (i + 1 ) (replace_Znth (i) (((Znth (j - 0 ) d_2 0) + 1 )) (d_2)) )
+  **  (IntArray.full nums_pre numsSize_pre l )
+  **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
 |--
   EX (d: (@list Z)) ,
-  “ ((app (d_2) ((cons (1) ((@nil Z))))) = (app (d) ((cons (1) ((@nil Z)))))) ” 
-  &&  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100000) ” 
-  &&  “ ((Zlength (l)) = numsSize_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < numsSize_pre) ” 
-  &&  “ ((Zlength (d)) = i) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i))) ” 
-  &&  “ (LISOuterState l d i ans ) ” 
-  &&  “ (LISInnerBest l d i 0 1 ) ”
-  &&  emp
-).
-
-Definition lengthOfLIS_entail_wit_3 := 
-(
-forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (i: Z) (ans: Z) (PreH1 : (1 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : (0 <= i)) (PreH5 : (i < numsSize_pre)) (PreH6 : ((Zlength (d_2)) = i)) (PreH7 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < i)) -> ((1 <= (Znth k_2 d_2 0)) /\ ((Znth k_2 d_2 0) <= i)))) (PreH8 : (LISOuterState l d_2 i ans )) (PreH9 : (LISInnerBest l d_2 i 0 1 )) ,
-  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.seg dp_pre 0 (i + 1 ) (app (d_2) ((cons (1) ((@nil Z))))) )
-  **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
-|--
-  EX (best: Z)  (d: (@list Z)) ,
-  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100000) ” 
-  &&  “ ((Zlength (l)) = numsSize_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < numsSize_pre) ” 
-  &&  “ (0 <= 0) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ ((Zlength (d)) = i) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i))) ” 
-  &&  “ (1 <= best) ” 
-  &&  “ (best <= (i + 1 )) ” 
-  &&  “ (LISOuterState l d i ans ) ” 
-  &&  “ (LISInnerBest l d i 0 best ) ”
-  &&  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.seg dp_pre 0 (i + 1 ) (app (d) ((cons (best) ((@nil Z))))) )
-  **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
-) \/
-(
-forall (numsSize_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (i: Z) (ans: Z) (PreH1 : (1 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : (0 <= i)) (PreH5 : (i < numsSize_pre)) (PreH6 : ((Zlength (d_2)) = i)) (PreH7 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < i)) -> ((1 <= (Znth k_2 d_2 0)) /\ ((Znth k_2 d_2 0) <= i)))) (PreH8 : (LISOuterState l d_2 i ans )) (PreH9 : (LISInnerBest l d_2 i 0 1 )) ,
-  TT && emp 
-|--
-  EX (best: Z)  (d: (@list Z)) ,
-  “ ((app (d_2) ((cons (1) ((@nil Z))))) = (app (d) ((cons (best) ((@nil Z)))))) ” 
-  &&  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100000) ” 
-  &&  “ ((Zlength (l)) = numsSize_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < numsSize_pre) ” 
-  &&  “ (0 <= 0) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ ((Zlength (d)) = i) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i))) ” 
-  &&  “ (1 <= best) ” 
-  &&  “ (best <= (i + 1 )) ” 
-  &&  “ (LISOuterState l d i ans ) ” 
-  &&  “ (LISInnerBest l d i 0 best ) ”
-  &&  emp
-).
-
-Definition lengthOfLIS_entail_wit_4 := 
-(
-forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (ans: Z) (best: Z) (d: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j l 0) < (Znth i l 0))) (PreH2 : (j < i)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100000)) (PreH5 : ((Zlength (l)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= j)) (PreH9 : (j <= i)) (PreH10 : ((Zlength (d)) = i)) (PreH11 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < i)) -> ((1 <= (Znth k_2 d 0)) /\ ((Znth k_2 d 0) <= i)))) (PreH12 : (1 <= best)) (PreH13 : (best <= (i + 1 ))) (PreH14 : (LISOuterState l d i ans )) (PreH15 : (LISInnerBest l d i j best )) ,
-  (IntArray.seg dp_pre 0 (i + 1 ) (app (d) ((cons (best) ((@nil Z))))) )
-  **  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
-|--
-  EX (best_2: Z)  (d_2: (@list Z)) ,
-  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100000) ” 
-  &&  “ ((Zlength (l)) = numsSize_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < numsSize_pre) ” 
-  &&  “ (0 <= j) ” 
-  &&  “ (j < i) ” 
-  &&  “ ((Zlength (d_2)) = i) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d_2 0)) /\ ((Znth k d_2 0) <= i))) ” 
-  &&  “ (1 <= best_2) ” 
-  &&  “ (best_2 <= (i + 1 )) ” 
-  &&  “ (((Znth (j - 0 ) (app (d) ((cons (best) ((@nil Z))))) 0) + 1 ) = ((Znth j d_2 0) + 1 )) ” 
-  &&  “ (2 <= ((Znth (j - 0 ) (app (d) ((cons (best) ((@nil Z))))) 0) + 1 )) ” 
-  &&  “ (((Znth (j - 0 ) (app (d) ((cons (best) ((@nil Z))))) 0) + 1 ) <= (i + 1 )) ” 
-  &&  “ ((Znth j l 0) < (Znth i l 0)) ” 
-  &&  “ (LISOuterState l d_2 i ans ) ” 
-  &&  “ (LISInnerBest l d_2 i j best_2 ) ”
-  &&  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.seg dp_pre 0 (i + 1 ) (app (d_2) ((cons (best_2) ((@nil Z))))) )
-  **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
-) \/
-(
-forall (numsSize_pre: Z) (l: (@list Z)) (ans: Z) (best: Z) (d: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j l 0) < (Znth i l 0))) (PreH2 : (j < i)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100000)) (PreH5 : ((Zlength (l)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= j)) (PreH9 : (j <= i)) (PreH10 : ((Zlength (d)) = i)) (PreH11 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < i)) -> ((1 <= (Znth k_2 d 0)) /\ ((Znth k_2 d 0) <= i)))) (PreH12 : (1 <= best)) (PreH13 : (best <= (i + 1 ))) (PreH14 : (LISOuterState l d i ans )) (PreH15 : (LISInnerBest l d i j best )) ,
-  TT && emp 
-|--
-  EX (best_2: Z)  (d_2: (@list Z)) ,
-  “ ((app (d) ((cons (best) ((@nil Z))))) = (app (d_2) ((cons (best_2) ((@nil Z)))))) ” 
-  &&  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100000) ” 
-  &&  “ ((Zlength (l)) = numsSize_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < numsSize_pre) ” 
-  &&  “ (0 <= j) ” 
-  &&  “ (j < i) ” 
-  &&  “ ((Zlength (d_2)) = i) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d_2 0)) /\ ((Znth k d_2 0) <= i))) ” 
-  &&  “ (1 <= best_2) ” 
-  &&  “ (best_2 <= (i + 1 )) ” 
-  &&  “ (((Znth (j - 0 ) (app (d) ((cons (best) ((@nil Z))))) 0) + 1 ) = ((Znth j d_2 0) + 1 )) ” 
-  &&  “ (2 <= ((Znth (j - 0 ) (app (d) ((cons (best) ((@nil Z))))) 0) + 1 )) ” 
-  &&  “ (((Znth (j - 0 ) (app (d) ((cons (best) ((@nil Z))))) 0) + 1 ) <= (i + 1 )) ” 
-  &&  “ ((Znth j l 0) < (Znth i l 0)) ” 
-  &&  “ (LISOuterState l d_2 i ans ) ” 
-  &&  “ (LISInnerBest l d_2 i j best_2 ) ”
-  &&  emp
-).
-
-Definition lengthOfLIS_entail_wit_5_1 := 
-(
-forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (ans: Z) (best_2: Z) (d_2: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j l 0) >= (Znth i l 0))) (PreH2 : (j < i)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100000)) (PreH5 : ((Zlength (l)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= j)) (PreH9 : (j <= i)) (PreH10 : ((Zlength (d_2)) = i)) (PreH11 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < i)) -> ((1 <= (Znth k_2 d_2 0)) /\ ((Znth k_2 d_2 0) <= i)))) (PreH12 : (1 <= best_2)) (PreH13 : (best_2 <= (i + 1 ))) (PreH14 : (LISOuterState l d_2 i ans )) (PreH15 : (LISInnerBest l d_2 i j best_2 )) ,
-  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.seg dp_pre 0 (i + 1 ) (app (d_2) ((cons (best_2) ((@nil Z))))) )
-  **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
-|--
-  EX (best: Z)  (d: (@list Z)) ,
-  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100000) ” 
-  &&  “ ((Zlength (l)) = numsSize_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < numsSize_pre) ” 
-  &&  “ (0 <= j) ” 
-  &&  “ (j < i) ” 
-  &&  “ ((Zlength (d)) = i) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i))) ” 
-  &&  “ (1 <= best) ” 
-  &&  “ (best <= (i + 1 )) ” 
-  &&  “ (LISOuterState l d i ans ) ” 
-  &&  “ (LISInnerBest l d i (j + 1 ) best ) ”
-  &&  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.seg dp_pre 0 (i + 1 ) (app (d) ((cons (best) ((@nil Z))))) )
-  **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
-) \/
-(
-forall (numsSize_pre: Z) (l: (@list Z)) (ans: Z) (best_2: Z) (d_2: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j l 0) >= (Znth i l 0))) (PreH2 : (j < i)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100000)) (PreH5 : ((Zlength (l)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= j)) (PreH9 : (j <= i)) (PreH10 : ((Zlength (d_2)) = i)) (PreH11 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < i)) -> ((1 <= (Znth k_2 d_2 0)) /\ ((Znth k_2 d_2 0) <= i)))) (PreH12 : (1 <= best_2)) (PreH13 : (best_2 <= (i + 1 ))) (PreH14 : (LISOuterState l d_2 i ans )) (PreH15 : (LISInnerBest l d_2 i j best_2 )) ,
-  TT && emp 
-|--
-  EX (best: Z)  (d: (@list Z)) ,
-  “ ((app (d_2) ((cons (best_2) ((@nil Z))))) = (app (d) ((cons (best) ((@nil Z)))))) ” 
-  &&  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100000) ” 
-  &&  “ ((Zlength (l)) = numsSize_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < numsSize_pre) ” 
-  &&  “ (0 <= j) ” 
-  &&  “ (j < i) ” 
-  &&  “ ((Zlength (d)) = i) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i))) ” 
-  &&  “ (1 <= best) ” 
-  &&  “ (best <= (i + 1 )) ” 
-  &&  “ (LISOuterState l d i ans ) ” 
-  &&  “ (LISInnerBest l d i (j + 1 ) best ) ”
-  &&  emp
-).
-
-Definition lengthOfLIS_entail_wit_5_2 := 
-(
-forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (best_2: Z) (i: Z) (j: Z) (candidate: Z) (ans: Z) (PreH1 : (candidate <= (Znth (i - 0 ) (app (d_2) ((cons (best_2) ((@nil Z))))) 0))) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : (0 <= j)) (PreH8 : (j < i)) (PreH9 : ((Zlength (d_2)) = i)) (PreH10 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < i)) -> ((1 <= (Znth k_2 d_2 0)) /\ ((Znth k_2 d_2 0) <= i)))) (PreH11 : (1 <= best_2)) (PreH12 : (best_2 <= (i + 1 ))) (PreH13 : (candidate = ((Znth j d_2 0) + 1 ))) (PreH14 : (2 <= candidate)) (PreH15 : (candidate <= (i + 1 ))) (PreH16 : ((Znth j l 0) < (Znth i l 0))) (PreH17 : (LISOuterState l d_2 i ans )) (PreH18 : (LISInnerBest l d_2 i j best_2 )) ,
-  (IntArray.seg dp_pre 0 (i + 1 ) (app (d_2) ((cons (best_2) ((@nil Z))))) )
-  **  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
-|--
-  EX (best: Z)  (d: (@list Z)) ,
-  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100000) ” 
-  &&  “ ((Zlength (l)) = numsSize_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < numsSize_pre) ” 
-  &&  “ (0 <= j) ” 
-  &&  “ (j < i) ” 
-  &&  “ ((Zlength (d)) = i) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i))) ” 
-  &&  “ (1 <= best) ” 
-  &&  “ (best <= (i + 1 )) ” 
-  &&  “ (LISOuterState l d i ans ) ” 
-  &&  “ (LISInnerBest l d i (j + 1 ) best ) ”
-  &&  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.seg dp_pre 0 (i + 1 ) (app (d) ((cons (best) ((@nil Z))))) )
-  **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
-) \/
-(
-forall (numsSize_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (best_2: Z) (i: Z) (j: Z) (candidate: Z) (ans: Z) (PreH1 : (candidate <= (Znth (i - 0 ) (app (d_2) ((cons (best_2) ((@nil Z))))) 0))) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : (0 <= j)) (PreH8 : (j < i)) (PreH9 : ((Zlength (d_2)) = i)) (PreH10 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < i)) -> ((1 <= (Znth k_2 d_2 0)) /\ ((Znth k_2 d_2 0) <= i)))) (PreH11 : (1 <= best_2)) (PreH12 : (best_2 <= (i + 1 ))) (PreH13 : (candidate = ((Znth j d_2 0) + 1 ))) (PreH14 : (2 <= candidate)) (PreH15 : (candidate <= (i + 1 ))) (PreH16 : ((Znth j l 0) < (Znth i l 0))) (PreH17 : (LISOuterState l d_2 i ans )) (PreH18 : (LISInnerBest l d_2 i j best_2 )) ,
-  TT && emp 
-|--
-  EX (best: Z)  (d: (@list Z)) ,
-  “ ((app (d_2) ((cons (best_2) ((@nil Z))))) = (app (d) ((cons (best) ((@nil Z)))))) ” 
-  &&  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100000) ” 
-  &&  “ ((Zlength (l)) = numsSize_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < numsSize_pre) ” 
-  &&  “ (0 <= j) ” 
-  &&  “ (j < i) ” 
-  &&  “ ((Zlength (d)) = i) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i))) ” 
-  &&  “ (1 <= best) ” 
-  &&  “ (best <= (i + 1 )) ” 
-  &&  “ (LISOuterState l d i ans ) ” 
-  &&  “ (LISInnerBest l d i (j + 1 ) best ) ”
-  &&  emp
-).
-
-Definition lengthOfLIS_entail_wit_5_3 := 
-(
-forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (best_2: Z) (i: Z) (j: Z) (candidate: Z) (ans: Z) (PreH1 : (candidate > (Znth (i - 0 ) (app (d_2) ((cons (best_2) ((@nil Z))))) 0))) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : (0 <= j)) (PreH8 : (j < i)) (PreH9 : ((Zlength (d_2)) = i)) (PreH10 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < i)) -> ((1 <= (Znth k_2 d_2 0)) /\ ((Znth k_2 d_2 0) <= i)))) (PreH11 : (1 <= best_2)) (PreH12 : (best_2 <= (i + 1 ))) (PreH13 : (candidate = ((Znth j d_2 0) + 1 ))) (PreH14 : (2 <= candidate)) (PreH15 : (candidate <= (i + 1 ))) (PreH16 : ((Znth j l 0) < (Znth i l 0))) (PreH17 : (LISOuterState l d_2 i ans )) (PreH18 : (LISInnerBest l d_2 i j best_2 )) ,
-  (IntArray.full dp_pre (i + 1 ) (replace_Znth (i) (candidate) ((app (d_2) ((cons (best_2) ((@nil Z))))))) )
-  **  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
-|--
-  EX (best: Z)  (d: (@list Z)) ,
-  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100000) ” 
-  &&  “ ((Zlength (l)) = numsSize_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < numsSize_pre) ” 
-  &&  “ (0 <= j) ” 
-  &&  “ (j < i) ” 
-  &&  “ ((Zlength (d)) = i) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i))) ” 
-  &&  “ (1 <= best) ” 
-  &&  “ (best <= (i + 1 )) ” 
-  &&  “ (LISOuterState l d i ans ) ” 
-  &&  “ (LISInnerBest l d i (j + 1 ) best ) ”
-  &&  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.seg dp_pre 0 (i + 1 ) (app (d) ((cons (best) ((@nil Z))))) )
-  **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
-) \/
-(
-forall (dp_pre: Z) (numsSize_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (best_2: Z) (i: Z) (j: Z) (candidate: Z) (ans: Z) (PreH1 : (candidate > (Znth (i - 0 ) (app (d_2) ((cons (best_2) ((@nil Z))))) 0))) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : (0 <= j)) (PreH8 : (j < i)) (PreH9 : ((Zlength (d_2)) = i)) (PreH10 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < i)) -> ((1 <= (Znth k_2 d_2 0)) /\ ((Znth k_2 d_2 0) <= i)))) (PreH11 : (1 <= best_2)) (PreH12 : (best_2 <= (i + 1 ))) (PreH13 : (candidate = ((Znth j d_2 0) + 1 ))) (PreH14 : (2 <= candidate)) (PreH15 : (candidate <= (i + 1 ))) (PreH16 : ((Znth j l 0) < (Znth i l 0))) (PreH17 : (LISOuterState l d_2 i ans )) (PreH18 : (LISInnerBest l d_2 i j best_2 )) ,
-  (IntArray.full dp_pre (i + 1 ) (replace_Znth (i) (candidate) ((app (d_2) ((cons (best_2) ((@nil Z))))))) )
-|--
-  EX (best: Z)  (d: (@list Z)) ,
-  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100000) ” 
-  &&  “ ((Zlength (l)) = numsSize_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < numsSize_pre) ” 
-  &&  “ (0 <= j) ” 
-  &&  “ (j < i) ” 
-  &&  “ ((Zlength (d)) = i) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i))) ” 
-  &&  “ (1 <= best) ” 
-  &&  “ (best <= (i + 1 )) ” 
-  &&  “ (LISOuterState l d i ans ) ” 
-  &&  “ (LISInnerBest l d i (j + 1 ) best ) ”
-  &&  (IntArray.seg dp_pre 0 (i + 1 ) (app (d) ((cons (best) ((@nil Z))))) )
-).
-
-Definition lengthOfLIS_entail_wit_6 := 
-forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (best_2: Z) (i: Z) (j: Z) (ans: Z) (PreH1 : (1 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : (0 <= i)) (PreH5 : (i < numsSize_pre)) (PreH6 : (0 <= j)) (PreH7 : (j < i)) (PreH8 : ((Zlength (d_2)) = i)) (PreH9 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < i)) -> ((1 <= (Znth k_2 d_2 0)) /\ ((Znth k_2 d_2 0) <= i)))) (PreH10 : (1 <= best_2)) (PreH11 : (best_2 <= (i + 1 ))) (PreH12 : (LISOuterState l d_2 i ans )) (PreH13 : (LISInnerBest l d_2 i (j + 1 ) best_2 )) ,
-  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.seg dp_pre 0 (i + 1 ) (app (d_2) ((cons (best_2) ((@nil Z))))) )
-  **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
-|--
-  EX (best: Z)  (d: (@list Z)) ,
   “ (1 <= numsSize_pre) ” 
   &&  “ (numsSize_pre <= 100000) ” 
   &&  “ ((Zlength (l)) = numsSize_pre) ” 
@@ -538,147 +315,217 @@ forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d_2: (@list Z
   &&  “ (i < numsSize_pre) ” 
   &&  “ (0 <= (j + 1 )) ” 
   &&  “ ((j + 1 ) <= i) ” 
-  &&  “ ((Zlength (d)) = i) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i))) ” 
-  &&  “ (1 <= best) ” 
-  &&  “ (best <= (i + 1 )) ” 
-  &&  “ (LISOuterState l d i ans ) ” 
-  &&  “ (LISInnerBest l d i (j + 1 ) best ) ”
+  &&  “ (1 <= ans) ” 
+  &&  “ (ans <= numsSize_pre) ” 
+  &&  “ (LISBestSoFar l i ans ) ” 
+  &&  “ (LISInnerProgress l d i (j + 1 ) ) ”
   &&  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.seg dp_pre 0 (i + 1 ) (app (d) ((cons (best) ((@nil Z))))) )
+  **  (IntArray.seg dp_pre 0 (i + 1 ) d )
   **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
+) \/
+(
+forall (dp_pre: Z) (numsSize_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (ans: Z) (j: Z) (i: Z) (PreH1 : (((Znth (j - 0 ) d_2 0) + 1 ) > (Znth (i - 0 ) d_2 0))) (PreH2 : ((Znth j l 0) < (Znth i l 0))) (PreH3 : (j < i)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100000)) (PreH6 : ((Zlength (l)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (0 <= j)) (PreH10 : (j <= i)) (PreH11 : (1 <= ans)) (PreH12 : (ans <= numsSize_pre)) (PreH13 : (LISBestSoFar l i ans )) (PreH14 : (LISInnerProgress l d_2 i j )) ,
+  (IntArray.full dp_pre (i + 1 ) (replace_Znth (i) (((Znth (j - 0 ) d_2 0) + 1 )) (d_2)) )
+|--
+  EX (d: (@list Z)) ,
+  “ (1 <= numsSize_pre) ” 
+  &&  “ (numsSize_pre <= 100000) ” 
+  &&  “ ((Zlength (l)) = numsSize_pre) ” 
+  &&  “ (0 <= i) ” 
+  &&  “ (i < numsSize_pre) ” 
+  &&  “ (0 <= (j + 1 )) ” 
+  &&  “ ((j + 1 ) <= i) ” 
+  &&  “ (1 <= ans) ” 
+  &&  “ (ans <= numsSize_pre) ” 
+  &&  “ (LISBestSoFar l i ans ) ” 
+  &&  “ (LISInnerProgress l d i (j + 1 ) ) ”
+  &&  (IntArray.seg dp_pre 0 (i + 1 ) d )
+).
+
+Definition lengthOfLIS_entail_wit_3_2 := 
+(
+forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (ans: Z) (j: Z) (i: Z) (PreH1 : (((Znth (j - 0 ) d_2 0) + 1 ) <= (Znth (i - 0 ) d_2 0))) (PreH2 : ((Znth j l 0) < (Znth i l 0))) (PreH3 : (j < i)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100000)) (PreH6 : ((Zlength (l)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (0 <= j)) (PreH10 : (j <= i)) (PreH11 : (1 <= ans)) (PreH12 : (ans <= numsSize_pre)) (PreH13 : (LISBestSoFar l i ans )) (PreH14 : (LISInnerProgress l d_2 i j )) ,
+  (IntArray.seg dp_pre 0 (i + 1 ) d_2 )
+  **  (IntArray.full nums_pre numsSize_pre l )
+  **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
+|--
+  EX (d: (@list Z)) ,
+  “ (1 <= numsSize_pre) ” 
+  &&  “ (numsSize_pre <= 100000) ” 
+  &&  “ ((Zlength (l)) = numsSize_pre) ” 
+  &&  “ (0 <= i) ” 
+  &&  “ (i < numsSize_pre) ” 
+  &&  “ (0 <= (j + 1 )) ” 
+  &&  “ ((j + 1 ) <= i) ” 
+  &&  “ (1 <= ans) ” 
+  &&  “ (ans <= numsSize_pre) ” 
+  &&  “ (LISBestSoFar l i ans ) ” 
+  &&  “ (LISInnerProgress l d i (j + 1 ) ) ”
+  &&  (IntArray.full nums_pre numsSize_pre l )
+  **  (IntArray.seg dp_pre 0 (i + 1 ) d )
+  **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
+) \/
+(
+forall (numsSize_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (ans: Z) (j: Z) (i: Z) (PreH1 : (((Znth (j - 0 ) d_2 0) + 1 ) <= (Znth (i - 0 ) d_2 0))) (PreH2 : ((Znth j l 0) < (Znth i l 0))) (PreH3 : (j < i)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100000)) (PreH6 : ((Zlength (l)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (0 <= j)) (PreH10 : (j <= i)) (PreH11 : (1 <= ans)) (PreH12 : (ans <= numsSize_pre)) (PreH13 : (LISBestSoFar l i ans )) (PreH14 : (LISInnerProgress l d_2 i j )) ,
+  TT && emp 
+|--
+  “ (LISInnerProgress l d_2 i (j + 1 ) ) ”
+  &&  emp
+).
+
+Definition lengthOfLIS_entail_wit_3_2_split_goal_1 := 
+forall (numsSize_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (ans: Z) (j: Z) (i: Z) (PreH1 : (((Znth (j - 0 ) d_2 0) + 1 ) <= (Znth (i - 0 ) d_2 0))) (PreH2 : ((Znth j l 0) < (Znth i l 0))) (PreH3 : (j < i)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100000)) (PreH6 : ((Zlength (l)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (0 <= j)) (PreH10 : (j <= i)) (PreH11 : (1 <= ans)) (PreH12 : (ans <= numsSize_pre)) (PreH13 : (LISBestSoFar l i ans )) (PreH14 : (LISInnerProgress l d_2 i j )) ,
+  (LISInnerProgress l d_2 i (j + 1 ) )
 .
 
-Definition lengthOfLIS_entail_wit_7 := 
+Definition lengthOfLIS_entail_wit_3_3 := 
 (
-forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (ans: Z) (best_2: Z) (d_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (j >= i)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : (0 <= j)) (PreH8 : (j <= i)) (PreH9 : ((Zlength (d_2)) = i)) (PreH10 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < i)) -> ((1 <= (Znth k_2 d_2 0)) /\ ((Znth k_2 d_2 0) <= i)))) (PreH11 : (1 <= best_2)) (PreH12 : (best_2 <= (i + 1 ))) (PreH13 : (LISOuterState l d_2 i ans )) (PreH14 : (LISInnerBest l d_2 i j best_2 )) ,
+forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (ans: Z) (j: Z) (i: Z) (PreH1 : ((Znth j l 0) >= (Znth i l 0))) (PreH2 : (j < i)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100000)) (PreH5 : ((Zlength (l)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= j)) (PreH9 : (j <= i)) (PreH10 : (1 <= ans)) (PreH11 : (ans <= numsSize_pre)) (PreH12 : (LISBestSoFar l i ans )) (PreH13 : (LISInnerProgress l d_2 i j )) ,
   (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.seg dp_pre 0 (i + 1 ) (app (d_2) ((cons (best_2) ((@nil Z))))) )
+  **  (IntArray.seg dp_pre 0 (i + 1 ) d_2 )
   **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
 |--
-  EX (best: Z)  (d: (@list Z)) ,
+  EX (d: (@list Z)) ,
   “ (1 <= numsSize_pre) ” 
   &&  “ (numsSize_pre <= 100000) ” 
   &&  “ ((Zlength (l)) = numsSize_pre) ” 
   &&  “ (0 <= i) ” 
   &&  “ (i < numsSize_pre) ” 
-  &&  “ ((Zlength (d)) = i) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i))) ” 
-  &&  “ (1 <= best) ” 
-  &&  “ (best <= (i + 1 )) ” 
-  &&  “ (LISOuterState l d i ans ) ” 
-  &&  “ (LISInnerBest l d i i best ) ”
+  &&  “ (0 <= (j + 1 )) ” 
+  &&  “ ((j + 1 ) <= i) ” 
+  &&  “ (1 <= ans) ” 
+  &&  “ (ans <= numsSize_pre) ” 
+  &&  “ (LISBestSoFar l i ans ) ” 
+  &&  “ (LISInnerProgress l d i (j + 1 ) ) ”
   &&  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.seg dp_pre 0 (i + 1 ) (app (d) ((cons (best) ((@nil Z))))) )
+  **  (IntArray.seg dp_pre 0 (i + 1 ) d )
   **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
 ) \/
 (
-forall (numsSize_pre: Z) (l: (@list Z)) (ans: Z) (best_2: Z) (d_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (j >= i)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : (0 <= j)) (PreH8 : (j <= i)) (PreH9 : ((Zlength (d_2)) = i)) (PreH10 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < i)) -> ((1 <= (Znth k_2 d_2 0)) /\ ((Znth k_2 d_2 0) <= i)))) (PreH11 : (1 <= best_2)) (PreH12 : (best_2 <= (i + 1 ))) (PreH13 : (LISOuterState l d_2 i ans )) (PreH14 : (LISInnerBest l d_2 i j best_2 )) ,
+forall (numsSize_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (ans: Z) (j: Z) (i: Z) (PreH1 : ((Znth j l 0) >= (Znth i l 0))) (PreH2 : (j < i)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100000)) (PreH5 : ((Zlength (l)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= j)) (PreH9 : (j <= i)) (PreH10 : (1 <= ans)) (PreH11 : (ans <= numsSize_pre)) (PreH12 : (LISBestSoFar l i ans )) (PreH13 : (LISInnerProgress l d_2 i j )) ,
   TT && emp 
 |--
-  EX (best: Z)  (d: (@list Z)) ,
-  “ ((app (d_2) ((cons (best_2) ((@nil Z))))) = (app (d) ((cons (best) ((@nil Z)))))) ” 
-  &&  “ (1 <= numsSize_pre) ” 
+  “ (LISInnerProgress l d_2 i (j + 1 ) ) ”
+  &&  emp
+).
+
+Definition lengthOfLIS_entail_wit_3_3_split_goal_1 := 
+forall (numsSize_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (ans: Z) (j: Z) (i: Z) (PreH1 : ((Znth j l 0) >= (Znth i l 0))) (PreH2 : (j < i)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100000)) (PreH5 : ((Zlength (l)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= j)) (PreH9 : (j <= i)) (PreH10 : (1 <= ans)) (PreH11 : (ans <= numsSize_pre)) (PreH12 : (LISBestSoFar l i ans )) (PreH13 : (LISInnerProgress l d_2 i j )) ,
+  (LISInnerProgress l d_2 i (j + 1 ) )
+.
+
+Definition lengthOfLIS_entail_wit_4 := 
+(
+forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (ans: Z) (j: Z) (i: Z) (PreH1 : (j >= i)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : (0 <= j)) (PreH8 : (j <= i)) (PreH9 : (1 <= ans)) (PreH10 : (ans <= numsSize_pre)) (PreH11 : (LISBestSoFar l i ans )) (PreH12 : (LISInnerProgress l d_2 i j )) ,
+  (IntArray.full nums_pre numsSize_pre l )
+  **  (IntArray.seg dp_pre 0 (i + 1 ) d_2 )
+  **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
+|--
+  EX (d: (@list Z)) ,
+  “ (1 <= numsSize_pre) ” 
   &&  “ (numsSize_pre <= 100000) ” 
   &&  “ ((Zlength (l)) = numsSize_pre) ” 
   &&  “ (0 <= i) ” 
   &&  “ (i < numsSize_pre) ” 
-  &&  “ ((Zlength (d)) = i) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i))) ” 
-  &&  “ (1 <= best) ” 
-  &&  “ (best <= (i + 1 )) ” 
-  &&  “ (LISOuterState l d i ans ) ” 
-  &&  “ (LISInnerBest l d i i best ) ”
+  &&  “ (1 <= ans) ” 
+  &&  “ (ans <= numsSize_pre) ” 
+  &&  “ (LISBestSoFar l i ans ) ” 
+  &&  “ (LISDPTablePrefix l d (i + 1 ) ) ”
+  &&  (IntArray.full nums_pre numsSize_pre l )
+  **  (IntArray.seg dp_pre 0 (i + 1 ) d )
+  **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
+) \/
+(
+forall (numsSize_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (ans: Z) (j: Z) (i: Z) (PreH1 : (j >= i)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : (0 <= j)) (PreH8 : (j <= i)) (PreH9 : (1 <= ans)) (PreH10 : (ans <= numsSize_pre)) (PreH11 : (LISBestSoFar l i ans )) (PreH12 : (LISInnerProgress l d_2 i j )) ,
+  TT && emp 
+|--
+  “ (LISDPTablePrefix l d_2 (i + 1 ) ) ”
   &&  emp
 ).
 
-Definition lengthOfLIS_entail_wit_8_1 := 
+Definition lengthOfLIS_entail_wit_4_split_goal_1 := 
+forall (numsSize_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (ans: Z) (j: Z) (i: Z) (PreH1 : (j >= i)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : (0 <= j)) (PreH8 : (j <= i)) (PreH9 : (1 <= ans)) (PreH10 : (ans <= numsSize_pre)) (PreH11 : (LISBestSoFar l i ans )) (PreH12 : (LISInnerProgress l d_2 i j )) ,
+  (LISDPTablePrefix l d_2 (i + 1 ) )
+.
+
+Definition lengthOfLIS_entail_wit_5_1 := 
 (
-forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (best_2: Z) (i: Z) (ans: Z) (PreH1 : ((Znth (i - 0 ) (app (d_2) ((cons (best_2) ((@nil Z))))) 0) <= ans)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((Zlength (d_2)) = i)) (PreH8 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < i)) -> ((1 <= (Znth k_2 d_2 0)) /\ ((Znth k_2 d_2 0) <= i)))) (PreH9 : (1 <= best_2)) (PreH10 : (best_2 <= (i + 1 ))) (PreH11 : (LISOuterState l d_2 i ans )) (PreH12 : (LISInnerBest l d_2 i i best_2 )) ,
-  (IntArray.seg dp_pre 0 (i + 1 ) (app (d_2) ((cons (best_2) ((@nil Z))))) )
+forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d: (@list Z)) (i: Z) (ans: Z) (PreH1 : ((Znth (i - 0 ) d 0) > ans)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : (1 <= ans)) (PreH8 : (ans <= numsSize_pre)) (PreH9 : (LISBestSoFar l i ans )) (PreH10 : (LISDPTablePrefix l d (i + 1 ) )) ,
+  (IntArray.seg dp_pre 0 (i + 1 ) d )
   **  (IntArray.full nums_pre numsSize_pre l )
   **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
 |--
-  EX (best: Z)  (d: (@list Z)) ,
+  EX (d_2: (@list Z)) ,
   “ (1 <= numsSize_pre) ” 
   &&  “ (numsSize_pre <= 100000) ” 
   &&  “ ((Zlength (l)) = numsSize_pre) ” 
   &&  “ (0 <= i) ” 
   &&  “ (i < numsSize_pre) ” 
-  &&  “ ((Zlength (d)) = i) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i))) ” 
-  &&  “ (1 <= best) ” 
-  &&  “ (best <= (i + 1 )) ” 
-  &&  “ (LISOuterState l (app (d) ((cons (best) ((@nil Z))))) (i + 1 ) ans ) ”
+  &&  “ (1 <= (Znth (i - 0 ) d 0)) ” 
+  &&  “ ((Znth (i - 0 ) d 0) <= numsSize_pre) ” 
+  &&  “ (LISBestSoFar l (i + 1 ) (Znth (i - 0 ) d 0) ) ” 
+  &&  “ (LISDPTablePrefix l d_2 (i + 1 ) ) ”
   &&  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.seg dp_pre 0 (i + 1 ) (app (d) ((cons (best) ((@nil Z))))) )
+  **  (IntArray.seg dp_pre 0 (i + 1 ) d_2 )
   **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
 ) \/
 (
-forall (numsSize_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (best_2: Z) (i: Z) (ans: Z) (PreH1 : ((Znth (i - 0 ) (app (d_2) ((cons (best_2) ((@nil Z))))) 0) <= ans)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((Zlength (d_2)) = i)) (PreH8 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < i)) -> ((1 <= (Znth k_2 d_2 0)) /\ ((Znth k_2 d_2 0) <= i)))) (PreH9 : (1 <= best_2)) (PreH10 : (best_2 <= (i + 1 ))) (PreH11 : (LISOuterState l d_2 i ans )) (PreH12 : (LISInnerBest l d_2 i i best_2 )) ,
+forall (numsSize_pre: Z) (l: (@list Z)) (d: (@list Z)) (i: Z) (ans: Z) (PreH1 : ((Znth (i - 0 ) d 0) > ans)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : (1 <= ans)) (PreH8 : (ans <= numsSize_pre)) (PreH9 : (LISBestSoFar l i ans )) (PreH10 : (LISDPTablePrefix l d (i + 1 ) )) ,
   TT && emp 
 |--
-  EX (best: Z)  (d: (@list Z)) ,
-  “ ((app (d_2) ((cons (best_2) ((@nil Z))))) = (app (d) ((cons (best) ((@nil Z)))))) ” 
-  &&  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100000) ” 
-  &&  “ ((Zlength (l)) = numsSize_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < numsSize_pre) ” 
-  &&  “ ((Zlength (d)) = i) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i))) ” 
-  &&  “ (1 <= best) ” 
-  &&  “ (best <= (i + 1 )) ” 
-  &&  “ (LISOuterState l (app (d) ((cons (best) ((@nil Z))))) (i + 1 ) ans ) ”
+  “ (LISBestSoFar l (i + 1 ) (Znth (i - 0 ) d 0) ) ” 
+  &&  “ ((Znth (i - 0 ) d 0) <= numsSize_pre) ”
   &&  emp
 ).
 
-Definition lengthOfLIS_entail_wit_8_2 := 
+Definition lengthOfLIS_entail_wit_5_1_split_goal_1 := 
+forall (numsSize_pre: Z) (l: (@list Z)) (d: (@list Z)) (i: Z) (ans: Z) (PreH1 : ((Znth (i - 0 ) d 0) > ans)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : (1 <= ans)) (PreH8 : (ans <= numsSize_pre)) (PreH9 : (LISBestSoFar l i ans )) (PreH10 : (LISDPTablePrefix l d (i + 1 ) )) ,
+  (LISBestSoFar l (i + 1 ) (Znth (i - 0 ) d 0) )
+.
+
+Definition lengthOfLIS_entail_wit_5_1_split_goal_2 := 
+forall (numsSize_pre: Z) (l: (@list Z)) (d: (@list Z)) (i: Z) (ans: Z) (PreH1 : ((Znth (i - 0 ) d 0) > ans)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : (1 <= ans)) (PreH8 : (ans <= numsSize_pre)) (PreH9 : (LISBestSoFar l i ans )) (PreH10 : (LISDPTablePrefix l d (i + 1 ) )) ,
+  ((Znth (i - 0 ) d 0) <= numsSize_pre)
+.
+
+Definition lengthOfLIS_entail_wit_5_2 := 
 (
-forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d: (@list Z)) (best: Z) (i: Z) (ans: Z) (PreH1 : ((Znth (i - 0 ) (app (d) ((cons (best) ((@nil Z))))) 0) > ans)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((Zlength (d)) = i)) (PreH8 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < i)) -> ((1 <= (Znth k_2 d 0)) /\ ((Znth k_2 d 0) <= i)))) (PreH9 : (1 <= best)) (PreH10 : (best <= (i + 1 ))) (PreH11 : (LISOuterState l d i ans )) (PreH12 : (LISInnerBest l d i i best )) ,
-  (IntArray.seg dp_pre 0 (i + 1 ) (app (d) ((cons (best) ((@nil Z))))) )
+forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (i: Z) (ans: Z) (PreH1 : ((Znth (i - 0 ) d_2 0) <= ans)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : (1 <= ans)) (PreH8 : (ans <= numsSize_pre)) (PreH9 : (LISBestSoFar l i ans )) (PreH10 : (LISDPTablePrefix l d_2 (i + 1 ) )) ,
+  (IntArray.seg dp_pre 0 (i + 1 ) d_2 )
   **  (IntArray.full nums_pre numsSize_pre l )
   **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
 |--
-  EX (best_2: Z)  (d_2: (@list Z)) ,
+  EX (d: (@list Z)) ,
   “ (1 <= numsSize_pre) ” 
   &&  “ (numsSize_pre <= 100000) ” 
   &&  “ ((Zlength (l)) = numsSize_pre) ” 
   &&  “ (0 <= i) ” 
   &&  “ (i < numsSize_pre) ” 
-  &&  “ ((Zlength (d_2)) = i) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d_2 0)) /\ ((Znth k d_2 0) <= i))) ” 
-  &&  “ (1 <= best_2) ” 
-  &&  “ (best_2 <= (i + 1 )) ” 
-  &&  “ (LISOuterState l (app (d_2) ((cons (best_2) ((@nil Z))))) (i + 1 ) (Znth (i - 0 ) (app (d) ((cons (best) ((@nil Z))))) 0) ) ”
+  &&  “ (1 <= ans) ” 
+  &&  “ (ans <= numsSize_pre) ” 
+  &&  “ (LISBestSoFar l (i + 1 ) ans ) ” 
+  &&  “ (LISDPTablePrefix l d (i + 1 ) ) ”
   &&  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.seg dp_pre 0 (i + 1 ) (app (d_2) ((cons (best_2) ((@nil Z))))) )
+  **  (IntArray.seg dp_pre 0 (i + 1 ) d )
   **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
 ) \/
 (
-forall (numsSize_pre: Z) (l: (@list Z)) (d: (@list Z)) (best: Z) (i: Z) (ans: Z) (PreH1 : ((Znth (i - 0 ) (app (d) ((cons (best) ((@nil Z))))) 0) > ans)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((Zlength (d)) = i)) (PreH8 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < i)) -> ((1 <= (Znth k_2 d 0)) /\ ((Znth k_2 d 0) <= i)))) (PreH9 : (1 <= best)) (PreH10 : (best <= (i + 1 ))) (PreH11 : (LISOuterState l d i ans )) (PreH12 : (LISInnerBest l d i i best )) ,
+forall (numsSize_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (i: Z) (ans: Z) (PreH1 : ((Znth (i - 0 ) d_2 0) <= ans)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : (1 <= ans)) (PreH8 : (ans <= numsSize_pre)) (PreH9 : (LISBestSoFar l i ans )) (PreH10 : (LISDPTablePrefix l d_2 (i + 1 ) )) ,
   TT && emp 
 |--
-  EX (best_2: Z)  (d_2: (@list Z)) ,
-  “ ((app (d) ((cons (best) ((@nil Z))))) = (app (d_2) ((cons (best_2) ((@nil Z)))))) ” 
-  &&  “ (1 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100000) ” 
-  &&  “ ((Zlength (l)) = numsSize_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < numsSize_pre) ” 
-  &&  “ ((Zlength (d_2)) = i) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d_2 0)) /\ ((Znth k d_2 0) <= i))) ” 
-  &&  “ (1 <= best_2) ” 
-  &&  “ (best_2 <= (i + 1 )) ” 
-  &&  “ (LISOuterState l (app (d_2) ((cons (best_2) ((@nil Z))))) (i + 1 ) (Znth (i - 0 ) (app (d) ((cons (best) ((@nil Z))))) 0) ) ”
+  “ (LISBestSoFar l (i + 1 ) ans ) ”
   &&  emp
 ).
 
-Definition lengthOfLIS_entail_wit_9 := 
-(
-forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (best: Z) (i: Z) (ans: Z) (PreH1 : (1 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : (0 <= i)) (PreH5 : (i < numsSize_pre)) (PreH6 : ((Zlength (d_2)) = i)) (PreH7 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < i)) -> ((1 <= (Znth k_2 d_2 0)) /\ ((Znth k_2 d_2 0) <= i)))) (PreH8 : (1 <= best)) (PreH9 : (best <= (i + 1 ))) (PreH10 : (LISOuterState l (app (d_2) ((cons (best) ((@nil Z))))) (i + 1 ) ans )) ,
+Definition lengthOfLIS_entail_wit_5_2_split_goal_1 := 
+forall (numsSize_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (i: Z) (ans: Z) (PreH1 : ((Znth (i - 0 ) d_2 0) <= ans)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : (1 <= ans)) (PreH8 : (ans <= numsSize_pre)) (PreH9 : (LISBestSoFar l i ans )) (PreH10 : (LISDPTablePrefix l d_2 (i + 1 ) )) ,
+  (LISBestSoFar l (i + 1 ) ans )
+.
+
+Definition lengthOfLIS_entail_wit_6 := 
+forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (i: Z) (ans: Z) (PreH1 : (1 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : (0 <= i)) (PreH5 : (i < numsSize_pre)) (PreH6 : (1 <= ans)) (PreH7 : (ans <= numsSize_pre)) (PreH8 : (LISBestSoFar l (i + 1 ) ans )) (PreH9 : (LISDPTablePrefix l d_2 (i + 1 ) )) ,
   (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.seg dp_pre 0 (i + 1 ) (app (d_2) ((cons (best) ((@nil Z))))) )
+  **  (IntArray.seg dp_pre 0 (i + 1 ) d_2 )
   **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
 |--
   EX (d: (@list Z)) ,
@@ -687,65 +534,64 @@ forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d_2: (@list Z
   &&  “ ((Zlength (l)) = numsSize_pre) ” 
   &&  “ (0 <= (i + 1 )) ” 
   &&  “ ((i + 1 ) <= numsSize_pre) ” 
-  &&  “ ((Zlength (d)) = (i + 1 )) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < (i + 1 ))) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= (i + 1 )))) ” 
-  &&  “ (LISOuterState l d (i + 1 ) ans ) ”
+  &&  “ (1 <= ans) ” 
+  &&  “ (ans <= numsSize_pre) ” 
+  &&  “ (LISDPTablePrefix l d (i + 1 ) ) ” 
+  &&  “ (LISBestSoFar l (i + 1 ) ans ) ”
   &&  (IntArray.full nums_pre numsSize_pre l )
   **  (IntArray.seg dp_pre 0 (i + 1 ) d )
   **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
-) \/
-(
-forall (numsSize_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (best: Z) (i: Z) (ans: Z) (PreH1 : (1 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : (0 <= i)) (PreH5 : (i < numsSize_pre)) (PreH6 : ((Zlength (d_2)) = i)) (PreH7 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < i)) -> ((1 <= (Znth k_2 d_2 0)) /\ ((Znth k_2 d_2 0) <= i)))) (PreH8 : (1 <= best)) (PreH9 : (best <= (i + 1 ))) (PreH10 : (LISOuterState l (app (d_2) ((cons (best) ((@nil Z))))) (i + 1 ) ans )) ,
-  TT && emp 
-|--
-  “ (((1 <= (Znth 0 (app (d_2) ((cons (best) ((@nil Z))))) 0)) /\ ((Znth 0 (app (d_2) ((cons (best) ((@nil Z))))) 0) <= (i + 1 ))) /\ ((1 <= (Znth ((i + 1 ) - 1 ) (app (d_2) ((cons (best) ((@nil Z))))) 0)) /\ ((Znth ((i + 1 ) - 1 ) (app (d_2) ((cons (best) ((@nil Z))))) 0) <= (i + 1 )))) ” 
-  &&  “ ((Zlength ((app (d_2) ((cons (best) ((@nil Z))))))) = (i + 1 )) ”
-  &&  emp
-).
-
-Definition lengthOfLIS_entail_wit_9_split_goal_1 := 
-forall (numsSize_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (best: Z) (i: Z) (ans: Z) (PreH1 : (1 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : (0 <= i)) (PreH5 : (i < numsSize_pre)) (PreH6 : ((Zlength (d_2)) = i)) (PreH7 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < i)) -> ((1 <= (Znth k_2 d_2 0)) /\ ((Znth k_2 d_2 0) <= i)))) (PreH8 : (1 <= best)) (PreH9 : (best <= (i + 1 ))) (PreH10 : (LISOuterState l (app (d_2) ((cons (best) ((@nil Z))))) (i + 1 ) ans )) ,
-  TT && emp 
-|--
-  “ (((1 <= (Znth 0 (app (d_2) ((cons (best) ((@nil Z))))) 0)) /\ ((Znth 0 (app (d_2) ((cons (best) ((@nil Z))))) 0) <= (i + 1 ))) /\ ((1 <= (Znth ((i + 1 ) - 1 ) (app (d_2) ((cons (best) ((@nil Z))))) 0)) /\ ((Znth ((i + 1 ) - 1 ) (app (d_2) ((cons (best) ((@nil Z))))) 0) <= (i + 1 )))) ”
 .
 
-Definition lengthOfLIS_entail_wit_9_split_goal_2 := 
-forall (numsSize_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (best: Z) (i: Z) (ans: Z) (PreH1 : (1 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : (0 <= i)) (PreH5 : (i < numsSize_pre)) (PreH6 : ((Zlength (d_2)) = i)) (PreH7 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < i)) -> ((1 <= (Znth k_2 d_2 0)) /\ ((Znth k_2 d_2 0) <= i)))) (PreH8 : (1 <= best)) (PreH9 : (best <= (i + 1 ))) (PreH10 : (LISOuterState l (app (d_2) ((cons (best) ((@nil Z))))) (i + 1 ) ans )) ,
-  TT && emp 
-|--
-  “ ((Zlength ((app (d_2) ((cons (best) ((@nil Z))))))) = (i + 1 )) ”
-.
-
-Definition lengthOfLIS_return_wit_1 := 
+Definition lengthOfLIS_entail_wit_7 := 
 (
-forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (ans: Z) (d_2: (@list Z)) (i: Z) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : ((Zlength (d_2)) = i)) (PreH8 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d_2 0)) /\ ((Znth k d_2 0) <= i)))) (PreH9 : (LISOuterState l d_2 i ans )) ,
+forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (ans: Z) (i: Z) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (1 <= ans)) (PreH8 : (ans <= numsSize_pre)) (PreH9 : (LISDPTablePrefix l d_2 i )) (PreH10 : (LISBestSoFar l i ans )) ,
   (IntArray.full nums_pre numsSize_pre l )
   **  (IntArray.seg dp_pre 0 i d_2 )
   **  (IntArray.undef_seg dp_pre i numsSize_pre )
 |--
   EX (d: (@list Z)) ,
-  “ (LISLength l ans ) ” 
-  &&  “ (LISDPState l d numsSize_pre ) ” 
+  “ (1 <= numsSize_pre) ” 
+  &&  “ (numsSize_pre <= 100000) ” 
+  &&  “ ((Zlength (l)) = numsSize_pre) ” 
   &&  “ (1 <= ans) ” 
-  &&  “ (ans <= numsSize_pre) ”
+  &&  “ (ans <= numsSize_pre) ” 
+  &&  “ (LISLength l ans ) ” 
+  &&  “ (LISDPTablePrefix l d numsSize_pre ) ”
   &&  (IntArray.full nums_pre numsSize_pre l )
   **  (IntArray.full dp_pre numsSize_pre d )
 ) \/
 (
-forall (dp_pre: Z) (numsSize_pre: Z) (l: (@list Z)) (ans: Z) (d_2: (@list Z)) (i: Z) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : ((Zlength (d_2)) = i)) (PreH8 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d_2 0)) /\ ((Znth k d_2 0) <= i)))) (PreH9 : (LISOuterState l d_2 i ans )) ,
+forall (dp_pre: Z) (numsSize_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (ans: Z) (i: Z) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (1 <= ans)) (PreH8 : (ans <= numsSize_pre)) (PreH9 : (LISDPTablePrefix l d_2 i )) (PreH10 : (LISBestSoFar l i ans )) ,
   (IntArray.seg dp_pre 0 i d_2 )
 |--
   EX (d: (@list Z)) ,
-  “ (LISLength l ans ) ” 
-  &&  “ (LISDPState l d numsSize_pre ) ” 
+  “ (1 <= numsSize_pre) ” 
+  &&  “ (numsSize_pre <= 100000) ” 
+  &&  “ ((Zlength (l)) = numsSize_pre) ” 
   &&  “ (1 <= ans) ” 
-  &&  “ (ans <= numsSize_pre) ”
+  &&  “ (ans <= numsSize_pre) ” 
+  &&  “ (LISLength l ans ) ” 
+  &&  “ (LISDPTablePrefix l d numsSize_pre ) ”
   &&  (IntArray.full dp_pre numsSize_pre d )
 ).
 
+Definition lengthOfLIS_return_wit_1 := 
+forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (ans: Z) (PreH1 : (1 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : (1 <= ans)) (PreH5 : (ans <= numsSize_pre)) (PreH6 : (LISLength l ans )) (PreH7 : (LISDPTablePrefix l d_2 numsSize_pre )) ,
+  (IntArray.full nums_pre numsSize_pre l )
+  **  (IntArray.full dp_pre numsSize_pre d_2 )
+|--
+  EX (d: (@list Z)) ,
+  “ (LISLength l ans ) ” 
+  &&  “ (1 <= ans) ” 
+  &&  “ (ans <= numsSize_pre) ” 
+  &&  “ (LISDPTablePrefix l d numsSize_pre ) ”
+  &&  (IntArray.full nums_pre numsSize_pre l )
+  **  (IntArray.full dp_pre numsSize_pre d )
+.
+
 Definition lengthOfLIS_partial_solve_wit_1 := 
-forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (ans: Z) (d: (@list Z)) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : ((Zlength (d)) = i)) (PreH8 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i)))) (PreH9 : (LISOuterState l d i ans )) ,
+forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d: (@list Z)) (ans: Z) (i: Z) (PreH1 : (i < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (1 <= ans)) (PreH8 : (ans <= numsSize_pre)) (PreH9 : (LISDPTablePrefix l d i )) (PreH10 : (LISBestSoFar l i ans )) ,
   (IntArray.full nums_pre numsSize_pre l )
   **  (IntArray.seg dp_pre 0 i d )
   **  (IntArray.undef_seg dp_pre i numsSize_pre )
@@ -756,19 +602,20 @@ forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (ans: Z) (d: (
   &&  “ ((Zlength (l)) = numsSize_pre) ” 
   &&  “ (0 <= i) ” 
   &&  “ (i <= numsSize_pre) ” 
-  &&  “ ((Zlength (d)) = i) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i))) ” 
-  &&  “ (LISOuterState l d i ans ) ”
-  &&  (((dp_pre + (i * sizeof(INT) ) )) # Int  |->_)
+  &&  “ (1 <= ans) ” 
+  &&  “ (ans <= numsSize_pre) ” 
+  &&  “ (LISDPTablePrefix l d i ) ” 
+  &&  “ (LISBestSoFar l i ans ) ”
+  &&  (((dp_pre + (i * sizeof(INT)))) # Int  |->_)
   **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
   **  (IntArray.full nums_pre numsSize_pre l )
   **  (IntArray.seg dp_pre 0 i d )
 .
 
 Definition lengthOfLIS_partial_solve_wit_2 := 
-forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (ans: Z) (best: Z) (d: (@list Z)) (j: Z) (i: Z) (PreH1 : (j < i)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : (0 <= j)) (PreH8 : (j <= i)) (PreH9 : ((Zlength (d)) = i)) (PreH10 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i)))) (PreH11 : (1 <= best)) (PreH12 : (best <= (i + 1 ))) (PreH13 : (LISOuterState l d i ans )) (PreH14 : (LISInnerBest l d i j best )) ,
+forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d: (@list Z)) (ans: Z) (j: Z) (i: Z) (PreH1 : (j < i)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : (0 <= j)) (PreH8 : (j <= i)) (PreH9 : (1 <= ans)) (PreH10 : (ans <= numsSize_pre)) (PreH11 : (LISBestSoFar l i ans )) (PreH12 : (LISInnerProgress l d i j )) ,
   (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.seg dp_pre 0 (i + 1 ) (app (d) ((cons (best) ((@nil Z))))) )
+  **  (IntArray.seg dp_pre 0 (i + 1 ) d )
   **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
 |--
   “ (j < i) ” 
@@ -779,22 +626,20 @@ forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (ans: Z) (best
   &&  “ (i < numsSize_pre) ” 
   &&  “ (0 <= j) ” 
   &&  “ (j <= i) ” 
-  &&  “ ((Zlength (d)) = i) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i))) ” 
-  &&  “ (1 <= best) ” 
-  &&  “ (best <= (i + 1 )) ” 
-  &&  “ (LISOuterState l d i ans ) ” 
-  &&  “ (LISInnerBest l d i j best ) ”
-  &&  (((nums_pre + (j * sizeof(INT) ) )) # Int  |-> (Znth j l 0))
+  &&  “ (1 <= ans) ” 
+  &&  “ (ans <= numsSize_pre) ” 
+  &&  “ (LISBestSoFar l i ans ) ” 
+  &&  “ (LISInnerProgress l d i j ) ”
+  &&  (((nums_pre + (j * sizeof(INT)))) # Int  |-> (Znth j l 0))
   **  (IntArray.missing_i nums_pre j 0 numsSize_pre l )
-  **  (IntArray.seg dp_pre 0 (i + 1 ) (app (d) ((cons (best) ((@nil Z))))) )
+  **  (IntArray.seg dp_pre 0 (i + 1 ) d )
   **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
 .
 
 Definition lengthOfLIS_partial_solve_wit_3 := 
-forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (ans: Z) (best: Z) (d: (@list Z)) (j: Z) (i: Z) (PreH1 : (j < i)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : (0 <= j)) (PreH8 : (j <= i)) (PreH9 : ((Zlength (d)) = i)) (PreH10 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i)))) (PreH11 : (1 <= best)) (PreH12 : (best <= (i + 1 ))) (PreH13 : (LISOuterState l d i ans )) (PreH14 : (LISInnerBest l d i j best )) ,
+forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d: (@list Z)) (ans: Z) (j: Z) (i: Z) (PreH1 : (j < i)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : (0 <= j)) (PreH8 : (j <= i)) (PreH9 : (1 <= ans)) (PreH10 : (ans <= numsSize_pre)) (PreH11 : (LISBestSoFar l i ans )) (PreH12 : (LISInnerProgress l d i j )) ,
   (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.seg dp_pre 0 (i + 1 ) (app (d) ((cons (best) ((@nil Z))))) )
+  **  (IntArray.seg dp_pre 0 (i + 1 ) d )
   **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
 |--
   “ (j < i) ” 
@@ -805,22 +650,20 @@ forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (ans: Z) (best
   &&  “ (i < numsSize_pre) ” 
   &&  “ (0 <= j) ” 
   &&  “ (j <= i) ” 
-  &&  “ ((Zlength (d)) = i) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i))) ” 
-  &&  “ (1 <= best) ” 
-  &&  “ (best <= (i + 1 )) ” 
-  &&  “ (LISOuterState l d i ans ) ” 
-  &&  “ (LISInnerBest l d i j best ) ”
-  &&  (((nums_pre + (i * sizeof(INT) ) )) # Int  |-> (Znth i l 0))
+  &&  “ (1 <= ans) ” 
+  &&  “ (ans <= numsSize_pre) ” 
+  &&  “ (LISBestSoFar l i ans ) ” 
+  &&  “ (LISInnerProgress l d i j ) ”
+  &&  (((nums_pre + (i * sizeof(INT)))) # Int  |-> (Znth i l 0))
   **  (IntArray.missing_i nums_pre i 0 numsSize_pre l )
-  **  (IntArray.seg dp_pre 0 (i + 1 ) (app (d) ((cons (best) ((@nil Z))))) )
+  **  (IntArray.seg dp_pre 0 (i + 1 ) d )
   **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
 .
 
 Definition lengthOfLIS_partial_solve_wit_4 := 
-forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (ans: Z) (best: Z) (d: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j l 0) < (Znth i l 0))) (PreH2 : (j < i)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100000)) (PreH5 : ((Zlength (l)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= j)) (PreH9 : (j <= i)) (PreH10 : ((Zlength (d)) = i)) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i)))) (PreH12 : (1 <= best)) (PreH13 : (best <= (i + 1 ))) (PreH14 : (LISOuterState l d i ans )) (PreH15 : (LISInnerBest l d i j best )) ,
+forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d: (@list Z)) (ans: Z) (j: Z) (i: Z) (PreH1 : ((Znth j l 0) < (Znth i l 0))) (PreH2 : (j < i)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100000)) (PreH5 : ((Zlength (l)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= j)) (PreH9 : (j <= i)) (PreH10 : (1 <= ans)) (PreH11 : (ans <= numsSize_pre)) (PreH12 : (LISBestSoFar l i ans )) (PreH13 : (LISInnerProgress l d i j )) ,
   (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.seg dp_pre 0 (i + 1 ) (app (d) ((cons (best) ((@nil Z))))) )
+  **  (IntArray.seg dp_pre 0 (i + 1 ) d )
   **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
 |--
   “ ((Znth j l 0) < (Znth i l 0)) ” 
@@ -832,81 +675,71 @@ forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (ans: Z) (best
   &&  “ (i < numsSize_pre) ” 
   &&  “ (0 <= j) ” 
   &&  “ (j <= i) ” 
-  &&  “ ((Zlength (d)) = i) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i))) ” 
-  &&  “ (1 <= best) ” 
-  &&  “ (best <= (i + 1 )) ” 
-  &&  “ (LISOuterState l d i ans ) ” 
-  &&  “ (LISInnerBest l d i j best ) ”
-  &&  (((dp_pre + (j * sizeof(INT) ) )) # Int  |-> (Znth (j - 0 ) (app (d) ((cons (best) ((@nil Z))))) 0))
-  **  (IntArray.missing_i dp_pre j 0 (i + 1 ) (app (d) ((cons (best) ((@nil Z))))) )
+  &&  “ (1 <= ans) ” 
+  &&  “ (ans <= numsSize_pre) ” 
+  &&  “ (LISBestSoFar l i ans ) ” 
+  &&  “ (LISInnerProgress l d i j ) ”
+  &&  (((dp_pre + (j * sizeof(INT)))) # Int  |-> (Znth (j - 0 ) d 0))
+  **  (IntArray.missing_i dp_pre j 0 (i + 1 ) d )
   **  (IntArray.full nums_pre numsSize_pre l )
   **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
 .
 
 Definition lengthOfLIS_partial_solve_wit_5 := 
-forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d: (@list Z)) (best: Z) (i: Z) (j: Z) (candidate: Z) (ans: Z) (PreH1 : (1 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : (0 <= i)) (PreH5 : (i < numsSize_pre)) (PreH6 : (0 <= j)) (PreH7 : (j < i)) (PreH8 : ((Zlength (d)) = i)) (PreH9 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i)))) (PreH10 : (1 <= best)) (PreH11 : (best <= (i + 1 ))) (PreH12 : (candidate = ((Znth j d 0) + 1 ))) (PreH13 : (2 <= candidate)) (PreH14 : (candidate <= (i + 1 ))) (PreH15 : ((Znth j l 0) < (Znth i l 0))) (PreH16 : (LISOuterState l d i ans )) (PreH17 : (LISInnerBest l d i j best )) ,
-  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.seg dp_pre 0 (i + 1 ) (app (d) ((cons (best) ((@nil Z))))) )
+forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d: (@list Z)) (ans: Z) (j: Z) (i: Z) (PreH1 : ((Znth j l 0) < (Znth i l 0))) (PreH2 : (j < i)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 100000)) (PreH5 : ((Zlength (l)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= j)) (PreH9 : (j <= i)) (PreH10 : (1 <= ans)) (PreH11 : (ans <= numsSize_pre)) (PreH12 : (LISBestSoFar l i ans )) (PreH13 : (LISInnerProgress l d i j )) ,
+  (IntArray.seg dp_pre 0 (i + 1 ) d )
+  **  (IntArray.full nums_pre numsSize_pre l )
   **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
 |--
-  “ (1 <= numsSize_pre) ” 
+  “ ((Znth j l 0) < (Znth i l 0)) ” 
+  &&  “ (j < i) ” 
+  &&  “ (1 <= numsSize_pre) ” 
   &&  “ (numsSize_pre <= 100000) ” 
   &&  “ ((Zlength (l)) = numsSize_pre) ” 
   &&  “ (0 <= i) ” 
   &&  “ (i < numsSize_pre) ” 
   &&  “ (0 <= j) ” 
-  &&  “ (j < i) ” 
-  &&  “ ((Zlength (d)) = i) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i))) ” 
-  &&  “ (1 <= best) ” 
-  &&  “ (best <= (i + 1 )) ” 
-  &&  “ (candidate = ((Znth j d 0) + 1 )) ” 
-  &&  “ (2 <= candidate) ” 
-  &&  “ (candidate <= (i + 1 )) ” 
-  &&  “ ((Znth j l 0) < (Znth i l 0)) ” 
-  &&  “ (LISOuterState l d i ans ) ” 
-  &&  “ (LISInnerBest l d i j best ) ”
-  &&  (((dp_pre + (i * sizeof(INT) ) )) # Int  |-> (Znth (i - 0 ) (app (d) ((cons (best) ((@nil Z))))) 0))
-  **  (IntArray.missing_i dp_pre i 0 (i + 1 ) (app (d) ((cons (best) ((@nil Z))))) )
+  &&  “ (j <= i) ” 
+  &&  “ (1 <= ans) ” 
+  &&  “ (ans <= numsSize_pre) ” 
+  &&  “ (LISBestSoFar l i ans ) ” 
+  &&  “ (LISInnerProgress l d i j ) ”
+  &&  (((dp_pre + (i * sizeof(INT)))) # Int  |-> (Znth (i - 0 ) d 0))
+  **  (IntArray.missing_i dp_pre i 0 (i + 1 ) d )
   **  (IntArray.full nums_pre numsSize_pre l )
   **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
 .
 
 Definition lengthOfLIS_partial_solve_wit_6 := 
-forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d: (@list Z)) (best: Z) (i: Z) (j: Z) (candidate: Z) (ans: Z) (PreH1 : (candidate > (Znth (i - 0 ) (app (d) ((cons (best) ((@nil Z))))) 0))) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : (0 <= j)) (PreH8 : (j < i)) (PreH9 : ((Zlength (d)) = i)) (PreH10 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i)))) (PreH11 : (1 <= best)) (PreH12 : (best <= (i + 1 ))) (PreH13 : (candidate = ((Znth j d 0) + 1 ))) (PreH14 : (2 <= candidate)) (PreH15 : (candidate <= (i + 1 ))) (PreH16 : ((Znth j l 0) < (Znth i l 0))) (PreH17 : (LISOuterState l d i ans )) (PreH18 : (LISInnerBest l d i j best )) ,
-  (IntArray.seg dp_pre 0 (i + 1 ) (app (d) ((cons (best) ((@nil Z))))) )
+forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d: (@list Z)) (ans: Z) (j: Z) (i: Z) (PreH1 : (((Znth (j - 0 ) d 0) + 1 ) > (Znth (i - 0 ) d 0))) (PreH2 : ((Znth j l 0) < (Znth i l 0))) (PreH3 : (j < i)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 100000)) (PreH6 : ((Zlength (l)) = numsSize_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (0 <= j)) (PreH10 : (j <= i)) (PreH11 : (1 <= ans)) (PreH12 : (ans <= numsSize_pre)) (PreH13 : (LISBestSoFar l i ans )) (PreH14 : (LISInnerProgress l d i j )) ,
+  (IntArray.seg dp_pre 0 (i + 1 ) d )
   **  (IntArray.full nums_pre numsSize_pre l )
   **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
 |--
-  “ (candidate > (Znth (i - 0 ) (app (d) ((cons (best) ((@nil Z))))) 0)) ” 
+  “ (((Znth (j - 0 ) d 0) + 1 ) > (Znth (i - 0 ) d 0)) ” 
+  &&  “ ((Znth j l 0) < (Znth i l 0)) ” 
+  &&  “ (j < i) ” 
   &&  “ (1 <= numsSize_pre) ” 
   &&  “ (numsSize_pre <= 100000) ” 
   &&  “ ((Zlength (l)) = numsSize_pre) ” 
   &&  “ (0 <= i) ” 
   &&  “ (i < numsSize_pre) ” 
   &&  “ (0 <= j) ” 
-  &&  “ (j < i) ” 
-  &&  “ ((Zlength (d)) = i) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i))) ” 
-  &&  “ (1 <= best) ” 
-  &&  “ (best <= (i + 1 )) ” 
-  &&  “ (candidate = ((Znth j d 0) + 1 )) ” 
-  &&  “ (2 <= candidate) ” 
-  &&  “ (candidate <= (i + 1 )) ” 
-  &&  “ ((Znth j l 0) < (Znth i l 0)) ” 
-  &&  “ (LISOuterState l d i ans ) ” 
-  &&  “ (LISInnerBest l d i j best ) ”
-  &&  (((dp_pre + (i * sizeof(INT) ) )) # Int  |->_)
-  **  (IntArray.missing_i dp_pre i 0 (i + 1 ) (app (d) ((cons (best) ((@nil Z))))) )
+  &&  “ (j <= i) ” 
+  &&  “ (1 <= ans) ” 
+  &&  “ (ans <= numsSize_pre) ” 
+  &&  “ (LISBestSoFar l i ans ) ” 
+  &&  “ (LISInnerProgress l d i j ) ”
+  &&  (((dp_pre + (i * sizeof(INT)))) # Int  |->_)
+  **  (IntArray.missing_i dp_pre i 0 (i + 1 ) d )
   **  (IntArray.full nums_pre numsSize_pre l )
   **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
 .
 
 Definition lengthOfLIS_partial_solve_wit_7 := 
-forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d: (@list Z)) (best: Z) (i: Z) (ans: Z) (PreH1 : (1 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : (0 <= i)) (PreH5 : (i < numsSize_pre)) (PreH6 : ((Zlength (d)) = i)) (PreH7 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i)))) (PreH8 : (1 <= best)) (PreH9 : (best <= (i + 1 ))) (PreH10 : (LISOuterState l d i ans )) (PreH11 : (LISInnerBest l d i i best )) ,
+forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d: (@list Z)) (i: Z) (ans: Z) (PreH1 : (1 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : (0 <= i)) (PreH5 : (i < numsSize_pre)) (PreH6 : (1 <= ans)) (PreH7 : (ans <= numsSize_pre)) (PreH8 : (LISBestSoFar l i ans )) (PreH9 : (LISDPTablePrefix l d (i + 1 ) )) ,
   (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.seg dp_pre 0 (i + 1 ) (app (d) ((cons (best) ((@nil Z))))) )
+  **  (IntArray.seg dp_pre 0 (i + 1 ) d )
   **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
 |--
   “ (1 <= numsSize_pre) ” 
@@ -914,48 +747,40 @@ forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d: (@list Z))
   &&  “ ((Zlength (l)) = numsSize_pre) ” 
   &&  “ (0 <= i) ” 
   &&  “ (i < numsSize_pre) ” 
-  &&  “ ((Zlength (d)) = i) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i))) ” 
-  &&  “ (1 <= best) ” 
-  &&  “ (best <= (i + 1 )) ” 
-  &&  “ (LISOuterState l d i ans ) ” 
-  &&  “ (LISInnerBest l d i i best ) ”
-  &&  (((dp_pre + (i * sizeof(INT) ) )) # Int  |-> (Znth (i - 0 ) (app (d) ((cons (best) ((@nil Z))))) 0))
-  **  (IntArray.missing_i dp_pre i 0 (i + 1 ) (app (d) ((cons (best) ((@nil Z))))) )
+  &&  “ (1 <= ans) ” 
+  &&  “ (ans <= numsSize_pre) ” 
+  &&  “ (LISBestSoFar l i ans ) ” 
+  &&  “ (LISDPTablePrefix l d (i + 1 ) ) ”
+  &&  (((dp_pre + (i * sizeof(INT)))) # Int  |-> (Znth (i - 0 ) d 0))
+  **  (IntArray.missing_i dp_pre i 0 (i + 1 ) d )
   **  (IntArray.full nums_pre numsSize_pre l )
   **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
 .
 
 Definition lengthOfLIS_partial_solve_wit_8 := 
-forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d: (@list Z)) (best: Z) (i: Z) (ans: Z) (PreH1 : ((Znth (i - 0 ) (app (d) ((cons (best) ((@nil Z))))) 0) > ans)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((Zlength (d)) = i)) (PreH8 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i)))) (PreH9 : (1 <= best)) (PreH10 : (best <= (i + 1 ))) (PreH11 : (LISOuterState l d i ans )) (PreH12 : (LISInnerBest l d i i best )) ,
-  (IntArray.seg dp_pre 0 (i + 1 ) (app (d) ((cons (best) ((@nil Z))))) )
+forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d: (@list Z)) (i: Z) (ans: Z) (PreH1 : ((Znth (i - 0 ) d 0) > ans)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : (1 <= ans)) (PreH8 : (ans <= numsSize_pre)) (PreH9 : (LISBestSoFar l i ans )) (PreH10 : (LISDPTablePrefix l d (i + 1 ) )) ,
+  (IntArray.seg dp_pre 0 (i + 1 ) d )
   **  (IntArray.full nums_pre numsSize_pre l )
   **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
 |--
-  “ ((Znth (i - 0 ) (app (d) ((cons (best) ((@nil Z))))) 0) > ans) ” 
+  “ ((Znth (i - 0 ) d 0) > ans) ” 
   &&  “ (1 <= numsSize_pre) ” 
   &&  “ (numsSize_pre <= 100000) ” 
   &&  “ ((Zlength (l)) = numsSize_pre) ” 
   &&  “ (0 <= i) ” 
   &&  “ (i < numsSize_pre) ” 
-  &&  “ ((Zlength (d)) = i) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((1 <= (Znth k d 0)) /\ ((Znth k d 0) <= i))) ” 
-  &&  “ (1 <= best) ” 
-  &&  “ (best <= (i + 1 )) ” 
-  &&  “ (LISOuterState l d i ans ) ” 
-  &&  “ (LISInnerBest l d i i best ) ”
-  &&  (((dp_pre + (i * sizeof(INT) ) )) # Int  |-> (Znth (i - 0 ) (app (d) ((cons (best) ((@nil Z))))) 0))
-  **  (IntArray.missing_i dp_pre i 0 (i + 1 ) (app (d) ((cons (best) ((@nil Z))))) )
+  &&  “ (1 <= ans) ” 
+  &&  “ (ans <= numsSize_pre) ” 
+  &&  “ (LISBestSoFar l i ans ) ” 
+  &&  “ (LISDPTablePrefix l d (i + 1 ) ) ”
+  &&  (((dp_pre + (i * sizeof(INT)))) # Int  |-> (Znth (i - 0 ) d 0))
+  **  (IntArray.missing_i dp_pre i 0 (i + 1 ) d )
   **  (IntArray.full nums_pre numsSize_pre l )
   **  (IntArray.undef_seg dp_pre (i + 1 ) numsSize_pre )
 .
 
 Module Type VC_Correct.
 
-Include int_array_Strategy_Correct.
-Include uint_array_Strategy_Correct.
-Include undef_uint_array_Strategy_Correct.
-Include array_shape_Strategy_Correct.
 
 Axiom proof_of_lengthOfLIS_safety_wit_1 : lengthOfLIS_safety_wit_1.
 Axiom proof_of_lengthOfLIS_safety_wit_2 : lengthOfLIS_safety_wit_2.
@@ -965,18 +790,18 @@ Axiom proof_of_lengthOfLIS_safety_wit_5 : lengthOfLIS_safety_wit_5.
 Axiom proof_of_lengthOfLIS_safety_wit_6 : lengthOfLIS_safety_wit_6.
 Axiom proof_of_lengthOfLIS_safety_wit_7 : lengthOfLIS_safety_wit_7.
 Axiom proof_of_lengthOfLIS_safety_wit_8 : lengthOfLIS_safety_wit_8.
+Axiom proof_of_lengthOfLIS_safety_wit_9 : lengthOfLIS_safety_wit_9.
+Axiom proof_of_lengthOfLIS_safety_wit_10 : lengthOfLIS_safety_wit_10.
 Axiom proof_of_lengthOfLIS_entail_wit_1 : lengthOfLIS_entail_wit_1.
 Axiom proof_of_lengthOfLIS_entail_wit_2 : lengthOfLIS_entail_wit_2.
-Axiom proof_of_lengthOfLIS_entail_wit_3 : lengthOfLIS_entail_wit_3.
+Axiom proof_of_lengthOfLIS_entail_wit_3_1 : lengthOfLIS_entail_wit_3_1.
+Axiom proof_of_lengthOfLIS_entail_wit_3_2 : lengthOfLIS_entail_wit_3_2.
+Axiom proof_of_lengthOfLIS_entail_wit_3_3 : lengthOfLIS_entail_wit_3_3.
 Axiom proof_of_lengthOfLIS_entail_wit_4 : lengthOfLIS_entail_wit_4.
 Axiom proof_of_lengthOfLIS_entail_wit_5_1 : lengthOfLIS_entail_wit_5_1.
 Axiom proof_of_lengthOfLIS_entail_wit_5_2 : lengthOfLIS_entail_wit_5_2.
-Axiom proof_of_lengthOfLIS_entail_wit_5_3 : lengthOfLIS_entail_wit_5_3.
 Axiom proof_of_lengthOfLIS_entail_wit_6 : lengthOfLIS_entail_wit_6.
 Axiom proof_of_lengthOfLIS_entail_wit_7 : lengthOfLIS_entail_wit_7.
-Axiom proof_of_lengthOfLIS_entail_wit_8_1 : lengthOfLIS_entail_wit_8_1.
-Axiom proof_of_lengthOfLIS_entail_wit_8_2 : lengthOfLIS_entail_wit_8_2.
-Axiom proof_of_lengthOfLIS_entail_wit_9 : lengthOfLIS_entail_wit_9.
 Axiom proof_of_lengthOfLIS_return_wit_1 : lengthOfLIS_return_wit_1.
 Axiom proof_of_lengthOfLIS_partial_solve_wit_1 : lengthOfLIS_partial_solve_wit_1.
 Axiom proof_of_lengthOfLIS_partial_solve_wit_2 : lengthOfLIS_partial_solve_wit_2.

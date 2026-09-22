@@ -24,7 +24,7 @@ Local Open Scope sac.
 
 Lemma proof_of_merge_entail_wit_1 : merge_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists l0. Exists (@nil Z). Exists (@nil Z). Exists s1. Exists s2. Exists (@nil Z).
   repeat (split_pure_spatial || split_pures).
   + rewrite (IntArray.seg_empty arr_pre p_pre p_pre).
@@ -51,7 +51,7 @@ Qed.
 
 Lemma proof_of_merge_entail_wit_2_2 : merge_entail_wit_2_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   replace (i - i) with 0 by lia.
   replace (j - j) with 0 by lia.
   replace (k - k) with 0 by lia.
@@ -116,7 +116,7 @@ Qed.
 
 Lemma proof_of_merge_entail_wit_2_1 : merge_entail_wit_2_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   replace (i - i) with 0 by lia.
   replace (j - j) with 0 by lia.
   replace (k - k) with 0 by lia.
@@ -181,7 +181,7 @@ Qed.
 
 Lemma proof_of_merge_entail_wit_3_1 : merge_entail_wit_3_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply (IntArray.seg_valid arr_pre i (q_pre + 1) l1_2). Intros.
   Left.
   Exists l6_2. Exists l5_2. Exists l4_2. Exists l1_2. Exists l2_2. Exists l3_2.
@@ -204,7 +204,7 @@ Qed.
 
 Lemma proof_of_merge_entail_wit_3_2 : merge_entail_wit_3_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply (IntArray.seg_valid arr_pre j (r_pre + 1) l2_2). Intros.
   Exists l6_2. Exists l5_2. Exists l4_2. Exists l1_2. Exists l2_2. Exists l3_2.
   repeat (split_pure_spatial || split_pures).
@@ -226,7 +226,7 @@ Qed.
 
 Lemma proof_of_merge_entail_wit_4 : merge_entail_wit_4.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   replace (i - i) with 0 by lia.
   replace (k - k) with 0 by lia.
   replace (i + 1 - i) with 1 by lia.
@@ -294,27 +294,57 @@ Qed.
 
 Lemma proof_of_merge_entail_wit_5_2 : merge_entail_wit_5_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply (IntArray.seg_length arr_pre i). Intros.
   destruct l1 as [| x l1']; [| simpl in H; lia].
   Exists l6_2. Exists l5_2. Exists l4_2. Exists l2_2. Exists l3_2.
   rewrite IntArray.seg_empty.
-  entailer!.
+  Intros_p Hi.
+  repeat (split_pure_spatial || split_pures).
+  - cancel (IntArray.seg arr_pre p_pre i l4_2).
+    cancel (IntArray.seg arr_pre (q_pre + 1) j l5_2).
+    cancel (IntArray.seg arr_pre j (r_pre + 1) l2_2).
+    cancel (IntArray.seg ret_pre p_pre k l3_2).
+    cancel (IntArray.seg ret_pre k (r_pre + 1) l6_2).
+  - dump_pre_spatial. exact PreH2.
+  - dump_pre_spatial; lia.
+  - dump_pre_spatial; lia.
+  - dump_pre_spatial; lia.
+  - dump_pre_spatial; lia.
+  - dump_pre_spatial; lia.
+  - dump_pre_spatial; lia.
+  - dump_pre_spatial; lia.
+  - dump_pre_spatial; lia.
 Qed.
 
 Lemma proof_of_merge_entail_wit_5_1 : merge_entail_wit_5_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply (IntArray.seg_length arr_pre i). Intros.
   destruct l1 as [| x l1']; [| simpl in H; lia].
   Exists l6_2. Exists l5_2. Exists l4_2. Exists l2_2. Exists l3_2.
   rewrite IntArray.seg_empty.
-  entailer!.
+  Intros_p Hi.
+  repeat (split_pure_spatial || split_pures).
+  - cancel (IntArray.seg arr_pre p_pre i l4_2).
+    cancel (IntArray.seg arr_pre (q_pre + 1) j l5_2).
+    cancel (IntArray.seg arr_pre j (r_pre + 1) l2_2).
+    cancel (IntArray.seg ret_pre p_pre k l3_2).
+    cancel (IntArray.seg ret_pre k (r_pre + 1) l6_2).
+  - dump_pre_spatial. exact PreH2.
+  - dump_pre_spatial; lia.
+  - dump_pre_spatial; lia.
+  - dump_pre_spatial; lia.
+  - dump_pre_spatial; lia.
+  - dump_pre_spatial; lia.
+  - dump_pre_spatial; lia.
+  - dump_pre_spatial; lia.
+  - dump_pre_spatial; lia.
 Qed.
 
 Lemma proof_of_merge_entail_wit_6 : merge_entail_wit_6.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   replace (j - j) with 0 by lia.
   replace (k - k) with 0 by lia.
   replace (j + 1 - j) with 1 by lia.
@@ -383,7 +413,7 @@ Qed.
 
 Lemma proof_of_merge_return_wit_1 : merge_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply (IntArray.seg_valid arr_pre j (r_pre + 1) l2). Intros.
   prop_apply (IntArray.seg_Zlength arr_pre j (r_pre + 1) l2). Intros.
   assert (j = r_pre + 1) by lia.
@@ -424,7 +454,7 @@ Qed.
 
 Lemma proof_of_mergeSort_safety_wit_1 : mergeSort_safety_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   repeat (split_pure_spatial || split_pures).
   + dump_pre_spatial.
     assert ((r_pre - l_pre) ÷ 2 < r_pre - l_pre).
@@ -442,7 +472,7 @@ Qed.
 
 Lemma proof_of_mergeSort_entail_wit_1 : mergeSort_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply (IntArray.seg_Zlength arr_pre l_pre (r_pre + 1) s1_low_level_spec).
   Intros.
   Exists (sublist 0 (l_pre + (r_pre - l_pre) ÷ 2 + 1 - l_pre) s1_low_level_spec).
@@ -512,7 +542,7 @@ Qed.
 
 Lemma proof_of_mergeSort_entail_wit_2 : mergeSort_entail_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists l2_3. Exists l2_2. Exists l1_2.
   repeat (split_pure_spatial || split_pures).
   + cancel. cancel.
@@ -531,7 +561,7 @@ Qed.
 
 Lemma proof_of_mergeSort_entail_wit_3 : mergeSort_entail_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists (l3 ++ l2). Exists l1. Exists l1_2.
   repeat (split_pure_spatial || split_pures).
   + sep_apply_l_atomic (IntArray.seg_merge_to_seg ret_pre l_pre (m + 1) (r_pre + 1) l3 l2).
@@ -551,10 +581,12 @@ Qed.
 
 Lemma proof_of_mergeSort_return_wit_2 : mergeSort_return_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   prop_apply (IntArray.seg_length arr_pre l_pre). Intros.
   Exists s1_low_level_spec. Exists s1_low_level_spec.
-  entailer!.
+  split_pure_spatial.
+  - cancel.
+  - dump_pre_spatial.
   destruct s1_low_level_spec as [| x xs]. simpl in H. lia.
   destruct xs as [| y ys]. 2: { simpl in H. lia. }
   rewrite (gmergesortrec_unfold _) in PreH2.
@@ -568,7 +600,7 @@ Qed.
 
 Lemma proof_of_mergeSort_derive_low_level_spec_aux_by_low_level_spec : mergeSort_derive_low_level_spec_aux_by_low_level_spec.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   apply safeExec_bind in H as (X_low_level_spec & Hsafe_first & Hsafe_cont).
   Exists l0_low_level_spec_aux. Exists X_low_level_spec.
   split_pure_spatial.

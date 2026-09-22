@@ -20,10 +20,10 @@ From SimpleC.EE.Applications_human.minigmp_sumlib Require Import GmpAux GmpNumbe
 Import Aux.
 Local Open Scope sac.
 
-Lemma proof_of_mpz_clear_return_wit_2 : mpz_clear_return_wit_2.
+Lemma proof_of_mpz_clear_return_wit_2_split_goal_spatial :
+  mpz_clear_return_wit_2_split_goal_spatial.
 Proof.
-  pre_process.
-  Exists ptr_2 cap_2 size_2.
+  LLM_pre_process ltac:(int_auto).
   subst cap_2.
   assert (Hsize_abs: Zabs size_2 = 0) by lia.
   rewrite Hsize_abs.
@@ -34,119 +34,182 @@ Proof.
   { apply Zlength_nil_inv. lia. }
   subst data.
   rewrite UIntArray.full_empty.
-  entailer!.
+  cancel.
+  normalize.
+  cancel.
+  Intros_p Hlen_nil.
+  cancel.
+Qed.
+
+Lemma proof_of_mpz_clear_return_wit_2 : mpz_clear_return_wit_2.
+Proof.
+  aggressive_pre_process.
+  Goal_apply proof_of_mpz_clear_return_wit_2_split_goal_spatial.
 Qed.
 
 Lemma proof_of_mpz_realloc_return_wit_3 : mpz_realloc_return_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
 Qed.
 
 Lemma proof_of_mpz_realloc_return_wit_4 : mpz_realloc_return_wit_4.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
 Qed.
 
-Lemma proof_of_mpz_realloc_return_wit_1 : mpz_realloc_return_wit_1.
+Lemma proof_of_mpz_realloc_return_wit_1_split_goal_spatial :
+  mpz_realloc_return_wit_1_split_goal_spatial.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (Hold_zero: old = 0) by lia.
   subst old.
-  Exists retval_2.
+  change (Zabs 0) with 0 in *.
   rewrite PreH3.
-  entailer!.
   sep_apply (UIntArray.undef_full_to_undef_seg retval); try lia.
   unfold mpd_store_Z_compact, mpd_store_list.
   Intros l.
   assert (l = nil).
   { apply Zlength_nil_inv. lia. }
   subst l.
+  destruct H as [Hval [Hlast Hbound]].
+  rewrite list_to_Z_nil in Hval.
+  assert (Hn_abs_zero: Zabs n = 0) by lia.
+  rewrite Hn_abs_zero in *.
   rewrite UIntArray.full_empty.
   rewrite PreH10.
   rewrite UIntArray.undef_seg_empty.
   Exists (@nil Z).
   rewrite UIntArray.full_empty.
   try rewrite UIntArray.undef_seg_empty.
-  entailer!.
+  split_pure_spatial.
+  - cancel.
+    normalize.
+    Intros.
+    cancel.
+  - repeat split_pures; dump_pre_spatial; simpl; try reflexivity; try lia.
+    rewrite list_to_Z_nil; tauto.
+Qed.
+
+Lemma proof_of_mpz_realloc_return_wit_1 : mpz_realloc_return_wit_1.
+Proof.
+  aggressive_pre_process.
+  Goal_apply proof_of_mpz_realloc_return_wit_1_split_goal_spatial.
 Qed.
 
 Lemma proof_of_mpz_realloc_partial_solve_wit_2_pure : mpz_realloc_partial_solve_wit_2_pure.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
 Qed.
 
 Lemma proof_of_mpz_realloc_partial_solve_wit_3_pure : mpz_realloc_partial_solve_wit_3_pure.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
 Qed.
 
 Lemma proof_of_mpz_realloc_partial_solve_wit_4_pure : mpz_realloc_partial_solve_wit_4_pure.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
 Qed.
 
 Lemma proof_of_mpz_realloc_partial_solve_wit_5_pure : mpz_realloc_partial_solve_wit_5_pure.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
+Qed.
+
+Lemma proof_of_mrz_realloc_if_return_wit_1_split_goal_1 :
+  mrz_realloc_if_return_wit_1_split_goal_1.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+Qed.
+
+Lemma proof_of_mrz_realloc_if_return_wit_1_split_goal_2 :
+  mrz_realloc_if_return_wit_1_split_goal_2.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+Qed.
+
+Lemma proof_of_mrz_realloc_if_return_wit_1_split_goal_spatial :
+  mrz_realloc_if_return_wit_1_split_goal_spatial.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  replace (Z.max (Z.max n_pre 1) cap) with cap by lia.
+  cancel.
 Qed.
 
 Lemma proof_of_mrz_realloc_if_return_wit_1 : mrz_realloc_if_return_wit_1.
 Proof.
-  pre_process.
-  Exists cap.
-  assert (Z.max (Z.max n_pre 1) cap = cap) as Hmax.
-  {
-    apply Zmax_right.
-    apply Z.max_lub; lia.
-  }
-  rewrite Hmax.
-  entailer!.
+  aggressive_pre_process.
+  - Goal_apply proof_of_mrz_realloc_if_return_wit_1_split_goal_spatial.
+  - Goal_apply proof_of_mrz_realloc_if_return_wit_1_split_goal_1.
+  - Goal_apply proof_of_mrz_realloc_if_return_wit_1_split_goal_2.
+Qed.
+
+Lemma proof_of_mrz_realloc_if_return_wit_2_split_goal_1 :
+  mrz_realloc_if_return_wit_2_split_goal_1.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+Qed.
+
+Lemma proof_of_mrz_realloc_if_return_wit_2_split_goal_2 :
+  mrz_realloc_if_return_wit_2_split_goal_2.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+Qed.
+
+Lemma proof_of_mrz_realloc_if_return_wit_2_split_goal_spatial :
+  mrz_realloc_if_return_wit_2_split_goal_spatial.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  replace (Z.max (Z.max n_pre 1) cap) with (Z.max n_pre 1) by lia.
+  cancel.
 Qed.
 
 Lemma proof_of_mrz_realloc_if_return_wit_2 : mrz_realloc_if_return_wit_2.
 Proof.
-  pre_process.
-  Exists r_callee__mp_alloc.
-  assert (Z.max (Z.max n_pre 1) cap = Z.max n_pre 1) as Hmax.
-  {
-    apply Zmax_left.
-    lia.
-  }
-  rewrite Hmax.
-  entailer!.
+  aggressive_pre_process.
+  - Goal_apply proof_of_mrz_realloc_if_return_wit_2_split_goal_spatial.
+  - Goal_apply proof_of_mrz_realloc_if_return_wit_2_split_goal_1.
+  - Goal_apply proof_of_mrz_realloc_if_return_wit_2_split_goal_2.
 Qed.
 
-Lemma proof_of_mpz_sgn_return_wit_1 : mpz_sgn_return_wit_1.
-Proof. 
-  pre_process. 
-  unfold store_Z.
-  Exists ptr size cap.
-  entailer!.
+Lemma proof_of_mpz_sgn_return_wit_1_split_goal_1 :
+  mpz_sgn_return_wit_1_split_goal_1.
+Proof.
+  LLM_pre_process ltac:(int_auto).
   unfold same_sign in PreH3.
   destruct PreH3 as [[_ Hsize_nonneg] | [Hn_neg _]]; [lia | exact Hn_neg].
 Qed.
 
+Lemma proof_of_mpz_sgn_return_wit_1 : mpz_sgn_return_wit_1.
+Proof.
+  aggressive_pre_process.
+  Goal_apply proof_of_mpz_sgn_return_wit_1_split_goal_1.
+Qed.
+
 Lemma proof_of_mpz_sgn_return_wit_2 : mpz_sgn_return_wit_2.
 Proof.
-  pre_process. 
+  LLM_pre_process ltac:(int_auto).
   unfold store_Z.
   Exists ptr size cap.
   replace (Zabs size) with size by lia.
   subst size.
-  prop_apply (mpd_store_Z_compact_zero) ; try lia.
+  prop_apply (mpd_store_Z_compact_zero); try lia.
   Intros.
   assert (n = 0) by lia.
   replace (Zabs n) with n by lia.
-  entailer!.
+  split_pure_spatial.
+  - cancel.
+  - repeat split_pures; dump_pre_spatial; try assumption; try reflexivity; try lia.
 Qed.
 
 Lemma proof_of_mpz_sgn_return_wit_3 : mpz_sgn_return_wit_3.
 Proof.
-  pre_process. 
+  LLM_pre_process ltac:(int_auto).
   unfold store_Z.
   Exists ptr size cap.
   replace (Zabs size) with size by lia.
-  prop_apply (mpd_store_Z_compact_pos); try lia.
+  prop_apply (mpd_store_Z_compact_pos UINT_MOD UINT_MOD_pos ptr
+    (Zabs n) size ltac:(lia)).
   Intros.
   assert (Hn_pos: n > 0).
   { unfold same_sign in PreH3.
@@ -155,7 +218,7 @@ Proof.
         destruct PreH3 as [[Hn_nonneg _] | [_ Hsize_neg]]; lia
     end. }
   replace (Zabs n) with n by lia.
-  entailer!.
-  unfold UINT_MOD; lia.
+  split_pure_spatial.
+  - cancel.
+  - repeat split_pures; dump_pre_spatial; try assumption; try reflexivity; try lia.
 Qed.
-

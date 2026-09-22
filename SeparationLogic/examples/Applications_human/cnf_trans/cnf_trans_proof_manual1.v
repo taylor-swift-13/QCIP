@@ -22,9 +22,10 @@ From SimpleC.EE.Applications_human Require Import malloc.
 From SimpleC.EE.Applications_human Require Import super_poly_sll2.
 Local Open Scope sac.
 
-Lemma proof_of_clause_gen_unary_return_wit_1 : clause_gen_unary_return_wit_1.
+Lemma proof_of_clause_gen_unary_return_wit_1_split_goal_spatial :
+  clause_gen_unary_return_wit_1_split_goal_spatial.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert ( all_zero_list 3 = 0 :: 0 :: 0 :: nil). {
     unfold all_zero_list.
     unfold all_zero_list_nat.
@@ -59,7 +60,6 @@ Proof.
   pose proof @sllseg_sll cnf_list_cell store_cnf_list_cell "cnf_list" "next" as Hsllseg_sll1.
   unfold sll_cnf_list.
   specialize (Hsllseg_sll1 retval_4 y ((- p2_pre :: - p3_pre :: 0 :: nil) :: nil) clist).
-  entailer!.
   sep_apply Hsllseg_sll1.
   clear Hsllseg_sll1.
   pose proof @sllseg_sll cnf_list_cell store_cnf_list_cell "cnf_list" "next" as Hsllseg_sll2.
@@ -67,35 +67,28 @@ Proof.
   sep_apply Hsllseg_sll2.
   clear Hsllseg_sll2.
   unfold iff2cnf_unary.
-  unfold store_predata.
-  Exists retval_3.
-  entailer!.
-  unfold sll_cnf_list.
-  assert ((((p2_pre :: p3_pre :: 0 :: nil) :: nil) ++ ((- p2_pre :: - p3_pre :: 0 :: nil) :: nil) ++ clist) = (((p2_pre :: p3_pre :: 0 :: nil) :: (- p2_pre :: - p3_pre :: 0 :: nil) :: nil) ++ clist)). {
-    easy.
-  }
-  rewrite <- H5.
-  repeat rewrite Hsep_assoc.
-  3: easy.
-  3: easy.
-  3: easy.
-  3: easy.
-  2: {
-    pose proof app_comm_cons.
-    rewrite <- H5.
-    pose proof Zlength_cons as HZlength_cons.
-    rewrite HZlength_cons.
-    unfold app.
-    rewrite HZlength_cons.
+  assert (Hlength:
+    Zlength
+      (((p2_pre :: p3_pre :: 0 :: nil) ::
+        (- p2_pre :: - p3_pre :: 0 :: nil) :: nil) ++ clist) =
+    ccnt + 2).
+  {
+    repeat rewrite Zlength_app.
+    repeat rewrite Zlength_cons.
+    rewrite Zlength_nil, PreH8.
     lia.
   }
-  1: {
-    pose proof prop_cnt_nneg clist.
-    assert (pcnt >= 1) by lia.
-    assert (prop_cnt_inf clist <= pcnt - 1) by lia.
-    unfold prop_cnt_inf in H8.
-    pose proof Z.max_lub_l _ _ _ H8.
-    pose proof Z.max_lub_r _ _ _ H8.
+  assert (Hprop:
+    prop_cnt_inf
+      (((p2_pre :: p3_pre :: 0 :: nil) ::
+        (- p2_pre :: - p3_pre :: 0 :: nil) :: nil) ++ clist) <= pcnt).
+  {
+    pose proof prop_cnt_nneg clist as Hprop_nonneg.
+    assert (Hpcnt_pos: pcnt >= 1) by lia.
+    assert (Hclist_bound: prop_cnt_inf clist <= pcnt - 1) by lia.
+    unfold prop_cnt_inf in Hclist_bound.
+    pose proof Z.max_lub_l _ _ _ Hclist_bound as Hmax_bound.
+    pose proof Z.max_lub_r _ _ _ Hclist_bound as Hmin_bound.
     unfold prop_cnt_inf.
     apply Z.max_lub.
     + simpl.
@@ -104,35 +97,70 @@ Proof.
       apply Z.abs_le.
       split.
       - repeat apply Z.min_glb; try lia.
-      - pose proof Z.le_min_l (Z.min p2_pre (Z.min p3_pre (Z.min 0 0))) (Z.min (Z.min (- p2_pre) (Z.min (- p3_pre) (Z.min 0 0))) (min_cnf clist)).
+      - pose proof Z.le_min_l
+          (Z.min p2_pre (Z.min p3_pre (Z.min 0 0)))
+          (Z.min (Z.min (- p2_pre) (Z.min (- p3_pre) (Z.min 0 0)))
+            (min_cnf clist)).
         pose proof Z.le_min_l p2_pre (Z.min p3_pre (Z.min 0 0)).
-        remember (Z.min (Z.min p2_pre (Z.min p3_pre (Z.min 0 0)))
-        (Z.min (Z.min (- p2_pre) (Z.min (- p3_pre) (Z.min 0 0))) (min_cnf clist))) as tmp2 eqn:H2000.
-        remember (Z.min p2_pre (Z.min p3_pre (Z.min 0 0))) as tmp1 eqn:H1000.
+        remember
+          (Z.min (Z.min p2_pre (Z.min p3_pre (Z.min 0 0)))
+            (Z.min (Z.min (- p2_pre) (Z.min (- p3_pre) (Z.min 0 0)))
+              (min_cnf clist))) as tmp2 eqn:H2000.
+        remember (Z.min p2_pre (Z.min p3_pre (Z.min 0 0)))
+          as tmp1 eqn:H1000.
         clear H1000 H2000.
         lia.
   }
+  unfold store_predata.
+  Exists retval_3.
+  split_pure_spatial.
+  - unfold sll_cnf_list.
+    replace
+      (((p2_pre :: p3_pre :: 0 :: nil) :: nil) ++
+        ((- p2_pre :: - p3_pre :: 0 :: nil) :: nil) ++ clist)
+      with
+      (((p2_pre :: p3_pre :: 0 :: nil) ::
+        (- p2_pre :: - p3_pre :: 0 :: nil) :: nil) ++ clist)
+      by reflexivity.
+    cancel.
+    cancel.
+  - repeat split_pures; dump_pre_spatial;
+      try assumption; try (unfold NULL; assumption); try lia.
+  - unfold NULL in *; assumption.
+  - unfold NULL in *; assumption.
+  - unfold NULL in *; assumption.
+  - unfold NULL in *; assumption.
+Qed.
+
+Lemma proof_of_clause_gen_unary_return_wit_1 : clause_gen_unary_return_wit_1.
+Proof.
+  aggressive_pre_process.
+  Goal_apply proof_of_clause_gen_unary_return_wit_1_split_goal_spatial.
 Qed.
 
 Lemma proof_of_clause_gen_unary_which_implies_wit_1 : clause_gen_unary_which_implies_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   unfold store_predata.
   Intros y.
   Exists y.
-  entailer!.
+  split_pure_spatial.
+  - cancel.
+    cancel.
+    cancel.
+  - split_pures; dump_pre_spatial; assumption.
 Qed.
 
 Lemma proof_of_clause_gen_binary_safety_wit_80 : clause_gen_binary_safety_wit_80.
 Proof.
-  pre_process.
-  entailer!.
+  LLM_pre_process ltac:(int_auto).
+  split_pures; dump_pre_spatial.
   destruct bop; simpl in * ; try lia.
 Qed.
 
 Lemma proof_of_clause_gen_binary_return_wit_8 : clause_gen_binary_return_wit_8.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   rewrite all_zero_list_3.
   repeat rewrite replace_0th.
   repeat rewrite replace_1st.
@@ -211,12 +239,17 @@ Proof.
         lia.
   }
   clear - PreH4 PreH26 PreH27 Hprop_app Hs1 Hs2 Hs3.
-  entailer!.
+  split_pure_spatial.
+  - unfold sll_cnf_list.
+    cancel.
+    cancel.
+  - repeat split_pures; dump_pre_spatial;
+      try assumption; try (unfold NULL; assumption); try reflexivity; try lia.
 Qed.
 
 Lemma proof_of_clause_gen_binary_return_wit_3 : clause_gen_binary_return_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   rewrite all_zero_list_3.
   repeat rewrite replace_0th.
   repeat rewrite replace_1st.
@@ -290,12 +323,17 @@ Proof.
         lia.
   }
   clear - PreH4 PreH26 PreH27 Hprop_app Hs1 Hs2 Hs3.
-  entailer!.
+  split_pure_spatial.
+  - unfold sll_cnf_list.
+    cancel.
+    cancel.
+  - repeat split_pures; dump_pre_spatial;
+      try assumption; try (unfold NULL; assumption); try reflexivity; try lia.
 Qed.
 
 Lemma proof_of_clause_gen_binary_return_wit_4 : clause_gen_binary_return_wit_4.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   rewrite all_zero_list_3.
   repeat rewrite replace_0th.
   repeat rewrite replace_1st.
@@ -373,5 +411,10 @@ Proof.
         lia.
   }
   clear - PreH4 PreH26 PreH27 Hprop_app Hs1 Hs2 Hs3.
-  entailer!.
+  split_pure_spatial.
+  - unfold sll_cnf_list.
+    cancel.
+    cancel.
+  - repeat split_pures; dump_pre_spatial;
+      try assumption; try (unfold NULL; assumption); try reflexivity; try lia.
 Qed.

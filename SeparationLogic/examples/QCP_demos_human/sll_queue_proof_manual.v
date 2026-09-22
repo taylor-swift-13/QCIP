@@ -22,48 +22,82 @@ Local Open Scope sac.
 
 Lemma proof_of_enqueue_return_wit_1 : enqueue_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   unfold store_queue.
-  sep_apply (sllseg_len1 q_tail); [ | tauto].
-  sep_apply (sllseg_sllseg q_head).
+  sep_apply (sllseg_len1 q_tail x_pre retval); [ | tauto ].
+  sep_apply (sllseg_sllseg q_head q_tail retval l (x_pre :: nil)%list).
   Exists q_head retval.
   Exists retval_data retval_next.
-  entailer!.
+  split_pure_spatial.
+  - cancel.
+    cancel.
+  - dump_pre_spatial.
+    exact PreH1.
 Qed.
 
 Lemma proof_of_enqueue_which_implies_wit_1 : enqueue_which_implies_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   unfold store_queue.
   Intros h t u v.
   Exists h v u t.
-  entailer!.
+  split_pure_spatial.
+  - cancel (&((q)  # "queue" ->ₛ "tail") # Ptr  |-> t).
+    cancel (&((t)  # "list" ->ₛ "data") # Int  |-> u).
+    cancel (&((t)  # "list" ->ₛ "next") # Ptr  |-> v).
+    cancel (&((q)  # "queue" ->ₛ "head") # Ptr  |-> h).
+    cancel (sllseg h t l).
+  - dump_pre_spatial.
+    exact H.
 Qed.
 
 Lemma proof_of_dequeue_return_wit_1 : dequeue_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   unfold store_queue.
   Exists q_head_next q_tail u v.
-  entailer!.
+  split_pure_spatial.
+  - cancel.
+    cancel.
+    cancel.
+  - split_pures.
+    + dump_pre_spatial.
+      reflexivity.
+    + dump_pre_spatial.
+      tauto.
 Qed.
 
 Lemma proof_of_dequeue_which_implies_wit_1 : dequeue_which_implies_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   unfold store_queue.
   Intros h t u v.
   simpl.
   Intros h_next.
   Exists h_next h v u t.
-  entailer!.
+  split_pure_spatial.
+  - cancel (&((q)  # "queue" ->ₛ "tail") # Ptr  |-> t).
+    cancel (&((t)  # "list" ->ₛ "data") # Int  |-> u).
+    cancel (&((t)  # "list" ->ₛ "next") # Ptr  |-> v).
+    cancel (&((q)  # "queue" ->ₛ "head") # Ptr  |-> h).
+    cancel (&((h)  # "list" ->ₛ "data") # Int  |-> x).
+    cancel (&((h)  # "list" ->ₛ "next") # Ptr  |-> h_next).
+    cancel (sllseg h_next t l).
+  - dump_pre_spatial.
+    exact H.
 Qed.
 
 Lemma proof_of_init_empty_queue_return_wit_1 : init_empty_queue_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   unfold store_queue.
   Exists retval_2 retval_2 retval_data retval_next.
   simpl sllseg.
-  entailer!.
+  split_pure_spatial.
+  - cancel.
+  - split_pures.
+    + dump_pre_spatial.
+      exact PreH1.
+    + dump_pre_spatial.
+      reflexivity.
 Qed.

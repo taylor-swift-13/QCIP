@@ -33,8 +33,8 @@ From SimpleC.EE.QCP_demos_human Require Import safeexec_strategy_proof.
 
 Definition alpha_equiv_safety_wit_1 := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) ,
-  ((( &( "t2" ) )) # Ptr  |-> t2_pre)
-  **  ((( &( "t1" ) )) # Ptr  |-> t1_pre)
+  ((( &( "t1" ) )) # Ptr  |-> t1_pre)
+  **  ((( &( "t2" ) )) # Ptr  |-> t2_pre)
   **  (store_term t1_pre term1 )
   **  (store_term t2_pre term2 )
 |--
@@ -44,8 +44,8 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) ,
 
 Definition alpha_equiv_safety_wit_2 := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (PreH1 : (t1_pre <> 0)) ,
-  ((( &( "t2" ) )) # Ptr  |-> t2_pre)
-  **  ((( &( "t1" ) )) # Ptr  |-> t1_pre)
+  ((( &( "t1" ) )) # Ptr  |-> t1_pre)
+  **  ((( &( "t2" ) )) # Ptr  |-> t2_pre)
   **  (store_term t1_pre term1 )
   **  (store_term t2_pre term2 )
 |--
@@ -55,8 +55,8 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (PreH1 : (t1_pre <> 0
 
 Definition alpha_equiv_safety_wit_3 := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (PreH1 : (t1_pre = 0)) ,
-  ((( &( "t2" ) )) # Ptr  |-> t2_pre)
-  **  ((( &( "t1" ) )) # Ptr  |-> t1_pre)
+  ((( &( "t1" ) )) # Ptr  |-> t1_pre)
+  **  ((( &( "t2" ) )) # Ptr  |-> t2_pre)
   **  (store_term t1_pre term1 )
   **  (store_term t2_pre term2 )
 |--
@@ -66,8 +66,8 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (PreH1 : (t1_pre = 0)
 
 Definition alpha_equiv_safety_wit_4 := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (PreH1 : (t2_pre = 0)) (PreH2 : (t1_pre <> 0)) ,
-  ((( &( "t2" ) )) # Ptr  |-> t2_pre)
-  **  ((( &( "t1" ) )) # Ptr  |-> t1_pre)
+  ((( &( "t1" ) )) # Ptr  |-> t1_pre)
+  **  ((( &( "t2" ) )) # Ptr  |-> t2_pre)
   **  (store_term t1_pre term1 )
   **  (store_term t2_pre term2 )
 |--
@@ -1090,30 +1090,16 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (PreH1 : (t1_pre = 0)
   **  (store_term t2_pre term2 )
 ) \/
 (
-forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (PreH1 : (t1_pre = 0)) ,
-  (store_term t1_pre term1 )
-  **  (store_term t2_pre term2 )
+forall (t1_pre: Z) (term2: term) (term1: term) (PreH1 : (t1_pre = 0)) ,
+  TT && emp 
 |--
   “ (0 = (term_alpha_eqn (term1) (term2))) ”
-  &&  (store_term t1_pre term1 )
-  **  (store_term t2_pre term2 )
+  &&  emp
 ).
 
 Definition alpha_equiv_return_wit_14_split_goal_1 := 
-forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (PreH1 : (t1_pre = 0)) ,
-  (store_term t1_pre term1 )
-  **  (store_term t2_pre term2 )
-|--
-  “ (0 = (term_alpha_eqn (term1) (term2))) ”
-.
-
-Definition alpha_equiv_return_wit_14_split_goal_spatial := 
-forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (PreH1 : (t1_pre = 0)) ,
-  (store_term t1_pre term1 )
-  **  (store_term t2_pre term2 )
-|--
-  (store_term t1_pre term1 )
-  **  (store_term t2_pre term2 )
+forall (t1_pre: Z) (term2: term) (term1: term) (PreH1 : (t1_pre = 0)) ,
+  (0 = (term_alpha_eqn (term1) (term2)))
 .
 
 Definition alpha_equiv_return_wit_15 := 
@@ -1128,29 +1114,15 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (PreH1 : (t2_pre = 0)
 ) \/
 (
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (PreH1 : (t2_pre = 0)) (PreH2 : (t1_pre <> 0)) ,
-  (store_term t1_pre term1 )
-  **  (store_term t2_pre term2 )
+  TT && emp 
 |--
   “ (0 = (term_alpha_eqn (term1) (term2))) ”
-  &&  (store_term t1_pre term1 )
-  **  (store_term t2_pre term2 )
+  &&  emp
 ).
 
 Definition alpha_equiv_return_wit_15_split_goal_1 := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (PreH1 : (t2_pre = 0)) (PreH2 : (t1_pre <> 0)) ,
-  (store_term t1_pre term1 )
-  **  (store_term t2_pre term2 )
-|--
-  “ (0 = (term_alpha_eqn (term1) (term2))) ”
-.
-
-Definition alpha_equiv_return_wit_15_split_goal_spatial := 
-forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (PreH1 : (t2_pre = 0)) (PreH2 : (t1_pre <> 0)) ,
-  (store_term t1_pre term1 )
-  **  (store_term t2_pre term2 )
-|--
-  (store_term t1_pre term1 )
-  **  (store_term t2_pre term2 )
+  (0 = (term_alpha_eqn (term1) (term2)))
 .
 
 Definition alpha_equiv_partial_solve_wit_1 := 
@@ -2028,39 +2000,22 @@ forall (qv2: (@list Z)) (qv1: (@list Z)) (t1: Z) (v: Z) (t2: Z) (v_2: Z) ,
   **  (store_string v_2 qv2 )
 ) \/
 (
-forall (qv2: (@list Z)) (qv1: (@list Z)) (v: Z) (v_2: Z) ,
-  (store_string v qv1 )
-  **  (store_string v_2 qv2 )
+forall (v: Z) (v_2: Z) ,
+  TT && emp 
 |--
   “ (v_2 <> 0) ” 
   &&  “ (v <> 0) ”
-  &&  (store_string v qv1 )
-  **  (store_string v_2 qv2 )
+  &&  emp
 ).
 
 Definition alpha_equiv_which_implies_wit_6_split_goal_1 := 
-forall (qv2: (@list Z)) (qv1: (@list Z)) (v: Z) (v_2: Z) ,
-  (store_string v qv1 )
-  **  (store_string v_2 qv2 )
-|--
-  “ (v_2 <> 0) ”
+forall (v_2: Z) ,
+  (v_2 <> 0)
 .
 
 Definition alpha_equiv_which_implies_wit_6_split_goal_2 := 
-forall (qv2: (@list Z)) (qv1: (@list Z)) (v: Z) (v_2: Z) ,
-  (store_string v qv1 )
-  **  (store_string v_2 qv2 )
-|--
-  “ (v <> 0) ”
-.
-
-Definition alpha_equiv_which_implies_wit_6_split_goal_spatial := 
-forall (qv2: (@list Z)) (qv1: (@list Z)) (v: Z) (v_2: Z) ,
-  (store_string v qv1 )
-  **  (store_string v_2 qv2 )
-|--
-  (store_string v qv1 )
-  **  (store_string v_2 qv2 )
+forall (v: Z) ,
+  (v <> 0)
 .
 
 Module Type VC_Correct.

@@ -277,7 +277,7 @@ Definition dll_free_partial_solve_wit_1 :=
 forall (x: Z) (prev: Z) (PreH1 : (x <> 0)) ,
   (dlistrep_shape x prev )
 |--
-  EX (y: Z)  (x_2: Z) ,
+  EX (x_2: Z)  (y: Z) ,
   “ (x <> 0) ”
   &&  ((&((x)  # "list" ->ₛ "next")) # Ptr  |-> y)
   **  (dlistrep_shape y x )
@@ -348,7 +348,7 @@ forall (w: Z) (v: Z) (PreH1 : (v <> 0)) ,
   (dlistrep_shape w v )
   **  (dlistrep_shape v w )
 |--
-  EX (y: Z)  (x: Z) ,
+  EX (x: Z)  (y: Z) ,
   “ (v <> 0) ”
   &&  ((&((v)  # "list" ->ₛ "next")) # Ptr  |-> y)
   **  (dlistrep_shape y v )
@@ -363,8 +363,8 @@ Definition append_safety_wit_1 :=
 forall (y_pre: Z) (x_pre: Z) ,
   ((( &( "u" ) )) # Ptr  |->_)
   **  ((( &( "t" ) )) # Ptr  |->_)
-  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
   **  ((( &( "x" ) )) # Ptr  |-> x_pre)
+  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
   **  (dlistrep_shape x_pre 0 )
   **  (dlistrep_shape y_pre 0 )
 |--
@@ -455,7 +455,7 @@ forall (y_pre: Z) (x_pre: Z) (PreH1 : (x_pre <> 0)) ,
   (dlistrep_shape x_pre 0 )
   **  (dlistrep_shape y_pre 0 )
 |--
-  EX (y: Z)  (x: Z) ,
+  EX (x: Z)  (y: Z) ,
   “ (x_pre <> 0) ”
   &&  ((&((x_pre)  # "list" ->ₛ "next")) # Ptr  |-> y)
   **  (dlistrep_shape y x_pre )
@@ -473,7 +473,7 @@ forall (y_pre: Z) (x_pre: Z) (t_prev: Z) (t_next: Z) (u: Z) (v: Z) (t: Z) (PreH1
   **  (dllseg_shape x_pre 0 t_prev t )
   **  (dlistrep_shape y_pre 0 )
 |--
-  EX (y: Z)  (x: Z) ,
+  EX (x: Z)  (y: Z) ,
   “ (u = t_next) ” 
   &&  “ (t <> 0) ” 
   &&  “ (x_pre <> 0) ” 
@@ -498,7 +498,7 @@ forall (y_pre: Z) (x_pre: Z) (t_prev: Z) (t_next: Z) (u: Z) (v: Z) (t: Z) (PreH1
   **  (dllseg_shape x_pre 0 t_prev t )
   **  (dlistrep_shape y_pre 0 )
 |--
-  EX (y: Z)  (x: Z) ,
+  EX (x: Z)  (y: Z) ,
   “ (u = t_next) ” 
   &&  “ (t <> 0) ” 
   &&  “ (x_pre <> 0) ” 
@@ -551,7 +551,7 @@ forall (l_pre: Z) (p_prev: Z) (p: Z) (PreH1 : (p <> 0)) ,
   (dllseg_shape l_pre 0 p_prev p )
   **  (dlistrep_shape p p_prev )
 |--
-  EX (y: Z)  (x: Z) ,
+  EX (x: Z)  (y: Z) ,
   “ (p <> 0) ”
   &&  ((&((p)  # "list" ->ₛ "next")) # Ptr  |-> y)
   **  (dlistrep_shape y p )
@@ -565,8 +565,8 @@ forall (l_pre: Z) (p_prev: Z) (p: Z) (PreH1 : (p <> 0)) ,
 Definition iter_back_safety_wit_1 := 
 forall (head_pre: Z) (l_pre: Z) (l_prev: Z) (PreH1 : (head_pre <> 0)) ,
   ((( &( "p" ) )) # Ptr  |->_)
-  **  ((( &( "head" ) )) # Ptr  |-> head_pre)
   **  ((( &( "l" ) )) # Ptr  |-> l_pre)
+  **  ((( &( "head" ) )) # Ptr  |-> head_pre)
   **  (dllseg_shape head_pre 0 l_prev l_pre )
   **  (dlistrep_shape l_pre l_prev )
 |--
@@ -708,9 +708,9 @@ Definition multi_merge_safety_wit_1 :=
 forall (z_pre: Z) (y_pre: Z) (x_pre: Z) ,
   ((( &( "u" ) )) # Ptr  |->_)
   **  ((( &( "t" ) )) # Ptr  |->_)
-  **  ((( &( "z" ) )) # Ptr  |-> z_pre)
-  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
   **  ((( &( "x" ) )) # Ptr  |-> x_pre)
+  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
+  **  ((( &( "z" ) )) # Ptr  |-> z_pre)
   **  (dlistrep_shape x_pre 0 )
   **  (dlistrep_shape y_pre 0 )
   **  (dlistrep_shape z_pre 0 )
@@ -1050,7 +1050,7 @@ forall (z_pre: Z) (y_pre: Z) (x_pre: Z) (PreH1 : (x_pre <> 0)) ,
   **  (dlistrep_shape y_pre 0 )
   **  (dlistrep_shape z_pre 0 )
 |--
-  EX (y: Z)  (x: Z) ,
+  EX (x: Z)  (y: Z) ,
   “ (x_pre <> 0) ”
   &&  ((&((x_pre)  # "list" ->ₛ "next")) # Ptr  |-> y)
   **  (dlistrep_shape y x_pre )
@@ -1070,7 +1070,7 @@ forall (x_pre: Z) (t_prev: Z) (z: Z) (y: Z) (t_next: Z) (u: Z) (t: Z) (v: Z) (Pr
   **  ((&((t)  # "list" ->ₛ "prev")) # Ptr  |-> t_prev)
   **  (dllseg_shape x_pre 0 t_prev t )
 |--
-  EX (y_2: Z)  (x: Z) ,
+  EX (x: Z)  (y_2: Z) ,
   “ (u = t_next) ” 
   &&  “ (t <> 0) ” 
   &&  “ (x_pre <> 0) ” 
@@ -1101,7 +1101,7 @@ forall (x_pre: Z) (t_prev: Z) (z: Z) (y: Z) (t_next: Z) (u: Z) (t: Z) (v: Z) (x:
   **  ((&((t)  # "list" ->ₛ "prev")) # Ptr  |-> t_prev)
   **  (dllseg_shape x_pre 0 t_prev t )
 |--
-  EX (y_3: Z)  (x_2: Z) ,
+  EX (x_2: Z)  (y_3: Z) ,
   “ (u = t_next) ” 
   &&  “ (t <> 0) ” 
   &&  “ (x_pre <> 0) ” 
@@ -1138,7 +1138,7 @@ forall (x_pre: Z) (t_prev: Z) (z: Z) (y: Z) (t_next: Z) (u: Z) (t: Z) (v: Z) (x:
   **  ((&((t)  # "list" ->ₛ "prev")) # Ptr  |-> t_prev)
   **  (dllseg_shape x_pre 0 t_prev t )
 |--
-  EX (y_4: Z)  (x_3: Z) ,
+  EX (x_3: Z)  (y_4: Z) ,
   “ (u = t_next) ” 
   &&  “ (t <> 0) ” 
   &&  “ (x_pre <> 0) ” 
@@ -1205,7 +1205,7 @@ forall (x_pre: Z) (t_prev: Z) (z: Z) (y: Z) (t_next: Z) (u: Z) (t: Z) (v: Z) (x:
   **  ((&((t)  # "list" ->ₛ "prev")) # Ptr  |-> t_prev)
   **  (dllseg_shape x_pre 0 t_prev t )
 |--
-  EX (y_5: Z)  (x_4: Z) ,
+  EX (x_4: Z)  (y_5: Z) ,
   “ (u = t_next) ” 
   &&  “ (t <> 0) ” 
   &&  “ (x_pre <> 0) ” 
@@ -1250,7 +1250,7 @@ forall (x_pre: Z) (t_prev: Z) (z: Z) (y: Z) (t_next: Z) (u: Z) (t: Z) (v: Z) (x:
   **  ((&((t)  # "list" ->ₛ "prev")) # Ptr  |-> t_prev)
   **  (dllseg_shape x_pre 0 t_prev t )
 |--
-  EX (y_4: Z)  (x_3: Z) ,
+  EX (x_3: Z)  (y_4: Z) ,
   “ (u = t_next) ” 
   &&  “ (t <> 0) ” 
   &&  “ (x_pre <> 0) ” 
@@ -1297,7 +1297,7 @@ forall (x_pre: Z) (t_prev: Z) (z: Z) (y: Z) (t_next: Z) (u: Z) (t: Z) (v: Z) (x:
   **  ((&((t)  # "list" ->ₛ "prev")) # Ptr  |-> t_prev)
   **  (dllseg_shape x_pre 0 t_prev t )
 |--
-  EX (y_6: Z)  (x_5: Z) ,
+  EX (x_5: Z)  (y_6: Z) ,
   “ (u = t_next) ” 
   &&  “ (t <> 0) ” 
   &&  “ (x_pre <> 0) ” 
@@ -1348,7 +1348,7 @@ forall (x_pre: Z) (t_prev: Z) (z: Z) (y: Z) (t_next: Z) (u: Z) (t: Z) (v: Z) (x:
   **  ((&((t)  # "list" ->ₛ "prev")) # Ptr  |-> t_prev)
   **  (dllseg_shape x_pre 0 t_prev t )
 |--
-  EX (y_5: Z)  (x_4: Z) ,
+  EX (x_4: Z)  (y_5: Z) ,
   “ (u = t_next) ” 
   &&  “ (t <> 0) ” 
   &&  “ (x_pre <> 0) ” 
@@ -1478,7 +1478,7 @@ forall (x_pre: Z) (t_prev: Z) (t_next: Z) (u: Z) (t: Z) (v: Z) (retval: Z) (PreH
   **  ((&((t)  # "list" ->ₛ "prev")) # Ptr  |-> t_prev)
   **  (dllseg_shape x_pre 0 t_prev t )
 |--
-  EX (y: Z)  (x: Z) ,
+  EX (x: Z)  (y: Z) ,
   “ (u = t_next) ” 
   &&  “ (t <> 0) ” 
   &&  “ (x_pre <> 0) ” 
@@ -1503,8 +1503,8 @@ forall (q_pre: Z) (p_pre: Z) ,
   **  ((( &( "v" ) )) # Ptr  |->_)
   **  ((( &( "t" ) )) # Ptr  |->_)
   **  ((( &( "w" ) )) # Ptr  |->_)
-  **  ((( &( "q" ) )) # Ptr  |-> q_pre)
   **  ((( &( "p" ) )) # Ptr  |-> p_pre)
+  **  ((( &( "q" ) )) # Ptr  |-> q_pre)
   **  (dlistrep_shape p_pre 0 )
   **  (dlistrep_shape q_pre 0 )
 |--
@@ -1519,8 +1519,8 @@ forall (q_pre: Z) (p_pre: Z) ,
   **  ((( &( "v" ) )) # Ptr  |->_)
   **  ((( &( "t" ) )) # Ptr  |->_)
   **  ((( &( "w" ) )) # Ptr  |-> 0)
-  **  ((( &( "q" ) )) # Ptr  |-> q_pre)
   **  ((( &( "p" ) )) # Ptr  |-> p_pre)
+  **  ((( &( "q" ) )) # Ptr  |-> q_pre)
   **  (dlistrep_shape p_pre 0 )
   **  (dlistrep_shape q_pre 0 )
 |--
@@ -1539,8 +1539,8 @@ forall (q_pre: Z) (p_pre: Z) (x: Z) (y: Z) (w: Z) (v: Z) ,
   **  (dlistrep_shape x y )
   **  (dlistrep_shape y x )
   **  ((( &( "t" ) )) # Ptr  |->_)
-  **  ((( &( "q" ) )) # Ptr  |-> q_pre)
   **  ((( &( "p" ) )) # Ptr  |-> p_pre)
+  **  ((( &( "q" ) )) # Ptr  |-> q_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -1606,7 +1606,7 @@ forall (x: Z) (y: Z) (w: Z) (v: Z) (PreH1 : (v <> 0)) ,
   **  (dlistrep_shape x y )
   **  (dlistrep_shape y x )
 |--
-  EX (y_2: Z)  (x_2: Z) ,
+  EX (x_2: Z)  (y_2: Z) ,
   “ (v <> 0) ”
   &&  ((&((v)  # "list" ->ₛ "next")) # Ptr  |-> y_2)
   **  (dlistrep_shape y_2 v )
@@ -1624,7 +1624,7 @@ forall (x: Z) (y: Z) (w: Z) (v: Z) (PreH1 : (v = 0)) (PreH2 : (y <> 0)) ,
   **  (dlistrep_shape x y )
   **  (dlistrep_shape y x )
 |--
-  EX (y_2: Z)  (x_2: Z) ,
+  EX (x_2: Z)  (y_2: Z) ,
   “ (v = 0) ” 
   &&  “ (y <> 0) ”
   &&  ((&((y)  # "list" ->ₛ "next")) # Ptr  |-> y_2)

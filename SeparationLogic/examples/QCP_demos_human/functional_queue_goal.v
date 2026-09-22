@@ -241,7 +241,7 @@ forall (q_pre: Z) (l: (@list Z)) (x: Z) (q_l2: Z) (q_l1: Z) (l1: (@list Z)) (l2:
   **  ((&((q_pre)  # "queue" ->ₛ "l2")) # Ptr  |-> q_l2)
   **  (sll q_l2 l2 )
 |--
-  “ (retval = x) ”
+  “ (z = x) ”
   &&  (store_queue q_pre l )
 ).
 
@@ -252,7 +252,7 @@ forall (q_pre: Z) (l: (@list Z)) (x: Z) (q_l2: Z) (q_l1: Z) (l1: (@list Z)) (l2:
   **  ((&((q_pre)  # "queue" ->ₛ "l2")) # Ptr  |-> q_l2)
   **  (sll q_l2 l2 )
 |--
-  “ (retval = x) ”
+  “ (z = x) ”
 .
 
 Definition dequeue_return_wit_2_split_goal_spatial := 

@@ -24,15 +24,16 @@ Local Open Scope sac.
 Lemma proof_of_LOS_ListInit_return_wit_1 : LOS_ListInit_return_wit_1.
 Proof. 
     unfold LOS_ListInit_return_wit_1.
-    pre_process.
+    LLM_pre_process ltac:(int_auto).
     simpl.
     unfold store_dll.
     intros.
     unfold dllseg.
     Exists list_pre.
     Exists list_pre.
-    entailer!.
+    split_pure_spatial.
+    - cancel.
+    - split_pures; dump_pre_spatial; auto.
 Qed. 
-
 
 

@@ -120,17 +120,17 @@ forall (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (((@list Z) 
   **  (sll 0 ldone )
 ) \/
 (
-forall (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (PreH1 : (range l1_low_level_spec )) (PreH2 : (safeExec ATrue (glibc_slist_clean_iter_back_2_M (l1_low_level_spec)) X_low_level_spec )) ,
-  (sllseg x_pre 0 l1_low_level_spec )
+forall (l1_low_level_spec: (@list Z)) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (PreH1 : (range l1_low_level_spec )) (PreH2 : (safeExec ATrue (glibc_slist_clean_iter_back_2_M (l1_low_level_spec)) X_low_level_spec )) ,
+  TT && emp 
 |--
-  EX (l1_1: (@list Z)) ,
-  “ (safeExec ATrue (bind ((glibc_slist_clean_iter_back_2_M_loop1 (l1_1) (0))) ((glibc_slist_clean_iter_back_2_M_loop1_end ((app (l1_1) ((@nil Z))))))) X_low_level_spec ) ” 
-  &&  “ (range l1_1 ) ” 
-  &&  “ ((INT_MIN) <= 0) ” 
-  &&  “ (0 <= INT_MAX) ” 
-  &&  “ (range l1_low_level_spec ) ”
-  &&  (sllseg x_pre 0 l1_1 )
+  “ (safeExec ATrue (bind ((glibc_slist_clean_iter_back_2_M_loop1 (l1_low_level_spec) (0))) ((glibc_slist_clean_iter_back_2_M_loop1_end ((app (l1_low_level_spec) ((@nil Z))))))) X_low_level_spec ) ”
+  &&  emp
 ).
+
+Definition glibc_slist_clean_iter_back_2_entail_wit_1_split_goal_1 := 
+forall (l1_low_level_spec: (@list Z)) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (PreH1 : (range l1_low_level_spec )) (PreH2 : (safeExec ATrue (glibc_slist_clean_iter_back_2_M (l1_low_level_spec)) X_low_level_spec )) ,
+  (safeExec ATrue (bind ((glibc_slist_clean_iter_back_2_M_loop1 (l1_low_level_spec) (0))) ((glibc_slist_clean_iter_back_2_M_loop1_end ((app (l1_low_level_spec) ((@nil Z))))))) X_low_level_spec )
+.
 
 Definition glibc_slist_clean_iter_back_2_entail_wit_2 := 
 (
@@ -215,33 +215,18 @@ forall (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (((@list Z) 
   **  (sllseg x_pre x_pre (@nil Z) )
 ) \/
 (
-forall (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (st: Z) (s: Z) (l2_1: (@list Z)) (ldone_2: (@list Z)) (y_2: Z) (v: Z) (lrest: (@list Z)) (PreH1 : (l2_1 = (cons (v) (lrest)))) (PreH2 : (safeExec ATrue (bind ((glibc_slist_clean_iter_back_2_M_loop2 (l2_1) (s))) ((glibc_slist_clean_iter_back_2_M_loop2_cont ((app ((app ((@nil Z)) (l2_1))) (ldone_2))) ((app ((@nil Z)) (l2_1))) (s)))) X_low_level_spec )) (PreH3 : (x_pre <> 0)) (PreH4 : (x_pre <> st)) (PreH5 : (range (@nil Z) )) (PreH6 : (range l2_1 )) (PreH7 : (range (app ((@nil Z)) (l2_1)) )) (PreH8 : (range l1_low_level_spec )) (PreH9 : ((INT_MIN) <= s)) (PreH10 : (s <= INT_MAX)) (PreH11 : (glibc_slist_clean_iter_back_2_prev_case 0 (@nil Z) x_pre x_pre )) ,
+forall (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (st: Z) (s: Z) (l2_1: (@list Z)) (ldone_2: (@list Z)) (v: Z) (lrest: (@list Z)) (PreH1 : (l2_1 = (cons (v) (lrest)))) (PreH2 : (safeExec ATrue (bind ((glibc_slist_clean_iter_back_2_M_loop2 (l2_1) (s))) ((glibc_slist_clean_iter_back_2_M_loop2_cont ((app ((app ((@nil Z)) (l2_1))) (ldone_2))) ((app ((@nil Z)) (l2_1))) (s)))) X_low_level_spec )) (PreH3 : (x_pre <> 0)) (PreH4 : (x_pre <> st)) (PreH5 : (range (@nil Z) )) (PreH6 : (range l2_1 )) (PreH7 : (range (app ((@nil Z)) (l2_1)) )) (PreH8 : (range l1_low_level_spec )) (PreH9 : ((INT_MIN) <= s)) (PreH10 : (s <= INT_MAX)) (PreH11 : (glibc_slist_clean_iter_back_2_prev_case 0 (@nil Z) x_pre x_pre )) ,
   (sllseg x_pre x_pre (@nil Z) )
-  **  (sllseg y_2 st lrest )
 |--
-  EX (lrest_2: (@list Z)) ,
-  “ (safeExec ATrue (bind ((glibc_slist_clean_iter_back_2_M_loop2 ((cons (v) (lrest_2))) (s))) ((glibc_slist_clean_iter_back_2_M_loop2_cont ((app ((app ((@nil Z)) ((cons (v) (lrest_2))))) (ldone_2))) ((app ((@nil Z)) ((cons (v) (lrest_2))))) (s)))) X_low_level_spec ) ” 
-  &&  “ (x_pre <> 0) ” 
-  &&  “ (x_pre <> st) ” 
-  &&  “ (range (@nil Z) ) ” 
-  &&  “ (range (cons (v) (lrest_2)) ) ” 
-  &&  “ (range (app ((@nil Z)) ((cons (v) (lrest_2)))) ) ” 
-  &&  “ (range l1_low_level_spec ) ” 
-  &&  “ ((INT_MIN) <= s) ” 
-  &&  “ (s <= INT_MAX) ” 
-  &&  “ (glibc_slist_clean_iter_back_2_prev_case 0 (@nil Z) x_pre x_pre ) ” 
-  &&  “ (l2_1 = (cons (v) (lrest))) ” 
-  &&  “ (x_pre <> 0) ” 
-  &&  “ (x_pre <> st) ” 
-  &&  “ (range (@nil Z) ) ” 
-  &&  “ (range l2_1 ) ” 
-  &&  “ (range (app ((@nil Z)) (l2_1)) ) ” 
-  &&  “ (range l1_low_level_spec ) ” 
-  &&  “ ((INT_MIN) <= s) ” 
-  &&  “ (s <= INT_MAX) ” 
-  &&  “ (glibc_slist_clean_iter_back_2_prev_case 0 (@nil Z) x_pre x_pre ) ”
-  &&  (sllseg y_2 st lrest_2 )
+  TT && emp 
 ).
+
+Definition glibc_slist_clean_iter_back_2_entail_wit_3_split_goal_spatial := 
+forall (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (st: Z) (s: Z) (l2_1: (@list Z)) (ldone_2: (@list Z)) (v: Z) (lrest: (@list Z)) (PreH1 : (l2_1 = (cons (v) (lrest)))) (PreH2 : (safeExec ATrue (bind ((glibc_slist_clean_iter_back_2_M_loop2 (l2_1) (s))) ((glibc_slist_clean_iter_back_2_M_loop2_cont ((app ((app ((@nil Z)) (l2_1))) (ldone_2))) ((app ((@nil Z)) (l2_1))) (s)))) X_low_level_spec )) (PreH3 : (x_pre <> 0)) (PreH4 : (x_pre <> st)) (PreH5 : (range (@nil Z) )) (PreH6 : (range l2_1 )) (PreH7 : (range (app ((@nil Z)) (l2_1)) )) (PreH8 : (range l1_low_level_spec )) (PreH9 : ((INT_MIN) <= s)) (PreH10 : (s <= INT_MAX)) (PreH11 : (glibc_slist_clean_iter_back_2_prev_case 0 (@nil Z) x_pre x_pre )) ,
+  (sllseg x_pre x_pre (@nil Z) )
+|--
+  TT && emp 
+.
 
 Definition glibc_slist_clean_iter_back_2_entail_wit_4 := 
 (
@@ -348,26 +333,64 @@ forall (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (((@list Z) 
 ) \/
 (
 forall (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (st_2: Z) (s_2: Z) (l2_1: (@list Z)) (v_2: Z) (lrest: (@list Z)) (y_2: Z) (p: Z) (st: Z) (node: Z) (ldone_2: (@list Z)) (lpre_2: (@list Z)) (s: Z) (v_3: Z) (lrest_2: (@list Z)) (l2_1_2: (@list Z)) (PreH1 : (y_2 = st)) (PreH2 : (l2_1_2 = (cons (v_3) (lrest_2)))) (PreH3 : (safeExec ATrue (bind ((glibc_slist_clean_iter_back_2_M_loop2 (l2_1_2) (s))) ((glibc_slist_clean_iter_back_2_M_loop2_cont ((app ((app (lpre_2) (l2_1_2))) (ldone_2))) ((app (lpre_2) (l2_1_2))) (s)))) X_low_level_spec )) (PreH4 : (node <> 0)) (PreH5 : (x_pre <> st)) (PreH6 : (range lpre_2 )) (PreH7 : (range l2_1_2 )) (PreH8 : (range (app (lpre_2) (l2_1_2)) )) (PreH9 : (range l1_low_level_spec )) (PreH10 : ((INT_MIN) <= s)) (PreH11 : (s <= INT_MAX)) (PreH12 : (glibc_slist_clean_iter_back_2_prev_case p lpre_2 node x_pre )) (PreH13 : (l2_1 = (cons (v_2) (lrest)))) (PreH14 : (x_pre <> 0)) (PreH15 : (x_pre <> st_2)) (PreH16 : (range (@nil Z) )) (PreH17 : (range l2_1 )) (PreH18 : (range (app ((@nil Z)) (l2_1)) )) (PreH19 : (range l1_low_level_spec )) (PreH20 : ((INT_MIN) <= s_2)) (PreH21 : (s_2 <= INT_MAX)) (PreH22 : (glibc_slist_clean_iter_back_2_prev_case 0 (@nil Z) x_pre x_pre )) ,
-  (sllseg x_pre node lpre_2 )
-  **  (sllseg y_2 st lrest_2 )
+  (sllseg y_2 st lrest_2 )
   **  (sllseg x_pre x_pre (@nil Z) )
 |--
-  EX (lpre: (@list Z)) ,
-  “ (y_2 = st) ” 
-  &&  “ (y_2 = st) ” 
-  &&  “ (safeExec ATrue (bind ((glibc_slist_clean_iter_back_2_M_loop2 ((cons (v_3) ((@nil Z)))) (s))) ((glibc_slist_clean_iter_back_2_M_loop2_cont ((app ((app (lpre) ((cons (v_3) ((@nil Z)))))) (ldone_2))) ((app (lpre) ((cons (v_3) ((@nil Z)))))) (s)))) X_low_level_spec ) ” 
-  &&  “ (node <> 0) ” 
-  &&  “ (range lpre ) ” 
-  &&  “ (range (cons (v_3) ((@nil Z))) ) ” 
-  &&  “ (range (app (lpre) ((cons (v_3) ((@nil Z))))) ) ” 
-  &&  “ (range l1_low_level_spec ) ” 
-  &&  “ ((INT_MIN) <= s) ” 
-  &&  “ (s <= INT_MAX) ” 
+  “ ((s + v_3 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (s + v_3 )) ” 
-  &&  “ ((s + v_3 ) <= INT_MAX) ” 
-  &&  “ (glibc_slist_clean_iter_back_2_prev_case p lpre node x_pre ) ”
-  &&  (sllseg x_pre node lpre )
+  &&  “ (range (app (lpre_2) ((cons (v_3) ((@nil Z))))) ) ” 
+  &&  “ (range (cons (v_3) ((@nil Z))) ) ” 
+  &&  “ (safeExec ATrue (bind ((glibc_slist_clean_iter_back_2_M_loop2 ((cons (v_3) ((@nil Z)))) (s))) ((glibc_slist_clean_iter_back_2_M_loop2_cont ((app ((app (lpre_2) ((cons (v_3) ((@nil Z)))))) (ldone_2))) ((app (lpre_2) ((cons (v_3) ((@nil Z)))))) (s)))) X_low_level_spec ) ”
+  &&  emp
 ).
+
+Definition glibc_slist_clean_iter_back_2_entail_wit_5_split_goal_1 := 
+forall (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (st_2: Z) (s_2: Z) (l2_1: (@list Z)) (v_2: Z) (lrest: (@list Z)) (y_2: Z) (p: Z) (st: Z) (node: Z) (ldone_2: (@list Z)) (lpre_2: (@list Z)) (s: Z) (v_3: Z) (lrest_2: (@list Z)) (l2_1_2: (@list Z)) (PreH1 : (y_2 = st)) (PreH2 : (l2_1_2 = (cons (v_3) (lrest_2)))) (PreH3 : (safeExec ATrue (bind ((glibc_slist_clean_iter_back_2_M_loop2 (l2_1_2) (s))) ((glibc_slist_clean_iter_back_2_M_loop2_cont ((app ((app (lpre_2) (l2_1_2))) (ldone_2))) ((app (lpre_2) (l2_1_2))) (s)))) X_low_level_spec )) (PreH4 : (node <> 0)) (PreH5 : (x_pre <> st)) (PreH6 : (range lpre_2 )) (PreH7 : (range l2_1_2 )) (PreH8 : (range (app (lpre_2) (l2_1_2)) )) (PreH9 : (range l1_low_level_spec )) (PreH10 : ((INT_MIN) <= s)) (PreH11 : (s <= INT_MAX)) (PreH12 : (glibc_slist_clean_iter_back_2_prev_case p lpre_2 node x_pre )) (PreH13 : (l2_1 = (cons (v_2) (lrest)))) (PreH14 : (x_pre <> 0)) (PreH15 : (x_pre <> st_2)) (PreH16 : (range (@nil Z) )) (PreH17 : (range l2_1 )) (PreH18 : (range (app ((@nil Z)) (l2_1)) )) (PreH19 : (range l1_low_level_spec )) (PreH20 : ((INT_MIN) <= s_2)) (PreH21 : (s_2 <= INT_MAX)) (PreH22 : (glibc_slist_clean_iter_back_2_prev_case 0 (@nil Z) x_pre x_pre )) ,
+  (sllseg y_2 st lrest_2 )
+  **  (sllseg x_pre x_pre (@nil Z) )
+|--
+  “ ((s + v_3 ) <= INT_MAX) ”
+.
+
+Definition glibc_slist_clean_iter_back_2_entail_wit_5_split_goal_2 := 
+forall (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (st_2: Z) (s_2: Z) (l2_1: (@list Z)) (v_2: Z) (lrest: (@list Z)) (y_2: Z) (p: Z) (st: Z) (node: Z) (ldone_2: (@list Z)) (lpre_2: (@list Z)) (s: Z) (v_3: Z) (lrest_2: (@list Z)) (l2_1_2: (@list Z)) (PreH1 : (y_2 = st)) (PreH2 : (l2_1_2 = (cons (v_3) (lrest_2)))) (PreH3 : (safeExec ATrue (bind ((glibc_slist_clean_iter_back_2_M_loop2 (l2_1_2) (s))) ((glibc_slist_clean_iter_back_2_M_loop2_cont ((app ((app (lpre_2) (l2_1_2))) (ldone_2))) ((app (lpre_2) (l2_1_2))) (s)))) X_low_level_spec )) (PreH4 : (node <> 0)) (PreH5 : (x_pre <> st)) (PreH6 : (range lpre_2 )) (PreH7 : (range l2_1_2 )) (PreH8 : (range (app (lpre_2) (l2_1_2)) )) (PreH9 : (range l1_low_level_spec )) (PreH10 : ((INT_MIN) <= s)) (PreH11 : (s <= INT_MAX)) (PreH12 : (glibc_slist_clean_iter_back_2_prev_case p lpre_2 node x_pre )) (PreH13 : (l2_1 = (cons (v_2) (lrest)))) (PreH14 : (x_pre <> 0)) (PreH15 : (x_pre <> st_2)) (PreH16 : (range (@nil Z) )) (PreH17 : (range l2_1 )) (PreH18 : (range (app ((@nil Z)) (l2_1)) )) (PreH19 : (range l1_low_level_spec )) (PreH20 : ((INT_MIN) <= s_2)) (PreH21 : (s_2 <= INT_MAX)) (PreH22 : (glibc_slist_clean_iter_back_2_prev_case 0 (@nil Z) x_pre x_pre )) ,
+  (sllseg y_2 st lrest_2 )
+  **  (sllseg x_pre x_pre (@nil Z) )
+|--
+  “ ((INT_MIN) <= (s + v_3 )) ”
+.
+
+Definition glibc_slist_clean_iter_back_2_entail_wit_5_split_goal_3 := 
+forall (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (st_2: Z) (s_2: Z) (l2_1: (@list Z)) (v_2: Z) (lrest: (@list Z)) (y_2: Z) (p: Z) (st: Z) (node: Z) (ldone_2: (@list Z)) (lpre_2: (@list Z)) (s: Z) (v_3: Z) (lrest_2: (@list Z)) (l2_1_2: (@list Z)) (PreH1 : (y_2 = st)) (PreH2 : (l2_1_2 = (cons (v_3) (lrest_2)))) (PreH3 : (safeExec ATrue (bind ((glibc_slist_clean_iter_back_2_M_loop2 (l2_1_2) (s))) ((glibc_slist_clean_iter_back_2_M_loop2_cont ((app ((app (lpre_2) (l2_1_2))) (ldone_2))) ((app (lpre_2) (l2_1_2))) (s)))) X_low_level_spec )) (PreH4 : (node <> 0)) (PreH5 : (x_pre <> st)) (PreH6 : (range lpre_2 )) (PreH7 : (range l2_1_2 )) (PreH8 : (range (app (lpre_2) (l2_1_2)) )) (PreH9 : (range l1_low_level_spec )) (PreH10 : ((INT_MIN) <= s)) (PreH11 : (s <= INT_MAX)) (PreH12 : (glibc_slist_clean_iter_back_2_prev_case p lpre_2 node x_pre )) (PreH13 : (l2_1 = (cons (v_2) (lrest)))) (PreH14 : (x_pre <> 0)) (PreH15 : (x_pre <> st_2)) (PreH16 : (range (@nil Z) )) (PreH17 : (range l2_1 )) (PreH18 : (range (app ((@nil Z)) (l2_1)) )) (PreH19 : (range l1_low_level_spec )) (PreH20 : ((INT_MIN) <= s_2)) (PreH21 : (s_2 <= INT_MAX)) (PreH22 : (glibc_slist_clean_iter_back_2_prev_case 0 (@nil Z) x_pre x_pre )) ,
+  (sllseg y_2 st lrest_2 )
+  **  (sllseg x_pre x_pre (@nil Z) )
+|--
+  “ (range (app (lpre_2) ((cons (v_3) ((@nil Z))))) ) ”
+.
+
+Definition glibc_slist_clean_iter_back_2_entail_wit_5_split_goal_4 := 
+forall (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (st_2: Z) (s_2: Z) (l2_1: (@list Z)) (v_2: Z) (lrest: (@list Z)) (y_2: Z) (p: Z) (st: Z) (node: Z) (ldone_2: (@list Z)) (lpre_2: (@list Z)) (s: Z) (v_3: Z) (lrest_2: (@list Z)) (l2_1_2: (@list Z)) (PreH1 : (y_2 = st)) (PreH2 : (l2_1_2 = (cons (v_3) (lrest_2)))) (PreH3 : (safeExec ATrue (bind ((glibc_slist_clean_iter_back_2_M_loop2 (l2_1_2) (s))) ((glibc_slist_clean_iter_back_2_M_loop2_cont ((app ((app (lpre_2) (l2_1_2))) (ldone_2))) ((app (lpre_2) (l2_1_2))) (s)))) X_low_level_spec )) (PreH4 : (node <> 0)) (PreH5 : (x_pre <> st)) (PreH6 : (range lpre_2 )) (PreH7 : (range l2_1_2 )) (PreH8 : (range (app (lpre_2) (l2_1_2)) )) (PreH9 : (range l1_low_level_spec )) (PreH10 : ((INT_MIN) <= s)) (PreH11 : (s <= INT_MAX)) (PreH12 : (glibc_slist_clean_iter_back_2_prev_case p lpre_2 node x_pre )) (PreH13 : (l2_1 = (cons (v_2) (lrest)))) (PreH14 : (x_pre <> 0)) (PreH15 : (x_pre <> st_2)) (PreH16 : (range (@nil Z) )) (PreH17 : (range l2_1 )) (PreH18 : (range (app ((@nil Z)) (l2_1)) )) (PreH19 : (range l1_low_level_spec )) (PreH20 : ((INT_MIN) <= s_2)) (PreH21 : (s_2 <= INT_MAX)) (PreH22 : (glibc_slist_clean_iter_back_2_prev_case 0 (@nil Z) x_pre x_pre )) ,
+  (sllseg y_2 st lrest_2 )
+  **  (sllseg x_pre x_pre (@nil Z) )
+|--
+  “ (range (cons (v_3) ((@nil Z))) ) ”
+.
+
+Definition glibc_slist_clean_iter_back_2_entail_wit_5_split_goal_5 := 
+forall (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (st_2: Z) (s_2: Z) (l2_1: (@list Z)) (v_2: Z) (lrest: (@list Z)) (y_2: Z) (p: Z) (st: Z) (node: Z) (ldone_2: (@list Z)) (lpre_2: (@list Z)) (s: Z) (v_3: Z) (lrest_2: (@list Z)) (l2_1_2: (@list Z)) (PreH1 : (y_2 = st)) (PreH2 : (l2_1_2 = (cons (v_3) (lrest_2)))) (PreH3 : (safeExec ATrue (bind ((glibc_slist_clean_iter_back_2_M_loop2 (l2_1_2) (s))) ((glibc_slist_clean_iter_back_2_M_loop2_cont ((app ((app (lpre_2) (l2_1_2))) (ldone_2))) ((app (lpre_2) (l2_1_2))) (s)))) X_low_level_spec )) (PreH4 : (node <> 0)) (PreH5 : (x_pre <> st)) (PreH6 : (range lpre_2 )) (PreH7 : (range l2_1_2 )) (PreH8 : (range (app (lpre_2) (l2_1_2)) )) (PreH9 : (range l1_low_level_spec )) (PreH10 : ((INT_MIN) <= s)) (PreH11 : (s <= INT_MAX)) (PreH12 : (glibc_slist_clean_iter_back_2_prev_case p lpre_2 node x_pre )) (PreH13 : (l2_1 = (cons (v_2) (lrest)))) (PreH14 : (x_pre <> 0)) (PreH15 : (x_pre <> st_2)) (PreH16 : (range (@nil Z) )) (PreH17 : (range l2_1 )) (PreH18 : (range (app ((@nil Z)) (l2_1)) )) (PreH19 : (range l1_low_level_spec )) (PreH20 : ((INT_MIN) <= s_2)) (PreH21 : (s_2 <= INT_MAX)) (PreH22 : (glibc_slist_clean_iter_back_2_prev_case 0 (@nil Z) x_pre x_pre )) ,
+  (sllseg y_2 st lrest_2 )
+  **  (sllseg x_pre x_pre (@nil Z) )
+|--
+  “ (safeExec ATrue (bind ((glibc_slist_clean_iter_back_2_M_loop2 ((cons (v_3) ((@nil Z)))) (s))) ((glibc_slist_clean_iter_back_2_M_loop2_cont ((app ((app (lpre_2) ((cons (v_3) ((@nil Z)))))) (ldone_2))) ((app (lpre_2) ((cons (v_3) ((@nil Z)))))) (s)))) X_low_level_spec ) ”
+.
+
+Definition glibc_slist_clean_iter_back_2_entail_wit_5_split_goal_spatial := 
+forall (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (st_2: Z) (s_2: Z) (l2_1: (@list Z)) (v_2: Z) (lrest: (@list Z)) (y_2: Z) (p: Z) (st: Z) (node: Z) (ldone_2: (@list Z)) (lpre_2: (@list Z)) (s: Z) (v_3: Z) (lrest_2: (@list Z)) (l2_1_2: (@list Z)) (PreH1 : (y_2 = st)) (PreH2 : (l2_1_2 = (cons (v_3) (lrest_2)))) (PreH3 : (safeExec ATrue (bind ((glibc_slist_clean_iter_back_2_M_loop2 (l2_1_2) (s))) ((glibc_slist_clean_iter_back_2_M_loop2_cont ((app ((app (lpre_2) (l2_1_2))) (ldone_2))) ((app (lpre_2) (l2_1_2))) (s)))) X_low_level_spec )) (PreH4 : (node <> 0)) (PreH5 : (x_pre <> st)) (PreH6 : (range lpre_2 )) (PreH7 : (range l2_1_2 )) (PreH8 : (range (app (lpre_2) (l2_1_2)) )) (PreH9 : (range l1_low_level_spec )) (PreH10 : ((INT_MIN) <= s)) (PreH11 : (s <= INT_MAX)) (PreH12 : (glibc_slist_clean_iter_back_2_prev_case p lpre_2 node x_pre )) (PreH13 : (l2_1 = (cons (v_2) (lrest)))) (PreH14 : (x_pre <> 0)) (PreH15 : (x_pre <> st_2)) (PreH16 : (range (@nil Z) )) (PreH17 : (range l2_1 )) (PreH18 : (range (app ((@nil Z)) (l2_1)) )) (PreH19 : (range l1_low_level_spec )) (PreH20 : ((INT_MIN) <= s_2)) (PreH21 : (s_2 <= INT_MAX)) (PreH22 : (glibc_slist_clean_iter_back_2_prev_case 0 (@nil Z) x_pre x_pre )) ,
+  (sllseg y_2 st lrest_2 )
+  **  (sllseg x_pre x_pre (@nil Z) )
+|--
+  TT && emp 
+.
 
 Definition glibc_slist_clean_iter_back_2_entail_wit_6 := 
 (
@@ -429,17 +452,16 @@ forall (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (((@list Z) 
 ) \/
 (
 forall (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (p: Z) (st: Z) (s: Z) (lpre: (@list Z)) (ldone_2: (@list Z)) (y: Z) (v: Z) (node: Z) (PreH1 : (p <> 0)) (PreH2 : (y = st)) (PreH3 : (safeExec ATrue (bind ((glibc_slist_clean_iter_back_2_M_loop2 ((cons (v) ((@nil Z)))) (s))) ((glibc_slist_clean_iter_back_2_M_loop2_cont ((app ((app (lpre) ((cons (v) ((@nil Z)))))) (ldone_2))) ((app (lpre) ((cons (v) ((@nil Z)))))) (s)))) X_low_level_spec )) (PreH4 : (node <> 0)) (PreH5 : (range lpre )) (PreH6 : (range (cons (v) ((@nil Z))) )) (PreH7 : (range (app (lpre) ((cons (v) ((@nil Z))))) )) (PreH8 : (range l1_low_level_spec )) (PreH9 : ((INT_MIN) <= s)) (PreH10 : (s <= INT_MAX)) (PreH11 : ((INT_MIN) <= (s + v ))) (PreH12 : ((s + v ) <= INT_MAX)) (PreH13 : (glibc_slist_clean_iter_back_2_prev_case p lpre node x_pre )) ,
-  (sllseg x_pre node lpre )
+  TT && emp 
 |--
-  EX (l1_1: (@list Z)) ,
-  “ (node <> 0) ” 
-  &&  “ (safeExec ATrue (bind ((glibc_slist_clean_iter_back_2_M_loop1 (l1_1) ((s + v )))) ((glibc_slist_clean_iter_back_2_M_loop1_end ((app (l1_1) ((cons (v) (ldone_2)))))))) X_low_level_spec ) ” 
-  &&  “ (range l1_1 ) ” 
-  &&  “ ((INT_MIN) <= (s + v )) ” 
-  &&  “ ((s + v ) <= INT_MAX) ” 
-  &&  “ (range l1_low_level_spec ) ”
-  &&  (sllseg x_pre node l1_1 )
+  “ (safeExec ATrue (bind ((glibc_slist_clean_iter_back_2_M_loop1 (lpre) ((s + v )))) ((glibc_slist_clean_iter_back_2_M_loop1_end ((app (lpre) ((cons (v) (ldone_2)))))))) X_low_level_spec ) ”
+  &&  emp
 ).
+
+Definition glibc_slist_clean_iter_back_2_entail_wit_7_split_goal_1 := 
+forall (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (p: Z) (st: Z) (s: Z) (lpre: (@list Z)) (ldone_2: (@list Z)) (y: Z) (v: Z) (node: Z) (PreH1 : (p <> 0)) (PreH2 : (y = st)) (PreH3 : (safeExec ATrue (bind ((glibc_slist_clean_iter_back_2_M_loop2 ((cons (v) ((@nil Z)))) (s))) ((glibc_slist_clean_iter_back_2_M_loop2_cont ((app ((app (lpre) ((cons (v) ((@nil Z)))))) (ldone_2))) ((app (lpre) ((cons (v) ((@nil Z)))))) (s)))) X_low_level_spec )) (PreH4 : (node <> 0)) (PreH5 : (range lpre )) (PreH6 : (range (cons (v) ((@nil Z))) )) (PreH7 : (range (app (lpre) ((cons (v) ((@nil Z))))) )) (PreH8 : (range l1_low_level_spec )) (PreH9 : ((INT_MIN) <= s)) (PreH10 : (s <= INT_MAX)) (PreH11 : ((INT_MIN) <= (s + v ))) (PreH12 : ((s + v ) <= INT_MAX)) (PreH13 : (glibc_slist_clean_iter_back_2_prev_case p lpre node x_pre )) ,
+  (safeExec ATrue (bind ((glibc_slist_clean_iter_back_2_M_loop1 (lpre) ((s + v )))) ((glibc_slist_clean_iter_back_2_M_loop1_end ((app (lpre) ((cons (v) (ldone_2)))))))) X_low_level_spec )
+.
 
 Definition glibc_slist_clean_iter_back_2_return_wit_1 := 
 (
@@ -455,12 +477,24 @@ forall (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (((@list Z) 
 (
 forall (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (st: Z) (s: Z) (l1_1: (@list Z)) (ldone: (@list Z)) (PreH1 : (x_pre = st)) (PreH2 : (safeExec ATrue (bind ((glibc_slist_clean_iter_back_2_M_loop1 (l1_1) (s))) ((glibc_slist_clean_iter_back_2_M_loop1_end ((app (l1_1) (ldone)))))) X_low_level_spec )) (PreH3 : (range l1_1 )) (PreH4 : ((INT_MIN) <= s)) (PreH5 : (s <= INT_MAX)) (PreH6 : (range l1_low_level_spec )) ,
   (sllseg x_pre st l1_1 )
-  **  (sll st ldone )
 |--
-  EX (l2: (@list Z)) ,
-  “ (safeExec ATrue (return ((maketuple (l2) (s)))) X_low_level_spec ) ”
-  &&  (sll x_pre l2 )
+  “ (safeExec ATrue (return ((maketuple (ldone) (s)))) X_low_level_spec ) ”
+  &&  emp
 ).
+
+Definition glibc_slist_clean_iter_back_2_return_wit_1_split_goal_1 := 
+forall (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (st: Z) (s: Z) (l1_1: (@list Z)) (ldone: (@list Z)) (PreH1 : (x_pre = st)) (PreH2 : (safeExec ATrue (bind ((glibc_slist_clean_iter_back_2_M_loop1 (l1_1) (s))) ((glibc_slist_clean_iter_back_2_M_loop1_end ((app (l1_1) (ldone)))))) X_low_level_spec )) (PreH3 : (range l1_1 )) (PreH4 : ((INT_MIN) <= s)) (PreH5 : (s <= INT_MAX)) (PreH6 : (range l1_low_level_spec )) ,
+  (sllseg x_pre st l1_1 )
+|--
+  “ (safeExec ATrue (return ((maketuple (ldone) (s)))) X_low_level_spec ) ”
+.
+
+Definition glibc_slist_clean_iter_back_2_return_wit_1_split_goal_spatial := 
+forall (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (st: Z) (s: Z) (l1_1: (@list Z)) (ldone: (@list Z)) (PreH1 : (x_pre = st)) (PreH2 : (safeExec ATrue (bind ((glibc_slist_clean_iter_back_2_M_loop1 (l1_1) (s))) ((glibc_slist_clean_iter_back_2_M_loop1_end ((app (l1_1) (ldone)))))) X_low_level_spec )) (PreH3 : (range l1_1 )) (PreH4 : ((INT_MIN) <= s)) (PreH5 : (s <= INT_MAX)) (PreH6 : (range l1_low_level_spec )) ,
+  (sllseg x_pre st l1_1 )
+|--
+  TT && emp 
+.
 
 Definition glibc_slist_clean_iter_back_2_return_wit_2 := 
 forall (x_pre: Z) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (ldone: (@list Z)) (v: Z) (sum: Z) (PreH1 : (safeExec ATrue (return ((maketuple ((cons (v) (ldone))) (sum)))) X_low_level_spec )) (PreH2 : (x_pre <> 0)) ,

@@ -22,12 +22,10 @@ Local Open Scope sac.
 
 Lemma proof_of_delta_return_wit_1 : delta_return_wit_1.
 Proof.
-  left.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
 Qed.
 
 Lemma proof_of_delta_return_wit_2 : delta_return_wit_2.
 Proof.
-  left.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
 Qed.

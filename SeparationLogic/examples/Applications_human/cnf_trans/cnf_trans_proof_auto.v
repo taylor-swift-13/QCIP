@@ -905,7 +905,13 @@ Proof. Admitted.
 Lemma proof_of_prop2cnf_safety_wit_8 : prop2cnf_safety_wit_8.
 Proof. Admitted. 
 
+Lemma proof_of_prop2cnf_entail_wit_1 : prop2cnf_entail_wit_1.
+Proof. Admitted. 
+
 Lemma proof_of_prop2cnf_partial_solve_wit_1 : prop2cnf_partial_solve_wit_1.
+Proof. Admitted. 
+
+Lemma proof_of_prop2cnf_partial_solve_wit_2_pure : prop2cnf_partial_solve_wit_2_pure.
 Proof. Admitted. 
 
 Lemma proof_of_prop2cnf_partial_solve_wit_2 : prop2cnf_partial_solve_wit_2.
@@ -1007,6 +1013,9 @@ Proof. Admitted.
 Lemma proof_of_prop2cnf_partial_solve_wit_19 : prop2cnf_partial_solve_wit_19.
 Proof. Admitted. 
 
+Lemma proof_of_prop2cnf_partial_solve_wit_20_pure : prop2cnf_partial_solve_wit_20_pure.
+Proof. Admitted. 
+
 Lemma proof_of_prop2cnf_partial_solve_wit_20 : prop2cnf_partial_solve_wit_20.
 Proof. Admitted. 
 
@@ -1083,6 +1092,9 @@ Lemma proof_of_prop2cnf_partial_solve_wit_33_pure : prop2cnf_partial_solve_wit_3
 Proof. Admitted. 
 
 Lemma proof_of_prop2cnf_partial_solve_wit_33 : prop2cnf_partial_solve_wit_33.
+Proof. Admitted. 
+
+Lemma proof_of_prop2cnf_partial_solve_wit_34_pure : prop2cnf_partial_solve_wit_34_pure.
 Proof. Admitted. 
 
 Lemma proof_of_prop2cnf_partial_solve_wit_34 : prop2cnf_partial_solve_wit_34.

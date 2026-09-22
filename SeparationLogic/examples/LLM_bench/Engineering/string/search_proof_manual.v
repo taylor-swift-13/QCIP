@@ -19,20 +19,18 @@ Import naive_C_Rules.
 Require Import SimpleC.StdLib.string_lib.
 Local Open Scope sac.
 
-Lemma proof_of_memchr_entail_wit_2 : memchr_entail_wit_2.
+Lemma proof_of_memchr_entail_wit_1 : memchr_entail_wit_1.
 Proof.
-  pre_process.
-  entailer!.
-  intros k Hk.
-  destruct (Z.eq_dec k i) as [-> | Hki].
-  - exact PreH1.
-  - apply PreH11; lia.
-Qed. 
+  LLM_pre_process ltac:(int_auto).
+Qed.
 
 Lemma proof_of_memchr_return_wit_1 : memchr_return_wit_1.
 Proof.
-  pre_process.
-  entailer!.
+  LLM_pre_process ltac:(int_auto).
+  split_pure_spatial.
+  - cancel.
+  - split_pures.
+    all: dump_pre_spatial; try lia; try assumption.
   unfold memchr_result.
   right.
   split; [| reflexivity].
@@ -45,8 +43,11 @@ Qed.
 
 Lemma proof_of_memchr_return_wit_2 : memchr_return_wit_2.
 Proof.
-  pre_process.
-  entailer!.
+  LLM_pre_process ltac:(int_auto).
+  split_pure_spatial.
+  - cancel.
+  - split_pures.
+    all: dump_pre_spatial; try lia; try assumption.
   unfold memchr_result.
   left.
   exists i.
@@ -57,14 +58,17 @@ Qed.
 
 Lemma proof_of_strchr_entail_wit_1 : strchr_entail_wit_1.
 Proof.
-  pre_process.
-  entailer!.
+  LLM_pre_process ltac:(int_auto).
+  split_pure_spatial.
+  - cancel.
+  - split_pures.
+    all: dump_pre_spatial; try lia; try assumption.
   apply string_length_nonneg.
 Qed. 
 
 Lemma proof_of_strchr_entail_wit_2 : strchr_entail_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (Hi_lt : i < SimpleC.StdLib.string_lib.string_length str).
   { eapply SimpleC.StdLib.string_lib.c_string_nonzero_index_lt; eauto. }
   assert (Hi_neq : Znth i str 0 <> c_pre).
@@ -72,8 +76,11 @@ Proof.
     rewrite <- Hinside.
     exact PreH1. }
   unfold store_string.
-  entailer!.
-  - intros k Hk.
+  split_pure_spatial.
+  - cancel.
+  - split_pures.
+    all: dump_pre_spatial; try lia; try assumption.
+    intros k Hk.
     destruct (Z.eq_dec k i) as [-> | Hki].
     + exact Hi_neq.
     + apply PreH9; lia.
@@ -81,35 +88,41 @@ Qed.
 
 Lemma proof_of_strchr_return_wit_1 : strchr_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (Hi_eq : i = string_length str).
   { eapply c_string_zero_index_eq_length; eauto. }
   subst i.
   unfold store_string.
-  entailer!.
+  split_pure_spatial.
+  - cancel.
+  - split_pures.
+    all: dump_pre_spatial; try lia; try assumption.
   unfold strchr_result.
   right.
   split.
-  - intros k Hk.
+  + intros k Hk.
     apply PreH9; lia.
-  - right.
+  + right.
     split; auto.
 Qed. 
 
 Lemma proof_of_strchr_return_wit_2 : strchr_return_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (Hi_eq : i = string_length str).
   { eapply c_string_zero_index_eq_length; eauto. }
   subst i.
   unfold store_string.
-  entailer!.
+  split_pure_spatial.
+  - cancel.
+  - split_pures.
+    all: dump_pre_spatial; try lia; try assumption.
   unfold strchr_result.
   right.
   split.
-  - intros k Hk.
+  + intros k Hk.
     apply PreH9; lia.
-  - left.
+  + left.
     split; auto.
     rewrite sizeof_char.
     lia.
@@ -117,14 +130,17 @@ Qed.
 
 Lemma proof_of_strchr_return_wit_3 : strchr_return_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (Hi_lt : i < string_length str).
   { eapply c_string_nonzero_index_lt; eauto. }
   assert (Hi_eq : Znth i str 0 = c_pre).
   { rewrite <- (c_string_Znth_inside str i 0) by lia.
     exact PreH1. }
   unfold store_string.
-  entailer!.
+  split_pure_spatial.
+  - cancel.
+  - split_pures.
+    all: dump_pre_spatial; try lia; try assumption.
   unfold strchr_result.
   left.
   exists i.

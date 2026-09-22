@@ -37,7 +37,7 @@ Proof.
   Intros_p H.
   split_pure_spatial.
   - apply_sepcon_adjoint.
-    elim_emp.
+    cancel.
     destruct H as [H | H].
     + subst p.
       unfold listrep.
@@ -124,7 +124,7 @@ Proof.
   - cancel (&(q # "list" ->ₛ "next") # Ptr |-> z).
     Intros_r h.
     apply_sepcon_adjoint.
-    elim_emp.
+    cancel.
     sep_apply_l_atomic (lseg_len1 q h z).
     + dump_pre_spatial.
       destruct Hnz as [Hnz | Hnz].
@@ -166,8 +166,12 @@ Proof.
     cancel (&(p # "list" ->ₛ "data") # Int |-> x).
     Intros_r q.
     apply_sepcon_adjoint.
-    elim_emp.
-    cancel.
+    normalize.
+    Split.
+    + Left.
+      cancel.
+    + Right.
+      cancel.
   - dump_pre_spatial.
     left.
     exact Hp.
@@ -182,7 +186,7 @@ Proof.
   - Intros_r x.
     Intros_r y.
     apply_sepcon_adjoint.
-    elim_emp.
+    cancel.
     unfold listrep.
     Intros l.
     Exists (x :: l).
@@ -213,7 +217,7 @@ Proof.
     Intros_r x.
     Intros_r y.
     apply_sepcon_adjoint.
-    elim_emp.
+    cancel.
     unfold listrep.
     Intros l.
     Exists (x :: l).
@@ -245,7 +249,7 @@ Proof.
     Intros_r y.
     Intros_r z.
     apply_sepcon_adjoint.
-    elim_emp.
+    cancel.
     sep_apply_l_atomic (lseg_len1 p x y).
     + dump_pre_spatial.
       destruct Hnz as [Hnz | Hnz].
@@ -308,8 +312,16 @@ Proof.
   Exists l.
   revert p.
   induction l; intros p.
-  - simpl. entailer!.
-  - simpl. Intros y. Exists y. sep_apply IHl. entailer!.
+  - simpl. Intros_p Hp. subst p. cancel.
+    split_pure_spatial.
+    + cancel.
+    + dump_pre_spatial. unfold NULL. reflexivity.
+  - simpl. Intros y. Exists y. sep_apply IHl.
+    split_pure_spatial.
+    + cancel (&(p # "list" ->ₛ "data") # Int |-> a).
+      cancel (&(p # "list" ->ₛ "next") # Ptr |-> y).
+      cancel (sllseg y 0 l).
+    + dump_pre_spatial. exact H.
 Qed.
 
 Lemma sll_shape_strategy23_correctness : sll_shape_strategy23.
@@ -332,7 +344,10 @@ Proof.
   unfold lseg.
   Intros l.
   destruct l as [| a l0].
-  - simpl. Intros_p Hq. subst q. entailer!.
+  - simpl. Intros_p Hq. subst q. cancel.
+    split_pure_spatial.
+    + cancel.
+    + dump_pre_spatial. unfold NULL. reflexivity.
   - simpl. Intros z. contradiction.
 Qed.
 
@@ -345,7 +360,7 @@ Proof.
   Intros l'.
   sep_apply (sllseg_sll q q l l').
   Exists (@app Z l l').
-  entailer!.
+  cancel.
 Qed.
 
 Lemma sll_shape_strategy22_correctness : sll_shape_strategy22.
@@ -373,7 +388,9 @@ Proof.
     Intros_r v.
     Intros_r n.
     apply_sepcon_adjoint.
-    elim_emp.
-    cancel.
-  - entailer!.
+    normalize.
+    cancel ((poly_store FET_int &(p # "list" ->ₛ "data") v) || (poly_store FET_ptr &(p # "list" ->ₛ "next") n)).
+  - split_pures.
+    + dump_pre_spatial. left; exact Hpne.
+    + dump_pre_spatial. exact Hp.
 Qed.

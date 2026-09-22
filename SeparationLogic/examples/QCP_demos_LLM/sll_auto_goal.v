@@ -238,7 +238,7 @@ Definition sll_free_partial_solve_wit_1 :=
 forall (x: Z) (PreH1 : (x <> 0)) ,
   (listrep x )
 |--
-  EX (y: Z)  (x_2: Z) ,
+  EX (x_2: Z)  (y: Z) ,
   “ (x <> 0) ”
   &&  ((&((x)  # "list" ->ₛ "next")) # Ptr  |-> y)
   **  (listrep y )
@@ -303,7 +303,7 @@ forall (v: Z) (w: Z) (PreH1 : (v <> 0)) ,
   (listrep w )
   **  (listrep v )
 |--
-  EX (y: Z)  (x: Z) ,
+  EX (x: Z)  (y: Z) ,
   “ (v <> 0) ”
   &&  ((&((v)  # "list" ->ₛ "next")) # Ptr  |-> y)
   **  (listrep y )
@@ -317,8 +317,8 @@ Definition append_safety_wit_1 :=
 forall (y_pre: Z) (x_pre: Z) ,
   ((( &( "u" ) )) # Ptr  |->_)
   **  ((( &( "t" ) )) # Ptr  |->_)
-  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
   **  ((( &( "x" ) )) # Ptr  |-> x_pre)
+  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
   **  (listrep x_pre )
   **  (listrep y_pre )
 |--
@@ -385,7 +385,7 @@ forall (y_pre: Z) (x_pre: Z) (PreH1 : (x_pre <> 0)) ,
   (listrep x_pre )
   **  (listrep y_pre )
 |--
-  EX (y: Z)  (x: Z) ,
+  EX (x: Z)  (y: Z) ,
   “ (x_pre <> 0) ”
   &&  ((&((x_pre)  # "list" ->ₛ "next")) # Ptr  |-> y)
   **  (listrep y )
@@ -401,7 +401,7 @@ forall (x: Z) (y: Z) (w: Z) (u: Z) (t: Z) (PreH1 : (t <> 0)) (PreH2 : (u <> 0)) 
   **  (listrep u )
   **  (lseg x t )
 |--
-  EX (y_2: Z)  (x_2: Z) ,
+  EX (x_2: Z)  (y_2: Z) ,
   “ (t <> 0) ” 
   &&  “ (u <> 0) ”
   &&  ((&((u)  # "list" ->ₛ "next")) # Ptr  |-> y_2)
@@ -419,8 +419,8 @@ Definition merge_safety_wit_1 :=
 forall (y_pre: Z) (x_pre: Z) ,
   ((( &( "t" ) )) # Ptr  |->_)
   **  ((( &( "z" ) )) # Ptr  |->_)
-  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
   **  ((( &( "x" ) )) # Ptr  |-> x_pre)
+  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
   **  (listrep x_pre )
   **  (listrep y_pre )
 |--
@@ -511,7 +511,7 @@ forall (z: Z) (x: Z) (t: Z) (y: Z) (PreH1 : (y = t)) (PreH2 : (x <> 0)) (PreH3 :
   **  (listrep x )
   **  (listrep y )
 |--
-  EX (y_2: Z)  (x_2: Z) ,
+  EX (x_2: Z)  (y_2: Z) ,
   “ (y = t) ” 
   &&  “ (x <> 0) ” 
   &&  “ (y <> 0) ”
@@ -530,7 +530,7 @@ forall (z: Z) (x: Z) (t: Z) (y: Z) (x_2: Z) (y_2: Z) (PreH1 : (y = t)) (PreH2 : 
   **  (lseg z x )
   **  (listrep x )
 |--
-  EX (y_3: Z)  (x_3: Z) ,
+  EX (x_3: Z)  (y_3: Z) ,
   “ (y = t) ” 
   &&  “ (x <> 0) ” 
   &&  “ (y <> 0) ”
@@ -549,9 +549,9 @@ Definition multi_append_safety_wit_1 :=
 forall (z_pre: Z) (y_pre: Z) (x_pre: Z) ,
   ((( &( "u" ) )) # Ptr  |->_)
   **  ((( &( "t" ) )) # Ptr  |->_)
-  **  ((( &( "z" ) )) # Ptr  |-> z_pre)
-  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
   **  ((( &( "x" ) )) # Ptr  |-> x_pre)
+  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
+  **  ((( &( "z" ) )) # Ptr  |-> z_pre)
   **  (listrep x_pre )
   **  (listrep y_pre )
   **  (listrep z_pre )
@@ -645,7 +645,7 @@ forall (z_pre: Z) (y_pre: Z) (x_pre: Z) (PreH1 : (x_pre <> 0)) ,
   **  (listrep y_pre )
   **  (listrep z_pre )
 |--
-  EX (y: Z)  (x: Z) ,
+  EX (x: Z)  (y: Z) ,
   “ (x_pre <> 0) ”
   &&  ((&((x_pre)  # "list" ->ₛ "next")) # Ptr  |-> y)
   **  (listrep y )
@@ -663,7 +663,7 @@ forall (x: Z) (z: Z) (y: Z) (u: Z) (v: Z) (t: Z) (PreH1 : (t <> 0)) (PreH2 : (u 
   **  (listrep u )
   **  (lseg x t )
 |--
-  EX (y_2: Z)  (x_2: Z) ,
+  EX (x_2: Z)  (y_2: Z) ,
   “ (t <> 0) ” 
   &&  “ (u <> 0) ” 
   &&  “ (y <> 0) ”
@@ -688,7 +688,7 @@ forall (x: Z) (z: Z) (y: Z) (u: Z) (v: Z) (t: Z) (x_2: Z) (y_2: Z) (PreH1 : (t <
   **  (listrep u )
   **  (lseg x t )
 |--
-  EX (y_3: Z)  (x_3: Z) ,
+  EX (x_3: Z)  (y_3: Z) ,
   “ (t <> 0) ” 
   &&  “ (u <> 0) ” 
   &&  “ (y <> 0) ”

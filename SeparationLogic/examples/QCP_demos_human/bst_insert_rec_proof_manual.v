@@ -22,55 +22,98 @@ Local Open Scope sac.
 
 Lemma proof_of_insert_return_wit_4 : insert_return_wit_4.
 Proof.
-  pre_process.
-  sep_apply (store_tree_zero); [ | tauto].
-  Intros.
-  subst.
-  simpl.
-  Exists 0 0.
-  entailer!.
+	LLM_pre_process ltac:(int_auto).
+	sep_apply_l_atomic (store_tree_zero b_pre tr_low_level_spec).
+	- dump_pre_spatial.
+	  assumption.
+	- Intros_p Hempty.
+	  subst.
+	  simpl.
+	  Exists 0.
+	  Exists 0.
+	  repeat (split_pure_spatial || split_pures).
+	  + cancel (&(retval # "tree" ->ₛ "key") # Int |-> x_pre).
+	    cancel (&(retval # "tree" ->ₛ "value") # Int |-> value_pre).
+	    cancel (&(retval # "tree" ->ₛ "left") # Ptr |-> 0).
+	    cancel (&(retval # "tree" ->ₛ "right") # Ptr |-> 0).
+	  + dump_pre_spatial.
+	    assumption.
+	  + dump_pre_spatial.
+	    lia.
+	  + dump_pre_spatial.
+	    reflexivity.
+	  + dump_pre_spatial.
+	    reflexivity.
 Qed.
 
 Lemma proof_of_insert_return_wit_3 : insert_return_wit_3.
 Proof.
-  pre_process.
-  subst.
-  simpl.
-  destruct (Key.dec x_pre b_key) as [[? | ?] | ?];
-    try Key.order.
-  simpl.
-  Exists retval b_right.
-  entailer!.
+	LLM_pre_process ltac:(int_auto).
+	subst.
+	simpl.
+	destruct (Key.dec x_pre b_key) as [[Hlt | Hgt] | Heq]; try Key.order.
+	simpl.
+	Exists retval.
+	Exists b_right.
+	repeat (split_pure_spatial || split_pures).
+	+ cancel (store_tree retval (tree_insert x_pre value_pre l0)).
+	  cancel (&(b_pre # "tree" ->ₛ "key") # Int |-> b_key).
+	  cancel (&(b_pre # "tree" ->ₛ "value") # Int |-> b_value).
+	  cancel (&(b_pre # "tree" ->ₛ "left") # Ptr |-> retval).
+	  cancel (&(b_pre # "tree" ->ₛ "right") # Ptr |-> b_right).
+	  cancel (store_tree b_right r0).
+	+ dump_pre_spatial.
+	  tauto.
+	+ dump_pre_spatial.
+	  lia.
 Qed.
 
 Lemma proof_of_insert_return_wit_2 : insert_return_wit_2.
 Proof.
-  pre_process.
-  subst.
-  simpl.
-  destruct (Key.dec x_pre b_key) as [[? | ?] | ?];
-    try Key.order.
-  simpl.
-  Exists b_left retval.
-  entailer!.
+	LLM_pre_process ltac:(int_auto).
+	subst.
+	simpl.
+	destruct (Key.dec x_pre b_key) as [[Hlt | Hgt] | Heq]; try Key.order.
+	simpl.
+	Exists b_left.
+	Exists retval.
+	repeat (split_pure_spatial || split_pures).
+	+ cancel (&(b_pre # "tree" ->ₛ "key") # Int |-> b_key).
+	  cancel (&(b_pre # "tree" ->ₛ "value") # Int |-> b_value).
+	  cancel (&(b_pre # "tree" ->ₛ "left") # Ptr |-> b_left).
+	  cancel (store_tree retval (tree_insert x_pre value_pre r0)).
+	  cancel.
+	+ dump_pre_spatial.
+	  tauto.
+	+ dump_pre_spatial.
+	  lia.
 Qed.
 
 Lemma proof_of_insert_return_wit_1 : insert_return_wit_1.
 Proof.
-  pre_process.
-  subst.
-  simpl.
-  destruct (Key.dec x_pre b_key) as [[? | ?] | ?];
-    try Key.order.
-  simpl.
-  subst.
-  Exists b_left b_right.
-  entailer!.
+	LLM_pre_process ltac:(int_auto).
+	subst.
+	simpl.
+	destruct (Key.dec x_pre b_key) as [[Hlt | Hgt] | Heq]; try Key.order.
+	simpl.
+	subst.
+	Exists b_left.
+	Exists b_right.
+	repeat (split_pure_spatial || split_pures).
+	+ cancel (&(b_pre # "tree" ->ₛ "key") # Int |-> b_key).
+	  cancel (&(b_pre # "tree" ->ₛ "value") # Int |-> value_pre).
+	  cancel (&(b_pre # "tree" ->ₛ "left") # Ptr |-> b_left).
+	  cancel (store_tree b_right r0).
+	  cancel.
+	+ dump_pre_spatial.
+	  assumption.
+	+ dump_pre_spatial.
+	  lia.
 Qed.
 
 Lemma proof_of_insert_which_implies_wit_1 : insert_which_implies_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   sep_apply store_tree_not_zero; [ | tauto].
   Intros x.
   Intros k.
@@ -79,21 +122,44 @@ Proof.
   Intros pl pr.
   Exists pr pl x v.
   Exists r0 k.
-  entailer!.
+  split_pure_spatial.
+  - cancel (&((b)  # "tree" ->ₛ "key") # Int |-> k).
+    cancel (&((b)  # "tree" ->ₛ "value") # Int |-> v).
+    cancel (&((b)  # "tree" ->ₛ "left") # Ptr |-> pl).
+    cancel (store_tree pl x).
+    cancel (&((b)  # "tree" ->ₛ "right") # Ptr |-> pr).
+    cancel (store_tree pr r0).
+  - split_pures.
+    + dump_pre_spatial.
+      lia.
+    + dump_pre_spatial.
+      lia.
+    + dump_pre_spatial.
+      exact H0.
 Qed.
 
 Lemma proof_of_insert_derive_high_level_spec_by_low_level_spec : insert_derive_high_level_spec_by_low_level_spec.
 Proof.
-  pre_process.
-  unfold Bst.store_map.
-  Intros tr.
-  Exists tr.
-  entailer!.
-  apply derivable1_wand_sepcon_adjoint.
-  Intros retval.
-  Exists retval.
-  Exists (tree_insert x_pre value_pre tr).
-  entailer!.
-  + apply insert_Abs; tauto.
-  + apply insert_SearchTree; tauto.
+	LLM_pre_process ltac:(int_auto).
+	unfold Bst.store_map.
+	Intros tr.
+	Exists tr.
+	repeat split_pure_spatial.
+	- cancel (store_tree b_pre tr).
+	  apply derivable1_wand_sepcon_adjoint.
+	  Intros retval_2.
+	  Exists retval_2.
+	  unfold Bst.store_map.
+	  Exists (tree_insert x_pre value_pre tr).
+	  repeat (split_pure_spatial || split_pures).
+	  + cancel.
+	  + dump_pre_spatial.
+	    eapply insert_SearchTree; eauto.
+	  + dump_pre_spatial.
+	    eapply insert_Abs; eauto.
+	- split_pures.
+	  + dump_pre_spatial.
+	    exact H.
+	  + dump_pre_spatial.
+	    exact H0.
 Qed.

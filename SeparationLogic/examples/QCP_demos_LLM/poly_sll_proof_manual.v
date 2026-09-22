@@ -21,7 +21,7 @@ Local Open Scope sac.
 
 Lemma proof_of_reverse_entail_wit_2 : reverse_entail_wit_2.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	Exists nil.
 	Exists l.
 	split_pure_spatial.
@@ -34,7 +34,7 @@ Qed.
 
 Lemma proof_of_reverse_entail_wit_4 : reverse_entail_wit_4.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	Exists (x :: l1_2).
 	Exists xs.
 	split_pure_spatial.
@@ -59,7 +59,7 @@ Qed.
 
 Lemma proof_of_reverse_return_wit_1 : reverse_return_wit_1.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	sep_apply (sll_zero A storeA v l2); [ | tauto].
 	Intros_p Hl2.
 	rewrite Hl2 in PreH1.

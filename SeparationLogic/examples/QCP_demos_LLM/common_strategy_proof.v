@@ -22,13 +22,14 @@ Lemma common_strategy6_correctness : common_strategy6.
 Proof.
   pre_process_default.
   unfold should_be_equal.
-  eapply derivable1s_coq_prop_andp_r.
-  2: exact I.
-  eapply derivable1s_emp_l_unfold.
-  apply derivable1_wand_sepcon_adjoint.
-  elim_emp.
-  Intros_p H.
-  cancel.
+  normalize.
+  apply split_pure_and_spatial_goals.
+  - cancel.
+    apply_sepcon_adjoint.
+    Intros_p H.
+    cancel.
+  - dump_pre_spatial.
+    exact I.
 Qed.
 
 Lemma common_strategy3_correctness : common_strategy3.

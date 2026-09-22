@@ -23,56 +23,75 @@ Local Open Scope sac.
 
 Lemma proof_of_split_while_entail_wit_2_2 : split_while_entail_wit_2_2.
 Proof. 
-  pre_process.
-  sepcon_lift  (sll x_next l1_new ).
+  LLM_pre_process ltac:(int_auto).
   subst x_next.
-  sep_apply sll_zero;[ | auto ].
-  Intros.
-  subst.
-  Exists q_v_2 x nil (x_data :: l1_2) l2_2.
+  sep_apply (sll_zero 0 l1_new); [ | reflexivity].
+  Intros_p Hl1nil.
+  subst l1_new.
+  Exists q_v_2 x (@nil Z) (x_data :: l1_2) l2_2.
   simpl (sll 0 nil).
-  entailer!.
-  apply store_ptr_undef_store_ptr.
-  unfold split_rec_rel in *.
-  rewrite (program_para_equiv (split_rec_rel_unfold)) in *.
-  unfold split_rec_rel_f in *.
-  rewrite bind_ret_left in PreH2.
-  exact PreH2.
+  split_pure_spatial.
+  - cancel (p_pre # Ptr |-> x).
+    cancel (sll x (x_data :: l1_2)).
+    cancel (q_pre # Ptr |-> q_v_2).
+    cancel (sll q_v_2 l2_2).
+    apply store_ptr_undef_store_ptr.
+  - split_pures.
+    + dump_pre_spatial.
+      unfold split_rec_rel in *.
+      rewrite (program_para_equiv (split_rec_rel_unfold)) in *.
+      unfold split_rec_rel_f in *.
+      rewrite bind_ret_left in PreH2.
+      exact PreH2.
+    + dump_pre_spatial. exact PreH5.
+    + dump_pre_spatial. exact PreH6.
+    + dump_pre_spatial. reflexivity.
 Qed.
 
 Lemma proof_of_split_while_return_wit_1 : split_while_return_wit_1.
 Proof.
-  pre_process.
-  Exists q_v p_v l1 l2.
-  sep_apply sll_zero;[ | auto ].
-  entailer!.
-  subst.
-  unfold split_rec_rel in PreH2.
-  unfold maketuple.
-  eapply highstependret_derive with (P':= fun _ => ATrue);eauto.
-  apply split_rec_rel_eval_xnil.
-Qed. 
+	LLM_pre_process ltac:(int_auto).
+	sep_apply_l_atomic (sll_zero x l).
+	- dump_pre_spatial.
+		unfold NULL.
+		lia.
+	- Intros_p Hl.
+		Exists q_v.
+		Exists p_v.
+		Exists l1.
+		Exists l2.
+		repeat split_pure_spatial.
+		+ cancel (p_pre # Ptr |-> p_v).
+			cancel (sll p_v l1).
+			cancel (q_pre # Ptr |-> q_v).
+			cancel (sll q_v l2).
+		+ dump_pre_spatial.
+			rewrite Hl in PreH2.
+			unfold split_rec_rel in PreH2.
+			erewrite (program_para_equiv (split_rec_rel_unfold)) in PreH2.
+			unfold split_rec_rel_f in PreH2.
+			unfold maketuple in PreH2.
+			exact PreH2.
+Qed.
 
-Lemma proof_of_split_while_which_implies_wit_2 : split_while_which_implies_wit_2.
+Lemma proof_of_split_while_which_implies_wit_2_split_goal_1 :
+  split_while_which_implies_wit_2_split_goal_1.
 Proof. 
-  pre_process.
-  entailer!.
-  sep_apply sllseg_len1;[ | auto ].
-  sep_apply sllseg_sll.
-  simpl ( (_ :: _) ++ _).
-  reflexivity.
+  LLM_pre_process ltac:(int_auto).
   subst.
   eapply  split_rel_eval_xnotnil;eauto.
 Qed.
 
-Lemma proof_of_split_while_which_implies_wit_4 : split_while_which_implies_wit_4.
+Lemma proof_of_split_while_which_implies_wit_2 : split_while_which_implies_wit_2.
+Proof.
+  aggressive_pre_process.
+  Goal_apply proof_of_split_while_which_implies_wit_2_split_goal_1.
+Qed.
+
+Lemma proof_of_split_while_which_implies_wit_4_split_goal_1 :
+  split_while_which_implies_wit_4_split_goal_1.
 Proof. 
-  pre_process.
-  entailer!.
-  sep_apply sllseg_len1;[ | auto ].
-  sep_apply sllseg_sll.
-  simpl ( (_ :: _) ++ _).
-  reflexivity.
+  LLM_pre_process ltac:(int_auto).
   subst l.
   unfold split_rec_rel in PreH1.
   rewrite (program_para_equiv (split_rec_rel_unfold)) in PreH1.
@@ -81,4 +100,10 @@ Proof.
   rewrite bind_2_reversepair_equiv_Id in PreH1.
   rewrite bind_ret_right in PreH1.
   auto.
+Qed.
+
+Lemma proof_of_split_while_which_implies_wit_4 : split_while_which_implies_wit_4.
+Proof.
+  aggressive_pre_process.
+  Goal_apply proof_of_split_while_which_implies_wit_4_split_goal_1.
 Qed.

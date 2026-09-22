@@ -20,7 +20,7 @@ Local Open Scope sac.
 
 Lemma proof_of_chars_initialize_entail_wit_1 : chars_initialize_entail_wit_1.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	sep_apply CharArray.undef_full_to_undef_seg.
 	unfold repeat_Z.
 	simpl.
@@ -42,7 +42,7 @@ Qed.
 
 Lemma proof_of_chars_initialize_entail_wit_2 : chars_initialize_entail_wit_2.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	rewrite repeat_Z_tail.
 	split_pure_spatial.
 	- cancel (CharArray.full a_pre (i + 1) (repeat_Z m_pre i ++ m_pre :: nil)).
@@ -61,7 +61,7 @@ Qed.
 
 Lemma proof_of_chars_initialize_return_wit_1 : chars_initialize_return_wit_1.
 Proof.
-	pre_process.
+	LLM_pre_process ltac:(int_auto).
 	assert (i = n_pre) by lia.
 	subst i.
 	rewrite (CharArray.undef_seg_empty a_pre n_pre).

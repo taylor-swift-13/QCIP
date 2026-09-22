@@ -19,24 +19,13 @@ Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.house_robber.house_robber_lib.
 Local Open Scope sac.
 
-Lemma proof_of_rob_safety_wit_4 : rob_safety_wit_4.
-Proof.
-  pre_process.
-  split_pures.
-  - dump_pre_spatial.
-    pose proof (PreH5 i ltac:(lia)) as Hi.
-    lia.
-  - dump_pre_spatial.
-    pose proof (PreH5 i ltac:(lia)) as Hi.
-    lia.
-Qed.
-
 Lemma proof_of_rob_entail_wit_1 : rob_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - cancel.
-  - entailer!.
+  - split_pures.
+    all: dump_pre_spatial; try lia; try assumption.
     unfold HouseRobberDPState.
     split.
     + rewrite PreH3. lia.
@@ -45,9 +34,9 @@ Proof.
       * left. split; reflexivity.
 Qed.
 
-Lemma proof_of_rob_entail_wit_2_1 : rob_entail_wit_2_1.
+Lemma proof_of_rob_entail_wit_2_2 : rob_entail_wit_2_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - cancel.
   - split_pures.
@@ -55,9 +44,9 @@ Proof.
     eapply HouseRobberDPState_skip_step; eauto; lia.
 Qed. 
 
-Lemma proof_of_rob_entail_wit_2_2 : rob_entail_wit_2_2.
+Lemma proof_of_rob_entail_wit_2_1 : rob_entail_wit_2_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - cancel (IntArray.full nums_pre n_pre l).
   - split_pures.
@@ -66,9 +55,21 @@ Proof.
     + apply house_robber_dp_step_take with (n := n_pre); auto; lia.
 Qed.
 
+Lemma proof_of_rob_entail_wit_3_split_goal_1 : rob_entail_wit_3_split_goal_1.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  apply PreH4.
+  exact H.
+Qed.
+
+Lemma proof_of_rob_entail_wit_3 : rob_entail_wit_3.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+Qed.
+
 Lemma proof_of_rob_return_wit_1 : rob_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   split_pure_spatial.
   - cancel.
   - split_pures.

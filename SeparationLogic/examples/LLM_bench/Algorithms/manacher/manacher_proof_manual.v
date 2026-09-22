@@ -23,7 +23,7 @@ Local Open Scope sac.
 
 Lemma proof_of_longestPalindrom_entail_wit_1 : longestPalindrom_entail_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists (0 :: nil).
   Exists (36 :: nil).
   split_pure_spatial.
@@ -35,13 +35,13 @@ Proof.
     replace (2 * 0 + 1) with (0 + 1) by lia.
     replace 1 with (0 + 1) by lia.
     cancel (CharArray.seg &( "s2") 0 (0 + 1) (36 :: nil)).
+    replace (0 + (0 + 1)) with (0 + 1) by lia.
     cancel (CharArray.undef_seg &( "s2") (0 + 1) 2003).
     cancel (IntArray.seg &( "p") 0 (0 + 1) (0 :: nil)).
     assert (Hundef_p:
       IntArray.undef_missing_i &( "p") 0 0 2003 |--
       IntArray.undef_seg &( "p") (0 + 1) 2003).
     { apply IntArray.undef_missing_i_to_undef_seg_head; lia. }
-    sep_apply_l_atomic Hundef_p.
     cancel (IntArray.undef_seg &( "p") (0 + 1) 2003).
   - split_pures; dump_pre_spatial; simpl; auto; try lia.
     unfold ManacherTransformedPrefix; simpl; repeat split; try apply Zlength_nonneg; try lia.
@@ -49,7 +49,7 @@ Qed.
 
 Lemma proof_of_longestPalindrom_entail_wit_2 : longestPalindrom_entail_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists p_pre_2.
   Exists ((s2_pre_2 ++ 35 :: nil) ++ Znth i (c_string str) 0 :: nil).
   split_pure_spatial.
@@ -74,7 +74,7 @@ Qed.
 
 Lemma proof_of_longestPalindrom_entail_wit_3 : longestPalindrom_entail_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists p_pre_2.
   Exists ((s2_pre ++ 35 :: nil) ++ 0 :: nil).
   split_pure_spatial.
@@ -97,7 +97,7 @@ Qed.
 
 Lemma proof_of_longestPalindrom_entail_wit_4 : longestPalindrom_entail_wit_4.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst i id limit maxLen maxId j r mirror ret.
   Exists p_pre.
   Exists s2_full_2.
@@ -125,7 +125,7 @@ Qed.
 
 Lemma proof_of_longestPalindrom_entail_wit_5 : longestPalindrom_entail_wit_5.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists p_cur_2.
   Exists s2_full_2.
   split_pure_spatial.
@@ -148,9 +148,9 @@ Proof.
       lia.
 Qed.
 
-Lemma proof_of_longestPalindrom_entail_wit_6_1 : longestPalindrom_entail_wit_6_1.
+Lemma proof_of_longestPalindrom_entail_wit_6_3 : longestPalindrom_entail_wit_6_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   pose proof PreH27 as Hloop_state.
   destruct PreH27 as (Htrans & Hprefix & Hid_range & Hwindow & Hbest).
   destruct Hprefix as (Hplen & Hi_range & Hprefix_max).
@@ -236,7 +236,7 @@ Qed.
 
 Lemma proof_of_longestPalindrom_entail_wit_6_2 : longestPalindrom_entail_wit_6_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   pose proof PreH22 as H20_orig.
   destruct PreH22 as (Htrans & Hprefix & Hid_range & Hwindow & Hbest).
   destruct Hprefix as (Hplen & Hi_range & Hprefix_max).
@@ -304,9 +304,9 @@ Proof.
     + unfold ExpansionCandidate in Hcandidate; tauto.
 Qed. 
 
-Lemma proof_of_longestPalindrom_entail_wit_6_3 : longestPalindrom_entail_wit_6_3.
+Lemma proof_of_longestPalindrom_entail_wit_6_1 : longestPalindrom_entail_wit_6_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   pose proof PreH22 as Hloop_state.
   destruct PreH22 as (Htrans & Hprefix & Hid_range & Hwindow & Hbest).
   destruct Hprefix as (Hplen & Hi_range & Hprefix_max).
@@ -399,7 +399,7 @@ Qed.
 
 Lemma proof_of_longestPalindrom_entail_wit_8 : longestPalindrom_entail_wit_8.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists p_written_2.
   Exists s2_full_2.
   split_pure_spatial.
@@ -432,7 +432,7 @@ Qed.
 
 Lemma proof_of_longestPalindrom_entail_wit_9 : longestPalindrom_entail_wit_9.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists (replace_Znth i (r + 1) p_written_2).
   Exists s2_full_2.
   split_pure_spatial.
@@ -559,9 +559,9 @@ Proof.
         split; assumption.
 Qed.
 
-Lemma proof_of_longestPalindrom_entail_wit_10_1 : longestPalindrom_entail_wit_10_1.
+Lemma proof_of_longestPalindrom_entail_wit_10_4 : longestPalindrom_entail_wit_10_4.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists p_written.
   Exists s2_full_2.
   split_pure_spatial.
@@ -578,9 +578,9 @@ Proof.
     eapply manacher_best_radius_keep_after_mismatch; eauto.
 Qed. 
 
-Lemma proof_of_longestPalindrom_entail_wit_10_2 : longestPalindrom_entail_wit_10_2.
+Lemma proof_of_longestPalindrom_entail_wit_10_3 : longestPalindrom_entail_wit_10_3.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists p_written.
   Exists s2_full_2.
   split_pure_spatial.
@@ -597,9 +597,9 @@ Proof.
     eapply manacher_best_radius_keep_after_mismatch_new_window; eauto.
 Qed. 
 
-Lemma proof_of_longestPalindrom_entail_wit_10_3 : longestPalindrom_entail_wit_10_3.
+Lemma proof_of_longestPalindrom_entail_wit_10_2 : longestPalindrom_entail_wit_10_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists p_written. Exists s2_full_2.
   split_pure_spatial.
   - unfold store_string.
@@ -615,9 +615,9 @@ Proof.
       try exact PreH31; eauto; lia.
 Qed. 
 
-Lemma proof_of_longestPalindrom_entail_wit_10_4 : longestPalindrom_entail_wit_10_4.
+Lemma proof_of_longestPalindrom_entail_wit_10_1 : longestPalindrom_entail_wit_10_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists p_written. Exists s2_full_2.
   split_pure_spatial.
   - unfold store_string.
@@ -635,7 +635,7 @@ Qed.
 
 Lemma proof_of_longestPalindrom_entail_wit_11 : longestPalindrom_entail_wit_11.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   Exists p_next.
   Exists s2_full_2.
   split_pure_spatial.
@@ -657,7 +657,7 @@ Qed.
 
 Lemma proof_of_longestPalindrom_entail_wit_12 : longestPalindrom_entail_wit_12.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (Hi_len : i = len) by lia.
   pose proof PreH25 as Hstate_len.
   rewrite Hi_len in Hstate_len.
@@ -685,7 +685,7 @@ Qed.
 
 Lemma proof_of_longestPalindrom_entail_wit_13 : longestPalindrom_entail_wit_13.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   subst j. subst out_pre.
   Exists p_done_2. Exists s2_full_2. Exists nil.
   split_pure_spatial.
@@ -702,7 +702,7 @@ Qed.
 
 Lemma proof_of_longestPalindrom_entail_wit_14_1 : longestPalindrom_entail_wit_14_1.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   pose proof (output_copy_prefix_step_nonhash
     s2_full_2 out_prefix_2 (maxId - maxLen) i j maxLen
     PreH23 (PreH24 (i + 1) ltac:(lia)) PreH1) as [Hpref_step Hj_step].
@@ -723,7 +723,7 @@ Qed.
 
 Lemma proof_of_longestPalindrom_entail_wit_14_2 : longestPalindrom_entail_wit_14_2.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   pose proof (output_copy_prefix_step_hash
     s2_full_2 out_prefix_2 (maxId - maxLen) i j maxLen
     PreH23 (PreH24 (i + 1) ltac:(lia)) PreH1) as Hpref_step.
@@ -742,7 +742,7 @@ Qed.
 
 Lemma proof_of_longestPalindrom_entail_wit_15 : longestPalindrom_entail_wit_15.
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(int_auto).
   assert (Hi_done : i = maxId + maxLen + 1) by lia.
   assert (Hj_done : j = maxLen).
   {
@@ -782,4 +782,16 @@ Proof.
     cancel (CharArray.undef_full &( "s2") 2003).
     cancel (IntArray.undef_full &( "p") 2003).
   - split_pures; try solve [dump_pre_spatial; eauto; lia].
+Qed.
+
+Lemma proof_of_longestPalindrom_return_wit_1 : longestPalindrom_return_wit_1.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  Exists out_2.
+  repeat (split_pure_spatial || split_pures);
+    try solve
+      [ repeat cancel
+      | reflexivity
+      | dump_pre_spatial; auto; lia
+      | dump_pre_spatial; rewrite <- PreH7; exact PreH24 ].
 Qed.

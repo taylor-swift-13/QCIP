@@ -28,9 +28,9 @@ From SimpleC.StdLib Require Import string_strategy_proof.
 Definition memcpy_safety_wit_1 := 
 forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (PreH1 : (all_ascii bytes )) (PreH2 : ((Zlength (bytes)) = n_pre)) (PreH3 : (0 <= n_pre)) (PreH4 : (n_pre < INT_MAX)) ,
   ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "dest" ) )) # Ptr  |-> dest_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  (CharArray.undef_full dest_pre n_pre )
   **  (CharArray.full src_pre n_pre bytes )
 |--
@@ -69,25 +69,16 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (PreH1 : (all_as
   **  (CharArray.full src_pre n_pre bytes )
 ) \/
 (
-forall (n_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (PreH1 : (all_ascii bytes )) (PreH2 : ((Zlength (bytes)) = n_pre)) (PreH3 : (0 <= n_pre)) (PreH4 : (n_pre < INT_MAX)) ,
-  (CharArray.undef_full dest_pre n_pre )
+forall (n_pre: Z) (bytes: (@list Z)) (PreH1 : (all_ascii bytes )) (PreH2 : ((Zlength (bytes)) = n_pre)) (PreH3 : (0 <= n_pre)) (PreH4 : (n_pre < INT_MAX)) ,
+  TT && emp 
 |--
   “ ((sublist (0) (0) (bytes)) = (@nil Z)) ”
-  &&  (CharArray.undef_full dest_pre n_pre )
+  &&  emp
 ).
 
 Definition memcpy_entail_wit_1_split_goal_1 := 
-forall (n_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (PreH1 : (all_ascii bytes )) (PreH2 : ((Zlength (bytes)) = n_pre)) (PreH3 : (0 <= n_pre)) (PreH4 : (n_pre < INT_MAX)) ,
-  (CharArray.undef_full dest_pre n_pre )
-|--
-  “ ((sublist (0) (0) (bytes)) = (@nil Z)) ”
-.
-
-Definition memcpy_entail_wit_1_split_goal_spatial := 
-forall (n_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (PreH1 : (all_ascii bytes )) (PreH2 : ((Zlength (bytes)) = n_pre)) (PreH3 : (0 <= n_pre)) (PreH4 : (n_pre < INT_MAX)) ,
-  (CharArray.undef_full dest_pre n_pre )
-|--
-  (CharArray.undef_full dest_pre n_pre )
+forall (n_pre: Z) (bytes: (@list Z)) (PreH1 : (all_ascii bytes )) (PreH2 : ((Zlength (bytes)) = n_pre)) (PreH3 : (0 <= n_pre)) (PreH4 : (n_pre < INT_MAX)) ,
+  ((sublist (0) (0) (bytes)) = (@nil Z))
 .
 
 Definition memcpy_entail_wit_2 := 
@@ -117,9 +108,7 @@ forall (n_pre: Z) (bytes: (@list Z)) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (all_
 
 Definition memcpy_entail_wit_2_split_goal_1 := 
 forall (n_pre: Z) (bytes: (@list Z)) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (all_ascii bytes )) (PreH3 : ((Zlength (bytes)) = n_pre)) (PreH4 : (0 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) (PreH6 : (0 <= i)) (PreH7 : (i <= n_pre)) ,
-  TT && emp 
-|--
-  “ ((app ((sublist (0) (i) (bytes))) ((cons ((Znth i bytes 0)) ((@nil Z))))) = (sublist (0) ((i + 1 )) (bytes))) ”
+  ((app ((sublist (0) (i) (bytes))) ((cons ((Znth i bytes 0)) ((@nil Z))))) = (sublist (0) ((i + 1 )) (bytes)))
 .
 
 Definition memcpy_return_wit_1 := 
@@ -160,7 +149,7 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (i: Z) (PreH1 : 
   &&  “ (n_pre < INT_MAX) ” 
   &&  “ (0 <= i) ” 
   &&  “ (i <= n_pre) ”
-  &&  (((src_pre + (i * sizeof(CHAR) ) )) # Char  |-> (Znth i bytes 0))
+  &&  (((src_pre + (i * sizeof(CHAR)))) # Char  |-> (Znth i bytes 0))
   **  (CharArray.missing_i src_pre i 0 n_pre bytes )
   **  (CharArray.full dest_pre i (sublist (0) (i) (bytes)) )
   **  (CharArray.undef_seg dest_pre i n_pre )
@@ -179,7 +168,7 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (i: Z) (PreH1 : 
   &&  “ (n_pre < INT_MAX) ” 
   &&  “ (0 <= i) ” 
   &&  “ (i <= n_pre) ”
-  &&  (((dest_pre + (i * sizeof(CHAR) ) )) # Char  |->_)
+  &&  (((dest_pre + (i * sizeof(CHAR)))) # Char  |->_)
   **  (CharArray.undef_missing_i dest_pre i i n_pre )
   **  (CharArray.full src_pre n_pre bytes )
   **  (CharArray.full dest_pre i (sublist (0) (i) (bytes)) )
@@ -190,9 +179,9 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (i: Z) (PreH1 : 
 Definition memmove_safety_wit_1 := 
 forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (PreH1 : (dest_pre < src_pre)) (PreH2 : (all_ascii bytes )) (PreH3 : ((Zlength (bytes)) = n_pre)) (PreH4 : (0 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) ,
   ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "dest" ) )) # Ptr  |-> dest_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  (CharArray.undef_full dest_pre n_pre )
   **  (CharArray.full src_pre n_pre bytes )
 |--
@@ -221,7 +210,7 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (i: Z) (PreH1 : 
   **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  (CharArray.undef_seg dest_pre 0 i )
-  **  (CharArray.full (dest_pre + (i * sizeof(CHAR) ) ) (n_pre - i ) (sublist (i) (n_pre) (bytes)) )
+  **  (CharArray.full (dest_pre + (i * sizeof(CHAR))) (n_pre - i ) (sublist (i) (n_pre) (bytes)) )
   **  (CharArray.full src_pre n_pre bytes )
 |--
   “ (0 <= INT_MAX) ” 
@@ -235,7 +224,7 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (i: Z) (PreH1 : 
   **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  (CharArray.undef_seg dest_pre 0 i )
-  **  (CharArray.full (dest_pre + (i * sizeof(CHAR) ) ) (n_pre - i ) (sublist (i) (n_pre) (bytes)) )
+  **  (CharArray.full (dest_pre + (i * sizeof(CHAR))) (n_pre - i ) (sublist (i) (n_pre) (bytes)) )
   **  (CharArray.full src_pre n_pre bytes )
 |--
   “ ((i - 1 ) <= INT_MAX) ” 
@@ -260,24 +249,15 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (PreH1 : (dest_p
 ) \/
 (
 forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (PreH1 : (dest_pre < src_pre)) (PreH2 : (all_ascii bytes )) (PreH3 : ((Zlength (bytes)) = n_pre)) (PreH4 : (0 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) ,
-  (CharArray.undef_full dest_pre n_pre )
+  TT && emp 
 |--
   “ ((sublist (0) (0) (bytes)) = (@nil Z)) ”
-  &&  (CharArray.undef_full dest_pre n_pre )
+  &&  emp
 ).
 
 Definition memmove_entail_wit_1_split_goal_1 := 
 forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (PreH1 : (dest_pre < src_pre)) (PreH2 : (all_ascii bytes )) (PreH3 : ((Zlength (bytes)) = n_pre)) (PreH4 : (0 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) ,
-  (CharArray.undef_full dest_pre n_pre )
-|--
-  “ ((sublist (0) (0) (bytes)) = (@nil Z)) ”
-.
-
-Definition memmove_entail_wit_1_split_goal_spatial := 
-forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (PreH1 : (dest_pre < src_pre)) (PreH2 : (all_ascii bytes )) (PreH3 : ((Zlength (bytes)) = n_pre)) (PreH4 : (0 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) ,
-  (CharArray.undef_full dest_pre n_pre )
-|--
-  (CharArray.undef_full dest_pre n_pre )
+  ((sublist (0) (0) (bytes)) = (@nil Z))
 .
 
 Definition memmove_entail_wit_2 := 
@@ -307,9 +287,7 @@ forall (n_pre: Z) (bytes: (@list Z)) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (all_
 
 Definition memmove_entail_wit_2_split_goal_1 := 
 forall (n_pre: Z) (bytes: (@list Z)) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (all_ascii bytes )) (PreH3 : ((Zlength (bytes)) = n_pre)) (PreH4 : (0 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) (PreH6 : (0 <= i)) (PreH7 : (i <= n_pre)) ,
-  TT && emp 
-|--
-  “ ((app ((sublist (0) (i) (bytes))) ((cons ((Znth i bytes 0)) ((@nil Z))))) = (sublist (0) ((i + 1 )) (bytes))) ”
+  ((app ((sublist (0) (i) (bytes))) ((cons ((Znth i bytes 0)) ((@nil Z))))) = (sublist (0) ((i + 1 )) (bytes)))
 .
 
 Definition memmove_entail_wit_3 := 
@@ -325,38 +303,28 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (PreH1 : (dest_p
   &&  “ (0 <= n_pre) ” 
   &&  “ (n_pre <= n_pre) ”
   &&  (CharArray.undef_seg dest_pre 0 n_pre )
-  **  (CharArray.full (dest_pre + (n_pre * sizeof(CHAR) ) ) (n_pre - n_pre ) (sublist (n_pre) (n_pre) (bytes)) )
+  **  (CharArray.full (dest_pre + (n_pre * sizeof(CHAR))) (n_pre - n_pre ) (sublist (n_pre) (n_pre) (bytes)) )
   **  (CharArray.full src_pre n_pre bytes )
 ) \/
 (
 forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (PreH1 : (dest_pre >= src_pre)) (PreH2 : (all_ascii bytes )) (PreH3 : ((Zlength (bytes)) = n_pre)) (PreH4 : (0 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) ,
-  (CharArray.undef_full dest_pre n_pre )
+  TT && emp 
 |--
   “ ((sublist (n_pre) (n_pre) (bytes)) = (@nil Z)) ”
-  &&  (CharArray.undef_full dest_pre n_pre )
+  &&  emp
 ).
 
 Definition memmove_entail_wit_3_split_goal_1 := 
 forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (PreH1 : (dest_pre >= src_pre)) (PreH2 : (all_ascii bytes )) (PreH3 : ((Zlength (bytes)) = n_pre)) (PreH4 : (0 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) ,
-  (CharArray.undef_full dest_pre n_pre )
-|--
-  “ ((sublist (n_pre) (n_pre) (bytes)) = (@nil Z)) ”
-.
-
-Definition memmove_entail_wit_3_split_goal_spatial := 
-forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (PreH1 : (dest_pre >= src_pre)) (PreH2 : (all_ascii bytes )) (PreH3 : ((Zlength (bytes)) = n_pre)) (PreH4 : (0 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) ,
-  (CharArray.undef_full dest_pre n_pre )
-|--
-  (CharArray.undef_full dest_pre n_pre )
+  ((sublist (n_pre) (n_pre) (bytes)) = (@nil Z))
 .
 
 Definition memmove_entail_wit_4 := 
 (
 forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (i: Z) (PreH1 : (0 <= (n_pre - i ))) (PreH2 : (i > 0)) (PreH3 : (all_ascii bytes )) (PreH4 : ((Zlength (bytes)) = n_pre)) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) ,
-  (((dest_pre + ((i - 1 ) * sizeof(CHAR) ) )) # Char  |-> (Znth (i - 1 ) bytes 0))
-  **  (CharArray.undef_missing_i dest_pre (i - 1 ) 0 i )
+  (CharArray.full (dest_pre + ((i - 1 ) * sizeof(CHAR))) ((n_pre - i ) + 1 ) (cons ((Znth (i - 1 ) bytes 0)) ((sublist (i) (n_pre) (bytes)))) )
+  **  (CharArray.undef_seg dest_pre 0 (i - 1 ) )
   **  (CharArray.full src_pre n_pre bytes )
-  **  (CharArray.full (dest_pre + (i * sizeof(CHAR) ) ) (n_pre - i ) (sublist (i) (n_pre) (bytes)) )
 |--
   “ (all_ascii bytes ) ” 
   &&  “ ((Zlength (bytes)) = n_pre) ” 
@@ -365,27 +333,25 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (i: Z) (PreH1 : 
   &&  “ (0 <= (i - 1 )) ” 
   &&  “ ((i - 1 ) <= n_pre) ”
   &&  (CharArray.undef_seg dest_pre 0 (i - 1 ) )
-  **  (CharArray.full (dest_pre + ((i - 1 ) * sizeof(CHAR) ) ) (n_pre - (i - 1 ) ) (sublist ((i - 1 )) (n_pre) (bytes)) )
+  **  (CharArray.full (dest_pre + ((i - 1 ) * sizeof(CHAR))) (n_pre - (i - 1 ) ) (sublist ((i - 1 )) (n_pre) (bytes)) )
   **  (CharArray.full src_pre n_pre bytes )
 ) \/
 (
-forall (n_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (i: Z) (PreH1 : (0 <= (n_pre - i ))) (PreH2 : (i > 0)) (PreH3 : (all_ascii bytes )) (PreH4 : ((Zlength (bytes)) = n_pre)) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) ,
-  (((dest_pre + ((i - 1 ) * sizeof(CHAR) ) )) # Char  |-> (Znth (i - 1 ) bytes 0))
-  **  (CharArray.undef_missing_i dest_pre (i - 1 ) 0 i )
-  **  (CharArray.full (dest_pre + (i * sizeof(CHAR) ) ) (n_pre - i ) (sublist (i) (n_pre) (bytes)) )
+forall (n_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (i: Z) (PreH1 : (0 <= ((n_pre - i ) + 1 ))) (PreH2 : (0 <= (n_pre - i ))) (PreH3 : (i > 0)) (PreH4 : (all_ascii bytes )) (PreH5 : ((Zlength (bytes)) = n_pre)) (PreH6 : (0 <= n_pre)) (PreH7 : (n_pre < INT_MAX)) (PreH8 : (0 <= i)) (PreH9 : (i <= n_pre)) ,
+  (CharArray.full (dest_pre + ((i - 1 ) * sizeof(CHAR))) ((n_pre - i ) + 1 ) (cons ((Znth (i - 1 ) bytes 0)) ((sublist (i) (n_pre) (bytes)))) )
+  **  (CharArray.undef_seg dest_pre 0 (i - 1 ) )
 |--
   (CharArray.undef_full dest_pre (i - 1 ) )
-  **  (CharArray.full (dest_pre + ((i - 1 ) * sizeof(CHAR) ) ) (n_pre - (i - 1 ) ) (sublist ((i - 1 )) (n_pre) (bytes)) )
+  **  (CharArray.full (dest_pre + ((i - 1 ) * sizeof(CHAR))) (n_pre - (i - 1 ) ) (sublist ((i - 1 )) (n_pre) (bytes)) )
 ).
 
 Definition memmove_entail_wit_4_split_goal_spatial := 
-forall (n_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (i: Z) (PreH1 : (0 <= (n_pre - i ))) (PreH2 : (i > 0)) (PreH3 : (all_ascii bytes )) (PreH4 : ((Zlength (bytes)) = n_pre)) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) ,
-  (((dest_pre + ((i - 1 ) * sizeof(CHAR) ) )) # Char  |-> (Znth (i - 1 ) bytes 0))
-  **  (CharArray.undef_missing_i dest_pre (i - 1 ) 0 i )
-  **  (CharArray.full (dest_pre + (i * sizeof(CHAR) ) ) (n_pre - i ) (sublist (i) (n_pre) (bytes)) )
+forall (n_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (i: Z) (PreH1 : (0 <= ((n_pre - i ) + 1 ))) (PreH2 : (0 <= (n_pre - i ))) (PreH3 : (i > 0)) (PreH4 : (all_ascii bytes )) (PreH5 : ((Zlength (bytes)) = n_pre)) (PreH6 : (0 <= n_pre)) (PreH7 : (n_pre < INT_MAX)) (PreH8 : (0 <= i)) (PreH9 : (i <= n_pre)) ,
+  (CharArray.full (dest_pre + ((i - 1 ) * sizeof(CHAR))) ((n_pre - i ) + 1 ) (cons ((Znth (i - 1 ) bytes 0)) ((sublist (i) (n_pre) (bytes)))) )
+  **  (CharArray.undef_seg dest_pre 0 (i - 1 ) )
 |--
   (CharArray.undef_full dest_pre (i - 1 ) )
-  **  (CharArray.full (dest_pre + ((i - 1 ) * sizeof(CHAR) ) ) (n_pre - (i - 1 ) ) (sublist ((i - 1 )) (n_pre) (bytes)) )
+  **  (CharArray.full (dest_pre + ((i - 1 ) * sizeof(CHAR))) (n_pre - (i - 1 ) ) (sublist ((i - 1 )) (n_pre) (bytes)) )
 .
 
 Definition memmove_return_wit_1 := 
@@ -417,7 +383,7 @@ Definition memmove_return_wit_2 :=
 (
 forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (i: Z) (PreH1 : (i <= 0)) (PreH2 : (all_ascii bytes )) (PreH3 : ((Zlength (bytes)) = n_pre)) (PreH4 : (0 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) (PreH6 : (0 <= i)) (PreH7 : (i <= n_pre)) ,
   (CharArray.undef_seg dest_pre 0 i )
-  **  (CharArray.full (dest_pre + (i * sizeof(CHAR) ) ) (n_pre - i ) (sublist (i) (n_pre) (bytes)) )
+  **  (CharArray.full (dest_pre + (i * sizeof(CHAR))) (n_pre - i ) (sublist (i) (n_pre) (bytes)) )
   **  (CharArray.full src_pre n_pre bytes )
 |--
   “ (dest_pre = dest_pre) ”
@@ -426,14 +392,14 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (i: Z) (PreH1 : 
 ) \/
 (
 forall (n_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (i: Z) (PreH1 : (0 <= (n_pre - i ))) (PreH2 : (i <= 0)) (PreH3 : (all_ascii bytes )) (PreH4 : ((Zlength (bytes)) = n_pre)) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) ,
-  (CharArray.full (dest_pre + (i * sizeof(CHAR) ) ) (n_pre - i ) (sublist (i) (n_pre) (bytes)) )
+  (CharArray.full (dest_pre + (i * sizeof(CHAR))) (n_pre - i ) (sublist (i) (n_pre) (bytes)) )
 |--
   (CharArray.full dest_pre n_pre bytes )
 ).
 
 Definition memmove_return_wit_2_split_goal_spatial := 
 forall (n_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (i: Z) (PreH1 : (0 <= (n_pre - i ))) (PreH2 : (i <= 0)) (PreH3 : (all_ascii bytes )) (PreH4 : ((Zlength (bytes)) = n_pre)) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) ,
-  (CharArray.full (dest_pre + (i * sizeof(CHAR) ) ) (n_pre - i ) (sublist (i) (n_pre) (bytes)) )
+  (CharArray.full (dest_pre + (i * sizeof(CHAR))) (n_pre - i ) (sublist (i) (n_pre) (bytes)) )
 |--
   (CharArray.full dest_pre n_pre bytes )
 .
@@ -451,7 +417,7 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (i: Z) (PreH1 : 
   &&  “ (n_pre < INT_MAX) ” 
   &&  “ (0 <= i) ” 
   &&  “ (i <= n_pre) ”
-  &&  (((src_pre + (i * sizeof(CHAR) ) )) # Char  |-> (Znth i bytes 0))
+  &&  (((src_pre + (i * sizeof(CHAR)))) # Char  |-> (Znth i bytes 0))
   **  (CharArray.missing_i src_pre i 0 n_pre bytes )
   **  (CharArray.full dest_pre i (sublist (0) (i) (bytes)) )
   **  (CharArray.undef_seg dest_pre i n_pre )
@@ -470,7 +436,7 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (i: Z) (PreH1 : 
   &&  “ (n_pre < INT_MAX) ” 
   &&  “ (0 <= i) ” 
   &&  “ (i <= n_pre) ”
-  &&  (((dest_pre + (i * sizeof(CHAR) ) )) # Char  |->_)
+  &&  (((dest_pre + (i * sizeof(CHAR)))) # Char  |->_)
   **  (CharArray.undef_missing_i dest_pre i i n_pre )
   **  (CharArray.full src_pre n_pre bytes )
   **  (CharArray.full dest_pre i (sublist (0) (i) (bytes)) )
@@ -479,7 +445,7 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (i: Z) (PreH1 : 
 Definition memmove_partial_solve_wit_3 := 
 forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (i: Z) (PreH1 : (i > 0)) (PreH2 : (all_ascii bytes )) (PreH3 : ((Zlength (bytes)) = n_pre)) (PreH4 : (0 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) (PreH6 : (0 <= i)) (PreH7 : (i <= n_pre)) ,
   (CharArray.undef_seg dest_pre 0 i )
-  **  (CharArray.full (dest_pre + (i * sizeof(CHAR) ) ) (n_pre - i ) (sublist (i) (n_pre) (bytes)) )
+  **  (CharArray.full (dest_pre + (i * sizeof(CHAR))) (n_pre - i ) (sublist (i) (n_pre) (bytes)) )
   **  (CharArray.full src_pre n_pre bytes )
 |--
   “ (0 <= (n_pre - i )) ” 
@@ -490,17 +456,17 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (i: Z) (PreH1 : 
   &&  “ (n_pre < INT_MAX) ” 
   &&  “ (0 <= i) ” 
   &&  “ (i <= n_pre) ”
-  &&  (((src_pre + ((i - 1 ) * sizeof(CHAR) ) )) # Char  |-> (Znth (i - 1 ) bytes 0))
+  &&  (((src_pre + ((i - 1 ) * sizeof(CHAR)))) # Char  |-> (Znth (i - 1 ) bytes 0))
   **  (CharArray.missing_i src_pre (i - 1 ) 0 n_pre bytes )
   **  (CharArray.undef_seg dest_pre 0 i )
-  **  (CharArray.full (dest_pre + (i * sizeof(CHAR) ) ) (n_pre - i ) (sublist (i) (n_pre) (bytes)) )
+  **  (CharArray.full (dest_pre + (i * sizeof(CHAR))) (n_pre - i ) (sublist (i) (n_pre) (bytes)) )
 .
 
 Definition memmove_partial_solve_wit_4 := 
 forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (i: Z) (PreH1 : (0 <= (n_pre - i ))) (PreH2 : (i > 0)) (PreH3 : (all_ascii bytes )) (PreH4 : ((Zlength (bytes)) = n_pre)) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) ,
   (CharArray.full src_pre n_pre bytes )
   **  (CharArray.undef_seg dest_pre 0 i )
-  **  (CharArray.full (dest_pre + (i * sizeof(CHAR) ) ) (n_pre - i ) (sublist (i) (n_pre) (bytes)) )
+  **  (CharArray.full (dest_pre + (i * sizeof(CHAR))) (n_pre - i ) (sublist (i) (n_pre) (bytes)) )
 |--
   “ (0 <= (n_pre - i )) ” 
   &&  “ (i > 0) ” 
@@ -510,10 +476,10 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (i: Z) (PreH1 : 
   &&  “ (n_pre < INT_MAX) ” 
   &&  “ (0 <= i) ” 
   &&  “ (i <= n_pre) ”
-  &&  (((dest_pre + ((i - 1 ) * sizeof(CHAR) ) )) # Char  |->_)
+  &&  (((dest_pre + ((i - 1 ) * sizeof(CHAR)))) # Char  |->_)
   **  (CharArray.undef_missing_i dest_pre (i - 1 ) 0 i )
   **  (CharArray.full src_pre n_pre bytes )
-  **  (CharArray.full (dest_pre + (i * sizeof(CHAR) ) ) (n_pre - i ) (sublist (i) (n_pre) (bytes)) )
+  **  (CharArray.full (dest_pre + (i * sizeof(CHAR))) (n_pre - i ) (sublist (i) (n_pre) (bytes)) )
 .
 
 (*----- Function memset -----*)
@@ -521,9 +487,9 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (i: Z) (PreH1 : 
 Definition memset_safety_wit_1 := 
 forall (n_pre: Z) (c_pre: Z) (s_pre: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (0 <= c_pre)) (PreH4 : (c_pre <= 127)) ,
   ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "c" ) )) # Int  |-> c_pre)
   **  ((( &( "s" ) )) # Ptr  |-> s_pre)
+  **  ((( &( "c" ) )) # Int  |-> c_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  (CharArray.undef_full s_pre n_pre )
 |--
   “ (0 <= INT_MAX) ” 
@@ -558,25 +524,16 @@ forall (n_pre: Z) (c_pre: Z) (s_pre: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre <
   **  (CharArray.undef_seg s_pre 0 n_pre )
 ) \/
 (
-forall (n_pre: Z) (c_pre: Z) (s_pre: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (0 <= c_pre)) (PreH4 : (c_pre <= 127)) ,
-  (CharArray.undef_full s_pre n_pre )
+forall (n_pre: Z) (c_pre: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (0 <= c_pre)) (PreH4 : (c_pre <= 127)) ,
+  TT && emp 
 |--
   “ ((repeat_Z (c_pre) (0)) = (@nil Z)) ”
-  &&  (CharArray.undef_full s_pre n_pre )
+  &&  emp
 ).
 
 Definition memset_entail_wit_1_split_goal_1 := 
-forall (n_pre: Z) (c_pre: Z) (s_pre: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (0 <= c_pre)) (PreH4 : (c_pre <= 127)) ,
-  (CharArray.undef_full s_pre n_pre )
-|--
-  “ ((repeat_Z (c_pre) (0)) = (@nil Z)) ”
-.
-
-Definition memset_entail_wit_1_split_goal_spatial := 
-forall (n_pre: Z) (c_pre: Z) (s_pre: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (0 <= c_pre)) (PreH4 : (c_pre <= 127)) ,
-  (CharArray.undef_full s_pre n_pre )
-|--
-  (CharArray.undef_full s_pre n_pre )
+forall (n_pre: Z) (c_pre: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (0 <= c_pre)) (PreH4 : (c_pre <= 127)) ,
+  ((repeat_Z (c_pre) (0)) = (@nil Z))
 .
 
 Definition memset_entail_wit_2 := 
@@ -604,9 +561,7 @@ forall (n_pre: Z) (c_pre: Z) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (0 <= n_pre))
 
 Definition memset_entail_wit_2_split_goal_1 := 
 forall (n_pre: Z) (c_pre: Z) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (0 <= c_pre)) (PreH5 : (c_pre <= 127)) (PreH6 : (0 <= i)) (PreH7 : (i <= n_pre)) ,
-  TT && emp 
-|--
-  “ ((app ((repeat_Z (c_pre) (i))) ((cons (c_pre) ((@nil Z))))) = (repeat_Z (c_pre) ((i + 1 )))) ”
+  ((app ((repeat_Z (c_pre) (i))) ((cons (c_pre) ((@nil Z))))) = (repeat_Z (c_pre) ((i + 1 ))))
 .
 
 Definition memset_return_wit_1 := 
@@ -644,7 +599,7 @@ forall (n_pre: Z) (c_pre: Z) (s_pre: Z) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (0
   &&  “ (c_pre <= 127) ” 
   &&  “ (0 <= i) ” 
   &&  “ (i <= n_pre) ”
-  &&  (((s_pre + (i * sizeof(CHAR) ) )) # Char  |->_)
+  &&  (((s_pre + (i * sizeof(CHAR)))) # Char  |->_)
   **  (CharArray.undef_missing_i s_pre i i n_pre )
   **  (CharArray.full s_pre i (repeat_Z (c_pre) (i)) )
 .

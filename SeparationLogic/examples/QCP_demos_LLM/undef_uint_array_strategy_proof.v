@@ -16,9 +16,11 @@ Proof.
   sep_apply_l_atomic (UIntArray.undef_full_split_to_undef_missing_i p i n).
   - dump_pre_spatial.
     lia.
-  - cancel (UIntArray.undef_missing_i p i 0 n).
+  - replace (p + i * 4) with (p + i * sizeof (UINT))
+      by (rewrite sizeof_uint; lia).
+    cancel (UIntArray.undef_missing_i p i 0 n).
     apply_sepcon_adjoint.
-    elim_emp.
+    normalize.
     cancel.
 Qed.
 
@@ -56,9 +58,11 @@ Proof.
   sep_apply_l_atomic (IntArray.undef_full_split_to_undef_missing_i p i n).
   - dump_pre_spatial.
     lia.
-  - cancel (IntArray.undef_missing_i p i 0 n).
+  - replace (p + i * 4) with (p + i * sizeof (INT))
+      by (rewrite sizeof_int; lia).
+    cancel (IntArray.undef_missing_i p i 0 n).
     apply_sepcon_adjoint.
-    elim_emp.
+    normalize.
     cancel.
 Qed.
 
@@ -71,15 +75,19 @@ Proof.
   - sep_apply_l_atomic (IntArray.undef_missing_i_to_undef_seg_head p x y).
     + dump_pre_spatial.
       lia.
-    + cancel (IntArray.undef_seg p (x + 1) y).
+    + replace (p + x * 4) with (p + x * sizeof (INT))
+        by (rewrite sizeof_int; lia).
+      cancel (IntArray.undef_seg p (x + 1) y).
       apply_sepcon_adjoint.
-      elim_emp.
+      normalize.
       cancel.
 Qed.
 
 Lemma undef_uint_array_strategy2_correctness : undef_uint_array_strategy2.
 Proof.
   pre_process_default.
+  replace (p + i * 4) with (p + i * sizeof (UINT))
+    by (rewrite sizeof_uint; lia).
   sep_apply_l_atomic (UIntArray.undef_missing_i_merge_to_undef_full p i n).
   - dump_pre_spatial.
     lia.
@@ -95,15 +103,19 @@ Proof.
   - sep_apply_l_atomic (UIntArray.undef_missing_i_to_undef_seg_head p x y).
     + dump_pre_spatial.
       lia.
-    + cancel (UIntArray.undef_seg p (x + 1) y).
+    + replace (p + x * 4) with (p + x * sizeof (UINT))
+        by (rewrite sizeof_uint; lia).
+      cancel (UIntArray.undef_seg p (x + 1) y).
       apply_sepcon_adjoint.
-      elim_emp.
+      normalize.
       cancel.
 Qed.
 
 Lemma undef_uint_array_strategy12_correctness : undef_uint_array_strategy12.
 Proof.
   pre_process_default.
+  replace (p + i * 4) with (p + i * sizeof (INT))
+    by (rewrite sizeof_int; lia).
   sep_apply_l_atomic (IntArray.undef_missing_i_merge_to_undef_full p i n).
   - dump_pre_spatial.
     lia.
@@ -200,7 +212,7 @@ Proof.
       lia.
     + cancel (UIntArray.undef_seg p 1 n).
       apply_sepcon_adjoint.
-      elim_emp.
+      normalize.
       replace (p + 0 * sizeof ( UINT )) with (p + 0) by lia.
       cancel.
 Qed.
@@ -216,7 +228,7 @@ Proof.
       lia.
     + cancel (IntArray.undef_seg p 1 n).
       apply_sepcon_adjoint.
-      elim_emp.
+      normalize.
       replace (p + 0 * sizeof ( INT )) with (p + 0) by lia.
       cancel.
 Qed.

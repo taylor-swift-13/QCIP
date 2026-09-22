@@ -30,9 +30,6 @@ Proof. Admitted.
 Lemma proof_of_OsAdd2SortLink_safety_wit_2 : OsAdd2SortLink_safety_wit_2.
 Proof. Admitted. 
 
-Lemma proof_of_OsAdd2SortLink_return_wit_1 : OsAdd2SortLink_return_wit_1.
-Proof. Admitted. 
-
 Lemma proof_of_OsAdd2SortLink_partial_solve_wit_1 : OsAdd2SortLink_partial_solve_wit_1.
 Proof. Admitted. 
 
