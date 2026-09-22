@@ -1,0 +1,75 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "e5b5cc555533411f72b990114eaf53173764b59ed2bffc9f12b637a5ae81b293",
+  "target_witnesses": [
+    "proof_of_CircularAreaIsFull_entail_wit_1",
+    "proof_of_CircularAreaIsFull_return_wit_1",
+    "proof_of_CircularAreaIsFull_return_wit_2",
+    "proof_of_CircularAreaIsFull_return_wit_3",
+    "proof_of_CircularAreaIsFull_return_wit_4",
+    "proof_of_CircularAreaIsFull_partial_solve_wit_1_pure",
+    "proof_of_CircularAreaGetDataLength_safety_wit_7_state_spec",
+    "proof_of_CircularAreaGetDataLength_safety_wit_8_state_spec",
+    "proof_of_CircularAreaGetDataLength_entail_wit_1_state_spec",
+    "proof_of_CircularAreaGetDataLength_entail_wit_2_state_spec",
+    "proof_of_CircularAreaGetDataLength_return_wit_1_state_spec",
+    "proof_of_CircularAreaGetDataLength_return_wit_2_state_spec",
+    "proof_of_CircularAreaGetDataLength_return_wit_3_null_spec",
+    "proof_of_CircularAreaGetDataLength_return_wit_4_state_spec"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "nested_isfull_contract",
+      "witness_names": [
+        "proof_of_CircularAreaIsFull_entail_wit_1",
+        "proof_of_CircularAreaIsFull_return_wit_1",
+        "proof_of_CircularAreaIsFull_return_wit_2",
+        "proof_of_CircularAreaIsFull_return_wit_3",
+        "proof_of_CircularAreaIsFull_return_wit_4",
+        "proof_of_CircularAreaIsFull_partial_solve_wit_1_pure"
+      ],
+      "representative_witness": "proof_of_CircularAreaIsFull_return_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [
+        "circular_area_distinct_indices_imply_nonfull__is_full_contract"
+      ],
+      "proof_strategy": "Unfold/fold the unified backing predicate, derive IsFull results from the logical-state equivalences and existing distinct-index helper, use the backing non-null contradiction for the null-state artifact, and simplify the string-offset pure goal.",
+      "grouping_reason": "One nested-call contract with a shared result definition and resource pattern; six witnesses are below the maximum of twelve.",
+      "confidence": "high"
+    },
+    {
+      "group_id": "data_length_query",
+      "witness_names": [
+        "proof_of_CircularAreaGetDataLength_safety_wit_7_state_spec",
+        "proof_of_CircularAreaGetDataLength_safety_wit_8_state_spec",
+        "proof_of_CircularAreaGetDataLength_entail_wit_1_state_spec",
+        "proof_of_CircularAreaGetDataLength_entail_wit_2_state_spec",
+        "proof_of_CircularAreaGetDataLength_return_wit_1_state_spec",
+        "proof_of_CircularAreaGetDataLength_return_wit_2_state_spec",
+        "proof_of_CircularAreaGetDataLength_return_wit_3_null_spec",
+        "proof_of_CircularAreaGetDataLength_return_wit_4_state_spec"
+      ],
+      "representative_witness": "proof_of_CircularAreaGetDataLength_return_wit_1_state_spec",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [
+        "circular_area_nonfull_mod_length__data_length_contract"
+      ],
+      "proof_strategy": "Extract canonical bounds, split full/non-full via CircularAreaFullResult, preserve the backing resource, normalize the nested u32 operations on the non-full return and apply the existing modulo-length helper, then close null/unreachable alternatives by ErrorResult or the backing non-null contradiction.",
+      "grouping_reason": "All eight witnesses are the same read-only GetDataLength workflow and remain below the maximum of twelve.",
+      "confidence": "high"
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 14,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

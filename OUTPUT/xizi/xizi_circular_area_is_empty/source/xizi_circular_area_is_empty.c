@@ -32,44 +32,51 @@ struct CircularArea {
 typedef struct CircularArea *CircularAreaType;
 
 /*@ Import Coq Require Import SimpleC.EE.OUTPUT.xizi.xizi_circular_area_is_empty.source.xizi_circular_area_is_empty_lib */
+/*@ Import Coq Require Import QCIPLib.xizi.xizi_circular_area_common.xizi_circular_area_lib */
+/*@ Extern Coq (circular_area_state :: *) */
 /*@ Extern Coq
-      (CircularAreaEmptyResult : Z -> Z -> Z -> Z -> Prop)
-      (xizi_circular_area_error_result : Z -> Prop)
+      (CircularAreaStateEmptyResult : circular_area_state -> Z -> Prop)
+      (ca_capacity : circular_area_state -> Z)
+      (ca_contents : circular_area_state -> list Z)
+      (store_circular_area : circular_area_state -> Z -> Assertion)
+      (store_circular_area_or_null : circular_area_state -> Z -> Assertion)
+      (CircularAreaLogicalState : Z -> Z -> Z -> Z -> list Z -> list (option Z) -> Prop)
+      (UCharArray::mixed_full : Z -> Z -> list (option Z) -> Assertion)
 */
 
 x_bool CircularAreaIsEmpty(CircularAreaType circular_area)
-/*@ With LitMap data_buffer readidx writeidx p_head p_tail area_length b_status operations contents
+/*@ With LitMap state
     Require
-      circular_area == 0 && GlobalStrings(LitMap) ||
-      circular_area != 0 &&
-        GlobalStrings(LitMap) *
-        UCharArray::full(data_buffer, area_length, contents) *
-        store_ptr(&(circular_area->data_buffer), data_buffer) *
-        store_uchar(&(circular_area->readidx), readidx) *
-        store_uchar(&(circular_area->writeidx), writeidx) *
-        store_ptr(&(circular_area->p_head), p_head) *
-        store_ptr(&(circular_area->p_tail), p_tail) *
-        store_uint(&(circular_area->area_length), area_length) *
-        store_int(&(circular_area->b_status), b_status) *
-        store_ptr(&(circular_area->CircularAreaOperations), operations)
+      GlobalStrings(LitMap) *
+      store_circular_area_or_null(state, circular_area)
     Ensure
-      circular_area == 0 && xizi_circular_area_error_result(__return) &&
-        GlobalStrings(LitMap) ||
-      circular_area != 0 &&
-        CircularAreaEmptyResult(readidx, writeidx, b_status, __return) &&
-        GlobalStrings(LitMap) *
-        UCharArray::full(data_buffer, area_length, contents) *
-        store_ptr(&(circular_area->data_buffer), data_buffer) *
-        store_uchar(&(circular_area->readidx), readidx) *
-        store_uchar(&(circular_area->writeidx), writeidx) *
-        store_ptr(&(circular_area->p_head), p_head) *
-        store_ptr(&(circular_area->p_tail), p_tail) *
-        store_uint(&(circular_area->area_length), area_length) *
-        store_int(&(circular_area->b_status), b_status) *
-        store_ptr(&(circular_area->CircularAreaOperations), operations)
+      (circular_area == 0 && __return == 1 &&
+       GlobalStrings(LitMap)) ||
+      (circular_area != 0 &&
+       CircularAreaStateEmptyResult(state, __return) &&
+       GlobalStrings(LitMap) * store_circular_area(state, circular_area))
 */
 {
     NULL_PARAM_CHECK(circular_area);
+
+    /*@ Assert
+      exists data_buffer operations readidx writeidx b_status physical,
+        circular_area != 0 &&
+        circular_area == circular_area@pre &&
+        data_buffer != 0 &&
+        CircularAreaLogicalState(readidx, writeidx, ca_capacity(state), b_status,
+                                 ca_contents(state), physical) &&
+        GlobalStrings(LitMap) *
+        store(&(circular_area->data_buffer), data_buffer) *
+        store(&(circular_area->readidx), readidx) *
+        store(&(circular_area->writeidx), writeidx) *
+        store(&(circular_area->p_head), data_buffer) *
+        store(&(circular_area->p_tail), data_buffer + ca_capacity(state)) *
+        store(&(circular_area->area_length), ca_capacity(state)) *
+        store(&(circular_area->b_status), b_status) *
+        store(&(circular_area->CircularAreaOperations), operations) *
+        UCharArray::mixed_full(data_buffer, ca_capacity(state), physical)
+    */
 
     if ((circular_area->readidx == circular_area->writeidx) &&
         !circular_area->b_status) {

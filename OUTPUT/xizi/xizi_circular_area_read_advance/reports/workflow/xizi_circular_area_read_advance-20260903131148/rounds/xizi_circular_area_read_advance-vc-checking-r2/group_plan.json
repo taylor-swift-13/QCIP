@@ -1,0 +1,50 @@
+{
+  "schema_version": "qcp-vc-checking-group-plan/v1",
+  "source_goal_version": "5324cf5fb846cf4d65f611d48cc936869fbb1144395e2fe53e92bb841637ff36",
+  "target_witnesses": [
+    "proof_of_CircularAreaDivideRdData_entail_wit_1_state_spec",
+    "proof_of_CircularAreaDivideRdData_return_wit_1_state_spec",
+    "proof_of_CircularAreaDivideRdData_return_wit_2_state_spec"
+  ],
+  "target_witness_count": 3,
+  "proof_groups": [
+    {
+      "group_id": "circular_area_divide_rd_data",
+      "witness_names": [
+        "proof_of_CircularAreaDivideRdData_entail_wit_1_state_spec",
+        "proof_of_CircularAreaDivideRdData_return_wit_1_state_spec",
+        "proof_of_CircularAreaDivideRdData_return_wit_2_state_spec"
+      ],
+      "representative_witness": "proof_of_CircularAreaDivideRdData_return_wit_1_state_spec",
+      "dependencies": [],
+      "difficulty": "medium",
+      "confidence": "high",
+      "grouping_reason": "All three obligations are for the same straight-line helper and share the same hidden store_circular_area representation. The entail witness opens that representation, while both return witnesses reuse it unchanged and differ only in choosing the greater-than or less-than-or-equal branch after the same unsigned_last_nbits normalization. Three witnesses are below the controller limit of twelve and one worker can handle the shared proof context coherently.",
+      "proof_strategy": "Use pre_process. For the entail witness, substitute the parameter equalities, unfold store_circular_area, extract its six existential representation values, instantiate the post existentials in generated order, unfold CircularAreaLogicalState, derive readidx + data_length <= UINT_MAX from readidx < capacity <= 256 and data_length <= contents length <= capacity, then discharge pure facts and cancel identical spatial resources. For each return witness, instantiate the post existentials with the current representation values and cancel the unchanged heap. Unfold CircularAreaStateDivideRdDataResult, CircularAreaValid, and CircularAreaLogicalState to obtain validity, data-length bounds, and the result tag. For CircularAreaDivideRdDataResult, unfold unsigned_last_nbits, use Z.mod_small first for readidx and then for readidx + data_length using nonnegativity and the UINT_MAX bound; select the right disjunct for result 1 and the left disjunct for result 0.",
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "premise_discharge": {
+        "representation": "CircularAreaLogicalState supplies 0 < capacity <= 256, 0 <= readidx < capacity, 0 <= contents length <= capacity, and the byte Forall property.",
+        "data_length": "The generated PreH4/PreH5 bounds in return VCs and PreH5/PreH6 bounds in the entail VC give 0 <= data_length <= contents length.",
+        "no_wrap": "The entail VC derives readidx + data_length <= UINT_MAX from the representation bounds; return VCs carry that inequality directly as PreH6.",
+        "branch": "After both 32-bit reductions are rewritten by Z.mod_small, the generated guard is exactly the required arithmetic branch of CircularAreaDivideRdDataResult."
+      },
+      "per_witness_plan": {
+        "proof_of_CircularAreaDivideRdData_entail_wit_1_state_spec": "Open store_circular_area, reuse its hidden witnesses, bridge circular_area_pre = area_addr_state_spec and data_length_pre = d0_state_spec, derive the uint32 sum bound, and cancel the unchanged representation.",
+        "proof_of_CircularAreaDivideRdData_return_wit_1_state_spec": "Reuse all current hidden witnesses and heap cells; derive the abstract result for tag 1 and normalize unsigned arithmetic so the strict guard proves the right concrete-result disjunct.",
+        "proof_of_CircularAreaDivideRdData_return_wit_2_state_spec": "Reuse all current hidden witnesses and heap cells; derive the abstract result for tag 0 and normalize unsigned arithmetic so the non-strict guard proves the left concrete-result disjunct."
+      }
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

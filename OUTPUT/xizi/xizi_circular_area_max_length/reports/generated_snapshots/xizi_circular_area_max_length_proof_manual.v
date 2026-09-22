@@ -21,18 +21,20 @@ Import naive_C_Rules.
 From SimpleC.EE.OUTPUT.xizi.xizi_circular_area_max_length.source Require Import xizi_circular_area_max_length_lib.
 Local Open Scope sac.
 
-Lemma proof_of_CircularAreaGetMaxLength_return_wit_1 : CircularAreaGetMaxLength_return_wit_1.
+Lemma proof_of_CircularAreaGetMaxLength_entail_wit_1_state_spec : CircularAreaGetMaxLength_entail_wit_1_state_spec.
 Proof.
-  right.
   pre_process.
-  unfold CircularAreaGetMaxLengthResult.
+  subst circular_area_pre.
+  unfold store_circular_area.
+  Intros data_buffer operations readidx writeidx b_status physical.
+  Exists operations readidx writeidx b_status physical data_buffer.
   entailer!.
 Qed.
 
-Lemma proof_of_CircularAreaGetMaxLength_return_wit_2 : CircularAreaGetMaxLength_return_wit_2.
+Lemma proof_of_CircularAreaGetMaxLength_return_wit_1_state_spec : CircularAreaGetMaxLength_return_wit_1_state_spec.
 Proof.
-  right.
   pre_process.
-  unfold CircularAreaGetMaxLengthResult.
+  unfold store_circular_area.
+  Exists data_buffer operations readidx writeidx b_status physical.
   entailer!.
 Qed.

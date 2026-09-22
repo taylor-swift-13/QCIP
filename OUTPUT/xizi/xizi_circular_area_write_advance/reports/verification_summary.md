@@ -1,3 +1,6 @@
 # Verification Summary
 
-`CircularAreaDivideWrData` 已完成 annotation、symbolic execution、2 个 manual VC、parent fixed check、final-check 与独立 freshness。
+- Unified entry resource and exact hidden write-index split result verified.
+- Current targets 3/3 proved; no helper/import added.
+- Parent/final fixed Coq and formal hygiene passed.
+- Isolated freshness skipped; canonical symexec reached EOF.

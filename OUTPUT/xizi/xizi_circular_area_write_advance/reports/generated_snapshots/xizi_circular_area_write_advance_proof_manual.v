@@ -22,20 +22,41 @@ Require Import
       SimpleC.EE.OUTPUT.xizi.xizi_circular_area_write_advance.source.xizi_circular_area_write_advance_lib.
 Local Open Scope sac.
 
+Lemma proof_of_CircularAreaDivideWrData_entail_wit_1 : CircularAreaDivideWrData_entail_wit_1.
+Proof.
+  aggressive_pre_process.
+  unfold store_circular_area.
+  Intros data_buffer operations readidx writeidx b_status physical.
+  Exists operations readidx writeidx b_status physical data_buffer.
+  entailer!.
+Qed.
+
 Lemma proof_of_CircularAreaDivideWrData_return_wit_1 : CircularAreaDivideWrData_return_wit_1.
 Proof.
-  unfold CircularAreaDivideWrData_return_wit_1.
-  right.
-  intros.
-  unfold CircularAreaDivideWrDataResult.
+  pre_process.
+  Exists circular_area_operations_2 readidx_2 writeidx_2 b_status_2 physical_2 data_buffer_2.
   entailer!.
+  unfold CircularAreaLogicalState in PreH6.
+  destruct PreH6 as [Hcap [_ [Hwrite _]]].
+  unfold CircularAreaDivideWrDataResult.
+  right.
+  split; [| reflexivity].
+  rewrite (unsigned_last_nbits_eq writeidx_2 32) in PreH1 by psatzl Z.
+  rewrite (unsigned_last_nbits_eq (writeidx_2 + entry_data_length) 32) in PreH1 by psatzl Z.
+  psatzl Z.
 Qed.
 
 Lemma proof_of_CircularAreaDivideWrData_return_wit_2 : CircularAreaDivideWrData_return_wit_2.
 Proof.
-  unfold CircularAreaDivideWrData_return_wit_2.
-  right.
-  intros.
-  unfold CircularAreaDivideWrDataResult.
+  pre_process.
+  Exists circular_area_operations_2 readidx_2 writeidx_2 b_status_2 physical_2 data_buffer_2.
   entailer!.
+  unfold CircularAreaLogicalState in PreH6.
+  destruct PreH6 as [Hcap [_ [Hwrite _]]].
+  unfold CircularAreaDivideWrDataResult.
+  left.
+  split; [| reflexivity].
+  rewrite (unsigned_last_nbits_eq writeidx_2 32) in PreH1 by psatzl Z.
+  rewrite (unsigned_last_nbits_eq (writeidx_2 + entry_data_length) 32) in PreH1 by psatzl Z.
+  psatzl Z.
 Qed.

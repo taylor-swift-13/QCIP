@@ -1,0 +1,133 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "873746c7d9074fc88b441ac8ff127eb70704aa4f21d5305f23cdc98a4b6312b9",
+  "target_witnesses": [
+    "proof_of_CircularAreaIsFull_return_wit_1",
+    "proof_of_CircularAreaIsFull_return_wit_2",
+    "proof_of_CircularAreaIsFull_return_wit_3",
+    "proof_of_CircularAreaIsEmpty_return_wit_1",
+    "proof_of_CircularAreaIsEmpty_return_wit_2",
+    "proof_of_CircularAreaIsEmpty_return_wit_3",
+    "proof_of_CircularAreaGetDataLength_safety_wit_4",
+    "proof_of_CircularAreaGetDataLength_safety_wit_5",
+    "proof_of_CircularAreaGetDataLength_return_wit_1",
+    "proof_of_CircularAreaGetDataLength_return_wit_2",
+    "proof_of_CircularAreaDivideRdData_return_wit_1",
+    "proof_of_CircularAreaDivideRdData_return_wit_2",
+    "proof_of_CircularAreaRead_entail_wit_2",
+    "proof_of_CircularAreaRead_entail_wit_3_1",
+    "proof_of_CircularAreaRead_entail_wit_3_2",
+    "proof_of_CircularAreaRead_entail_wit_4",
+    "proof_of_CircularAreaRead_entail_wit_5_1",
+    "proof_of_CircularAreaRead_entail_wit_5_2",
+    "proof_of_CircularAreaRead_return_wit_1",
+    "proof_of_CircularAreaRead_return_wit_2",
+    "proof_of_CircularAreaRead_return_wit_3",
+    "proof_of_CircularAreaRead_return_wit_4",
+    "proof_of_CircularAreaRead_return_wit_5",
+    "proof_of_CircularAreaRead_return_wit_6",
+    "proof_of_CircularAreaRead_partial_solve_wit_4_pure",
+    "proof_of_CircularAreaRead_partial_solve_wit_5_pure",
+    "proof_of_CircularAreaRead_partial_solve_wit_6_pure",
+    "proof_of_CircularAreaRead_partial_solve_wit_7_pure",
+    "proof_of_CircularAreaRead_partial_solve_wit_8_pure"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "basic_api_predicates",
+      "witness_names": [
+        "proof_of_CircularAreaIsFull_return_wit_1",
+        "proof_of_CircularAreaIsFull_return_wit_2",
+        "proof_of_CircularAreaIsFull_return_wit_3",
+        "proof_of_CircularAreaIsEmpty_return_wit_1",
+        "proof_of_CircularAreaIsEmpty_return_wit_2",
+        "proof_of_CircularAreaIsEmpty_return_wit_3",
+        "proof_of_CircularAreaGetDataLength_safety_wit_4",
+        "proof_of_CircularAreaGetDataLength_safety_wit_5",
+        "proof_of_CircularAreaGetDataLength_return_wit_1",
+        "proof_of_CircularAreaGetDataLength_return_wit_2",
+        "proof_of_CircularAreaDivideRdData_return_wit_1",
+        "proof_of_CircularAreaDivideRdData_return_wit_2"
+      ],
+      "representative_witness": "proof_of_CircularAreaGetDataLength_return_wit_1",
+      "dependencies": [],
+      "likely_helper_declarations": [],
+      "candidate_helper_declarations": [],
+      "proof_strategy": "Unfold result predicates, destruct branch evidence, expose descriptor bounds, normalize bounded unsigned expressions, and cancel identical spatial frames.",
+      "natural_language_proof_strategy": "Every pure postcondition is a direct predicate branch or a consequence of indices below a capacity bounded by 256.",
+      "grouping_reason": "Same predicate/bounded-integer pattern; 12 witnesses exactly meets max_witnesses_per_group.",
+      "confidence": "high"
+    },
+    {
+      "group_id": "read_transitions_and_returns",
+      "witness_names": [
+        "proof_of_CircularAreaRead_entail_wit_2",
+        "proof_of_CircularAreaRead_entail_wit_3_1",
+        "proof_of_CircularAreaRead_entail_wit_3_2",
+        "proof_of_CircularAreaRead_entail_wit_4",
+        "proof_of_CircularAreaRead_entail_wit_5_1",
+        "proof_of_CircularAreaRead_entail_wit_5_2",
+        "proof_of_CircularAreaRead_return_wit_1",
+        "proof_of_CircularAreaRead_return_wit_2",
+        "proof_of_CircularAreaRead_return_wit_3",
+        "proof_of_CircularAreaRead_return_wit_4",
+        "proof_of_CircularAreaRead_return_wit_5",
+        "proof_of_CircularAreaRead_return_wit_6"
+      ],
+      "representative_witness": "proof_of_CircularAreaRead_return_wit_1",
+      "dependencies": [],
+      "likely_helper_declarations": [
+        "circular_area_wrap_copy_arithmetic: normalize wrap offsets, modulo and unsigned values",
+        "circular_area_read_success_wrap: construct CircularAreaReadSuccess for tail++head bytes",
+        "circular_area_read_success_nonwrap: construct CircularAreaReadSuccess for a contiguous slice"
+      ],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "circular_area_wrap_copy_arithmetic",
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "circular_area_read_success_wrap",
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "circular_area_read_success_nonwrap",
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        }
+      ],
+      "proof_strategy": "Use seed functionality/bounds/positivity to establish actual=min(requested,available), split or merge UCharArray segments on wrap/non-wrap intervals, and instantiate success outputs with the exact FIFO slice and prefix-replaced list; error returns choose definitional branches.",
+      "natural_language_proof_strategy": "Preparation witnesses expose exactly the layout consumed by returns, so one worker can reuse ring arithmetic, sublist and segment context; optional helpers stay group-local and suffixed.",
+      "grouping_reason": "One continuous CircularAreaRead transition/helper family; 12 witnesses exactly meets the limit.",
+      "confidence": "high"
+    },
+    {
+      "group_id": "read_pure_bounds_and_sublists",
+      "witness_names": [
+        "proof_of_CircularAreaRead_partial_solve_wit_4_pure",
+        "proof_of_CircularAreaRead_partial_solve_wit_5_pure",
+        "proof_of_CircularAreaRead_partial_solve_wit_6_pure",
+        "proof_of_CircularAreaRead_partial_solve_wit_7_pure",
+        "proof_of_CircularAreaRead_partial_solve_wit_8_pure"
+      ],
+      "representative_witness": "proof_of_CircularAreaRead_partial_solve_wit_6_pure",
+      "dependencies": [],
+      "likely_helper_declarations": [],
+      "candidate_helper_declarations": [],
+      "proof_strategy": "Apply seed data-length bounds, unfold the descriptor as needed, and discharge Zlength_sublist endpoint conditions using segment bounds and linear arithmetic.",
+      "natural_language_proof_strategy": "No ownership transformation is required; the invariant bounds actual/available lengths and each interval is bounded by its array-segment context.",
+      "grouping_reason": "Same pure bound/sublist-length family; five witnesses form the remaining group.",
+      "confidence": "high"
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 29,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

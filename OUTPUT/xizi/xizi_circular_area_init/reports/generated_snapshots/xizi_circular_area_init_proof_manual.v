@@ -24,61 +24,61 @@ Local Open Scope sac.
 
 Lemma proof_of_CircularAreaInit_return_wit_1 : CircularAreaInit_return_wit_1.
 Proof.
-  aggressive_pre_process.
-  - assert (Hrange : 0 <= (circular_area_length_pre ÷ 4) * 4 < 2 ^ 32).
-    {
-      apply CircularArea_div4_aligned_range__init_return_branches; lia.
-    }
-    rewrite (unsigned_last_nbits_eq _ 32 Hrange).
-    rewrite (unsigned_last_nbits_eq _ 32 Hrange) in PreH3.
-    unfold CircularAreaInitDescriptorState.
-    dump_pre_spatial.
-    pose proof
-      (Z.mul_quot_le circular_area_length_pre 4 ltac:(lia) ltac:(lia))
-      as Hquot.
-    repeat split; try assumption; try reflexivity; lia.
-  - assert (Hrange : 0 <= (circular_area_length_pre ÷ 4) * 4 < 2 ^ 32).
-    {
-      apply CircularArea_div4_aligned_range__init_return_branches; lia.
-    }
-    rewrite (unsigned_last_nbits_eq _ 32 Hrange).
-    rewrite (unsigned_last_nbits_eq _ 32 Hrange) in PreH3.
-    unfold CircularAreaAlignedLength.
-    dump_pre_spatial.
-    pose proof
-      (Z.mul_quot_le circular_area_length_pre 4 ltac:(lia) ltac:(lia))
-      as Hquot.
-    repeat split; try assumption; try lia.
-    rewrite CircularArea_quot_eq_div_nonneg__init_return_branch_construction by lia.
-    reflexivity.
-Qed.
-
-Lemma proof_of_CircularAreaInit_return_wit_2 : CircularAreaInit_return_wit_2.
-Proof.
   pre_process.
-  subst retval_2.
+  pose proof
+    (CircularArea_div4_aligned_range__init_return_branches
+       circular_area_length_pre ltac:(lia) ltac:(lia)) as Hrange.
+  pose proof
+    (CircularArea_quot_eq_div_nonneg__init_return_branch_construction
+       circular_area_length_pre ltac:(lia)) as Hquot_div.
+  rewrite (unsigned_last_nbits_eq
+             ((circular_area_length_pre ÷ 4) * 4) 32 Hrange).
+  rewrite (unsigned_last_nbits_eq
+             ((circular_area_length_pre ÷ 4) * 4) 32 Hrange) in PreH3.
+  pose proof
+    (Z.mul_quot_le circular_area_length_pre 4 ltac:(lia) ltac:(lia))
+    as Haligned_le.
+  rewrite Hquot_div.
+  rewrite Hquot_div in PreH3, Haligned_le.
   subst circular_area_callee_readidx.
   subst circular_area_callee_writeidx.
   subst circular_area_callee_b_status.
-  Left.
-  Exists retval ((circular_area_length_pre / 4) * 4).
-  unfold CircularAreaAlignedLength, CircularAreaInitFailureState.
-  repeat split_pures.
-  Right.
+  replace (sizeof(UCHAR)) with 1 by reflexivity.
+  unfold store_circular_area, CircularAreaInitState.
+  simpl.
+  Exists retval_2 (&( "CircularAreaOperations" )) 0 0 0
+    (repeat None (Z.to_nat ((circular_area_length_pre / 4) * 4))).
   repeat (split_pure_spatial || split_pures).
-  all: try (dump_pre_spatial; lia).
-  all: repeat cancel.
-Qed.
-
-Lemma proof_of_CircularAreaInit_return_wit_3 : CircularAreaInit_return_wit_3.
-Proof.
-  pre_process.
-  Left.
-  Exists 0 ((circular_area_length_pre / 4) * 4).
-  unfold CircularAreaAlignedLength, CircularAreaInitFailureState.
-  repeat split_pures.
-  Left.
-  repeat (split_pure_spatial || split_pures).
-  all: try (dump_pre_spatial; lia).
-  all: repeat cancel.
+  - sep_apply_l_atomic
+      (UCharArray.undef_full_to_mixed_full
+         retval_2 ((circular_area_length_pre / 4) * 4)).
+    replace (retval_2 + circular_area_length_pre / 4 * 4 * 1)
+      with (retval_2 + circular_area_length_pre / 4 * 4) by lia.
+    cancel.
+  - dump_pre_spatial.
+    exact PreH8.
+  - dump_pre_spatial.
+    unfold CircularAreaLogicalState, CircularAreaLiveBytes.
+    rewrite Zlength_nil, Zlength_correct, repeat_length.
+    rewrite Z2Nat.id by lia.
+    split; [lia |].
+    split; [lia |].
+    split; [lia |].
+    split; [lia |].
+    split; [lia |].
+    split; [lia |].
+    split; [reflexivity |].
+    split; [constructor |].
+    split.
+    + rewrite Z.mod_0_l by lia.
+      reflexivity.
+    + split.
+      * left; reflexivity.
+      * split.
+        -- split.
+           ++ intros [_ Hfalse]. discriminate.
+           ++ intro Hzero. exfalso. lia.
+        -- split.
+           ++ tauto.
+           ++ intros k Hk. lia.
 Qed.

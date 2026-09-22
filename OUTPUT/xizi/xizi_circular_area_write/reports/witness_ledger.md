@@ -1,29 +1,10 @@
-# Witness Ledger
+# Witness ledger
 
-- `proof_of_CircularAreaIsFull_return_wit_1`: proved
-- `proof_of_CircularAreaIsFull_return_wit_2`: proved
-- `proof_of_CircularAreaIsFull_return_wit_3`: proved
-- `proof_of_CircularAreaGetDataLength_return_wit_1`: proved
-- `proof_of_CircularAreaGetDataLength_return_wit_2`: proved
-- `proof_of_CircularAreaDivideWrData_return_wit_1`: proved
-- `proof_of_CircularAreaDivideWrData_return_wit_2`: proved
-- `proof_of_CircularAreaWrite_entail_wit_1_1`: proved
-- `proof_of_CircularAreaWrite_entail_wit_1_2`: proved
-- `proof_of_CircularAreaWrite_entail_wit_1_3`: proved
-- `proof_of_CircularAreaWrite_entail_wit_1_4`: proved
-- `proof_of_CircularAreaWrite_entail_wit_2`: proved
-- `proof_of_CircularAreaWrite_entail_wit_3_1`: proved
-- `proof_of_CircularAreaWrite_entail_wit_3_2`: proved
-- `proof_of_CircularAreaWrite_entail_wit_3_3`: proved
-- `proof_of_CircularAreaWrite_entail_wit_3_4`: proved
-- `proof_of_CircularAreaWrite_return_wit_1`: proved
-- `proof_of_CircularAreaWrite_return_wit_2`: proved
-- `proof_of_CircularAreaWrite_return_wit_3`: proved
-- `proof_of_CircularAreaWrite_return_wit_4`: proved
-- `proof_of_CircularAreaWrite_return_wit_5`: proved
-- `proof_of_CircularAreaWrite_return_wit_6`: proved
-- `proof_of_CircularAreaWrite_partial_solve_wit_8_pure`: proved
-- `proof_of_CircularAreaWrite_partial_solve_wit_9_pure`: proved
-- `proof_of_CircularAreaWrite_partial_solve_wit_10_pure`: proved
-- `proof_of_CircularAreaGetDataLength_derive_circular_area_data_length_callable_by_circular_area_data_length_body`: proved
-- `proof_of_CircularAreaIsFull_derive_circular_area_is_full_callable_by_circular_area_is_full_body`: proved
+当前 `source_goal_version`：`a047715e902a91bf4c6a65de399a2cbe1a04e01947c98d21d234449e095854be`。32 个 target witness 全部 proved：
+
+- `state_query_contracts`: 12/12
+- `write_branch_preparation`: 8/8
+- `write_returns`: 7/7
+- `write_pure_segment_facts`: 5/5
+
+逐项 witness、statement hash 与 suffixed helper 见 `workflow/xizi_circular_area_write-20260908100002/` 中的 group plan、group reports 和 `group_merged_result.json`。

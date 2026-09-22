@@ -35,15 +35,3 @@ Proof. Admitted.
 Lemma proof_of_CircularAreaDivideRdData_safety_wit_5 : CircularAreaDivideRdData_safety_wit_5.
 Proof. Admitted. 
 
-Lemma proof_of_CircularAreaDivideRdData_safety_wit_6 : CircularAreaDivideRdData_safety_wit_6.
-Proof. Admitted. 
-
-Lemma proof_of_CircularAreaDivideRdData_safety_wit_7 : CircularAreaDivideRdData_safety_wit_7.
-Proof. Admitted. 
-
-Lemma proof_of_CircularAreaDivideRdData_safety_wit_8 : CircularAreaDivideRdData_safety_wit_8.
-Proof. Admitted. 
-
-Lemma proof_of_CircularAreaDivideRdData_return_wit_3 : CircularAreaDivideRdData_return_wit_3.
-Proof. Admitted. 
-

@@ -1,0 +1,69 @@
+{
+  "schema_version": "qcip-input-upstream-sync/v1",
+  "status": "input-synchronized",
+  "recorded_at": "2026-08-31",
+  "upstream": {
+    "repository": "/home/yangfp/crtos",
+    "commit": "d1a2bbc0312b9750edbcb00c73c5eedc21d14d96",
+    "source": "Ubiquitous/XiZi_IIoT_Macro/kernel/thread/circular_area.c",
+    "source_sha256": "c98de8c827d7aafaebba2adad3344b3ffac57ef7278166941d58ad8da7222a53"
+  },
+  "comparison_policy": "Compare C function tokens after removing KPrintf calls permitted to be omitted in verification inputs.",
+  "production_cases": [
+    {"case": "xizi_circular_area_is_full", "function": "CircularAreaIsFull", "token_match": true},
+    {"case": "xizi_circular_area_is_empty", "function": "CircularAreaIsEmpty", "token_match": true},
+    {"case": "xizi_circular_area_reset", "function": "CircularAreaReset", "token_match": true},
+    {"case": "xizi_circular_area_release", "function": "CircularAreaRelease", "token_match": true},
+    {"case": "xizi_circular_area_max_length", "function": "CircularAreaGetMaxLength", "token_match": true},
+    {"case": "xizi_circular_area_data_length", "function": "CircularAreaGetDataLength", "token_match": true},
+    {"case": "xizi_circular_area_read_advance", "function": "CircularAreaDivideRdData", "token_match": true},
+    {"case": "xizi_circular_area_write_advance", "function": "CircularAreaDivideWrData", "token_match": true},
+    {"case": "xizi_circular_area_read", "function": "CircularAreaRead", "token_match": true},
+    {"case": "xizi_circular_area_write", "function": "CircularAreaWrite", "token_match": true},
+    {"case": "xizi_circular_area_init", "function": "CircularAreaInit", "token_match": true}
+  ],
+  "input_sha256": {
+    "xizi_circular_area_data_length": "f797748dc2306e6fc1e99d79d8237f9a719daf045b3c9e3c2ca5f953caccc286",
+    "xizi_circular_area_force_write": "af11b1d845146e6464048427c0d70d7dc7c9bb57b60d2b7744bac9b037a03494",
+    "xizi_circular_area_init": "59e27430e8c4e8b856211b07d794d3b2948838c2cd2523ab690e0647c1c08ac7",
+    "xizi_circular_area_is_empty": "4f37f79da0e1da30bb7ac17e3d874aefa917018833f97e4abf5d048422aef174",
+    "xizi_circular_area_is_full": "32f6dac3fa7f103913847f9b2eb01ec3bcb6863a3bf7585e8d12ce8f1a560663",
+    "xizi_circular_area_max_length": "2ad758a39df83d0ccf381d84cdd6cfc2cca6d7f0bcbb8881c04ec94b6243b60c",
+    "xizi_circular_area_read": "53d4ab076c09efe22a46f53df971e950999da17b375381659cbae9dda9f8ecd2",
+    "xizi_circular_area_read_advance": "fd0ba3d55f9468631852c289a26e471e317e5bdadc5dd04e8fe942766208add8",
+    "xizi_circular_area_release": "5e1c390bec1717ee3b4890d4a10c56a38cf6052e8d1a0fba5917901c02ea0394",
+    "xizi_circular_area_reset": "38f95a75b52762a1c8a0dd5f043467fec48104d7c8ae9cc6ec3233fb2a7352fa",
+    "xizi_circular_area_state": "a3abb5bfcdf3b2ab8291a51832966e8e9603d4746253cb70c41cfc6c70c37423",
+    "xizi_circular_area_write": "2c61d27ff86bd0921db8fd66e911a8fcf25abd020169fb52973254f08bff26a9",
+    "xizi_circular_area_write_advance": "246e2a6ea770d25cee4c8946a7e46fdca1dcb4a74a97cc4f0e733e9575a0e9a8"
+  },
+  "changes": [
+    "Use CRTOS ERROR=1 instead of the obsolete ERROR=-1 in all affected inputs.",
+    "Synchronize CircularAreaInit allocation-failure cleanup with upstream commit 5dcb8db2f.",
+    "Replace the simplified data-length model with CircularAreaGetDataLength and its real descriptor access.",
+    "Replace simplified read/write index advance models with CircularAreaDivideRdData and CircularAreaDivideWrData."
+  ],
+  "derived_cases": [
+    {
+      "case": "xizi_circular_area_state",
+      "status": "unchanged-derived-model",
+      "reason": "No same-named production function; this is an auxiliary state-classification model."
+    },
+    {
+      "case": "xizi_circular_area_force_write",
+      "status": "unchanged-derived-model",
+      "reason": "No same-named production function; this isolates the force-write metadata transition."
+    }
+  ],
+  "syntax_checks": {
+    "command": "Each INPUT/xizi/xizi_circular_area_*/compile.sh",
+    "passed": 13,
+    "failed": 0
+  },
+  "output_invalidation": {
+    "status": "all-production-circular-area-output-cases-stale",
+    "reason": "INPUT source baseline and common formal definitions changed.",
+    "policy": "Do not overwrite annotated OUTPUT directly; re-run each production case through the controller and final-candidate-apply."
+  },
+  "acceptance_note": "This is input synchronization evidence, not symbolic-execution or proof acceptance evidence."
+}

@@ -1,0 +1,14 @@
+# Reuse Note
+
+Note kind: non-authoritative reuse note
+This file is not acceptance evidence.
+
+The annotation candidate now imports the shared canonical circular-area library directly.  The case lib keeps only `CircularAreaErrorResult`, `CircularAreaFullResult`, and `CircularAreaDataLengthResult`; it no longer imports the historical callpoint case lib or carries proof helpers.
+
+The non-null `CircularAreaIsFull` and `CircularAreaGetDataLength` contracts preserve the same existential `area_addr`, `data_buffer`, indices, capacity, status, operations pointer, logical FIFO, physical option-byte list, and `LitMap`.  `CircularAreaBackingResource` supplies canonical `p_head = data_buffer`, `p_tail = data_buffer + area_length`, `UCharArray.mixed_full`, and the shared `CircularAreaLogicalState`.
+
+QCP evidence: qcp-mcp parsed the candidate and repeatedly completed `symbolic(157)` with `result=success`, no error/warning, all required mixed-uchar strategies loaded, and 13 manual obligations.  The canonical direct symexec command also reached the file end successfully.  One exploratory `check(152)` after a wrapper session restart failed to position the session; a subsequent full symbolic run succeeded and is authoritative for the qcp-mcp gate.
+
+Rocq evidence: the fixed `coq_tooling.py check --target-kind case_lib` first exposed missing explicit `Z`/`Zlength` imports; after adding `Coq.ZArith.ZArith` and `AUXLib.ListLib`, the full dependency check and two cached target-only rechecks passed with fixed flags hash `24021e94f65d7fcb0014dc119baf8b1f9ef2bcb2cf5fbeb875549a843dbeb8`.
+
+The generated manual obligations are semantically consistent with the shared invariant: full/empty/equal-index cases follow from the status equivalences; non-equal indices imply non-full; and the non-full unsigned modular expression equals `Zlength logical`.  Proof helpers, if needed, belong to later group-local suffixed case-lib additions rather than this annotation seed.

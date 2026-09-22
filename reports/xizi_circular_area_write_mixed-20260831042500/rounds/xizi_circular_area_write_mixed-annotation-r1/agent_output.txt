@@ -1,0 +1,15 @@
+# Reuse Note
+
+Note kind: non-authoritative reuse note
+
+This file is not acceptance evidence.
+
+The current shared `CircularAreaLogicalState` incorrectly treats `b_status` as
+an exact full/not-full Boolean. Production `CircularAreaWrite` sets it to 1
+after every successful write, including partial writes whose logical length is
+strictly between 0 and capacity. A fresh round should first consume a new
+source version in which the shared predicate constrains the flag only at the
+empty/full endpoints (and keeps it Boolean), then migrate Write's memcpy
+destination to `mixed_seg` and specify the logical FIFO append plus physical
+`Some` updates. JSON handoff, source versions, and current files win over this
+note.

@@ -1,0 +1,24 @@
+# Reuse Note
+Note kind: non-authoritative reuse note
+This file is not acceptance evidence.
+
+R2 is reference-policy blocked and its formal files must not be copied into a later round. Use this note and the r2 worktree only for read-only analysis, then recreate the candidate in the clean controller-provided worktree.
+
+Reusable mathematical design:
+
+- `xizi_circular_area_rep` constrains capacity and indices and maps the physical array to the logical FIFO sequence for empty, full, contiguous, and wrapped states.
+- `xizi_circular_copy_slice` models an extensional array slice update.
+- `xizi_circular_ring_write` splits writes into non-wrap and wrap cases.
+- `xizi_circular_area_write_result` covers full/non-force exact-state error and success. Success computes `actual = min(request, capacity - old_length)`, updates the write index modulo capacity, sets status to one, and sets read index to the new write index only in force mode.
+- This intentionally records the current implementation's unusual full-force behavior: a full buffer has zero free capacity, so force mode copies zero bytes and does not overwrite old data.
+- A later clean round should explicitly add/review the non-force logical equation `new_logical = old_logical ++ sublist 0 actual input`; the physical write plus representation already constrains it, but the equation makes client use clearer.
+
+Reusable QCP repairs:
+
+- The QCP parser rejected `<stdint.h>` and `<string.h>`. Parser-compatible local typedefs allowed symbolic execution to continue.
+- Signed `x_bool` error returns must use `-1`; unsigned `uint32` error returns worked as `(uint32)-1` and generated 4294967295.
+- `CircularAreaIsFull`, `CircularAreaGetDataLength`, and `CircularAreaDivideWrData` call-site specializations must have preconditions compatible with their general specs. The get-length write-call postcondition must preserve `xizi_circular_area_rep` as a pure fact.
+- The case_lib candidate compiled through the fixed `coq_tooling.py check` entry.
+- The last QCP failure was at the first `memcpy`: `fatal error: pre at branch <unspecified> is not determined`. The next round should investigate function-spec selection and binding for `slice_copy`; restrict all searches to explicit tooling paths or the allowed reference roots.
+
+The JSON handoff, current clean-round files, manifests, and versions override this note.

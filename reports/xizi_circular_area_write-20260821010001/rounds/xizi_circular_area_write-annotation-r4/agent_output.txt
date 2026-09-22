@@ -1,0 +1,15 @@
+# Reuse Note
+
+Note kind: non-authoritative reuse note
+
+This file is not acceptance evidence.
+
+The r4 candidate fixes the prior extra-tail counterexamples by preserving the already-required pure fact `Zlength(input_contents) == requested` in all three branch-local full assertions: before the first wrap `memcpy`, between the two wrap copies, and before the no-wrap copy. No executable statement, API, `memcpy` contract, public pre/postcondition, or case-lib definition changed.
+
+Fresh qcp-mcp sessions with `-IQCP_examples/QCP_demos_LLM/` and `-slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM` reached line 565 with `result: success`. The final interactive audit found four successful return goals at line 564, all carrying the exact input-length premise. The canonical symexec driver also reached EOF twice; the second run reproduced goal hash `1d6d0f314373c2f5b801466eb2596ca8c3c00c932d886dac31621c1dc41ae6e6` and proof-auto hash `a31ffe7440083a3ac78d156bd4a0b5b1d597eb4e8140ddffaa7b63fe65d3a9ac` exactly.
+
+The unchanged case library passed fixed `coq_tooling.py` `case_lib` checking with flags hash `75b2bdd1edb990c20e7514694fa4303e8d948c120bc1e5ac3813d06caabc3dff`. Annotation-checking passed: the spec remains predicate-first and extensional, the input/ring resources remain exact `UCharArray` contents, and there is no loop invariant to review.
+
+Controller annotation-check-round must refresh the manual skeleton/diagnostics and compute the new `source_goal_version`; the input source-goal version is stale after this annotation change.
+
+If this note conflicts with `agent_input.json`, `agent_report.json`, controller state, source versions, or current worktree files, those authoritative sources win.

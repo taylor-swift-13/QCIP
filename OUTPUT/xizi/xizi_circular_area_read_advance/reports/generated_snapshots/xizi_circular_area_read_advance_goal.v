@@ -22,215 +22,248 @@ Local Open Scope sac.
 (*----- Function CircularAreaDivideRdData -----*)
 
 Definition CircularAreaDivideRdData_safety_wit_1 := 
-forall (data_length_pre: Z) (circular_area_pre: Z) (PreH1 : (circular_area_pre = 0)) ,
-  ((( &( "data_length" ) )) # UInt  |-> data_length_pre)
-  **  ((( &( "circular_area" ) )) # Ptr  |-> circular_area_pre)
+forall (data_length_pre: Z) (circular_area_pre: Z) (area_addr: Z) (LitMap: (string -> Z)) (state: circular_area_state) ,
+  ((( &( "circular_area" ) )) # Ptr  |-> circular_area_pre)
+  **  ((( &( "data_length" ) )) # UInt  |-> data_length_pre)
+  **  (CircularAreaDivideRdDataInput state LitMap circular_area_pre data_length_pre area_addr )
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
 Definition CircularAreaDivideRdData_safety_wit_2 := 
-forall (data_length_pre: Z) (circular_area_pre: Z) (buffer_contents: (@list Z)) (operations: Z) (b_status: Z) (area_length: Z) (p_tail: Z) (p_head: Z) (writeidx: Z) (readidx: Z) (data_buffer: Z) (PreH1 : (circular_area_pre <> 0)) (PreH2 : (0 <= data_length_pre)) (PreH3 : (data_length_pre <= area_length)) (PreH4 : ((readidx + data_length_pre ) <= 4294967295)) (PreH5 : (CircularAreaDescriptorState readidx writeidx area_length b_status buffer_contents )) (PreH6 : (p_head = data_buffer)) (PreH7 : (p_tail = (data_buffer + area_length ))) ,
-  ((( &( "data_length" ) )) # UInt  |-> data_length_pre)
-  **  ((( &( "circular_area" ) )) # Ptr  |-> circular_area_pre)
-  **  (UCharArray.full data_buffer area_length buffer_contents )
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "data_buffer")) # Ptr  |-> data_buffer)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "readidx")) # UChar  |-> readidx)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "writeidx")) # UChar  |-> writeidx)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_head")) # Ptr  |-> p_head)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_tail")) # Ptr  |-> p_tail)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "area_length")) # UInt  |-> area_length)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "b_status")) # Int  |-> b_status)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "CircularAreaOperations")) # Ptr  |-> operations)
+forall (data_length_pre: Z) (circular_area_pre: Z) (area_addr: Z) (LitMap: (string -> Z)) (state: circular_area_state) (PreH1 : (circular_area_pre = 0)) ,
+  ((( &( "circular_area" ) )) # Ptr  |-> circular_area_pre)
+  **  ((( &( "data_length" ) )) # UInt  |-> data_length_pre)
+  **  (CircularAreaDivideRdDataInput state LitMap circular_area_pre data_length_pre area_addr )
 |--
-  “ (0 <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= 0) ”
+  “ (1 <= INT_MAX) ” 
+  &&  “ ((INT_MIN) <= 1) ”
 .
 
 Definition CircularAreaDivideRdData_safety_wit_3 := 
-forall (data_length_pre: Z) (circular_area_pre: Z) (PreH1 : (circular_area_pre <> 0)) (PreH2 : (circular_area_pre = 0)) ,
-  ((( &( "data_length" ) )) # UInt  |-> data_length_pre)
-  **  ((( &( "circular_area" ) )) # Ptr  |-> circular_area_pre)
+forall (data_length_pre: Z) (circular_area_pre: Z) (area_addr: Z) (LitMap: (string -> Z)) (state: circular_area_state) (PreH1 : (circular_area_pre <> 0)) ,
+  ((( &( "circular_area" ) )) # Ptr  |-> circular_area_pre)
+  **  ((( &( "data_length" ) )) # UInt  |-> data_length_pre)
+  **  (CircularAreaDivideRdDataInput state LitMap circular_area_pre data_length_pre area_addr )
 |--
-  “ False ”
+  “ (0 <= INT_MAX) ” 
+  &&  “ ((INT_MIN) <= 0) ”
 .
 
 Definition CircularAreaDivideRdData_safety_wit_4 := 
-forall (data_length_pre: Z) (circular_area_pre: Z) (buffer_contents: (@list Z)) (operations: Z) (b_status: Z) (area_length: Z) (p_tail: Z) (p_head: Z) (writeidx: Z) (readidx: Z) (data_buffer: Z) (PreH1 : (circular_area_pre = 0)) (PreH2 : (circular_area_pre <> 0)) (PreH3 : (0 <= data_length_pre)) (PreH4 : (data_length_pre <= area_length)) (PreH5 : ((readidx + data_length_pre ) <= 4294967295)) (PreH6 : (CircularAreaDescriptorState readidx writeidx area_length b_status buffer_contents )) (PreH7 : (p_head = data_buffer)) (PreH8 : (p_tail = (data_buffer + area_length ))) ,
-  ((( &( "data_length" ) )) # UInt  |-> data_length_pre)
-  **  ((( &( "circular_area" ) )) # Ptr  |-> circular_area_pre)
-  **  (UCharArray.full data_buffer area_length buffer_contents )
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "data_buffer")) # Ptr  |-> data_buffer)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "readidx")) # UChar  |-> readidx)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "writeidx")) # UChar  |-> writeidx)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_head")) # Ptr  |-> p_head)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_tail")) # Ptr  |-> p_tail)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "area_length")) # UInt  |-> area_length)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "b_status")) # Int  |-> b_status)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "CircularAreaOperations")) # Ptr  |-> operations)
+forall (data_length_pre: Z) (circular_area_pre: Z) (area_addr: Z) (LitMap: (string -> Z)) (state: circular_area_state) (data_buffer: Z) (operations: Z) (readidx: Z) (writeidx: Z) (b_status: Z) (physical: (@list (@option Z))) (PreH1 : ((unsigned_last_nbits (((unsigned_last_nbits (readidx) (32)) + data_length_pre )) (32)) <= (ca_capacity (state)))) (PreH2 : (area_addr = circular_area_pre)) (PreH3 : (area_addr <> 0)) (PreH4 : (data_buffer <> 0)) (PreH5 : (0 <= data_length_pre)) (PreH6 : (data_length_pre <= (Zlength ((ca_contents (state)))))) (PreH7 : ((readidx + data_length_pre ) <= UINT_MAX)) (PreH8 : (CircularAreaLogicalState readidx writeidx (ca_capacity (state)) b_status (ca_contents (state)) physical )) ,
+  ((( &( "circular_area" ) )) # Ptr  |-> area_addr)
+  **  ((( &( "data_length" ) )) # UInt  |-> data_length_pre)
+  **  (GlobalStrings LitMap )
+  **  (UCharArray.mixed_full data_buffer (ca_capacity (state)) physical )
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "data_buffer")) # Ptr  |-> data_buffer)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "readidx")) # UChar  |-> readidx)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "writeidx")) # UChar  |-> writeidx)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "p_head")) # Ptr  |-> data_buffer)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "p_tail")) # Ptr  |-> (data_buffer + (ca_capacity (state)) ))
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "area_length")) # UInt  |-> (ca_capacity (state)))
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "b_status")) # Int  |-> b_status)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "CircularAreaOperations")) # Ptr  |-> operations)
 |--
-  “ False ”
+  “ (0 <= INT_MAX) ” 
+  &&  “ ((INT_MIN) <= 0) ”
 .
 
 Definition CircularAreaDivideRdData_safety_wit_5 := 
-forall (data_length_pre: Z) (circular_area_pre: Z) (PreH1 : (circular_area_pre = 0)) (PreH2 : (circular_area_pre = 0)) ,
-  ((( &( "data_length" ) )) # UInt  |-> data_length_pre)
-  **  ((( &( "circular_area" ) )) # Ptr  |-> circular_area_pre)
+forall (data_length_pre: Z) (circular_area_pre: Z) (area_addr: Z) (LitMap: (string -> Z)) (state: circular_area_state) (data_buffer: Z) (operations: Z) (readidx: Z) (writeidx: Z) (b_status: Z) (physical: (@list (@option Z))) (PreH1 : ((unsigned_last_nbits (((unsigned_last_nbits (readidx) (32)) + data_length_pre )) (32)) > (ca_capacity (state)))) (PreH2 : (area_addr = circular_area_pre)) (PreH3 : (area_addr <> 0)) (PreH4 : (data_buffer <> 0)) (PreH5 : (0 <= data_length_pre)) (PreH6 : (data_length_pre <= (Zlength ((ca_contents (state)))))) (PreH7 : ((readidx + data_length_pre ) <= UINT_MAX)) (PreH8 : (CircularAreaLogicalState readidx writeidx (ca_capacity (state)) b_status (ca_contents (state)) physical )) ,
+  ((( &( "circular_area" ) )) # Ptr  |-> area_addr)
+  **  ((( &( "data_length" ) )) # UInt  |-> data_length_pre)
+  **  (GlobalStrings LitMap )
+  **  (UCharArray.mixed_full data_buffer (ca_capacity (state)) physical )
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "data_buffer")) # Ptr  |-> data_buffer)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "readidx")) # UChar  |-> readidx)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "writeidx")) # UChar  |-> writeidx)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "p_head")) # Ptr  |-> data_buffer)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "p_tail")) # Ptr  |-> (data_buffer + (ca_capacity (state)) ))
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "area_length")) # UInt  |-> (ca_capacity (state)))
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "b_status")) # Int  |-> b_status)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "CircularAreaOperations")) # Ptr  |-> operations)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition CircularAreaDivideRdData_safety_wit_6 := 
-forall (data_length_pre: Z) (circular_area_pre: Z) (buffer_contents: (@list Z)) (operations: Z) (b_status: Z) (area_length: Z) (p_tail: Z) (p_head: Z) (writeidx: Z) (readidx: Z) (data_buffer: Z) (PreH1 : (circular_area_pre <> 0)) (PreH2 : (circular_area_pre <> 0)) (PreH3 : (0 <= data_length_pre)) (PreH4 : (data_length_pre <= area_length)) (PreH5 : ((readidx + data_length_pre ) <= 4294967295)) (PreH6 : (CircularAreaDescriptorState readidx writeidx area_length b_status buffer_contents )) (PreH7 : (p_head = data_buffer)) (PreH8 : (p_tail = (data_buffer + area_length ))) ,
-  ((( &( "data_length" ) )) # UInt  |-> data_length_pre)
-  **  ((( &( "circular_area" ) )) # Ptr  |-> circular_area_pre)
-  **  (UCharArray.full data_buffer area_length buffer_contents )
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "data_buffer")) # Ptr  |-> data_buffer)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "readidx")) # UChar  |-> readidx)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "writeidx")) # UChar  |-> writeidx)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_head")) # Ptr  |-> p_head)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_tail")) # Ptr  |-> p_tail)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "area_length")) # UInt  |-> area_length)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "b_status")) # Int  |-> b_status)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "CircularAreaOperations")) # Ptr  |-> operations)
+Definition CircularAreaDivideRdData_entail_wit_1 := 
+(
+forall (data_length_pre: Z) (circular_area_pre: Z) (area_addr: Z) (LitMap: (string -> Z)) (state: circular_area_state) (PreH1 : (circular_area_pre <> 0)) ,
+  ((( &( "circular_area" ) )) # Ptr  |-> circular_area_pre)
+  **  (CircularAreaDivideRdDataInput state LitMap circular_area_pre data_length_pre area_addr )
 |--
-  “ (0 <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= 0) ”
-.
-
-Definition CircularAreaDivideRdData_safety_wit_7 := 
-forall (data_length_pre: Z) (circular_area_pre: Z) (buffer_contents: (@list Z)) (operations: Z) (b_status: Z) (area_length: Z) (p_tail: Z) (p_head: Z) (writeidx: Z) (readidx: Z) (data_buffer: Z) (PreH1 : ((unsigned_last_nbits (((unsigned_last_nbits (readidx) (32)) + data_length_pre )) (32)) <= area_length)) (PreH2 : (circular_area_pre <> 0)) (PreH3 : (circular_area_pre <> 0)) (PreH4 : (0 <= data_length_pre)) (PreH5 : (data_length_pre <= area_length)) (PreH6 : ((readidx + data_length_pre ) <= 4294967295)) (PreH7 : (CircularAreaDescriptorState readidx writeidx area_length b_status buffer_contents )) (PreH8 : (p_head = data_buffer)) (PreH9 : (p_tail = (data_buffer + area_length ))) ,
-  ((( &( "data_length" ) )) # UInt  |-> data_length_pre)
-  **  ((( &( "circular_area" ) )) # Ptr  |-> circular_area_pre)
-  **  (UCharArray.full data_buffer area_length buffer_contents )
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "data_buffer")) # Ptr  |-> data_buffer)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "readidx")) # UChar  |-> readidx)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "writeidx")) # UChar  |-> writeidx)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_head")) # Ptr  |-> p_head)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_tail")) # Ptr  |-> p_tail)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "area_length")) # UInt  |-> area_length)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "b_status")) # Int  |-> b_status)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "CircularAreaOperations")) # Ptr  |-> operations)
+  EX (operations: Z)  (writeidx: Z)  (b_status: Z)  (physical: (@list (@option Z)))  (readidx: Z)  (data_buffer: Z) ,
+  “ (area_addr = circular_area_pre) ” 
+  &&  “ (area_addr <> 0) ” 
+  &&  “ (data_buffer <> 0) ” 
+  &&  “ (0 <= data_length_pre) ” 
+  &&  “ (data_length_pre <= (Zlength ((ca_contents (state))))) ” 
+  &&  “ ((readidx + data_length_pre ) <= UINT_MAX) ” 
+  &&  “ (CircularAreaLogicalState readidx writeidx (ca_capacity (state)) b_status (ca_contents (state)) physical ) ”
+  &&  ((( &( "circular_area" ) )) # Ptr  |-> area_addr)
+  **  (GlobalStrings LitMap )
+  **  (UCharArray.mixed_full data_buffer (ca_capacity (state)) physical )
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "data_buffer")) # Ptr  |-> data_buffer)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "readidx")) # UChar  |-> readidx)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "writeidx")) # UChar  |-> writeidx)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "p_head")) # Ptr  |-> data_buffer)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "p_tail")) # Ptr  |-> (data_buffer + (ca_capacity (state)) ))
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "area_length")) # UInt  |-> (ca_capacity (state)))
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "b_status")) # Int  |-> b_status)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "CircularAreaOperations")) # Ptr  |-> operations)
+) \/
+(
+forall (data_length_pre: Z) (circular_area_pre: Z) (area_addr: Z) (LitMap: (string -> Z)) (state: circular_area_state) (PreH1 : (circular_area_pre <> 0)) ,
+  (CircularAreaDivideRdDataInput state LitMap circular_area_pre data_length_pre area_addr )
 |--
-  “ (0 <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= 0) ”
-.
-
-Definition CircularAreaDivideRdData_safety_wit_8 := 
-forall (data_length_pre: Z) (circular_area_pre: Z) (buffer_contents: (@list Z)) (operations: Z) (b_status: Z) (area_length: Z) (p_tail: Z) (p_head: Z) (writeidx: Z) (readidx: Z) (data_buffer: Z) (PreH1 : ((unsigned_last_nbits (((unsigned_last_nbits (readidx) (32)) + data_length_pre )) (32)) > area_length)) (PreH2 : (circular_area_pre <> 0)) (PreH3 : (circular_area_pre <> 0)) (PreH4 : (0 <= data_length_pre)) (PreH5 : (data_length_pre <= area_length)) (PreH6 : ((readidx + data_length_pre ) <= 4294967295)) (PreH7 : (CircularAreaDescriptorState readidx writeidx area_length b_status buffer_contents )) (PreH8 : (p_head = data_buffer)) (PreH9 : (p_tail = (data_buffer + area_length ))) ,
-  ((( &( "data_length" ) )) # UInt  |-> data_length_pre)
-  **  ((( &( "circular_area" ) )) # Ptr  |-> circular_area_pre)
-  **  (UCharArray.full data_buffer area_length buffer_contents )
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "data_buffer")) # Ptr  |-> data_buffer)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "readidx")) # UChar  |-> readidx)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "writeidx")) # UChar  |-> writeidx)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_head")) # Ptr  |-> p_head)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_tail")) # Ptr  |-> p_tail)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "area_length")) # UInt  |-> area_length)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "b_status")) # Int  |-> b_status)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "CircularAreaOperations")) # Ptr  |-> operations)
-|--
-  “ (1 <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= 1) ”
-.
+  EX (operations: Z)  (writeidx: Z)  (b_status: Z)  (physical: (@list (@option Z)))  (readidx: Z)  (data_buffer: Z) ,
+  “ (circular_area_pre = area_addr) ” 
+  &&  “ (area_addr = circular_area_pre) ” 
+  &&  “ (area_addr <> 0) ” 
+  &&  “ (data_buffer <> 0) ” 
+  &&  “ (0 <= data_length_pre) ” 
+  &&  “ (data_length_pre <= (Zlength ((ca_contents (state))))) ” 
+  &&  “ ((readidx + data_length_pre ) <= UINT_MAX) ” 
+  &&  “ (CircularAreaLogicalState readidx writeidx (ca_capacity (state)) b_status (ca_contents (state)) physical ) ”
+  &&  (GlobalStrings LitMap )
+  **  (UCharArray.mixed_full data_buffer (ca_capacity (state)) physical )
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "data_buffer")) # Ptr  |-> data_buffer)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "readidx")) # UChar  |-> readidx)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "writeidx")) # UChar  |-> writeidx)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "p_head")) # Ptr  |-> data_buffer)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "p_tail")) # Ptr  |-> (data_buffer + (ca_capacity (state)) ))
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "area_length")) # UInt  |-> (ca_capacity (state)))
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "b_status")) # Int  |-> b_status)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "CircularAreaOperations")) # Ptr  |-> operations)
+).
 
 Definition CircularAreaDivideRdData_return_wit_1 := 
 (
-forall (data_length_pre: Z) (circular_area_pre: Z) (buffer_contents: (@list Z)) (operations: Z) (b_status: Z) (area_length: Z) (p_tail: Z) (p_head: Z) (writeidx: Z) (readidx: Z) (data_buffer: Z) (PreH1 : ((unsigned_last_nbits (((unsigned_last_nbits (readidx) (32)) + data_length_pre )) (32)) > area_length)) (PreH2 : (circular_area_pre <> 0)) (PreH3 : (circular_area_pre <> 0)) (PreH4 : (0 <= data_length_pre)) (PreH5 : (data_length_pre <= area_length)) (PreH6 : ((readidx + data_length_pre ) <= 4294967295)) (PreH7 : (CircularAreaDescriptorState readidx writeidx area_length b_status buffer_contents )) (PreH8 : (p_head = data_buffer)) (PreH9 : (p_tail = (data_buffer + area_length ))) ,
-  (UCharArray.full data_buffer area_length buffer_contents )
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "data_buffer")) # Ptr  |-> data_buffer)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "readidx")) # UChar  |-> readidx)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "writeidx")) # UChar  |-> writeidx)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_head")) # Ptr  |-> p_head)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_tail")) # Ptr  |-> p_tail)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "area_length")) # UInt  |-> area_length)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "b_status")) # Int  |-> b_status)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "CircularAreaOperations")) # Ptr  |-> operations)
+forall (data_length_pre: Z) (circular_area_pre: Z) (area_addr: Z) (LitMap: (string -> Z)) (state: circular_area_state) (data_buffer_2: Z) (operations_2: Z) (readidx_2: Z) (writeidx_2: Z) (b_status_2: Z) (physical_2: (@list (@option Z))) (PreH1 : ((unsigned_last_nbits (((unsigned_last_nbits (readidx_2) (32)) + data_length_pre )) (32)) > (ca_capacity (state)))) (PreH2 : (area_addr = circular_area_pre)) (PreH3 : (area_addr <> 0)) (PreH4 : (data_buffer_2 <> 0)) (PreH5 : (0 <= data_length_pre)) (PreH6 : (data_length_pre <= (Zlength ((ca_contents (state)))))) (PreH7 : ((readidx_2 + data_length_pre ) <= UINT_MAX)) (PreH8 : (CircularAreaLogicalState readidx_2 writeidx_2 (ca_capacity (state)) b_status_2 (ca_contents (state)) physical_2 )) ,
+  (GlobalStrings LitMap )
+  **  (UCharArray.mixed_full data_buffer_2 (ca_capacity (state)) physical_2 )
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "data_buffer")) # Ptr  |-> data_buffer_2)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "readidx")) # UChar  |-> readidx_2)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "writeidx")) # UChar  |-> writeidx_2)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "p_head")) # Ptr  |-> data_buffer_2)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "p_tail")) # Ptr  |-> (data_buffer_2 + (ca_capacity (state)) ))
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "area_length")) # UInt  |-> (ca_capacity (state)))
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "b_status")) # Int  |-> b_status_2)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "CircularAreaOperations")) # Ptr  |-> operations_2)
 |--
-  “ (circular_area_pre <> 0) ” 
-  &&  “ (0 <= data_length_pre) ” 
-  &&  “ (data_length_pre <= area_length) ” 
-  &&  “ ((readidx + data_length_pre ) <= 4294967295) ” 
-  &&  “ (CircularAreaDescriptorState readidx writeidx area_length b_status buffer_contents ) ” 
-  &&  “ (p_head = data_buffer) ” 
-  &&  “ (p_tail = (data_buffer + area_length )) ” 
-  &&  “ (CircularAreaDivideRdDataResult readidx data_length_pre area_length 1 ) ”
-  &&  (UCharArray.full data_buffer area_length buffer_contents )
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "data_buffer")) # Ptr  |-> data_buffer)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "readidx")) # UChar  |-> readidx)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "writeidx")) # UChar  |-> writeidx)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_head")) # Ptr  |-> p_head)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_tail")) # Ptr  |-> p_tail)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "area_length")) # UInt  |-> area_length)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "b_status")) # Int  |-> b_status)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "CircularAreaOperations")) # Ptr  |-> operations)
+  EX (operations: Z)  (writeidx: Z)  (b_status: Z)  (physical: (@list (@option Z)))  (readidx: Z)  (data_buffer: Z) ,
+  “ (area_addr <> 0) ” 
+  &&  “ (data_buffer <> 0) ” 
+  &&  “ (CircularAreaStateDivideRdDataResult state data_length_pre 1 ) ” 
+  &&  “ (CircularAreaDivideRdDataResult readidx data_length_pre (ca_capacity (state)) 1 ) ” 
+  &&  “ (CircularAreaLogicalState readidx writeidx (ca_capacity (state)) b_status (ca_contents (state)) physical ) ”
+  &&  (GlobalStrings LitMap )
+  **  (UCharArray.mixed_full data_buffer (ca_capacity (state)) physical )
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "data_buffer")) # Ptr  |-> data_buffer)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "readidx")) # UChar  |-> readidx)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "writeidx")) # UChar  |-> writeidx)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "p_head")) # Ptr  |-> data_buffer)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "p_tail")) # Ptr  |-> (data_buffer + (ca_capacity (state)) ))
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "area_length")) # UInt  |-> (ca_capacity (state)))
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "b_status")) # Int  |-> b_status)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "CircularAreaOperations")) # Ptr  |-> operations)
 ) \/
 (
-forall (data_length_pre: Z) (circular_area_pre: Z) (buffer_contents: (@list Z)) (b_status: Z) (area_length: Z) (p_tail: Z) (p_head: Z) (writeidx: Z) (readidx: Z) (data_buffer: Z) (PreH1 : ((unsigned_last_nbits (((unsigned_last_nbits (readidx) (32)) + data_length_pre )) (32)) > area_length)) (PreH2 : (circular_area_pre <> 0)) (PreH3 : (circular_area_pre <> 0)) (PreH4 : (0 <= data_length_pre)) (PreH5 : (data_length_pre <= area_length)) (PreH6 : ((readidx + data_length_pre ) <= 4294967295)) (PreH7 : (CircularAreaDescriptorState readidx writeidx area_length b_status buffer_contents )) (PreH8 : (p_head = data_buffer)) (PreH9 : (p_tail = (data_buffer + area_length ))) ,
+forall (data_length_pre: Z) (circular_area_pre: Z) (area_addr: Z) (state: circular_area_state) (data_buffer_2: Z) (readidx_2: Z) (writeidx_2: Z) (b_status_2: Z) (physical_2: (@list (@option Z))) (PreH1 : ((unsigned_last_nbits (((unsigned_last_nbits (readidx_2) (32)) + data_length_pre )) (32)) > (ca_capacity (state)))) (PreH2 : (area_addr = circular_area_pre)) (PreH3 : (area_addr <> 0)) (PreH4 : (data_buffer_2 <> 0)) (PreH5 : (0 <= data_length_pre)) (PreH6 : (data_length_pre <= (Zlength ((ca_contents (state)))))) (PreH7 : ((readidx_2 + data_length_pre ) <= UINT_MAX)) (PreH8 : (CircularAreaLogicalState readidx_2 writeidx_2 (ca_capacity (state)) b_status_2 (ca_contents (state)) physical_2 )) ,
   TT && emp 
 |--
-  “ (CircularAreaDivideRdDataResult readidx data_length_pre area_length 1 ) ”
+  “ (CircularAreaDivideRdDataResult readidx_2 data_length_pre (ca_capacity (state)) 1 ) ” 
+  &&  “ (CircularAreaStateDivideRdDataResult state data_length_pre 1 ) ”
   &&  emp
 ).
 
 Definition CircularAreaDivideRdData_return_wit_1_split_goal_1 := 
-forall (data_length_pre: Z) (circular_area_pre: Z) (buffer_contents: (@list Z)) (b_status: Z) (area_length: Z) (p_tail: Z) (p_head: Z) (writeidx: Z) (readidx: Z) (data_buffer: Z) (PreH1 : ((unsigned_last_nbits (((unsigned_last_nbits (readidx) (32)) + data_length_pre )) (32)) > area_length)) (PreH2 : (circular_area_pre <> 0)) (PreH3 : (circular_area_pre <> 0)) (PreH4 : (0 <= data_length_pre)) (PreH5 : (data_length_pre <= area_length)) (PreH6 : ((readidx + data_length_pre ) <= 4294967295)) (PreH7 : (CircularAreaDescriptorState readidx writeidx area_length b_status buffer_contents )) (PreH8 : (p_head = data_buffer)) (PreH9 : (p_tail = (data_buffer + area_length ))) ,
-  (CircularAreaDivideRdDataResult readidx data_length_pre area_length 1 )
+forall (data_length_pre: Z) (circular_area_pre: Z) (area_addr: Z) (state: circular_area_state) (data_buffer_2: Z) (readidx_2: Z) (writeidx_2: Z) (b_status_2: Z) (physical_2: (@list (@option Z))) (PreH1 : ((unsigned_last_nbits (((unsigned_last_nbits (readidx_2) (32)) + data_length_pre )) (32)) > (ca_capacity (state)))) (PreH2 : (area_addr = circular_area_pre)) (PreH3 : (area_addr <> 0)) (PreH4 : (data_buffer_2 <> 0)) (PreH5 : (0 <= data_length_pre)) (PreH6 : (data_length_pre <= (Zlength ((ca_contents (state)))))) (PreH7 : ((readidx_2 + data_length_pre ) <= UINT_MAX)) (PreH8 : (CircularAreaLogicalState readidx_2 writeidx_2 (ca_capacity (state)) b_status_2 (ca_contents (state)) physical_2 )) ,
+  (CircularAreaDivideRdDataResult readidx_2 data_length_pre (ca_capacity (state)) 1 )
+.
+
+Definition CircularAreaDivideRdData_return_wit_1_split_goal_2 := 
+forall (data_length_pre: Z) (circular_area_pre: Z) (area_addr: Z) (state: circular_area_state) (data_buffer_2: Z) (readidx_2: Z) (writeidx_2: Z) (b_status_2: Z) (physical_2: (@list (@option Z))) (PreH1 : ((unsigned_last_nbits (((unsigned_last_nbits (readidx_2) (32)) + data_length_pre )) (32)) > (ca_capacity (state)))) (PreH2 : (area_addr = circular_area_pre)) (PreH3 : (area_addr <> 0)) (PreH4 : (data_buffer_2 <> 0)) (PreH5 : (0 <= data_length_pre)) (PreH6 : (data_length_pre <= (Zlength ((ca_contents (state)))))) (PreH7 : ((readidx_2 + data_length_pre ) <= UINT_MAX)) (PreH8 : (CircularAreaLogicalState readidx_2 writeidx_2 (ca_capacity (state)) b_status_2 (ca_contents (state)) physical_2 )) ,
+  (CircularAreaStateDivideRdDataResult state data_length_pre 1 )
 .
 
 Definition CircularAreaDivideRdData_return_wit_2 := 
 (
-forall (data_length_pre: Z) (circular_area_pre: Z) (buffer_contents: (@list Z)) (operations: Z) (b_status: Z) (area_length: Z) (p_tail: Z) (p_head: Z) (writeidx: Z) (readidx: Z) (data_buffer: Z) (PreH1 : ((unsigned_last_nbits (((unsigned_last_nbits (readidx) (32)) + data_length_pre )) (32)) <= area_length)) (PreH2 : (circular_area_pre <> 0)) (PreH3 : (circular_area_pre <> 0)) (PreH4 : (0 <= data_length_pre)) (PreH5 : (data_length_pre <= area_length)) (PreH6 : ((readidx + data_length_pre ) <= 4294967295)) (PreH7 : (CircularAreaDescriptorState readidx writeidx area_length b_status buffer_contents )) (PreH8 : (p_head = data_buffer)) (PreH9 : (p_tail = (data_buffer + area_length ))) ,
-  (UCharArray.full data_buffer area_length buffer_contents )
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "data_buffer")) # Ptr  |-> data_buffer)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "readidx")) # UChar  |-> readidx)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "writeidx")) # UChar  |-> writeidx)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_head")) # Ptr  |-> p_head)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_tail")) # Ptr  |-> p_tail)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "area_length")) # UInt  |-> area_length)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "b_status")) # Int  |-> b_status)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "CircularAreaOperations")) # Ptr  |-> operations)
+forall (data_length_pre: Z) (circular_area_pre: Z) (area_addr: Z) (LitMap: (string -> Z)) (state: circular_area_state) (data_buffer_2: Z) (operations_2: Z) (readidx_2: Z) (writeidx_2: Z) (b_status_2: Z) (physical_2: (@list (@option Z))) (PreH1 : ((unsigned_last_nbits (((unsigned_last_nbits (readidx_2) (32)) + data_length_pre )) (32)) <= (ca_capacity (state)))) (PreH2 : (area_addr = circular_area_pre)) (PreH3 : (area_addr <> 0)) (PreH4 : (data_buffer_2 <> 0)) (PreH5 : (0 <= data_length_pre)) (PreH6 : (data_length_pre <= (Zlength ((ca_contents (state)))))) (PreH7 : ((readidx_2 + data_length_pre ) <= UINT_MAX)) (PreH8 : (CircularAreaLogicalState readidx_2 writeidx_2 (ca_capacity (state)) b_status_2 (ca_contents (state)) physical_2 )) ,
+  (GlobalStrings LitMap )
+  **  (UCharArray.mixed_full data_buffer_2 (ca_capacity (state)) physical_2 )
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "data_buffer")) # Ptr  |-> data_buffer_2)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "readidx")) # UChar  |-> readidx_2)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "writeidx")) # UChar  |-> writeidx_2)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "p_head")) # Ptr  |-> data_buffer_2)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "p_tail")) # Ptr  |-> (data_buffer_2 + (ca_capacity (state)) ))
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "area_length")) # UInt  |-> (ca_capacity (state)))
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "b_status")) # Int  |-> b_status_2)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "CircularAreaOperations")) # Ptr  |-> operations_2)
 |--
-  “ (circular_area_pre <> 0) ” 
-  &&  “ (0 <= data_length_pre) ” 
-  &&  “ (data_length_pre <= area_length) ” 
-  &&  “ ((readidx + data_length_pre ) <= 4294967295) ” 
-  &&  “ (CircularAreaDescriptorState readidx writeidx area_length b_status buffer_contents ) ” 
-  &&  “ (p_head = data_buffer) ” 
-  &&  “ (p_tail = (data_buffer + area_length )) ” 
-  &&  “ (CircularAreaDivideRdDataResult readidx data_length_pre area_length 0 ) ”
-  &&  (UCharArray.full data_buffer area_length buffer_contents )
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "data_buffer")) # Ptr  |-> data_buffer)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "readidx")) # UChar  |-> readidx)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "writeidx")) # UChar  |-> writeidx)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_head")) # Ptr  |-> p_head)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_tail")) # Ptr  |-> p_tail)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "area_length")) # UInt  |-> area_length)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "b_status")) # Int  |-> b_status)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "CircularAreaOperations")) # Ptr  |-> operations)
+  EX (operations: Z)  (writeidx: Z)  (b_status: Z)  (physical: (@list (@option Z)))  (readidx: Z)  (data_buffer: Z) ,
+  “ (area_addr <> 0) ” 
+  &&  “ (data_buffer <> 0) ” 
+  &&  “ (CircularAreaStateDivideRdDataResult state data_length_pre 0 ) ” 
+  &&  “ (CircularAreaDivideRdDataResult readidx data_length_pre (ca_capacity (state)) 0 ) ” 
+  &&  “ (CircularAreaLogicalState readidx writeidx (ca_capacity (state)) b_status (ca_contents (state)) physical ) ”
+  &&  (GlobalStrings LitMap )
+  **  (UCharArray.mixed_full data_buffer (ca_capacity (state)) physical )
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "data_buffer")) # Ptr  |-> data_buffer)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "readidx")) # UChar  |-> readidx)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "writeidx")) # UChar  |-> writeidx)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "p_head")) # Ptr  |-> data_buffer)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "p_tail")) # Ptr  |-> (data_buffer + (ca_capacity (state)) ))
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "area_length")) # UInt  |-> (ca_capacity (state)))
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "b_status")) # Int  |-> b_status)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "CircularAreaOperations")) # Ptr  |-> operations)
 ) \/
 (
-forall (data_length_pre: Z) (circular_area_pre: Z) (buffer_contents: (@list Z)) (b_status: Z) (area_length: Z) (p_tail: Z) (p_head: Z) (writeidx: Z) (readidx: Z) (data_buffer: Z) (PreH1 : ((unsigned_last_nbits (((unsigned_last_nbits (readidx) (32)) + data_length_pre )) (32)) <= area_length)) (PreH2 : (circular_area_pre <> 0)) (PreH3 : (circular_area_pre <> 0)) (PreH4 : (0 <= data_length_pre)) (PreH5 : (data_length_pre <= area_length)) (PreH6 : ((readidx + data_length_pre ) <= 4294967295)) (PreH7 : (CircularAreaDescriptorState readidx writeidx area_length b_status buffer_contents )) (PreH8 : (p_head = data_buffer)) (PreH9 : (p_tail = (data_buffer + area_length ))) ,
+forall (data_length_pre: Z) (circular_area_pre: Z) (area_addr: Z) (state: circular_area_state) (data_buffer_2: Z) (readidx_2: Z) (writeidx_2: Z) (b_status_2: Z) (physical_2: (@list (@option Z))) (PreH1 : ((unsigned_last_nbits (((unsigned_last_nbits (readidx_2) (32)) + data_length_pre )) (32)) <= (ca_capacity (state)))) (PreH2 : (area_addr = circular_area_pre)) (PreH3 : (area_addr <> 0)) (PreH4 : (data_buffer_2 <> 0)) (PreH5 : (0 <= data_length_pre)) (PreH6 : (data_length_pre <= (Zlength ((ca_contents (state)))))) (PreH7 : ((readidx_2 + data_length_pre ) <= UINT_MAX)) (PreH8 : (CircularAreaLogicalState readidx_2 writeidx_2 (ca_capacity (state)) b_status_2 (ca_contents (state)) physical_2 )) ,
   TT && emp 
 |--
-  “ (CircularAreaDivideRdDataResult readidx data_length_pre area_length 0 ) ”
+  “ (CircularAreaDivideRdDataResult readidx_2 data_length_pre (ca_capacity (state)) 0 ) ” 
+  &&  “ (CircularAreaStateDivideRdDataResult state data_length_pre 0 ) ”
   &&  emp
 ).
 
 Definition CircularAreaDivideRdData_return_wit_2_split_goal_1 := 
-forall (data_length_pre: Z) (circular_area_pre: Z) (buffer_contents: (@list Z)) (b_status: Z) (area_length: Z) (p_tail: Z) (p_head: Z) (writeidx: Z) (readidx: Z) (data_buffer: Z) (PreH1 : ((unsigned_last_nbits (((unsigned_last_nbits (readidx) (32)) + data_length_pre )) (32)) <= area_length)) (PreH2 : (circular_area_pre <> 0)) (PreH3 : (circular_area_pre <> 0)) (PreH4 : (0 <= data_length_pre)) (PreH5 : (data_length_pre <= area_length)) (PreH6 : ((readidx + data_length_pre ) <= 4294967295)) (PreH7 : (CircularAreaDescriptorState readidx writeidx area_length b_status buffer_contents )) (PreH8 : (p_head = data_buffer)) (PreH9 : (p_tail = (data_buffer + area_length ))) ,
-  (CircularAreaDivideRdDataResult readidx data_length_pre area_length 0 )
+forall (data_length_pre: Z) (circular_area_pre: Z) (area_addr: Z) (state: circular_area_state) (data_buffer_2: Z) (readidx_2: Z) (writeidx_2: Z) (b_status_2: Z) (physical_2: (@list (@option Z))) (PreH1 : ((unsigned_last_nbits (((unsigned_last_nbits (readidx_2) (32)) + data_length_pre )) (32)) <= (ca_capacity (state)))) (PreH2 : (area_addr = circular_area_pre)) (PreH3 : (area_addr <> 0)) (PreH4 : (data_buffer_2 <> 0)) (PreH5 : (0 <= data_length_pre)) (PreH6 : (data_length_pre <= (Zlength ((ca_contents (state)))))) (PreH7 : ((readidx_2 + data_length_pre ) <= UINT_MAX)) (PreH8 : (CircularAreaLogicalState readidx_2 writeidx_2 (ca_capacity (state)) b_status_2 (ca_contents (state)) physical_2 )) ,
+  (CircularAreaDivideRdDataResult readidx_2 data_length_pre (ca_capacity (state)) 0 )
+.
+
+Definition CircularAreaDivideRdData_return_wit_2_split_goal_2 := 
+forall (data_length_pre: Z) (circular_area_pre: Z) (area_addr: Z) (state: circular_area_state) (data_buffer_2: Z) (readidx_2: Z) (writeidx_2: Z) (b_status_2: Z) (physical_2: (@list (@option Z))) (PreH1 : ((unsigned_last_nbits (((unsigned_last_nbits (readidx_2) (32)) + data_length_pre )) (32)) <= (ca_capacity (state)))) (PreH2 : (area_addr = circular_area_pre)) (PreH3 : (area_addr <> 0)) (PreH4 : (data_buffer_2 <> 0)) (PreH5 : (0 <= data_length_pre)) (PreH6 : (data_length_pre <= (Zlength ((ca_contents (state)))))) (PreH7 : ((readidx_2 + data_length_pre ) <= UINT_MAX)) (PreH8 : (CircularAreaLogicalState readidx_2 writeidx_2 (ca_capacity (state)) b_status_2 (ca_contents (state)) physical_2 )) ,
+  (CircularAreaStateDivideRdDataResult state data_length_pre 0 )
 .
 
 Definition CircularAreaDivideRdData_return_wit_3 := 
-forall (circular_area_pre: Z) (PreH1 : (circular_area_pre = 0)) (PreH2 : (circular_area_pre = 0)) ,
-  TT && emp 
+forall (data_length_pre: Z) (circular_area_pre: Z) (area_addr: Z) (LitMap: (string -> Z)) (state: circular_area_state) (PreH1 : (circular_area_pre = 0)) ,
+  (CircularAreaDivideRdDataInput state LitMap circular_area_pre data_length_pre area_addr )
 |--
-  “ (circular_area_pre = 0) ” 
+  (EX (operations: Z)  (writeidx: Z)  (b_status: Z)  (physical: (@list (@option Z)))  (readidx: Z)  (data_buffer: Z) ,
+  “ (area_addr <> 0) ” 
+  &&  “ (data_buffer <> 0) ” 
+  &&  “ (CircularAreaStateDivideRdDataResult state data_length_pre 1 ) ” 
+  &&  “ (CircularAreaDivideRdDataResult readidx data_length_pre (ca_capacity (state)) 1 ) ” 
+  &&  “ (CircularAreaLogicalState readidx writeidx (ca_capacity (state)) b_status (ca_contents (state)) physical ) ”
+  &&  (GlobalStrings LitMap )
+  **  (UCharArray.mixed_full data_buffer (ca_capacity (state)) physical )
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "data_buffer")) # Ptr  |-> data_buffer)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "readidx")) # UChar  |-> readidx)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "writeidx")) # UChar  |-> writeidx)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "p_head")) # Ptr  |-> data_buffer)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "p_tail")) # Ptr  |-> (data_buffer + (ca_capacity (state)) ))
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "area_length")) # UInt  |-> (ca_capacity (state)))
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "b_status")) # Int  |-> b_status)
+  **  ((&((area_addr)  # "CircularArea" ->ₛ "CircularAreaOperations")) # Ptr  |-> operations))
+  ||
+  (“ (circular_area_pre = 0) ” 
   &&  “ (1 = 1) ”
-  &&  emp
+  &&  (GlobalStrings LitMap ))
 .
 
 Module Type VC_Correct.
@@ -241,9 +274,7 @@ Axiom proof_of_CircularAreaDivideRdData_safety_wit_2 : CircularAreaDivideRdData_
 Axiom proof_of_CircularAreaDivideRdData_safety_wit_3 : CircularAreaDivideRdData_safety_wit_3.
 Axiom proof_of_CircularAreaDivideRdData_safety_wit_4 : CircularAreaDivideRdData_safety_wit_4.
 Axiom proof_of_CircularAreaDivideRdData_safety_wit_5 : CircularAreaDivideRdData_safety_wit_5.
-Axiom proof_of_CircularAreaDivideRdData_safety_wit_6 : CircularAreaDivideRdData_safety_wit_6.
-Axiom proof_of_CircularAreaDivideRdData_safety_wit_7 : CircularAreaDivideRdData_safety_wit_7.
-Axiom proof_of_CircularAreaDivideRdData_safety_wit_8 : CircularAreaDivideRdData_safety_wit_8.
+Axiom proof_of_CircularAreaDivideRdData_entail_wit_1 : CircularAreaDivideRdData_entail_wit_1.
 Axiom proof_of_CircularAreaDivideRdData_return_wit_1 : CircularAreaDivideRdData_return_wit_1.
 Axiom proof_of_CircularAreaDivideRdData_return_wit_2 : CircularAreaDivideRdData_return_wit_2.
 Axiom proof_of_CircularAreaDivideRdData_return_wit_3 : CircularAreaDivideRdData_return_wit_3.

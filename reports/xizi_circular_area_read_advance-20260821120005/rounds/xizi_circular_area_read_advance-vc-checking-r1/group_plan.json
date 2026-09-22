@@ -1,0 +1,74 @@
+{
+  "schema_version": "qcp-vc-proof-group-plan/v1",
+  "source_goal_version": "ba903339b531d3cb78d46b155789896c5235f88eaedb29be68eaedec94b490df",
+  "target_witnesses": [
+    "proof_of_CircularAreaDivideRdData_return_wit_1",
+    "proof_of_CircularAreaDivideRdData_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "circular_read_result_classification",
+      "witness_names": [
+        "proof_of_CircularAreaDivideRdData_return_wit_1",
+        "proof_of_CircularAreaDivideRdData_return_wit_2"
+      ],
+      "representative_witness": "proof_of_CircularAreaDivideRdData_return_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "For each theorem choose the generated pure/emp disjunct. Unfold CircularAreaDescriptorState; rewrite unsigned_last_nbits readidx 32 and then unsigned_last_nbits (readidx + data_length) 32 using unsigned_last_nbits_eq with bounds from the descriptor, data_length nonnegativity, and the UINT_MAX sum bound. Unfold CircularAreaDivideRdDataResult, select the wrap disjunct for return 1 or non-wrap disjunct for return 0, discharge arithmetic from the normalized guard, and close the unchanged emp frame.",
+      "natural_language_proof_strategy": "Normalize the machine-integer guard to its mathematical sum and use the same guard to establish the exact result relation; no state resource is modified.",
+      "vc_shape": {
+        "kind": "generated Coq disjunction between a full unchanged-frame entailment and a pure TT/emp entailment",
+        "common_pre_pure": "descriptor bounds, data_length bounds, UINT_MAX sum bound, and one branch guard",
+        "common_post_pure": "CircularAreaDivideRdDataResult for the concrete return value",
+        "common_spatial": "unchanged descriptor and full byte buffer"
+      },
+      "witness_instantiation": {
+        "proof_of_CircularAreaDivideRdData_return_wit_1": "choose the wrapping disjunct of CircularAreaDivideRdDataResult with ret = 1",
+        "proof_of_CircularAreaDivideRdData_return_wit_2": "choose the non-wrapping disjunct of CircularAreaDivideRdDataResult with ret = 0"
+      },
+      "space_plan": {
+        "shared": "choose the pure theorem disjunct and close TT/emp after proving the pure proposition; the full spatial alternative also has an exact cancellable frame"
+      },
+      "pure_plan": {
+        "shared": "unfold descriptor invariant; prove both 32-bit projections are identities; rewrite the guard; unfold the result relation; choose the corresponding disjunct"
+      },
+      "refinement_plan": {
+        "shared": "not applicable"
+      },
+      "premise_discharge": {
+        "unsigned_readidx_bound": "from CircularAreaDescriptorState and area_length <= 256",
+        "unsigned_sum_bound": "from readidx >= 0, data_length >= 0, and readidx + data_length <= 4294967295",
+        "result_inequality": "from the branch guard after both unsigned rewrites"
+      },
+      "per_witness_plan": {
+        "proof_of_CircularAreaDivideRdData_return_wit_1": {
+          "judgment": "proofable",
+          "result_branch": "wrapping",
+          "return_value": 1
+        },
+        "proof_of_CircularAreaDivideRdData_return_wit_2": {
+          "judgment": "proofable",
+          "result_branch": "non-wrapping",
+          "return_value": 0
+        }
+      },
+      "grouping_reason": "The two return witnesses are the complementary branches of one mathematical classification and share the complete proof pattern; 2 witnesses is within max_witnesses_per_group=12.",
+      "difficulty": "low",
+      "confidence": "high"
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 2,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

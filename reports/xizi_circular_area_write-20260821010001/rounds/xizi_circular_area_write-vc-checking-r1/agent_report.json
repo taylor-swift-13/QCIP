@@ -1,0 +1,468 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "pending",
+  "terminal": "no",
+  "agent_result": {
+    "status": "blocked",
+    "terminal": "yes",
+    "phase": "vc-checking",
+    "round": "xizi_circular_area_write-vc-checking-r1",
+    "attempt_id": "xizi_circular_area_write-vc-checking-r1-attempt-1",
+    "summary": "The frozen inputs and all 27 manual witness statements match the handoff, but four success-return VCs are semantically unprovable under the current generated preconditions. CircularAreaWrite_return_wit_1 through _4 retain heap resources and non-null facts for local variables circular_area/input_buffer while their postconditions require the unconstrained variables circular_area_pre/input_buffer_pre. CircularAreaWrite_return_wit_4 also lacks a fact excluding the full-and-non-force state. These gaps must be repaired in the C annotation and regenerated; proof workers must not be asked to bridge them.",
+    "source_version": {
+      "digest": "2258c0c0d1f83d1183272da4865307e8a52c86ea2ddf9bb55bca857b60334bec",
+      "match": "yes"
+    },
+    "source_goal_version": {
+      "digest": "7e92610018a5327219e44a94651faa37a86b1f8f5cbd66ea349aa02b17cb845a",
+      "match": "yes"
+    },
+    "evidence": {
+      "version_check": {
+        "status": "passed",
+        "checked_files": 8,
+        "details": "The target C, case_lib seed, goal, proof_auto, proof_manual, goal_check, diagnostics, and diagnostics snapshot SHA-256 values in the round worktree exactly match agent_input.json."
+      },
+      "manual_witness_check": {
+        "status": "passed",
+        "count": 27,
+        "order_and_set_match_source_goal_version": "yes",
+        "diagnostic_split_goals_used_as_targets": "no"
+      },
+      "semantic_counterexample": {
+        "witnesses": [
+          "proof_of_CircularAreaWrite_return_wit_1",
+          "proof_of_CircularAreaWrite_return_wit_2",
+          "proof_of_CircularAreaWrite_return_wit_3",
+          "proof_of_CircularAreaWrite_return_wit_4"
+        ],
+        "pointer_identity_gap": "Each VC universally quantifies circular_area_pre/input_buffer_pre and circular_area/input_buffer separately. The antecedent constrains and owns resources only at circular_area/input_buffer, while the consequent requires circular_area_pre <> 0, input_buffer_pre <> 0 and the corresponding resources at those pre addresses. No equality connects either pair. Choosing circular_area_pre = 0 while satisfying the antecedent with a nonzero local circular_area makes the consequent's first pure conjunct false.",
+        "additional_return_wit_4_gap": "The antecedent permits area_length=1, readidx=writeidx=0, b_status=1, requested=1, data_length=0, force0=0. CircularAreaDataLengthResult can choose used=1, CircularAreaActualWriteLength gives actual=0, CircularAreaDivideWrDataResult 0 0 1 0 holds, and all zero-length/non-written array segments are consistent. The consequent nevertheless requires not (readidx=writeidx /\\ b_status<>0 /\\ force0=0), which is false. The non-full result from the earlier CircularAreaIsFull call was dropped by the branch-local assertions."
+      },
+      "files_reviewed": [
+        "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write/source/xizi_circular_area_write_goal.v",
+        "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write/source/xizi_circular_area_write_proof_auto.v",
+        "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write/source/xizi_circular_area_write_proof_manual.v",
+        "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write/source/xizi_circular_area_write_goal_check.v",
+        "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write/source/xizi_circular_area_write_lib.v",
+        "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write/source/xizi_circular_area_write_proof_diagnostics.v",
+        "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write/source/diagnostics_snapshot.json",
+        "OUTPUT/xizi/xizi_circular_area_write/source/xizi_circular_area_write.c"
+      ]
+    },
+    "vc_checking": {
+      "ready_for_vc_proving": "no",
+      "checked_witness_scope": 27,
+      "natural_language_analysis": {
+        "summary": "Twenty-three witnesses have complete semantic proof routes. Four success-return witnesses have an annotation-level pointer identity gap; return_wit_4 also loses the non-full branch fact. Because at least one target is annotation-bug, no proof group plan is released.",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_CircularAreaIsFull_return_wit_1",
+            "judgment": "proofable",
+            "vc_shape": "P has readidx<>writeidx plus the unchanged descriptor/ring/global-string resources; Q asks CircularAreaIsFullResult(...,0) and the same frame.",
+            "witness_instantiation": "Select the non-full disjunct of CircularAreaIsFullResult.",
+            "space_plan": "Cancel the identical descriptor, ring, and GlobalStrings resources.",
+            "pure_plan": "Unfold CircularAreaIsFullResult; discharge readidx<>writeidx and result=0 from PreH1 and reflexivity.",
+            "candidate_helper_declarations": [],
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "scalar_results_and_calls"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaIsFull_return_wit_2",
+            "judgment": "proofable",
+            "vc_shape": "P has readidx=writeidx and b_status=0; Q asks the non-full result 0 and preserves all resources.",
+            "witness_instantiation": "Select the b_status=0 side of the non-full disjunct.",
+            "space_plan": "Cancel the unchanged frame.",
+            "pure_plan": "Unfold the result relation and use PreH1/PreH2.",
+            "candidate_helper_declarations": [],
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "scalar_results_and_calls"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaIsFull_return_wit_3",
+            "judgment": "proofable",
+            "vc_shape": "P has readidx=writeidx and b_status<>0; Q asks full result 1 and the unchanged frame.",
+            "witness_instantiation": "Select the full disjunct.",
+            "space_plan": "Cancel the unchanged frame.",
+            "pure_plan": "Unfold the result relation and use the equality/nonzero hypotheses.",
+            "candidate_helper_declarations": [],
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "scalar_results_and_calls"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaGetDataLength_return_wit_1",
+            "judgment": "needs-helper",
+            "vc_shape": "P has IsFull result retval=0, index bounds and the full ring; Q asks the unsigned-difference remainder result, its bounds, and the unchanged frame.",
+            "witness_instantiation": "Use the explicit unsigned_last_nbits/rem expression generated by the C return.",
+            "space_plan": "Rewrite p_head=data_buffer and p_tail=data_buffer+area_length, then cancel the full ring and fields.",
+            "pure_plan": "Exclude the full disjunct from retval=0; unfold CircularAreaDataLengthResult; prove nonnegative and < area_length remainder bounds from 0<area_length.",
+            "candidate_helper_declarations": [
+              "A group-suffixed helper packaging Z.rem bounds for the nonnegative unsigned_last_nbits expression and positive area_length."
+            ],
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "scalar_results_and_calls"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaGetDataLength_return_wit_2",
+            "judgment": "proofable",
+            "vc_shape": "P has nonzero bounded IsFull result; Q asks data length area_length and preserves the ring/frame.",
+            "witness_instantiation": "Use the full branch of both result predicates.",
+            "space_plan": "Rewrite pointer aliases and cancel the frame.",
+            "pure_plan": "Unfold CircularAreaIsFullResult; retval<>0 excludes its result=0 branch, yielding readidx=writeidx and b_status<>0; then unfold CircularAreaDataLengthResult.",
+            "candidate_helper_declarations": [],
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "scalar_results_and_calls"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaDivideWrData_return_wit_1",
+            "judgment": "proofable",
+            "vc_shape": "P has writeidx+data_length>area_length; Q asks result relation 1 and the unchanged descriptor/ring.",
+            "witness_instantiation": "Select the wrap disjunct.",
+            "space_plan": "Cancel the frame.",
+            "pure_plan": "Unfold CircularAreaDivideWrDataResult and use the strict guard.",
+            "candidate_helper_declarations": [],
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "scalar_results_and_calls"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaDivideWrData_return_wit_2",
+            "judgment": "proofable",
+            "vc_shape": "P has writeidx+data_length<=area_length; Q asks result relation 0 and the unchanged descriptor/ring.",
+            "witness_instantiation": "Select the no-wrap disjunct.",
+            "space_plan": "Cancel the frame.",
+            "pure_plan": "Unfold the result relation and use the guard.",
+            "candidate_helper_declarations": [],
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "scalar_results_and_calls"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaWrite_entail_wit_1_1",
+            "judgment": "proofable",
+            "vc_shape": "P is a requested-length, force/full, wrap branch with full ring/input arrays; Q records actual length and splits both arrays at writeidx and area_length-writeidx.",
+            "witness_instantiation": "Use actual=data_length_pre and the existing contents/input_contents sublists.",
+            "space_plan": "Split UCharArray.full at writeidx and split the input at area_length-writeidx; retain fields and GlobalStrings.",
+            "pure_plan": "Unfold result predicates. The branch is in fact contradictory for full+force+wrap, so its pure obligations also close after deriving actual=0 and no-wrap.",
+            "candidate_helper_declarations": [],
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "memcpy_preparation"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaWrite_entail_wit_1_2",
+            "judgment": "proofable",
+            "vc_shape": "P is the truncated free-capacity, force/full, wrap branch; Q asks the same wrap resource split and actual-length relation.",
+            "witness_instantiation": "Use actual=area_length-retval and source/ring sublists.",
+            "space_plan": "Split full ring and input arrays at the asserted boundaries.",
+            "pure_plan": "Unfold ActualWriteLength and min; this full+force+wrap combination is contradictory because free capacity is zero and DivideWrData must return 0.",
+            "candidate_helper_declarations": [],
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "memcpy_preparation"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaWrite_entail_wit_1_3",
+            "judgment": "needs-helper",
+            "vc_shape": "P is non-full, requested<=free, wrap; Q asks actual=requested, descriptor state and exact ring/input segmentation.",
+            "witness_instantiation": "Use data_length_pre=requested and the original lists' sublists.",
+            "space_plan": "Apply existing UCharArray full-to-segment splitting twice.",
+            "pure_plan": "Unfold DataLength/ActualWriteLength/DivideWrData; use retval=0 IsFull result, requested positivity, bounds and wrap inequality. Prove unsigned_last_nbits identity because the difference is in [0,2^32).",
+            "candidate_helper_declarations": [
+              "Group-suffixed unsigned_last_nbits identity for a bounded nonnegative Z."
+            ],
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "memcpy_preparation"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaWrite_entail_wit_1_4",
+            "judgment": "needs-helper",
+            "vc_shape": "P is non-full, requested>free, truncated actual length, wrap; Q asks exact array segmentation and descriptor/actual-length facts.",
+            "witness_instantiation": "Use actual=area_length-retval and the corresponding input prefix.",
+            "space_plan": "Split ring at writeidx and input at area_length-writeidx.",
+            "pure_plan": "Unfold min/result predicates; derive 0<=actual<=requested and the wrap bounds, then the 32-bit identity.",
+            "candidate_helper_declarations": [
+              "Group-suffixed bounded unsigned_last_nbits identity."
+            ],
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "memcpy_preparation"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaWrite_entail_wit_2",
+            "judgment": "needs-helper",
+            "vc_shape": "After the first wrap memcpy, P owns the updated tail plus old prefix and the remaining input; Q splits both old prefix and remaining input for the second memcpy.",
+            "witness_instantiation": "Use write_len_down=data_length-write_len_up and the stated sublists.",
+            "space_plan": "Split the ring prefix at write_len_down and input suffix at data_length; frame the already-written tail.",
+            "pure_plan": "From data_length<=area_length and write_len_up=area_length-writeidx derive 0<=write_len_down<=writeidx. Use sublist split/length identities.",
+            "candidate_helper_declarations": [
+              "Group-suffixed sublist split normalization at write_len_up<=data_length<=requested if existing ListLib rewriting is insufficient."
+            ],
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "memcpy_preparation"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaWrite_entail_wit_3_1",
+            "judgment": "proofable",
+            "vc_shape": "P is force/full, requested<=free, no-wrap; Q asks actual-length facts and no-wrap ring/input segmentation.",
+            "witness_instantiation": "Use data_length_pre and original-list sublists.",
+            "space_plan": "Split ring at writeidx and writeidx+data_length, and input at data_length.",
+            "pure_plan": "The branch facts plus result predicates establish the no-wrap bounds; full/free combinations may close vacuously when inconsistent.",
+            "candidate_helper_declarations": [],
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "memcpy_preparation"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaWrite_entail_wit_3_2",
+            "judgment": "proofable",
+            "vc_shape": "P is force/full, requested>free and no-wrap; Q asks actual=free and exact segments.",
+            "witness_instantiation": "Use area_length-retval as actual.",
+            "space_plan": "Split ring and input at the actual write interval.",
+            "pure_plan": "Unfold min and callable result relations; derive segment bounds from descriptor and the no-wrap result.",
+            "candidate_helper_declarations": [],
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "memcpy_preparation"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaWrite_entail_wit_3_3",
+            "judgment": "proofable",
+            "vc_shape": "P is non-full, requested<=free, no-wrap; Q asks actual=requested, descriptor state and exact segments.",
+            "witness_instantiation": "Use data_length_pre=requested.",
+            "space_plan": "Split the full ring and input by the no-wrap write interval.",
+            "pure_plan": "Unfold ActualWriteLength and the result predicates; derive writeidx+actual<=area_length from DivideWrData result 0.",
+            "candidate_helper_declarations": [],
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "memcpy_preparation"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaWrite_entail_wit_3_4",
+            "judgment": "proofable",
+            "vc_shape": "P is non-full, requested>free, no-wrap; Q asks actual=free and exact no-wrap segments.",
+            "witness_instantiation": "Use area_length-retval as actual.",
+            "space_plan": "Split ring at writeidx and writeidx+actual and input at actual.",
+            "pure_plan": "Use min, data-length result, bounds and DivideWrData result 0.",
+            "candidate_helper_declarations": [],
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "memcpy_preparation"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaWrite_return_wit_1",
+            "judgment": "annotation-bug",
+            "vc_shape": "P owns the completed wrap write at local circular_area/input_buffer with force0<>0; Q asks the success postcondition and resources at circular_area_pre/input_buffer_pre.",
+            "witness_instantiation": "The natural contents_after is input tail ++ untouched middle ++ input head; readidx_after=writeidx_after=unsigned_last_nbits write_len_down 8; status_after=1.",
+            "space_plan": "The local segments can merge into a full updated ring, but cannot be moved to the unrelated pre pointer addresses.",
+            "pure_plan": "force0<>0 discharges the success-branch exclusion, but circular_area_pre<>0/input_buffer_pre<>0 have no source.",
+            "candidate_helper_declarations": [],
+            "failure_signal": "Missing circular_area=circular_area_pre and input_buffer=input_buffer_pre bridge facts/resources.",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": "none"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaWrite_return_wit_2",
+            "judgment": "annotation-bug",
+            "vc_shape": "P owns the completed no-wrap write at local pointer values with force0<>0; Q uses unconstrained pre pointer values.",
+            "witness_instantiation": "The natural contents_after is old prefix ++ input prefix ++ old suffix; both indices use the generated modular value and status_after=1.",
+            "space_plan": "Local segments merge, but no entailment can relocate them to circular_area_pre/input_buffer_pre.",
+            "pure_plan": "force0<>0 proves the branch exclusion; the two post non-null facts remain unjustified.",
+            "candidate_helper_declarations": [],
+            "failure_signal": "Missing pointer identity bridges.",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": "none"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaWrite_return_wit_3",
+            "judgment": "annotation-bug",
+            "vc_shape": "P owns the completed wrap write at local pointers with force0=0; Q asks resources/non-null facts at pre pointers.",
+            "witness_instantiation": "The wrap list construction and readidx_after=readidx, writeidx_after=unsigned_last_nbits write_len_down 8 would otherwise satisfy the success relation.",
+            "space_plan": "Updated local ring can merge, but cannot satisfy resources at unrelated pre addresses.",
+            "pure_plan": "Wrap plus positive area implies actual>0 and therefore excludes a full-state actual=0, but the pre-pointer non-null conjuncts are still absent.",
+            "candidate_helper_declarations": [],
+            "failure_signal": "Missing pointer identity bridges.",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": "none"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaWrite_return_wit_4",
+            "judgment": "annotation-bug",
+            "vc_shape": "P owns a completed no-wrap write at local pointers with force0=0; Q asks success resources at pre pointers and requires the initial state not full.",
+            "witness_instantiation": "A no-wrap updated list would be old prefix ++ input prefix ++ old suffix, with readidx_after=readidx and modular writeidx_after.",
+            "space_plan": "Pointer identity is missing, so even a correct local merge cannot produce the required post resources.",
+            "pure_plan": "No antecedent excludes readidx=writeidx and b_status<>0. The full state yields actual=0 and satisfies the no-wrap branch, contradicting the required negation.",
+            "candidate_helper_declarations": [],
+            "failure_signal": "Missing pointer identity bridges and the preserved CircularAreaIsFullResult(...,0) or equivalent non-full fact.",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": "none"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaWrite_return_wit_5",
+            "judgment": "proofable",
+            "vc_shape": "P is the non-force branch with nonzero IsFull result and unchanged resources; Q is error-or-success.",
+            "witness_instantiation": "Choose the error disjunct.",
+            "space_plan": "Rewrite p_head/p_tail aliases and cancel the unchanged frame.",
+            "pure_plan": "Unfold IsFullResult; retval<>0 eliminates result=0 and yields readidx=writeidx, b_status<>0; b_force_pre=force0=0 gives the remaining facts.",
+            "candidate_helper_declarations": [],
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "simple_returns_and_pure"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaWrite_return_wit_6",
+            "judgment": "proofable",
+            "vc_shape": "P has data_length_pre<=0, Zlength input_contents=requested=data_length_pre and unchanged resources; Q asks requested=0 and error return.",
+            "witness_instantiation": "No existential witness is needed.",
+            "space_plan": "Cancel the unchanged frame.",
+            "pure_plan": "Use Zlength_nonneg with the two equalities and data_length_pre<=0 to derive requested=0.",
+            "candidate_helper_declarations": [],
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "simple_returns_and_pure"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaWrite_partial_solve_wit_8_pure",
+            "judgment": "proofable",
+            "vc_shape": "P supplies wrap bounds and ring/input segments; Q contains pointer arithmetic identities and Zlengths of two sublists.",
+            "witness_instantiation": "Use the existing sublists.",
+            "space_plan": "No resource transformation is required for the pure diagnostic obligations.",
+            "pure_plan": "Simplify sizeof(UCHAR)=1 and use Zlength_sublist with 0<=writeidx<area_length and 0<=write_len_up<=requested.",
+            "candidate_helper_declarations": [],
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "memcpy_preparation"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaWrite_partial_solve_wit_9_pure",
+            "judgment": "proofable",
+            "vc_shape": "P supplies second-wrap-copy bounds and exact segments; Q asks pointer identities and sublist lengths.",
+            "witness_instantiation": "Use write_len_down and write_len_up sublists already present.",
+            "space_plan": "No spatial change is needed.",
+            "pure_plan": "Use p_head=data_buffer, sizeof(UCHAR)=1, write_len_down=data_length-write_len_up and Zlength_sublist under the supplied bounds.",
+            "candidate_helper_declarations": [],
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "memcpy_preparation"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaWrite_partial_solve_wit_10_pure",
+            "judgment": "proofable",
+            "vc_shape": "P supplies no-wrap bounds and exact segments; Q asks pointer/arithmetic identities and sublist lengths.",
+            "witness_instantiation": "Use the input prefix and overwritten ring interval sublists.",
+            "space_plan": "No resource transformation is required.",
+            "pure_plan": "Simplify sizeof(UCHAR)=1 and apply Zlength_sublist using 0<=writeidx, 0<=data_length and writeidx+data_length<=area_length.",
+            "candidate_helper_declarations": [],
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "memcpy_preparation"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaGetDataLength_derive_circular_area_data_length_callable_by_circular_area_data_length_body",
+            "judgment": "proofable",
+            "vc_shape": "P is the callable precondition; Q existentially instantiates the body state and a separating implication from the body post to the callable post.",
+            "witness_instantiation": "Instantiate every body-state existential with the corresponding callable-state variable.",
+            "space_plan": "Choose the non-null body-pre disjunct, frame identical resources, and discharge the wand by cancellation.",
+            "pure_plan": "All bounds and descriptor equalities are copied directly; the body/callable result predicates become identical after instantiation.",
+            "candidate_helper_declarations": [],
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "scalar_results_and_calls"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaIsFull_derive_circular_area_is_full_callable_by_circular_area_is_full_body",
+            "judgment": "proofable",
+            "vc_shape": "P is the IsFull callable precondition; Q packages the identical body state plus a wand from the body post to callable post.",
+            "witness_instantiation": "Instantiate body variables with callable variables.",
+            "space_plan": "Select the non-null disjunct and use the identical-resource frame/wand proof.",
+            "pure_plan": "The result predicate and 0..1 bounds are syntactically the same after substitution.",
+            "candidate_helper_declarations": [],
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "scalar_results_and_calls"
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "scalar_results_and_calls",
+            "witness_count": 9,
+            "shared_proof_pattern": "Unfold the three mathematical result relations, solve guard/bound arithmetic, cancel unchanged frames, and instantiate callable/body states.",
+            "proof_group_ready": false,
+            "grouping_reason": "Semantically valid candidate group, withheld because the overall target set contains annotation-bug witnesses."
+          },
+          {
+            "group_id": "memcpy_preparation",
+            "witness_count": 12,
+            "shared_proof_pattern": "Derive wrap/no-wrap bounds, split/merge UCharArray segments, and normalize sublist/Zlength expressions.",
+            "proof_group_ready": false,
+            "grouping_reason": "Semantically valid candidate group at the controller maximum of 12, withheld until annotation regeneration."
+          },
+          {
+            "group_id": "simple_returns_and_pure",
+            "witness_count": 2,
+            "shared_proof_pattern": "Unfold result predicates and use Zlength nonnegativity while canceling unchanged resources.",
+            "proof_group_ready": false,
+            "grouping_reason": "Only the valid error-return witnesses are included; the four success returns are excluded as annotation bugs."
+          }
+        ]
+      },
+      "group_plan": {
+        "status": "blocked",
+        "source_goal_version": "7e92610018a5327219e44a94651faa37a86b1f8f5cbd66ea349aa02b17cb845a",
+        "target_witnesses": [
+          "proof_of_CircularAreaIsFull_return_wit_1",
+          "proof_of_CircularAreaIsFull_return_wit_2",
+          "proof_of_CircularAreaIsFull_return_wit_3",
+          "proof_of_CircularAreaGetDataLength_return_wit_1",
+          "proof_of_CircularAreaGetDataLength_return_wit_2",
+          "proof_of_CircularAreaDivideWrData_return_wit_1",
+          "proof_of_CircularAreaDivideWrData_return_wit_2",
+          "proof_of_CircularAreaWrite_entail_wit_1_1",
+          "proof_of_CircularAreaWrite_entail_wit_1_2",
+          "proof_of_CircularAreaWrite_entail_wit_1_3",
+          "proof_of_CircularAreaWrite_entail_wit_1_4",
+          "proof_of_CircularAreaWrite_entail_wit_2",
+          "proof_of_CircularAreaWrite_entail_wit_3_1",
+          "proof_of_CircularAreaWrite_entail_wit_3_2",
+          "proof_of_CircularAreaWrite_entail_wit_3_3",
+          "proof_of_CircularAreaWrite_entail_wit_3_4",
+          "proof_of_CircularAreaWrite_return_wit_1",
+          "proof_of_CircularAreaWrite_return_wit_2",
+          "proof_of_CircularAreaWrite_return_wit_3",
+          "proof_of_CircularAreaWrite_return_wit_4",
+          "proof_of_CircularAreaWrite_return_wit_5",
+          "proof_of_CircularAreaWrite_return_wit_6",
+          "proof_of_CircularAreaWrite_partial_solve_wit_8_pure",
+          "proof_of_CircularAreaWrite_partial_solve_wit_9_pure",
+          "proof_of_CircularAreaWrite_partial_solve_wit_10_pure",
+          "proof_of_CircularAreaGetDataLength_derive_circular_area_data_length_callable_by_circular_area_data_length_body",
+          "proof_of_CircularAreaIsFull_derive_circular_area_is_full_callable_by_circular_area_is_full_body"
+        ],
+        "proof_groups": [],
+        "blockers": [
+          {
+            "kind": "annotation-bug",
+            "witness_names": [
+              "proof_of_CircularAreaWrite_return_wit_1",
+              "proof_of_CircularAreaWrite_return_wit_2",
+              "proof_of_CircularAreaWrite_return_wit_3",
+              "proof_of_CircularAreaWrite_return_wit_4"
+            ],
+            "missing_facts": [
+              "circular_area = circular_area_pre",
+              "input_buffer = input_buffer_pre"
+            ],
+            "additional_missing_fact_for_return_wit_4": "CircularAreaIsFullResult readidx writeidx b_status 0, or an equivalent preserved proof that the entry state is not full",
+            "required_rework": "Carry stable pointer-parameter identities through every post-memcpy branch assertion into the return VC, and preserve the non-full fact for the non-force path. Keep the function body and exact memcpy contracts unchanged, then rerun canonical symbolic execution and vc-checking."
+          }
+        ]
+      }
+    },
+    "changed_files": [],
+    "blockers": [
+      {
+        "kind": "annotation-bug",
+        "summary": "Four success-return witnesses lack pointer identity bridges; return_wit_4 additionally lacks the non-full branch fact.",
+        "recommended_next_phase": "annotation"
+      }
+    ],
+    "recommended_next_phase": "annotation",
+    "output_note": "/home/yangfp/QCIP/reports/xizi_circular_area_write-20260821010001/rounds/xizi_circular_area_write-vc-checking-r1/agent_output.txt"
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-08-20T17:46:37Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_circular_area_write-20260821010001/rounds/xizi_circular_area_write-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    }
+  },
+  "blockers": []
+}

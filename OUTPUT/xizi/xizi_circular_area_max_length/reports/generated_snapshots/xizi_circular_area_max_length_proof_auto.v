@@ -20,21 +20,24 @@ Import naive_C_Rules.
 From SimpleC.EE.OUTPUT.xizi.xizi_circular_area_max_length.source Require Import xizi_circular_area_max_length_lib.
 Local Open Scope sac.
 
-Lemma proof_of_CircularAreaGetMaxLength_safety_wit_1 : CircularAreaGetMaxLength_safety_wit_1.
+Lemma proof_of_CircularAreaGetMaxLength_safety_wit_1_state_spec : CircularAreaGetMaxLength_safety_wit_1_state_spec.
 Proof. Admitted. 
 
-Lemma proof_of_CircularAreaGetMaxLength_safety_wit_2 : CircularAreaGetMaxLength_safety_wit_2.
+Lemma proof_of_CircularAreaGetMaxLength_safety_wit_2_null_spec : CircularAreaGetMaxLength_safety_wit_2_null_spec.
 Proof. Admitted. 
 
-Lemma proof_of_CircularAreaGetMaxLength_safety_wit_3 : CircularAreaGetMaxLength_safety_wit_3.
+Lemma proof_of_CircularAreaGetMaxLength_safety_wit_3_state_spec : CircularAreaGetMaxLength_safety_wit_3_state_spec.
 Proof. Admitted. 
 
-Lemma proof_of_CircularAreaGetMaxLength_safety_wit_4 : CircularAreaGetMaxLength_safety_wit_4.
+Lemma proof_of_CircularAreaGetMaxLength_safety_wit_4_null_spec : CircularAreaGetMaxLength_safety_wit_4_null_spec.
 Proof. Admitted. 
 
-Lemma proof_of_CircularAreaGetMaxLength_safety_wit_5 : CircularAreaGetMaxLength_safety_wit_5.
+Lemma proof_of_CircularAreaGetMaxLength_safety_wit_5_null_spec : CircularAreaGetMaxLength_safety_wit_5_null_spec.
 Proof. Admitted. 
 
-Lemma proof_of_CircularAreaGetMaxLength_safety_wit_6 : CircularAreaGetMaxLength_safety_wit_6.
+Lemma proof_of_CircularAreaGetMaxLength_safety_wit_6_state_spec : CircularAreaGetMaxLength_safety_wit_6_state_spec.
+Proof. Admitted. 
+
+Lemma proof_of_CircularAreaGetMaxLength_return_wit_2_null_spec : CircularAreaGetMaxLength_return_wit_2_null_spec.
 Proof. Admitted. 
 

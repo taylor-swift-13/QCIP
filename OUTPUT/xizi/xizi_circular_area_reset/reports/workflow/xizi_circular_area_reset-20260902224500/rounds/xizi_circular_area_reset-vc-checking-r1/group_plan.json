@@ -1,0 +1,67 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_version": "15a2a5b033e66fc8e731a9fe74303e05797c804a2ab0059105fb8eaee1448ed0",
+  "source_goal_version": "3141c87f6ed81899c0588879ca2b34e2a5f7efaeb632c3b8e9d188193ee59137",
+  "target_witnesses": [
+    "proof_of_CircularAreaReset_entail_wit_1",
+    "proof_of_CircularAreaReset_return_wit_1"
+  ],
+  "target_witness_count": 2,
+  "proof_groups": [
+    {
+      "group_id": "circular_area_reset_store_roundtrip",
+      "witness_names": [
+        "proof_of_CircularAreaReset_entail_wit_1",
+        "proof_of_CircularAreaReset_return_wit_1"
+      ],
+      "representative_witness": "proof_of_CircularAreaReset_return_wit_1",
+      "dependencies": [],
+      "difficulty": "low",
+      "confidence": "high",
+      "likely_helper_declarations": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "Prove the entail witness by selecting its second disjunct, unfolding store_circular_area and CircularAreaLogicalState, reusing the hidden existential values, projecting the capacity/physical-length facts, and cancelling identical resources. Prove the return witness by selecting its first disjunct, unfolding store_circular_area and the empty-state record projections, instantiating hidden values with the preserved descriptor/backing values and zeros for indices/status, rewriting p_tail and area_length from PreH6/PreH7, cancelling resources, and discharging the empty CircularAreaLogicalState by PreH3-PreH5 plus simplification of nil, modulo zero, status equivalences, and the vacuous live-byte range.",
+      "natural_language_proof_strategy": "The function starts with one unified store_circular_area resource. Its definition already contains every implementation resource needed by the internal Assert, so the first VC merely opens it. After the three writes, the same allocation, physical option bytes, descriptor identity, capacity, and operations pointer remain. Setting both indices and status to zero is exactly the canonical representation of an empty FIFO at the preserved positive capacity, so the same resources repackage into the required post-state.",
+      "natural_language_proof_pattern": "Unified store predicate opening followed by empty-state reconstruction over unchanged spatial ownership.",
+      "space_plan": "Use the same hidden resource witnesses in both obligations. Entailment cancels directly after unfolding; return rewrites p_tail/area_length and then cancels directly. No array split, merge, or representation conversion is needed.",
+      "pure_plan": "For entailment, project capacity and physical-length conjuncts from CircularAreaLogicalState. For return, prove the empty logical state from positive bounded capacity, physical length, nil simplification, modulo-zero, literal status 0, and contradiction on a live-byte index below length zero.",
+      "refinement_plan": "Not applicable.",
+      "premise_discharge": {
+        "proof_of_CircularAreaReset_entail_wit_1": "All requested facts and resources are direct components of unfolded store_circular_area and CircularAreaLogicalState.",
+        "proof_of_CircularAreaReset_return_wit_1": "PreH1-PreH7 of the first disjunct provide non-nullness, capacity bounds, physical length, and canonical p_tail/area_length; all remaining empty-state clauses reduce to nil/zero facts."
+      },
+      "per_witness_plan": {
+        "proof_of_CircularAreaReset_entail_wit_1": {
+          "judgment": "proofable",
+          "disjunct_selection": "second",
+          "existential_instantiation": "Reuse operations, b_status, writeidx, readidx, physical, and data_buffer from unfolded store_circular_area.",
+          "space_plan": "Direct cancellation after unfolding store_circular_area.",
+          "pure_plan": "Project non-null, capacity-range, and physical-length facts from the unfolded predicate and CircularAreaLogicalState.",
+          "refinement_plan": "Not applicable."
+        },
+        "proof_of_CircularAreaReset_return_wit_1": {
+          "judgment": "proofable",
+          "disjunct_selection": "first",
+          "existential_instantiation": "Use data_buffer0, operations0, readidx=0, writeidx=0, b_status=0, and the unchanged physical list.",
+          "space_plan": "Rewrite p_tail/area_length using PreH6/PreH7 and cancel every descriptor/backing resource.",
+          "pure_plan": "Construct CircularAreaLogicalState 0 0 capacity 0 nil physical from PreH3-PreH5 and elementary nil/zero facts.",
+          "refinement_plan": "Not applicable."
+        }
+      },
+      "grouping_reason": "The target count is 2, below the 12-witness limit. Both obligations form one coherent store_circular_area open/repack sequence with identical spatial ownership, no helper declarations, and no proof-order dependency, so one group is the minimal semantically aligned plan."
+    }
+  ],
+  "blockers": [],
+  "recommended_next_phase": "vc-proving-preparing",
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 2,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

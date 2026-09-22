@@ -1,0 +1,27 @@
+# Reuse Note
+
+Note kind: non-authoritative reuse note
+This file is not acceptance evidence.
+
+The Read annotation candidate keeps the existing FIFO/resource structure. The
+only semantic strengthening is: success returns EOK=0; output ownership uses
+UCharArray.mixed_full/list(option Z); the copied prefix becomes
+CircularAreaSomeBytes bytes (= map Some bytes); the untouched suffix preserves
+output_before. The local memcpy declaration was generalized only on its
+destination side from seg/list Z to mixed_seg/list(option Z).
+
+Useful proof-reuse direction: retain the existing Read proof decomposition and
+replace output-side full/seg split/merge steps with the corresponding
+mixed_full/mixed_seg lemmas. Existing ring-state and FIFO arithmetic lemmas were
+not redesigned. Controller-owned annotation-check-round must regenerate the
+fresh manual skeleton before VC checking/proving.
+
+The old proof bodies give a direct mechanical map: use
+mixed_full_split_to_mixed_seg for full_split_to_seg,
+mixed_seg_split_to_mixed_seg for seg_split_to_seg,
+mixed_seg_merge_to_mixed_seg/mixed_seg_merge_to_mixed_full for the output
+merges, and mixed_seg_length for output-prefix length facts. In the two success
+return witnesses, keep all CircularArea_consume_logical_state and index/modulo
+reasoning, changing only the existential output value and output-resource merge
+from byte lists to CircularAreaSomeBytes prefixes plus the preserved option
+suffix.

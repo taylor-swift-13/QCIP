@@ -1,0 +1,251 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "58367bda039ce316e4f356e4ec0128e293c088785041c0b78d02658ff44dde91",
+  "target_witnesses": [
+    "proof_of_CircularAreaIsFull_return_wit_1",
+    "proof_of_CircularAreaIsFull_return_wit_2",
+    "proof_of_CircularAreaIsFull_return_wit_3",
+    "proof_of_CircularAreaGetDataLength_safety_wit_4",
+    "proof_of_CircularAreaGetDataLength_safety_wit_5",
+    "proof_of_CircularAreaGetDataLength_entail_wit_1",
+    "proof_of_CircularAreaGetDataLength_entail_wit_2",
+    "proof_of_CircularAreaGetDataLength_return_wit_1",
+    "proof_of_CircularAreaGetDataLength_return_wit_2",
+    "proof_of_CircularAreaDivideWrData_return_wit_1",
+    "proof_of_CircularAreaDivideWrData_return_wit_2",
+    "proof_of_CircularAreaWrite_safety_wit_20",
+    "proof_of_CircularAreaWrite_entail_wit_1",
+    "proof_of_CircularAreaWrite_entail_wit_2_1",
+    "proof_of_CircularAreaWrite_entail_wit_2_2",
+    "proof_of_CircularAreaWrite_entail_wit_3_1",
+    "proof_of_CircularAreaWrite_entail_wit_3_2",
+    "proof_of_CircularAreaWrite_entail_wit_4",
+    "proof_of_CircularAreaWrite_entail_wit_5",
+    "proof_of_CircularAreaWrite_entail_wit_6_1",
+    "proof_of_CircularAreaWrite_entail_wit_6_2",
+    "proof_of_CircularAreaWrite_return_wit_1",
+    "proof_of_CircularAreaWrite_return_wit_2",
+    "proof_of_CircularAreaWrite_return_wit_3",
+    "proof_of_CircularAreaWrite_return_wit_4",
+    "proof_of_CircularAreaWrite_return_wit_5",
+    "proof_of_CircularAreaWrite_return_wit_6",
+    "proof_of_CircularAreaWrite_return_wit_7",
+    "proof_of_CircularAreaWrite_return_wit_8",
+    "proof_of_CircularAreaWrite_partial_solve_wit_3_pure",
+    "proof_of_CircularAreaWrite_partial_solve_wit_4_pure",
+    "proof_of_CircularAreaWrite_partial_solve_wit_5_pure",
+    "proof_of_CircularAreaWrite_partial_solve_wit_6_pure",
+    "proof_of_CircularAreaWrite_partial_solve_wit_7_pure"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "local_metadata",
+      "witness_names": [
+        "proof_of_CircularAreaIsFull_return_wit_1",
+        "proof_of_CircularAreaIsFull_return_wit_2",
+        "proof_of_CircularAreaIsFull_return_wit_3",
+        "proof_of_CircularAreaGetDataLength_safety_wit_4",
+        "proof_of_CircularAreaGetDataLength_safety_wit_5",
+        "proof_of_CircularAreaGetDataLength_entail_wit_1",
+        "proof_of_CircularAreaGetDataLength_entail_wit_2",
+        "proof_of_CircularAreaGetDataLength_return_wit_1",
+        "proof_of_CircularAreaGetDataLength_return_wit_2",
+        "proof_of_CircularAreaDivideWrData_return_wit_1",
+        "proof_of_CircularAreaDivideWrData_return_wit_2"
+      ],
+      "representative_witness": "proof_of_CircularAreaGetDataLength_return_wit_1",
+      "dependencies": [],
+      "likely_helper_declarations": [
+        "circular_area_get_length_mod",
+        "circular_area_unsigned32_identity"
+      ],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "circular_area_get_length_mod",
+          "statement_shape": "bounded ring state implies the C ring-distance expression equals logical length",
+          "premises": [
+            "0<capacity<=256",
+            "0<=len<capacity",
+            "bounded indices",
+            "write-index equation"
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "circular_area_unsigned32_identity",
+          "statement_shape": "0<=x<=UINT_MAX implies unsigned_last_nbits x 32=x",
+          "premises": [
+            "machine-range bounds from current VC"
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        }
+      ],
+      "proof_strategy": "Unfold logical/result predicates, normalize bounded machine expressions, and cancel all preserved resources.",
+      "grouping_reason": "One local-query metadata family; 11 witnesses is within the bound of 12.",
+      "confidence": "high"
+    },
+    {
+      "group_id": "write_dispatch",
+      "witness_names": [
+        "proof_of_CircularAreaWrite_safety_wit_20",
+        "proof_of_CircularAreaWrite_entail_wit_1",
+        "proof_of_CircularAreaWrite_entail_wit_2_1",
+        "proof_of_CircularAreaWrite_entail_wit_2_2",
+        "proof_of_CircularAreaWrite_entail_wit_3_1",
+        "proof_of_CircularAreaWrite_entail_wit_3_2",
+        "proof_of_CircularAreaWrite_partial_solve_wit_3_pure",
+        "proof_of_CircularAreaWrite_partial_solve_wit_4_pure"
+      ],
+      "representative_witness": "proof_of_CircularAreaWrite_entail_wit_3_1",
+      "dependencies": [],
+      "likely_helper_declarations": [
+        "circular_area_free_capacity_unsigned",
+        "circular_area_min_free_cases",
+        "circular_area_free_capacity_bounds"
+      ],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "circular_area_free_capacity_unsigned",
+          "statement_shape": "logical-state bounds normalize capacity-Zlength logical and bound it in [0,capacity]",
+          "premises": [
+            "CircularAreaLogicalState"
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "circular_area_min_free_cases",
+          "statement_shape": "comparison with free capacity determines Z.min requested free and supplies non-force positivity",
+          "premises": [
+            "requested/free comparison",
+            "requested>0",
+            "non-force admissibility"
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        }
+      ],
+      "proof_strategy": "Expand the canonical resource once, decode query/divide results, and prove the two actual-length/free-capacity branches.",
+      "grouping_reason": "Same pre-copy dispatch and actual-length selection family; 8 witnesses.",
+      "confidence": "high"
+    },
+    {
+      "group_id": "write_spatial_copies",
+      "witness_names": [
+        "proof_of_CircularAreaWrite_entail_wit_4",
+        "proof_of_CircularAreaWrite_entail_wit_5",
+        "proof_of_CircularAreaWrite_entail_wit_6_1",
+        "proof_of_CircularAreaWrite_entail_wit_6_2",
+        "proof_of_CircularAreaWrite_partial_solve_wit_5_pure",
+        "proof_of_CircularAreaWrite_partial_solve_wit_6_pure",
+        "proof_of_CircularAreaWrite_partial_solve_wit_7_pure"
+      ],
+      "representative_witness": "proof_of_CircularAreaWrite_entail_wit_4",
+      "dependencies": [],
+      "likely_helper_declarations": [
+        "circular_area_wrap_bounds",
+        "circular_area_sublist_decompose"
+      ],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "circular_area_wrap_bounds",
+          "statement_shape": "result 1 and state bounds imply valid tail/down split bounds",
+          "premises": [
+            "DivideWrDataResult result 1",
+            "state index/capacity bounds",
+            "actual bounds"
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "circular_area_sublist_decompose",
+          "statement_shape": "bounded sublists have expected Zlength and split/app at an intermediate index",
+          "premises": [
+            "ordered bounds",
+            "known total Zlength"
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        }
+      ],
+      "proof_strategy": "Derive wrap/non-wrap bounds, split mixed_full/full assertions into exact memcpy segments, and discharge sublist side conditions.",
+      "grouping_reason": "Same spatial splitting and memcpy-side-condition family; 7 witnesses.",
+      "confidence": "high"
+    },
+    {
+      "group_id": "write_returns",
+      "witness_names": [
+        "proof_of_CircularAreaWrite_return_wit_1",
+        "proof_of_CircularAreaWrite_return_wit_2",
+        "proof_of_CircularAreaWrite_return_wit_3",
+        "proof_of_CircularAreaWrite_return_wit_4",
+        "proof_of_CircularAreaWrite_return_wit_5",
+        "proof_of_CircularAreaWrite_return_wit_6",
+        "proof_of_CircularAreaWrite_return_wit_7",
+        "proof_of_CircularAreaWrite_return_wit_8"
+      ],
+      "representative_witness": "proof_of_CircularAreaWrite_return_wit_3",
+      "dependencies": [],
+      "likely_helper_declarations": [
+        "circular_area_physical_write_wrap",
+        "circular_area_physical_write_nowrap",
+        "circular_area_logical_state_after_write",
+        "circular_area_force_write_resource"
+      ],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "circular_area_physical_write_wrap",
+          "statement_shape": "the concrete wrap concatenation of Some-written prefix/tail and untouched middle satisfies CircularAreaPhysicalWrite",
+          "premises": [
+            "physical/input lengths",
+            "wrap bounds",
+            "segment contents"
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "circular_area_physical_write_nowrap",
+          "statement_shape": "old-prefix++Some-written-middle++old-suffix satisfies CircularAreaPhysicalWrite",
+          "premises": [
+            "physical/input lengths",
+            "non-wrap bounds",
+            "segment contents"
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "circular_area_logical_state_after_write",
+          "statement_shape": "old state plus positive non-force PhysicalWrite gives appended FIFO state at modular new index/status 1",
+          "premises": [
+            "old state",
+            "positive actual=min requested free",
+            "input byte range",
+            "PhysicalWrite"
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "circular_area_force_write_resource",
+          "statement_shape": "concrete physical update and equal descriptor indices/status 1 establish ForceWriteEffect/Resource",
+          "premises": [
+            "old state bounds",
+            "PhysicalWrite",
+            "ready actual"
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        }
+      ],
+      "proof_strategy": "Instantiate concrete outputs, merge updated segments, prove extensional physical update, and fold force/canonical resources; preserve the old resource on errors.",
+      "grouping_reason": "All final postcondition constructors reuse one physical-after representation family; 8 witnesses.",
+      "confidence": "medium"
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 34,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

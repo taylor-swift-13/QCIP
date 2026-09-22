@@ -1,0 +1,6 @@
+From QCIPCases.SAMCodeSynthesis.ThrusterCtrlLogic Require Import IP_ThrusterCtrlLogic_goal IP_ThrusterCtrlLogic_proof_auto IP_ThrusterCtrlLogic_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include IP_ThrusterCtrlLogic_proof_auto.
+  Include IP_ThrusterCtrlLogic_proof_manual.
+End VC_Correctness.

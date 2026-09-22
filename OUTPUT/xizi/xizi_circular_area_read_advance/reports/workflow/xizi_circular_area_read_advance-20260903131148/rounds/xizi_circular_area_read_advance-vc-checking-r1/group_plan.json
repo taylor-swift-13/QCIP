@@ -1,0 +1,82 @@
+{
+  "schema_version": "qcp-vc-checking-group-plan/v1",
+  "status": "blocked",
+  "source_goal_version": "02bb34b2a0eb3da403cdf8cd56b7c2896758e93446c69dc5ce636825bd7a9df7",
+  "target_witnesses": [
+    "proof_of_CircularAreaDivideRdData_entail_wit_1_state_spec",
+    "proof_of_CircularAreaDivideRdData_return_wit_1_state_spec",
+    "proof_of_CircularAreaDivideRdData_return_wit_2_state_spec"
+  ],
+  "witness_assessments": [
+    {
+      "witness_name": "proof_of_CircularAreaDivideRdData_entail_wit_1_state_spec",
+      "judgment": "proofable",
+      "assessment": "Unfold store_circular_area, instantiate its hidden representation values, rewrite data_length_pre = d0_state_spec, and derive readidx + d0_state_spec <= UINT_MAX from CircularAreaLogicalState and the explicit requested-length bounds.",
+      "proof_group_eligible": true,
+      "schedulable_in_current_plan": false,
+      "reason_not_scheduled": "The two annotation-bug targets force annotation repair and regeneration of the entire source_goal_version before any group may be dispatched."
+    },
+    {
+      "witness_name": "proof_of_CircularAreaDivideRdData_return_wit_1_state_spec",
+      "judgment": "annotation-bug",
+      "assessment": "Unsigned normalization and the wrap guard prove both result relations, but the antecedent has only circular_area <> 0 and descriptor ownership rooted at circular_area; it cannot establish circular_area_pre <> 0 or ownership rooted at circular_area_pre.",
+      "proof_group_eligible": false,
+      "schedulable_in_current_plan": false,
+      "reason_not_scheduled": "Missing circular_area = circular_area_pre bridge in both top-level entailment alternatives."
+    },
+    {
+      "witness_name": "proof_of_CircularAreaDivideRdData_return_wit_2_state_spec",
+      "judgment": "annotation-bug",
+      "assessment": "Unsigned normalization and the non-wrap guard prove both result relations, but no premise connects the current descriptor root circular_area with the required post-state root circular_area_pre.",
+      "proof_group_eligible": false,
+      "schedulable_in_current_plan": false,
+      "reason_not_scheduled": "Missing circular_area = circular_area_pre bridge in both top-level entailment alternatives."
+    }
+  ],
+  "proof_groups": [],
+  "blockers": [
+    {
+      "blocker_class": "annotation-bug",
+      "affected_witnesses": [
+        "proof_of_CircularAreaDivideRdData_return_wit_1_state_spec",
+        "proof_of_CircularAreaDivideRdData_return_wit_2_state_spec"
+      ],
+      "missing_fact": "circular_area = circular_area_pre (or an equivalent unchanged-parameter ownership bridge)",
+      "missing_resource": "Each antecedent owns the CircularArea descriptor fields at circular_area, while the consequent requires those fields at circular_area_pre and separately requires circular_area_pre <> 0.",
+      "reason": "Both top-level alternatives of both affected definitions quantify circular_area and circular_area_pre independently. The antecedents constrain only circular_area and provide no equality. A mathematical helper cannot establish equality for arbitrary addresses or manufacture ownership at a different descriptor root.",
+      "counterexample_shape": "Choose circular_area_pre = 0 and a nonzero circular_area whose descriptor/backing heap and logical state satisfy the antecedent branch facts. The consequent immediately fails its pure circular_area_pre <> 0 conjunct; for distinct nonzero roots it additionally lacks every descriptor cell rooted at circular_area_pre.",
+      "recommended_repair": "Return to the C annotation and carry an explicit circular_area == circular_area_pre equality through the live Assert, or consistently express the live post using an annotation form that regenerates the frozen pre-state address. Preserve executable C tokens and the public store_circular_area contract, then rerun canonical symbolic execution and diagnostics splitting.",
+      "recommended_next_phase": "annotation",
+      "group_worker_must_not_attempt": true
+    }
+  ],
+  "grouping_reason": "No proof group is dispatchable because two of the three targets are annotation-bug witnesses. After annotation repair, all three same-function witnesses share representation open/refold and bounded unsigned-arithmetic patterns and fit in one group under the limit of 12.",
+  "coverage": {
+    "manual_target_count": 3,
+    "planned_target_count": 0,
+    "missing_witnesses": [],
+    "unknown_witnesses": [],
+    "duplicate_assignments": [],
+    "target_list_matches_cleaned_manual_exactly": true,
+    "complete_plan_withheld_due_to_blocker": true
+  },
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes",
+    "policy_satisfied": true,
+    "post_repair_grouping_hint": [
+      {
+        "group_id": "divide_read_open_close_and_branch_results",
+        "witness_count": 3,
+        "reason": "Same function, same hidden representation, same unchanged spatial frame, and the two return witnesses differ only by the branch comparison/result tag."
+      }
+    ]
+  },
+  "group_plan_ready": false,
+  "ready_for_vc_proving_preparing": false,
+  "recommended_next_phase": "annotation"
+}

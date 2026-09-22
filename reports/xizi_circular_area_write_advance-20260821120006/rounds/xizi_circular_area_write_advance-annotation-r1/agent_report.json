@@ -1,0 +1,537 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "annotation",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "phase": "annotation",
+    "annotation": {
+      "status": "completed",
+      "ready_for_annotation_check_round": true,
+      "source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "554b8000bc522816db7b8dff317a7230c7c1c4843a2f9097bfbd468343eb4b4e",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_circular_area_write_advance-20260821120006/xizi_circular_area_write_advance-annotation-r1/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance.c",
+            "relative_path": "OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance.c",
+            "sha256": "d1abd50ccdea8d9f375a8a9c8a5dc2f63a4c46fab7a7d5ebe113c74088c909c8",
+            "state": "present",
+            "role": "target-c"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_circular_area_write_advance-20260821120006/xizi_circular_area_write_advance-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_lib.v",
+            "sha256": "384e22d23bc6bc193501b86205881c973711641be89634ccdac808d848ec5d7a",
+            "state": "present",
+            "role": "case-lib-seed"
+          }
+        ]
+      },
+      "source_goal_version": null,
+      "summary": "Reverified the CRTOS static helper CircularAreaDivideWrData. The implementation body and signature remain aligned with CRTOS; ERROR is 1; the descriptor/buffer representation invariant is explicit; and the postcondition exactly classifies wrap versus no-wrap while preserving all descriptor fields and the UCharArray buffer.",
+      "annotation_design_summary": {
+        "schema_version": "qcp-annotation-design-summary/v1",
+        "proof_style": "direct-predicate-first",
+        "target_function": "CircularAreaDivideWrData",
+        "mathematical_spec": "CircularAreaDivideWrDataResult(writeidx,data_length,area_length,result) iff either writeidx+data_length<=area_length and result=0, or area_length<writeidx+data_length and result=1.",
+        "null_semantics": "circular_area == 0 returns ERROR = 1 and owns emp",
+        "representation_invariants": [
+          "0 < area_length <= 256",
+          "0 <= readidx < area_length",
+          "0 <= writeidx < area_length",
+          "0 <= data_length <= area_length",
+          "p_head = data_buffer",
+          "p_tail = data_buffer + area_length",
+          "all descriptor fields and UCharArray::full(data_buffer,area_length,buffer_contents) are preserved"
+        ],
+        "loop_invariant": "not-applicable-no-loop",
+        "case_lib_spec_declarations": [
+          {
+            "kind": "Definition",
+            "name": "CircularAreaDivideWrDataResult",
+            "quality": "strict-mathematical-property-not-algorithm-mirror"
+          }
+        ],
+        "case_lib_changes": "empty",
+        "hidden_properties": [
+          "the helper is a pure wrap-decision query and does not advance writeidx",
+          "the outer CircularAreaWrite function, not this helper, performs writeidx advancement"
+        ]
+      },
+      "canonical_symexec_evidence": {
+        "schema_version": "qcp-canonical-symexec-evidence/v1",
+        "status": "passed",
+        "driver": "/home/yangfp/QCIP/linux-binary/symexec",
+        "cwd": "/home/yangfp/QCIP/worktrees/xizi_circular_area_write_advance-20260821120006/xizi_circular_area_write_advance-annotation-r1",
+        "argv": [
+          "/home/yangfp/QCIP/linux-binary/symexec",
+          "--goal-file=SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_goal.v",
+          "--proof-auto-file=SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_proof_auto.v",
+          "--proof-manual-file=SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_proof_manual.v",
+          "-IQCP_examples/QCP_demos_LLM/",
+          "-slp",
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM",
+          "--coq-logic-path=SimpleC.EE.OUTPUT.xizi.xizi_circular_area_write_advance.source",
+          "--input-file=OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance.c",
+          "--no-exec-info"
+        ],
+        "include_args": [
+          "QCP_examples/QCP_demos_LLM/"
+        ],
+        "slp_args": [
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM"
+        ],
+        "result": "Successfully finished symbolic execution",
+        "reached_file_end": true,
+        "function": "CircularAreaDivideWrData",
+        "final_elapsed_seconds": 0.09,
+        "stability_check": {
+          "status": "passed",
+          "goal_sha256_before_after": "fbb4c0a017b9f6a6b1b182c69a55fecd6112f32899ea6ad460b4386c874912fb",
+          "proof_auto_sha256_before_after": "02cfeb1223eb2e5e49510051dab20d87241d97ac303fd0d5937bf2cd1034d4a9",
+          "proof_manual_sha256_before_after": "86f4a0a5b462a09978c651aa91cb407f17a75153082c842eaec4c5929deb65f6"
+        },
+        "manual_file_notice": "symexec preserved the existing manual proof file; controller-owned annotation-check-round will regenerate and split diagnostics canonically"
+      },
+      "qcp_mcp_interactive_evidence": {
+        "schema_version": "qcp-mcp-interactive-evidence/v1",
+        "status": "passed",
+        "driver": "qcp-mcp/qcp_mcp.server.symbolic",
+        "backend": "/home/yangfp/QCIP/linux-binary/mcp",
+        "cwd": "/home/yangfp/QCIP/worktrees/xizi_circular_area_write_advance-20260821120006/xizi_circular_area_write_advance-annotation-r1",
+        "target": "/home/yangfp/QCIP/worktrees/xizi_circular_area_write_advance-20260821120006/xizi_circular_area_write_advance-annotation-r1/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance.c",
+        "line": 94,
+        "initialize_ok": true,
+        "result": "success",
+        "function": "CircularAreaDivideWrData",
+        "loaded_strategies": [
+          "builtin/uchar_array.strategies",
+          "builtin/undef_uchar_array.strategies",
+          "builtin/mixed_uchar_array.strategies",
+          "builtin/uchar_array_shape.strategies"
+        ],
+        "auto_solved_witnesses": 9,
+        "manual_witnesses": 2,
+        "manual_witness_class": "return_checker_wit",
+        "error": null,
+        "warning": null,
+        "final_elapsed_seconds": 0.064
+      },
+      "case_lib_coqc_evidence": {
+        "schema_version": "qcp-coqc-check-evidence/v1",
+        "status": "passed",
+        "tool": "coqc",
+        "entrypoint": "/home/yangfp/QCIP/.agents/skills/vc-proving/scripts/coq_tooling.py check",
+        "target_kind": "case_lib",
+        "target_file": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_lib.v",
+        "target_sha256": "384e22d23bc6bc193501b86205881c973711641be89634ccdac808d848ec5d7a",
+        "fixed_flags_hash": "75b2bdd1edb990c20e7514694fa4303e8d948c120bc1e5ac3813d06caabc3dff",
+        "coq_version": "The Coq Proof Assistant, version 8.20.1",
+        "source_goal_version": "annotation-candidate-final",
+        "elapsed_seconds": 1.212,
+        "returncode": 0
+      },
+      "annotation_checking_evidence": {
+        "schema_version": "qcp-annotation-checking-report/v1",
+        "status": "passed",
+        "checked_scope": [
+          "case_lib mathematical definition",
+          "function Require/Ensure",
+          "descriptor and UCharArray ownership",
+          "NULL/error branch",
+          "wrap/no-wrap branch semantics",
+          "absence of algorithm-mirror definitions"
+        ],
+        "qcp_mcp_requirement_satisfied": "yes",
+        "annotation_scratch_lib_coqc_status": "passed",
+        "spec_definition_status": "passed: strict disjunctive wrap predicate, no recursive algorithm or state-machine mirror",
+        "function_spec_status": "passed: NULL returns ERROR(1); non-NULL returns the exact wrap flag and preserves descriptor/buffer",
+        "invariant_status": "not-applicable: target function contains no loop",
+        "annotation_scratch_lib_changes": "empty; the existing CircularAreaDivideWrDataResult definition is already mathematically exact",
+        "summary": "All annotation-checking gates passed.",
+        "failed_checks": [],
+        "required_annotation_rework": [],
+        "required_annotation_scratch_lib_rework": [],
+        "rework_plan": [],
+        "ready_for_main_common_case_formal_lib_update": "no-change-needed",
+        "ready_for_main_symexec": "yes",
+        "timing_summary": "Three meaningful validation cycles were completed: canonical symexec and case-lib compile; qcp-mcp failure diagnosis and fresh-session repair; independent qcp-mcp plus canonical symexec stability rerun.",
+        "timing_gaps": "Exact non-command activity segmentation was not available from the handoff; no command duration is represented as total wall time."
+      },
+      "annotation_checking": {
+        "status": "passed",
+        "qcp_mcp_requirement_satisfied": "yes",
+        "annotation_scratch_lib_coqc_status": "passed",
+        "ready_for_main_symexec": "yes",
+        "required_rework": []
+      },
+      "changed_files": [
+        {
+          "path": "OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance.c",
+          "change": "updated annotation/constants only",
+          "details": [
+            "ERROR changed from -1 to 1",
+            "area_length upper bound tightened to 256",
+            "p_head=data_buffer and p_tail=data_buffer+area_length added to Require and Ensure",
+            "NULL postcondition changed from unsigned -1 to 1"
+          ]
+        },
+        {
+          "path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_goal.v",
+          "change": "refreshed by canonical symexec"
+        },
+        {
+          "path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_proof_auto.v",
+          "change": "refreshed by canonical symexec"
+        }
+      ],
+      "implementation_alignment_evidence": {
+        "reference": "/home/yangfp/crtos/Ubiquitous/XiZi_IIoT_Macro/kernel/thread/circular_area.c",
+        "signature_static_status": "matched",
+        "whitespace_normalized_function_body_match": true,
+        "algorithm_changed": false,
+        "note": "The helper only reports whether a split is required; CircularAreaWrite performs the actual writeidx advancement."
+      },
+      "iteration_history": [
+        {
+          "cycle": 1,
+          "status": "passed",
+          "checks": [
+            "source-version freshness",
+            "spec/representation edit",
+            "canonical symexec to file end",
+            "full fixed case_lib coqc_check"
+          ]
+        },
+        {
+          "cycle": 2,
+          "status": "repaired-and-passed",
+          "failure_class": "qcp-mcp-session-use",
+          "failure": "Calling check and then symbolic in one advanced session produced a spurious lack-of-assertions error.",
+          "repair": "Restarted qcp-mcp and called symbolic directly on a fresh loaded target.",
+          "checks": [
+            "qcp-mcp initialization",
+            "qcp-mcp symbolic to file end",
+            "manual witness semantic inspection"
+          ]
+        },
+        {
+          "cycle": 3,
+          "status": "passed",
+          "checks": [
+            "independent canonical symexec rerun",
+            "generated-file digest stability",
+            "independent fresh qcp-mcp rerun",
+            "fixed case_lib coqc_check rerun",
+            "annotation-checking semantic audit"
+          ]
+        }
+      ],
+      "iteration_count": 3,
+      "failure_count": 1,
+      "repair_count": 1,
+      "self_repair_budget": {
+        "configured_min_complete_cycles": 3,
+        "completed_cycles": 3,
+        "configured_min_wall_clock_minutes": 30,
+        "wall_clock_note": "No artificial delay was used; all required technical gates and three complete repair/validation cycles reached a stable result.",
+        "budget_exhausted": false
+      },
+      "self_reworkable_failures": [],
+      "blockers": [],
+      "known_risks": [
+        "The problem-context phrase about updating writeidx describes the surrounding CircularAreaWrite behavior, but the authoritative CRTOS helper body does not update writeidx. The candidate intentionally preserves writeidx and specifies only the wrap decision."
+      ],
+      "previous_attempts_reviewed": [],
+      "prior_blockers_addressed": [],
+      "reference_case_mapping": [
+        {
+          "path": "/home/yangfp/crtos/Ubiquitous/XiZi_IIoT_Macro/kernel/thread/circular_area.c",
+          "use": "authoritative function signature, static attribute, and body"
+        },
+        {
+          "path": "OUTPUT/xizi/xizi_circular_area_write/source/xizi_circular_area_write.c",
+          "use": "allowed surrounding-call context showing that CircularAreaWrite advances writeidx"
+        }
+      ],
+      "file_access_summary": {
+        "must_log_file_reads": "yes",
+        "read_categories": {
+          "handoff": [
+            "/home/yangfp/QCIP/reports/xizi_circular_area_write_advance-20260821120006/rounds/xizi_circular_area_write_advance-annotation-r1/agent_input.json"
+          ],
+          "rules_and_skills": [
+            ".agents/skills/verification-orchestrator/SKILL.md",
+            ".agents/skills/verification-orchestrator/docs/use-notes.md",
+            ".agents/skills/verification-orchestrator/docs/phase-ownership.md",
+            ".agents/skills/verification-orchestrator/docs/state-machine.md",
+            ".agents/skills/verification-orchestrator/docs/artifact-templates.md",
+            ".agents/skills/verification-orchestrator/docs/delegation-contracts.md",
+            ".agents/skills/verification-orchestrator/docs/invalidation-rules.md",
+            ".agents/skills/verification-orchestrator/docs/forbidden_lemma.md",
+            ".agents/skills/annotation-filling/SKILL.md",
+            ".agents/skills/annotation-filling/docs/use-notes.md",
+            ".agents/skills/annotation-filling/docs/annotation-rules.md",
+            ".agents/skills/annotation-filling/docs/common-annotation-errors.md",
+            ".agents/skills/annotation-filling/docs/predicate-first-annotation.md",
+            ".agents/skills/annotation-filling/docs/builtin-array-string-support.md",
+            ".agents/skills/annotation-filling/docs/array-predicate-selection.md",
+            ".agents/skills/annotation-filling/docs/reference-cases.md",
+            ".agents/skills/annotation-filling/docs/symexec-refresh.md",
+            ".agents/skills/annotation-checking/SKILL.md",
+            ".agents/skills/annotation-checking/docs/spec-quality-checklist.md"
+          ],
+          "target_and_case_lib": [
+            "OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance.c",
+            "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_lib.v",
+            "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_goal.v",
+            "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_proof_manual.v",
+            "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_goal_check.v"
+          ],
+          "allowed_references": [
+            "/home/yangfp/crtos/Ubiquitous/XiZi_IIoT_Macro/kernel/thread/circular_area.c",
+            "/home/yangfp/crtos/Ubiquitous/XiZi_IIoT_Macro/kernel/thread/xs_circular_area.h (declared path missing)",
+            "OUTPUT/xizi/xizi_circular_area_write/source/xizi_circular_area_write.c"
+          ],
+          "tooling": [
+            "mcp/qcp-mcp/README.md",
+            "mcp/qcp-mcp/pyproject.toml",
+            "mcp/qcp-mcp/src/qcp_mcp/server.py",
+            "mcp/qcp-mcp/src/qcp_mcp/session.py",
+            ".agents/skills/vc-proving/scripts/coq_tooling.py help"
+          ]
+        },
+        "searches": [
+          "rg over allowed OUTPUT/xizi/xizi_circular_area_write/** for CircularArea helper context",
+          "rg over repository tooling for qcp-mcp startup path",
+          "rg over current case formal files for spec references and forbidden declarations"
+        ],
+        "denied_globs_touched": []
+      },
+      "recommended_next_phase": "controller annotation-check-round"
+    }
+  },
+  "verification_result": {
+    "annotation_review": {
+      "status": "accepted-for-main-check",
+      "reviewed_at": "2026-08-20T20:02:13Z"
+    },
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-08-20T20:02:13Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_circular_area_write_advance-20260821120006/rounds/xizi_circular_area_write_advance-annotation-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    },
+    "annotation_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-08-20T20:02:14Z",
+      "source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "a96d10dfa3ba7e123573d0d108c526633ea33331a664de73392063e6422e8909",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_circular_area_write_advance-20260821120006/xizi_circular_area_write_advance-annotation-r1/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance.c",
+            "relative_path": "OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance.c",
+            "sha256": "d1abd50ccdea8d9f375a8a9c8a5dc2f63a4c46fab7a7d5ebe113c74088c909c8",
+            "state": "present",
+            "role": "target-c-annotated"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_circular_area_write_advance-20260821120006/xizi_circular_area_write_advance-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_lib.v",
+            "sha256": "384e22d23bc6bc193501b86205881c973711641be89634ccdac808d848ec5d7a",
+            "state": "present",
+            "role": "case-lib-seed"
+          }
+        ]
+      },
+      "source_goal_version": {
+        "schema_version": "qcp-source-goal-version/v1",
+        "digest": "b82fb0447949471fb4380d0617f8e086a09e2da6bf69e27a420131c832f7d49b",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_goal.v",
+            "sha256": "fbb4c0a017b9f6a6b1b182c69a55fecd6112f32899ea6ad460b4386c874912fb",
+            "state": "present",
+            "role": "generated-goal"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_proof_auto.v",
+            "sha256": "02cfeb1223eb2e5e49510051dab20d87241d97ac303fd0d5937bf2cd1034d4a9",
+            "state": "present",
+            "role": "generated-proof-auto"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_proof_manual.v",
+            "sha256": "c0a65652290fd61cf6439279f4418eb27bfaec5adc5c9559a3d262284df34ebb",
+            "state": "present",
+            "role": "generated-proof-manual"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_goal_check.v",
+            "sha256": "21ce429a745440828819501c6e7ffc8b31dfe6a49753688aba5a9258b7d2382e",
+            "state": "present",
+            "role": "generated-goal-check"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_proof_diagnostics.v",
+            "sha256": "009b4a3778639e473ad3146b558eb99788f4dd2347c32c2916538747c1abb270",
+            "state": "present",
+            "role": "generated-diagnostics"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/diagnostics_snapshot.json",
+            "sha256": "f41bf35ba8dc70f01d8bda32590856749fd221ae9cfd223105796bc035064516",
+            "state": "present",
+            "role": "generated-diagnostics-snapshot"
+          }
+        ],
+        "target_witnesses": [
+          "proof_of_CircularAreaDivideWrData_return_wit_1",
+          "proof_of_CircularAreaDivideWrData_return_wit_2"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_CircularAreaDivideWrData_return_wit_1": "62ab479cee6df015b2759f0da66d00856235568cbcd6d15fe6cefdc5d88ef059",
+          "proof_of_CircularAreaDivideWrData_return_wit_2": "10672fb10a945114bb1ef279fb25d5af16eaf4cacfadb8c14407d8b89fd6d72a"
+        },
+        "witnesses": [
+          {
+            "name": "proof_of_CircularAreaDivideWrData_return_wit_1",
+            "target_symbol": "CircularAreaDivideWrData_return_wit_1",
+            "statement_hash": "62ab479cee6df015b2759f0da66d00856235568cbcd6d15fe6cefdc5d88ef059",
+            "start_line": 25,
+            "end_line": 27
+          },
+          {
+            "name": "proof_of_CircularAreaDivideWrData_return_wit_2",
+            "target_symbol": "CircularAreaDivideWrData_return_wit_2",
+            "statement_hash": "10672fb10a945114bb1ef279fb25d5af16eaf4cacfadb8c14407d8b89fd6d72a",
+            "start_line": 28,
+            "end_line": 30
+          }
+        ]
+      },
+      "annotation_design_summary": {
+        "schema_version": "qcp-annotation-design-summary/v1",
+        "proof_style": "direct-predicate-first",
+        "target_function": "CircularAreaDivideWrData",
+        "mathematical_spec": "CircularAreaDivideWrDataResult(writeidx,data_length,area_length,result) iff either writeidx+data_length<=area_length and result=0, or area_length<writeidx+data_length and result=1.",
+        "null_semantics": "circular_area == 0 returns ERROR = 1 and owns emp",
+        "representation_invariants": [
+          "0 < area_length <= 256",
+          "0 <= readidx < area_length",
+          "0 <= writeidx < area_length",
+          "0 <= data_length <= area_length",
+          "p_head = data_buffer",
+          "p_tail = data_buffer + area_length",
+          "all descriptor fields and UCharArray::full(data_buffer,area_length,buffer_contents) are preserved"
+        ],
+        "loop_invariant": "not-applicable-no-loop",
+        "case_lib_spec_declarations": [
+          {
+            "kind": "Definition",
+            "name": "CircularAreaDivideWrDataResult",
+            "quality": "strict-mathematical-property-not-algorithm-mirror"
+          }
+        ],
+        "case_lib_changes": "empty",
+        "hidden_properties": [
+          "the helper is a pure wrap-decision query and does not advance writeidx",
+          "the outer CircularAreaWrite function, not this helper, performs writeidx advancement"
+        ]
+      },
+      "canonical_symexec_evidence": {
+        "schema_version": "qcp-canonical-symexec-evidence/v1",
+        "driver": "/home/yangfp/QCIP/linux-binary/symexec",
+        "cwd": "/home/yangfp/QCIP/worktrees/xizi_circular_area_write_advance-20260821120006/xizi_circular_area_write_advance-annotation-r1",
+        "argv": [
+          "/home/yangfp/QCIP/linux-binary/symexec",
+          "--goal-file=SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_goal.v",
+          "--proof-auto-file=SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_proof_auto.v",
+          "--proof-manual-file=SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_proof_manual.v",
+          "-IQCP_examples/QCP_demos_LLM/",
+          "-slp",
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM",
+          "--coq-logic-path=SimpleC.EE.OUTPUT.xizi.xizi_circular_area_write_advance.source",
+          "--input-file=OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance.c",
+          "--no-exec-info"
+        ],
+        "include_args": [
+          "QCP_examples/QCP_demos_LLM/"
+        ],
+        "slp_args": [
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM"
+        ],
+        "manual_refresh": {
+          "policy": "fresh-symbolic-execution-skeleton",
+          "path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_proof_manual.v",
+          "previous_sha256": "86f4a0a5b462a09978c651aa91cb407f17a75153082c842eaec4c5929deb65f6",
+          "generated": true,
+          "generated_sha256": "6b2512b45fcf50b43403bb56ba638faf3f5c819bb2af7ab04915afe55d1a631b",
+          "previous_restored_on_failure": false
+        },
+        "status": "passed",
+        "returncode": 0,
+        "stdout_tail": "Start to symbolic execution on program : OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance.c\nSymbolic Execution into function CircularAreaDivideWrData\nEnd of symbolic execution of function CircularAreaDivideWrData\nSuccessfully finished symbolic execution\n",
+        "stderr_tail": ""
+      },
+      "diagnostics_split": {
+        "status": "passed",
+        "normalized_at": "2026-08-20T20:02:14Z",
+        "proof_manual_file": "/home/yangfp/QCIP/worktrees/xizi_circular_area_write_advance-20260821120006/xizi_circular_area_write_advance-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_proof_manual.v",
+        "proof_diagnostics_file": "/home/yangfp/QCIP/worktrees/xizi_circular_area_write_advance-20260821120006/xizi_circular_area_write_advance-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_proof_diagnostics.v",
+        "diagnostics_snapshot": "/home/yangfp/QCIP/worktrees/xizi_circular_area_write_advance-20260821120006/xizi_circular_area_write_advance-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/diagnostics_snapshot.json",
+        "schema_version": "qcp-diagnostics-snapshot/v1",
+        "manual_obligations": [
+          {
+            "name": "proof_of_CircularAreaDivideWrData_return_wit_1",
+            "statement_hash": "62ab479cee6df015b2759f0da66d00856235568cbcd6d15fe6cefdc5d88ef059",
+            "target_symbol": "CircularAreaDivideWrData_return_wit_1",
+            "start_line": 28,
+            "end_line": 30
+          },
+          {
+            "name": "proof_of_CircularAreaDivideWrData_return_wit_2",
+            "statement_hash": "10672fb10a945114bb1ef279fb25d5af16eaf4cacfadb8c14407d8b89fd6d72a",
+            "target_symbol": "CircularAreaDivideWrData_return_wit_2",
+            "start_line": 34,
+            "end_line": 36
+          }
+        ],
+        "diagnostics": [
+          {
+            "name": "proof_of_CircularAreaDivideWrData_return_wit_1_split_goal_1",
+            "statement_hash": "f5190d105e7767a13390337c22219304df13be2a83504fa793d69c92f12f0d61",
+            "target_symbol": "CircularAreaDivideWrData_return_wit_1_split_goal_1",
+            "start_line": 25,
+            "end_line": 27,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_CircularAreaDivideWrData_return_wit_2_split_goal_1",
+            "statement_hash": "bc7617e552d779450953e60bb0e2d7a7410ba3ed841ccefc0ebdf214fd677c23",
+            "target_symbol": "CircularAreaDivideWrData_return_wit_2_split_goal_1",
+            "start_line": 31,
+            "end_line": 33,
+            "has_abort": true,
+            "has_split_goal": true
+          }
+        ],
+        "manual_obligation_count": 2,
+        "diagnostic_count": 2
+      }
+    }
+  },
+  "blockers": []
+}

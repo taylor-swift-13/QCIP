@@ -1,0 +1,32 @@
+# Reuse Note
+Note kind: non-authoritative reuse note
+This file is not acceptance evidence.
+
+R3 is reference-policy blocked. Do not copy its formal files. Reconstruct in a clean controller-provided worktree from the current source plus this textual analysis.
+
+Reusable spec design:
+
+- Represent legal ring states with capacity/index/status bounds, physical byte-list length, and a logical FIFO observation for empty, full, contiguous, and wrapped states.
+- Model a physical copy as an extensional slice update (`prefix ++ source-slice ++ suffix`) and model ring write as either one slice update or two consecutive slice updates.
+- Successful write uses `actual = min(request, capacity - old_length)`, updates `writeidx` modulo capacity, sets status to one, and sets `readidx = new_writeidx` only in force mode.
+- Non-force success should explicitly state `new_logical = old_logical ++ sublist 0 actual input`.
+- Full non-force returns unsigned ERROR and preserves all state. Full force follows the current implementation: free capacity is zero, so it copies zero bytes and then makes `readidx = writeidx`.
+- Null area, null input, and zero request are separate error specs and preserve owned state whenever ownership exists.
+- Helper callable specs for IsFull/GetDataLength/DivideWrData can be derived from the valid main-state precondition; GetDataLength's specialization must preserve the pure representation fact.
+
+Reusable QCP findings:
+
+- Parser-compatible local typedefs are needed instead of angle-bracket stdint/string headers.
+- Signed error uses `-1`; unsigned error uses `(uint32)-1`.
+- The old `pre at branch <unspecified> is not determined` at the line after the first memcpy came from a full existential `Assert/Given`, not from the call. Removing that Assert lets execution move on.
+- qcp-mcp reached EOF when memcpy was temporarily declared `Require emp / Ensure emp`. This is only a tool-control experiment and must not be accepted: it loses both arrays and cannot prove copied contents.
+- Whole-array and direct segment memcpy contracts did not automatically derive from caller resources. A clean next attempt should use exact array split/merge support around the call or introduce a verified local copy helper whose loop invariant exposes copied prefix and untouched suffix. Do not weaken the target content spec.
+- If using a local copy helper, preserve the original CircularAreaWrite implementation semantics and ensure the helper is only a verified semantic replacement for memcpy, not a change to force/full behavior.
+
+Search discipline for the next round:
+
+- Never use `rg .`, `find /home/yangfp/QCIP`, or any repository-root traversal.
+- Search only explicit handoff-allowed roots or exact named tooling directories.
+- Do not read or traverse QCP_demos_human.
+
+The JSON handoff, clean-round source files, manifests, and versions override this note.

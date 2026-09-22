@@ -21,14 +21,21 @@ struct CircularArea {
 };
 
 /*@ Import Coq Require Import SimpleC.EE.OUTPUT.xizi.xizi_circular_area_release.source.xizi_circular_area_release_lib */
-/*@ Extern Coq (UCharArray::full : Z -> Z -> list Z -> Assertion)
-               (xizi_circular_area_release_domain : Z -> Z -> Z -> list Z -> Prop) */
+/*@ Extern Coq (circular_area_state :: *) */
+/*@ Extern Coq
+      (ca_capacity : circular_area_state -> Z)
+      (ca_contents : circular_area_state -> list Z)
+      (store_circular_area : circular_area_state -> Z -> Assertion)
+      (CircularAreaLogicalState :
+         Z -> Z -> Z -> Z -> list Z -> list (option Z) -> Prop)
+      (UCharArray::mixed_full : Z -> Z -> list (option Z) -> Assertion)
+*/
 
 void x_free(void *p)
 /*@ data_buffer_spec
-    With data_buffer data_length (contents: list Z)
+    With data_buffer data_length (physical: list (option Z))
     Require p == data_buffer && data_buffer != 0 &&
-            UCharArray::full(data_buffer, data_length, contents)
+            UCharArray::mixed_full(data_buffer, data_length, physical)
     Ensure emp
 */;
 
@@ -48,23 +55,32 @@ void x_free(void *p)
 */;
 
 void CircularAreaRelease(CircularAreaType circular_area)
-/*@ With data_buffer readidx writeidx p_head p_tail area_length b_status operations
-          (contents: list Z)
-    Require circular_area != 0 && data_buffer != 0 &&
-            xizi_circular_area_release_domain(circular_area, data_buffer,
-                                               area_length, contents) &&
-            circular_area -> data_buffer == data_buffer &&
-            circular_area -> readidx == readidx &&
-            circular_area -> writeidx == writeidx &&
-            circular_area -> p_head == p_head &&
-            circular_area -> p_tail == p_tail &&
-            circular_area -> area_length == area_length &&
-            circular_area -> b_status == b_status &&
-            circular_area -> CircularAreaOperations == operations &&
-            UCharArray::full(data_buffer, area_length, contents)
-    Ensure emp
+/*@ With (state: circular_area_state) LitMap
+    Require GlobalStrings(LitMap) *
+            store_circular_area(state, circular_area)
+    Ensure GlobalStrings(LitMap)
 */
 {
+    /*@ Assert
+          exists data_buffer operations readidx writeidx b_status physical,
+            circular_area == circular_area@pre &&
+            circular_area != 0 && data_buffer != 0 &&
+            CircularAreaLogicalState(
+              readidx, writeidx, ca_capacity(state), b_status,
+              ca_contents(state), physical) &&
+            GlobalStrings(LitMap) *
+            store(&(circular_area->data_buffer), data_buffer) *
+            store(&(circular_area->readidx), readidx) *
+            store(&(circular_area->writeidx), writeidx) *
+            store(&(circular_area->p_head), data_buffer) *
+            store(&(circular_area->p_tail),
+                  data_buffer + ca_capacity(state)) *
+            store(&(circular_area->area_length), ca_capacity(state)) *
+            store(&(circular_area->b_status), b_status) *
+            store(&(circular_area->CircularAreaOperations), operations) *
+            UCharArray::mixed_full(
+              data_buffer, ca_capacity(state), physical)
+    */
     circular_area->readidx = 0;
     circular_area->writeidx = 0;
     circular_area->p_head = NONE;
@@ -72,12 +88,6 @@ void CircularAreaRelease(CircularAreaType circular_area)
     circular_area->b_status = RET_FALSE;
     circular_area->area_length = 0;
 
-    x_free(circular_area->data_buffer)
-        /*@ where (data_buffer_spec) data_buffer = data_buffer,
-                                          data_length = area_length,
-                                          contents = contents */;
-    x_free(circular_area)
-        /*@ where (circular_area_spec) circular_area = circular_area,
-                                          data_buffer = data_buffer,
-                                          operations = operations */;
+    x_free(circular_area->data_buffer) /*@ where (data_buffer_spec) */;
+    x_free(circular_area) /*@ where (circular_area_spec) */;
 }

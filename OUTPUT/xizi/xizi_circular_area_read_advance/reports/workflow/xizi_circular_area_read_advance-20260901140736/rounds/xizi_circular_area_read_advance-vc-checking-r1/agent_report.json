@@ -1,0 +1,239 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "pending",
+  "terminal": "yes",
+  "agent_result": {
+    "vc_checking": {
+      "status": "blocked",
+      "attempt_id": "xizi_circular_area_read_advance-vc-checking-r1-attempt-1",
+      "round": "xizi_circular_area_read_advance-vc-checking-r1",
+      "source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "23a2875ff0f6b31177b4f85980e847a0272c04b45b8ef3574ad8dd2897d85802",
+        "matched_current_files": true,
+        "files": [
+          {
+            "relative_path": "OUTPUT/xizi/xizi_circular_area_read_advance/source/xizi_circular_area_read_advance.c",
+            "sha256": "565ad2f8eabf3fbcd13093bc0193dd640876bc64071e28a852e11086c9b93fc9",
+            "state": "present",
+            "role": "target-c-annotated"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_read_advance/source/xizi_circular_area_read_advance_lib.v",
+            "sha256": "6c69d7457631afbbd698d3f40897bd2f979631ee9f0bbfde8f7a7c8f74ce6309",
+            "state": "present",
+            "role": "case-lib-seed"
+          }
+        ]
+      },
+      "source_goal_version": {
+        "schema_version": "qcp-source-goal-version/v1",
+        "digest": "25a0c91e59062706fef72e96849a0493b7e98227d840f5a731eaffbe85651908",
+        "matched_current_files": true,
+        "target_witnesses": [
+          "proof_of_CircularAreaDivideRdData_entail_wit_1",
+          "proof_of_CircularAreaDivideRdData_return_wit_1",
+          "proof_of_CircularAreaDivideRdData_return_wit_2"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_CircularAreaDivideRdData_entail_wit_1": "f8780307c4b07d18ed7d0f549cdd0c4e649d50f620e3656b63f535344e3cd023",
+          "proof_of_CircularAreaDivideRdData_return_wit_1": "6f5ea14fd475514a73253f3ee35f08e68b703a6125c8aae8835ec64faaff50aa",
+          "proof_of_CircularAreaDivideRdData_return_wit_2": "27241422d32fc083e8e6aa56f103d5d84898b8af5fc90fce66b5826ed34e2267"
+        }
+      },
+      "manual_witness_set_check": {
+        "status": "passed",
+        "manual_order": [
+          "proof_of_CircularAreaDivideRdData_entail_wit_1",
+          "proof_of_CircularAreaDivideRdData_return_wit_1",
+          "proof_of_CircularAreaDivideRdData_return_wit_2"
+        ],
+        "matches_source_goal_version_exactly": true,
+        "diagnostic_split_goals_excluded": true
+      },
+      "natural_language_analysis": {
+        "summary": "The backing-resource opening entailment is semantically proofable. Both non-null return witnesses are semantically invalid because every disjunct universally quantifies data_length_pre and circular_area_pre without constraining them, while demanding equalities to entry_data_length and entry_circular_area in the postcondition.",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_CircularAreaDivideRdData_entail_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "Local circular_area/data_length cells together with CircularAreaBackingResource (or, in the alternative generated form, CircularAreaBackingResource alone).",
+              "pre_pure": "circular_area_pre = entry_circular_area, data_length_pre = entry_data_length, non-null entry, 0 <= entry_data_length <= area_length, and CircularAreaLogicalState.",
+              "pre_exists": "No new existential witness; logical and physical are fixed universally quantified state values.",
+              "post_spatial": "The same local cells plus the exact mixed_full buffer and eight descriptor fields obtained by unfolding CircularAreaBackingResource.",
+              "post_pure": "entry non-null, data_buffer non-null, parameter equalities/bounds, CircularAreaLogicalState, and readidx + entry_data_length <= UINT_MAX.",
+              "post_exists": "None."
+            },
+            "witness_instantiation": "Reuse entry_circular_area, entry_data_length, data_buffer, readidx, writeidx, area_length, b_status, operations, logical, and physical unchanged.",
+            "space_plan": "Choose either generated disjunct, unfold CircularAreaBackingResource, expose its pure header and retain all nine spatial conjuncts; rewrite the two local stack-cell values with PreH2/PreH3 when using the first disjunct, then cancel/reflexively reassociate the unchanged resources.",
+            "pure_plan": "Unfold CircularAreaLogicalState in PreH7. It gives 0 <= readidx < area_length and 0 < area_length <= 256. Together with 0 <= entry_data_length <= area_length, derive readidx + entry_data_length < 512 <= UINT_MAX; obtain data_buffer <> 0 and the repeated logical-state fact from the unfolded backing resource/PreH7.",
+            "refinement_plan": "Not applicable; this case has no abstract-program safeExec/refinement obligation.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "data_buffer <> 0 and exact descriptor/mixed_full resources",
+                "discharged_by": "definition of CircularAreaBackingResource"
+              },
+              {
+                "premise": "readidx + entry_data_length <= UINT_MAX",
+                "discharged_by": "CircularAreaLogicalState bounds readidx and area_length, plus PreH5/PreH6 data-length bounds and the concrete UINT_MAX constant"
+              }
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing after the separate return-witness annotation blocker is repaired and goals regenerated",
+            "analysis_group_candidate": "backing_open_and_refold",
+            "grouping_reason": "Uses the same backing-resource unfold/refold family as the return obligations, but this witness itself is sound."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaDivideRdData_return_wit_1",
+            "judgment": "annotation-bug",
+            "vc_shape": {
+              "pre_spatial": "The unchanged UCharArray.mixed_full resource and all eight descriptor fields.",
+              "pre_pure": "Crossing branch guard after uint32 truncation, non-null entry/data buffer, 0 <= entry_data_length <= area_length, readidx + entry_data_length <= UINT_MAX, and CircularAreaLogicalState. Neither data_length_pre nor circular_area_pre occurs in any premise.",
+              "pre_exists": "No existential or hypothesis binds data_length_pre/circular_area_pre to entry values.",
+              "post_spatial": "CircularAreaBackingResource over exactly the unchanged state.",
+              "post_pure": "CircularAreaDivideRdDataResult ... 1 plus data_length_pre = entry_data_length and circular_area_pre = entry_circular_area; the fuller disjunct also repeats state facts.",
+              "post_exists": "None."
+            },
+            "witness_instantiation": "All preserved state values can be reused, but there is no legal instantiation that manufactures the two missing universally quantified parameter equalities.",
+            "space_plan": "The unchanged spatial conjunction can refold to CircularAreaBackingResource using the existing non-null and logical-state premises.",
+            "pure_plan": "Logical-state bounds and readidx + entry_data_length <= UINT_MAX remove both unsigned_last_nbits operations; the branch guard then proves area_length < readidx + entry_data_length and hence the ret=1 arm of CircularAreaDivideRdDataResult. This still cannot prove either missing parameter equality.",
+            "refinement_plan": "Not applicable.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "CircularAreaDivideRdDataResult readidx entry_data_length area_length 1",
+                "discharged_by": "unsigned truncation identities from 0 <= readidx, 0 <= entry_data_length, and sum <= UINT_MAX, then the crossing guard"
+              },
+              {
+                "premise": "data_length_pre = entry_data_length",
+                "discharged_by": "missing from current VC"
+              },
+              {
+                "premise": "circular_area_pre = entry_circular_area",
+                "discharged_by": "missing from current VC"
+              }
+            ],
+            "failure_signal": "Both top-level disjuncts have the same unbound pre-parameter equalities. Since data_length_pre and circular_area_pre are ordinary universally quantified Z values absent from P, changing either value preserves P but falsifies Q.",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": null,
+            "grouping_reason": "Must not enter a proof group until the parameter/pre-state bridges survive the internal Assert and branch states."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaDivideRdData_return_wit_2",
+            "judgment": "annotation-bug",
+            "vc_shape": {
+              "pre_spatial": "The unchanged UCharArray.mixed_full resource and all eight descriptor fields.",
+              "pre_pure": "Non-crossing branch guard after uint32 truncation, non-null entry/data buffer, 0 <= entry_data_length <= area_length, readidx + entry_data_length <= UINT_MAX, and CircularAreaLogicalState. Neither data_length_pre nor circular_area_pre occurs in any premise.",
+              "pre_exists": "No existential or hypothesis binds data_length_pre/circular_area_pre to entry values.",
+              "post_spatial": "CircularAreaBackingResource over exactly the unchanged state.",
+              "post_pure": "CircularAreaDivideRdDataResult ... 0 plus data_length_pre = entry_data_length and circular_area_pre = entry_circular_area; the fuller disjunct also repeats state facts.",
+              "post_exists": "None."
+            },
+            "witness_instantiation": "All preserved state values can be reused, but the missing universally quantified parameter equalities have no witness-instantiation route.",
+            "space_plan": "The unchanged spatial conjunction can refold to CircularAreaBackingResource using the existing non-null and logical-state premises.",
+            "pure_plan": "Logical-state bounds and the sum bound remove both unsigned_last_nbits operations; the non-crossing guard proves readidx + entry_data_length <= area_length and hence the ret=0 arm of CircularAreaDivideRdDataResult. The two parameter equalities remain unprovable.",
+            "refinement_plan": "Not applicable.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "CircularAreaDivideRdDataResult readidx entry_data_length area_length 0",
+                "discharged_by": "unsigned truncation identities from 0 <= readidx, 0 <= entry_data_length, and sum <= UINT_MAX, then the non-crossing guard"
+              },
+              {
+                "premise": "data_length_pre = entry_data_length",
+                "discharged_by": "missing from current VC"
+              },
+              {
+                "premise": "circular_area_pre = entry_circular_area",
+                "discharged_by": "missing from current VC"
+              }
+            ],
+            "failure_signal": "Both top-level disjuncts have the same unbound pre-parameter equalities. The diagnostic split goals proof_of_CircularAreaDivideRdData_return_wit_2_split_goal_2 and _3 isolate these exact gaps, but are used only as hints.",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": null,
+            "grouping_reason": "Must not enter a proof group until the parameter/pre-state bridges survive the internal Assert and branch states."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "backing_open_and_refold",
+            "witness_names": [
+              "proof_of_CircularAreaDivideRdData_entail_wit_1"
+            ],
+            "representative_witness": "proof_of_CircularAreaDivideRdData_entail_wit_1",
+            "shared_proof_pattern": "Unfold CircularAreaBackingResource, derive bounded uint32 arithmetic from CircularAreaLogicalState, and preserve all spatial resources.",
+            "shared_space_plan": "Unfold and cancel the exact backing-resource components.",
+            "shared_pure_plan": "Use logical-state bounds and the function data-length bound.",
+            "shared_refinement_plan": "not applicable",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "This is the only proofable witness in the current source_goal_version.",
+            "proof_group_ready": false
+          }
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "25a0c91e59062706fef72e96849a0493b7e98227d840f5a731eaffbe85651908",
+        "target_witnesses": [
+          "proof_of_CircularAreaDivideRdData_entail_wit_1",
+          "proof_of_CircularAreaDivideRdData_return_wit_1",
+          "proof_of_CircularAreaDivideRdData_return_wit_2"
+        ],
+        "proof_groups": [],
+        "dependencies": [],
+        "ready_for_vc_proving_preparing": false,
+        "blockers": [
+          "proof_of_CircularAreaDivideRdData_return_wit_1: missing data_length_pre/circular_area_pre bridges",
+          "proof_of_CircularAreaDivideRdData_return_wit_2: missing data_length_pre/circular_area_pre bridges"
+        ]
+      },
+      "recommended_annotation_rework": {
+        "target": "OUTPUT/xizi/xizi_circular_area_read_advance/source/xizi_circular_area_read_advance.c",
+        "scope": "internal non-null Assert / branch-state annotation",
+        "required_effect": "Ensure the generated non-null return VCs carry hypotheses equating the generated pre-parameter symbols data_length_pre and circular_area_pre to entry_data_length and entry_circular_area. Preserve the current CircularAreaLogicalState/CircularAreaBackingResource contract and CircularAreaDivideRdDataResult definition.",
+        "regeneration_required": true,
+        "case_lib_change_required": false
+      },
+      "changed_files": [],
+      "allowed_write_paths_respected": true,
+      "blockers": [
+        {
+          "kind": "annotation-bug",
+          "witnesses": [
+            "proof_of_CircularAreaDivideRdData_return_wit_1",
+            "proof_of_CircularAreaDivideRdData_return_wit_2"
+          ],
+          "missing_facts": [
+            "data_length_pre = entry_data_length",
+            "circular_area_pre = entry_circular_area"
+          ],
+          "evidence": "In both disjuncts of each generated return witness, data_length_pre and circular_area_pre are universally quantified but absent from every premise and the spatial antecedent, while both equalities are demanded by the consequent.",
+          "recommended_next_phase": "annotation"
+        }
+      ]
+    }
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-09-01T06:32:57Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_circular_area_read_advance-20260901140736/rounds/xizi_circular_area_read_advance-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    }
+  },
+  "blockers": [
+    {
+      "kind": "annotation-bug",
+      "summary": "The two non-null return witnesses lack parameter/pre-state bridge hypotheses and are not semantically provable under the current source_goal_version."
+    }
+  ]
+}

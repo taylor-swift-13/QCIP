@@ -1,0 +1,205 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "status": "ready",
+  "source_goal_version": "3821b0edd7e81141ba5f85a61f47d3664c3ab81f6ea9840dc86ac43f5a2514cc",
+  "target_witnesses": [
+    "proof_of_CircularAreaIsFull_return_wit_1",
+    "proof_of_CircularAreaIsFull_return_wit_2",
+    "proof_of_CircularAreaIsFull_return_wit_3",
+    "proof_of_CircularAreaGetDataLength_safety_wit_4",
+    "proof_of_CircularAreaGetDataLength_safety_wit_5",
+    "proof_of_CircularAreaGetDataLength_entail_wit_1",
+    "proof_of_CircularAreaGetDataLength_entail_wit_2",
+    "proof_of_CircularAreaGetDataLength_return_wit_1",
+    "proof_of_CircularAreaGetDataLength_return_wit_2",
+    "proof_of_CircularAreaDivideWrData_entail_wit_1",
+    "proof_of_CircularAreaDivideWrData_return_wit_1",
+    "proof_of_CircularAreaDivideWrData_return_wit_2",
+    "proof_of_CircularAreaWrite_safety_wit_23",
+    "proof_of_CircularAreaWrite_entail_wit_2",
+    "proof_of_CircularAreaWrite_entail_wit_4_1",
+    "proof_of_CircularAreaWrite_entail_wit_4_2",
+    "proof_of_CircularAreaWrite_entail_wit_5",
+    "proof_of_CircularAreaWrite_entail_wit_6",
+    "proof_of_CircularAreaWrite_entail_wit_7_1",
+    "proof_of_CircularAreaWrite_entail_wit_7_2",
+    "proof_of_CircularAreaWrite_return_wit_1",
+    "proof_of_CircularAreaWrite_return_wit_2",
+    "proof_of_CircularAreaWrite_return_wit_3",
+    "proof_of_CircularAreaWrite_return_wit_4",
+    "proof_of_CircularAreaWrite_return_wit_5",
+    "proof_of_CircularAreaWrite_return_wit_6",
+    "proof_of_CircularAreaWrite_partial_solve_wit_3_pure",
+    "proof_of_CircularAreaWrite_partial_solve_wit_4_pure",
+    "proof_of_CircularAreaWrite_partial_solve_wit_5_pure",
+    "proof_of_CircularAreaWrite_partial_solve_wit_6_pure",
+    "proof_of_CircularAreaWrite_partial_solve_wit_7_pure"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "circular_area_query_foundations",
+      "witness_names": [
+        "proof_of_CircularAreaIsFull_return_wit_1",
+        "proof_of_CircularAreaIsFull_return_wit_2",
+        "proof_of_CircularAreaIsFull_return_wit_3",
+        "proof_of_CircularAreaGetDataLength_safety_wit_4",
+        "proof_of_CircularAreaGetDataLength_safety_wit_5",
+        "proof_of_CircularAreaGetDataLength_entail_wit_1",
+        "proof_of_CircularAreaGetDataLength_entail_wit_2",
+        "proof_of_CircularAreaGetDataLength_return_wit_1",
+        "proof_of_CircularAreaGetDataLength_return_wit_2",
+        "proof_of_CircularAreaDivideWrData_entail_wit_1",
+        "proof_of_CircularAreaDivideWrData_return_wit_1",
+        "proof_of_CircularAreaDivideWrData_return_wit_2"
+      ],
+      "representative_witness": "proof_of_CircularAreaGetDataLength_return_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "circular_area_data_length_uint32",
+          "statement_shape": "LogicalState plus non-fullness implies generated uint32/mod expression equals logical length",
+          "premises": [
+            "LogicalState",
+            "length<capacity"
+          ],
+          "destination": "group-local case_lib with current suffix"
+        }
+      ],
+      "likely_helper_declarations": [
+        "circular_area_data_length_uint32__circular_area_query_foundations"
+      ],
+      "proof_strategy": "Unfold witnesses/result predicates, project CircularAreaLogicalState, normalize bounded unsigned arithmetic, and use pure/emp branches or cancel unchanged resources.",
+      "natural_language_proof_pattern": "query invariant projection",
+      "grouping_reason": "same query chain; 12 equals the limit",
+      "difficulty": "medium",
+      "confidence": "high"
+    },
+    {
+      "group_id": "force_write_branch_preparation",
+      "witness_names": [
+        "proof_of_CircularAreaWrite_safety_wit_23",
+        "proof_of_CircularAreaWrite_entail_wit_2",
+        "proof_of_CircularAreaWrite_entail_wit_4_1",
+        "proof_of_CircularAreaWrite_entail_wit_4_2",
+        "proof_of_CircularAreaWrite_entail_wit_5",
+        "proof_of_CircularAreaWrite_entail_wit_6",
+        "proof_of_CircularAreaWrite_entail_wit_7_1",
+        "proof_of_CircularAreaWrite_entail_wit_7_2"
+      ],
+      "representative_witness": "proof_of_CircularAreaWrite_entail_wit_5",
+      "dependencies": [],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "force_actual_length_branches",
+          "statement_shape": "normalize min(request,free) in both comparison branches",
+          "premises": [
+            "LogicalState",
+            "DataLengthResult",
+            "branch comparison"
+          ],
+          "destination": "group-local case_lib with current suffix"
+        },
+        {
+          "name_hint": "force_wrap_partition_bounds",
+          "statement_shape": "divide result 1 yields legal wrap tail/down bounds",
+          "premises": [
+            "LogicalState",
+            "DivideWrDataResult",
+            "actual>0"
+          ],
+          "destination": "group-local case_lib with current suffix"
+        }
+      ],
+      "likely_helper_declarations": [
+        "force_actual_length_branches__force_write_branch_preparation",
+        "force_wrap_partition_bounds__force_write_branch_preparation"
+      ],
+      "proof_strategy": "Open/reuse descriptor witnesses, normalize actual/free/divide branches, and split exact mixed/full arrays for the one- or two-copy paths.",
+      "natural_language_proof_pattern": "branch arithmetic plus exact array partition",
+      "grouping_reason": "same pre-copy phase; size 8",
+      "difficulty": "medium-high",
+      "confidence": "high"
+    },
+    {
+      "group_id": "force_write_outcomes",
+      "witness_names": [
+        "proof_of_CircularAreaWrite_return_wit_1",
+        "proof_of_CircularAreaWrite_return_wit_2",
+        "proof_of_CircularAreaWrite_return_wit_3",
+        "proof_of_CircularAreaWrite_return_wit_4",
+        "proof_of_CircularAreaWrite_return_wit_5",
+        "proof_of_CircularAreaWrite_return_wit_6"
+      ],
+      "representative_witness": "proof_of_CircularAreaWrite_return_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "force_physical_write_wrap",
+          "statement_shape": "wrap concatenation satisfies CircularAreaPhysicalWrite",
+          "premises": [
+            "wrap bounds",
+            "list lengths"
+          ],
+          "destination": "group-local case_lib with current suffix"
+        },
+        {
+          "name_hint": "force_physical_write_no_wrap",
+          "statement_shape": "no-wrap concatenation satisfies CircularAreaPhysicalWrite",
+          "premises": [
+            "no-wrap bounds",
+            "list lengths"
+          ],
+          "destination": "group-local case_lib with current suffix"
+        },
+        {
+          "name_hint": "uchar_full_forall_bytes",
+          "statement_shape": "UCharArray.full entails byte-range Forall",
+          "premises": [
+            "full array ownership"
+          ],
+          "destination": "group-local case_lib with current suffix"
+        }
+      ],
+      "likely_helper_declarations": [
+        "force_physical_write_wrap__force_write_outcomes",
+        "force_physical_write_no_wrap__force_write_outcomes",
+        "uchar_full_forall_bytes__force_write_outcomes"
+      ],
+      "proof_strategy": "Success constructs exact raw_after and store_forced_circular_area after merging arrays and proving PhysicalWrite; errors select preservation branches. Never construct ordinary store_circular_area for general force success.",
+      "natural_language_proof_pattern": "raw success packaging/error preservation",
+      "grouping_reason": "same outcome predicate boundary; size 6",
+      "difficulty": "high",
+      "confidence": "high"
+    },
+    {
+      "group_id": "force_write_partial_pure",
+      "witness_names": [
+        "proof_of_CircularAreaWrite_partial_solve_wit_3_pure",
+        "proof_of_CircularAreaWrite_partial_solve_wit_4_pure",
+        "proof_of_CircularAreaWrite_partial_solve_wit_5_pure",
+        "proof_of_CircularAreaWrite_partial_solve_wit_6_pure",
+        "proof_of_CircularAreaWrite_partial_solve_wit_7_pure"
+      ],
+      "representative_witness": "proof_of_CircularAreaWrite_partial_solve_wit_5_pure",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "proof_strategy": "Normalize bounded unsigned/free-space and sizeof(UCHAR), record list lengths, then apply Zlength_sublist using explicit segment bounds.",
+      "natural_language_proof_pattern": "generated pure array side conditions",
+      "grouping_reason": "same partial-solve family; size 5",
+      "difficulty": "low-medium",
+      "confidence": "high"
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 31,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

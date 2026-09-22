@@ -1,3 +1,3 @@
-# Strategy Report
+# 证明策略
 
-证明按 vc-checking group plan 分组，在隔离 group worktree 中完成；parent verify 合并后运行 full fixed goal_check。未使用 forbidden lemma。
+三个目标共享同一纯查询模式：展开统一 backing resource，在两个算术分支中建立 `CircularAreaDivideWrDataResult`，随后原样重折叠 resource；null 分支建立 `ERROR=1`。

@@ -1,0 +1,30 @@
+# Reuse Note
+Note kind: non-authoritative reuse note
+This file is not acceptance evidence.
+
+Annotation r4 completed with a case-local transparent type alias:
+`Definition circular_area_state : Type := circular_area`. The C Extern declarations
+and public Read `With` use `circular_area_state`, while the shared common record,
+its projections, and `store_circular_area` are unchanged. This removes the prior
+generated-goal collision between the record type name and a later C parameter
+named `circular_area : Z` without changing semantics.
+
+The public contract still contains only one abstract state, LitMap, output
+capacity, and the mixed output list. `CircularAreaReadInput` hides backing and
+operations addresses through `store_circular_area`; `CircularAreaReadTransition`
+preserves the exact failure state/output and specifies successful FIFO-prefix
+consumption, modulo read-index advance, status reset, physical-ring preservation,
+and `map Some consumed_bytes` followed by the untouched mixed suffix.
+
+Canonical symexec reached EOF. Three independent qcp-mcp sessions reached EOF
+with success and null errors. Fixed case-lib coqc passed, and an independent
+fixed-flags compile of the newly generated goal passed, directly confirming that
+the record-type shadowing defect is gone. The existing manual file was not edited.
+
+Candidate source_version digest:
+`b091b21b2d537d3bc4472c29dba0d1728c24fa1d2793029982311e250b3afc7b`.
+Controller annotation-check-round remains responsible for authoritative refresh,
+diagnostics splitting, source_goal_version computation, and acceptance.
+
+If this note conflicts with agent_input.json, the current files, versions, or a
+controller decision, those authoritative sources win.

@@ -1,0 +1,6 @@
+From SimpleC.EE.OUTPUT.xizi.xizi_circular_area_release.source Require Import xizi_circular_area_release_goal xizi_circular_area_release_proof_auto xizi_circular_area_release_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include xizi_circular_area_release_proof_auto.
+  Include xizi_circular_area_release_proof_manual.
+End VC_Correctness.

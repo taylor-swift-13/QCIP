@@ -1,0 +1,15 @@
+# Reuse Note
+
+Note kind: non-authoritative reuse note
+
+This file is not acceptance evidence.
+
+Round `xizi_circular_area_init-annotation-r2` repaired the two declared annotation bugs by adding the exact machine-domain facts `0 <= requested` and `requested <= UINT_MAX` to `CircularAreaInit`'s `Require`, while retaining `circular_area_length == requested` and every existing postcondition branch.
+
+The patch does not change a function name, signature, body, declaration order, allocation model, or `case_lib`. It preserves requested length 0, requested lengths 1..3 whose aligned capacity is 0, descriptor-allocation failure, buffer-allocation failure with the live leaked descriptor, and successful initialization.
+
+Canonical QCP symbolic execution used `/home/yangfp/QCIP/linux-binary/symexec` from the declared round worktree with `-IQCP_examples/QCP_demos_LLM/` and `-slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM`; all three runs reached the end of `CircularAreaInit`. A fresh manual skeleton run confirmed that return witnesses 1 and 4 now carry both uint32 bounds. The unchanged `case_lib` passed fixed-flags `coq_tooling.py check --target-kind case_lib`.
+
+The current tool surface did not expose a `qcp-mcp` tool or executable. This note does not relabel direct symexec as MCP evidence; consult `agent_report.json` for the explicit skipped/unavailable evidence and the current-handoff canonical-QCP result.
+
+If this note conflicts with `agent_input.json`, JSON reports, manifests, source versions, or current worktree files, those authoritative sources win.

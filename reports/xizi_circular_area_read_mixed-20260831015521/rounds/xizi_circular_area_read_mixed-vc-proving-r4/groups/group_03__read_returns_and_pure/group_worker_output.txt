@@ -1,0 +1,15 @@
+# Reuse Note
+
+Note kind: non-authoritative reuse note
+
+This file is not acceptance evidence.
+
+Group `read_returns_and_pure` is terminal `blocked` for source_goal_version `063fc43e7f0db361a46880158b14d8387177e4d6602c8b616e3361230145674a`.
+
+Ten assigned witnesses were proved and checked: return witnesses 3--6 and pure witnesses 2, 4--8. The group-local case library also contains the proved helper `circular_area_logical_state_after_read__read_returns_and_pure` and the official import `Coq.micromega.Lia`.
+
+Return witnesses 1 and 2 remain unsolved. Their postcondition rebuilds `CircularAreaBackingResource`, which requires `data_buffer <> 0`; after the backing resource was expanded, neither VC antecedent retains that pure fact. A detailed return-wit-1 proof attempt discharged segment merging, index arithmetic, output reconstruction, and post-read logical state, but the remaining goal was `data_buffer = 0 -> False`. `isvalidptr_char data_buffer` cannot close it because the model permits address 0. The appropriate repair is at annotation/specification level: preserve the backing-buffer non-null fact across the expanded callpoint.
+
+The fixed group-check passed with target kind `group-check` and the declared source_goal_version. That compilation includes the two unchanged input `Admitted` placeholders, so it does not make those witnesses solved and does not change the blocked status.
+
+If this note conflicts with group_worker_report.json, group_worker_input.json, group_workers_manifest.json, current source versions, or current worktree files, those authoritative sources win.

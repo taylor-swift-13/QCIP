@@ -18,6 +18,7 @@ Local Open Scope string_scope.
 Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.OUTPUT.xizi.xizi_circular_area_is_full.source.xizi_circular_area_is_full_lib.
+Require Import QCIPLib.xizi.xizi_circular_area_common.xizi_circular_area_lib.
 Local Open Scope sac.
 
 Lemma proof_of_CircularAreaIsFull_safety_wit_1 : CircularAreaIsFull_safety_wit_1.
@@ -39,15 +40,6 @@ Lemma proof_of_CircularAreaIsFull_safety_wit_6 : CircularAreaIsFull_safety_wit_6
 Proof. Admitted. 
 
 Lemma proof_of_CircularAreaIsFull_safety_wit_7 : CircularAreaIsFull_safety_wit_7.
-Proof. Admitted. 
-
-Lemma proof_of_CircularAreaIsFull_safety_wit_8 : CircularAreaIsFull_safety_wit_8.
-Proof. Admitted. 
-
-Lemma proof_of_CircularAreaIsFull_safety_wit_9 : CircularAreaIsFull_safety_wit_9.
-Proof. Admitted. 
-
-Lemma proof_of_CircularAreaIsFull_safety_wit_10 : CircularAreaIsFull_safety_wit_10.
 Proof. Admitted. 
 
 Lemma proof_of_CircularAreaIsFull_partial_solve_wit_1 : CircularAreaIsFull_partial_solve_wit_1.

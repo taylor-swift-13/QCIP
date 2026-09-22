@@ -1,8 +1,3 @@
 # Case Brief
 
-- Case: `xizi_circular_area_data_length`
-- Function: `CircularAreaGetDataLength`
-- Run: `xizi_circular_area_data_length-20260821120004`
-- Status: complete
-- Target witnesses: 9
-- Source goal version: `a2aedb5fd9a41435d14ba9903b04f4baa76e4bddf2f28b09ebae31cd1e605ffa`
+在统一 FIFO 抽象状态下验证 CRTOS `CircularAreaGetDataLength`，并保证内部 `CircularAreaIsFull` 调用消费、归还同一个资源根。非空返回逻辑内容长度；空指针返回 `ERROR=1`。不修改可执行 C token 或日志。

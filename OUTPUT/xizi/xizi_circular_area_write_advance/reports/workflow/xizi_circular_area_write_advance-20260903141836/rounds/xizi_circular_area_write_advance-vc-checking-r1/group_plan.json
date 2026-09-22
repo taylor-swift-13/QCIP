@@ -1,0 +1,62 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "c661c21e03b091dcea90762070ea51b3e563ba2eed1d20b216e2a786c0ee1a4a",
+  "target_witnesses": [
+    "proof_of_CircularAreaDivideWrData_entail_wit_1",
+    "proof_of_CircularAreaDivideWrData_return_wit_1",
+    "proof_of_CircularAreaDivideWrData_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "divide_store_and_result_branches",
+      "witness_names": [
+        "proof_of_CircularAreaDivideWrData_entail_wit_1",
+        "proof_of_CircularAreaDivideWrData_return_wit_1",
+        "proof_of_CircularAreaDivideWrData_return_wit_2"
+      ],
+      "representative_witness": "proof_of_CircularAreaDivideWrData_return_wit_1",
+      "dependencies": [],
+      "likely_helper_declarations": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "Process in manual order. For entail_wit_1 select the second theorem disjunct, unfold store_circular_area, expose its six representation witnesses, instantiate the post existentials, and close identical pure/spatial components. For each return select the first theorem disjunct, instantiate post existentials with the corresponding _2 values, copy and unfold CircularAreaLogicalState, rewrite the inner writeidx and outer sum truncations with unsigned_last_nbits_eq using capacity/index/data-length bounds, unfold CircularAreaDivideWrDataResult, select crossing/result=1 or non-crossing/result=0, and cancel unchanged resources.",
+      "natural_language_proof_strategy": "One worker can reuse one pre_process/existential-instantiation/structured-entailment pattern and the same unsigned no-wrap argument for both complementary returns; no new helper is required.",
+      "grouping_reason": "Same function, unified store representation, unchanged frame, and complementary result branches; group size 3 satisfies max_witnesses_per_group=12 and there are no dependencies.",
+      "per_witness_plan": {
+        "proof_of_CircularAreaDivideWrData_entail_wit_1": "select the direct store-expansion alternative; unfold store_circular_area; instantiate hidden values; reuse bridge/bound facts and cancel the exact frame",
+        "proof_of_CircularAreaDivideWrData_return_wit_1": "instantiate unchanged values; normalize both 32-bit truncations; select crossing result=1; cancel the exact frame",
+        "proof_of_CircularAreaDivideWrData_return_wit_2": "instantiate unchanged values; normalize both 32-bit truncations; select non-crossing result=0; cancel the exact frame"
+      },
+      "premise_discharge": {
+        "store_opening": "unfold store_circular_area; its pure prefix and exact spatial suffix supply all hidden components",
+        "inner_unsigned_identity": "CircularAreaLogicalState gives 0 <= writeidx < capacity <= 256",
+        "outer_unsigned_identity": "writeidx < capacity <= 256 and 0 <= data_length <= capacity imply 0 <= writeidx + data_length < 512 < 2^32",
+        "crossing_result": "the normalized > guard plus reflexive result=1",
+        "noncrossing_result": "the normalized <= guard plus reflexive result=0",
+        "spatial_frame": "all descriptor cells, UCharArray.mixed_full, and GlobalStrings are identical before and after"
+      },
+      "difficulty": "medium-low",
+      "confidence": "high"
+    }
+  ],
+  "candidate_helper_declarations": [],
+  "blockers": [],
+  "grouping_policy_evidence": {
+    "controller_policy": "bounded-witness-groups/v1",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "proposed_group_count": 1,
+    "largest_group_size": 3,
+    "policy_satisfied": true
+  },
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

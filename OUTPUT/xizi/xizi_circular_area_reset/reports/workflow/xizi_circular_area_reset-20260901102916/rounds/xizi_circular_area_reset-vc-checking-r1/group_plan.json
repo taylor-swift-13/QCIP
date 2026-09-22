@@ -1,0 +1,68 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "a603d2c0a3c2bd89ccb8edd209619472ad36117f061b9fa172f985ad42556c24",
+  "target_witnesses": [
+    "proof_of_CircularAreaReset_return_wit_1"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "reset_return_state",
+      "witness_names": [
+        "proof_of_CircularAreaReset_return_wit_1"
+      ],
+      "representative_witness": "proof_of_CircularAreaReset_return_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "Unfold the return witness and choose its left disjunct. Introduce parameters and select existential values 0, data_buffer0+area_length0, 0, 0. Unfold CircularAreaLogicalState/CircularAreaLiveBytes in PreH3 and the postcondition, use positive capacity and preserved physical length to establish the empty reset state, rewrite p_tail with PreH4, then cancel all unchanged spatial resources.",
+      "per_witness_plan": {
+        "proof_of_CircularAreaReset_return_wit_1": {
+          "judgment": "proofable",
+          "witness_instantiation": [
+            "circular_area_pre_b_status := 0",
+            "circular_area_pre_p_tail := data_buffer0 + area_length0",
+            "circular_area_pre_writeidx := 0",
+            "circular_area_pre_readidx := 0"
+          ],
+          "space_plan": "Rewrite the antecedent p_tail with PreH4 and cancel identical points-to, mixed_full and GlobalStrings resources.",
+          "pure_plan": "Use the old state's capacity and physical-length conjuncts; simplify the nil/zero reset invariant and close the vacuous live-byte clause.",
+          "refinement_plan": "not applicable"
+        }
+      },
+      "vc_shape": {
+        "kind": "Coq-level disjunction whose first branch is a separation-logic entailment",
+        "chosen_branch": "left resource-preserving return branch"
+      },
+      "witness_instantiation": {
+        "circular_area_pre_b_status": "0",
+        "circular_area_pre_p_tail": "data_buffer0 + area_length0",
+        "circular_area_pre_writeidx": "0",
+        "circular_area_pre_readidx": "0"
+      },
+      "space_plan": "Preserve and cancel all spatial resources one-for-one after rewriting p_tail.",
+      "pure_plan": "Construct CircularAreaLogicalState 0 0 area_length0 0 nil physical from positive capacity and preserved physical length, with all remaining clauses simplified or vacuous.",
+      "refinement_plan": "Not applicable.",
+      "premise_discharge": {
+        "capacity": "PreH3",
+        "physical_length": "PreH3",
+        "canonical_tail": "PreH4",
+        "zero_index_bounds": "area_length0>0",
+        "empty_fifo": "Zlength nil=0 and vacuous CircularAreaLiveBytes"
+      },
+      "difficulty": "low",
+      "confidence": "high",
+      "grouping_reason": "Only one target witness exists; it is below the 12-witness bound and no dependency or strategy split is needed."
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 1,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

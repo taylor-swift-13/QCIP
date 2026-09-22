@@ -75,6 +75,12 @@ Proof. Admitted.
 Lemma proof_of_CircularAreaInit_safety_wit_14 : CircularAreaInit_safety_wit_14.
 Proof. Admitted. 
 
+Lemma proof_of_CircularAreaInit_return_wit_2 : CircularAreaInit_return_wit_2.
+Proof. Admitted. 
+
+Lemma proof_of_CircularAreaInit_return_wit_3 : CircularAreaInit_return_wit_3.
+Proof. Admitted. 
+
 Lemma proof_of_CircularAreaInit_partial_solve_wit_1_pure : CircularAreaInit_partial_solve_wit_1_pure.
 Proof. Admitted. 
 
@@ -97,11 +103,5 @@ Lemma proof_of_CircularAreaInit_partial_solve_wit_4_pure : CircularAreaInit_part
 Proof. Admitted. 
 
 Lemma proof_of_CircularAreaInit_partial_solve_wit_4 : CircularAreaInit_partial_solve_wit_4.
-Proof. Admitted. 
-
-Lemma proof_of_CircularAreaInit_partial_solve_wit_5_pure : CircularAreaInit_partial_solve_wit_5_pure.
-Proof. Admitted. 
-
-Lemma proof_of_CircularAreaInit_partial_solve_wit_5 : CircularAreaInit_partial_solve_wit_5.
 Proof. Admitted. 
 

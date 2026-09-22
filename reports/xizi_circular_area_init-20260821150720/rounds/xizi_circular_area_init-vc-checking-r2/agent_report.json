@@ -1,0 +1,313 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "vc_checking": {
+      "status": "completed",
+      "attempt_id": "xizi_circular_area_init-vc-checking-r2-attempt-1",
+      "round": "xizi_circular_area_init-vc-checking-r2",
+      "source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "f849ae66cafbaa47f0fde02d945ef799a0f4b329f886aea6bdd74892fdd949c2",
+        "validation": "matched",
+        "checked_files": {
+          "OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init.c": "ff960f0ab8cb7e6d4fd2ffff877b3351229e9451419a4626a10e23d9952dcebf",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_lib.v": "239142e8cdd512bbd01590b7aba16e17bf4fb4c3d30b20ff1a546d9c762caf27"
+        }
+      },
+      "source_goal_version": "c3d38be29b09000c4eff2fa2161388533d44e2c000245118f340a8fb5138a053",
+      "source_goal_version_validation": {
+        "status": "matched",
+        "generated_file_hashes_matched": true,
+        "manual_witnesses_matched": true,
+        "manual_witness_order": [
+          "proof_of_CircularAreaInit_return_wit_1",
+          "proof_of_CircularAreaInit_return_wit_2",
+          "proof_of_CircularAreaInit_return_wit_3"
+        ],
+        "manual_sha256": "9ce37ac4ecc23f690befed0cf8fbfe3cffffe920e1ed31ade78fb9a56b27339f",
+        "diagnostics_used_as_hint_only": true,
+        "diagnostic_split_goals_excluded_from_targets": true
+      },
+      "ready_for_vc_proving_preparing": true,
+      "summary": "All three current CircularAreaInit return witnesses are semantically proofable under the accepted annotation and seed case_lib. The successful path uses the proposition-level right branch of return_wit_1 and the existing alignment/range lemmas; the two failure paths instantiate the exact retained-descriptor or emp branch of CircularAreaInitFailureState. No generated statement, seed spec, or new helper is required.",
+      "natural_language_analysis": {
+        "source_goal_version": "c3d38be29b09000c4eff2fa2161388533d44e2c000245118f340a8fb5138a053",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_CircularAreaInit_return_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "For the selected proposition-level right branch: UCharArray.undef_full retval_2 (unsigned_last_nbits ((circular_area_length_pre \u00f7 4) * 4) 32). The unused left branch contains the initialized descriptor cells plus the same buffer resource.",
+              "pre_pure": "retval_2 <> 0; aligned expression > 0; callee readidx/writeidx/b_status are 0; retval <> 0; 0 < circular_area_length_pre <= 256.",
+              "pre_exists": "none",
+              "post_spatial": "The identical UCharArray.undef_full resource is preserved.",
+              "post_pure": "CircularAreaInitDescriptorState for retval/retval_2 and the concrete operations table, plus CircularAreaAlignedLength for the unsigned aligned expression.",
+              "post_exists": "No assertion existential in the selected right branch; the definition is a proposition-level disjunction of two universally quantified entailments."
+            },
+            "witness_instantiation": "Select the right proposition-level disjunct. The aligned value is the existing expression unsigned_last_nbits ((circular_area_length_pre \u00f7 4) * 4) 32; descriptor parameters are already concretely retval, retval_2, zero indices/status, p_head=retval_2, p_tail=retval_2+aligned, and the concrete operations address.",
+            "space_plan": "Preserve the sole UCharArray.undef_full resource unchanged; after establishing the pure conjunction, close the spatial conjunct by direct cancellation/identity.",
+            "pure_plan": "Use CircularArea_div4_aligned_range__init_return_branches with 0<circular_area_length_pre and circular_area_length_pre<=256 (hence <=4294967295) to obtain the 32-bit range. Rewrite unsigned_last_nbits to the aligned arithmetic value with unsigned_last_nbits_eq. Use CircularArea_quot_eq_div_nonneg__init_return_branch_construction to replace truncating quotient by Z.div. Unfold CircularAreaInitDescriptorState and CircularAreaAlignedLength; discharge aligned positivity from PreH3, the <=256 bound from downward alignment and the request bound, non-null fields from PreH1/PreH2/PreH7/PreH8, and all zero/equality fields from PreH4-PreH6 and reflexivity.",
+            "refinement_plan": "No safeExec or refinement state occurs in this return entailment.",
+            "used_existing_lemmas": [
+              "CircularArea_div4_aligned_range__init_return_branches",
+              "CircularArea_quot_eq_div_nonneg__init_return_branch_construction",
+              "unsigned_last_nbits_eq"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "requested > 0: PreH9/PreH10",
+              "requested <= 256: PreH11",
+              "aligned > 0: PreH3",
+              "retval_2 <> 0: PreH1/PreH2",
+              "retval <> 0: PreH7/PreH8",
+              "readidx=writeidx=b_status=0: PreH4-PreH6",
+              "32-bit range: existing CircularArea_div4_aligned_range__init_return_branches plus arithmetic from requested<=256"
+            ],
+            "failure_signal": "none; every predicate conjunct and the sole spatial resource has a source in P",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "circular_area_init_return_branches",
+            "grouping_reason": "Shares the same alignment normalization and case-specific predicates with both failure witnesses."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaInit_return_wit_2",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "The retained non-null descriptor owns data_buffer=retval_2, readidx/writeidx/b_status values, and uninitialized p_head/p_tail/area_length/operations cells.",
+              "pre_pure": "retval_2=0; callee readidx/writeidx/b_status=0; retval<>0; 0<circular_area_length_pre<=256.",
+              "pre_exists": "none",
+              "post_spatial": "Outer failure disjunct with CircularAreaInitFailureState instantiated to the retained descriptor; its non-emp branch requires exactly the same eight descriptor field resources, with data_buffer and three scalar cells initialized and the other four cells uninitialized.",
+              "post_pure": "circular_area_length_pre>0, CircularAreaAlignedLength, return value 0, and circular_area<>0 for the selected failure-state branch.",
+              "post_exists": "Instantiate circular_area := retval and aligned := (circular_area_length_pre / 4) * 4."
+            },
+            "witness_instantiation": "Select the outer failure assertion disjunct. Instantiate circular_area with retval and aligned with (circular_area_length_pre / 4) * 4; unfold CircularAreaInitFailureState and select its retained-descriptor branch.",
+            "space_plan": "Rewrite retval_2, callee indices, and status to 0 using PreH1-PreH5. After unfolding CircularAreaInitFailureState, each initialized or uninitialized descriptor cell is identical to a precondition resource, so cancel all eight cells.",
+            "pure_plan": "Unfold CircularAreaAlignedLength. Positivity and the <=256 bound are PreH8-PreH10, the chosen aligned equality is reflexive, return 0 is reflexive, and retained descriptor non-nullness follows from PreH6/PreH7.",
+            "refinement_plan": "No safeExec or refinement state occurs in this allocation-failure entailment.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "retval_2=0: PreH1/PreH2",
+              "readidx=writeidx=b_status=0: PreH3-PreH5",
+              "retval<>0: PreH6/PreH7",
+              "requested positivity and bound: PreH8-PreH10",
+              "aligned exactness: existential choice (requested/4)*4 and definition unfolding"
+            ],
+            "failure_signal": "none; the current seed failure predicate deliberately uses uninitialized stores for exactly the four fields that P supplies as uninitialized",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "circular_area_init_return_branches",
+            "grouping_reason": "Same function postcondition, alignment relation, and predicate-unfold/cancellation proof family as the other return witnesses."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaInit_return_wit_3",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "emp",
+              "pre_pure": "TT together with retval=0 and 0<circular_area_length_pre<=256 from universally quantified hypotheses.",
+              "pre_exists": "none",
+              "post_spatial": "Outer failure disjunct; CircularAreaInitFailureState is satisfied by its emp branch.",
+              "post_pure": "circular_area_length_pre>0, CircularAreaAlignedLength, and return value 0.",
+              "post_exists": "Instantiate circular_area := 0 and aligned := (circular_area_length_pre / 4) * 4."
+            },
+            "witness_instantiation": "Select the outer failure assertion disjunct, choose circular_area=0 and aligned=(circular_area_length_pre/4)*4, then choose the emp branch of CircularAreaInitFailureState.",
+            "space_plan": "The precondition emp is preserved directly by the emp branch of CircularAreaInitFailureState; no descriptor or buffer resource is demanded.",
+            "pure_plan": "Unfold CircularAreaAlignedLength. Use PreH3/PreH4 for positivity, PreH5 for <=256, reflexivity for the chosen aligned equality, and PreH1/PreH2 for return value 0.",
+            "refinement_plan": "No safeExec or refinement state occurs in this descriptor-allocation-failure entailment.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "retval=0: PreH1/PreH2",
+              "requested positivity: PreH3/PreH4",
+              "requested<=256: PreH5",
+              "aligned exactness: existential choice (requested/4)*4 and definition unfolding",
+              "failure ownership: emp branch of CircularAreaInitFailureState"
+            ],
+            "failure_signal": "none; Q explicitly admits the null-descriptor emp state supplied by P",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "circular_area_init_return_branches",
+            "grouping_reason": "Same function postcondition and predicate-construction family; small enough to keep with the other two witnesses."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "circular_area_init_return_branches",
+            "witness_names": [
+              "proof_of_CircularAreaInit_return_wit_1",
+              "proof_of_CircularAreaInit_return_wit_2",
+              "proof_of_CircularAreaInit_return_wit_3"
+            ],
+            "representative_witness": "proof_of_CircularAreaInit_return_wit_1",
+            "shared_proof_pattern": "Select the semantically matching success/failure branch, instantiate the case-specific predicate, unfold it, discharge alignment facts, and preserve/cancel the exact spatial resources.",
+            "shared_space_plan": "Identity/cancellation only: preserve the success buffer, cancel the retained descriptor fields, or preserve emp.",
+            "shared_pure_plan": "Use the request positivity/bound hypotheses and exact four-byte down-alignment definition; only success additionally normalizes quotient and unsigned_last_nbits via existing seed lemmas.",
+            "shared_refinement_plan": "none",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "All targets are the three branches of one loop-free function return contract, share the same case-specific predicate/alignment context, require no new helper family, and total 3 witnesses is below the controller maximum of 12.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "c3d38be29b09000c4eff2fa2161388533d44e2c000245118f340a8fb5138a053",
+        "target_witnesses": [
+          "proof_of_CircularAreaInit_return_wit_1",
+          "proof_of_CircularAreaInit_return_wit_2",
+          "proof_of_CircularAreaInit_return_wit_3"
+        ],
+        "grouping_policy": {
+          "controller_policy": "bounded-witness-groups/v1",
+          "target_witness_count": 3,
+          "max_witnesses_per_group": 12,
+          "single_group_allowed_only_if_target_witness_count_lte": 12
+        },
+        "proof_groups": [
+          {
+            "group_id": "circular_area_init_return_branches",
+            "witness_names": [
+              "proof_of_CircularAreaInit_return_wit_1",
+              "proof_of_CircularAreaInit_return_wit_2",
+              "proof_of_CircularAreaInit_return_wit_3"
+            ],
+            "representative_witness": "proof_of_CircularAreaInit_return_wit_1",
+            "dependencies": [],
+            "candidate_helper_declarations": [],
+            "expected_helpers": [],
+            "proof_strategy": "Prove all three return branches in manual order. For wit_1 select the right proposition-level disjunct, normalize the 32-bit aligned value with the two existing case-lib lemmas plus unsigned_last_nbits_eq, unfold both success predicates, and preserve the byte-array resource. For wit_2 select the failure assertion disjunct, instantiate retval and the direct Z.div alignment, unfold CircularAreaInitFailureState, choose its retained-descriptor branch, rewrite the initialized zeros, and cancel all fields. For wit_3 instantiate circular_area=0 and direct Z.div alignment, choose the failure predicate's emp branch, and close the pure facts from the preconditions.",
+            "per_witness_plan": {
+              "proof_of_CircularAreaInit_return_wit_1": "right proposition branch; existing alignment/range lemmas; unfold success predicates; identity on UCharArray.undef_full",
+              "proof_of_CircularAreaInit_return_wit_2": "left assertion post branch; exists retval and direct down-alignment; retained-descriptor failure branch; exact field cancellation",
+              "proof_of_CircularAreaInit_return_wit_3": "left assertion post branch; exists 0 and direct down-alignment; emp failure branch"
+            },
+            "premise_discharge": {
+              "alignment": "request bounds from each VC; success additionally uses seed quotient/range lemmas to remove unsigned_last_nbits",
+              "descriptor_nonnull": "wit_1 and wit_2 nonzero hypotheses",
+              "initialized_zeros": "callee readidx/writeidx/b_status equalities",
+              "spatial": "resources are syntactically identical after existential instantiation and predicate unfolding"
+            },
+            "difficulty": "medium",
+            "confidence": "high",
+            "grouping_reason": "One loop-free function, one postcondition family, shared alignment/predicate context, no dependencies or helper namespace needs, and 3 witnesses is within max_witnesses_per_group=12."
+          }
+        ],
+        "blockers": []
+      },
+      "changed_files": [],
+      "errors": [],
+      "blockers": []
+    }
+  },
+  "verification_result": {
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-08-21T08:10:18Z",
+      "source_version": {
+        "digest": "f849ae66cafbaa47f0fde02d945ef799a0f4b329f886aea6bdd74892fdd949c2",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_circular_area_init-20260821150720/xizi_circular_area_init-annotation-r2/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init.c",
+            "relative_path": "OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init.c",
+            "role": "target-c-annotated",
+            "sha256": "ff960f0ab8cb7e6d4fd2ffff877b3351229e9451419a4626a10e23d9952dcebf",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_circular_area_init-20260821150720/xizi_circular_area_init-annotation-r2/SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "239142e8cdd512bbd01590b7aba16e17bf4fb4c3d30b20ff1a546d9c762caf27",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "c3d38be29b09000c4eff2fa2161388533d44e2c000245118f340a8fb5138a053",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_goal.v",
+            "role": "generated-goal",
+            "sha256": "b4f0f5aa3d83a75e67503760aa0713b7f98715e01eb7fab195312d4435cd4918",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "08eca8c7aba6a0600353f8b829c53cdcaea93613d2f28739caebe2fddc73364f",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "9ce37ac4ecc23f690befed0cf8fbfe3cffffe920e1ed31ade78fb9a56b27339f",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "02be63d0881e6a2759373725fe5660430eca3f0e6d94ee3322e80dd7e08b4526",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "8373d8056ca9790284e28e4ed2620a081ab8c885e0d5a8fccbecf75d5343c4c4",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "89739b81893dcb05c784867bfd0d744d6cfc8c7a023b4a7fe75628b6402e3241",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_CircularAreaInit_return_wit_1",
+          "proof_of_CircularAreaInit_return_wit_2",
+          "proof_of_CircularAreaInit_return_wit_3"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_CircularAreaInit_return_wit_1": "8db7a4b7c6dd45f67acbb17a81d97b90d63bad7eea96e4e82c4844cd2b920fdb",
+          "proof_of_CircularAreaInit_return_wit_2": "34df322a7e98b45b8e2af7a715a7cafeafc71e4a5de836bd2311c4dbb1acfaa6",
+          "proof_of_CircularAreaInit_return_wit_3": "bcdf4c407754de3d930ec8a61a5df44631ae1d1559eb43081d524fcbfc59f0a6"
+        },
+        "witnesses": [
+          {
+            "end_line": 27,
+            "name": "proof_of_CircularAreaInit_return_wit_1",
+            "start_line": 25,
+            "statement_hash": "8db7a4b7c6dd45f67acbb17a81d97b90d63bad7eea96e4e82c4844cd2b920fdb",
+            "target_symbol": "CircularAreaInit_return_wit_1"
+          },
+          {
+            "end_line": 30,
+            "name": "proof_of_CircularAreaInit_return_wit_2",
+            "start_line": 28,
+            "statement_hash": "34df322a7e98b45b8e2af7a715a7cafeafc71e4a5de836bd2311c4dbb1acfaa6",
+            "target_symbol": "CircularAreaInit_return_wit_2"
+          },
+          {
+            "end_line": 33,
+            "name": "proof_of_CircularAreaInit_return_wit_3",
+            "start_line": 31,
+            "statement_hash": "bcdf4c407754de3d930ec8a61a5df44631ae1d1559eb43081d524fcbfc59f0a6",
+            "target_symbol": "CircularAreaInit_return_wit_3"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_circular_area_init-20260821150720/rounds/xizi_circular_area_init-vc-checking-r2/group_plan.json",
+      "target_witnesses": [
+        "proof_of_CircularAreaInit_return_wit_1",
+        "proof_of_CircularAreaInit_return_wit_2",
+        "proof_of_CircularAreaInit_return_wit_3"
+      ]
+    }
+  },
+  "blockers": []
+}

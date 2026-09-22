@@ -1,25 +1,15 @@
 # xizi_circular_area_write 验证交付
 
-本目录保存 `CircularAreaWrite` 的最终 accepted 交付。`source/` 是带 annotation 的 C 源码，`rocq/` 包含 generated goal、auto/manual proof、goal check、唯一 case lib 与 diagnostics，`reports/` 保存 controller、workflow、checkpoint 和复用证据。
+本目录保存真实 CRTOS `CircularAreaWrite` 在 `b_force = 0` 下的统一资源规格与完整证明。最新 controller run 为 `xizi_circular_area_write-20260908100002`，状态为 `done`。
 
-验证状态：controller run `xizi_circular_area_write-20260821010001` 已到 `done`，final-check 与独立 freshness 均通过；`source_goal_version` 为 `5e22e6c372533f2ef715de357c9f8a7555996d7f789320f174fd466704b984b6`，manual target witness 共 27 个，全部完成证明。
+公开规格保留 `state`、`LitMap`、`input_contents` 这些逻辑参数；删除了入口快照 `ca0`、`in0`、`requested`、`d0`。入口资源由单一断言 `CircularAreaWriteInput` 管理，旧参数值统一使用 `circular_area@pre`、`input_buffer@pre`、`data_length@pre` 和 `b_force@pre`。单一入口断言等价地封装原来的四种空指针组合，使 QCP 能在唯一入口分支解析 `@pre`。
 
-规约直接使用函数参数名，不含参数 `@pre`。函数名、static 属性、签名和可执行语义已与 CRTOS `circular_area.c` 对齐；`ERROR` 为 1，descriptor 保持 `p_head=data_buffer`、`p_tail=data_buffer+area_length` 和 `0 < area_length <= 256` 的有效状态约束。
+环形区仍消费并返回统一的 `store_circular_area`；输入数组所有权始终归还。参数错误或满队列保持状态；成功时写入 `min(data_length@pre, capacity-current_length)` 个输入字节并向逻辑 FIFO 追加同一前缀。可执行 C 控制流未修改。
 
-## 复现
+canonical symbolic execution 到达文件尾；32/32 个 manual witness、四个 group-check、parent full check 和最终 fixed `goal_check` 均通过；manual/case_lib 结构、forbidden lemma 与 cleanup scan 通过。严格隔离 freshness replay 因仓库布局未配置而记录为 `skipped`。
 
-在仓库根目录运行 canonical symbolic execution，必须保留：
+- `source_version`: `9c8fd4b9a749a99e62bd2064c341edb75ac2719ae0d530d3631df5b4bb779487`
+- `source_goal_version`: `a047715e902a91bf4c6a65de399a2cbe1a04e01947c98d21d234449e095854be`
+- 完整 workflow：`reports/workflow/xizi_circular_area_write-20260908100002/`
 
-    -IQCP_examples/QCP_demos_LLM/
-    -slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM
-
-fresh 输出必须写到报告临时目录，不能覆盖已证明的 manual。Rocq 只通过 `.agents/skills/vc-proving/scripts/coq_tooling.py check` 的 fixed argv 检查。精确命令、哈希和 phase 证据见 `reports/controller/` 与 `reports/workflow/`。
-
-## 文件组织
-
-- `source/`：最终 annotated C。
-- `rocq/`：最终 generated files、manual proof、case_lib 与 diagnostics。
-- `reports/controller/`：run log、timing、final state 与 freshness。
-- `reports/workflow/`：accepted annotation、vc-checking、vc-proving handoff/report。
-- `reports/generated_snapshots/`、`reports/input_snapshots/`：交付快照。
-- `reports/checkpoint.json`、`reuse_packet.json`、`partial_proof_packet.json`：续证入口。
+symbolic execution 必须保留 `-IQCP_examples/QCP_demos_LLM/` 和 `-slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM`；Rocq 只使用 `.agents/skills/vc-proving/scripts/coq_tooling.py check` 的 fixed argv。

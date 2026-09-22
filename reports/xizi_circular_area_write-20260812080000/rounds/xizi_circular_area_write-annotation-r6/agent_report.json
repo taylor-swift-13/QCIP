@@ -1,0 +1,108 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "annotation",
+  "status": "reported",
+  "terminal": "yes",
+  "agent_result": {
+    "annotation": {
+      "status": "blocked",
+      "round": "xizi_circular_area_write-annotation-r6",
+      "attempt_id": "xizi-circular-area-write-annotation-r6-attempt-1",
+      "source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "544900982d0ee6f9f0fe13e554543a7de92331c4273418886c185bbcd96c875a"
+      },
+      "candidate_files": [
+        {"relative_path": "OUTPUT/xizi/xizi_circular_area_write/source/xizi_circular_area_write.c", "sha256": "cdc1f21f6025a886ca31552eeaf401f95c8ead5d1726140a9197e3f612e5c1ff", "state": "modified", "role": "target-c"},
+        {"relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write/source/xizi_circular_area_write_lib.v", "sha256": "9e7b0dbe881905b745888666f2b0def18340329194da98eb22e735a24e63a471", "state": "modified", "role": "case-lib-seed"}
+      ],
+      "ready_for_annotation_check_round": false,
+      "changed_files": [
+        "OUTPUT/xizi/xizi_circular_area_write/source/xizi_circular_area_write.c",
+        "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write/source/xizi_circular_area_write_lib.v"
+      ],
+      "previous_attempts_reviewed": [
+        {"round": "xizi_circular_area_write-annotation-r5", "allowed_use": "read-only-analysis", "formal_copy_used": "no"}
+      ],
+      "prior_blockers_addressed": [
+        {"lesson_id": "xizi_circular_area_write-annotation-r5-reference-policy-violation-1", "status": "addressed", "detail": "R6 used exact-path reads only and did not run rg/find/search or touch denied human paths."},
+        {"lesson_id": "xizi_circular_area_write-annotation-r5-strict-memcpy-contract-not-yet-symbolically-established-2", "status": "partially-addressed", "detail": "Caller specs now own exact segmented UCharArray.full blocks and the first wrap memcpy is established, but QCP still rejects the second wrap memcpy at line 394."}
+      ],
+      "iteration_count": 14,
+      "failure_count": 14,
+      "repair_count": 13,
+      "self_repair_budget": {
+        "min_complete_cycles": 3,
+        "min_wall_clock_minutes": 30,
+        "complete_cycles": 12,
+        "wall_clock_minutes": 48,
+        "budget_exhausted": true,
+        "detail": "Repeated complete QCP interactive cycles repaired parse issues, helper call ghost instantiation, exact segment layouts, pointer normalization, and exact memcpy parameter bindings. The first wrap copy became derivable; the second remains rejected."
+      },
+      "self_reworkable_failures": [
+        {"failure_class": "qcp-symbolic-execution", "location": "second memcpy in wrap branch, target C line 394", "detail": "Cannot derive precondition for exact_bytes even though the current assertion contains exact destination and source UCharArray.full blocks with content old_head/input_down; direct parameter equalization was also attempted."}
+      ],
+      "canonical_symexec_evidence": {
+        "status": "not-run",
+        "owner": "controller/main-agent",
+        "driver": "/home/yangfp/QCIP/linux-binary/symexec",
+        "cwd": "/home/yangfp/QCIP/worktrees/xizi_circular_area_write-20260812080000/xizi_circular_area_write-annotation-r6",
+        "include_args": ["QCP_examples/QCP_demos_LLM/"],
+        "slp_args": ["QCP_examples/QCP_demos_LLM/", "SimpleC.EE.QCP_demos_LLM"],
+        "reason": "Interactive QCP did not reach EOF."
+      },
+      "qcp_mcp_interactive_evidence": {
+        "status": "failed",
+        "qcp_mcp_requirement_satisfied": "no",
+        "driver": "/home/yangfp/QCIP/linux-binary/mcp",
+        "wrapper": "interactive PTY protocol",
+        "working_directory": "/home/yangfp/QCIP/worktrees/xizi_circular_area_write-20260812080000/xizi_circular_area_write-annotation-r6",
+        "actual_args": ["--input-file", "OUTPUT/xizi/xizi_circular_area_write/source/xizi_circular_area_write.c", "--goal-file", "/tmp/xizi_circular_area_write_r6_cycle14_goal.v", "--coq-logic-path", "/home/yangfp/QCIP/SeparationLogic", "-IQCP_examples/QCP_demos_LLM/", "-slp", "QCP_examples/QCP_demos_LLM/", "SimpleC.EE.QCP_demos_LLM"],
+        "last_result": {"result": "failed", "line": 394, "error": "Cannot derive the precondition of function memcpy for spec exact_bytes"},
+        "progress": "The first wrap memcpy at line 390 is established; failure moved to the second wrap memcpy."
+      },
+      "case_lib_coqc_evidence": {
+        "status": "passed",
+        "helper": "/home/yangfp/QCIP/.agents/skills/vc-proving/scripts/coq_tooling.py",
+        "target_kind": "case_lib",
+        "source_goal_version": "annotation-r6-candidate",
+        "build_workspace": "/home/yangfp/QCIP/worktrees/xizi_circular_area_write-20260812080000/_coq_builds/annotation-r6-case-lib",
+        "exit_code": 0,
+        "elapsed_seconds": 27.002
+      },
+      "annotation_checking_evidence": {
+        "status": "blocked",
+        "spec_definition_status": "Passes mathematical review: rep, logical content observation, exact slice/ring updates, truncation, no-change errors, force/non-force behavior, and full-force actual=0 are content-sensitive and compiled.",
+        "function_spec_status": "Target behavior matrix and helper call-site specializations are meaningful; exact segmented ownership establishes the first wrap memcpy but not the second.",
+        "failed_checks": ["qcp-mcp EOF"],
+        "ready_for_main_common_case_formal_lib_update": "no",
+        "ready_for_main_symexec": "no",
+        "summary": "Annotation Checking Report: blocked on strict second-wrap memcpy call-site establishment; do not adopt this round."
+      },
+      "spec_coverage": {
+        "covered_behaviors": ["null area", "null input", "zero request", "full non-force error/no-change", "full force EOK with actual=0", "non-full no-wrap", "non-full wrap", "capacity truncation", "force/non-force readidx update", "exact input-prefix to physical/logical output relation"],
+        "call_site_establishment": ["CircularAreaIsFull", "CircularAreaGetDataLength", "CircularAreaDivideWrData", "first wrap memcpy"],
+        "unestablished_call_site": "second wrap memcpy exact byte contract"
+      },
+      "file_access_summary": {
+        "must_log_file_reads": "yes",
+        "read_categories": {
+          "handoff_and_rules": ["r6 agent_input.json", "verification-orchestrator, annotation-filling, annotation-checking skills and required docs", "r5 agent_report.json and agent_output.txt"],
+          "target_files": ["r6 target C", "r6 case_lib", "main-worktree original target C"],
+          "tooling_sources": ["qcp-mcp session_manager.py and session.py"]
+        },
+        "searches": [],
+        "denied_globs_touched": [],
+        "policy_effect": "compliant"
+      },
+      "blockers": [
+        {"kind": "strict-memcpy-contract-not-yet-symbolically-established", "detail": "After 12 complete QCP repair cycles and more than 30 minutes, the exact second wrap memcpy precondition remains underivable despite explicit exact destination/source blocks and bindings. Weak emp/emp was not used."}
+      ],
+      "summary": "R6 produced a behavior-complete, content-sensitive and coqc-valid spec and repaired helper call sites plus the first wrap memcpy. It is not ready because strict QCP still stops at the second original memcpy."
+    }
+  },
+  "verification_result": {},
+  "blockers": [
+    {"kind": "qcp-mcp-not-at-eof", "detail": "Exact second wrap memcpy contract is not established."}
+  ]
+}

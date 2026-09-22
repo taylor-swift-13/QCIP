@@ -1,0 +1,51 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "0f5bfcb4c6a7da5a0d13b89c081854c3960f32bfeb4726d12e5412fea1e4cc9a",
+  "target_witnesses": [
+    "proof_of_CircularAreaDivideRdData_entail_wit_1",
+    "proof_of_CircularAreaDivideRdData_return_wit_1",
+    "proof_of_CircularAreaDivideRdData_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "divide_contract_preservation",
+      "witness_names": [
+        "proof_of_CircularAreaDivideRdData_entail_wit_1",
+        "proof_of_CircularAreaDivideRdData_return_wit_1",
+        "proof_of_CircularAreaDivideRdData_return_wit_2"
+      ],
+      "representative_witness": "proof_of_CircularAreaDivideRdData_return_wit_1",
+      "dependencies": [],
+      "likely_helper_declarations": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "Prove the entry split by unfolding CircularAreaDivideRdDataInput and CircularAreaBackingResource. For both return branches, select the first generated universal-entailment disjunct, substitute the parameter bridges, normalize nested unsigned_last_nbits with existing unsigned_last_nbits_eq under logical-state and no-overflow bounds, unfold CircularAreaDivideRdDataResult to choose the guard-matching ret branch, and fold the unchanged CircularAreaBackingResource after spatial reassociation.",
+      "natural_language_proof_strategy": "The function reads only descriptor metadata and changes no resource. The input split exposes either emp/null or the shared non-null backing state. On return, the no-overflow premise makes both 32-bit truncations identities; the C comparison is therefore exactly the mathematical split predicate, while every descriptor cell, FIFO fact, option-byte list, and mixed_full buffer resource remains unchanged.",
+      "grouping_reason": "Same function, same unique backing-resource preservation pattern, and the two arithmetic branches share the same unsigned normalization; 3 witnesses are within max_witnesses_per_group=12, so one continuous worker context is preferable.",
+      "confidence": "high",
+      "difficulty": "moderate",
+      "per_witness_plan": {
+        "proof_of_CircularAreaDivideRdData_entail_wit_1": "Unfold input/backing, split null versus non-null, preserve all resource parameters, and derive the UINT_MAX sum bound from the logical-state/data-length bounds.",
+        "proof_of_CircularAreaDivideRdData_return_wit_1": "Choose the first generated theorem disjunct; normalize unsigned arithmetic, select the ret=1 result disjunct, then refold the unchanged backing resource.",
+        "proof_of_CircularAreaDivideRdData_return_wit_2": "Choose the first generated theorem disjunct; normalize unsigned arithmetic, select the ret=0 result disjunct, then refold the unchanged backing resource."
+      },
+      "premise_discharge": {
+        "logical_state_bounds": "Unfold CircularAreaLogicalState.",
+        "unsigned_readidx_identity": "Apply unsigned_last_nbits_eq using 0 <= readidx < area_length <= 256 <= UINT_MAX.",
+        "unsigned_sum_identity": "Apply unsigned_last_nbits_eq using nonnegative operands, data_length_pre = entry_data_length, and readidx + entry_data_length <= UINT_MAX.",
+        "backing_resource_pure_prefix": "Use the existing non-nullness and unchanged CircularAreaLogicalState premises."
+      }
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

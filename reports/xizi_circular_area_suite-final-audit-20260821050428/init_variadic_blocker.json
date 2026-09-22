@@ -1,0 +1,41 @@
+{
+  "schema_version": "qcp-circular-area-suite-blocker/v1",
+  "status": "resolved-by-user-authorized-kprintf-removal",
+  "case": "xizi_circular_area_init",
+  "run_id": "xizi_circular_area_init-20260821050428",
+  "requirement": "Preserve the annotation-stripped CRTOS CircularAreaInit function tokens while completing canonical QCP symbolic execution and Rocq verification.",
+  "exact_candidate": {
+    "function": "CircularAreaInit",
+    "crtos_token_count": 147,
+    "qcip_token_count": 147,
+    "token_sha256": "d62d3bde4fb68d37870592a9e6bf7b0cd505b6d6697709a757d796094e49fd3f",
+    "failure_kprintf_arities": [1, 1],
+    "success_kprintf_arity": 4
+  },
+  "canonical_failure": {
+    "driver": "./linux-binary/symexec",
+    "cwd": "/home/yangfp/QCIP/worktrees/xizi_circular_area_init-20260821050428/xizi_circular_area_init-annotation-r1",
+    "include_args": ["-IQCP_examples/QCP_demos_LLM/"],
+    "slp_args": ["-slp", "QCP_examples/QCP_demos_LLM/", "SimpleC.EE.QCP_demos_LLM"],
+    "error": "unexpected PT_DOT at void KPrintf(const char *fmt, ...)"
+  },
+  "alternatives_tested": [
+    "old-style empty parameter declaration",
+    "no declaration",
+    "multiple named-spec declarations in both orders",
+    "variadic macro dispatch",
+    "latest official upstream QCP 2.1.0 precompiled symexec"
+  ],
+  "rejected_workaround": "Padding the two one-argument failure log calls with NONE, NONE, 0 makes QCP accept a fixed four-argument declaration but changes the CRTOS function body.",
+  "resolution": {
+    "authorization": "The user explicitly authorized deleting KPrintf in the verification version.",
+    "adaptation": "Removed all three KPrintf statements from CircularAreaInit; no fixed-arity padding was introduced.",
+    "alignment": "After removing those three authorized log statements, all remaining CircularAreaInit function tokens match CRTOS.",
+    "final_run_id": "xizi_circular_area_init-20260821150720",
+    "final_source_goal_version": "c3d38be29b09000c4eff2fa2161388533d44e2c000245118f340a8fb5138a053",
+    "final_status": "done",
+    "target_witnesses": 3
+  },
+  "historical_annotation_report": "reports/xizi_circular_area_init-20260821050428/rounds/xizi_circular_area_init-annotation-r1/agent_report.json",
+  "authoritative_final_run": "reports/xizi_circular_area_init-20260821150720/run_logs.json"
+}

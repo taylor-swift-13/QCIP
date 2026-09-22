@@ -1,0 +1,13 @@
+# Reuse Note
+Note kind: non-authoritative reuse note
+This file is not acceptance evidence.
+
+The ready annotation candidate is in the declared annotation-r1 worktree. It imports the shared circular-area library, uses `CircularAreaLogicalState` in both non-null pre/post, preserves the canonical descriptor plus `UCharArray::mixed_full` with the same existential values, includes the canonical non-null backing-pointer fact, and states the null return directly as 1.
+
+The local case_lib now contains only the exact pure `xizi_circular_area_is_full_result` definition plus the shared-library import. Fixed case_lib `coqc_check` passed, final fresh-session qcp-mcp symbolic execution succeeded with 3 pure return manual obligations, and canonical direct symexec reached the end of `CircularAreaIsFull`.
+
+One qcp-mcp diagnostic was caused by calling whole-file `symbolic` after a state-changing `check` in the same session. Closing that session and using a fresh qcp-mcp session produced the authoritative successful result. Do not reuse the failed cursor-mutated result.
+
+The controller should run `annotation-check-round`; its canonical symexec step must perform the authoritative fresh proof_manual skeleton refresh because the subagent's direct symexec found an existing manual file and did not overwrite it.
+
+All authoritative fields, hashes, command arguments, read-audit details, and checking evidence are in `agent_report.json`. JSON handoff, current files, controller state, and current versions override this note.

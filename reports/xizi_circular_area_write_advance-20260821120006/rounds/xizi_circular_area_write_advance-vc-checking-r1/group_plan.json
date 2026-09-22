@@ -1,0 +1,65 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "b82fb0447949471fb4380d0617f8e086a09e2da6bf69e27a420131c832f7d49b",
+  "target_witnesses": [
+    "proof_of_CircularAreaDivideWrData_return_wit_1",
+    "proof_of_CircularAreaDivideWrData_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "wrap_decision_pure_branches",
+      "witness_names": [
+        "proof_of_CircularAreaDivideWrData_return_wit_1",
+        "proof_of_CircularAreaDivideWrData_return_wit_2"
+      ],
+      "representative_witness": "proof_of_CircularAreaDivideWrData_return_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "For each theorem, unfold its generated return-witness definition and choose the second outer Coq disjunct. Introduce all parameters and PreH hypotheses. Keep the entailment at TT && emp |-- pure && emp, unfold CircularAreaDivideWrDataResult, and use ordinary separation-logic pure/emp reasoning. For return_wit_1 select the predicate's second branch, using PreH1 for area_length < writeidx + data_length_pre and reflexivity for 1 = 1. For return_wit_2 select its first branch, using PreH1 for writeidx + data_length_pre <= area_length and reflexivity for 0 = 0. No explicit forbidden lemma, generated-file edit, witness-statement change, or case-lib helper is needed.",
+      "per_witness_plan": {
+        "proof_of_CircularAreaDivideWrData_return_wit_1": "unfold the witness; choose the outer pure/emp disjunct; intros; unfold CircularAreaDivideWrDataResult; choose its strict-overflow/result=1 branch; discharge the inequality with PreH1, the result equality by reflexivity, and preserve emp",
+        "proof_of_CircularAreaDivideWrData_return_wit_2": "unfold the witness; choose the outer pure/emp disjunct; intros; unfold CircularAreaDivideWrDataResult; choose its non-overflow/result=0 branch; discharge the inequality with PreH1, the result equality by reflexivity, and preserve emp"
+      },
+      "vc_shape": {
+        "pre_spatial": "TT && emp in the selected outer branch",
+        "pre_pure": "PreH1 is respectively sum > area_length or sum <= area_length",
+        "post_spatial": "emp",
+        "post_pure": "CircularAreaDivideWrDataResult for concrete result 1 or 0"
+      },
+      "witness_instantiation": "No EX witness; choose only the generated outer Coq disjunct and the appropriate inner predicate disjunct.",
+      "space_plan": "Preserve emp by ordinary entailment reasoning.",
+      "pure_plan": "Unfold the result predicate and use the exact branch guard PreH1 plus reflexivity of the concrete result equation.",
+      "refinement_plan": "not applicable",
+      "premise_discharge": {
+        "overflow_guard": "return_wit_1 PreH1",
+        "non_overflow_guard": "return_wit_2 PreH1",
+        "concrete_result_equalities": "reflexivity",
+        "spatial_emp": "identical antecedent resource"
+      },
+      "natural_language_proof_pattern": "Pure branch selection for a two-case mathematical result predicate, with the same emp resource preserved.",
+      "shared_helper_candidates": [],
+      "proving_hints": [
+        "The generated diagnostics split goals isolate exactly the two predicate facts; treat them only as hints, not as additional witnesses.",
+        "The resource-heavy first outer disjunct is semantically valid but unnecessary; selecting the second disjunct gives the shortest proof without weakening the theorem.",
+        "Keep CircularAreaDivideWrDataResult as the annotation-approved mathematical predicate and unfold it locally in the proof; do not add a helper or mirror the C branch in a new Definition."
+      ],
+      "grouping_reason": "The two witnesses are complementary return branches of CircularAreaDivideWrData and share the same case-lib predicate, branch-selection structure, emp frame, and proof technique. One group of size two obeys the controller bound of 12 and minimizes redundant setup.",
+      "difficulty": "low",
+      "confidence": "high",
+      "grouping_confidence": "high"
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 2,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

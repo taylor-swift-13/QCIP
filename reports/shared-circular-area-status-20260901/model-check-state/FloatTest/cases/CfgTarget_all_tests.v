@@ -1,0 +1,12 @@
+Require Import FloatTest.cases.CS_AttCtrl_Propel.tests.
+Require Import FloatTest.cases.CS_Ctrl_Att_Rate.tests.
+Require Import FloatTest.cases.CS_GyroData_Disposal.tests.
+Require Import FloatTest.cases.CS_Gyro_Att_Predict.tests.
+Require Import FloatTest.cases.CS_IRES_Attitude.tests.
+Require Import FloatTest.cases.CS_OrbitComputation.tests.
+Require Import FloatTest.cases.CS_PrecessionNutationCal.tests.
+Require Import FloatTest.cases.CS_Track_Atti.tests.
+Require Import FloatTest.cases.CS_TrgtAtt_EIM.tests.
+Require Import FloatTest.cases.CS_TrgtAtt_NWM_USU.tests.
+Require Import FloatTest.cases.ModeConvert_EIM.tests.
+Require Import FloatTest.cases.ModeConvert_SBM.tests.

@@ -1,0 +1,503 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "pending",
+  "terminal": "yes",
+  "agent_result": {
+    "vc_checking": {
+      "schema_version": "qcp-vc-checking-result/v1",
+      "status": "blocked",
+      "attempt_id": "xizi_circular_area_read-vc-checking-r1-attempt-1",
+      "round": "xizi_circular_area_read-vc-checking-r1",
+      "summary": "All 35 current manual VCs were analyzed. Thirty-one are semantically proofable, but four Read call-precondition entailments lack the output-capacity premise that their conclusions require. The missing fact must be restored in the C annotation and cannot be supplied by a sound helper lemma.",
+      "source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "caf51e51090c2e7df769d4f280e5dcfa85e71b1a171e60a7ce13b086d524fb31",
+        "matched_current_files": true
+      },
+      "source_goal_version": "273b5151aa7e08ed6359a065716b5f334fb0c2bf6b4d7243c9d525cac6ef4810",
+      "version_evidence": {
+        "status": "matched",
+        "source_file_hashes_matched": 2,
+        "generated_file_hashes_matched": 6,
+        "manual_obligation_count": 35,
+        "target_witness_count": 35,
+        "manual_and_handoff_witness_sets_equal": true,
+        "manual_order_matches_handoff": true
+      },
+      "natural_language_analysis": {
+        "status": "blocked-by-annotation-bug",
+        "analyzed_witness_count": 35,
+        "proofable_count": 31,
+        "needs_helper_count": 0,
+        "annotation_bug_count": 4,
+        "analysis_families": [
+          {
+            "family": "query_state_results",
+            "vc_shape": {
+              "pre_spatial": "CircularAreaBackingResource or its expanded descriptor/array resources",
+              "pre_pure": "CircularAreaLogicalState and query branch guards",
+              "pre_exists": "hidden backing address and operations when unpacking",
+              "post_spatial": "the identical representation folded or unfolded",
+              "post_pure": "FullResult or EmptyResult",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "Reuse the unchanged representation values.",
+            "space_plan": "Unfold/fold CircularAreaBackingResource and cancel GlobalStrings, mixed backing storage, and descriptor fields.",
+            "pure_plan": "Use the full/empty equivalences and index bounds in CircularAreaLogicalState.",
+            "refinement_plan": "Read-only queries preserve the abstract state.",
+            "used_existing_lemmas": [
+              "CircularArea_full_read_ne__query_state_results",
+              "CircularArea_full_status_zero__query_state_results",
+              "CircularArea_full_status_nonzero__query_state_results",
+              "CircularArea_empty_read_ne__query_state_results",
+              "CircularArea_empty_status_nonzero__query_state_results",
+              "CircularArea_empty_status_zero_equal__query_state_results"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "query guard from the VC",
+              "all state facts from CircularAreaLogicalState"
+            ]
+          },
+          {
+            "family": "length_and_divide_results",
+            "vc_shape": {
+              "pre_spatial": "unchanged backing representation",
+              "pre_pure": "logical length, index, uint and wrap/non-wrap bounds",
+              "pre_exists": "none",
+              "post_spatial": "unchanged backing representation",
+              "post_pure": "DataLengthResult or DivideRdDataResult",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "No new abstract state; preserve all fields.",
+            "space_plan": "Frame or fold/unfold the backing predicate.",
+            "pure_plan": "Normalize unsigned_last_nbits under explicit uint bounds and use the write-index/logical-length equation.",
+            "refinement_plan": "Read-only helper calls preserve the state.",
+            "used_existing_lemmas": [
+              "CircularArea_index_eq_cases__query_state_results",
+              "CircularArea_data_length_mod__length_and_divide_results"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "0<area_length<=256 and index/length bounds from CircularAreaLogicalState",
+              "branch comparison from the VC"
+            ]
+          },
+          {
+            "family": "read_setup_and_copy",
+            "vc_shape": {
+              "pre_spatial": "record ownership exposed as backing plus mixed output",
+              "pre_pure": "ActualReadLength, wrap/non-wrap result, state view and list bounds",
+              "pre_exists": "representation fields",
+              "post_spatial": "mixed arrays split around copy intervals",
+              "post_pure": "initialized physical slices and segment bounds",
+              "post_exists": "renamed representation fields"
+            },
+            "witness_instantiation": "Use state projections; actual is either requested or Zlength logical according to Z.min.",
+            "space_plan": "Split mixed_full arrays into mixed_seg intervals and frame descriptor fields.",
+            "pure_plan": "Use ActualReadLength, valid-state bounds, DivideRdDataResult and Zlength_sublist; this plan fails for four VCs because requested<=output_capacity was dropped.",
+            "refinement_plan": "Use CircularAreaLiveBytes to establish exact initialized source slices.",
+            "used_existing_lemmas": [
+              "CircularArea_zmin_left__read_call_normalization",
+              "CircularArea_zmin_right__read_call_normalization",
+              "CircularAreaInitializedSlice_nonwrap__read_copy_slices",
+              "CircularAreaInitializedSlice_wrap_head__read_copy_slices"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "logical/index bounds from CircularAreaValid",
+              "copy interval from DivideRdDataResult",
+              "output interval additionally requires the missing public capacity bound"
+            ]
+          },
+          {
+            "family": "read_returns",
+            "vc_shape": {
+              "pre_spatial": "post-copy segments or unchanged error resources",
+              "pre_pure": "success branch equations or pointer/empty/zero-request guard",
+              "pre_exists": "none",
+              "post_spatial": "store_circular_area plus mixed_full output, or preserved error ownership",
+              "post_pure": "CircularAreaReadTransition and valid after-state",
+              "post_exists": "state_after and output_after on live-output branches"
+            },
+            "witness_instantiation": "On success choose the record with modulo-advanced read index, unchanged physical/write fields, zero status, and logical suffix; choose mapped consumed prefix plus untouched output suffix. On error choose the original state/output.",
+            "space_plan": "Merge physical/output segments and fold store_circular_area; error branches preserve resources directly.",
+            "pure_plan": "Use sublist_split and modular arithmetic on success; unfold ErrorResult/EmptyResult on errors.",
+            "refinement_plan": "Apply CircularArea_consume_logical_state__read_postconditions for successful transitions.",
+            "used_existing_lemmas": [
+              "CircularArea_consume_logical_state__read_postconditions"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "ActualReadLength and positivity",
+              "wrap/non-wrap equations",
+              "valid-state invariant"
+            ]
+          }
+        ],
+        "witnesses": [
+          {
+            "witness_name": "proof_of_CircularAreaIsFull_entail_wit_1",
+            "judgment": "proofable",
+            "analysis_group_candidate": "query_state_results",
+            "proof_summary": "Unfold backing ownership; its pure conjunct supplies LogicalState and all spatial fields cancel."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaIsFull_return_wit_1",
+            "judgment": "proofable",
+            "analysis_group_candidate": "query_state_results",
+            "proof_summary": "Unequal indices plus LogicalState imply FullResult 0; repack unchanged backing."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaIsFull_return_wit_2",
+            "judgment": "proofable",
+            "analysis_group_candidate": "query_state_results",
+            "proof_summary": "Status zero plus LogicalState imply FullResult 0; repack unchanged backing."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaIsFull_return_wit_3",
+            "judgment": "proofable",
+            "analysis_group_candidate": "query_state_results",
+            "proof_summary": "Equal indices and nonzero status imply full logical length and FullResult 1."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaIsEmpty_entail_wit_1",
+            "judgment": "proofable",
+            "analysis_group_candidate": "query_state_results",
+            "proof_summary": "Unfold backing ownership and expose its LogicalState/resources."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaIsEmpty_return_wit_1",
+            "judgment": "proofable",
+            "analysis_group_candidate": "query_state_results",
+            "proof_summary": "Unequal indices exclude empty logical state; derive EmptyResult 0 and fold backing."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaIsEmpty_return_wit_2",
+            "judgment": "proofable",
+            "analysis_group_candidate": "query_state_results",
+            "proof_summary": "Nonzero status excludes the invariant's empty case; derive EmptyResult 0."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaIsEmpty_return_wit_3",
+            "judgment": "proofable",
+            "analysis_group_candidate": "query_state_results",
+            "proof_summary": "Equal indices with status zero force logical=nil and EmptyResult 1."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaGetDataLength_safety_wit_4",
+            "judgment": "proofable",
+            "analysis_group_candidate": "length_and_divide_results",
+            "proof_summary": "Positive area length and bounded indices discharge remainder/divisor safety."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaGetDataLength_safety_wit_5",
+            "judgment": "proofable",
+            "analysis_group_candidate": "length_and_divide_results",
+            "proof_summary": "Logical length is in 0..area_length<=256, so result and modular arithmetic are safe."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaGetDataLength_entail_wit_1",
+            "judgment": "proofable",
+            "analysis_group_candidate": "length_and_divide_results",
+            "proof_summary": "Expose backing fields and derive equal-index length cases from LogicalState."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaGetDataLength_entail_wit_2",
+            "judgment": "proofable",
+            "analysis_group_candidate": "length_and_divide_results",
+            "proof_summary": "Expose backing fields; non-equal branch retains all invariant bounds."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaGetDataLength_return_wit_1",
+            "judgment": "proofable",
+            "analysis_group_candidate": "length_and_divide_results",
+            "proof_summary": "Equal-index status cases identify logical length as zero or area_length."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaGetDataLength_return_wit_2",
+            "judgment": "proofable",
+            "analysis_group_candidate": "length_and_divide_results",
+            "proof_summary": "Use writeidx=(readidx+length) mod area and non-full length to normalize the C remainder."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaDivideRdData_entail_wit_1",
+            "judgment": "proofable",
+            "analysis_group_candidate": "length_and_divide_results",
+            "proof_summary": "Unfold backing and retain explicit d0 and addition bounds."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaDivideRdData_return_wit_1",
+            "judgment": "proofable",
+            "analysis_group_candidate": "length_and_divide_results",
+            "proof_summary": "Normalize unsigned addition and select the greater-than/result=1 disjunct."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaDivideRdData_return_wit_2",
+            "judgment": "proofable",
+            "analysis_group_candidate": "length_and_divide_results",
+            "proof_summary": "Normalize unsigned addition and select the less-or-equal/result=0 disjunct."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaRead_entail_wit_2",
+            "judgment": "proofable",
+            "analysis_group_candidate": "read_setup_after_repair",
+            "proof_summary": "Unfold ReadInput/store ownership and instantiate hidden backing/operations; its conclusion is valid but drops the capacity fact needed downstream.",
+            "recommended_next_phase": "annotation"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaRead_entail_wit_3_1",
+            "judgment": "annotation-bug",
+            "analysis_group_candidate": "none",
+            "proof_summary": "Actual=logical length is derivable, but actual<=output_capacity is not.",
+            "failure_signal": "area=8, readidx=6, logical length=5, requested=10, output_capacity=3 satisfies the wrap P with actual=5 but falsifies 5<=3.",
+            "recommended_next_phase": "annotation"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaRead_entail_wit_3_2",
+            "judgment": "annotation-bug",
+            "analysis_group_candidate": "none",
+            "proof_summary": "Actual=requested is derivable, but requested<=output_capacity is not.",
+            "failure_signal": "area=8, readidx=6, logical length=5, requested=4, output_capacity=3 satisfies the wrap P but falsifies 4<=3.",
+            "recommended_next_phase": "annotation"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaRead_entail_wit_4",
+            "judgment": "proofable",
+            "analysis_group_candidate": "read_copy_splits",
+            "proof_summary": "Split backing/output arrays; wrap bounds and LiveBytes establish the initialized tail slice."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaRead_entail_wit_5",
+            "judgment": "proofable",
+            "analysis_group_candidate": "read_copy_splits",
+            "proof_summary": "Split the head and output suffix at read_len_down/data_length; LiveBytes establishes the wrapped head slice."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaRead_entail_wit_6_1",
+            "judgment": "annotation-bug",
+            "analysis_group_candidate": "none",
+            "proof_summary": "Non-wrap initialized slice is derivable, but actual<=output_capacity is not.",
+            "failure_signal": "area=8, readidx=0, logical length=5, requested=10, output_capacity=3 satisfies the non-wrap P with actual=5 but falsifies 5<=3.",
+            "recommended_next_phase": "annotation"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaRead_entail_wit_6_2",
+            "judgment": "annotation-bug",
+            "analysis_group_candidate": "none",
+            "proof_summary": "Non-wrap actual=requested is derivable, but requested<=output_capacity is not.",
+            "failure_signal": "area=8, readidx=0, logical length=5, requested=4, output_capacity=3 satisfies the non-wrap P but falsifies 4<=3.",
+            "recommended_next_phase": "annotation"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaRead_return_wit_1",
+            "judgment": "proofable",
+            "analysis_group_candidate": "read_returns",
+            "proof_summary": "Merge wrap-copy segments; instantiate suffix state/output and apply consume_logical_state."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaRead_return_wit_2",
+            "judgment": "proofable",
+            "analysis_group_candidate": "read_returns",
+            "proof_summary": "Merge non-wrap segments; instantiate modulo-advanced suffix state/output and apply consume_logical_state."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaRead_return_wit_3",
+            "judgment": "proofable",
+            "analysis_group_candidate": "read_returns",
+            "proof_summary": "Nonzero EmptyResult means logical=nil; choose unchanged error transition."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaRead_return_wit_4",
+            "judgment": "proofable",
+            "analysis_group_candidate": "read_returns",
+            "proof_summary": "0<=request<=0 yields request=0; choose unchanged zero-request transition."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaRead_return_wit_5",
+            "judgment": "proofable",
+            "analysis_group_candidate": "read_returns",
+            "proof_summary": "Select the live-descriptor/null-output input arm and preserve store ownership."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaRead_return_wit_6",
+            "judgment": "proofable",
+            "analysis_group_candidate": "read_returns",
+            "proof_summary": "Select the null-descriptor input arm; ErrorResult 1 and emp follow."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaRead_partial_solve_wit_4_pure",
+            "judgment": "proofable",
+            "analysis_group_candidate": "read_setup_after_repair",
+            "proof_summary": "DataLengthResult plus valid bounds gives 0<=actual<=area and readidx+actual<=UINT_MAX."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaRead_partial_solve_wit_5_pure",
+            "judgment": "proofable",
+            "analysis_group_candidate": "read_setup_after_repair",
+            "proof_summary": "requested<=logical length<=area and bounded readidx discharge call arithmetic."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaRead_partial_solve_wit_6_pure",
+            "judgment": "proofable",
+            "analysis_group_candidate": "read_copy_splits",
+            "proof_summary": "Zlength_sublist over [0,read_len_up] follows from wrap and capacity/logical bounds."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaRead_partial_solve_wit_7_pure",
+            "judgment": "proofable",
+            "analysis_group_candidate": "read_copy_splits",
+            "proof_summary": "Zlength_sublist over [read_len_up,data_length] follows from down-length and capacity/logical bounds."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaRead_partial_solve_wit_8_pure",
+            "judgment": "proofable",
+            "analysis_group_candidate": "read_copy_splits",
+            "proof_summary": "Non-wrap prefix lengths follow from 0<=data_length<=logical length and output capacity."
+          }
+        ],
+        "analysis_groups": [],
+        "proof_group_derivation_status": "withheld because annotation-bug witnesses cannot enter proof groups",
+        "expected_groups_after_annotation_repair": [
+          {
+            "group_id": "query_state_results",
+            "witness_count": 8,
+            "grouping_reason": "same Full/Empty invariant and backing fold/unfold pattern"
+          },
+          {
+            "group_id": "length_and_divide_results",
+            "witness_count": 9,
+            "grouping_reason": "same logical-length/modular arithmetic pattern"
+          },
+          {
+            "group_id": "read_setup_after_repair",
+            "witness_count": 7,
+            "grouping_reason": "same record exposure and min/call setup pattern"
+          },
+          {
+            "group_id": "read_copy_splits",
+            "witness_count": 5,
+            "grouping_reason": "same mixed-segment, initialized-slice and sublist-length pattern"
+          },
+          {
+            "group_id": "read_returns",
+            "witness_count": 6,
+            "grouping_reason": "same transition reconstruction/error-preservation boundary"
+          }
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "273b5151aa7e08ed6359a065716b5f334fb0c2bf6b4d7243c9d525cac6ef4810",
+        "target_witnesses": [
+          "proof_of_CircularAreaIsFull_entail_wit_1",
+          "proof_of_CircularAreaIsFull_return_wit_1",
+          "proof_of_CircularAreaIsFull_return_wit_2",
+          "proof_of_CircularAreaIsFull_return_wit_3",
+          "proof_of_CircularAreaIsEmpty_entail_wit_1",
+          "proof_of_CircularAreaIsEmpty_return_wit_1",
+          "proof_of_CircularAreaIsEmpty_return_wit_2",
+          "proof_of_CircularAreaIsEmpty_return_wit_3",
+          "proof_of_CircularAreaGetDataLength_safety_wit_4",
+          "proof_of_CircularAreaGetDataLength_safety_wit_5",
+          "proof_of_CircularAreaGetDataLength_entail_wit_1",
+          "proof_of_CircularAreaGetDataLength_entail_wit_2",
+          "proof_of_CircularAreaGetDataLength_return_wit_1",
+          "proof_of_CircularAreaGetDataLength_return_wit_2",
+          "proof_of_CircularAreaDivideRdData_entail_wit_1",
+          "proof_of_CircularAreaDivideRdData_return_wit_1",
+          "proof_of_CircularAreaDivideRdData_return_wit_2",
+          "proof_of_CircularAreaRead_entail_wit_2",
+          "proof_of_CircularAreaRead_entail_wit_3_1",
+          "proof_of_CircularAreaRead_entail_wit_3_2",
+          "proof_of_CircularAreaRead_entail_wit_4",
+          "proof_of_CircularAreaRead_entail_wit_5",
+          "proof_of_CircularAreaRead_entail_wit_6_1",
+          "proof_of_CircularAreaRead_entail_wit_6_2",
+          "proof_of_CircularAreaRead_return_wit_1",
+          "proof_of_CircularAreaRead_return_wit_2",
+          "proof_of_CircularAreaRead_return_wit_3",
+          "proof_of_CircularAreaRead_return_wit_4",
+          "proof_of_CircularAreaRead_return_wit_5",
+          "proof_of_CircularAreaRead_return_wit_6",
+          "proof_of_CircularAreaRead_partial_solve_wit_4_pure",
+          "proof_of_CircularAreaRead_partial_solve_wit_5_pure",
+          "proof_of_CircularAreaRead_partial_solve_wit_6_pure",
+          "proof_of_CircularAreaRead_partial_solve_wit_7_pure",
+          "proof_of_CircularAreaRead_partial_solve_wit_8_pure"
+        ],
+        "grouping_policy": {
+          "controller_policy": "bounded-witness-groups/v1",
+          "max_witnesses_per_group": 12,
+          "controller_enforced": "yes"
+        },
+        "proof_groups": [],
+        "ready_for_vc_proving_preparing": false,
+        "blockers": [
+          "capacity-bound-lost-before-read-query-calls"
+        ]
+      },
+      "blockers": [
+        {
+          "kind": "annotation-bug",
+          "blocker_class": "annotation-bug",
+          "id": "capacity-bound-lost-before-read-query-calls",
+          "message": "CircularAreaReadInput's live non-null arm includes data_length@pre <= output_capacity, but the first local Assert after CHECK(data_length > 0) omits it. Later generated states therefore have no premise relating output_capacity to requested or actual length.",
+          "blocked_witnesses": [
+            {
+              "name": "proof_of_CircularAreaRead_entail_wit_3_1",
+              "missing_fact": "retval <= output_capacity",
+              "recommended_next_phase": "annotation"
+            },
+            {
+              "name": "proof_of_CircularAreaRead_entail_wit_3_2",
+              "missing_fact": "data_length_pre <= output_capacity",
+              "recommended_next_phase": "annotation"
+            },
+            {
+              "name": "proof_of_CircularAreaRead_entail_wit_6_1",
+              "missing_fact": "retval <= output_capacity",
+              "recommended_next_phase": "annotation"
+            },
+            {
+              "name": "proof_of_CircularAreaRead_entail_wit_6_2",
+              "missing_fact": "data_length_pre <= output_capacity",
+              "recommended_next_phase": "annotation"
+            }
+          ],
+          "counterexample_evidence": [
+            "Wrap/actual: area_length=8, readidx=6, logical length=5, requested=10, output_capacity=3, actual=5 and DivideRdDataResult(...,1); conclusion 5<=3 is false.",
+            "Wrap/request: area_length=8, readidx=6, logical length=5, requested=4, output_capacity=3 and DivideRdDataResult(...,1); conclusion 4<=3 is false.",
+            "Non-wrap/actual: area_length=8, readidx=0, logical length=5, requested=10, output_capacity=3, actual=5 and DivideRdDataResult(...,0); conclusion 5<=3 is false.",
+            "Non-wrap/request: area_length=8, readidx=0, logical length=5, requested=4, output_capacity=3 and DivideRdDataResult(...,0); conclusion 4<=3 is false."
+          ],
+          "required_rework": "Add data_length@pre <= output_capacity to the first representation-exposing Assert after CHECK(data_length > 0) in OUTPUT/xizi/xizi_circular_area_read/source/xizi_circular_area_read.c, regenerate, and rerun vc-checking. Preserve the public contract and CircularAreaReadTransition.",
+          "helper_not_applicable": "Any helper proving the capacity conclusion would need the same absent premise.",
+          "source_version": "caf51e51090c2e7df769d4f280e5dcfa85e71b1a171e60a7ce13b086d524fb31",
+          "source_goal_version": "273b5151aa7e08ed6359a065716b5f334fb0c2bf6b4d7243c9d525cac6ef4810",
+          "recommended_next_phase": "annotation"
+        }
+      ],
+      "changed_files": [],
+      "allowed_write_paths_respected": true
+    }
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-09-02T10:39:15Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_circular_area_read-20260902164201/rounds/xizi_circular_area_read-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    }
+  },
+  "blockers": [
+    {
+      "kind": "annotation-bug",
+      "id": "capacity-bound-lost-before-read-query-calls",
+      "recommended_next_phase": "annotation"
+    }
+  ]
+}

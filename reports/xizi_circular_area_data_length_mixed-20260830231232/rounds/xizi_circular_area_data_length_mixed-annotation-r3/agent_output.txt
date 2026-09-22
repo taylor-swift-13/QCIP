@@ -1,0 +1,25 @@
+# Reuse Note
+Note kind: non-authoritative reuse note
+This file is not acceptance evidence.
+
+The r3 candidate changes annotation only. It adds `area_addr != 0` and
+`data_buffer != 0` to each of the three resource-opening `Assert` blocks in
+`CircularAreaIsFull` and `CircularAreaGetDataLength`. The annotation-stripped
+executable hash remains
+`938f0bde68ae2c1d07e2659385666b1ef39f2b570e7b5e3c5d260538eef346dd`,
+identical to the parent round.
+
+Two fresh qcp-mcp sessions with the canonical `-I` and `-slp` arguments
+completed `symbolic(155)` with `result=success`, `errormessage=null`, and 13
+expected manual obligations. In the regenerated goals,
+`CircularAreaIsFull_return_wit_1`, `_2`, and `_3` all explicitly receive both
+nonzero premises. Canonical symexec reached both function ends and reported
+`Successfully finished symbolic execution`; a repeat refresh produced the
+same combined goal/auto hash.
+
+The unchanged case lib re-exports the canonical callpoint-spec library and
+passed the fixed full dependency Coq check (163.824s) plus a no-deps recheck.
+Annotation-checking passed: exact `Zlength logical` semantics remain intact,
+the resource remains `UCharArray.mixed_full`, no `UCharArray::full` contract
+was introduced, and no lib change is needed. The controller must regenerate
+and split the manual skeleton for the new source-goal version before proving.

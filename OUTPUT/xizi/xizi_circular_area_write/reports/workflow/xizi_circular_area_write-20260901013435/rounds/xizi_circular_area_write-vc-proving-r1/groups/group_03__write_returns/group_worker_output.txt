@@ -1,0 +1,13 @@
+# Reuse Note
+Note kind: non-authoritative reuse note
+This file is not acceptance evidence.
+
+Group `write_returns` completed all eight assigned `CircularAreaWrite` return witnesses for source_goal_version `58367bda039ce316e4f356e4ec0128e293c088785041c0b78d02658ff44dde91`.
+
+Reusable proof structure:
+- `UCharArray.full` yields byte-range facts through `store_uchar_range`; `circular_area_uchar_full_forall__write_returns` packages this as `Forall (fun z => 0 <= z <= 255)`.
+- `circular_area_physical_write_wrap__write_returns` and `circular_area_physical_write_nowrap__write_returns` establish the extensional mixed-buffer update for the two copy layouts.
+- `circular_area_logical_state_after_write__write_returns` converts a positive non-force physical write plus the input byte range into the canonical logical FIFO state and updated resource.
+- Force-mode returns fold `CircularAreaForceWriteEffect` and `CircularAreaForceWriteResource`; short error returns preserve the original resource directly.
+
+Evidence pointer: `group_worker_report.json` records the fixed group-check and coqtop-debug evidence, both bound to the current source_goal_version. The fixed group-check target was `.coq_group_checks/xizi_circular_area_write_group_03__write_returns_check.v` and returned 0.

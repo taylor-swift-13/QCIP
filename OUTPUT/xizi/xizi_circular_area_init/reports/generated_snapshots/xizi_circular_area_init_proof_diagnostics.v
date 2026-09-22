@@ -22,12 +22,6 @@ Require Import
       SimpleC.EE.OUTPUT.xizi.xizi_circular_area_init.source.xizi_circular_area_init_lib.
 Local Open Scope sac.
 
-Lemma proof_of_CircularAreaInit_return_wit_1_split_goal_1 : CircularAreaInit_return_wit_1_split_goal_1.
-Proof. Abort.
-
-Lemma proof_of_CircularAreaInit_return_wit_1_split_goal_2 : CircularAreaInit_return_wit_1_split_goal_2.
-Proof. Abort.
-
 Lemma proof_of_CircularAreaInit_return_wit_1_split_goal_spatial : CircularAreaInit_return_wit_1_split_goal_spatial.
 Proof. Abort.
 

@@ -1,0 +1,51 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "a2aedb5fd9a41435d14ba9903b04f4baa76e4bddf2f28b09ebae31cd1e605ffa",
+  "target_witnesses": [
+    "proof_of_CircularAreaIsFull_return_wit_1",
+    "proof_of_CircularAreaIsFull_return_wit_2",
+    "proof_of_CircularAreaIsFull_return_wit_3",
+    "proof_of_CircularAreaIsFull_partial_solve_wit_1_pure",
+    "proof_of_CircularAreaGetDataLength_safety_wit_7",
+    "proof_of_CircularAreaGetDataLength_safety_wit_8",
+    "proof_of_CircularAreaGetDataLength_return_wit_1",
+    "proof_of_CircularAreaGetDataLength_return_wit_2",
+    "proof_of_CircularAreaGetDataLength_return_wit_3"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "circular_area_direct_specs",
+      "witness_names": [
+        "proof_of_CircularAreaIsFull_return_wit_1",
+        "proof_of_CircularAreaIsFull_return_wit_2",
+        "proof_of_CircularAreaIsFull_return_wit_3",
+        "proof_of_CircularAreaIsFull_partial_solve_wit_1_pure",
+        "proof_of_CircularAreaGetDataLength_safety_wit_7",
+        "proof_of_CircularAreaGetDataLength_safety_wit_8",
+        "proof_of_CircularAreaGetDataLength_return_wit_1",
+        "proof_of_CircularAreaGetDataLength_return_wit_2",
+        "proof_of_CircularAreaGetDataLength_return_wit_3"
+      ],
+      "representative_witness": "proof_of_CircularAreaGetDataLength_return_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "For each witness, unfold the witness definition and choose a convenient top-level disjunct. Introduce quantified hypotheses, use standard separation-logic preprocessing/cancellation for the unchanged GlobalStrings/descriptor/buffer frame, and unfold only the relevant seed predicate. For IsFull returns choose the result-relation branch fixed by readidx/writeidx/b_status. For the KPrintf pure witness normalize the zero pointer offset. For safety_wit_7/8 unfold CircularAreaDescriptorState and solve nonzero and signed-difference bounds from 0 <= indices < area_length <= 256. For DataLength return_wit_1 exclude the full IsFull branch using retval = 0 and select the modular-distance result branch; for return_wit_2 exclude the non-full branch using retval <> 0 and select the full-length branch; for return_wit_3 unfold CircularAreaErrorResult. Close exact result equalities reflexively. No helper or forbidden lemma is needed.",
+      "natural_language_proof_strategy": "All obligations state that already-owned resources are preserved while the concrete branch result satisfies the mathematical ring-buffer predicates. The guards and descriptor invariant supply every pure premise; the result expressions are definitionally the same as the predicate branches.",
+      "grouping_reason": "Same case, same two mutually connected result predicates, same descriptor invariant, same unchanged-frame/direct-proof pattern, no helper family or dependency boundary, and nine witnesses are within the controller maximum of twelve.",
+      "confidence": "high"
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 9,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

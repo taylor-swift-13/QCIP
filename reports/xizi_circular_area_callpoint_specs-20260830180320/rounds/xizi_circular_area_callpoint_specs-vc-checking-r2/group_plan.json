@@ -1,0 +1,79 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "0e0047d351179c18413cddb50b98a75390e5900766340ed7aa6578499dbf28a1",
+  "target_witnesses": [
+    "proof_of_xizi_circular_area_call_init_metadata_release_return_wit_1",
+    "proof_of_xizi_circular_area_call_init_metadata_release_return_wit_2",
+    "proof_of_xizi_circular_area_call_init_empty_read_release_return_wit_1",
+    "proof_of_xizi_circular_area_call_init_empty_read_release_return_wit_2",
+    "proof_of_xizi_circular_area_call_init_first_write_release_return_wit_1",
+    "proof_of_xizi_circular_area_call_init_first_write_release_return_wit_2",
+    "proof_of_xizi_circular_area_call_write_read_release_return_wit_1",
+    "proof_of_xizi_circular_area_call_write_read_release_return_wit_2",
+    "proof_of_xizi_circular_area_call_repeated_write_release_return_wit_1",
+    "proof_of_xizi_circular_area_call_repeated_write_release_return_wit_2",
+    "proof_of_xizi_circular_area_call_repeated_write_release_partial_solve_wit_3_pure",
+    "proof_of_xizi_circular_area_call_read_then_write_release_return_wit_1",
+    "proof_of_xizi_circular_area_call_read_then_write_release_return_wit_2",
+    "proof_of_xizi_circular_area_call_reset_release_return_wit_1",
+    "proof_of_xizi_circular_area_call_reset_release_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "successful_returns_and_capacity",
+      "witness_names": [
+        "proof_of_xizi_circular_area_call_init_metadata_release_return_wit_1",
+        "proof_of_xizi_circular_area_call_init_empty_read_release_return_wit_1",
+        "proof_of_xizi_circular_area_call_init_first_write_release_return_wit_1",
+        "proof_of_xizi_circular_area_call_write_read_release_return_wit_1",
+        "proof_of_xizi_circular_area_call_repeated_write_release_return_wit_1",
+        "proof_of_xizi_circular_area_call_repeated_write_release_partial_solve_wit_3_pure",
+        "proof_of_xizi_circular_area_call_read_then_write_release_return_wit_1",
+        "proof_of_xizi_circular_area_call_reset_release_return_wit_1"
+      ],
+      "representative_witness": "proof_of_xizi_circular_area_call_repeated_write_release_partial_solve_wit_3_pure",
+      "dependencies": [],
+      "likely_helper_declarations": [],
+      "candidate_helper_declarations": [],
+      "proof_strategy": "Unfold targets/result predicates, choose success arms, prove reflexive codes, and cancel exact arrays/emp. For the pure witness choose the shorter second alternative, unfold CircularAreaBackingResource and CircularAreaLogicalState, project b_status=0 iff Zlength logical<area_length, apply it to reflexivity, and simplify singleton Zlength.",
+      "natural_language_proof_strategy": "Successful release consumes area ownership and preserves caller arrays; the non-full capacity fact is explicit in the canonical logical state instantiated with b_status=0 and a singleton logical queue.",
+      "grouping_reason": "Same successful callpoint path; the capacity projection stays with repeated-write and yields a balanced minimum two-group plan.",
+      "expected_helpers": [],
+      "difficulty": "low",
+      "confidence": "high"
+    },
+    {
+      "group_id": "failure_returns",
+      "witness_names": [
+        "proof_of_xizi_circular_area_call_init_metadata_release_return_wit_2",
+        "proof_of_xizi_circular_area_call_init_empty_read_release_return_wit_2",
+        "proof_of_xizi_circular_area_call_init_first_write_release_return_wit_2",
+        "proof_of_xizi_circular_area_call_write_read_release_return_wit_2",
+        "proof_of_xizi_circular_area_call_repeated_write_release_return_wit_2",
+        "proof_of_xizi_circular_area_call_read_then_write_release_return_wit_2",
+        "proof_of_xizi_circular_area_call_reset_release_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_circular_area_call_write_read_release_return_wit_2",
+      "dependencies": [],
+      "likely_helper_declarations": [],
+      "candidate_helper_declarations": [],
+      "proof_strategy": "Unfold targets and failure results, choose failure arms, instantiate failed_area with the pre-state failed_area, prove 0=0, and cancel/reassociate exact failure and array resources.",
+      "natural_language_proof_strategy": "Every failure wrapper preserves the exact failure resource returned by Init and all caller buffers, so the result is obtained by packaging that same resource.",
+      "grouping_reason": "All seven return_wit_2 witnesses share the identical failure existential/framing family.",
+      "expected_helpers": [],
+      "difficulty": "low",
+      "confidence": "high"
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 15,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

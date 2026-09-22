@@ -1,0 +1,525 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "annotation",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "phase": "annotation",
+    "annotation": {
+      "status": "completed",
+      "terminal": true,
+      "ready_for_annotation_check_round": true,
+      "source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "a00f3d3ca64fcfd11e2ce49b8197756c34f6964d7fadc69da8591e99bcdfd750"
+      },
+      "candidate_source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "02cefcea6907bfbd1dfb7daae9e12acb474dec911281540cee3b425bb4897913",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "relative_path": "OUTPUT/xizi/xizi_circular_area_max_length/source/xizi_circular_area_max_length.c",
+            "sha256": "a8f903517bb61a515ef1aea5924eb071f850633d7fb32085312f04bbbad340e7",
+            "state": "present",
+            "role": "target-c-annotated"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_max_length/source/xizi_circular_area_max_length_lib.v",
+            "sha256": "1775f28297abe1cd0839fd28899e4dc8125b0c417d6d136e6577c8b5469da512",
+            "state": "present",
+            "role": "case-lib-seed"
+          }
+        ]
+      },
+      "summary": "Migrated the callable contract from CircularAreaDescriptorState plus UCharArray::full to the unique shared CircularAreaBackingResource over CircularAreaLogicalState and UCharArray::mixed_full. The non-null branch returns exactly area_length and preserves identical descriptor/FIFO/physical existential state; the null branch returns C ERROR=1. A complete Assert exposes the shared resource only around the descriptor-field read, without reading or converting backing cells.",
+      "annotation_design_summary": {
+        "schema_version": "qcp-annotation-design-summary/v1",
+        "style": "predicate-first direct query specification",
+        "case_lib_spec_declarations": [
+          {
+            "kind": "Definition",
+            "name": "CircularAreaGetMaxLengthResult",
+            "status": "existing-and-retained"
+          }
+        ],
+        "shared_representation": "CircularAreaBackingResource/CircularAreaLogicalState",
+        "hidden_properties": [
+          "read-only callpoint composability for every valid unified state",
+          "descriptor identity and every existential state value are preserved",
+          "canonical p_head and p_tail are inherited from the shared resource",
+          "UCharArray::mixed_full option-byte ownership is preserved without a backing-cell read",
+          "GlobalStrings in a caller frame is untouched and preserved by framing"
+        ],
+        "pure_result_relation": "null gives result=1; non-null gives result=area_length",
+        "algorithm_mirror_introduced": false,
+        "loop_invariants": "not-applicable-no-loop"
+      },
+      "changed_files": [
+        {
+          "path": "OUTPUT/xizi/xizi_circular_area_max_length/source/xizi_circular_area_max_length.c",
+          "before_sha256": "85a25aac941d0791728abd243ee7bda83c8c3ea187f0f08c5ea6a14281159130",
+          "after_sha256": "a8f903517bb61a515ef1aea5924eb071f850633d7fb32085312f04bbbad340e7",
+          "change": "shared unified contract, entry identity alias, and one complete resource-unfolding Assert"
+        }
+      ],
+      "case_lib_changes": [],
+      "case_lib_spec_status": "existing exact implementation-free result relation; no edit required",
+      "canonical_symexec_evidence": {
+        "schema_version": "qcp-canonical-symexec-evidence/v1",
+        "status": "passed",
+        "driver": "/home/yangfp/QCIP/linux-binary/symexec",
+        "cwd": "/home/yangfp/QCIP/worktrees/xizi_circular_area_max_length-20260901112029/xizi_circular_area_max_length-annotation-r1",
+        "include_args": [
+          "QCP_examples/QCP_demos_LLM/"
+        ],
+        "slp_args": [
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM"
+        ],
+        "returncode": 0,
+        "result": "Successfully finished symbolic execution",
+        "manual_refresh": "existing manual preserved by direct driver; controller annotation-check-round owns fresh skeleton replacement"
+      },
+      "qcp_mcp_interactive_evidence": {
+        "schema_version": "qcp-mcp-interactive-evidence/v1",
+        "status": "passed",
+        "qcp_mcp_requirement_satisfied": "yes",
+        "driver": "/home/yangfp/QCIP/linux-binary/mcp",
+        "cwd": "/home/yangfp/QCIP/worktrees/xizi_circular_area_max_length-20260901112029/xizi_circular_area_max_length-annotation-r1",
+        "input_file": "OUTPUT/xizi/xizi_circular_area_max_length/source/xizi_circular_area_max_length.c",
+        "include_args": [
+          "QCP_examples/QCP_demos_LLM/"
+        ],
+        "slp_args": [
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM"
+        ],
+        "interactive_command": "<symbolic>1000</symbolic>",
+        "final_result": "success",
+        "verification_status": "unproved",
+        "repeated_stability_runs": 3,
+        "manual_obligation_count": 3,
+        "witness_counts": {
+          "safety": {
+            "total": 6,
+            "auto_solved": 6,
+            "manual": 0
+          },
+          "entailment": {
+            "total": 1,
+            "auto_solved": 0,
+            "manual": 1
+          },
+          "return": {
+            "total": 2,
+            "auto_solved": 0,
+            "manual": 2
+          }
+        },
+        "reached_file_end": true,
+        "errors": []
+      },
+      "case_lib_coqc_evidence": {
+        "schema_version": "qcp-coqc-check-evidence/v1",
+        "status": "passed",
+        "tool": "coqc",
+        "target_kind": "case_lib",
+        "target_file": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_max_length/source/xizi_circular_area_max_length_lib.v",
+        "target_sha256": "1775f28297abe1cd0839fd28899e4dc8125b0c417d6d136e6577c8b5469da512",
+        "fixed_flags_hash": "24021e94f65d7fcb0014dc119baf8b1f9efef2bcb2cf5fbeb875549a843dbeb8",
+        "coq_version": "The Coq Proof Assistant, version 8.20.1",
+        "build_workspace": "/home/yangfp/QCIP/worktrees/xizi_circular_area_max_length-20260901112029/_coq_builds/xizi_circular_area_max_length-annotation-r1-case-lib-full",
+        "dependency_mode": "full",
+        "returncode": 0,
+        "elapsed_seconds": 170.485,
+        "stderr_tail": ""
+      },
+      "annotation_checking_evidence": {
+        "schema_version": "qcp-annotation-checking-report/v1",
+        "status": "passed",
+        "checked_scope": [
+          "case-lib result definition",
+          "function Require/Ensure",
+          "complete Assert",
+          "shared resource/mixed-buffer preservation",
+          "manual-obligation semantic shape"
+        ],
+        "qcp_mcp_requirement_satisfied": "yes",
+        "annotation_scratch_lib_coqc_status": "passed",
+        "spec_definition_status": "passed: exact two-branch mathematical relation, no algorithm mirror",
+        "function_spec_status": "passed: exact capacity and identical unified state; null ERROR=1",
+        "invariant_status": "not-applicable-no-loop",
+        "annotation_scratch_lib_changes": "empty",
+        "failed_checks": [],
+        "required_annotation_rework": "none",
+        "required_annotation_scratch_lib_rework": "none",
+        "ready_for_main_common_case_formal_lib_update": "no",
+        "ready_for_main_symexec": "yes",
+        "manual_vc_semantic_review": [
+          "entail_wit_1: entry identity substitution plus CircularAreaBackingResource unfold",
+          "return_wit_1: shared resource refold plus non-null exact-result branch",
+          "return_wit_2: null exact ERROR=1 result branch"
+        ]
+      },
+      "iteration_history": [
+        {
+          "iteration": 1,
+          "result": "qcp-success",
+          "finding": "baseline compatibility representation rejected"
+        },
+        {
+          "iteration": 2,
+          "result": "qcp-failed",
+          "finding": "opaque shared resource did not expose readable field"
+        },
+        {
+          "iteration": 3,
+          "result": "qcp-success",
+          "finding": "complete Assert enabled field read; impossible opaque null path remained"
+        },
+        {
+          "iteration": 4,
+          "result": "qcp-success",
+          "finding": "explicit non-null guard removed impossible source branch"
+        },
+        {
+          "iteration": 5,
+          "result": "qcp-success-checking-failed",
+          "finding": "branch order fixed selection; semantic audit found missing address bridge"
+        },
+        {
+          "iteration": 6,
+          "result": "qcp-failed",
+          "finding": "direct @pre bridge ambiguous under disjunctive Require"
+        },
+        {
+          "iteration": 7,
+          "result": "qcp-success-checking-passed",
+          "finding": "entry_circular_area gives inferable branch-independent identity bridge"
+        }
+      ],
+      "self_reworkable_failures": [],
+      "resolved_reworkable_failures": [
+        "spec-quality",
+        "qcp-symbolic-execution",
+        "where-instantiation/entry-identity",
+        "annotation-checking-failed"
+      ],
+      "self_repair_budget": {
+        "required_min_complete_cycles": 3,
+        "completed_cycles": 7,
+        "required_min_wall_clock_minutes": 30,
+        "observed_wall_clock_minutes": 31.35,
+        "satisfied": true
+      },
+      "timing_summary": {
+        "phase_started_at": "2026-09-01T11:20:58+08:00",
+        "phase_finished_at": "2026-09-01T11:52:19+08:00",
+        "phase_elapsed_seconds": 1881,
+        "timing_source": "wall-clock from handoff mtime through final audit timestamp",
+        "command_timings": [
+          {
+            "command": "full dependency case-lib coqc_check",
+            "elapsed_seconds": 170.485,
+            "status": "passed"
+          },
+          {
+            "command": "cached no-deps case-lib coqc_check",
+            "elapsed_seconds": 3.245,
+            "status": "passed"
+          }
+        ],
+        "slowest_step": "full dependency case-lib coqc_check (170.485 seconds)",
+        "major_time_sinks": [
+          "seven QCP/spec/checking repair cycles",
+          "full dependency Rocq compilation",
+          "generated witness semantic audit and final contract review"
+        ],
+        "timing_gaps": "Individual sub-second QCP and symexec calls were not separately timed; their results and counts are recorded."
+      },
+      "previous_attempts_reviewed": [],
+      "prior_blockers_addressed": [],
+      "file_access_summary": {
+        "must_log_file_reads": "yes",
+        "read_categories": [
+          "agent input and listed skill/rule sources",
+          "target C/case-lib/generated Rocq",
+          "QCIPLib circular-area common resource",
+          "QCP_demos_LLM syntax/builtin examples",
+          "controller and coq_tooling evidence contracts"
+        ],
+        "searches": [
+          "shared resource/mixed_full definitions",
+          "Assertion syntax and @pre bridge rules",
+          "GlobalStrings framing definition",
+          "qcp-mcp and fixed coq_tooling interfaces",
+          "legacy predicate and Admitted/Axiom scan"
+        ],
+        "broad_search_note": "An initial broad result listing surfaced sibling OUTPUT paths; no sibling result was used or copied.",
+        "denied_globs_touched": []
+      },
+      "known_risks": [
+        "Controller must replace the preserved old manual with a fresh skeleton before source_goal_version computation."
+      ],
+      "blockers": [],
+      "errors": [],
+      "recommended_next_phase": "controller annotation-check-round"
+    }
+  },
+  "verification_result": {
+    "annotation_review": {
+      "status": "accepted-for-main-check",
+      "reviewed_at": "2026-09-01T03:52:57Z"
+    },
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-09-01T03:52:57Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_circular_area_max_length-20260901112029/rounds/xizi_circular_area_max_length-annotation-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    },
+    "annotation_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-09-01T03:52:57Z",
+      "source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "02cefcea6907bfbd1dfb7daae9e12acb474dec911281540cee3b425bb4897913",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_circular_area_max_length-20260901112029/xizi_circular_area_max_length-annotation-r1/OUTPUT/xizi/xizi_circular_area_max_length/source/xizi_circular_area_max_length.c",
+            "relative_path": "OUTPUT/xizi/xizi_circular_area_max_length/source/xizi_circular_area_max_length.c",
+            "sha256": "a8f903517bb61a515ef1aea5924eb071f850633d7fb32085312f04bbbad340e7",
+            "state": "present",
+            "role": "target-c-annotated"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_circular_area_max_length-20260901112029/xizi_circular_area_max_length-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_max_length/source/xizi_circular_area_max_length_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_max_length/source/xizi_circular_area_max_length_lib.v",
+            "sha256": "1775f28297abe1cd0839fd28899e4dc8125b0c417d6d136e6577c8b5469da512",
+            "state": "present",
+            "role": "case-lib-seed"
+          }
+        ]
+      },
+      "source_goal_version": {
+        "schema_version": "qcp-source-goal-version/v1",
+        "digest": "aed1402226944633b74cae66b09b1571a4930d0b5da9e85b309266a7d142db92",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_max_length/source/xizi_circular_area_max_length_goal.v",
+            "sha256": "99e3c5b95bdfee3be3ab2a1f6424ba7e811a2dcb22e3aba6d97f09da1d9aa66d",
+            "state": "present",
+            "role": "generated-goal"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_max_length/source/xizi_circular_area_max_length_proof_auto.v",
+            "sha256": "5c237c0f84bb59f3f2e55ae498165e1044a08926a363b2266f19e875c523261e",
+            "state": "present",
+            "role": "generated-proof-auto"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_max_length/source/xizi_circular_area_max_length_proof_manual.v",
+            "sha256": "fd8409174e22390b014a0f7eccd72eb058e29a35f6576402e1bf20a5aadafdd7",
+            "state": "present",
+            "role": "generated-proof-manual"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_max_length/source/xizi_circular_area_max_length_goal_check.v",
+            "sha256": "35bae0c7dfb3f1d2fff35c83df7ea2e846b35caec924a97f47582f0bbe282930",
+            "state": "present",
+            "role": "generated-goal-check"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_max_length/source/xizi_circular_area_max_length_proof_diagnostics.v",
+            "sha256": "fc4350bebb8c074162c78b9a7af3e36f0577600a7e2ce277dce354e522482065",
+            "state": "present",
+            "role": "generated-diagnostics"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_max_length/source/diagnostics_snapshot.json",
+            "sha256": "195b72d0055dc5e7981affd2dd1097843e25508045eb7a6d0a6b1727fc53d8de",
+            "state": "present",
+            "role": "generated-diagnostics-snapshot"
+          }
+        ],
+        "target_witnesses": [
+          "proof_of_CircularAreaGetMaxLength_entail_wit_1",
+          "proof_of_CircularAreaGetMaxLength_return_wit_1",
+          "proof_of_CircularAreaGetMaxLength_return_wit_2"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_CircularAreaGetMaxLength_entail_wit_1": "5314148293204f74626b1e5011d2094dd96843180ffac84d8873017fc852906f",
+          "proof_of_CircularAreaGetMaxLength_return_wit_1": "9759e0f0a1654494c4dc71d3cb3a4966a1af2c71f505fd281ade29c7ab85a71a",
+          "proof_of_CircularAreaGetMaxLength_return_wit_2": "f4aa87fdd2d35ae5784e47436e1d9dea484662680668f689b2f6e0648a99be76"
+        },
+        "witnesses": [
+          {
+            "name": "proof_of_CircularAreaGetMaxLength_entail_wit_1",
+            "target_symbol": "CircularAreaGetMaxLength_entail_wit_1",
+            "statement_hash": "5314148293204f74626b1e5011d2094dd96843180ffac84d8873017fc852906f",
+            "start_line": 24,
+            "end_line": 26
+          },
+          {
+            "name": "proof_of_CircularAreaGetMaxLength_return_wit_1",
+            "target_symbol": "CircularAreaGetMaxLength_return_wit_1",
+            "statement_hash": "9759e0f0a1654494c4dc71d3cb3a4966a1af2c71f505fd281ade29c7ab85a71a",
+            "start_line": 27,
+            "end_line": 29
+          },
+          {
+            "name": "proof_of_CircularAreaGetMaxLength_return_wit_2",
+            "target_symbol": "CircularAreaGetMaxLength_return_wit_2",
+            "statement_hash": "f4aa87fdd2d35ae5784e47436e1d9dea484662680668f689b2f6e0648a99be76",
+            "start_line": 30,
+            "end_line": 32
+          }
+        ]
+      },
+      "annotation_design_summary": {
+        "schema_version": "qcp-annotation-design-summary/v1",
+        "style": "predicate-first direct query specification",
+        "case_lib_spec_declarations": [
+          {
+            "kind": "Definition",
+            "name": "CircularAreaGetMaxLengthResult",
+            "status": "existing-and-retained"
+          }
+        ],
+        "shared_representation": "CircularAreaBackingResource/CircularAreaLogicalState",
+        "hidden_properties": [
+          "read-only callpoint composability for every valid unified state",
+          "descriptor identity and every existential state value are preserved",
+          "canonical p_head and p_tail are inherited from the shared resource",
+          "UCharArray::mixed_full option-byte ownership is preserved without a backing-cell read",
+          "GlobalStrings in a caller frame is untouched and preserved by framing"
+        ],
+        "pure_result_relation": "null gives result=1; non-null gives result=area_length",
+        "algorithm_mirror_introduced": false,
+        "loop_invariants": "not-applicable-no-loop"
+      },
+      "canonical_symexec_evidence": {
+        "schema_version": "qcp-canonical-symexec-evidence/v1",
+        "driver": "/home/yangfp/QCIP/linux-binary/symexec",
+        "cwd": "/home/yangfp/QCIP/worktrees/xizi_circular_area_max_length-20260901112029/xizi_circular_area_max_length-annotation-r1",
+        "argv": [
+          "/home/yangfp/QCIP/linux-binary/symexec",
+          "--goal-file=SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_max_length/source/xizi_circular_area_max_length_goal.v",
+          "--proof-auto-file=SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_max_length/source/xizi_circular_area_max_length_proof_auto.v",
+          "--proof-manual-file=SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_max_length/source/xizi_circular_area_max_length_proof_manual.v",
+          "-IQCP_examples/QCP_demos_LLM/",
+          "-slp",
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM",
+          "--coq-logic-path=SimpleC.EE.OUTPUT.xizi.xizi_circular_area_max_length.source",
+          "--input-file=OUTPUT/xizi/xizi_circular_area_max_length/source/xizi_circular_area_max_length.c",
+          "--no-exec-info"
+        ],
+        "include_args": [
+          "QCP_examples/QCP_demos_LLM/"
+        ],
+        "slp_args": [
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM"
+        ],
+        "manual_refresh": {
+          "policy": "fresh-symbolic-execution-skeleton",
+          "path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_max_length/source/xizi_circular_area_max_length_proof_manual.v",
+          "previous_sha256": "7894f1d608fcf01997c65dd7881a965d7f51f973b0a376a71e0efaca10c52b2f",
+          "generated": true,
+          "generated_sha256": "b7b6d9afda7db4545a0fbf11e1709f62c49a3bfe663214b9c24fc4f3661c8b7e",
+          "previous_restored_on_failure": false
+        },
+        "status": "passed",
+        "returncode": 0,
+        "stdout_tail": "Program: `/tmp/qcp-null-macro-zu_vn6be/xizi_circular_area_max_length.c`\nStart to parse strategies file common\nFile Path: builtin/common.strategies\nFinish parsing strategies file common\nStart to parse strategies file string_literal\nFile Path: builtin/string_literal.strategies\nFinish parsing strategies file string_literal\nFunction `CircularAreaGetMaxLength`\nStart to parse strategies file uchar_array\nFile Path: builtin/uchar_array.strategies\nFinish parsing strategies file uchar_array\nStart to parse strategies file undef_uchar_array\nFile Path: builtin/undef_uchar_array.strategies\nFinish parsing strategies file undef_uchar_array\nStart to parse strategies file mixed_uchar_array\nFile Path: builtin/mixed_uchar_array.strategies\nFinish parsing strategies file mixed_uchar_array\nStart to parse strategies file uchar_array_shape\nFile Path: builtin/uchar_array_shape.strategies\nFinish parsing strategies file uchar_array_shape\nEnd of function `CircularAreaGetMaxLength`\nSuccessfully finished symbolic execution\n",
+        "stderr_tail": ""
+      },
+      "diagnostics_split": {
+        "status": "passed",
+        "normalized_at": "2026-09-01T03:52:57Z",
+        "proof_manual_file": "/home/yangfp/QCIP/worktrees/xizi_circular_area_max_length-20260901112029/xizi_circular_area_max_length-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_max_length/source/xizi_circular_area_max_length_proof_manual.v",
+        "proof_diagnostics_file": "/home/yangfp/QCIP/worktrees/xizi_circular_area_max_length-20260901112029/xizi_circular_area_max_length-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_max_length/source/xizi_circular_area_max_length_proof_diagnostics.v",
+        "diagnostics_snapshot": "/home/yangfp/QCIP/worktrees/xizi_circular_area_max_length-20260901112029/xizi_circular_area_max_length-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_max_length/source/diagnostics_snapshot.json",
+        "schema_version": "qcp-diagnostics-snapshot/v1",
+        "manual_obligations": [
+          {
+            "name": "proof_of_CircularAreaGetMaxLength_entail_wit_1",
+            "statement_hash": "5314148293204f74626b1e5011d2094dd96843180ffac84d8873017fc852906f",
+            "target_symbol": "CircularAreaGetMaxLength_entail_wit_1",
+            "start_line": 30,
+            "end_line": 32
+          },
+          {
+            "name": "proof_of_CircularAreaGetMaxLength_return_wit_1",
+            "statement_hash": "9759e0f0a1654494c4dc71d3cb3a4966a1af2c71f505fd281ade29c7ab85a71a",
+            "target_symbol": "CircularAreaGetMaxLength_return_wit_1",
+            "start_line": 39,
+            "end_line": 41
+          },
+          {
+            "name": "proof_of_CircularAreaGetMaxLength_return_wit_2",
+            "statement_hash": "f4aa87fdd2d35ae5784e47436e1d9dea484662680668f689b2f6e0648a99be76",
+            "target_symbol": "CircularAreaGetMaxLength_return_wit_2",
+            "start_line": 45,
+            "end_line": 47
+          }
+        ],
+        "diagnostics": [
+          {
+            "name": "proof_of_CircularAreaGetMaxLength_entail_wit_1_split_goal_1",
+            "statement_hash": "de67ffe880457ea83062ac457a037cecfab5a198dc985f229b49a96aba0273ae",
+            "target_symbol": "CircularAreaGetMaxLength_entail_wit_1_split_goal_1",
+            "start_line": 24,
+            "end_line": 26,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_CircularAreaGetMaxLength_entail_wit_1_split_goal_spatial",
+            "statement_hash": "79c7a93ec812246b1ebe17d8ddd46f6bf79df85c99aca0c2507f711806d7a462",
+            "target_symbol": "CircularAreaGetMaxLength_entail_wit_1_split_goal_spatial",
+            "start_line": 27,
+            "end_line": 29,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_CircularAreaGetMaxLength_return_wit_1_split_goal_1",
+            "statement_hash": "f998e389faf5f7d31765f223d5abf3b33dada168c9652ed734c0f0182ecf9a43",
+            "target_symbol": "CircularAreaGetMaxLength_return_wit_1_split_goal_1",
+            "start_line": 33,
+            "end_line": 35,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_CircularAreaGetMaxLength_return_wit_1_split_goal_spatial",
+            "statement_hash": "8b2ca3493fe024baccdb1e1c86b9721d73330a3ddd62e35f282193bf6a985912",
+            "target_symbol": "CircularAreaGetMaxLength_return_wit_1_split_goal_spatial",
+            "start_line": 36,
+            "end_line": 38,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_CircularAreaGetMaxLength_return_wit_2_split_goal_1",
+            "statement_hash": "979f23263aab29913067b318eac83dcc0d7f4c1c508bec76d615cb13080cfe54",
+            "target_symbol": "CircularAreaGetMaxLength_return_wit_2_split_goal_1",
+            "start_line": 42,
+            "end_line": 44,
+            "has_abort": true,
+            "has_split_goal": true
+          }
+        ],
+        "manual_obligation_count": 3,
+        "diagnostic_count": 5
+      }
+    }
+  },
+  "blockers": []
+}

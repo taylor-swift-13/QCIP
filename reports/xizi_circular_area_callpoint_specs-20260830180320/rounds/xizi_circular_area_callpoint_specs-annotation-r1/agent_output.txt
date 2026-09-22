@@ -1,0 +1,24 @@
+# Reuse Note
+Note kind: non-authoritative reuse note
+This file is not acceptance evidence.
+
+The round worktree contains a complete mixed-buffer callpoint candidate.  The
+canonical resource is `CircularAreaBackingResource`: it owns
+`UCharArray.mixed_full`, while `CircularAreaLogicalState` requires every live
+ring cell to be `Some` of its logical byte and permits free cells to remain
+`None` or `Some`.  The seven wrappers cover Init followed by all metadata
+observations, empty Read, first Write, Write-Read, repeated Write, Read-Write,
+Reset, and Release after each reachable successful state.
+
+Canonical symexec and the QCP MCP exact seven-function symbolic run both
+reached EOF.  The case lib passed the fixed `coq_tooling.py check` gate.  A
+large `<symbolic>9999</symbolic>` request should not be reused with this QCP
+binary because it wraps past EOF; `<symbolic>7</symbolic>` is the successful
+command for the seven wrappers in this candidate.
+
+This attempt is nevertheless reported blocked: an early broad syntax search
+accidentally returned two lines from the denied path
+`QCP_examples/QCP_demos_human/verification_stdlib.h`.  No mathematical or C
+contract content was taken from that reference, but the current repository
+rule treats any denied-path hit as a blocker.  A retry must independently
+validate the candidate without reading denied paths.

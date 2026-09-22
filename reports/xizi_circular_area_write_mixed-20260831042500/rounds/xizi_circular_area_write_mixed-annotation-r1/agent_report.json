@@ -1,0 +1,202 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "annotation",
+  "status": "blocked",
+  "terminal": "yes",
+  "agent_result": {
+    "annotation": {
+      "schema_version": "qcp-annotation-result/v1",
+      "phase": "annotation",
+      "round": "xizi_circular_area_write_mixed-annotation-r1",
+      "attempt_id": "xizi_circular_area_write_mixed-annotation-r1-attempt-1",
+      "status": "blocked",
+      "terminal": "yes",
+      "ready_for_annotation_check_round": false,
+      "ready_for_main_symexec": "no",
+      "summary": "The current canonical CircularAreaLogicalState is inconsistent with a legal successful partial write performed by the unchanged production C code. Because CircularAreaBackingResource embeds that relation, no sound Write postcondition can return the required canonical resource for every successful call. The shared predicate is outside this round's allowed_write_paths, so this round made no formal-file changes.",
+      "source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "f4426a84bdae3c246827f4f0f8ff73c67e37c813a0b256f3ba7c92a993057206",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "relative_path": "OUTPUT/xizi/xizi_circular_area_write/source/xizi_circular_area_write.c",
+            "sha256": "bcd5e30a35d281a01db2a2e69c57b3e09c1c4a1b04fa3baee51d513ab7c74e60",
+            "state": "present",
+            "role": "target-c"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write/source/xizi_circular_area_write_lib.v",
+            "sha256": "bc3c20007ccf776f6bbea3a766d2d1a1072a34481715a3e2d72254ae727e9aa0",
+            "state": "present",
+            "role": "case-lib-seed"
+          }
+        ]
+      },
+      "input_version_check": {
+        "status": "passed-and-unchanged",
+        "input_source_version_digest": "f4426a84bdae3c246827f4f0f8ff73c67e37c813a0b256f3ba7c92a993057206",
+        "current_c_sha256": "bcd5e30a35d281a01db2a2e69c57b3e09c1c4a1b04fa3baee51d513ab7c74e60",
+        "current_case_lib_sha256": "bc3c20007ccf776f6bbea3a766d2d1a1072a34481715a3e2d72254ae727e9aa0"
+      },
+      "semantic_counterexample": {
+        "initial_state": {
+          "area_length": 4,
+          "readidx": 0,
+          "writeidx": 0,
+          "b_status": 0,
+          "logical": [],
+          "physical": "repeat None 4",
+          "requested": 1,
+          "input_prefix": [
+            42
+          ],
+          "force": 0
+        },
+        "production_execution": [
+          "CircularAreaIsFull returns 0",
+          "CircularAreaGetDataLength returns 0",
+          "actual write length is 1",
+          "the non-wrapping memcpy initializes ring cell 0 to 42",
+          "writeidx becomes 1",
+          "b_status is unconditionally assigned RET_TRUE (1)",
+          "readidx remains 0",
+          "CircularAreaWrite returns EOK (0)"
+        ],
+        "mathematical_post_state": {
+          "readidx": 0,
+          "writeidx": 1,
+          "b_status": 1,
+          "logical": [
+            42
+          ],
+          "logical_length": 1
+        },
+        "contradiction": "CircularAreaLogicalState requires (b_status = 1 <-> Zlength logical = area_length). The post-state has b_status=1 but Zlength logical=1 and area_length=4.",
+        "source_evidence": [
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_lib.v:34",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_lib.v:44",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_lib.v:45",
+          "OUTPUT/xizi/xizi_circular_area_write/source/xizi_circular_area_write.c:571"
+        ]
+      },
+      "required_upstream_rework": {
+        "owner": "main-agent/controller via a new source version",
+        "path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_lib.v",
+        "reason": "This shared dependency is not in the current annotation round's allowed_write_paths.",
+        "semantic_change": "Model b_status as the read/write-equality disambiguation flag: retain b_status in {0,1}; require an empty logical FIFO to have b_status=0 and a full logical FIFO to have b_status=1; do not constrain b_status for strictly intermediate logical lengths.",
+        "suggested_formula": "(b_status = 0 \\/ b_status = 1) /\\ (Zlength logical = 0 -> b_status = 0) /\\ (Zlength logical = area_length -> b_status = 1)",
+        "invalidation": "The shared predicate change invalidates downstream proofs and source_goal_versions of all cases importing the canonical callpoint-spec library; re-run those cases under the new source version before claiming callpoint composition."
+      },
+      "canonical_symexec_evidence": {
+        "status": "not-run",
+        "reason": "A canonical-resource postcondition is semantically impossible under the current shared predicate; running QCP on an intentionally false or weakened candidate would not satisfy the workflow."
+      },
+      "qcp_mcp_interactive_evidence": {
+        "status": "not-run",
+        "qcp_mcp_requirement_satisfied": "no",
+        "reason": "Stopped at the mandatory spec-definition semantic gate before constructing a candidate annotation."
+      },
+      "case_lib_coqc_evidence": {
+        "status": "not-run",
+        "reason": "No candidate case_lib was produced because the required repair is in the out-of-scope shared canonical library."
+      },
+      "annotation_checking_evidence": {
+        "schema_version": "qcp-annotation-checking-report/v1",
+        "status": "blocked",
+        "checked_scope": [
+          "canonical shared CircularAreaLogicalState definition",
+          "CircularAreaBackingResource composition requirement",
+          "production CircularAreaWrite status/index updates",
+          "representative successful partial-write trace"
+        ],
+        "qcp_mcp_requirement_satisfied": "no",
+        "annotation_scratch_lib_coqc_status": "not-run",
+        "spec_definition_status": "failed-inconsistent-with-production-semantics",
+        "function_spec_status": "cannot-be-soundly-completed",
+        "invariant_status": "not-applicable-no-source-loops",
+        "failed_checks": [
+          "The canonical resource cannot represent a successful non-full Write post-state."
+        ],
+        "required_annotation_rework": [],
+        "required_annotation_scratch_lib_rework": [
+          "First correct the shared canonical CircularAreaLogicalState in a controller-authorized upstream round, then restart Write annotation from the resulting source version."
+        ],
+        "ready_for_main_common_case_formal_lib_update": "no",
+        "ready_for_main_symexec": "no"
+      },
+      "self_repair": {
+        "required_complete_cycles": 3,
+        "completed_cycles": 1,
+        "required_min_wall_clock_minutes": 30,
+        "budget_satisfied": false,
+        "hard_blocker_exception": true,
+        "cycles": [
+          "Spec-first audit and concrete execution counterexample against the shared canonical resource"
+        ],
+        "self_reworkable_failures": [],
+        "note": "Additional local annotation cycles cannot repair an out-of-scope inconsistent shared predicate without weakening the requested canonical postcondition."
+      },
+      "file_access_summary": {
+        "must_log_file_reads": "yes",
+        "read_categories": {
+          "handoff": [
+            "reports/xizi_circular_area_write_mixed-20260831042500/rounds/xizi_circular_area_write_mixed-annotation-r1/agent_input.json"
+          ],
+          "rules_source": [
+            ".agents/skills/verification-orchestrator/SKILL.md",
+            ".agents/skills/annotation-filling/SKILL.md and directly required array/spec docs",
+            ".agents/skills/annotation-checking/SKILL.md and spec-quality-checklist.md"
+          ],
+          "current_round_formal": [
+            "OUTPUT/xizi/xizi_circular_area_write/source/xizi_circular_area_write.c",
+            "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write/source/xizi_circular_area_write_lib.v"
+          ],
+          "allowed_reference": [
+            "OUTPUT/xizi/xizi_circular_area_read/source/xizi_circular_area_read.c",
+            "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_read/source/xizi_circular_area_read_lib.v",
+            "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_lib.v",
+            "QCIPLib/xizi/xizi_circular_area_common/xizi_circular_area_lib.v"
+          ]
+        },
+        "searches": [
+          "Targeted mixed_full/mixed_seg/canonical-resource searches within the declared allowed xizi references.",
+          "A broad git-status path listing was used only to observe workspace dirtiness; unrelated file contents were not opened or used as evidence."
+        ],
+        "denied_globs_touched": [],
+        "denied_content_read": false
+      },
+      "changed_files": [],
+      "blockers": [
+        {
+          "id": "write-mixed-shared-logical-state-status-semantics",
+          "class": "upstream-shared-spec-inconsistent-with-production",
+          "terminal_for_current_round": true,
+          "message": "CircularAreaLogicalState equates b_status=1 with full logical length, but unchanged CircularAreaWrite sets b_status=1 after every successful partial write.",
+          "required_action": "Authorize and apply the shared-predicate correction, invalidate dependents, and start a fresh Write annotation round."
+        }
+      ],
+      "errors": []
+    }
+  },
+  "verification_result": {
+    "agent_phase_checks": "blocked-at-spec-semantic-gate",
+    "controller_acceptance": "pending",
+    "controller_acceptance_claimed": false,
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-08-31T04:34:43Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_circular_area_write_mixed-20260831042500/rounds/xizi_circular_area_write_mixed-annotation-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    }
+  },
+  "blockers": [
+    {
+      "id": "write-mixed-shared-logical-state-status-semantics",
+      "class": "upstream-shared-spec-inconsistent-with-production",
+      "message": "The required canonical post-resource is uninhabitable for successful partial-write states until the shared status relation is corrected."
+    }
+  ]
+}

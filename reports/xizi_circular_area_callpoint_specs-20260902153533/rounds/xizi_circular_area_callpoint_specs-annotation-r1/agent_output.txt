@@ -1,0 +1,16 @@
+# Reuse Note
+
+Note kind: non-authoritative reuse note
+
+This file is not acceptance evidence.
+
+The candidate replaces both CircularAreaRead callpoint declarations with one `read_one_spec`. It uses `UCharArray::mixed_full` and the strict `CircularAreaReadOneResult` relation. The empty branch returns 1 and preserves queue/index/output; the live branch returns 0, consumes the head, advances the read index modulo capacity, clears status, and writes `Some head`.
+
+All three initialized-output callsites use explicit full-to-mixed and mixed-to-full assertions around Read. This preserves their old full-buffer public contracts and leaves the current 19 theorem proof bodies byte-for-byte unchanged. Canonical symexec now generates 25 manual VCs: the old 19 plus six local bridge entailments.
+
+Reuse strategy for the six new VCs:
+
+- Pre-Read bridge (three instances): unfold `CircularAreaSomeBytes`, apply `UCharArray.full_to_mixed_full`, and frame.
+- Post-Read bridge (three instances): unfold `CircularAreaReadOneResult`, eliminate the branch inconsistent with the concrete logical list, substitute, apply `UCharArray.mixed_full_to_full`, and frame.
+
+Final evidence is recorded in `agent_report.json`. The controller must independently run annotation-check-round and establish the canonical source_goal_version.

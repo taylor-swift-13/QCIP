@@ -4,8 +4,14 @@ typedef unsigned int uint32_t;
 /*@ Import Coq Require Import
       SimpleC.EE.OUTPUT.xizi.xizi_circular_area_write_advance.source.xizi_circular_area_write_advance_lib
  */
+/*@ Extern Coq (circular_area_state :: *) */
 /*@ Extern Coq
+      (ca_capacity : circular_area_state -> Z)
+      (ca_contents : circular_area_state -> list Z)
+      (store_circular_area : circular_area_state -> Z -> Assertion)
       (CircularAreaDivideWrDataResult : Z -> Z -> Z -> Z -> Prop)
+      (CircularAreaLogicalState :
+         Z -> Z -> Z -> Z -> list Z -> list (option Z) -> Prop)
  */
 
 typedef uint8_t uint8;
@@ -35,56 +41,70 @@ struct CircularArea {
 
 static uint32 CircularAreaDivideWrData(CircularAreaType circular_area,
                                        uint32 data_length)
-/*@ With (data_buffer : Z)
-          (readidx : Z)
-          (writeidx : Z)
-          (p_head : Z)
-          (p_tail : Z)
-          (area_length : Z)
-          (b_status : Z)
-          (circular_area_operations : Z)
-          (buffer_contents : list Z)
+/*@ With (state : circular_area_state)
+          (area_addr : Z)
+          (entry_data_length : Z)
+          (LitMap : String -> Z)
     Require
-      (circular_area == 0 && emp) ||
-      (circular_area != 0 &&
-       0 < area_length && area_length <= 256 &&
-       0 <= readidx && readidx < area_length &&
-       0 <= writeidx && writeidx < area_length &&
-       0 <= data_length && data_length <= area_length &&
-       p_head == data_buffer &&
-       p_tail == data_buffer + area_length &&
-       store(&(circular_area->data_buffer), data_buffer) *
-       store(&(circular_area->readidx), readidx) *
-       store(&(circular_area->writeidx), writeidx) *
-       store(&(circular_area->p_head), p_head) *
-       store(&(circular_area->p_tail), p_tail) *
-       store(&(circular_area->area_length), area_length) *
-       store(&(circular_area->b_status), b_status) *
-       store(&(circular_area->CircularAreaOperations), circular_area_operations) *
-       UCharArray::full(data_buffer, area_length, buffer_contents))
+      circular_area == area_addr &&
+      data_length == entry_data_length &&
+      ((area_addr == 0 && GlobalStrings(LitMap)) ||
+       (area_addr != 0 &&
+        0 <= entry_data_length &&
+        entry_data_length <= ca_capacity(state) &&
+        store_circular_area(state, area_addr) * GlobalStrings(LitMap)))
     Ensure
-      (circular_area == 0 && __return == 1 && emp) ||
-      (circular_area != 0 &&
-       0 < area_length && area_length <= 256 &&
-       0 <= readidx && readidx < area_length &&
-       0 <= writeidx && writeidx < area_length &&
-       0 <= data_length && data_length <= area_length &&
-       p_head == data_buffer &&
-       p_tail == data_buffer + area_length &&
-       CircularAreaDivideWrDataResult(writeidx, data_length,
-                                      area_length, __return) &&
-       store(&(circular_area->data_buffer), data_buffer) *
-       store(&(circular_area->readidx), readidx) *
-       store(&(circular_area->writeidx), writeidx) *
-       store(&(circular_area->p_head), p_head) *
-       store(&(circular_area->p_tail), p_tail) *
-       store(&(circular_area->area_length), area_length) *
-       store(&(circular_area->b_status), b_status) *
-       store(&(circular_area->CircularAreaOperations), circular_area_operations) *
-       UCharArray::full(data_buffer, area_length, buffer_contents))
+      (area_addr == 0 && __return == 1 && GlobalStrings(LitMap)) ||
+      (area_addr != 0 &&
+       0 <= entry_data_length &&
+       entry_data_length <= ca_capacity(state) &&
+       exists data_buffer circular_area_operations readidx writeidx b_status
+              (physical : list (option Z)),
+         data_buffer != 0 &&
+         CircularAreaLogicalState(
+           readidx, writeidx, ca_capacity(state), b_status,
+           ca_contents(state), physical) &&
+         CircularAreaDivideWrDataResult(
+           writeidx, entry_data_length, ca_capacity(state), __return) &&
+         store(&(area_addr->data_buffer), data_buffer) *
+         store(&(area_addr->readidx), readidx) *
+         store(&(area_addr->writeidx), writeidx) *
+         store(&(area_addr->p_head), data_buffer) *
+         store(&(area_addr->p_tail), data_buffer + ca_capacity(state)) *
+         store(&(area_addr->area_length), ca_capacity(state)) *
+         store(&(area_addr->b_status), b_status) *
+         store(&(area_addr->CircularAreaOperations),
+               circular_area_operations) *
+         UCharArray::mixed_full(
+           data_buffer, ca_capacity(state), physical) *
+         GlobalStrings(LitMap))
  */
 {
     NULL_PARAM_CHECK(circular_area);
+
+    /*@ Assert
+      exists data_buffer circular_area_operations readidx writeidx b_status
+             (physical : list (option Z)),
+        circular_area == area_addr &&
+        data_length == entry_data_length &&
+        area_addr != 0 && data_buffer != 0 &&
+        0 <= entry_data_length &&
+        entry_data_length <= ca_capacity(state) &&
+        CircularAreaLogicalState(
+          readidx, writeidx, ca_capacity(state), b_status,
+          ca_contents(state), physical) &&
+        store(&(circular_area->data_buffer), data_buffer) *
+        store(&(circular_area->readidx), readidx) *
+        store(&(circular_area->writeidx), writeidx) *
+        store(&(circular_area->p_head), data_buffer) *
+        store(&(circular_area->p_tail), data_buffer + ca_capacity(state)) *
+        store(&(circular_area->area_length), ca_capacity(state)) *
+        store(&(circular_area->b_status), b_status) *
+        store(&(circular_area->CircularAreaOperations),
+              circular_area_operations) *
+        UCharArray::mixed_full(data_buffer, ca_capacity(state), physical) *
+        GlobalStrings(LitMap)
+    */
 
     if (circular_area->writeidx + data_length <= circular_area->area_length) {
         return RET_FALSE;

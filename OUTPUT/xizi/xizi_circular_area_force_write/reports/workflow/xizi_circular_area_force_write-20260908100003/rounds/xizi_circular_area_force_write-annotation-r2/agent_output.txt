@@ -1,0 +1,28 @@
+# Reuse Note
+Note kind: non-authoritative reuse note
+This file is not acceptance evidence.
+
+Round r2 fixes the four semantically disconnected return VCs reported by
+vc-checking-r1.  The public CircularAreaWrite contract remains one unified
+function spec.  Its four nullable input-resource combinations are packaged by
+CircularAreaForceWriteInput, an assertion definition exactly equivalent to the
+old inline Require.  This gives QCP one entry branch, so internal full
+assertions can retain circular_area == circular_area@pre,
+input_buffer == input_buffer@pre, and data_length@pre ==
+Zlength(input_contents) without adding ca0/in0/requested With aliases.
+
+CircularAreaDivideWrData likewise uses circular_area@pre and data_length@pre
+in its Ensure and retains the two live-to-entry equalities in its single body
+assertion.  The force raw outcome and fill-to-capacity recovery bridge were not
+changed, and the executable C body is byte-equivalent after annotations are
+removed.
+
+Evidence pointers: canonical symexec reached the end; qcp-mcp symbolic reached
+the end with 30 manual obligations; fixed coq_tooling case_lib check returned
+0; annotation semantic review passed.  The refreshed goal shows that the four
+previous blocker witnesses no longer quantify unconstrained live
+circular_area/input_buffer values separately from their *_pre values.
+
+JSON handoff, controller state, source versions, and current round-worktree
+files override this note on any conflict.  Controller acceptance is still
+required.

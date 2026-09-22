@@ -1,3 +1,3 @@
 # Timing Summary
 
-机器可读 timing 见 `controller/timing_summary.json`；run 为 `xizi_circular_area_is_full-20260821120001`。
+机器可读 timing 见同目录 `timing_summary.json` 和 `controller/timing_summary.json`。本 run 包含 1 annotation round、1 vc-checking round、1 proof group、parent verify 与 final-check。

@@ -1,0 +1,53 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_version": "dc627a83f3dd341d9df12179a99fa87c8446c6f2814d92da5f33dcc263b16d1e",
+  "source_goal_version": "81f93b85b9a37c691573f5010b207f06a2c2fe085907817e99a52a442d252d56",
+  "target_witnesses": [
+    "proof_of_CircularAreaInit_return_wit_1"
+  ],
+  "target_witness_count": 1,
+  "proof_groups": [
+    {
+      "group_id": "circular_area_init_success_return",
+      "witness_names": [
+        "proof_of_CircularAreaInit_return_wit_1"
+      ],
+      "representative_witness": "proof_of_CircularAreaInit_return_wit_1",
+      "dependencies": [],
+      "difficulty": "medium",
+      "confidence": "high",
+      "likely_helper_declarations": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "Select the right disjunct of CircularAreaInit_return_wit_1, instantiate data_buffer with retval_2, aligned with unsigned_last_nbits ((requested \u00f7 4) * 4) 32, and physical with repeat None (Z.to_nat aligned). Use the two annotation-approved case-lib lemmas plus unsigned_last_nbits_eq to remove the unsigned cast and convert Z.quot to nonnegative Z.div. Establish 4 <= aligned <= 256 from the floor-division bounds. Unfold CircularAreaBackingResource, CircularAreaLogicalState, xizi_circular_area_uninitialized, and CircularAreaLiveBytes; discharge the empty-FIFO state from aligned > 0, the zero field equalities, repeat length, and the vacuous live-byte condition. Apply UCharArray.undef_full_to_mixed_full and cancel the descriptor fields after simplifying sizeof(UCHAR) to 1.",
+      "natural_language_proof_strategy": "The precondition owns an uninitialized byte buffer and every descriptor field required by the postcondition. The requested bound 4..256 makes the four-byte-rounded capacity positive and at most 256; the cast does not wrap. The descriptor values already encode readidx=writeidx=b_status=0, head at the buffer, tail one aligned capacity past it, and the operations pointer. Converting undef_full to mixed_full yields exactly repeat None, so the canonical logical state is the empty FIFO and all postcondition resources are present.",
+      "grouping_reason": "The current cleaned manual contains exactly one target witness. It is a single success-return resource-packaging obligation, so one group is permitted by the 12-witness bound and avoids an artificial dependency boundary.",
+      "per_witness_plan": {
+        "proof_of_CircularAreaInit_return_wit_1": {
+          "judgment": "proofable",
+          "disjunct_selection": "right",
+          "existential_instantiation": {
+            "data_buffer": "retval_2",
+            "aligned": "unsigned_last_nbits ((circular_area_length_pre \u00f7 4) * 4) 32",
+            "physical": "repeat None (Z.to_nat aligned)"
+          },
+          "space_plan": "Convert UCharArray.undef_full retval_2 aligned to UCharArray.mixed_full retval_2 aligned (repeat None (Z.to_nat aligned)); then unfold CircularAreaBackingResource and cancel the eight descriptor-field cells with data_buffer=retval_2, readidx=0, writeidx=0, b_status=0, p_head=retval_2, p_tail=retval_2+aligned, area_length=aligned, and the existing operations pointer.",
+          "pure_plan": "Use PreH14 and PreH15 for 4 <= requested <= 256. CircularArea_div4_aligned_range__init_return_branches gives the raw quotient product's unsigned range, unsigned_last_nbits_eq removes the cast, and CircularArea_quot_eq_div_nonneg__init_return_branch_construction converts quotient to division. Standard positive-divisor floor bounds yield 4 <= aligned <= 256. These bounds prove the zero index/status clauses, nil length clauses, repeat length, modulo-zero equality, status equivalences, and vacuous CircularAreaLiveBytes condition.",
+          "refinement_plan": "No safeExec or refinement-state obligation occurs in this return entailment."
+        }
+      }
+    }
+  ],
+  "blockers": [],
+  "recommended_next_phase": "vc-proving-preparing",
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 1,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

@@ -1,3 +1,7 @@
 # Verification Summary
 
-`CircularAreaGetMaxLength` 已完成 annotation、symbolic execution、2 个 manual VC、parent fixed check、final-check 与独立 freshness。
+- Unified state/resource preserved; result equals abstract capacity.
+- Manual witnesses: 2/2 in `store_unfold_repack`.
+- No case-lib helper or import added.
+- Parent verify and final fixed Coq passed; formal hygiene passed.
+- Isolated freshness skipped; annotation canonical symexec reached EOF.

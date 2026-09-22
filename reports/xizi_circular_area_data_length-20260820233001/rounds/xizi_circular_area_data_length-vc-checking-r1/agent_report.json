@@ -1,0 +1,271 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "pending",
+  "terminal": "no",
+  "agent_result": {
+    "vc_checking": {
+      "status": "blocked",
+      "source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "2d47ccf7d93d399bc5e76124b1565ba6ac13cc1164a095f03c5e23e7cc630e67"
+      },
+      "source_goal_version": {
+        "schema_version": "qcp-source-goal-version/v1",
+        "digest": "0252b41f762679fb36781b2755e9670c6fae63fc241c3a596db837ba9235473a"
+      },
+      "source_version_match": "yes",
+      "source_goal_version_match": "yes",
+      "target_witnesses_match_manual": "yes",
+      "group_plan_ready": false,
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "status": "blocked",
+        "source_goal_version": "0252b41f762679fb36781b2755e9670c6fae63fc241c3a596db837ba9235473a",
+        "target_witnesses": [
+          "proof_of_CircularAreaIsFull_return_wit_1",
+          "proof_of_CircularAreaIsFull_return_wit_2",
+          "proof_of_CircularAreaIsFull_return_wit_3",
+          "proof_of_CircularAreaGetDataLength_return_wit_1",
+          "proof_of_CircularAreaGetDataLength_return_wit_2"
+        ],
+        "proof_groups": [],
+        "blockers": [
+          {
+            "failure_class": "annotation-bug",
+            "witness_name": "proof_of_CircularAreaGetDataLength_return_wit_1",
+            "message": "The current non-full seed specification equates the wrapped uint32 C expression with an unwrapped mathematical modulo expression, but the existing preconditions do not prevent positive-difference addition overflow.",
+            "recommended_fix": "Return to annotation/spec. Prefer changing CircularAreaDataLengthResult to state the exact generated uint32 expression required by the CRTOS C body; alternatively add a semantically justified invariant that excludes the positive-difference overflow cases before retaining the mathematical modulo specification. Do not modify the generated witness statement."
+          }
+        ]
+      },
+      "natural_language_analysis": {
+        "schema_version": "qcp-natural-language-vc-analysis/v1",
+        "overall_judgment": "blocked-by-annotation-bug",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_CircularAreaIsFull_return_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "The diagnostic pure branch has emp; the full branch has all eight CircularArea fields and UCharArray.full unchanged.",
+              "pre_pure": "readidx <> writeidx, non-null descriptor, positive bounded area_length, and uint8/in-capacity index bounds.",
+              "pre_exists": "none",
+              "post_spatial": "emp in the pure branch; otherwise the identical descriptor fields and full buffer.",
+              "post_pure": "CircularAreaIsFullResult readidx writeidx b_status 0.",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "No existential witness; choose the false-result disjunct of CircularAreaIsFullResult.",
+            "space_plan": "Use the pure disjunct of the generated witness, leaving emp unchanged; equivalently the full spatial branch frames/cancels identically.",
+            "pure_plan": "Unfold CircularAreaIsFullResult, choose its second disjunct, discharge readidx <> writeidx by PreH1, and close result = 0 by reflexivity.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "readidx <> writeidx is exactly PreH1"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing after the global annotation blocker is repaired",
+            "analysis_group_candidate": "is_full_result_classification",
+            "grouping_reason": "Same definition-unfolding and unchanged-frame pattern as the other CircularAreaIsFull return witnesses."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaIsFull_return_wit_2",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "The diagnostic pure branch has emp; the full branch has all descriptor fields and UCharArray.full unchanged.",
+              "pre_pure": "b_status = 0, readidx = writeidx, non-null descriptor, and the established capacity/index bounds.",
+              "pre_exists": "none",
+              "post_spatial": "emp in the pure branch; otherwise the identical complete resources.",
+              "post_pure": "CircularAreaIsFullResult readidx writeidx b_status 0.",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "No existential witness; choose the false-result disjunct and its b_status = 0 alternative.",
+            "space_plan": "Use the pure disjunct or cancel the identical full frame.",
+            "pure_plan": "Unfold CircularAreaIsFullResult, choose the second disjunct, select b_status = 0 from PreH1, and close result = 0 by reflexivity.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "b_status = 0 is exactly PreH1"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing after the global annotation blocker is repaired",
+            "analysis_group_candidate": "is_full_result_classification",
+            "grouping_reason": "Same definition-unfolding and unchanged-frame pattern as the other CircularAreaIsFull return witnesses."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaIsFull_return_wit_3",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "The diagnostic pure branch has emp; the full branch has all descriptor fields and UCharArray.full unchanged.",
+              "pre_pure": "b_status <> 0, readidx = writeidx, non-null descriptor, and the established capacity/index bounds.",
+              "pre_exists": "none",
+              "post_spatial": "emp in the pure branch; otherwise the identical complete resources.",
+              "post_pure": "CircularAreaIsFullResult readidx writeidx b_status 1.",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "No existential witness; choose the true-result disjunct.",
+            "space_plan": "Use the pure disjunct or cancel the identical full frame.",
+            "pure_plan": "Unfold CircularAreaIsFullResult, choose its first disjunct, discharge readidx = writeidx and b_status <> 0 from PreH2 and PreH1, and close result = 1 by reflexivity.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "readidx = writeidx is PreH2",
+              "b_status <> 0 is PreH1"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing after the global annotation blocker is repaired",
+            "analysis_group_candidate": "is_full_result_classification",
+            "grouping_reason": "Same definition-unfolding and unchanged-frame pattern as the other CircularAreaIsFull return witnesses."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaGetDataLength_return_wit_1",
+            "judgment": "annotation-bug",
+            "vc_shape": {
+              "pre_spatial": "The diagnostic pure branch has emp; the full branch has all eight descriptor fields and UCharArray.full unchanged.",
+              "pre_pure": "CircularAreaIsFullResult readidx writeidx b_status retval, retval = 0, non-null descriptor, 0 < area_length <= UINT_MAX, 0 <= readidx,writeidx <= 255, and both indices below area_length.",
+              "pre_exists": "none",
+              "post_spatial": "emp in the pure branch; otherwise the identical complete resources.",
+              "post_pure": "CircularAreaDataLengthResult readidx writeidx area_length b_status E, where E = unsigned_last_nbits (unsigned_last_nbits (writeidx-readidx) 32 + area_length) 32 rem area_length.",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "No existential witness. From CircularAreaIsFullResult and retval = 0 one obtains the non-full condition (readidx <> writeidx or b_status = 0), but the required result equality does not follow.",
+            "space_plan": "The complete spatial frame is unchanged and is not the source of failure.",
+            "pure_plan": "Unfolding CircularAreaDataLengthResult requires E = (writeidx-readidx+area_length) mod area_length in the non-full branch. The two unsigned_last_nbits operations implement uint32 wrapping, and the present bounds do not make that equality valid for every positive writeidx-readidx.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [
+              "unsigned_last_nbits is definitionally x mod 2^n"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "The non-full condition follows from CircularAreaIsFullResult plus retval = 0.",
+              "No current premise excludes outer uint32 overflow when writeidx > readidx."
+            ],
+            "counterexample": {
+              "readidx": 0,
+              "writeidx": 2,
+              "area_length": 4294967295,
+              "b_status": 0,
+              "retval": 0,
+              "circular_area_pre": 1,
+              "bounds_and_non_full_preconditions_hold": true,
+              "inner_unsigned_last_nbits": 2,
+              "outer_unsigned_last_nbits": 1,
+              "generated_c_expression_result": 1,
+              "seed_spec_mathematical_result": 2
+            },
+            "failure_signal": "Current P admits a concrete valuation where Q is false; no proved helper can repair a false implication without an additional premise or corrected spec.",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": null,
+            "grouping_reason": "Must not be assigned to a proof group because its current pure obligation is semantically false."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaGetDataLength_return_wit_2",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "The diagnostic pure branch has emp; the full branch has all descriptor fields and UCharArray.full unchanged.",
+              "pre_pure": "CircularAreaIsFullResult readidx writeidx b_status retval, retval <> 0, non-null descriptor, and the established capacity/index bounds.",
+              "pre_exists": "none",
+              "post_spatial": "emp in the pure branch; otherwise the identical complete resources.",
+              "post_pure": "CircularAreaDataLengthResult readidx writeidx area_length b_status area_length.",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "No existential witness; eliminate the false-result disjunct of CircularAreaIsFullResult using retval <> 0 and select the full-capacity disjunct of CircularAreaDataLengthResult.",
+            "space_plan": "Use the pure disjunct or cancel the identical full resource frame.",
+            "pure_plan": "Unfold CircularAreaIsFullResult. Its second disjunct implies retval = 0 and contradicts PreH12, so the first gives readidx = writeidx and b_status <> 0. Unfold CircularAreaDataLengthResult and choose its first disjunct; the result equals area_length by reflexivity.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "retval <> 0 is PreH12",
+              "readidx = writeidx and b_status <> 0 follow by destructing PreH1 after eliminating its retval = 0 branch"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing after the global annotation blocker is repaired",
+            "analysis_group_candidate": "data_length_full_result",
+            "grouping_reason": "A self-contained result-predicate unfolding proof distinct from the unsigned arithmetic obligation."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "is_full_result_classification",
+            "witness_names": [
+              "proof_of_CircularAreaIsFull_return_wit_1",
+              "proof_of_CircularAreaIsFull_return_wit_2",
+              "proof_of_CircularAreaIsFull_return_wit_3"
+            ],
+            "representative_witness": "proof_of_CircularAreaIsFull_return_wit_1",
+            "shared_proof_pattern": "Choose the generated pure disjunct, unfold CircularAreaIsFullResult, select the branch fixed by the guards, and preserve emp/the identical frame.",
+            "shared_space_plan": "No spatial transformation; emp is unchanged or the full frame cancels identically.",
+            "shared_pure_plan": "Direct propositional case selection from readidx/writeidx and b_status guards.",
+            "shared_refinement_plan": "not applicable",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "Same function, same seed predicate, and identical proof/frame pattern.",
+            "proof_group_ready": true
+          },
+          {
+            "group_id": "data_length_full_result",
+            "witness_names": [
+              "proof_of_CircularAreaGetDataLength_return_wit_2"
+            ],
+            "representative_witness": "proof_of_CircularAreaGetDataLength_return_wit_2",
+            "shared_proof_pattern": "Eliminate the retval = 0 IsFullResult branch, then select the full-capacity DataLengthResult branch.",
+            "shared_space_plan": "No spatial transformation; resources frame unchanged.",
+            "shared_pure_plan": "Propositional unfolding and contradiction from retval <> 0.",
+            "shared_refinement_plan": "not applicable",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "The full branch is independent of the non-full unsigned-arithmetic issue.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "verification_evidence": {
+        "file_hashes_match_handoff": "yes",
+        "manual_obligation_count": 5,
+        "manual_obligations_match_source_goal_version": "yes",
+        "diagnostic_count": 5,
+        "diagnostics_used_as_hint_only": "yes",
+        "counterexample_check": {
+          "method": "Direct evaluation of the repository definition unsigned_last_nbits x n := x mod 2^n and the positive-operand Z.rem/Z.mod expressions.",
+          "status": "confirmed",
+          "generated_expression": 1,
+          "seed_spec_expression": 2
+        }
+      },
+      "changed_files": [],
+      "blockers": [
+        {
+          "failure_class": "annotation-bug",
+          "kind": "semantic-impossible",
+          "witness_name": "proof_of_CircularAreaGetDataLength_return_wit_1",
+          "missing_fact_or_spec_error": "The precondition allows area_length = UINT_MAX and writeidx-readidx = 2, so uint32 addition wraps although CircularAreaDataLengthResult specifies the corresponding unwrapped mathematical modulo.",
+          "concrete_evidence": "At readidx=0, writeidx=2, area_length=4294967295, b_status=0, retval=0: all pure preconditions hold, the generated expression evaluates to 1, and the seed spec requires 2.",
+          "recommended_return": "case_lib spec and/or C annotation",
+          "source_version": "2d47ccf7d93d399bc5e76124b1565ba6ac13cc1164a095f03c5e23e7cc630e67",
+          "source_goal_version": "0252b41f762679fb36781b2755e9670c6fae63fc241c3a596db837ba9235473a"
+        }
+      ],
+      "recommended_next_phase": "annotation"
+    }
+  },
+  "verification_result": {
+    "subagent_checks": {
+      "status": "blocked",
+      "version_hashes": "passed",
+      "target_witness_coverage": "passed",
+      "semantic_vc_check": "failed-on-proof_of_CircularAreaGetDataLength_return_wit_1"
+    },
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-08-20T15:47:29Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_circular_area_data_length-20260820233001/rounds/xizi_circular_area_data_length-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    }
+  },
+  "blockers": []
+}

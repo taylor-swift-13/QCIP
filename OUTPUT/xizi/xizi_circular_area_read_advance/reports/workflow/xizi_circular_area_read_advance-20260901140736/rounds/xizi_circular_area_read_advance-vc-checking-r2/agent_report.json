@@ -1,0 +1,389 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "vc_checking": {
+      "status": "completed",
+      "ready_for_vc_checking_check_round": true,
+      "source_version": {
+        "digest": "e154a003eb42857fb6d41de9a06ec3accccf80a64d8d7273fc31eab73d502381",
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "0f5bfcb4c6a7da5a0d13b89c081854c3960f32bfeb4726d12e5412fea1e4cc9a",
+        "schema_version": "qcp-source-goal-version/v1"
+      },
+      "version_evidence": {
+        "status": "matched",
+        "checked_files": [
+          {
+            "relative_path": "OUTPUT/xizi/xizi_circular_area_read_advance/source/xizi_circular_area_read_advance.c",
+            "sha256": "2d6e38486e05dfa724f46aeca7171ce6fa258b01b7a5f54a222529cca6858214"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_read_advance/source/xizi_circular_area_read_advance_lib.v",
+            "sha256": "eb466f8589e19a0434fcdfdd130adf76bb96133ee5a815e7a92328a2e125a6ab"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_read_advance/source/xizi_circular_area_read_advance_goal.v",
+            "sha256": "6cf4171d81ba41408ec51dbaa92a49d26347b42b21dcd3c249c93de76f5539a3"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_read_advance/source/xizi_circular_area_read_advance_proof_auto.v",
+            "sha256": "c2101ce5db23b630e7d0121ca14f35e46ba0b065ea1ebe7efcc24007a3b20c3a"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_read_advance/source/xizi_circular_area_read_advance_proof_manual.v",
+            "sha256": "133a27a91da434ceb5ae1863d18170824731a8ce303c1d8f1084c2551a305d39"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_read_advance/source/xizi_circular_area_read_advance_goal_check.v",
+            "sha256": "7ba9a91945ce569764bebd128c111e1cff97a8d0c03002d79753d5a3effbad72"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_read_advance/source/xizi_circular_area_read_advance_proof_diagnostics.v",
+            "sha256": "f1c68f7ca9802605a4eeafae8031085557c4c08d62b6c975b47fae7d0f25369d"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_read_advance/source/diagnostics_snapshot.json",
+            "sha256": "d58c689ae67a32e4557ff064ade16ac8535bc138e8619134254a754bf34e99b8"
+          }
+        ],
+        "manual_target_witnesses": [
+          "proof_of_CircularAreaDivideRdData_entail_wit_1",
+          "proof_of_CircularAreaDivideRdData_return_wit_1",
+          "proof_of_CircularAreaDivideRdData_return_wit_2"
+        ],
+        "manual_matches_source_goal_version": true,
+        "diagnostics_used_as_hint_only": true
+      },
+      "natural_language_analysis": {
+        "status": "all-target-witnesses-proofable",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_CircularAreaDivideRdData_entail_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "CircularAreaDivideRdDataInput at the entry parameters; after unfolding it is either emp for the null arm or the unchanged CircularAreaBackingResource for the non-null arm.",
+              "pre_pure": "Parameter/pre-state bridge equalities circular_area_pre = entry_circular_area and data_length_pre = entry_data_length, plus the pure facts embedded in CircularAreaDivideRdDataInput and CircularAreaBackingResource.",
+              "pre_exists": "The universally quantified data_buffer, indices, capacity, status, operations, logical FIFO, and physical option-byte list are already the representation values; no fresh existential is needed.",
+              "post_spatial": "For the non-null arm, the exact nine backing conjuncts (eight descriptor cells plus UCharArray.mixed_full) in flattened/reordered form; for the null arm, emp.",
+              "post_pure": "The bridge equalities and branch discriminator; on the non-null arm also entry_circular_area <> 0, data_buffer <> 0, data-length bounds, readidx + entry_data_length <= UINT_MAX, and the identical CircularAreaLogicalState.",
+              "post_exists": "None."
+            },
+            "witness_instantiation": "Select the output disjunction arm that matches the unfolded input arm and reuse exactly the incoming representation parameters; no list or abstract-state transformation occurs.",
+            "space_plan": "Unfold CircularAreaDivideRdDataInput. Split its assertion disjunction. In the non-null branch unfold CircularAreaBackingResource, expose its pure conjunct, and cancel/reassociate the unchanged descriptor cells and UCharArray.mixed_full into the requested order. In the null branch select the null post arm and cancel emp.",
+            "pure_plan": "From CircularAreaLogicalState obtain 0 < area_length <= 256 and 0 <= readidx < area_length. Combine those bounds with 0 <= entry_data_length <= area_length to derive readidx + entry_data_length <= UINT_MAX; obtain data_buffer <> 0 and the remaining invariant directly from the unfolded backing resource. The entry bridges discharge the two pre-state equalities.",
+            "refinement_plan": "No safeExec/refinement transition is present. The same logical and physical state values are preserved.",
+            "used_existing_lemmas": [
+              "CircularAreaDivideRdDataInput (definition)",
+              "CircularAreaBackingResource (definition)",
+              "CircularAreaLogicalState (definition)"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "entry_circular_area <> 0 /\\ data_buffer <> 0 /\\ CircularAreaLogicalState ...",
+                "discharged_by": "The pure conjuncts of the non-null input arm and unfolded CircularAreaBackingResource."
+              },
+              {
+                "premise": "readidx + entry_data_length <= UINT_MAX",
+                "discharged_by": "Logical-state bounds readidx < area_length <= 256 together with 0 <= entry_data_length <= area_length and the concrete UINT_MAX bound."
+              }
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "divide_contract_preservation",
+            "proof_group_candidate": "divide_contract_preservation",
+            "grouping_reason": "It unfolds/refolds the same unique CircularAreaBackingResource used by both return witnesses."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaDivideRdData_return_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "The unchanged area_length/readidx cells, UCharArray.mixed_full, and the remaining six descriptor cells, with circular_area_pre and entry_circular_area linked by equality.",
+              "pre_pure": "The crossing-branch guard on nested 32-bit unsigned truncation, the parameter/pre-state equalities, non-nullness and data bounds, no-overflow bound readidx + entry_data_length <= UINT_MAX, and the unchanged CircularAreaLogicalState.",
+              "pre_exists": "All backing-resource parameters and logical/physical lists are explicit universal variables.",
+              "post_spatial": "The identical CircularAreaBackingResource, with no consumed or changed cell.",
+              "post_pure": "All callable post facts and CircularAreaDivideRdDataResult readidx entry_data_length area_length 1.",
+              "post_exists": "None."
+            },
+            "witness_instantiation": "Choose the first universally quantified entailment arm of the generated proposition and reuse entry_circular_area, data_buffer, readidx, writeidx, area_length, b_status, operations, logical, and physical unchanged.",
+            "space_plan": "Use circular_area_pre = entry_circular_area to align the two field-address spellings. Reassociate the unchanged cells and mixed_full assertion, then fold CircularAreaBackingResource; its pure prefix follows from the existing non-nullness and logical-state premises.",
+            "pure_plan": "Unfold CircularAreaLogicalState to obtain 0 <= readidx < area_length <= 256. Rewrite unsigned_last_nbits readidx 32 to readidx using unsigned_last_nbits_eq. With data_length_pre = entry_data_length, 0 <= entry_data_length, and readidx + entry_data_length <= UINT_MAX, rewrite the outer unsigned_last_nbits to the mathematical sum. The crossing guard then gives area_length < readidx + entry_data_length, so select the ret=1 disjunct of CircularAreaDivideRdDataResult; ret = 1 is reflexive.",
+            "refinement_plan": "No abstract program/refinement state changes; the FIFO and physical option-byte list are preserved verbatim.",
+            "used_existing_lemmas": [
+              "unsigned_last_nbits_eq",
+              "CircularAreaLogicalState (definition)",
+              "CircularAreaBackingResource (definition)",
+              "CircularAreaDivideRdDataResult (definition)"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "0 <= readidx <= UINT_MAX",
+                "discharged_by": "CircularAreaLogicalState gives 0 <= readidx < area_length <= 256."
+              },
+              {
+                "premise": "0 <= readidx + data_length_pre <= UINT_MAX",
+                "discharged_by": "Nonnegative readidx, data_length_pre = entry_data_length, 0 <= entry_data_length, and the explicit no-overflow PreH9."
+              },
+              {
+                "premise": "area_length < readidx + entry_data_length",
+                "discharged_by": "The crossing guard after the two unsigned_last_nbits_eq rewrites and the data-length bridge equality."
+              }
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "divide_contract_preservation",
+            "proof_group_candidate": "divide_contract_preservation",
+            "grouping_reason": "Shares the unchanged backing-resource refold and unsigned-guard normalization with return_wit_2."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaDivideRdData_return_wit_2",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "The unchanged area_length/readidx cells, UCharArray.mixed_full, and the remaining six descriptor cells, with circular_area_pre and entry_circular_area linked by equality.",
+              "pre_pure": "The non-crossing guard on nested 32-bit unsigned truncation, parameter/pre-state equalities, non-nullness and data bounds, no-overflow bound, and the unchanged CircularAreaLogicalState.",
+              "pre_exists": "All backing-resource parameters and logical/physical lists are explicit universal variables.",
+              "post_spatial": "The identical CircularAreaBackingResource, with no consumed or changed cell.",
+              "post_pure": "All callable post facts and CircularAreaDivideRdDataResult readidx entry_data_length area_length 0.",
+              "post_exists": "None."
+            },
+            "witness_instantiation": "Choose the first universally quantified entailment arm of the generated proposition and reuse every pre-state representation value unchanged.",
+            "space_plan": "As in return_wit_1, substitute the descriptor identity equality, commute/reassociate the unchanged spatial conjuncts, and fold CircularAreaBackingResource with the already available pure invariant.",
+            "pure_plan": "Use CircularAreaLogicalState and the explicit data/no-overflow bounds to apply unsigned_last_nbits_eq first to readidx and then to readidx + data_length_pre. After rewriting data_length_pre = entry_data_length, the non-crossing guard yields readidx + entry_data_length <= area_length. Select the ret=0 disjunct of CircularAreaDivideRdDataResult; ret = 0 is reflexive.",
+            "refinement_plan": "No abstract program/refinement state changes; the FIFO and physical option-byte list are preserved verbatim.",
+            "used_existing_lemmas": [
+              "unsigned_last_nbits_eq",
+              "CircularAreaLogicalState (definition)",
+              "CircularAreaBackingResource (definition)",
+              "CircularAreaDivideRdDataResult (definition)"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "0 <= readidx <= UINT_MAX",
+                "discharged_by": "CircularAreaLogicalState gives 0 <= readidx < area_length <= 256."
+              },
+              {
+                "premise": "0 <= readidx + data_length_pre <= UINT_MAX",
+                "discharged_by": "Nonnegative readidx, the data-length bridge, 0 <= entry_data_length, and explicit PreH9."
+              },
+              {
+                "premise": "readidx + entry_data_length <= area_length",
+                "discharged_by": "The non-crossing guard after the two unsigned_last_nbits_eq rewrites and the data-length bridge equality."
+              }
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "divide_contract_preservation",
+            "proof_group_candidate": "divide_contract_preservation",
+            "grouping_reason": "Shares the unchanged backing-resource refold and unsigned-guard normalization with return_wit_1."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "divide_contract_preservation",
+            "witness_names": [
+              "proof_of_CircularAreaDivideRdData_entail_wit_1",
+              "proof_of_CircularAreaDivideRdData_return_wit_1",
+              "proof_of_CircularAreaDivideRdData_return_wit_2"
+            ],
+            "representative_witness": "proof_of_CircularAreaDivideRdData_return_wit_1",
+            "shared_proof_pattern": "Unfold the callable contract/common state, preserve and reorder the same mixed backing resource, and discharge only branch-selection arithmetic.",
+            "shared_space_plan": "The entry witness unfolds the unique backing resource while both return witnesses refold it; all three preserve the same descriptor fields and UCharArray.mixed_full without conversion.",
+            "shared_pure_plan": "Expose CircularAreaLogicalState bounds. Entry derives the UINT_MAX sum bound; returns normalize unsigned_last_nbits and turn the C guard into the matching CircularAreaDivideRdDataResult branch.",
+            "shared_refinement_plan": "No refinement transition; logical and physical state parameters are identical before and after.",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "All three witnesses belong to one small function contract, share the unique logical/backing representation and proof vocabulary, and total only 3 witnesses under the controller limit of 12.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "0f5bfcb4c6a7da5a0d13b89c081854c3960f32bfeb4726d12e5412fea1e4cc9a",
+        "target_witnesses": [
+          "proof_of_CircularAreaDivideRdData_entail_wit_1",
+          "proof_of_CircularAreaDivideRdData_return_wit_1",
+          "proof_of_CircularAreaDivideRdData_return_wit_2"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "divide_contract_preservation",
+            "witness_names": [
+              "proof_of_CircularAreaDivideRdData_entail_wit_1",
+              "proof_of_CircularAreaDivideRdData_return_wit_1",
+              "proof_of_CircularAreaDivideRdData_return_wit_2"
+            ],
+            "representative_witness": "proof_of_CircularAreaDivideRdData_return_wit_1",
+            "dependencies": [],
+            "likely_helper_declarations": [],
+            "candidate_helper_declarations": [],
+            "expected_helpers": [],
+            "proof_strategy": "Prove the entry split by unfolding CircularAreaDivideRdDataInput and CircularAreaBackingResource. For both return branches, select the first generated universal-entailment disjunct, substitute the parameter bridges, normalize nested unsigned_last_nbits with existing unsigned_last_nbits_eq under logical-state and no-overflow bounds, unfold CircularAreaDivideRdDataResult to choose the guard-matching ret branch, and fold the unchanged CircularAreaBackingResource after spatial reassociation.",
+            "natural_language_proof_strategy": "The function reads only descriptor metadata and changes no resource. The input split exposes either emp/null or the shared non-null backing state. On return, the no-overflow premise makes both 32-bit truncations identities; the C comparison is therefore exactly the mathematical split predicate, while every descriptor cell, FIFO fact, option-byte list, and mixed_full buffer resource remains unchanged.",
+            "grouping_reason": "Same function, same unique backing-resource preservation pattern, and the two arithmetic branches share the same unsigned normalization; 3 witnesses are within max_witnesses_per_group=12, so one continuous worker context is preferable.",
+            "confidence": "high",
+            "difficulty": "moderate",
+            "per_witness_plan": {
+              "proof_of_CircularAreaDivideRdData_entail_wit_1": "Unfold input/backing, split null versus non-null, preserve all resource parameters, and derive the UINT_MAX sum bound from the logical-state/data-length bounds.",
+              "proof_of_CircularAreaDivideRdData_return_wit_1": "Choose the first generated theorem disjunct; normalize unsigned arithmetic, select the ret=1 result disjunct, then refold the unchanged backing resource.",
+              "proof_of_CircularAreaDivideRdData_return_wit_2": "Choose the first generated theorem disjunct; normalize unsigned arithmetic, select the ret=0 result disjunct, then refold the unchanged backing resource."
+            },
+            "premise_discharge": {
+              "logical_state_bounds": "Unfold CircularAreaLogicalState.",
+              "unsigned_readidx_identity": "Apply unsigned_last_nbits_eq using 0 <= readidx < area_length <= 256 <= UINT_MAX.",
+              "unsigned_sum_identity": "Apply unsigned_last_nbits_eq using nonnegative operands, data_length_pre = entry_data_length, and readidx + entry_data_length <= UINT_MAX.",
+              "backing_resource_pure_prefix": "Use the existing non-nullness and unchanged CircularAreaLogicalState premises."
+            }
+          }
+        ],
+        "blockers": []
+      },
+      "changed_files": [],
+      "formal_files_modified": [],
+      "checks": {
+        "readability": "passed",
+        "source_version_hashes": "passed",
+        "source_goal_version_hashes": "passed",
+        "manual_witness_coverage": "passed",
+        "semantic_proofability": "passed",
+        "grouping_policy": "passed",
+        "coq_execution": "not-run-read-only-semantic-planning-phase"
+      },
+      "errors": [],
+      "blockers": []
+    }
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-09-01T06:58:25Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_circular_area_read_advance-20260901140736/rounds/xizi_circular_area_read_advance-vc-checking-r2/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    },
+    "controller_simple_repairs": [
+      {
+        "kind": "materialized-inline-group-plan",
+        "source": "/home/yangfp/QCIP/reports/xizi_circular_area_read_advance-20260901140736/rounds/xizi_circular_area_read_advance-vc-checking-r2/agent_report.json",
+        "target": "/home/yangfp/QCIP/reports/xizi_circular_area_read_advance-20260901140736/rounds/xizi_circular_area_read_advance-vc-checking-r2/group_plan.json",
+        "reason": "vc-checking report included an inline group_plan but the default group_plan.json artifact was missing"
+      }
+    ],
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-09-01T06:58:25Z",
+      "source_version": {
+        "digest": "e154a003eb42857fb6d41de9a06ec3accccf80a64d8d7273fc31eab73d502381",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_circular_area_read_advance-20260901140736/xizi_circular_area_read_advance-annotation-r2/OUTPUT/xizi/xizi_circular_area_read_advance/source/xizi_circular_area_read_advance.c",
+            "relative_path": "OUTPUT/xizi/xizi_circular_area_read_advance/source/xizi_circular_area_read_advance.c",
+            "role": "target-c-annotated",
+            "sha256": "2d6e38486e05dfa724f46aeca7171ce6fa258b01b7a5f54a222529cca6858214",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_circular_area_read_advance-20260901140736/xizi_circular_area_read_advance-annotation-r2/SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_read_advance/source/xizi_circular_area_read_advance_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_read_advance/source/xizi_circular_area_read_advance_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "eb466f8589e19a0434fcdfdd130adf76bb96133ee5a815e7a92328a2e125a6ab",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "0f5bfcb4c6a7da5a0d13b89c081854c3960f32bfeb4726d12e5412fea1e4cc9a",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_read_advance/source/xizi_circular_area_read_advance_goal.v",
+            "role": "generated-goal",
+            "sha256": "6cf4171d81ba41408ec51dbaa92a49d26347b42b21dcd3c249c93de76f5539a3",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_read_advance/source/xizi_circular_area_read_advance_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "c2101ce5db23b630e7d0121ca14f35e46ba0b065ea1ebe7efcc24007a3b20c3a",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_read_advance/source/xizi_circular_area_read_advance_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "133a27a91da434ceb5ae1863d18170824731a8ce303c1d8f1084c2551a305d39",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_read_advance/source/xizi_circular_area_read_advance_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "7ba9a91945ce569764bebd128c111e1cff97a8d0c03002d79753d5a3effbad72",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_read_advance/source/xizi_circular_area_read_advance_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "f1c68f7ca9802605a4eeafae8031085557c4c08d62b6c975b47fae7d0f25369d",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_read_advance/source/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "d58c689ae67a32e4557ff064ade16ac8535bc138e8619134254a754bf34e99b8",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_CircularAreaDivideRdData_entail_wit_1",
+          "proof_of_CircularAreaDivideRdData_return_wit_1",
+          "proof_of_CircularAreaDivideRdData_return_wit_2"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_CircularAreaDivideRdData_entail_wit_1": "f8780307c4b07d18ed7d0f549cdd0c4e649d50f620e3656b63f535344e3cd023",
+          "proof_of_CircularAreaDivideRdData_return_wit_1": "6f5ea14fd475514a73253f3ee35f08e68b703a6125c8aae8835ec64faaff50aa",
+          "proof_of_CircularAreaDivideRdData_return_wit_2": "27241422d32fc083e8e6aa56f103d5d84898b8af5fc90fce66b5826ed34e2267"
+        },
+        "witnesses": [
+          {
+            "end_line": 26,
+            "name": "proof_of_CircularAreaDivideRdData_entail_wit_1",
+            "start_line": 24,
+            "statement_hash": "f8780307c4b07d18ed7d0f549cdd0c4e649d50f620e3656b63f535344e3cd023",
+            "target_symbol": "CircularAreaDivideRdData_entail_wit_1"
+          },
+          {
+            "end_line": 29,
+            "name": "proof_of_CircularAreaDivideRdData_return_wit_1",
+            "start_line": 27,
+            "statement_hash": "6f5ea14fd475514a73253f3ee35f08e68b703a6125c8aae8835ec64faaff50aa",
+            "target_symbol": "CircularAreaDivideRdData_return_wit_1"
+          },
+          {
+            "end_line": 32,
+            "name": "proof_of_CircularAreaDivideRdData_return_wit_2",
+            "start_line": 30,
+            "statement_hash": "27241422d32fc083e8e6aa56f103d5d84898b8af5fc90fce66b5826ed34e2267",
+            "target_symbol": "CircularAreaDivideRdData_return_wit_2"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_circular_area_read_advance-20260901140736/rounds/xizi_circular_area_read_advance-vc-checking-r2/group_plan.json",
+      "target_witnesses": [
+        "proof_of_CircularAreaDivideRdData_entail_wit_1",
+        "proof_of_CircularAreaDivideRdData_return_wit_1",
+        "proof_of_CircularAreaDivideRdData_return_wit_2"
+      ]
+    }
+  },
+  "blockers": []
+}

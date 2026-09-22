@@ -1,0 +1,37 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "annotation",
+  "status": "reported",
+  "terminal": "yes",
+  "agent_result": {
+    "annotation": {
+      "status": "blocked",
+      "round": "xizi_circular_area_write-annotation-r7",
+      "attempt_id": "xizi_circular_area_write-annotation-r7-attempt-1",
+      "source_version": {"schema_version": "qcp-source-version/v1", "digest": "544900982d0ee6f9f0fe13e554543a7de92331c4273418886c185bbcd96c875a"},
+      "candidate_files": [
+        {"relative_path": "OUTPUT/xizi/xizi_circular_area_write/source/xizi_circular_area_write.c", "sha256": "d910ea00c639ba1b04ed5b2d42e3d5c524e6c34bfd7c10791b8418309efd4862", "state": "modified", "role": "target-c"},
+        {"relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write/source/xizi_circular_area_write_lib.v", "sha256": "9f2c34ba9c2ccc2c9cd7e44ee2414a0c4e17e7b6e1bfc8ce6982ce8b8563292f", "state": "modified", "role": "case-lib-seed"}
+      ],
+      "ready_for_annotation_check_round": false,
+      "changed_files": ["OUTPUT/xizi/xizi_circular_area_write/source/xizi_circular_area_write.c", "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write/source/xizi_circular_area_write_lib.v"],
+      "previous_attempts_reviewed": [{"round": "xizi_circular_area_write-annotation-r6", "allowed_use": "read-only-analysis", "formal_copy_used": "no"}],
+      "prior_blockers_addressed": [{"lesson_id": "xizi_circular_area_write-annotation-r6-strict-memcpy-contract-not-yet-symbolically-established-1", "status": "investigated", "detail": "R7 reconstructed the exact segmented contract from textual evidence, tested a branch-local exact ownership Assert, direct destination/source/count bindings, and both field-address/pointer-add normal forms. The QCP entailment failure remains."}],
+      "iteration_count": 8,
+      "failure_count": 8,
+      "repair_count": 7,
+      "self_repair_budget": {"min_complete_cycles": 3, "min_wall_clock_minutes": 30, "complete_cycles": 6, "wall_clock_minutes": 31, "budget_exhausted": true, "detail": "Fresh reconstruction plus six complete QCP repair cycles tested precise segment size forms, pointer syntax, explicit where parameter binding, and a local exact Assert without weakening content."},
+      "self_reworkable_failures": [{"failure_class": "qcp-symbolic-execution", "location": "first wrap memcpy at candidate line 225", "detail": "QCP cannot derive exact_bytes although current assertion contains the exact destination tail block and exact input-up block. Both dest spellings were tested; field-address form causes spec assertion parsing issues while pointer-add form remains an entailment mismatch."}],
+      "canonical_symexec_evidence": {"status": "not-run", "owner": "controller/main-agent", "driver": "/home/yangfp/QCIP/linux-binary/symexec", "cwd": "/home/yangfp/QCIP/worktrees/xizi_circular_area_write-20260812080000/xizi_circular_area_write-annotation-r7", "include_args": ["QCP_examples/QCP_demos_LLM/"], "slp_args": ["QCP_examples/QCP_demos_LLM/", "SimpleC.EE.QCP_demos_LLM"], "reason": "qcp-mcp did not reach EOF"},
+      "qcp_mcp_interactive_evidence": {"status": "failed", "qcp_mcp_requirement_satisfied": "no", "driver": "/home/yangfp/QCIP/linux-binary/mcp", "working_directory": "/home/yangfp/QCIP/worktrees/xizi_circular_area_write-20260812080000/xizi_circular_area_write-annotation-r7", "actual_args": ["--input-file", "OUTPUT/xizi/xizi_circular_area_write/source/xizi_circular_area_write.c", "--goal-file", "/tmp/xizi_r7_cycle8_goal.v", "--coq-logic-path", "/home/yangfp/QCIP/SeparationLogic", "-IQCP_examples/QCP_demos_LLM/", "-slp", "QCP_examples/QCP_demos_LLM/", "SimpleC.EE.QCP_demos_LLM"], "last_result": {"result": "failed", "line": 225, "error": "Cannot derive the precondition of function memcpy for spec exact_bytes"}},
+      "case_lib_coqc_evidence": {"status": "passed", "helper": "/home/yangfp/QCIP/.agents/skills/vc-proving/scripts/coq_tooling.py", "target_kind": "case_lib", "source_goal_version": "annotation-r7-candidate", "build_workspace": "/home/yangfp/QCIP/worktrees/xizi_circular_area_write-20260812080000/_coq_builds/annotation-r7-case-lib", "exit_code": 0, "elapsed_seconds": 25.15},
+      "annotation_checking_evidence": {"status": "blocked", "qcp_mcp_requirement_satisfied": "no", "annotation_scratch_lib_coqc_status": "passed", "spec_definition_status": "Mathematical representation, exact ring update, logical FIFO observation, truncation, error/no-change, wrap/no-wrap and force semantics are content-sensitive and not merely bounds/shape.", "function_spec_status": "Behavior matrix is complete and helper call specializations are callable. Exact memcpy call-site establishment still fails.", "invariant_status": "not applicable; target contains no loop", "failed_checks": ["qcp-mcp EOF"], "ready_for_main_common_case_formal_lib_update": "no", "ready_for_main_symexec": "no", "summary": "Annotation Checking Report: blocked. Spec quality and case-lib compile pass; strict QCP call-site gate fails."},
+      "spec_coverage": {"covered_behaviors": ["null area", "null input", "zero length", "full non-force error/no-change", "full force actual zero", "no-wrap", "wrap", "capacity truncation", "force/non-force read index", "exact input-to-physical/logical content"], "call_site_establishment": ["CircularAreaIsFull", "CircularAreaGetDataLength", "CircularAreaDivideWrData"], "unestablished_call_site": "exact original memcpy contract in wrap branch"},
+      "file_access_summary": {"must_log_file_reads": "yes", "read_categories": {"handoff_and_rules": ["r7 agent_input.json", "three declared SKILL.md files", "r6 agent_report.json", "r6 agent_output.txt"], "target_files": ["r7 target C", "r7 case_lib"]}, "searches": [], "denied_globs_touched": [], "policy_effect": "compliant"},
+      "blockers": [{"kind": "strict-memcpy-contract-not-symbolically-establishable", "detail": "After fresh reconstruction, at least six complete exact-contract repair cycles, and more than 30 minutes, QCP still rejects an exact byte-copy precondition already present as exact UCharArray.full segments. No weak contract, helper implementation, or shape-only substitute was used."}],
+      "summary": "R7 confirms the spec is behavior-complete and coqc-valid, but the required strict QCP EOF gate remains blocked by exact memcpy entailment normalization."
+    }
+  },
+  "verification_result": {},
+  "blockers": [{"kind": "qcp-mcp-not-at-eof", "detail": "Strict exact memcpy precondition cannot be derived."}]
+}

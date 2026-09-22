@@ -1,0 +1,293 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "round": "xizi_circular_area_reset-vc-checking-r1",
+    "attempt_id": "xizi_circular_area_reset-vc-checking-r1-attempt-1",
+    "vc_checking": {
+      "status": "completed",
+      "ready_for_vc_checking_check_round": true,
+      "source_version": {
+        "digest": "869d0d1d47f04f55ebcbe69f48c817b75db338d02d466ed3a49238864a4a74a4",
+        "matched": true,
+        "checked_files": [
+          {
+            "relative_path": "OUTPUT/xizi/xizi_circular_area_reset/source/xizi_circular_area_reset.c",
+            "sha256": "0b5919cdb24e1a70102e8d1ab6ea4312b510ff2236a148e799cdf5417f3e5721"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_reset/source/xizi_circular_area_reset_lib.v",
+            "sha256": "eaeb20f9b576e807cd5a470b8d9f013502c25f31b198069eba3b8233a0fd1716"
+          }
+        ]
+      },
+      "source_goal_version": "a603d2c0a3c2bd89ccb8edd209619472ad36117f061b9fa172f985ad42556c24",
+      "source_goal_version_check": {
+        "matched": true,
+        "generated_file_hashes_matched": 6,
+        "generated_file_hashes_expected": 6,
+        "manual_target_witnesses": [
+          "proof_of_CircularAreaReset_return_wit_1"
+        ],
+        "manual_target_witnesses_match": true,
+        "witness_statement_hashes_match": true,
+        "diagnostic_goals_used_as_targets": false
+      },
+      "natural_language_analysis": {
+        "source_goal_version": "a603d2c0a3c2bd89ccb8edd209619472ad36117f061b9fa172f985ad42556c24",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_CircularAreaReset_return_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "The descriptor fields data_buffer, readidx=0, writeidx=0, p_head, p_tail, area_length, b_status=0 and operations, plus UCharArray.mixed_full data_buffer0 area_length0 physical and GlobalStrings LitMap.",
+              "pre_pure": "Non-null descriptor and buffer; the old CircularAreaLogicalState readidx0 writeidx0 area_length0 b_status0 logical physical; and p_tail value circular_area_pre_p_tail_2 = data_buffer0 + area_length0.",
+              "pre_exists": "None.",
+              "post_spatial": "Exactly the same descriptor-field points-to resources, the same mixed_full buffer resource over the identical physical option list, and the same GlobalStrings resource.",
+              "post_pure": "CircularAreaLogicalState 0 0 area_length0 0 nil physical and equalities fixing the returned readidx, writeidx and b_status to zero and p_tail to data_buffer0 + area_length0.",
+              "post_exists": "circular_area_pre_b_status, circular_area_pre_p_tail, circular_area_pre_writeidx and circular_area_pre_readidx."
+            },
+            "witness_instantiation": "Choose circular_area_pre_b_status=0, circular_area_pre_p_tail=data_buffer0+area_length0, circular_area_pre_writeidx=0 and circular_area_pre_readidx=0, then choose the left Coq-level disjunct of CircularAreaReset_return_wit_1.",
+            "space_plan": "After instantiating the four existentials, retain every antecedent spatial conjunct unchanged. The p_tail antecedent is rewritten with PreH4; all points-to, mixed_full and GlobalStrings resources then cancel one-for-one.",
+            "pure_plan": "Unfold the old CircularAreaLogicalState and retain 0<area_length0<=256 plus Zlength physical=area_length0. Unfold the reset state: zero lies in range because area_length0 is positive; Zlength nil is zero; Forall on nil is immediate; 0=(0+0) mod area_length0 follows from nonzero positive capacity; status is zero; the full-state equivalence has two false sides because 0<>area_length0 and 0<>1; the empty-state equivalence has two true sides; CircularAreaLiveBytes for nil is vacuous because no k satisfies 0<=k<0.",
+            "refinement_plan": "Not applicable: this is a pure/spatial state-reset entailment with no safeExec or abstract-program refinement component.",
+            "used_existing_lemmas": [
+              "standard simplification facts for Zlength nil and Forall nil",
+              "the standard integer fact 0 mod area_length0 = 0 under area_length0<>0",
+              "separation-logic existential/pure-introduction and cancellation rules"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "0 < area_length0 <= 256",
+                "discharged_by": "The first conjunct of PreH3 after unfolding CircularAreaLogicalState."
+              },
+              {
+                "premise": "Zlength physical = area_length0",
+                "discharged_by": "The physical-length conjunct of PreH3 after unfolding CircularAreaLogicalState."
+              },
+              {
+                "premise": "0 <= 0 < area_length0 and area_length0 <> 0",
+                "discharged_by": "Arithmetic from 0 < area_length0."
+              },
+              {
+                "premise": "The reset state is not full and is empty",
+                "discharged_by": "Zlength nil=0, area_length0>0, and direct simplification of zero equalities."
+              },
+              {
+                "premise": "CircularAreaLiveBytes 0 area_length0 nil physical",
+                "discharged_by": "Its premise 0<=k<Zlength nil is contradictory for every k."
+              },
+              {
+                "premise": "Preserved p_tail address",
+                "discharged_by": "PreH4 rewrites circular_area_pre_p_tail_2 to data_buffer0+area_length0."
+              }
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "reset_return_state",
+            "grouping_reason": "This is the only target witness and consists of one direct reset-state reconstruction plus unchanged spatial framing."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "reset_return_state",
+            "witness_names": [
+              "proof_of_CircularAreaReset_return_wit_1"
+            ],
+            "representative_witness": "proof_of_CircularAreaReset_return_wit_1",
+            "shared_proof_pattern": "Select the resource-preserving return disjunct, instantiate zero/canonical-field witnesses, derive the empty shared logical state, and cancel unchanged resources.",
+            "shared_space_plan": "One-for-one cancellation of preserved descriptor fields, mixed_full buffer ownership and GlobalStrings after p_tail rewriting.",
+            "shared_pure_plan": "Derive the reset invariant from positive capacity and preserved physical length; discharge empty-list and zero-index clauses directly.",
+            "shared_refinement_plan": "Not applicable.",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "A single target witness is within the controller limit of 12 and has one coherent proof pattern.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "a603d2c0a3c2bd89ccb8edd209619472ad36117f061b9fa172f985ad42556c24",
+        "target_witnesses": [
+          "proof_of_CircularAreaReset_return_wit_1"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "reset_return_state",
+            "witness_names": [
+              "proof_of_CircularAreaReset_return_wit_1"
+            ],
+            "representative_witness": "proof_of_CircularAreaReset_return_wit_1",
+            "dependencies": [],
+            "candidate_helper_declarations": [],
+            "expected_helpers": [],
+            "proof_strategy": "Unfold the return witness and choose its left disjunct. Introduce parameters and select existential values 0, data_buffer0+area_length0, 0, 0. Unfold CircularAreaLogicalState/CircularAreaLiveBytes in PreH3 and the postcondition, use positive capacity and preserved physical length to establish the empty reset state, rewrite p_tail with PreH4, then cancel all unchanged spatial resources.",
+            "per_witness_plan": {
+              "proof_of_CircularAreaReset_return_wit_1": {
+                "judgment": "proofable",
+                "witness_instantiation": [
+                  "circular_area_pre_b_status := 0",
+                  "circular_area_pre_p_tail := data_buffer0 + area_length0",
+                  "circular_area_pre_writeidx := 0",
+                  "circular_area_pre_readidx := 0"
+                ],
+                "space_plan": "Rewrite the antecedent p_tail with PreH4 and cancel identical points-to, mixed_full and GlobalStrings resources.",
+                "pure_plan": "Use the old state's capacity and physical-length conjuncts; simplify the nil/zero reset invariant and close the vacuous live-byte clause.",
+                "refinement_plan": "not applicable"
+              }
+            },
+            "vc_shape": {
+              "kind": "Coq-level disjunction whose first branch is a separation-logic entailment",
+              "chosen_branch": "left resource-preserving return branch"
+            },
+            "witness_instantiation": {
+              "circular_area_pre_b_status": "0",
+              "circular_area_pre_p_tail": "data_buffer0 + area_length0",
+              "circular_area_pre_writeidx": "0",
+              "circular_area_pre_readidx": "0"
+            },
+            "space_plan": "Preserve and cancel all spatial resources one-for-one after rewriting p_tail.",
+            "pure_plan": "Construct CircularAreaLogicalState 0 0 area_length0 0 nil physical from positive capacity and preserved physical length, with all remaining clauses simplified or vacuous.",
+            "refinement_plan": "Not applicable.",
+            "premise_discharge": {
+              "capacity": "PreH3",
+              "physical_length": "PreH3",
+              "canonical_tail": "PreH4",
+              "zero_index_bounds": "area_length0>0",
+              "empty_fifo": "Zlength nil=0 and vacuous CircularAreaLiveBytes"
+            },
+            "difficulty": "low",
+            "confidence": "high",
+            "grouping_reason": "Only one target witness exists; it is below the 12-witness bound and no dependency or strategy split is needed."
+          }
+        ],
+        "blockers": []
+      },
+      "changed_files": [],
+      "formal_files_modified": [],
+      "read_only_phase": true,
+      "evidence": {
+        "manual_file": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_reset/source/xizi_circular_area_reset_proof_manual.v",
+        "manual_file_sha256": "c9d3301d2b4efd62310acb3c112fa834b54aa2f39dc933fa3541999dd71630a7",
+        "goal_file": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_reset/source/xizi_circular_area_reset_goal.v",
+        "goal_file_sha256": "fd056432057be6cd44cf8b35797d1511e3f4abbc344fcda94e71cd9d9b516eb5",
+        "case_lib": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_reset/source/xizi_circular_area_reset_lib.v",
+        "case_lib_sha256": "eaeb20f9b576e807cd5a470b8d9f013502c25f31b198069eba3b8233a0fd1716",
+        "shared_state_definition": "QCIPLib/xizi/xizi_circular_area_common/xizi_circular_area_lib.v:CircularAreaLogicalState",
+        "diagnostics_hint": "proof_of_CircularAreaReset_return_wit_1_split_goal_1 isolates the same pure reset-state fact; it was used only as a planning hint and not as a target witness."
+      },
+      "recommended_next_phase": "vc-proving-preparing",
+      "blockers": []
+    }
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-09-01T02:58:03Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_circular_area_reset-20260901102916/rounds/xizi_circular_area_reset-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    },
+    "controller_simple_repairs": [
+      {
+        "kind": "materialized-inline-group-plan",
+        "source": "/home/yangfp/QCIP/reports/xizi_circular_area_reset-20260901102916/rounds/xizi_circular_area_reset-vc-checking-r1/agent_report.json",
+        "target": "/home/yangfp/QCIP/reports/xizi_circular_area_reset-20260901102916/rounds/xizi_circular_area_reset-vc-checking-r1/group_plan.json",
+        "reason": "vc-checking report included an inline group_plan but the default group_plan.json artifact was missing"
+      }
+    ],
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-09-01T02:58:03Z",
+      "source_version": {
+        "digest": "869d0d1d47f04f55ebcbe69f48c817b75db338d02d466ed3a49238864a4a74a4",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_circular_area_reset-20260901102916/xizi_circular_area_reset-annotation-r1/OUTPUT/xizi/xizi_circular_area_reset/source/xizi_circular_area_reset.c",
+            "relative_path": "OUTPUT/xizi/xizi_circular_area_reset/source/xizi_circular_area_reset.c",
+            "role": "target-c-annotated",
+            "sha256": "0b5919cdb24e1a70102e8d1ab6ea4312b510ff2236a148e799cdf5417f3e5721",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_circular_area_reset-20260901102916/xizi_circular_area_reset-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_reset/source/xizi_circular_area_reset_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_reset/source/xizi_circular_area_reset_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "eaeb20f9b576e807cd5a470b8d9f013502c25f31b198069eba3b8233a0fd1716",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "a603d2c0a3c2bd89ccb8edd209619472ad36117f061b9fa172f985ad42556c24",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_reset/source/xizi_circular_area_reset_goal.v",
+            "role": "generated-goal",
+            "sha256": "fd056432057be6cd44cf8b35797d1511e3f4abbc344fcda94e71cd9d9b516eb5",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_reset/source/xizi_circular_area_reset_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "8b8c39180254a2047875e9f8df395b5f46974ad68f639489a6717d16c9bb14aa",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_reset/source/xizi_circular_area_reset_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "c9d3301d2b4efd62310acb3c112fa834b54aa2f39dc933fa3541999dd71630a7",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_reset/source/xizi_circular_area_reset_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "8b9e8a44adc8a864ccc3b94f42a4c2871214480e38b76d810f5db660412b98f3",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_reset/source/xizi_circular_area_reset_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "623c075c718c08c73109a0e39f40365e0cc077eb1937c928770d882760742e3a",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_reset/source/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "7a1186b73b85d49e5a11f2090ec1889c2e48f21d4cd2e38a8bd92f670044f206",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_CircularAreaReset_return_wit_1"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_CircularAreaReset_return_wit_1": "899b3aa790683ced9ad66883d03152b1cfdb5177e40c7a1beb41c64783ce661f"
+        },
+        "witnesses": [
+          {
+            "end_line": 27,
+            "name": "proof_of_CircularAreaReset_return_wit_1",
+            "start_line": 25,
+            "statement_hash": "899b3aa790683ced9ad66883d03152b1cfdb5177e40c7a1beb41c64783ce661f",
+            "target_symbol": "CircularAreaReset_return_wit_1"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_circular_area_reset-20260901102916/rounds/xizi_circular_area_reset-vc-checking-r1/group_plan.json",
+      "target_witnesses": [
+        "proof_of_CircularAreaReset_return_wit_1"
+      ]
+    }
+  },
+  "blockers": []
+}

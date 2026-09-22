@@ -1,0 +1,1095 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "pending",
+  "terminal": "yes",
+  "agent_result": {
+    "vc_checking": {
+      "status": "blocked",
+      "terminal": "yes",
+      "source_version": "f3ba4887bb6f28b40aea4fef64424ce39cae6c6357140cd2fa2c8c27a901aee4",
+      "source_goal_version": "ebeb6aaad8da7511fc200f853e8e6cb84b2b46689b7655e4e63875a38bcb5dd9",
+      "semantic_judgment": "annotation-bug",
+      "ready_for_vc_proving": false,
+      "recommended_next_phase": "annotation",
+      "target_witness_count": 31,
+      "summary": "The current hashes and 31-witness scope are valid, and 28 witnesses are semantically proofable, but the three nontrivial CircularAreaWrite return witnesses are not. In return_wit_1, return_wit_2, and return_wit_3, P owns the circular-area fields/store material at the current address circular_area and the input array at input_buffer, while Q requires store_circular_area at the independently quantified circular_area_pre and UCharArray.full at independently quantified input_buffer_pre. No hypothesis relates either current address to its @pre address. Syntactic non-assignment in C does not create a Rocq equality; the missing live bridge must be restored in C annotation/continuation facts before proving.",
+      "evidence": {
+        "source_version_check": {
+          "status": "passed",
+          "digest": "f3ba4887bb6f28b40aea4fef64424ce39cae6c6357140cd2fa2c8c27a901aee4",
+          "file_hashes_matched": 2,
+          "mismatches": []
+        },
+        "source_goal_version_check": {
+          "status": "passed",
+          "digest": "ebeb6aaad8da7511fc200f853e8e6cb84b2b46689b7655e4e63875a38bcb5dd9",
+          "generated_file_hashes_matched": 6,
+          "witness_statement_hashes_matched": 31,
+          "mismatches": []
+        },
+        "manual_parse": {
+          "status": "passed",
+          "manual_obligation_count": 31,
+          "target_order_matches_handoff": "yes",
+          "duplicates": [],
+          "missing": [],
+          "extra": [],
+          "split_or_abort_diagnostics_in_manual": 0
+        },
+        "diagnostics_review": {
+          "status": "planning-hint-reviewed",
+          "manual_obligation_count": 31,
+          "diagnostic_count": 39,
+          "used_as_target_source": "no",
+          "note": "The diagnostics identify pure and spatial subgoals only; target witness identity and order come from the cleaned manual and source_goal_version."
+        },
+        "case_lib_review": {
+          "status": "passed",
+          "sha256": "12848561eec64680e3344544424b675d17d0ffe92447f0b5f4c25b9475e13085",
+          "existing_proved_lemma_families": [
+            "circular_area_query_length__state_queries",
+            "circular_area_physical_write_wrap__write_returns",
+            "circular_area_physical_write_nowrap__write_returns",
+            "circular_area_logical_state_after_write__write_returns",
+            "circular_area_uchar_full_forall__write_returns",
+            "circular_area_some_bytes_Zlength__write_returns"
+          ],
+          "new_helper_required": "no",
+          "blocker_note": "No mathematical helper can turn ownership at arbitrary circular_area/input_buffer addresses into ownership at unrelated circular_area_pre/input_buffer_pre addresses."
+        }
+      },
+      "natural_language_analysis": {
+        "schema_version": "qcp-vc-natural-language-analysis/v1",
+        "summary": "All 31 P |-- Q obligations were checked. Twenty-eight have complete resource/pure constructions. Three successful/full-state return obligations have a witness-local ownership gap: current pointer resources cannot be transported to unconstrained @pre pointer addresses without equality bridges. Those three are annotation-bug, so no downstream proof group plan is valid for this source_goal_version.",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_CircularAreaIsFull_return_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "expanded circular-area representation",
+              "pre_pure": "readidx <> writeidx and CircularAreaLogicalState",
+              "pre_exists": "none",
+              "post_spatial": "same representation resources",
+              "post_pure": "CircularAreaStateFullResult state 0",
+              "post_exists": "representation values"
+            },
+            "witness_instantiation": "operations/readidx/writeidx/b_status/physical/data_buffer are the pre-state values",
+            "space_plan": "Frame every field, backing array, and GlobalStrings resource.",
+            "pure_plan": "Unfold CircularAreaLogicalState and FullResult; a full logical length would imply readidx=writeidx and contradict the guard.",
+            "refinement_plan": "n/a",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "full iff conjunct from CircularAreaLogicalState",
+              "readidx <> writeidx is an explicit precondition"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "query_and_divide",
+            "grouping_reason": "query result derived by unfolding the same logical-state invariant"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaIsFull_return_wit_2",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "expanded circular-area representation",
+              "pre_pure": "b_status=0, readidx=writeidx, logical state",
+              "pre_exists": "none",
+              "post_spatial": "same resources",
+              "post_pure": "FullResult state 0",
+              "post_exists": "representation values"
+            },
+            "witness_instantiation": "reuse all pre-state representation witnesses",
+            "space_plan": "Direct framing/cancellation.",
+            "pure_plan": "The full iff requires b_status=1 when indices are equal; b_status=0 therefore excludes full length.",
+            "refinement_plan": "n/a",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "b_status=0 and index equality are explicit",
+              "full iff is in CircularAreaLogicalState"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "query_and_divide",
+            "grouping_reason": "same FullResult/logical-state unfolding pattern"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaIsFull_return_wit_3",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "expanded circular-area representation",
+              "pre_pure": "b_status<>0, readidx=writeidx, logical state",
+              "pre_exists": "none",
+              "post_spatial": "same resources",
+              "post_pure": "FullResult state 1",
+              "post_exists": "representation values"
+            },
+            "witness_instantiation": "reuse all pre-state representation witnesses",
+            "space_plan": "Direct framing/cancellation.",
+            "pure_plan": "Logical state restricts status to 0 or 1; nonzero gives 1, and equal indices plus status 1 yields full logical length.",
+            "refinement_plan": "n/a",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "status dichotomy and full iff are invariant conjuncts",
+              "nonzero/equal guards are explicit"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "query_and_divide",
+            "grouping_reason": "same FullResult/logical-state unfolding pattern"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaGetDataLength_safety_wit_4",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "circular-area fields and backing",
+              "pre_pure": "logical state and nonfull length",
+              "pre_exists": "none",
+              "post_spatial": "none beyond framed antecedent",
+              "post_pure": "capacity <> 0",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "none",
+            "space_plan": "Pure extraction; spatial resources remain framed.",
+            "pure_plan": "Unfold logical state and use 0 < capacity.",
+            "refinement_plan": "n/a",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "0 < ca_capacity state is the first logical-state conjunct"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "query_and_divide",
+            "grouping_reason": "query arithmetic from the logical-state bounds"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaGetDataLength_safety_wit_5",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "circular-area fields and backing",
+              "pre_pure": "read/write/capacity bounds and nonfull state",
+              "pre_exists": "none",
+              "post_spatial": "none beyond framed antecedent",
+              "post_pure": "signed bounds for index-difference branch expressions",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "none",
+            "space_plan": "Pure extraction; no heap transformation.",
+            "pure_plan": "Use 0<=readidx,writeidx<capacity<=256 to bound writeidx-readidx and its capacity-adjusted form inside INT_MIN..INT_MAX.",
+            "refinement_plan": "n/a",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "index and capacity bounds come from CircularAreaLogicalState"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "query_and_divide",
+            "grouping_reason": "query arithmetic from the same index bounds"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaGetDataLength_entail_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "returned IsFull representation",
+              "pre_pure": "FullResult state 1 and logical state",
+              "pre_exists": "none",
+              "post_spatial": "same representation with existentials",
+              "post_pure": "logical length = capacity",
+              "post_exists": "unchanged representation values"
+            },
+            "witness_instantiation": "instantiate all post representation values with the pre values",
+            "space_plan": "Frame identical representation resources.",
+            "pure_plan": "Unfold FullResult; result 1 eliminates the non-equal branch of the if and yields Zlength contents=capacity.",
+            "refinement_plan": "n/a",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "FullResult state 1 is explicit"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "query_and_divide",
+            "grouping_reason": "state-query result normalization"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaGetDataLength_entail_wit_2",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "returned IsFull representation",
+              "pre_pure": "FullResult state 0 and logical-state length bound",
+              "pre_exists": "none",
+              "post_spatial": "same representation",
+              "post_pure": "logical length < capacity",
+              "post_exists": "unchanged representation values"
+            },
+            "witness_instantiation": "reuse all representation values",
+            "space_plan": "Frame identical resources.",
+            "pure_plan": "FullResult 0 excludes equality; logical state supplies length<=capacity, hence strict inequality.",
+            "refinement_plan": "n/a",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "length upper bound from logical state",
+              "non-equality from FullResult 0"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "query_and_divide",
+            "grouping_reason": "state-query result normalization"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaGetDataLength_return_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "expanded representation",
+              "pre_pure": "nonfull logical state and computed modular length",
+              "pre_exists": "none",
+              "post_spatial": "same representation",
+              "post_pure": "DataLengthResult equals logical length",
+              "post_exists": "representation values"
+            },
+            "witness_instantiation": "reuse representation values",
+            "space_plan": "Direct framing/cancellation.",
+            "pure_plan": "Apply circular_area_query_length__state_queries to read/write/capacity/length bounds and the invariant index equation.",
+            "refinement_plan": "n/a",
+            "used_existing_lemmas": [
+              "circular_area_query_length__state_queries"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "capacity, index, nonfull-length bounds and index equation are logical-state conjuncts"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "query_and_divide",
+            "grouping_reason": "query result using the seed modulo-length lemma"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaGetDataLength_return_wit_2",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "expanded full representation",
+              "pre_pure": "Zlength contents=capacity",
+              "pre_exists": "none",
+              "post_spatial": "same representation",
+              "post_pure": "DataLengthResult state capacity",
+              "post_exists": "representation values"
+            },
+            "witness_instantiation": "reuse representation values",
+            "space_plan": "Direct framing/cancellation.",
+            "pure_plan": "Unfold DataLengthResult and use the explicit full-length equality symmetrically.",
+            "refinement_plan": "n/a",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "Zlength contents=capacity is explicit"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "query_and_divide",
+            "grouping_reason": "query result normalization"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaDivideWrData_entail_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "expanded representation",
+              "pre_pure": "0<=data_length_pre<=free space and logical state",
+              "pre_exists": "none",
+              "post_spatial": "same representation",
+              "post_pure": "writeidx+data_length_pre<=UINT_MAX",
+              "post_exists": "representation values"
+            },
+            "witness_instantiation": "reuse current representation values; data_length_pre is already the entry snapshot",
+            "space_plan": "Frame unchanged resources.",
+            "pure_plan": "From writeidx<capacity<=256 and data_length_pre<=capacity-logical_length<=capacity, bound the sum far below UINT_MAX.",
+            "refinement_plan": "n/a",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "writeidx and capacity bounds from logical state",
+              "data-length bounds explicit"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "query_and_divide",
+            "grouping_reason": "divide helper arithmetic over the same state bounds"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaDivideWrData_return_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "expanded representation",
+              "pre_pure": "casted writeidx+length > capacity, bounds, logical state",
+              "pre_exists": "none",
+              "post_spatial": "same representation",
+              "post_pure": "DivideWrDataResult ... 1 and StateDivide result ... 1",
+              "post_exists": "representation values"
+            },
+            "witness_instantiation": "reuse representation values",
+            "space_plan": "Direct framing/cancellation.",
+            "pure_plan": "Normalize both unsigned_last_nbits casts using writeidx/data-length bounds; select the wrap disjunct and package CircularAreaValid plus input bounds and result=1.",
+            "refinement_plan": "n/a",
+            "used_existing_lemmas": [
+              "unsigned_last_nbits_eq",
+              "Z.mod_small"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "CircularAreaValid components come from logical state",
+              "data-length bounds explicit",
+              "wrap guard explicit after cast normalization"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "query_and_divide",
+            "grouping_reason": "divide result predicate and cast normalization"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaDivideWrData_return_wit_2",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "expanded representation",
+              "pre_pure": "casted writeidx+length <= capacity, bounds, logical state",
+              "pre_exists": "none",
+              "post_spatial": "same representation",
+              "post_pure": "DivideWrDataResult ... 0 and StateDivide result ... 0",
+              "post_exists": "representation values"
+            },
+            "witness_instantiation": "reuse representation values",
+            "space_plan": "Direct framing/cancellation.",
+            "pure_plan": "Normalize unsigned casts, choose the no-wrap disjunct, and package the invariant-derived CircularAreaValid facts with result=0.",
+            "refinement_plan": "n/a",
+            "used_existing_lemmas": [
+              "unsigned_last_nbits_eq",
+              "Z.mod_small"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "CircularAreaValid from logical state",
+              "data-length bounds explicit",
+              "no-wrap guard explicit after cast normalization"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "query_and_divide",
+            "grouping_reason": "divide result predicate and cast normalization"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaWrite_entail_wit_2",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "store_circular_area plus input/global resources",
+              "pre_pure": "entry pointers and b_force=0",
+              "pre_exists": "store predicate representation values",
+              "post_spatial": "expanded store representation",
+              "post_pure": "same logical state and non-null facts",
+              "post_exists": "store representation values"
+            },
+            "witness_instantiation": "unfold store_circular_area and use its existential data_buffer/operations/indices/status/physical",
+            "space_plan": "Unfold the store predicate and cancel all exposed fields and backing resources.",
+            "pure_plan": "Use the predicate's non-null and logical-state conjuncts directly.",
+            "refinement_plan": "n/a",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "all facts are contained in store_circular_area"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "write_entail_and_segments",
+            "grouping_reason": "write representation expansion"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaWrite_entail_wit_4_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "unchanged write resources",
+              "pre_pure": "full/data-length/divide query results and logical state",
+              "pre_exists": "none",
+              "post_spatial": "unchanged resources",
+              "post_pure": "wrap divide predicates, arithmetic bounds, ActualWriteLength",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "none",
+            "space_plan": "No structural heap change; preserve the antecedent frame.",
+            "pure_plan": "Unfold state query predicates, normalize unsigned casts, reject inconsistent result alternatives, and use the free-space branch of Z.min.",
+            "refinement_plan": "n/a",
+            "used_existing_lemmas": [
+              "unsigned_last_nbits_eq",
+              "Z.min_r"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "validity and bounds from StateDivide/logical state",
+              "full-result 0 supplies nonfull",
+              "branch guards select wrap and free-space minimum"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "write_entail_and_segments",
+            "grouping_reason": "write branch normalization before segment splitting"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaWrite_entail_wit_4_2",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "unchanged write resources",
+              "pre_pure": "divide query result 1 and requested-length branch",
+              "pre_exists": "none",
+              "post_spatial": "unchanged resources",
+              "post_pure": "wrap predicates and ActualWriteLength=request",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "none",
+            "space_plan": "No structural heap change.",
+            "pure_plan": "Select result=1 in StateDivide, retain validity/bounds, select the wrap disjunct, and use Z.min_l from request<=free-space.",
+            "refinement_plan": "n/a",
+            "used_existing_lemmas": [
+              "Z.min_l"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "StateDivide conjuncts explicit",
+              "request/free-space ordering is the branch guard"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "write_entail_and_segments",
+            "grouping_reason": "same branch normalization as entail_wit_4_1"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaWrite_entail_wit_5",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "mixed_full backing and full input array",
+              "pre_pure": "wrap branch, actual length, logical-state bounds",
+              "pre_exists": "none",
+              "post_spatial": "backing split at writeidx and input split at write_len_up",
+              "post_pure": "segment bounds/equalities",
+              "post_exists": "physical list"
+            },
+            "witness_instantiation": "physical_2 is the old physical list",
+            "space_plan": "Apply mixed_full_split_to_mixed_seg at writeidx and full_split_to_seg at capacity-writeidx; cancel the four resulting segments.",
+            "pure_plan": "Use ActualWriteLength, wrap result, and logical-state bounds to prove split endpoints and normalize unsigned casts.",
+            "refinement_plan": "n/a",
+            "used_existing_lemmas": [
+              "UCharArray.mixed_full_split_to_mixed_seg",
+              "UCharArray.full_split_to_seg",
+              "unsigned_last_nbits_eq"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "writeidx bounds from logical state",
+              "actual<=request from min",
+              "wrap guard supplies upper-segment relation"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "write_entail_and_segments",
+            "grouping_reason": "wrap-path array segmentation"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaWrite_entail_wit_6",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "wrap-path prefix mixed segment plus remaining resources",
+              "pre_pure": "write_len_down/up equations and bounds",
+              "pre_exists": "none",
+              "post_spatial": "prefix split at write_len_down",
+              "post_pure": "sublist length/split equalities",
+              "post_exists": "physical list"
+            },
+            "witness_instantiation": "reuse physical list",
+            "space_plan": "Split mixed segment [0,writeidx) at write_len_down, rewrite nested sublists, and cancel both pieces.",
+            "pure_plan": "Derive 0<=write_len_down<=writeidx and use Zlength_sublist/sublist_split under invariant bounds.",
+            "refinement_plan": "n/a",
+            "used_existing_lemmas": [
+              "UCharArray.mixed_seg_split_to_mixed_seg",
+              "Zsublist_Zsublist00",
+              "sublist_split"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "split bounds are explicit",
+              "physical length and writeidx bound from logical state"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "write_entail_and_segments",
+            "grouping_reason": "continuation of wrap-path segmentation"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaWrite_entail_wit_7_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "mixed_full backing and full input",
+              "pre_pure": "nonfull state, no-wrap result, actual=min and free-space branch",
+              "pre_exists": "none",
+              "post_spatial": "three backing segments and two input segments",
+              "post_pure": "ActualWriteLength and segment bounds",
+              "post_exists": "physical list"
+            },
+            "witness_instantiation": "reuse old physical list",
+            "space_plan": "Split backing at writeidx then writeidx+free-space; split input at free-space; normalize nested sublists and cancel.",
+            "pure_plan": "Unfold query results, normalize capacity-length cast, use no-wrap guard and Z.min_r for the free-space-limited case.",
+            "refinement_plan": "n/a",
+            "used_existing_lemmas": [
+              "UCharArray.mixed_full_split_to_mixed_seg",
+              "UCharArray.mixed_seg_split_to_mixed_seg",
+              "UCharArray.full_split_to_seg",
+              "Z.min_r"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "nonfull and capacity bounds from FullResult/logical state",
+              "branch guard fixes minimum to free space"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "write_entail_and_segments",
+            "grouping_reason": "no-wrap/free-space-limited segmentation"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaWrite_entail_wit_7_2",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "mixed_full backing and full input",
+              "pre_pure": "nonfull, no-wrap result, request-limited minimum",
+              "pre_exists": "none",
+              "post_spatial": "backing split at writeidx and writeidx+request; input exposed as one segment",
+              "post_pure": "ActualWriteLength=request and segment bounds",
+              "post_exists": "physical list"
+            },
+            "witness_instantiation": "reuse old physical list",
+            "space_plan": "Split backing at writeidx and writeidx+requested length; convert input full to a segment; cancel all pieces.",
+            "pure_plan": "Use request<=free-space for Z.min_l and the no-wrap branch for endpoint bounds.",
+            "refinement_plan": "n/a",
+            "used_existing_lemmas": [
+              "UCharArray.mixed_full_split_to_mixed_seg",
+              "UCharArray.mixed_seg_split_to_mixed_seg",
+              "UCharArray.full_to_seg",
+              "Z.min_l"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "request/free-space ordering explicit",
+              "logical-state capacity and index bounds"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "write_entail_and_segments",
+            "grouping_reason": "no-wrap/request-limited segmentation"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaWrite_return_wit_1",
+            "judgment": "annotation-bug",
+            "vc_shape": {
+              "pre_spatial": "wrap segments and all CircularArea fields at circular_area; input segments at input_buffer",
+              "pre_pure": "only current circular_area/input_buffer are non-null; no @pre equalities",
+              "pre_exists": "none",
+              "post_spatial": "store_circular_area state_after circular_area_pre and full input at input_buffer_pre",
+              "post_pure": "CircularAreaWriteResult success and @pre pointers non-null",
+              "post_exists": "state_after only"
+            },
+            "witness_instantiation": "state_after and physical_after can be constructed, but circular_area_pre/input_buffer_pre are universal parameters and cannot be instantiated with current addresses",
+            "space_plan": "The current segments can be merged only at circular_area/input_buffer. There is no sound rule to move those resources to unrelated circular_area_pre/input_buffer_pre.",
+            "pure_plan": "All success arithmetic is available, but P does not imply circular_area=circular_area_pre or input_buffer=input_buffer_pre.",
+            "refinement_plan": "Return to annotation and preserve entry-address equalities across the helper-call continuations.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "missing: circular_area=circular_area_pre",
+              "missing: input_buffer=input_buffer_pre"
+            ],
+            "failure_signal": "P owns no cells at the arbitrary @pre addresses required by Q",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": "none",
+            "grouping_reason": "must not enter a proving group"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaWrite_return_wit_2",
+            "judgment": "annotation-bug",
+            "vc_shape": {
+              "pre_spatial": "no-wrap segments and CircularArea fields at circular_area; input segments at input_buffer",
+              "pre_pure": "no-wrap bounds but no current/@pre address equalities",
+              "pre_exists": "none",
+              "post_spatial": "updated store at circular_area_pre and full input at input_buffer_pre",
+              "post_pure": "CircularAreaWriteResult success",
+              "post_exists": "state_after only"
+            },
+            "witness_instantiation": "the updated abstract state is constructible, but universally quantified @pre addresses are not existential choices",
+            "space_plan": "Segment merge yields resources at current addresses only; Q demands different unconstrained addresses.",
+            "pure_plan": "No precondition connects circular_area to circular_area_pre or input_buffer to input_buffer_pre.",
+            "refinement_plan": "Return to annotation and retain address-identity facts through the no-wrap continuation.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "missing: circular_area=circular_area_pre",
+              "missing: input_buffer=input_buffer_pre"
+            ],
+            "failure_signal": "Q requires ownership at addresses absent from P",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": "none",
+            "grouping_reason": "must not enter a proving group"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaWrite_return_wit_3",
+            "judgment": "annotation-bug",
+            "vc_shape": {
+              "pre_spatial": "expanded circular-area representation at circular_area and full input at input_buffer",
+              "pre_pure": "full result and current pointers non-null, but no @pre bridge",
+              "pre_exists": "none",
+              "post_spatial": "unchanged store at circular_area_pre and full input at input_buffer_pre",
+              "post_pure": "full/error WriteResult",
+              "post_exists": "state_after"
+            },
+            "witness_instantiation": "state_after=state is available, but @pre addresses remain arbitrary universal variables",
+            "space_plan": "The representation can be refolded at circular_area and input kept at input_buffer, not at unrelated @pre addresses.",
+            "pure_plan": "FullResult proves the abstract error branch only; it supplies no pointer equalities.",
+            "refinement_plan": "Return to annotation and carry current=@pre address facts across CircularAreaIsFull.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "missing: circular_area=circular_area_pre",
+              "missing: input_buffer=input_buffer_pre"
+            ],
+            "failure_signal": "choose nonzero @pre addresses distinct from current addresses; only the first post disjunct remains possible and its heap is unavailable",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": "none",
+            "grouping_reason": "must not enter a proving group"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaWrite_return_wit_4",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "store predicate and full input",
+              "pre_pure": "0<=data_length_pre<=0 and input length equality",
+              "pre_exists": "none",
+              "post_spatial": "same store and empty full input",
+              "post_pure": "WriteResult zero-request error and input_contents=[]",
+              "post_exists": "state_after=state"
+            },
+            "witness_instantiation": "state_after is state",
+            "space_plan": "After proving the input list empty, frame/refold the unchanged resources.",
+            "pure_plan": "Bounds force data_length_pre=0; destructing input_contents under Zlength input_contents=0 gives input_contents=[]; choose WriteResult's requested=0 disjunct.",
+            "refinement_plan": "n/a",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "opposite data-length inequalities explicit",
+              "length equality explicit"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "write_returns",
+            "grouping_reason": "unchanged-state zero-request branch"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaWrite_return_wit_5",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "GlobalStrings and unchanged store",
+              "pre_pure": "input_buffer_pre=0 and circular_area_pre<>0",
+              "pre_exists": "none",
+              "post_spatial": "same resources",
+              "post_pure": "CircularAreaErrorResult 1",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "none",
+            "space_plan": "Direct cancellation.",
+            "pure_plan": "Unfold CircularAreaErrorResult; result is definitionally 1.",
+            "refinement_plan": "n/a",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "pointer branch facts explicit",
+              "error result reflexive"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "write_returns",
+            "grouping_reason": "simple public error return"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaWrite_return_wit_6",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "GlobalStrings only",
+              "pre_pure": "circular_area_pre=0 and input_buffer_pre=0",
+              "pre_exists": "none",
+              "post_spatial": "same GlobalStrings",
+              "post_pure": "null-pointer branch and ErrorResult 1",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "none",
+            "space_plan": "Direct cancellation.",
+            "pure_plan": "Use explicit null equalities and unfold ErrorResult.",
+            "refinement_plan": "n/a",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "null equalities explicit",
+              "error result reflexive"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "write_returns",
+            "grouping_reason": "simple public error return"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaWrite_return_wit_7",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "GlobalStrings and full input",
+              "pre_pure": "circular_area_pre=0, input_buffer_pre<>0, input length equality",
+              "pre_exists": "none",
+              "post_spatial": "same resources with length expression normalized",
+              "post_pure": "ErrorResult 1",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "none",
+            "space_plan": "Rewrite array length with Zlength input_contents and cancel the unchanged array/global resources.",
+            "pure_plan": "Unfold ErrorResult and use the explicit input-length equality.",
+            "refinement_plan": "n/a",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "input length equality and pointer guards explicit",
+              "error result reflexive"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "write_returns",
+            "grouping_reason": "simple public error return with framed input"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaWrite_partial_solve_wit_3_pure",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "full representation and stack resources",
+              "pre_pure": "DataLengthResult, nonfull logical state, free-space truncation branch",
+              "pre_exists": "none",
+              "post_spatial": "none",
+              "post_pure": "casted free space is nonnegative and <= actual free space",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "none",
+            "space_plan": "Extract only pure facts; heap remains framed.",
+            "pure_plan": "Unfold DataLengthResult to replace retval by logical length; use capacity/length bounds to normalize unsigned_last_nbits and close inequalities.",
+            "refinement_plan": "n/a",
+            "used_existing_lemmas": [
+              "unsigned_last_nbits_eq"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "retval equality from DataLengthResult",
+              "0<=length<=capacity from logical state"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "write_entail_and_segments",
+            "grouping_reason": "pure preparation for write segmentation"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaWrite_partial_solve_wit_4_pure",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "full representation and stack resources",
+              "pre_pure": "DataLengthResult, request<=casted free space, logical state",
+              "pre_exists": "none",
+              "post_spatial": "none",
+              "post_pure": "0<=data_length<=capacity-logical_length",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "none",
+            "space_plan": "Pure extraction only.",
+            "pure_plan": "Replace retval using DataLengthResult, normalize the unsigned cast from invariant bounds, and transfer the branch inequality.",
+            "refinement_plan": "n/a",
+            "used_existing_lemmas": [
+              "unsigned_last_nbits_eq"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "request nonnegative explicit",
+              "free-space cast range from logical state"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "write_entail_and_segments",
+            "grouping_reason": "pure preparation for write segmentation"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaWrite_partial_solve_wit_5_pure",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "wrap tail backing segment and split input segments",
+              "pre_pure": "segment endpoints and logical-state bounds",
+              "pre_exists": "none",
+              "post_spatial": "none",
+              "post_pure": "three Zlength/sublist equalities",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "none",
+            "space_plan": "Apply mixed_seg_Zlength and seg_Zlength to the owned segments.",
+            "pure_plan": "Rewrite the obtained segment lengths and close endpoint arithmetic using writeidx/capacity/write_len_up bounds.",
+            "refinement_plan": "n/a",
+            "used_existing_lemmas": [
+              "UCharArray.mixed_seg_Zlength",
+              "UCharArray.seg_Zlength"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "each required segment is present in P",
+              "endpoint bounds explicit or invariant-derived"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "write_entail_and_segments",
+            "grouping_reason": "segment length side conditions for wrap split"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaWrite_partial_solve_wit_6_pure",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "wrap head backing segment and remaining input segment",
+              "pre_pure": "write_len_down/up equations and bounds",
+              "pre_exists": "none",
+              "post_spatial": "none",
+              "post_pure": "three wrap-head sublist length equalities",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "none",
+            "space_plan": "Use mixed_seg_Zlength on [0,write_len_down) and seg_Zlength on [write_len_up,data_length).",
+            "pure_plan": "Rewrite resource-derived lengths and use write_len_down=data_length-write_len_up.",
+            "refinement_plan": "n/a",
+            "used_existing_lemmas": [
+              "UCharArray.mixed_seg_Zlength",
+              "UCharArray.seg_Zlength"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "matching segments are owned",
+              "write-length equations and bounds explicit"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "write_entail_and_segments",
+            "grouping_reason": "segment length side conditions for wrap split"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaWrite_partial_solve_wit_7_pure",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "no-wrap changed backing segment and input prefix segment",
+              "pre_pure": "0<=writeidx and writeidx+data_length<=capacity",
+              "pre_exists": "none",
+              "post_spatial": "none",
+              "post_pure": "sublist lengths equal their segment sizes",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "none",
+            "space_plan": "Apply mixed_seg_Zlength and seg_Zlength to the two present segments.",
+            "pure_plan": "Rewrite resource-derived lengths and simplify endpoint subtraction.",
+            "refinement_plan": "n/a",
+            "used_existing_lemmas": [
+              "UCharArray.mixed_seg_Zlength",
+              "UCharArray.seg_Zlength"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "matching segments are owned",
+              "no-wrap endpoint bounds explicit"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "write_entail_and_segments",
+            "grouping_reason": "segment length side conditions for no-wrap split"
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "query_and_divide",
+            "witness_names": [
+              "proof_of_CircularAreaIsFull_return_wit_1",
+              "proof_of_CircularAreaIsFull_return_wit_2",
+              "proof_of_CircularAreaIsFull_return_wit_3",
+              "proof_of_CircularAreaGetDataLength_safety_wit_4",
+              "proof_of_CircularAreaGetDataLength_safety_wit_5",
+              "proof_of_CircularAreaGetDataLength_entail_wit_1",
+              "proof_of_CircularAreaGetDataLength_entail_wit_2",
+              "proof_of_CircularAreaGetDataLength_return_wit_1",
+              "proof_of_CircularAreaGetDataLength_return_wit_2",
+              "proof_of_CircularAreaDivideWrData_entail_wit_1",
+              "proof_of_CircularAreaDivideWrData_return_wit_1",
+              "proof_of_CircularAreaDivideWrData_return_wit_2"
+            ],
+            "representative_witness": "proof_of_CircularAreaGetDataLength_return_wit_1",
+            "shared_proof_pattern": "unfold logical-state/query predicates, normalize bounded integer expressions, and frame unchanged representation resources",
+            "shared_space_plan": "frame/cancel the unchanged expanded store representation",
+            "shared_pure_plan": "derive results from CircularAreaLogicalState and query branch guards",
+            "shared_refinement_plan": "n/a",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "All are read-only query/divide obligations and the group exactly meets the controller limit of 12.",
+            "proof_group_ready": true
+          },
+          {
+            "group_id": "write_entail_and_segments",
+            "witness_names": [
+              "proof_of_CircularAreaWrite_entail_wit_2",
+              "proof_of_CircularAreaWrite_entail_wit_4_1",
+              "proof_of_CircularAreaWrite_entail_wit_4_2",
+              "proof_of_CircularAreaWrite_entail_wit_5",
+              "proof_of_CircularAreaWrite_entail_wit_6",
+              "proof_of_CircularAreaWrite_entail_wit_7_1",
+              "proof_of_CircularAreaWrite_entail_wit_7_2",
+              "proof_of_CircularAreaWrite_partial_solve_wit_3_pure",
+              "proof_of_CircularAreaWrite_partial_solve_wit_4_pure",
+              "proof_of_CircularAreaWrite_partial_solve_wit_5_pure",
+              "proof_of_CircularAreaWrite_partial_solve_wit_6_pure",
+              "proof_of_CircularAreaWrite_partial_solve_wit_7_pure"
+            ],
+            "representative_witness": "proof_of_CircularAreaWrite_entail_wit_5",
+            "shared_proof_pattern": "normalize write branch facts, split backing/input array predicates, and discharge the corresponding segment-length side conditions",
+            "shared_space_plan": "use UCharArray split lemmas and sublist normalization",
+            "shared_pure_plan": "use actual=min(request,free), logical-state bounds, and resource-derived segment lengths",
+            "shared_refinement_plan": "n/a",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "These are the write-path preparation and segmentation obligations; keeping their pure partial-solve VCs with the producing entailments preserves one proof context and exactly meets the limit of 12.",
+            "proof_group_ready": true
+          },
+          {
+            "group_id": "write_error_returns_proofable_subset",
+            "witness_names": [
+              "proof_of_CircularAreaWrite_return_wit_4",
+              "proof_of_CircularAreaWrite_return_wit_5",
+              "proof_of_CircularAreaWrite_return_wit_6",
+              "proof_of_CircularAreaWrite_return_wit_7"
+            ],
+            "representative_witness": "proof_of_CircularAreaWrite_return_wit_4",
+            "shared_proof_pattern": "preserve existing @pre-addressed resources and establish zero/null error results",
+            "shared_space_plan": "frame unchanged resources already located at @pre addresses",
+            "shared_pure_plan": "select the zero/full/null error disjunct",
+            "shared_refinement_plan": "n/a",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "Only return_wit_4..7 have live @pre resources in P; return_wit_1..3 are excluded as annotation-bug.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "status": "invalidated-by-annotation-bug",
+        "source_goal_version": "ebeb6aaad8da7511fc200f853e8e6cb84b2b46689b7655e4e63875a38bcb5dd9",
+        "target_witnesses": [
+          "proof_of_CircularAreaIsFull_return_wit_1",
+          "proof_of_CircularAreaIsFull_return_wit_2",
+          "proof_of_CircularAreaIsFull_return_wit_3",
+          "proof_of_CircularAreaGetDataLength_safety_wit_4",
+          "proof_of_CircularAreaGetDataLength_safety_wit_5",
+          "proof_of_CircularAreaGetDataLength_entail_wit_1",
+          "proof_of_CircularAreaGetDataLength_entail_wit_2",
+          "proof_of_CircularAreaGetDataLength_return_wit_1",
+          "proof_of_CircularAreaGetDataLength_return_wit_2",
+          "proof_of_CircularAreaDivideWrData_entail_wit_1",
+          "proof_of_CircularAreaDivideWrData_return_wit_1",
+          "proof_of_CircularAreaDivideWrData_return_wit_2",
+          "proof_of_CircularAreaWrite_entail_wit_2",
+          "proof_of_CircularAreaWrite_entail_wit_4_1",
+          "proof_of_CircularAreaWrite_entail_wit_4_2",
+          "proof_of_CircularAreaWrite_entail_wit_5",
+          "proof_of_CircularAreaWrite_entail_wit_6",
+          "proof_of_CircularAreaWrite_entail_wit_7_1",
+          "proof_of_CircularAreaWrite_entail_wit_7_2",
+          "proof_of_CircularAreaWrite_return_wit_1",
+          "proof_of_CircularAreaWrite_return_wit_2",
+          "proof_of_CircularAreaWrite_return_wit_3",
+          "proof_of_CircularAreaWrite_return_wit_4",
+          "proof_of_CircularAreaWrite_return_wit_5",
+          "proof_of_CircularAreaWrite_return_wit_6",
+          "proof_of_CircularAreaWrite_return_wit_7",
+          "proof_of_CircularAreaWrite_partial_solve_wit_3_pure",
+          "proof_of_CircularAreaWrite_partial_solve_wit_4_pure",
+          "proof_of_CircularAreaWrite_partial_solve_wit_5_pure",
+          "proof_of_CircularAreaWrite_partial_solve_wit_6_pure",
+          "proof_of_CircularAreaWrite_partial_solve_wit_7_pure"
+        ],
+        "grouping_policy": {
+          "controller_policy": "bounded-witness-groups/v1",
+          "max_witnesses_per_group": 12,
+          "balanced_grouping_required": "yes"
+        },
+        "proof_groups": [],
+        "coverage_note": "All 31 targets were analyzed, but no proving groups are emitted because three annotation-bug witnesses invalidate downstream vc-proving for this source_goal_version.",
+        "blockers": [
+          {
+            "kind": "annotation-bug",
+            "blocked_witnesses": [
+              "proof_of_CircularAreaWrite_return_wit_1",
+              "proof_of_CircularAreaWrite_return_wit_2",
+              "proof_of_CircularAreaWrite_return_wit_3"
+            ],
+            "missing_facts": [
+              "circular_area = circular_area_pre",
+              "input_buffer = input_buffer_pre"
+            ],
+            "recommended_next_phase": "annotation"
+          }
+        ]
+      },
+      "formal_changed_files": [],
+      "changed_files": [],
+      "blockers": [
+        {
+          "kind": "annotation-bug",
+          "failure_class": "missing-at-pre-live-address-bridge",
+          "message": "CircularAreaWrite_return_wit_1, _2, and _3 require heap resources at circular_area_pre/input_buffer_pre, but their preconditions own those resources only at circular_area/input_buffer and contain no equality bridges.",
+          "blocked_witnesses": [
+            {
+              "witness_name": "proof_of_CircularAreaWrite_return_wit_1",
+              "missing_resource_or_fact": "store fields at circular_area_pre and UCharArray.full at input_buffer_pre; missing both current=@pre equalities",
+              "goal_location": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write/source/xizi_circular_area_write_goal.v:2048",
+              "recommended_next_phase": "annotation"
+            },
+            {
+              "witness_name": "proof_of_CircularAreaWrite_return_wit_2",
+              "missing_resource_or_fact": "store fields at circular_area_pre and UCharArray.full at input_buffer_pre; missing both current=@pre equalities",
+              "goal_location": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write/source/xizi_circular_area_write_goal.v:2092",
+              "recommended_next_phase": "annotation"
+            },
+            {
+              "witness_name": "proof_of_CircularAreaWrite_return_wit_3",
+              "missing_resource_or_fact": "unchanged store at circular_area_pre and input array at input_buffer_pre; missing both current=@pre equalities",
+              "goal_location": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write/source/xizi_circular_area_write_goal.v:2135",
+              "recommended_next_phase": "annotation"
+            }
+          ],
+          "countermodel_outline": "Choose circular_area_pre and input_buffer_pre nonzero and distinct from circular_area and input_buffer. Let the heap satisfy P using only the current addresses. For return_wit_1/_2, ErrorResult 0 is false, so only the success disjunct could hold, but its @pre-addressed heap is absent. For return_wit_3, choosing both @pre pointers nonzero eliminates the three error disjuncts, again leaving an unavailable @pre-addressed success heap.",
+          "required_annotation_rework": "Preserve live equalities from current circular_area/input_buffer to their function-entry @pre values through each helper-call continuation so regenerated return VCs contain the two bridges. The public @pre contract may remain; do not edit generated witnesses by hand.",
+          "source_version": "f3ba4887bb6f28b40aea4fef64424ce39cae6c6357140cd2fa2c8c27a901aee4",
+          "source_goal_version": "ebeb6aaad8da7511fc200f853e8e6cb84b2b46689b7655e4e63875a38bcb5dd9",
+          "recommended_next_phase": "annotation"
+        }
+      ]
+    }
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-09-08T11:10:54Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_circular_area_write-20260908100002/rounds/xizi_circular_area_write-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    }
+  },
+  "blockers": []
+}

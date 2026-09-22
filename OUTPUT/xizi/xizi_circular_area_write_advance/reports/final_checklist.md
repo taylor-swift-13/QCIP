@@ -1,11 +1,7 @@
 # Final Checklist
 
-- [x] canonical symbolic execution reached EOF
-- [x] generated files are fresh
-- [x] all target manual VC are proved
-- [x] fixed goal_check passed
-- [x] no Admitted, Abort, or extra Axiom
-- [x] forbidden lemma scan has zero hits
-- [x] case_lib contract passed
-- [x] independent freshness passed
-- [x] controller phase is done
+- [x] Canonical symexec reached EOF.
+- [x] 3/3 current target witnesses proved.
+- [x] Write callpoint receives exact hidden branch fact and preserved representation.
+- [x] Parent/final fixed Coq and contract scans passed.
+- [x] Isolated freshness recorded as skipped.

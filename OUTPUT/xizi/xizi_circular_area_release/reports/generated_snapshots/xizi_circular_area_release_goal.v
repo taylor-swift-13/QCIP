@@ -22,117 +22,166 @@ Local Open Scope sac.
 (*----- Function CircularAreaRelease -----*)
 
 Definition CircularAreaRelease_safety_wit_1 := 
-forall (circular_area_pre: Z) (contents: (@list Z)) (operations: Z) (b_status: Z) (area_length: Z) (p_tail: Z) (p_head: Z) (writeidx: Z) (readidx: Z) (data_buffer: Z) (PreH1 : (circular_area_pre <> 0)) (PreH2 : (data_buffer <> 0)) (PreH3 : (xizi_circular_area_release_domain circular_area_pre data_buffer area_length contents )) ,
+forall (circular_area_pre: Z) (LitMap: (string -> Z)) (state: circular_area_state) (data_buffer: Z) (operations: Z) (readidx: Z) (writeidx: Z) (b_status: Z) (physical: (@list (@option Z))) (PreH1 : (circular_area_pre <> 0)) (PreH2 : (data_buffer <> 0)) (PreH3 : (CircularAreaLogicalState readidx writeidx (ca_capacity (state)) b_status (ca_contents (state)) physical )) ,
   ((( &( "circular_area" ) )) # Ptr  |-> circular_area_pre)
+  **  (GlobalStrings LitMap )
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "data_buffer")) # Ptr  |-> data_buffer)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "readidx")) # UChar  |-> readidx)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "writeidx")) # UChar  |-> writeidx)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_head")) # Ptr  |-> p_head)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_tail")) # Ptr  |-> p_tail)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "area_length")) # UInt  |-> area_length)
+  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_head")) # Ptr  |-> data_buffer)
+  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_tail")) # Ptr  |-> (data_buffer + (ca_capacity (state)) ))
+  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "area_length")) # UInt  |-> (ca_capacity (state)))
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "b_status")) # Int  |-> b_status)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "CircularAreaOperations")) # Ptr  |-> operations)
-  **  (UCharArray.full data_buffer area_length contents )
+  **  (UCharArray.mixed_full data_buffer (ca_capacity (state)) physical )
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
 Definition CircularAreaRelease_safety_wit_2 := 
-forall (circular_area_pre: Z) (contents: (@list Z)) (operations: Z) (b_status: Z) (area_length: Z) (p_tail: Z) (p_head: Z) (writeidx: Z) (data_buffer: Z) (PreH1 : (circular_area_pre <> 0)) (PreH2 : (data_buffer <> 0)) (PreH3 : (xizi_circular_area_release_domain circular_area_pre data_buffer area_length contents )) ,
+forall (circular_area_pre: Z) (LitMap: (string -> Z)) (state: circular_area_state) (data_buffer: Z) (operations: Z) (readidx: Z) (writeidx: Z) (b_status: Z) (physical: (@list (@option Z))) (PreH1 : (circular_area_pre <> 0)) (PreH2 : (data_buffer <> 0)) (PreH3 : (CircularAreaLogicalState readidx writeidx (ca_capacity (state)) b_status (ca_contents (state)) physical )) ,
   ((( &( "circular_area" ) )) # Ptr  |-> circular_area_pre)
+  **  (GlobalStrings LitMap )
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "data_buffer")) # Ptr  |-> data_buffer)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "readidx")) # UChar  |-> 0)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "writeidx")) # UChar  |-> writeidx)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_head")) # Ptr  |-> p_head)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_tail")) # Ptr  |-> p_tail)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "area_length")) # UInt  |-> area_length)
+  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_head")) # Ptr  |-> data_buffer)
+  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_tail")) # Ptr  |-> (data_buffer + (ca_capacity (state)) ))
+  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "area_length")) # UInt  |-> (ca_capacity (state)))
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "b_status")) # Int  |-> b_status)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "CircularAreaOperations")) # Ptr  |-> operations)
-  **  (UCharArray.full data_buffer area_length contents )
+  **  (UCharArray.mixed_full data_buffer (ca_capacity (state)) physical )
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
 Definition CircularAreaRelease_safety_wit_3 := 
-forall (circular_area_pre: Z) (contents: (@list Z)) (operations: Z) (b_status: Z) (area_length: Z) (p_tail: Z) (p_head: Z) (data_buffer: Z) (PreH1 : (circular_area_pre <> 0)) (PreH2 : (data_buffer <> 0)) (PreH3 : (xizi_circular_area_release_domain circular_area_pre data_buffer area_length contents )) ,
+forall (circular_area_pre: Z) (LitMap: (string -> Z)) (state: circular_area_state) (data_buffer: Z) (operations: Z) (readidx: Z) (writeidx: Z) (b_status: Z) (physical: (@list (@option Z))) (PreH1 : (circular_area_pre <> 0)) (PreH2 : (data_buffer <> 0)) (PreH3 : (CircularAreaLogicalState readidx writeidx (ca_capacity (state)) b_status (ca_contents (state)) physical )) ,
   ((( &( "circular_area" ) )) # Ptr  |-> circular_area_pre)
+  **  (GlobalStrings LitMap )
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "data_buffer")) # Ptr  |-> data_buffer)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "readidx")) # UChar  |-> 0)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "writeidx")) # UChar  |-> 0)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_head")) # Ptr  |-> p_head)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_tail")) # Ptr  |-> p_tail)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "area_length")) # UInt  |-> area_length)
+  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_head")) # Ptr  |-> data_buffer)
+  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_tail")) # Ptr  |-> (data_buffer + (ca_capacity (state)) ))
+  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "area_length")) # UInt  |-> (ca_capacity (state)))
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "b_status")) # Int  |-> b_status)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "CircularAreaOperations")) # Ptr  |-> operations)
-  **  (UCharArray.full data_buffer area_length contents )
+  **  (UCharArray.mixed_full data_buffer (ca_capacity (state)) physical )
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
 Definition CircularAreaRelease_safety_wit_4 := 
-forall (circular_area_pre: Z) (contents: (@list Z)) (operations: Z) (b_status: Z) (area_length: Z) (p_tail: Z) (data_buffer: Z) (PreH1 : (circular_area_pre <> 0)) (PreH2 : (data_buffer <> 0)) (PreH3 : (xizi_circular_area_release_domain circular_area_pre data_buffer area_length contents )) ,
+forall (circular_area_pre: Z) (LitMap: (string -> Z)) (state: circular_area_state) (data_buffer: Z) (operations: Z) (readidx: Z) (writeidx: Z) (b_status: Z) (physical: (@list (@option Z))) (PreH1 : (circular_area_pre <> 0)) (PreH2 : (data_buffer <> 0)) (PreH3 : (CircularAreaLogicalState readidx writeidx (ca_capacity (state)) b_status (ca_contents (state)) physical )) ,
   ((( &( "circular_area" ) )) # Ptr  |-> circular_area_pre)
+  **  (GlobalStrings LitMap )
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "data_buffer")) # Ptr  |-> data_buffer)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "readidx")) # UChar  |-> 0)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "writeidx")) # UChar  |-> 0)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_head")) # Ptr  |-> 0)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_tail")) # Ptr  |-> p_tail)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "area_length")) # UInt  |-> area_length)
+  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_tail")) # Ptr  |-> (data_buffer + (ca_capacity (state)) ))
+  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "area_length")) # UInt  |-> (ca_capacity (state)))
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "b_status")) # Int  |-> b_status)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "CircularAreaOperations")) # Ptr  |-> operations)
-  **  (UCharArray.full data_buffer area_length contents )
+  **  (UCharArray.mixed_full data_buffer (ca_capacity (state)) physical )
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
 Definition CircularAreaRelease_safety_wit_5 := 
-forall (circular_area_pre: Z) (contents: (@list Z)) (operations: Z) (b_status: Z) (area_length: Z) (data_buffer: Z) (PreH1 : (circular_area_pre <> 0)) (PreH2 : (data_buffer <> 0)) (PreH3 : (xizi_circular_area_release_domain circular_area_pre data_buffer area_length contents )) ,
+forall (circular_area_pre: Z) (LitMap: (string -> Z)) (state: circular_area_state) (data_buffer: Z) (operations: Z) (readidx: Z) (writeidx: Z) (b_status: Z) (physical: (@list (@option Z))) (PreH1 : (circular_area_pre <> 0)) (PreH2 : (data_buffer <> 0)) (PreH3 : (CircularAreaLogicalState readidx writeidx (ca_capacity (state)) b_status (ca_contents (state)) physical )) ,
   ((( &( "circular_area" ) )) # Ptr  |-> circular_area_pre)
+  **  (GlobalStrings LitMap )
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "data_buffer")) # Ptr  |-> data_buffer)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "readidx")) # UChar  |-> 0)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "writeidx")) # UChar  |-> 0)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_head")) # Ptr  |-> 0)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_tail")) # Ptr  |-> 0)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "area_length")) # UInt  |-> area_length)
+  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "area_length")) # UInt  |-> (ca_capacity (state)))
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "b_status")) # Int  |-> b_status)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "CircularAreaOperations")) # Ptr  |-> operations)
-  **  (UCharArray.full data_buffer area_length contents )
+  **  (UCharArray.mixed_full data_buffer (ca_capacity (state)) physical )
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
 Definition CircularAreaRelease_safety_wit_6 := 
-forall (circular_area_pre: Z) (contents: (@list Z)) (operations: Z) (area_length: Z) (data_buffer: Z) (PreH1 : (circular_area_pre <> 0)) (PreH2 : (data_buffer <> 0)) (PreH3 : (xizi_circular_area_release_domain circular_area_pre data_buffer area_length contents )) ,
+forall (circular_area_pre: Z) (LitMap: (string -> Z)) (state: circular_area_state) (data_buffer: Z) (operations: Z) (readidx: Z) (writeidx: Z) (b_status: Z) (physical: (@list (@option Z))) (PreH1 : (circular_area_pre <> 0)) (PreH2 : (data_buffer <> 0)) (PreH3 : (CircularAreaLogicalState readidx writeidx (ca_capacity (state)) b_status (ca_contents (state)) physical )) ,
   ((( &( "circular_area" ) )) # Ptr  |-> circular_area_pre)
+  **  (GlobalStrings LitMap )
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "data_buffer")) # Ptr  |-> data_buffer)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "readidx")) # UChar  |-> 0)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "writeidx")) # UChar  |-> 0)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_head")) # Ptr  |-> 0)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_tail")) # Ptr  |-> 0)
-  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "area_length")) # UInt  |-> area_length)
+  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "area_length")) # UInt  |-> (ca_capacity (state)))
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "b_status")) # Int  |-> 0)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "CircularAreaOperations")) # Ptr  |-> operations)
-  **  (UCharArray.full data_buffer area_length contents )
+  **  (UCharArray.mixed_full data_buffer (ca_capacity (state)) physical )
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition CircularAreaRelease_return_wit_1 := 
-forall (circular_area_pre: Z) (contents: (@list Z)) (area_length: Z) (data_buffer: Z) (PreH1 : (circular_area_pre <> 0)) (PreH2 : (data_buffer <> 0)) (PreH3 : (xizi_circular_area_release_domain circular_area_pre data_buffer area_length contents )) ,
-  TT && emp 
+Definition CircularAreaRelease_entail_wit_1 := 
+(
+forall (circular_area_pre: Z) (LitMap: (string -> Z)) (state: circular_area_state) ,
+  (GlobalStrings LitMap )
+  **  (store_circular_area state circular_area_pre )
 |--
-  TT && emp 
+  EX (operations: Z)  (readidx: Z)  (writeidx: Z)  (b_status: Z)  (physical: (@list (@option Z)))  (data_buffer: Z) ,
+  “ (circular_area_pre <> 0) ” 
+  &&  “ (data_buffer <> 0) ” 
+  &&  “ (CircularAreaLogicalState readidx writeidx (ca_capacity (state)) b_status (ca_contents (state)) physical ) ”
+  &&  (GlobalStrings LitMap )
+  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "data_buffer")) # Ptr  |-> data_buffer)
+  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "readidx")) # UChar  |-> readidx)
+  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "writeidx")) # UChar  |-> writeidx)
+  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_head")) # Ptr  |-> data_buffer)
+  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_tail")) # Ptr  |-> (data_buffer + (ca_capacity (state)) ))
+  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "area_length")) # UInt  |-> (ca_capacity (state)))
+  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "b_status")) # Int  |-> b_status)
+  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "CircularAreaOperations")) # Ptr  |-> operations)
+  **  (UCharArray.mixed_full data_buffer (ca_capacity (state)) physical )
+) \/
+(
+forall (circular_area_pre: Z) (LitMap: (string -> Z)) (state: circular_area_state) ,
+  (GlobalStrings LitMap )
+  **  (store_circular_area state circular_area_pre )
+|--
+  EX (operations: Z)  (readidx: Z)  (writeidx: Z)  (b_status: Z)  (physical: (@list (@option Z)))  (data_buffer: Z) ,
+  “ (circular_area_pre <> 0) ” 
+  &&  “ (data_buffer <> 0) ” 
+  &&  “ (CircularAreaLogicalState readidx writeidx (ca_capacity (state)) b_status (ca_contents (state)) physical ) ”
+  &&  (GlobalStrings LitMap )
+  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "data_buffer")) # Ptr  |-> data_buffer)
+  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "readidx")) # UChar  |-> readidx)
+  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "writeidx")) # UChar  |-> writeidx)
+  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_head")) # Ptr  |-> data_buffer)
+  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_tail")) # Ptr  |-> (data_buffer + (ca_capacity (state)) ))
+  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "area_length")) # UInt  |-> (ca_capacity (state)))
+  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "b_status")) # Int  |-> b_status)
+  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "CircularAreaOperations")) # Ptr  |-> operations)
+  **  (UCharArray.mixed_full data_buffer (ca_capacity (state)) physical )
+).
+
+Definition CircularAreaRelease_return_wit_1 := 
+forall (circular_area_pre: Z) (LitMap: (string -> Z)) (state: circular_area_state) (data_buffer: Z) (readidx: Z) (writeidx: Z) (b_status: Z) (physical: (@list (@option Z))) (PreH1 : (circular_area_pre <> 0)) (PreH2 : (data_buffer <> 0)) (PreH3 : (CircularAreaLogicalState readidx writeidx (ca_capacity (state)) b_status (ca_contents (state)) physical )) ,
+  (GlobalStrings LitMap )
+|--
+  (GlobalStrings LitMap )
 .
 
 Definition CircularAreaRelease_partial_solve_wit_1_pure := 
-forall (circular_area_pre: Z) (contents: (@list Z)) (operations: Z) (area_length: Z) (data_buffer: Z) (PreH1 : (circular_area_pre <> 0)) (PreH2 : (data_buffer <> 0)) (PreH3 : (xizi_circular_area_release_domain circular_area_pre data_buffer area_length contents )) ,
+forall (circular_area_pre: Z) (LitMap: (string -> Z)) (state: circular_area_state) (data_buffer: Z) (operations: Z) (readidx: Z) (writeidx: Z) (b_status: Z) (physical: (@list (@option Z))) (PreH1 : (circular_area_pre <> 0)) (PreH2 : (data_buffer <> 0)) (PreH3 : (CircularAreaLogicalState readidx writeidx (ca_capacity (state)) b_status (ca_contents (state)) physical )) ,
   ((( &( "circular_area" ) )) # Ptr  |-> circular_area_pre)
+  **  (GlobalStrings LitMap )
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "data_buffer")) # Ptr  |-> data_buffer)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "readidx")) # UChar  |-> 0)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "writeidx")) # UChar  |-> 0)
@@ -141,15 +190,16 @@ forall (circular_area_pre: Z) (contents: (@list Z)) (operations: Z) (area_length
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "area_length")) # UInt  |-> 0)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "b_status")) # Int  |-> 0)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "CircularAreaOperations")) # Ptr  |-> operations)
-  **  (UCharArray.full data_buffer area_length contents )
+  **  (UCharArray.mixed_full data_buffer (ca_capacity (state)) physical )
 |--
   “ (data_buffer = data_buffer) ” 
   &&  “ (data_buffer <> 0) ”
 .
 
 Definition CircularAreaRelease_partial_solve_wit_1_aux := 
-forall (circular_area_pre: Z) (contents: (@list Z)) (operations: Z) (area_length: Z) (data_buffer: Z) (PreH1 : (circular_area_pre <> 0)) (PreH2 : (data_buffer <> 0)) (PreH3 : (xizi_circular_area_release_domain circular_area_pre data_buffer area_length contents )) ,
-  ((&((circular_area_pre)  # "CircularArea" ->ₛ "data_buffer")) # Ptr  |-> data_buffer)
+forall (circular_area_pre: Z) (LitMap: (string -> Z)) (state: circular_area_state) (data_buffer: Z) (operations: Z) (readidx: Z) (writeidx: Z) (b_status: Z) (physical: (@list (@option Z))) (PreH1 : (circular_area_pre <> 0)) (PreH2 : (data_buffer <> 0)) (PreH3 : (CircularAreaLogicalState readidx writeidx (ca_capacity (state)) b_status (ca_contents (state)) physical )) ,
+  (GlobalStrings LitMap )
+  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "data_buffer")) # Ptr  |-> data_buffer)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "readidx")) # UChar  |-> 0)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "writeidx")) # UChar  |-> 0)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_head")) # Ptr  |-> 0)
@@ -157,14 +207,15 @@ forall (circular_area_pre: Z) (contents: (@list Z)) (operations: Z) (area_length
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "area_length")) # UInt  |-> 0)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "b_status")) # Int  |-> 0)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "CircularAreaOperations")) # Ptr  |-> operations)
-  **  (UCharArray.full data_buffer area_length contents )
+  **  (UCharArray.mixed_full data_buffer (ca_capacity (state)) physical )
 |--
   “ (data_buffer = data_buffer) ” 
   &&  “ (data_buffer <> 0) ” 
   &&  “ (circular_area_pre <> 0) ” 
   &&  “ (data_buffer <> 0) ” 
-  &&  “ (xizi_circular_area_release_domain circular_area_pre data_buffer area_length contents ) ”
-  &&  (UCharArray.full data_buffer area_length contents )
+  &&  “ (CircularAreaLogicalState readidx writeidx (ca_capacity (state)) b_status (ca_contents (state)) physical ) ”
+  &&  (UCharArray.mixed_full data_buffer (ca_capacity (state)) physical )
+  **  (GlobalStrings LitMap )
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "data_buffer")) # Ptr  |-> data_buffer)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "readidx")) # UChar  |-> 0)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "writeidx")) # UChar  |-> 0)
@@ -178,8 +229,9 @@ forall (circular_area_pre: Z) (contents: (@list Z)) (operations: Z) (area_length
 Definition CircularAreaRelease_partial_solve_wit_1 := CircularAreaRelease_partial_solve_wit_1_pure -> CircularAreaRelease_partial_solve_wit_1_aux.
 
 Definition CircularAreaRelease_partial_solve_wit_2_pure := 
-forall (circular_area_pre: Z) (contents: (@list Z)) (operations: Z) (area_length: Z) (data_buffer: Z) (PreH1 : (circular_area_pre <> 0)) (PreH2 : (data_buffer <> 0)) (PreH3 : (xizi_circular_area_release_domain circular_area_pre data_buffer area_length contents )) ,
+forall (circular_area_pre: Z) (LitMap: (string -> Z)) (state: circular_area_state) (data_buffer: Z) (operations: Z) (readidx: Z) (writeidx: Z) (b_status: Z) (physical: (@list (@option Z))) (PreH1 : (circular_area_pre <> 0)) (PreH2 : (data_buffer <> 0)) (PreH3 : (CircularAreaLogicalState readidx writeidx (ca_capacity (state)) b_status (ca_contents (state)) physical )) ,
   ((( &( "circular_area" ) )) # Ptr  |-> circular_area_pre)
+  **  (GlobalStrings LitMap )
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "data_buffer")) # Ptr  |-> data_buffer)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "readidx")) # UChar  |-> 0)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "writeidx")) # UChar  |-> 0)
@@ -200,8 +252,9 @@ forall (circular_area_pre: Z) (contents: (@list Z)) (operations: Z) (area_length
 .
 
 Definition CircularAreaRelease_partial_solve_wit_2_aux := 
-forall (circular_area_pre: Z) (contents: (@list Z)) (operations: Z) (area_length: Z) (data_buffer: Z) (PreH1 : (circular_area_pre <> 0)) (PreH2 : (data_buffer <> 0)) (PreH3 : (xizi_circular_area_release_domain circular_area_pre data_buffer area_length contents )) ,
-  ((&((circular_area_pre)  # "CircularArea" ->ₛ "data_buffer")) # Ptr  |-> data_buffer)
+forall (circular_area_pre: Z) (LitMap: (string -> Z)) (state: circular_area_state) (data_buffer: Z) (operations: Z) (readidx: Z) (writeidx: Z) (b_status: Z) (physical: (@list (@option Z))) (PreH1 : (circular_area_pre <> 0)) (PreH2 : (data_buffer <> 0)) (PreH3 : (CircularAreaLogicalState readidx writeidx (ca_capacity (state)) b_status (ca_contents (state)) physical )) ,
+  (GlobalStrings LitMap )
+  **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "data_buffer")) # Ptr  |-> data_buffer)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "readidx")) # UChar  |-> 0)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "writeidx")) # UChar  |-> 0)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "p_head")) # Ptr  |-> 0)
@@ -220,7 +273,7 @@ forall (circular_area_pre: Z) (contents: (@list Z)) (operations: Z) (area_length
   &&  “ (0 = 0) ” 
   &&  “ (circular_area_pre <> 0) ” 
   &&  “ (data_buffer <> 0) ” 
-  &&  “ (xizi_circular_area_release_domain circular_area_pre data_buffer area_length contents ) ”
+  &&  “ (CircularAreaLogicalState readidx writeidx (ca_capacity (state)) b_status (ca_contents (state)) physical ) ”
   &&  ((&((circular_area_pre)  # "CircularArea" ->ₛ "data_buffer")) # Ptr  |-> data_buffer)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "readidx")) # UChar  |-> 0)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "writeidx")) # UChar  |-> 0)
@@ -229,6 +282,7 @@ forall (circular_area_pre: Z) (contents: (@list Z)) (operations: Z) (area_length
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "area_length")) # UInt  |-> 0)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "b_status")) # Int  |-> 0)
   **  ((&((circular_area_pre)  # "CircularArea" ->ₛ "CircularAreaOperations")) # Ptr  |-> operations)
+  **  (GlobalStrings LitMap )
 .
 
 Definition CircularAreaRelease_partial_solve_wit_2 := CircularAreaRelease_partial_solve_wit_2_pure -> CircularAreaRelease_partial_solve_wit_2_aux.
@@ -242,6 +296,7 @@ Axiom proof_of_CircularAreaRelease_safety_wit_3 : CircularAreaRelease_safety_wit
 Axiom proof_of_CircularAreaRelease_safety_wit_4 : CircularAreaRelease_safety_wit_4.
 Axiom proof_of_CircularAreaRelease_safety_wit_5 : CircularAreaRelease_safety_wit_5.
 Axiom proof_of_CircularAreaRelease_safety_wit_6 : CircularAreaRelease_safety_wit_6.
+Axiom proof_of_CircularAreaRelease_entail_wit_1 : CircularAreaRelease_entail_wit_1.
 Axiom proof_of_CircularAreaRelease_return_wit_1 : CircularAreaRelease_return_wit_1.
 Axiom proof_of_CircularAreaRelease_partial_solve_wit_1_pure : CircularAreaRelease_partial_solve_wit_1_pure.
 Axiom proof_of_CircularAreaRelease_partial_solve_wit_1 : CircularAreaRelease_partial_solve_wit_1.

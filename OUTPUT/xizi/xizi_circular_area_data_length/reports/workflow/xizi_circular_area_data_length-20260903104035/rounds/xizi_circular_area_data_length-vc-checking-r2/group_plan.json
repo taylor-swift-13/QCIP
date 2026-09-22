@@ -1,0 +1,131 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "1a5df283e35d7ef04af89b8736b332aa1edd8eb26d561a5d80420e159c842ad1",
+  "target_witnesses": [
+    "proof_of_CircularAreaIsFull_entail_wit_1_state_spec",
+    "proof_of_CircularAreaIsFull_return_wit_1_state_spec",
+    "proof_of_CircularAreaIsFull_return_wit_2_state_spec",
+    "proof_of_CircularAreaIsFull_return_wit_3_state_spec",
+    "proof_of_CircularAreaIsFull_return_wit_4_null_spec",
+    "proof_of_CircularAreaIsFull_partial_solve_wit_1_state_spec_pure",
+    "proof_of_CircularAreaGetDataLength_safety_wit_7_state_spec",
+    "proof_of_CircularAreaGetDataLength_safety_wit_8_state_spec",
+    "proof_of_CircularAreaGetDataLength_entail_wit_1_state_spec",
+    "proof_of_CircularAreaGetDataLength_entail_wit_2_state_spec",
+    "proof_of_CircularAreaGetDataLength_return_wit_1_state_spec",
+    "proof_of_CircularAreaGetDataLength_return_wit_2_state_spec",
+    "proof_of_CircularAreaGetDataLength_return_wit_3_null_spec"
+  ],
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 13,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  },
+  "proof_groups": [
+    {
+      "group_id": "circular_area_is_full_contract",
+      "witness_names": [
+        "proof_of_CircularAreaIsFull_entail_wit_1_state_spec",
+        "proof_of_CircularAreaIsFull_return_wit_1_state_spec",
+        "proof_of_CircularAreaIsFull_return_wit_2_state_spec",
+        "proof_of_CircularAreaIsFull_return_wit_3_state_spec",
+        "proof_of_CircularAreaIsFull_return_wit_4_null_spec",
+        "proof_of_CircularAreaIsFull_partial_solve_wit_1_state_spec_pure"
+      ],
+      "representative_witness": "proof_of_CircularAreaIsFull_return_wit_1_state_spec",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "Handle the six CircularAreaIsFull witnesses in manual order. Unfold store_circular_area to expose the representation and instantiate its six hidden witnesses for the entry entailment; fold it back after returns. For result 0 with distinct indices, use circular_area_distinct_indices_imply_nonfull__is_full_contract and unfold CircularAreaFullResult. For equal indices, destruct the status and the two equal-index iff clauses of CircularAreaLogicalState to prove the empty/status-zero and full/status-nonzero results. Null and string-offset goals close after unfolding their result definitions or integer normalization. Spatial postconditions reuse exactly the descriptor fields, GlobalStrings, and UCharArray.mixed_full resources from P.",
+      "per_witness_plan": {
+        "proof_of_CircularAreaIsFull_entail_wit_1_state_spec": "select one proposition disjunct; unfold store_circular_area; instantiate operations/readidx/writeidx/b_status/physical/data_buffer; rewrite circular_area_pre=area_addr and cancel the unchanged resource",
+        "proof_of_CircularAreaIsFull_return_wit_1_state_spec": "select one proposition disjunct; obtain Zlength contents < capacity from distinct indices using the existing helper; unfold CircularAreaFullResult; reconstruct store_circular_area",
+        "proof_of_CircularAreaIsFull_return_wit_2_state_spec": "select one proposition disjunct; equal indices plus b_status=0 and the invariant's empty iff give length=0; capacity positivity makes length distinct from capacity; result is 0; fold the resource",
+        "proof_of_CircularAreaIsFull_return_wit_3_state_spec": "select one proposition disjunct; invariant status range turns b_status<>0 into b_status=1; equal-index/full iff gives length=capacity; result is 1; fold the resource",
+        "proof_of_CircularAreaIsFull_return_wit_4_null_spec": "select the GlobalStrings branch or emp branch; unfold CircularAreaErrorResult and close circular_area=0 and result=1 by hypotheses/reflexivity",
+        "proof_of_CircularAreaIsFull_partial_solve_wit_1_state_spec_pure": "select one proposition disjunct and normalize 0*sizeof(CHAR); the demanded literal-address equality is reflexive"
+      },
+      "vc_shape": {
+        "pre_spatial": "Either opaque store_circular_area at entry or the fully exposed descriptor fields, GlobalStrings, and UCharArray.mixed_full at returns; null branches carry GlobalStrings or emp.",
+        "pre_pure": "Root non-null/equality facts, CircularAreaLogicalState, and branch guards readidx<>writeidx or readidx=writeidx with b_status=0/nonzero.",
+        "post_spatial": "The same representation folded as store_circular_area, or unchanged GlobalStrings/emp.",
+        "post_pure": "CircularAreaFullResult 0/1, CircularAreaErrorResult 1, or a zero-offset string-address identity.",
+        "post_exists": "Entry entailment chooses exactly the witnesses hidden by store_circular_area."
+      },
+      "witness_instantiation": {
+        "representation_open": "Reuse the existential operations, readidx, writeidx, b_status, physical, and data_buffer obtained by unfolding store_circular_area.",
+        "return_fold": "Use the concrete representation values already quantified by each return VC."
+      },
+      "space_plan": "Unfold/fold store_circular_area and cancel syntactically identical descriptor, string, and mixed-array resources; no array split or ownership transfer is needed.",
+      "pure_plan": "Use the equal-index/full and equal-index/empty iff clauses, status range, capacity positivity, and logical-length bounds from CircularAreaLogicalState; normalize the result predicates and the literal pointer arithmetic.",
+      "refinement_plan": "none; all six are direct separation-logic/pure obligations",
+      "premise_discharge": {
+        "representation": "store_circular_area definition or the explicit field resources in P",
+        "nonfull": "readidx<>writeidx plus CircularAreaLogicalState via circular_area_distinct_indices_imply_nonfull__is_full_contract",
+        "empty_equal_indices": "readidx=writeidx, b_status=0, and the invariant empty iff",
+        "full_equal_indices": "readidx=writeidx, b_status<>0, invariant status range, and the invariant full iff",
+        "null_and_literal": "precondition equalities plus unfolding and integer normalization"
+      },
+      "difficulty": "medium",
+      "confidence": "high",
+      "grouping_reason": "These six witnesses belong to the same loop-free helper function and share one representation-open/fold pattern plus one CircularAreaLogicalState result family. Keeping them together preserves that context, while splitting from the seven data-length witnesses is required because all 13 targets cannot form one group under max_witnesses_per_group=12."
+    },
+    {
+      "group_id": "circular_area_get_data_length_contract",
+      "witness_names": [
+        "proof_of_CircularAreaGetDataLength_safety_wit_7_state_spec",
+        "proof_of_CircularAreaGetDataLength_safety_wit_8_state_spec",
+        "proof_of_CircularAreaGetDataLength_entail_wit_1_state_spec",
+        "proof_of_CircularAreaGetDataLength_entail_wit_2_state_spec",
+        "proof_of_CircularAreaGetDataLength_return_wit_1_state_spec",
+        "proof_of_CircularAreaGetDataLength_return_wit_2_state_spec",
+        "proof_of_CircularAreaGetDataLength_return_wit_3_null_spec"
+      ],
+      "representative_witness": "proof_of_CircularAreaGetDataLength_return_wit_1_state_spec",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "Prove the non-full arithmetic, call-result branch opening, and final returns as one family. Derive capacity positivity and read/write bounds by unfolding CircularAreaLogicalState. Unfold CircularAreaFullResult to convert nonzero retval to full length and zero retval to non-full length, then unfold store_circular_area and reuse its existential layout witnesses. For the non-full return, unfold unsigned_last_nbits and CircularAreaDataLengthResult and apply the existing circular_area_unsigned_nonfull_mod_length__data_length_query lemma; for the full return rewrite the supplied length=capacity. Fold the unchanged descriptor resources back into store_circular_area. The null return is definitional.",
+      "per_witness_plan": {
+        "proof_of_CircularAreaGetDataLength_safety_wit_7_state_spec": "unfold CircularAreaLogicalState in the pure hypothesis and derive capacity>0, hence capacity<>0",
+        "proof_of_CircularAreaGetDataLength_safety_wit_8_state_spec": "use 0<=readidx,writeidx<capacity and capacity<=256 from the invariant to bound writeidx-readidx between -255 and 255, hence within INT_MIN/INT_MAX",
+        "proof_of_CircularAreaGetDataLength_entail_wit_1_state_spec": "from CircularAreaFullResult and retval<>0 force the eq_dec full branch, obtaining length=capacity; open store_circular_area and instantiate the asserted representation",
+        "proof_of_CircularAreaGetDataLength_entail_wit_2_state_spec": "from CircularAreaFullResult and retval=0 exclude length=capacity; combine with invariant length<=capacity to get length<capacity; open store_circular_area and instantiate the representation",
+        "proof_of_CircularAreaGetDataLength_return_wit_1_state_spec": "unfold unsigned_last_nbits and CircularAreaDataLengthResult; apply circular_area_unsigned_nonfull_mod_length__data_length_query using CircularAreaLogicalState and the explicit non-full bound; fold store_circular_area",
+        "proof_of_CircularAreaGetDataLength_return_wit_2_state_spec": "unfold CircularAreaDataLengthResult and rewrite the explicit length=capacity equality; fold the unchanged resource",
+        "proof_of_CircularAreaGetDataLength_return_wit_3_null_spec": "select either generated proposition branch; unfold CircularAreaErrorResult and preserve GlobalStrings or emp"
+      },
+      "vc_shape": {
+        "pre_spatial": "Exposed descriptor fields plus GlobalStrings and UCharArray.mixed_full, or opaque store_circular_area around the local call; null branches carry GlobalStrings or emp.",
+        "pre_pure": "CircularAreaLogicalState, full/non-full branch facts, CircularAreaFullResult retval, and root/data-buffer non-nullness.",
+        "post_spatial": "Unchanged GlobalStrings and the same representation folded into store_circular_area; null keeps GlobalStrings/emp.",
+        "post_pure": "Capacity nonzero, signed subtraction safety, branch length fact, or CircularAreaDataLengthResult equal to logical FIFO length.",
+        "post_exists": "The call-branch entailments choose the six representation witnesses already hidden by store_circular_area."
+      },
+      "witness_instantiation": {
+        "call_branch_open": "Reuse the hidden operations/readidx/writeidx/b_status/physical/data_buffer from store_circular_area.",
+        "data_length_result": "The result witness is the concrete C expression; the existing unsigned-mod helper identifies it with Zlength(ca_contents state)."
+      },
+      "space_plan": "Open or fold store_circular_area and cancel all unchanged descriptor fields, GlobalStrings, and UCharArray.mixed_full. The arithmetic VCs consume no spatial resource.",
+      "pure_plan": "Extract capacity, index, and logical-length bounds from CircularAreaLogicalState; case-analyze CircularAreaFullResult's Z.eq_dec; normalize unsigned_last_nbits to mod 2^32 and use the existing exact unsigned modulo lemma.",
+      "refinement_plan": "none; this is a direct state/resource preservation proof",
+      "premise_discharge": {
+        "capacity_nonzero": "0<capacity from CircularAreaLogicalState",
+        "signed_subtraction": "0<=readidx,writeidx<capacity<=256 from CircularAreaLogicalState",
+        "full_branch": "CircularAreaFullResult retval plus retval<>0",
+        "nonfull_branch": "CircularAreaFullResult retval plus retval=0 and invariant length<=capacity",
+        "unsigned_modulo_result": "CircularAreaLogicalState plus explicit Zlength contents < capacity, exactly the premises of circular_area_unsigned_nonfull_mod_length__data_length_query",
+        "spatial": "current exposed representation or store_circular_area definition"
+      },
+      "difficulty": "medium",
+      "confidence": "high",
+      "grouping_reason": "These seven witnesses are the local-call and two return branches of CircularAreaGetDataLength, sharing the same state predicate and data-length arithmetic helper family. They are independent of the proof scripts for CircularAreaIsFull because the callable contract is already represented by CircularAreaFullResult, so no group dependency is required."
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true
+}

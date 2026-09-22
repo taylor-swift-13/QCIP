@@ -1,0 +1,15 @@
+# Reuse Note
+
+Note kind: non-authoritative reuse note
+
+This file is not acceptance evidence.
+
+The ready candidate replaces the descriptor-only/UCharArray::full callable contract with CircularAreaLogicalState plus CircularAreaBackingResource. It opens the backing resource once in an internal Assert to expose descriptor fields and UCharArray::mixed_full, reads only readidx and area_length, and refolds the identical state on both non-null returns. The null branch returns ERROR=1.
+
+Three fresh qcp-mcp whole-file cycles succeeded. The final shape has 8 automatically solved safety witnesses and 3 manual obligations: one backing-resource unfolding entailment and two branch-specific result/refolding obligations. The case lib is unchanged and passed fixed coq_tooling case_lib checking.
+
+The public Require/Ensure intentionally omit the redundant readidx + data_length <= UINT_MAX fact. It is derived in the internal Assert from CircularAreaLogicalState and 0 <= data_length <= area_length, keeping call sites directly composable with the unified state.
+
+The direct canonical symexec preview reached file end and refreshed the goal, but did not overwrite the pre-existing manual file. The controller-owned annotation-check-round must perform the fresh manual skeleton refresh and diagnostics split before freezing source_goal_version.
+
+JSON handoff, manifests, source versions, and current files win over this note.

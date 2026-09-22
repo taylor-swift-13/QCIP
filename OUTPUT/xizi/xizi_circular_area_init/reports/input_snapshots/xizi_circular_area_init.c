@@ -7,12 +7,10 @@ typedef struct CircularArea *CircularAreaType;
 /*@ Import Coq Require Import
       SimpleC.EE.OUTPUT.xizi.xizi_circular_area_init.source.xizi_circular_area_init_lib
 */
+/*@ Extern Coq (circular_area_state :: *) */
 /*@ Extern Coq
-      (CircularAreaAlignedLength : Z -> Z -> Prop)
-      (CircularAreaInitDescriptorState :
-         Z -> Z -> Z -> Z -> Z -> Z -> Z -> Z -> Z -> Z -> Z -> Prop)
-      (CircularAreaInitFailureState :
-         Z -> Z -> Z -> Z -> Z -> Z -> Z -> Z -> Z -> Assertion)
+      (CircularAreaInitState : Z -> circular_area_state)
+      (store_circular_area : circular_area_state -> Z -> Assertion)
 */
 
 #define NONE ((void *)0)
@@ -72,6 +70,20 @@ void x_free(void *p)
     Ensure emp
 */;
 
+void x_free(void *p)
+/*@ descriptor_free_spec
+    Require p != 0 &&
+            has_permission(&(((CircularAreaType)p)->data_buffer)) *
+            has_permission(&(((CircularAreaType)p)->readidx)) *
+            has_permission(&(((CircularAreaType)p)->writeidx)) *
+            has_permission(&(((CircularAreaType)p)->p_head)) *
+            has_permission(&(((CircularAreaType)p)->p_tail)) *
+            has_permission(&(((CircularAreaType)p)->area_length)) *
+            has_permission(&(((CircularAreaType)p)->b_status)) *
+            has_permission(&(((CircularAreaType)p)->CircularAreaOperations))
+    Ensure emp
+*/;
+
 uint32 CircularAreaRead(CircularAreaType circular_area,
                         uint8 *output_buffer,
                         uint32 data_length);
@@ -128,40 +140,12 @@ static struct CircularAreaOps CircularAreaOperations = {
 };
 
 CircularAreaType CircularAreaInit(uint32 circular_area_length)
-/*@ Require 0 < circular_area_length && circular_area_length <= 256 && emp
+/*@ Require 4 <= circular_area_length && circular_area_length <= 256 && emp
     Ensure
-      (exists circular_area aligned,
-         circular_area_length > 0 &&
-         CircularAreaAlignedLength(circular_area_length, aligned) &&
-         __return == 0 &&
-         CircularAreaInitFailureState(
-           circular_area,
-           &(circular_area->data_buffer),
-           &(circular_area->readidx),
-           &(circular_area->writeidx),
-           &(circular_area->p_head),
-           &(circular_area->p_tail),
-           &(circular_area->area_length),
-           &(circular_area->b_status),
-           &(circular_area->CircularAreaOperations))) ||
-      (exists circular_area data_buffer aligned,
-         circular_area_length > 0 &&
-         CircularAreaAlignedLength(circular_area_length, aligned) &&
-         CircularAreaInitDescriptorState(
-           aligned, circular_area, data_buffer,
-           0, 0, data_buffer, data_buffer + aligned,
-           aligned, 0, &CircularAreaOperations,
-           &CircularAreaOperations) &&
-         __return == circular_area &&
-         (circular_area->data_buffer == data_buffer) *
-         (circular_area->readidx == 0) *
-         (circular_area->writeidx == 0) *
-         (circular_area->p_head == data_buffer) *
-         (circular_area->p_tail == data_buffer + aligned) *
-         (circular_area->area_length == aligned) *
-         (circular_area->b_status == 0) *
-         (circular_area->CircularAreaOperations == &CircularAreaOperations) *
-         UCharArray::undef_full(data_buffer, aligned))
+      (__return == 0 && emp) ||
+      (__return != 0 &&
+       store_circular_area(CircularAreaInitState(circular_area_length),
+                           __return))
 */
 {
     CHECK(circular_area_length > 0);
@@ -172,7 +156,6 @@ CircularAreaType CircularAreaInit(uint32 circular_area_length)
     CircularAreaType circular_area = x_malloc(sizeof(struct CircularArea))
         /*@ where (descriptor_alloc_spec) */;
     if (NONE == circular_area) {
-        x_free(circular_area) /*@ where (null_free_spec) */;
         return NONE;
     }
 
@@ -181,7 +164,7 @@ CircularAreaType CircularAreaInit(uint32 circular_area_length)
     circular_area->data_buffer = x_malloc(circular_area_length)
         /*@ where (buffer_alloc_spec) */;
     if (NONE == circular_area->data_buffer) {
-        x_free(circular_area->data_buffer) /*@ where (null_free_spec) */;
+        x_free(circular_area) /*@ where (descriptor_free_spec) */;
         return NONE;
     }
 

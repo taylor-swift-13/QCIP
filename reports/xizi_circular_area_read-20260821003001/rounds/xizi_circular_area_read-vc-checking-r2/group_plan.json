@@ -1,0 +1,258 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "873746c7d9074fc88b441ac8ff127eb70704aa4f21d5305f23cdc98a4b6312b9",
+  "target_witnesses": [
+    "proof_of_CircularAreaIsFull_return_wit_1",
+    "proof_of_CircularAreaIsFull_return_wit_2",
+    "proof_of_CircularAreaIsFull_return_wit_3",
+    "proof_of_CircularAreaIsEmpty_return_wit_1",
+    "proof_of_CircularAreaIsEmpty_return_wit_2",
+    "proof_of_CircularAreaIsEmpty_return_wit_3",
+    "proof_of_CircularAreaGetDataLength_safety_wit_4",
+    "proof_of_CircularAreaGetDataLength_safety_wit_5",
+    "proof_of_CircularAreaGetDataLength_return_wit_1",
+    "proof_of_CircularAreaGetDataLength_return_wit_2",
+    "proof_of_CircularAreaDivideRdData_return_wit_1",
+    "proof_of_CircularAreaDivideRdData_return_wit_2",
+    "proof_of_CircularAreaRead_entail_wit_2",
+    "proof_of_CircularAreaRead_entail_wit_3_1",
+    "proof_of_CircularAreaRead_entail_wit_3_2",
+    "proof_of_CircularAreaRead_entail_wit_4",
+    "proof_of_CircularAreaRead_entail_wit_5_1",
+    "proof_of_CircularAreaRead_entail_wit_5_2",
+    "proof_of_CircularAreaRead_return_wit_1",
+    "proof_of_CircularAreaRead_return_wit_2",
+    "proof_of_CircularAreaRead_return_wit_3",
+    "proof_of_CircularAreaRead_return_wit_4",
+    "proof_of_CircularAreaRead_return_wit_5",
+    "proof_of_CircularAreaRead_return_wit_6",
+    "proof_of_CircularAreaRead_partial_solve_wit_4_pure",
+    "proof_of_CircularAreaRead_partial_solve_wit_5_pure",
+    "proof_of_CircularAreaRead_partial_solve_wit_6_pure",
+    "proof_of_CircularAreaRead_partial_solve_wit_7_pure",
+    "proof_of_CircularAreaRead_partial_solve_wit_8_pure"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "callee_results_and_bounds",
+      "witness_names": [
+        "proof_of_CircularAreaIsFull_return_wit_1",
+        "proof_of_CircularAreaIsFull_return_wit_2",
+        "proof_of_CircularAreaIsFull_return_wit_3",
+        "proof_of_CircularAreaIsEmpty_return_wit_1",
+        "proof_of_CircularAreaIsEmpty_return_wit_2",
+        "proof_of_CircularAreaIsEmpty_return_wit_3",
+        "proof_of_CircularAreaGetDataLength_safety_wit_4",
+        "proof_of_CircularAreaGetDataLength_safety_wit_5",
+        "proof_of_CircularAreaGetDataLength_return_wit_1",
+        "proof_of_CircularAreaGetDataLength_return_wit_2",
+        "proof_of_CircularAreaDivideRdData_return_wit_1",
+        "proof_of_CircularAreaDivideRdData_return_wit_2"
+      ],
+      "representative_witness": "proof_of_CircularAreaGetDataLength_return_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "proof_strategy": "Reuse the established IsFull/IsEmpty/DataLength/DivideRdData proof patterns: right generated disjunct where available, pre_process/aggressive_pre_process, unfold the mathematical result predicate, destruct its finite disjunction, exclude contradictory return-code branches, and cancel identical frames. For DivideRdData, unfold DescriptorState and apply unsigned_last_nbits_eq to readidx and readidx+data_length before linear arithmetic.",
+      "grouping_reason": "Twelve callable-result and safety witnesses use the same predicate-unfolding/unchanged-frame pattern and fit exactly within max_witnesses_per_group=12.",
+      "difficulty": "low",
+      "confidence": "high"
+    },
+    {
+      "group_id": "read_preparation_and_memcpy",
+      "witness_names": [
+        "proof_of_CircularAreaRead_entail_wit_2",
+        "proof_of_CircularAreaRead_entail_wit_3_1",
+        "proof_of_CircularAreaRead_entail_wit_3_2",
+        "proof_of_CircularAreaRead_entail_wit_4",
+        "proof_of_CircularAreaRead_entail_wit_5_1",
+        "proof_of_CircularAreaRead_entail_wit_5_2",
+        "proof_of_CircularAreaRead_partial_solve_wit_4_pure",
+        "proof_of_CircularAreaRead_partial_solve_wit_5_pure",
+        "proof_of_CircularAreaRead_partial_solve_wit_6_pure",
+        "proof_of_CircularAreaRead_partial_solve_wit_7_pure",
+        "proof_of_CircularAreaRead_partial_solve_wit_8_pure"
+      ],
+      "representative_witness": "proof_of_CircularAreaRead_entail_wit_3_2",
+      "dependencies": [],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "circular_area_data_length_functional",
+          "statement_shape": "forall readidx writeidx area_length b_status x y, CircularAreaDataLengthResult readidx writeidx area_length b_status x -> CircularAreaDataLengthResult readidx writeidx area_length b_status y -> x = y",
+          "used_by_witnesses": [
+            "proof_of_CircularAreaRead_entail_wit_3_2",
+            "proof_of_CircularAreaRead_entail_wit_5_2"
+          ],
+          "premises": [
+            {
+              "premise": "two CircularAreaDataLengthResult facts for identical state",
+              "discharged_by": "the two corresponding PreH hypotheses",
+              "needs_unfold": [
+                "CircularAreaDataLengthResult"
+              ],
+              "arithmetic": "mixed full/non-full branches are contradictory; same branches give identical results",
+              "spatial_resource": "none"
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "circular_area_data_length_bounds",
+          "statement_shape": "forall readidx writeidx area_length b_status contents n, CircularAreaDescriptorState readidx writeidx area_length b_status contents -> CircularAreaDataLengthResult readidx writeidx area_length b_status n -> 0 <= n <= area_length",
+          "used_by_witnesses": [
+            "proof_of_CircularAreaRead_entail_wit_3_1",
+            "proof_of_CircularAreaRead_entail_wit_3_2",
+            "proof_of_CircularAreaRead_entail_wit_4",
+            "proof_of_CircularAreaRead_entail_wit_5_1",
+            "proof_of_CircularAreaRead_entail_wit_5_2",
+            "proof_of_CircularAreaRead_partial_solve_wit_4_pure",
+            "proof_of_CircularAreaRead_partial_solve_wit_5_pure"
+          ],
+          "premises": [
+            {
+              "premise": "positive area_length and bounded indices",
+              "discharged_by": "CircularAreaDescriptorState PreH",
+              "needs_unfold": [
+                "CircularAreaDescriptorState"
+              ],
+              "arithmetic": "0 < area_length <= 256",
+              "spatial_resource": "none"
+            },
+            {
+              "premise": "DataLengthResult",
+              "discharged_by": "corresponding call result PreH",
+              "needs_unfold": [
+                "CircularAreaDataLengthResult"
+              ],
+              "arithmetic": "full result is area_length; non-full result is nonnegative remainder below positive modulus",
+              "spatial_resource": "none"
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "circular_area_actual_read_bounds",
+          "statement_shape": "forall state requested actual, 0 <= requested -> CircularAreaDescriptorState ... -> CircularAreaActualReadLength ... requested actual -> 0 <= actual <= requested /\\ actual <= area_length",
+          "used_by_witnesses": [
+            "proof_of_CircularAreaRead_entail_wit_3_1",
+            "proof_of_CircularAreaRead_entail_wit_3_2",
+            "proof_of_CircularAreaRead_entail_wit_4",
+            "proof_of_CircularAreaRead_entail_wit_5_1",
+            "proof_of_CircularAreaRead_entail_wit_5_2"
+          ],
+          "premises": [
+            {
+              "premise": "requested nonnegative",
+              "discharged_by": "explicit requested/data_length input bounds",
+              "needs_unfold": [],
+              "arithmetic": "linear",
+              "spatial_resource": "none"
+            },
+            {
+              "premise": "descriptor and ActualReadLength",
+              "discharged_by": "corresponding PreHs",
+              "needs_unfold": [
+                "CircularAreaActualReadLength"
+              ],
+              "arithmetic": "Z.min bounds plus circular_area_data_length_bounds",
+              "spatial_resource": "none"
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        }
+      ],
+      "proof_strategy": "First prove suffixed functional/bound helpers in the group-local case_lib. Normalize Empty/Divide result codes and unsigned32 expressions. Establish actual=min(requested,available), positive/bounded copy lengths, and wrap/non-wrap inequalities. Then use UCharArray full/seg split rules together with sublist_split and Zlength_sublist to expose the exact source/destination segments required by each memcpy entailment. The partial_solve witnesses reuse the same pure bounds and list side conditions.",
+      "grouping_reason": "Eleven related CircularAreaRead preparation and memcpy witnesses share the same three pure helpers and UCharArray/sublist decomposition strategy; keeping them together lets one worker reuse the developed local facts while staying below the limit.",
+      "difficulty": "high",
+      "confidence": "high"
+    },
+    {
+      "group_id": "read_returns",
+      "witness_names": [
+        "proof_of_CircularAreaRead_return_wit_1",
+        "proof_of_CircularAreaRead_return_wit_2",
+        "proof_of_CircularAreaRead_return_wit_3",
+        "proof_of_CircularAreaRead_return_wit_4",
+        "proof_of_CircularAreaRead_return_wit_5",
+        "proof_of_CircularAreaRead_return_wit_6"
+      ],
+      "representative_witness": "proof_of_CircularAreaRead_return_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "circular_read_wrap_modulo",
+          "statement_shape": "0 < area <= 256 -> 0 <= readidx < area -> 0 < actual <= area -> area < readidx + actual -> Z.rem (readidx+actual) area = readidx+actual-area /\\ 0 <= readidx+actual-area < 256",
+          "used_by_witnesses": [
+            "proof_of_CircularAreaRead_return_wit_1"
+          ],
+          "premises": [
+            {
+              "premise": "descriptor, actual, and wrap bounds",
+              "discharged_by": "PreH6-PreH16 and unfolded DescriptorState/ActualReadLength",
+              "needs_unfold": [
+                "CircularAreaDescriptorState"
+              ],
+              "arithmetic": "positive-modulus quotient is exactly one because actual<=area and readidx<area",
+              "spatial_resource": "none"
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "circular_read_nowrap_modulo",
+          "statement_shape": "0 < area <= 256 -> 0 <= readidx < area -> 0 < actual -> readidx+actual <= area -> 0 <= Z.rem (readidx+actual) area < 256",
+          "used_by_witnesses": [
+            "proof_of_CircularAreaRead_return_wit_2"
+          ],
+          "premises": [
+            {
+              "premise": "positive area, index bounds and non-wrap sum",
+              "discharged_by": "descriptor state and PreH10",
+              "needs_unfold": [
+                "CircularAreaDescriptorState"
+              ],
+              "arithmetic": "Z.rem_nonneg/Z.rem_lt under a positive modulus",
+              "spatial_resource": "none"
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "circular_read_output_recompose",
+          "statement_shape": "bounded sublist concatenation identities needed to show copied prefix ++ untouched suffix equals CircularAreaOutputAfterRead for wrap and non-wrap byte lists",
+          "used_by_witnesses": [
+            "proof_of_CircularAreaRead_return_wit_1",
+            "proof_of_CircularAreaRead_return_wit_2"
+          ],
+          "premises": [
+            {
+              "premise": "0<=segment boundaries<=output_capacity and buffer length=area_length",
+              "discharged_by": "return PreHs plus DescriptorState and segment ownership",
+              "needs_unfold": [
+                "CircularAreaOutputAfterRead",
+                "CircularAreaReadBytes"
+              ],
+              "arithmetic": "linear segment-bound arithmetic",
+              "spatial_resource": "UCharArray.seg values provide the exact sublists"
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        }
+      ],
+      "proof_strategy": "Handle returns 3-6 first by selecting the appropriate error disjunct, unfolding CircularAreaErrorResult, rewriting parameter aliases, and cancelling unchanged resources. For returns 1-2 instantiate the success existentials with the actual copy length, modular read index, exact ring slice(s), and bytes-plus-old-suffix output list. Unfold ReadSuccess/ReadBytes/OutputAfterRead, select the wrap/non-wrap Z.leb branch, use suffixed modular/list helpers and unsigned_last_nbits_eq, and rejoin all UCharArray segments into full arrays.",
+      "grouping_reason": "The six final return witnesses share the same postcondition disjunction; the two success paths share FIFO byte/output reconstruction, while the four error paths provide quick same-context proofs for the same worker.",
+      "difficulty": "high",
+      "confidence": "high"
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 29,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

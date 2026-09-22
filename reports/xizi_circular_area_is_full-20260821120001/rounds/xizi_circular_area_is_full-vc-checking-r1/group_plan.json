@@ -1,0 +1,59 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "8be1bfe9166bb33584c431f9857e2e05f6d0af1c96902275d504532997b575af",
+  "target_witnesses": [
+    "proof_of_CircularAreaIsFull_return_wit_1",
+    "proof_of_CircularAreaIsFull_return_wit_2",
+    "proof_of_CircularAreaIsFull_return_wit_3",
+    "proof_of_CircularAreaIsFull_return_wit_4",
+    "proof_of_CircularAreaIsFull_partial_solve_wit_1_pure"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "circular_area_is_full_direct",
+      "witness_names": [
+        "proof_of_CircularAreaIsFull_return_wit_1",
+        "proof_of_CircularAreaIsFull_return_wit_2",
+        "proof_of_CircularAreaIsFull_return_wit_3",
+        "proof_of_CircularAreaIsFull_return_wit_4",
+        "proof_of_CircularAreaIsFull_partial_solve_wit_1_pure"
+      ],
+      "representative_witness": "proof_of_CircularAreaIsFull_return_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "For each generated theorem, choose the full-frame/top-level branch that is directly supported by its PreH hypotheses. Use standard entailment preprocessing and split pure/spatial goals. For return witnesses 1-3 unfold xizi_circular_area_is_full_result and choose the corresponding result branch; for return witness 4 unfold xizi_circular_area_error_result; cancel all unchanged spatial resources. For the partial-solve pure witness normalize 0 * sizeof(CHAR) and x + 0. No helper or generated-file change is needed.",
+      "natural_language_proof_strategy": "The C body does not mutate the descriptor or buffer. Each branch guard already supplies exactly the facts required by the mathematical result predicate, and the null path returns the exact constant 1 required by xizi_circular_area_error_result. The logging call restores GlobalStrings before the true return. The fifth goal is a tautological address-offset equality.",
+      "grouping_reason": "All witnesses are short direct entailments for the same loop-free function and share preprocessing, predicate unfolding, guard discharge, and frame cancellation. Five witnesses are below max_witnesses_per_group=12, so a single dependency-free group is both bounded and coherent.",
+      "difficulty": "low",
+      "confidence": "high",
+      "per_witness_plan": {
+        "proof_of_CircularAreaIsFull_return_wit_1": "Choose the full-frame return disjunct; unfold the result predicate; use readidx <> writeidx; cancel the frame.",
+        "proof_of_CircularAreaIsFull_return_wit_2": "Choose the full-frame return disjunct; unfold the result predicate; use b_status = 0; cancel the frame.",
+        "proof_of_CircularAreaIsFull_return_wit_3": "Choose the full-frame return disjunct; unfold the result predicate; use readidx = writeidx and b_status <> 0; cancel the restored frame.",
+        "proof_of_CircularAreaIsFull_return_wit_4": "Choose the null-return full branch; unfold the error predicate to 1 = 1; preserve GlobalStrings.",
+        "proof_of_CircularAreaIsFull_partial_solve_wit_1_pure": "Choose one generated branch, preprocess, and normalize the zero string offset to reflexivity."
+      },
+      "premise_discharge": {
+        "result_false_read_mismatch": "PreH1 of return_wit_1",
+        "result_false_status_zero": "PreH1 of return_wit_2",
+        "result_true_equal_indices": "PreH3 of return_wit_3",
+        "result_true_nonzero_status": "PreH2 of return_wit_3",
+        "null_error_constant": "unfold xizi_circular_area_error_result; reflexivity",
+        "string_zero_offset": "arithmetic normalization; no premise"
+      }
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 5,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

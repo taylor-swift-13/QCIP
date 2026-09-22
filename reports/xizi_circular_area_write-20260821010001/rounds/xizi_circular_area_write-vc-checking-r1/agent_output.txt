@@ -1,0 +1,13 @@
+# Reuse Note
+
+Note kind: non-authoritative reuse note
+
+This file is not acceptance evidence.
+
+The frozen source and source-goal hashes matched, and the cleaned manual contained exactly the 27 target witnesses from `agent_input.json`.
+
+VC checking found an annotation-level blocker in `proof_of_CircularAreaWrite_return_wit_1` through `_4`: their antecedents own resources at local `circular_area` / `input_buffer`, while their consequents use independent `circular_area_pre` / `input_buffer_pre` values, with no equality bridges. A concrete counterexample sets `circular_area_pre = 0` while satisfying the antecedent at a nonzero local `circular_area`, immediately falsifying the consequent.
+
+`proof_of_CircularAreaWrite_return_wit_4` has a second gap: the non-force no-wrap antecedent does not preserve the earlier non-full result. A full one-byte ring with `readidx = writeidx = 0`, `b_status = 1`, `requested = 1`, `data_length = 0`, and `force0 = 0` satisfies its antecedent but falsifies the required non-full guard.
+
+Recommended repair: in the annotation, carry stable identities for both pointer parameters through every branch-local assertion and preserve `CircularAreaIsFullResult readidx writeidx b_status 0` (or an equivalent non-full fact) on the non-force success path. Do not change the function body or weaken the exact memcpy contracts. Regenerate all formal artifacts before reusing any proof grouping.

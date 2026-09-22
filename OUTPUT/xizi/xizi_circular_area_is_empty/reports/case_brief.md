@@ -1,8 +1,10 @@
 # Case Brief
 
-- Case: `xizi_circular_area_is_empty`
-- Function: `CircularAreaIsEmpty`
-- Run: `xizi_circular_area_is_empty-20260821120002`
-- Status: complete
-- Target witnesses: 5
-- Source goal version: `460f73cf7172b49f1ba5fb1192ebf2967379a197c479759d86fb562b26fccdd7`
+- case: `xizi_circular_area_is_empty`
+- function: `CircularAreaIsEmpty`
+- phase: `done`
+- resource: `store_circular_area`
+- result: `return=1` iff `ca_contents state=nil`
+- source version: `9ef70415f5c7b68e6a6acc146dfc9725661eeefbb6d1d4df85dfe7b578f89b3b`
+- source-goal version: `b3d8c1016da9a18cc4a2d60112a89a28a99213ef04116b4340a2e2ece40dfb40`
+- manual: `6/6`

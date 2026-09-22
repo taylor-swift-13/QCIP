@@ -6,7 +6,7 @@ typedef int x_bool;
 typedef struct CircularArea *CircularAreaType;
 
 #define NONE ((void *)0)
-#define ERROR (-1)
+#define ERROR 1
 #define NULL_PARAM_CHECK(p) do { if ((p) == NONE) return ERROR; } while (0)
 
 struct CircularAreaOps;

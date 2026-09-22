@@ -1,0 +1,11 @@
+# Reuse Note
+
+Note kind: non-authoritative reuse note
+
+This file is not acceptance evidence.
+
+The ready candidate removes `d0` without introducing another numbered ghost. It adds the annotation-approved `CircularAreaDivideRdDataInput` assertion to the case lib, so the original nullable and valid-state preconditions remain semantically unchanged but form one syntactic QCP entry branch. The C `Require` passes the entry `data_length` directly to this predicate, while both state-result relations in `Ensure` use `data_length@pre`.
+
+This packaging is the successful repair for the previous multi-spec `@pre` ambiguity. The internal annotation remains a complete `Assert`; it contains `data_length == data_length@pre` and uses `data_length@pre` for the range and overflow facts. No `which implies` workaround is present, and the executable C token stream is unchanged.
+
+Canonical symexec and three canonical-argument qcp-mcp cycles reached end of file. The resulting goal has four manual targets: one assertion entailment and three return witnesses (two non-null branch results and the null return). The case lib passed the fixed `coq_tooling.py check --target-kind case_lib` gate. The pre-existing proof manual still belongs to the old `d0` goal because direct symexec deliberately does not overwrite an existing manual; controller `annotation-check-round` must use its atomic backup/fresh-generation path before diagnostics splitting.

@@ -1,11 +1,11 @@
-# Final Checklist
+# Final checklist
 
-- [x] canonical symbolic execution reached EOF
-- [x] generated files are fresh
-- [x] all target manual VC are proved
-- [x] fixed goal_check passed
-- [x] no Admitted, Abort, or extra Axiom
-- [x] forbidden lemma scan has zero hits
-- [x] case_lib contract passed
-- [x] independent freshness passed
-- [x] controller phase is done
+- [x] qcp-mcp 到函数末尾
+- [x] both allocation failures return null/emp
+- [x] success returns `store_circular_area (CircularAreaInitState requested) retval`
+- [x] public spec exposes no implementation-level binders
+- [x] 20 auto + 1 manual completed
+- [x] parent/final fixed `goal_check` passed
+- [x] no `Admitted`, extra `Axiom`, or forbidden declaration
+- [ ] isolated freshness replay (`skipped`: repository layout not configured)
+- [x] controller phase `done`

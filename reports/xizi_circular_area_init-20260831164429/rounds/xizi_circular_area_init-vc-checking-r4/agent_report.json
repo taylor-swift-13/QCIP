@@ -1,0 +1,259 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "vc_checking": {
+      "status": "completed",
+      "summary": "The sole cleaned manual obligation is semantically provable from the current success-branch resources and pure bounds. Existing seed arithmetic lemmas and UCharArray.undef_full_to_mixed_full suffice; no group-local helper declaration is required.",
+      "source_version": {
+        "digest": "dc627a83f3dd341d9df12179a99fa87c8446c6f2814d92da5f33dcc263b16d1e"
+      },
+      "source_goal_version": "81f93b85b9a37c691573f5010b207f06a2c2fe085907817e99a52a442d252d56",
+      "manual_witness_evidence": {
+        "manual_file": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_proof_manual.v",
+        "manual_sha256": "a37f15f28a2c84765e7f1ae7e091cfb38b10d9b9d1c0b5a356c24d01ddb98c90",
+        "target_witnesses": [
+          "proof_of_CircularAreaInit_return_wit_1"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_CircularAreaInit_return_wit_1": "8db7a4b7c6dd45f67acbb17a81d97b90d63bad7eea96e4e82c4844cd2b920fdb"
+        },
+        "diagnostics_hint_count": 0,
+        "manual_matches_source_goal_version": true
+      },
+      "natural_language_analysis": {
+        "status": "passed",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_CircularAreaInit_return_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "UCharArray.undef_full retval_2 n, where n = unsigned_last_nbits ((requested \u00f7 4) * 4) 32, plus the eight CircularArea fields: data_buffer=retval_2, readidx=0, writeidx=0, p_head=retval_2, p_tail=retval_2+n*sizeof(UCHAR), area_length=n, b_status=0, and operations=&CircularAreaOperations.",
+              "pre_pure": "retval_2 and retval are nonzero; n>0; readidx=writeidx=b_status=0; 4<=requested<=256. The second disjunct additionally carries machine-range facts but is not needed because the first disjunct is directly provable.",
+              "pre_exists": "none",
+              "post_spatial": "CircularAreaBackingResource retval data_buffer 0 0 aligned 0 &CircularAreaOperations nil physical, which unfolds to the same eight fields and UCharArray.mixed_full data_buffer aligned physical.",
+              "post_pure": "retval<>0; CircularAreaAlignedLength requested aligned; xizi_circular_area_uninitialized aligned physical; and CircularAreaLogicalState 0 0 aligned 0 nil physical inside CircularAreaBackingResource.",
+              "post_exists": "data_buffer : Z, physical : list (option Z), aligned : Z"
+            },
+            "witness_instantiation": "Choose the left disjunct. Let n := unsigned_last_nbits ((requested \u00f7 4) * 4) 32; instantiate data_buffer with retval_2, physical with repeat None (Z.to_nat n), and aligned with n. The case-lib range lemma plus unsigned_last_nbits_eq shows n=(requested \u00f7 4)*4, and the case-lib quotient/division lemma changes requested\u00f74 to requested/4.",
+            "space_plan": "Apply UCharArray.undef_full_to_mixed_full to obtain the exact repeat-None mixed buffer. Unfold CircularAreaBackingResource and cancel the descriptor fields. The p_tail cells agree after reducing sizeof(UCHAR)=1 and using aligned=n; all other stored values agree using PreH4--PreH6 and the existential choices.",
+            "pure_plan": "From 4<=requested<=256, derive 0<requested and requested<=4294967295. CircularArea_div4_aligned_range__init_return_branches gives the 32-bit range of (requested\u00f74)*4, so unsigned_last_nbits_eq removes the cast. CircularArea_quot_eq_div_nonneg__init_return_branch_construction supplies requested\u00f74=requested/4. Division bounds give 0<aligned<=256. Zlength_repeat with aligned>=0 gives Zlength physical=aligned. The nil FIFO gives length 0 and Forall trivially; both index bounds hold because aligned>0; writeidx=(readidx+0) mod aligned reduces to 0; the status equivalences reduce to aligned>0; CircularAreaLiveBytes is vacuous because 0<=k<Zlength nil is impossible.",
+            "refinement_plan": "not applicable; this is a direct spatial/pure representation construction with no safeExec state.",
+            "used_existing_lemmas": [
+              "CircularArea_div4_aligned_range__init_return_branches",
+              "CircularArea_quot_eq_div_nonneg__init_return_branch_construction",
+              "unsigned_last_nbits_eq",
+              "UCharArray.undef_full_to_mixed_full",
+              "Zlength_repeat"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "0 <= (requested \u00f7 4) * 4 < 2^32",
+                "discharged_by": "CircularArea_div4_aligned_range__init_return_branches using requested>0 from PreH10 and requested<=4294967295 from PreH11<=256"
+              },
+              {
+                "premise": "requested \u00f7 4 = requested / 4",
+                "discharged_by": "CircularArea_quot_eq_div_nonneg__init_return_branch_construction using 0<=requested from PreH10"
+              },
+              {
+                "premise": "0 < aligned <= 256",
+                "discharged_by": "aligned=(requested/4)*4 together with 4<=requested<=256 and integer-division bounds"
+              },
+              {
+                "premise": "Zlength (repeat None (Z.to_nat aligned)) = aligned",
+                "discharged_by": "Zlength_repeat and Z2Nat.id using aligned>=0"
+              },
+              {
+                "premise": "CircularAreaLiveBytes 0 aligned nil physical",
+                "discharged_by": "its quantified index premise 0<=k<Zlength nil is contradictory"
+              }
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "init_success_resource",
+            "grouping_reason": "The only target is one success-resource construction; it has a single coherent cast/alignment plus representation-building proof pattern."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "init_success_resource",
+            "witness_names": [
+              "proof_of_CircularAreaInit_return_wit_1"
+            ],
+            "representative_witness": "proof_of_CircularAreaInit_return_wit_1",
+            "shared_proof_pattern": "Choose the provable success disjunct, normalize the aligned 32-bit length, convert undef_full to an all-None mixed_full, unfold the shared representation, discharge its empty-FIFO invariant, and cancel fields.",
+            "shared_space_plan": "undef_full-to-mixed_full followed by representation unfolding and field cancellation",
+            "shared_pure_plan": "alignment range/cast normalization, quotient-to-division conversion, repeat length, empty FIFO and zero-index/status facts",
+            "shared_refinement_plan": "not applicable",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "One target witness, one proof pattern, within max_witnesses_per_group=12.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-vc-checking-group-plan/v1",
+        "source_goal_version": "81f93b85b9a37c691573f5010b207f06a2c2fe085907817e99a52a442d252d56",
+        "target_witnesses": [
+          "proof_of_CircularAreaInit_return_wit_1"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "init_success_resource",
+            "witness_names": [
+              "proof_of_CircularAreaInit_return_wit_1"
+            ],
+            "representative_witness": "proof_of_CircularAreaInit_return_wit_1",
+            "dependencies": [],
+            "likely_helper_declarations": [],
+            "candidate_helper_declarations": [],
+            "expected_helpers": [],
+            "proof_strategy": "Prove the left success disjunct only; instantiate retval_2, repeat None, and the normalized aligned length; use the two seed arithmetic lemmas and unsigned_last_nbits_eq; convert undef_full to mixed_full; unfold the shared representation and discharge the empty-FIFO invariant before cancellation.",
+            "natural_language_proof_pattern": "cast/alignment normalization plus undef-to-all-None mixed-buffer representation construction",
+            "shared_helper_candidates": [],
+            "proving_hints": [
+              "Prefer a flat proof shape for the chosen left disjunct; do not open a second top-level branch that is unnecessary.",
+              "Normalize n and the quotient/division equality before unfolding CircularAreaBackingResource so p_tail, area_length, and array lengths share one expression.",
+              "Apply UCharArray.undef_full_to_mixed_full before cancellation.",
+              "Prove CircularAreaLogicalState for nil/repeat None explicitly; CircularAreaLiveBytes is vacuous."
+            ],
+            "grouping_reason": "The target set has one witness, so a single group is allowed and preserves its single coherent representation-construction strategy.",
+            "grouping_confidence": "high",
+            "confidence": "high",
+            "difficulty": "medium",
+            "proving_constraints": [
+              {
+                "id": "parent-verify-unfinished-bullet-line-54",
+                "constraint": "The worker must close every focused goal and bullet before Qed. Treat the parent-verify line-54 unfinished-bullet diagnostic as a real proof-structure failure; use a flat/explicit branch structure and require parent full fixed coqc_check to pass."
+              },
+              {
+                "id": "stale-manual-vo-group-check-false-positive",
+                "constraint": "A group-check success is not evidence if it can import a stale xizi_circular_area_init_proof_manual.vo. Compile the current group-local manual source in the isolated build workspace, invalidate or bypass stale .vo artifacts, and bind evidence to this source_goal_version and current manual source hash; parent full fixed coqc_check remains authoritative."
+              }
+            ]
+          }
+        ],
+        "blockers": [],
+        "grouping_policy_applied": {
+          "controller_policy": "bounded-witness-groups/v1",
+          "target_witness_count": 1,
+          "max_witnesses_per_group": 12,
+          "single_group_allowed": true
+        },
+        "global_proving_constraints": [
+          {
+            "id": "parent-verify-unfinished-bullet-line-54",
+            "constraint": "Do not accept a proof with an unfinished bullet/focus at line 54 or elsewhere; the complete parent full check must parse and compile the current source."
+          },
+          {
+            "id": "stale-manual-vo-group-check-false-positive",
+            "constraint": "Do not infer current-source success from a group check that resolved the manual module through a stale .vo. Ensure current-source compilation and source_goal_version-bound evidence."
+          }
+        ]
+      },
+      "group_plan_path": "/home/yangfp/QCIP/reports/xizi_circular_area_init-20260831164429/rounds/xizi_circular_area_init-vc-checking-r4/group_plan.json",
+      "recommended_next_phase": "vc-proving-preparing",
+      "changed_files": [],
+      "blockers": []
+    }
+  },
+  "verification_result": {
+    "input_hashes": "matched",
+    "manual_target_coverage": "exactly-one-witness",
+    "diagnostics_used_as_hint_only": true,
+    "semantic_provability": "passed",
+    "controller_acceptance": "pending",
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-08-31T11:58:08Z",
+      "source_version": {
+        "digest": "dc627a83f3dd341d9df12179a99fa87c8446c6f2814d92da5f33dcc263b16d1e",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_circular_area_init-20260831164429/xizi_circular_area_init-annotation-r3/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init.c",
+            "relative_path": "OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init.c",
+            "role": "target-c-annotated",
+            "sha256": "b8fcbf855b74c579aa7201c6b332aa6189c04e222d09519b8a617a61d4255327",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_circular_area_init-20260831164429/xizi_circular_area_init-annotation-r3/SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "eb44a87a400515006b2d9e786d066afd55f98c61e4f1d4994a8932d10ca47483",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "81f93b85b9a37c691573f5010b207f06a2c2fe085907817e99a52a442d252d56",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_goal.v",
+            "role": "generated-goal",
+            "sha256": "039fadb37796b2e9e44e1ca46940405303b65ef1455f34ac579fbdd719b0b903",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "bdcc81c47a9de7a852eb70ce670d9ff38894bbe90f5c5a9aa0620f216b052949",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "a37f15f28a2c84765e7f1ae7e091cfb38b10d9b9d1c0b5a356c24d01ddb98c90",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "02be63d0881e6a2759373725fe5660430eca3f0e6d94ee3322e80dd7e08b4526",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "571199ac9870d1893a2bd88f4869a2eb410f14ae43d3346fff2d560853822b49",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "8e4153aac092003b80d0d95db0cf247e2349708ece966159aae61934dc2e8fd5",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_CircularAreaInit_return_wit_1"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_CircularAreaInit_return_wit_1": "8db7a4b7c6dd45f67acbb17a81d97b90d63bad7eea96e4e82c4844cd2b920fdb"
+        },
+        "witnesses": [
+          {
+            "end_line": 27,
+            "name": "proof_of_CircularAreaInit_return_wit_1",
+            "start_line": 25,
+            "statement_hash": "8db7a4b7c6dd45f67acbb17a81d97b90d63bad7eea96e4e82c4844cd2b920fdb",
+            "target_symbol": "CircularAreaInit_return_wit_1"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_circular_area_init-20260831164429/rounds/xizi_circular_area_init-vc-checking-r4/group_plan.json",
+      "target_witnesses": [
+        "proof_of_CircularAreaInit_return_wit_1"
+      ]
+    }
+  },
+  "blockers": []
+}

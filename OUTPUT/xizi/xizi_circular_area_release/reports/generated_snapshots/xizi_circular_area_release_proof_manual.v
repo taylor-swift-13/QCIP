@@ -21,3 +21,11 @@ Import naive_C_Rules.
 Require Import SimpleC.EE.OUTPUT.xizi.xizi_circular_area_release.source.xizi_circular_area_release_lib.
 Local Open Scope sac.
 
+Lemma proof_of_CircularAreaRelease_entail_wit_1 : CircularAreaRelease_entail_wit_1.
+Proof.
+  pre_process.
+  unfold store_circular_area.
+  Intros data_buffer operations readidx writeidx b_status physical.
+  Exists operations readidx writeidx b_status physical data_buffer.
+  entailer!.
+Qed.

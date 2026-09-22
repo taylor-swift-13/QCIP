@@ -1,25 +1,54 @@
 # xizi_circular_area_reset 验证交付
 
-本目录保存 `CircularAreaReset` 的最终 accepted 交付。`source/` 是带 annotation 的 C 源码，`rocq/` 包含 generated goal、auto/manual proof、goal check、唯一 case lib 与 diagnostics，`reports/` 保存 controller、workflow、checkpoint 和复用证据。
+`CircularAreaReset` 已按 idmanager 风格的统一资源模型重新验证。run `xizi_circular_area_reset-20260902224500` 已进入 `done`；`source_version=15a2a5b033e66fc8e731a9fe74303e05797c804a2ab0059105fb8eaee1448ed0`，`source_goal_version=3141c87f6ed81899c0588879ca2b34e2a5f7efaeb632c3b8e9d188193ee59137`。
 
-验证状态：controller run `xizi_circular_area_reset-20260820230001` 已到 `done`，final-check 与独立 freshness 均通过；`source_goal_version` 为 `8340c0632d6fd9c2eebf79b0b283edba1be220baa1936825f852a58a2bda3221`，manual target witness 共 1 个，全部完成证明。
+## 语义与规格
 
-规约直接使用函数参数名，不含参数 `@pre`。函数名、static 属性、签名和可执行语义已与 CRTOS `circular_area.c` 对齐；`ERROR` 为 1，descriptor 保持 `p_head=data_buffer`、`p_tail=data_buffer+area_length` 和 `0 < area_length <= 256` 的有效状态约束。
+Reset 保留 descriptor、capacity、backing allocation、operations pointer 和物理 `mixed_full` 字节；将 `readidx`、`writeidx`、`b_status` 设为 0，并将逻辑 FIFO 置空。公开 contract 只有一个状态：
+
+```c
+With (state : circular_area_state)
+Require store_circular_area(state, circular_area)
+Ensure store_circular_area(
+  Build_circular_area_state(ca_capacity(state), nil),
+  circular_area)
+```
+
+实现层的 pointer、index、status 和 physical option list 只在函数体内部 `Assert` 中展开，不是调用者要管理的公开资源。Init 的成功输出可直接供 Reset 消费。
+
+## 目录
+
+- `source/`：最终 annotation C。
+- `rocq/`：case lib、generated goals、auto/manual proofs 和 `goal_check`。
+- `reports/`：当前 run 的 controller、phase/group report、snapshot、checkpoint 和 reuse packet。
 
 ## 复现
 
-在仓库根目录运行 canonical symbolic execution，必须保留：
+在仓库根目录执行 canonical symbolic execution：
 
-    -IQCP_examples/QCP_demos_LLM/
-    -slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM
+```sh
+linux-binary/symexec \
+  --goal-file=SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_reset/source/xizi_circular_area_reset_goal.v \
+  --proof-auto-file=SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_reset/source/xizi_circular_area_reset_proof_auto.v \
+  --proof-manual-file=SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_reset/source/xizi_circular_area_reset_proof_manual.v \
+  -IQCP_examples/QCP_demos_LLM/ \
+  -slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM \
+  --coq-logic-path=SimpleC.EE.OUTPUT.xizi.xizi_circular_area_reset.source \
+  --input-file=OUTPUT/xizi/xizi_circular_area_reset/source/xizi_circular_area_reset.c \
+  --no-exec-info
+```
 
-fresh 输出必须写到报告临时目录，不能覆盖已证明的 manual。Rocq 只通过 `.agents/skills/vc-proving/scripts/coq_tooling.py check` 的 fixed argv 检查。精确命令、哈希和 phase 证据见 `reports/controller/` 与 `reports/workflow/`。
+对已保留 manual proof 的正式终态，使用固定 Coq 入口检查：
 
-## 文件组织
+```sh
+python3 .agents/skills/vc-proving/scripts/coq_tooling.py check \
+  --workspace-root /home/yangfp/QCIP \
+  --build-workspace /tmp/xizi-reset-coq-build \
+  --target-file SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_reset/source/xizi_circular_area_reset_goal_check.v \
+  --target-kind check \
+  --source-goal-version 3141c87f6ed81899c0588879ca2b34e2a5f7efaeb632c3b8e9d188193ee59137
+```
 
-- `source/`：最终 annotated C。
-- `rocq/`：最终 generated files、manual proof、case_lib 与 diagnostics。
-- `reports/controller/`：run log、timing、final state 与 freshness。
-- `reports/workflow/`：accepted annotation、vc-checking、vc-proving handoff/report。
-- `reports/generated_snapshots/`、`reports/input_snapshots/`：交付快照。
-- `reports/checkpoint.json`、`reuse_packet.json`、`partial_proof_packet.json`：续证入口。
+## 结果与维护
+
+2 个 manual witness 全部完成；group-check、parent full check 和 final fixed `goal_check` 均通过，无新增 helper/import，manual/case lib 无 `Admitted`、额外 `Axiom` 或 forbidden lemma。controller final-check 的严格隔离 freshness replay 因当前仓库布局未配置而记录为 `skipped`，不得误报为 passed。后续 Read/Write 应直接消费同一 `store_circular_area`，不再引入并行 descriptor/backing 谓词。

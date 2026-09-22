@@ -1,0 +1,13 @@
+# Reuse Note
+
+Note kind: non-authoritative reuse note
+
+This file is not acceptance evidence.
+
+The candidate keeps every executable C token unchanged and replaces backing-buffer `full` ownership with the canonical `CircularAreaBackingResource`, whose physical allocation is `UCharArray.mixed_full`.
+
+For `memcpy`, reuse `CircularAreaContiguousReadChunk` together with `CircularAreaLogicalState`: the latter contains `CircularAreaLiveBytes`, so every copied source cell is proved `Some byte`; cells outside the live FIFO remain unconstrained. `CircularAreaOutputChunkUpdate` records only the newly initialized output interval.
+
+The final qcp-mcp SessionManager run reached EOF with 33 manual obligations and no symbolic-execution error. Canonical symexec reached EOF, and the fixed case-lib `coqc_check` passed.
+
+Important downstream repair: production `CircularAreaRead` returns a status code (`EOK=0` after a nonempty copy and `ERROR=1` when empty), while the current callpoint harness declares live-one return 1 and empty-one return 0. The harness contracts must be corrected before claiming implementation-to-callpoint compatibility.

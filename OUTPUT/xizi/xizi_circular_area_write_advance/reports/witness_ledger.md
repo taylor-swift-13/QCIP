@@ -1,4 +1,5 @@
 # Witness Ledger
 
-- `proof_of_CircularAreaDivideWrData_return_wit_1`: proved
-- `proof_of_CircularAreaDivideWrData_return_wit_2`: proved
+- entry entail: 1/1
+- live return branches: 2/2
+- total: 3/3; helper/import: none

@@ -1,0 +1,117 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "b5456c583e0d408c32255d39a6dada57c62948121dbba464cc3d8f8df793b391",
+  "target_witnesses": [
+    "proof_of_xizi_circular_area_call_init_metadata_release_return_wit_1",
+    "proof_of_xizi_circular_area_call_init_metadata_release_return_wit_2",
+    "proof_of_xizi_circular_area_call_init_empty_read_release_return_wit_1",
+    "proof_of_xizi_circular_area_call_init_empty_read_release_return_wit_2",
+    "proof_of_xizi_circular_area_call_init_first_write_release_return_wit_1",
+    "proof_of_xizi_circular_area_call_init_first_write_release_return_wit_2",
+    "proof_of_xizi_circular_area_call_write_read_release_return_wit_1",
+    "proof_of_xizi_circular_area_call_write_read_release_return_wit_2",
+    "proof_of_xizi_circular_area_call_repeated_write_release_return_wit_1",
+    "proof_of_xizi_circular_area_call_repeated_write_release_return_wit_2",
+    "proof_of_xizi_circular_area_call_repeated_write_release_partial_solve_wit_3_pure",
+    "proof_of_xizi_circular_area_call_read_then_write_release_return_wit_1",
+    "proof_of_xizi_circular_area_call_read_then_write_release_return_wit_2",
+    "proof_of_xizi_circular_area_call_reset_release_return_wit_1",
+    "proof_of_xizi_circular_area_call_reset_release_return_wit_2"
+  ],
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 15,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  },
+  "proof_groups": [
+    {
+      "group_id": "successful_release_result_normalization",
+      "witness_names": [
+        "proof_of_xizi_circular_area_call_init_metadata_release_return_wit_1",
+        "proof_of_xizi_circular_area_call_init_empty_read_release_return_wit_1",
+        "proof_of_xizi_circular_area_call_init_first_write_release_return_wit_1",
+        "proof_of_xizi_circular_area_call_write_read_release_return_wit_1",
+        "proof_of_xizi_circular_area_call_repeated_write_release_return_wit_1",
+        "proof_of_xizi_circular_area_call_read_then_write_release_return_wit_1",
+        "proof_of_xizi_circular_area_call_reset_release_return_wit_1"
+      ],
+      "representative_witness": "proof_of_xizi_circular_area_call_write_read_release_return_wit_1",
+      "dependencies": [],
+      "likely_helper_declarations": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "Unfold each target; select its first outer disjunct and the ret=1 arm of CircularAreaCallResult/CircularAreaReadCallResult; normalize emp; close 1=1; cancel/permutate unchanged caller UCharArray resources.",
+      "natural_language_proof_strategy": "Successful release consumes only the area state; every caller buffer required by Q already occurs exactly in P.",
+      "space_plan": "Identity cancellation of zero to three buffers.",
+      "pure_plan": "Reflexive 1=1.",
+      "refinement_plan": "not applicable",
+      "premise_discharge": {
+        "return_code": "reflexivity",
+        "caller_buffers": "identical resources in P"
+      },
+      "difficulty": "low",
+      "confidence": "high",
+      "grouping_reason": "Seven success exits, same pattern, below limit 12."
+    },
+    {
+      "group_id": "failed_init_result_normalization",
+      "witness_names": [
+        "proof_of_xizi_circular_area_call_init_metadata_release_return_wit_2",
+        "proof_of_xizi_circular_area_call_init_empty_read_release_return_wit_2",
+        "proof_of_xizi_circular_area_call_init_first_write_release_return_wit_2",
+        "proof_of_xizi_circular_area_call_write_read_release_return_wit_2",
+        "proof_of_xizi_circular_area_call_repeated_write_release_return_wit_2",
+        "proof_of_xizi_circular_area_call_read_then_write_release_return_wit_2",
+        "proof_of_xizi_circular_area_call_reset_release_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_circular_area_call_write_read_release_return_wit_2",
+      "dependencies": [],
+      "likely_helper_declarations": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "Unfold each target; select its first outer disjunct and ret=0 arm; instantiate the result existential with the current failed_area; close 0=0; cancel/permutate failure and caller resources.",
+      "natural_language_proof_strategy": "The failure predicates package exactly the failure resource already owned, while caller inputs and undefined read outputs are unchanged.",
+      "space_plan": "Identity cancellation of failure plus zero to three buffers.",
+      "pure_plan": "Reflexive 0=0.",
+      "refinement_plan": "not applicable",
+      "premise_discharge": {
+        "existential": "current failed_area",
+        "return_code": "reflexivity",
+        "resources": "identical resources in P"
+      },
+      "difficulty": "low",
+      "confidence": "high",
+      "grouping_reason": "Seven failure exits, same pattern, below limit 12."
+    },
+    {
+      "group_id": "repeated_write_capacity_pure",
+      "witness_names": [
+        "proof_of_xizi_circular_area_call_repeated_write_release_partial_solve_wit_3_pure"
+      ],
+      "representative_witness": "proof_of_xizi_circular_area_call_repeated_write_release_partial_solve_wit_3_pure",
+      "dependencies": [],
+      "likely_helper_declarations": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "Unfold the target and backing/logical-state predicates; extract (b_status=0 <-> Zlength logical<area_length); apply its forward direction at literal status 0 and logical [first_byte]; simplify singleton Zlength and reflexive equalities.",
+      "natural_language_proof_strategy": "A non-full status explicitly means the singleton logical content is strictly shorter than capacity.",
+      "space_plan": "Extract the backing pure conjunct and frame all heap resources.",
+      "pure_plan": "Status equivalence and singleton length normalization.",
+      "refinement_plan": "not applicable",
+      "premise_discharge": {
+        "logical_state": "inside CircularAreaBackingResource",
+        "zero_status": "literal predicate argument",
+        "length": "standard singleton normalization"
+      },
+      "difficulty": "low",
+      "confidence": "high",
+      "grouping_reason": "Genuinely distinct invariant-opening pure proof."
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true
+}

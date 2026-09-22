@@ -1,0 +1,181 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "pending",
+  "terminal": "no",
+  "agent_result": {
+    "vc_checking": {
+      "status": "completed",
+      "source_version": "424b11c9d88211a651b0dcabcc3eacae9117551b3c11dd2bb38c1ad633afbc20",
+      "source_goal_version": "81f93b85b9a37c691573f5010b207f06a2c2fe085907817e99a52a442d252d56",
+      "target_witnesses": [
+        "proof_of_CircularAreaInit_return_wit_1"
+      ],
+      "group_plan_ready": true,
+      "ready_for_vc_checking_check_round": true,
+      "natural_language_analysis": {
+        "schema_version": "qcp-vc-natural-language-analysis/v1",
+        "summary": "The sole target is semantically proofable. Choose the left disjunct of CircularAreaInit_return_wit_1 and instantiate the success representation directly from the allocated descriptor and undef_full backing buffer.",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_CircularAreaInit_return_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "UCharArray.undef_full retval_2 aligned_u32 together with the eight concrete CircularArea field cells: data_buffer=retval_2, readidx=circular_area_callee_readidx, writeidx=circular_area_callee_writeidx, p_head=retval_2, p_tail=retval_2+aligned_u32*sizeof(UCHAR), area_length=aligned_u32, b_status=circular_area_callee_b_status, and operations=&CircularAreaOperations.",
+              "pre_pure": "retval_2 and retval are nonzero; aligned_u32>0; readidx=0; writeidx=0; b_status=0; requested>0; 4<=requested<=256. The alternative generated branch also carries machine-range facts, but it need not be selected.",
+              "pre_exists": "None.",
+              "post_spatial": "CircularAreaBackingResource retval data_buffer 0 0 aligned 0 &CircularAreaOperations nil physical.",
+              "post_pure": "retval<>0, CircularAreaAlignedLength requested aligned, and xizi_circular_area_uninitialized aligned physical.",
+              "post_exists": "data_buffer: Z, physical: list (option Z), and aligned: Z."
+            },
+            "witness_instantiation": "Select the left disjunct. Instantiate data_buffer := retval_2, aligned := unsigned_last_nbits ((circular_area_length_pre ÷ 4) * 4) 32, and physical := repeat None (Z.to_nat aligned).",
+            "space_plan": "Use UCharArray.undef_full_to_mixed_full to turn the allocated undef_full buffer into mixed_full retval_2 aligned (repeat None (Z.to_nat aligned)). Rewrite readidx, writeidx, and b_status with PreH4-PreH6. Normalize sizeof(UCHAR)=1 so the p_tail cell matches data_buffer+aligned, then cancel/frame the eight descriptor fields into CircularAreaBackingResource.",
+            "pure_plan": "Use requested<=256 to meet the range helper's UINT bound, CircularArea_div4_aligned_range__init_return_branches to show the raw quotient-multiple lies in [0,2^32), and machine-integer normalization to remove unsigned_last_nbits. Use CircularArea_quot_eq_div_nonneg__init_return_branch_construction to change nonnegative Z quotient to Z division. Z.mul_quot_le and requested<=256 give aligned<=256, while aligned>0 is already PreH3. The remaining CircularAreaLogicalState facts follow for readidx=writeidx=b_status=0, logical=nil, and physical=repeat None: Zlength_repeat plus nonnegative aligned gives physical length; Forall and CircularAreaLiveBytes are vacuous; modulo-zero, empty/full status equivalences, and index bounds follow from aligned>0.",
+            "refinement_plan": "No safeExec or refinement-state obligation occurs in this return entailment.",
+            "used_existing_lemmas": [
+              "CircularArea_div4_aligned_range__init_return_branches",
+              "CircularArea_quot_eq_div_nonneg__init_return_branch_construction",
+              "UCharArray.undef_full_to_mixed_full",
+              "Z.mul_quot_le",
+              "Zlength_repeat"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "retval <> 0 and data_buffer <> 0",
+                "discharged_by": "PreH8 and PreH2 after data_buffer := retval_2",
+                "needs_unfold": [
+                  "CircularAreaBackingResource"
+                ],
+                "arithmetic": "none",
+                "spatial_resource": "none"
+              },
+              {
+                "premise": "CircularAreaAlignedLength circular_area_length_pre aligned",
+                "discharged_by": "PreH10-PreH11, the two existing init-return arithmetic lemmas, Z.mul_quot_le, and unsigned_last_nbits identity on the proved 32-bit range",
+                "needs_unfold": [
+                  "CircularAreaAlignedLength"
+                ],
+                "arithmetic": "requested is nonnegative, (requested ÷ 4)*4 is in [0,2^32), equals (requested/4)*4, and is at most requested<=256",
+                "spatial_resource": "none"
+              },
+              {
+                "premise": "xizi_circular_area_uninitialized aligned physical",
+                "discharged_by": "reflexivity after physical := repeat None (Z.to_nat aligned)",
+                "needs_unfold": [
+                  "xizi_circular_area_uninitialized"
+                ],
+                "arithmetic": "none",
+                "spatial_resource": "none"
+              },
+              {
+                "premise": "CircularAreaLogicalState 0 0 aligned 0 nil physical",
+                "discharged_by": "PreH3, aligned<=256, Zlength_repeat/Z2Nat roundtrip, and the empty-list definitions",
+                "needs_unfold": [
+                  "CircularAreaLogicalState",
+                  "CircularAreaLiveBytes"
+                ],
+                "arithmetic": "0<aligned supplies index and modulo side conditions and makes both b_status equivalences immediate",
+                "spatial_resource": "none"
+              },
+              {
+                "premise": "UCharArray.mixed_full retval_2 aligned physical",
+                "discharged_by": "UCharArray.undef_full_to_mixed_full applied to the precondition buffer",
+                "needs_unfold": [],
+                "arithmetic": "none",
+                "spatial_resource": "UCharArray.undef_full retval_2 aligned"
+              }
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "init_success_resource",
+            "grouping_reason": "This is the only target witness and it is a single success-resource construction with one coherent spatial/arithmetic proof pattern."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "init_success_resource",
+            "witness_names": [
+              "proof_of_CircularAreaInit_return_wit_1"
+            ],
+            "representative_witness": "proof_of_CircularAreaInit_return_wit_1",
+            "shared_proof_pattern": "Instantiate the successful Init representation, normalize the aligned capacity, convert undef_full to mixed_full repeat-None storage, and fold CircularAreaBackingResource.",
+            "shared_space_plan": "One undef_full-to-mixed_full conversion followed by exact descriptor-field framing.",
+            "shared_pure_plan": "Quotient/division and 32-bit normalization, then empty FIFO invariant construction.",
+            "shared_refinement_plan": "None.",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "Single target witness; target count 1 is within the controller maximum 12, and no distinct proof strategy exists to justify a split.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "81f93b85b9a37c691573f5010b207f06a2c2fe085907817e99a52a442d252d56",
+        "target_witnesses": [
+          "proof_of_CircularAreaInit_return_wit_1"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "init_success_resource",
+            "witness_names": [
+              "proof_of_CircularAreaInit_return_wit_1"
+            ],
+            "representative_witness": "proof_of_CircularAreaInit_return_wit_1",
+            "dependencies": [],
+            "candidate_helper_declarations": [],
+            "likely_helper_declarations": [],
+            "expected_helpers": [],
+            "proof_strategy": "Choose the left disjunct; instantiate retval_2, repeat-None physical storage, and the generated aligned_u32 capacity; normalize quotient/division and unsigned_last_nbits with the existing case-lib lemmas; convert undef_full through UCharArray.undef_full_to_mixed_full; prove the empty CircularAreaLogicalState; then fold/cancel CircularAreaBackingResource.",
+            "natural_language_proof_strategy": "The precondition already owns exactly the successful descriptor fields and the fresh backing allocation. The requested length bounds make the quotient-multiple a positive capacity at most 256 and prevent unsigned wrapping. The fresh undef allocation represents repeat None, while zero indices/status and nil logical contents satisfy the shared FIFO invariant vacuously.",
+            "grouping_reason": "The single target has one coherent success-construction proof pattern and the target count is below max_witnesses_per_group=12.",
+            "difficulty": "medium",
+            "confidence": "high",
+            "per_witness_plan": {
+              "proof_of_CircularAreaInit_return_wit_1": {
+                "judgment": "proofable",
+                "branch": "left disjunct",
+                "existential_instantiation": [
+                  "data_buffer := retval_2",
+                  "physical := repeat None (Z.to_nat aligned)",
+                  "aligned := unsigned_last_nbits ((circular_area_length_pre ÷ 4) * 4) 32"
+                ]
+              }
+            }
+          }
+        ],
+        "blockers": []
+      },
+      "evidence": {
+        "version_check": {
+          "status": "matched",
+          "source_version": "424b11c9d88211a651b0dcabcc3eacae9117551b3c11dd2bb38c1ad633afbc20",
+          "source_goal_version": "81f93b85b9a37c691573f5010b207f06a2c2fe085907817e99a52a442d252d56",
+          "all_declared_file_hashes_matched": true
+        },
+        "manual_obligation_check": {
+          "status": "matched",
+          "manual_obligation_count": 1,
+          "manual_witnesses": [
+            "proof_of_CircularAreaInit_return_wit_1"
+          ],
+          "statement_hash": "8db7a4b7c6dd45f67acbb17a81d97b90d63bad7eea96e4e82c4844cd2b920fdb",
+          "target_symbol": "CircularAreaInit_return_wit_1",
+          "diagnostics_used_as_hint_only": true,
+          "diagnostic_count": 0
+        },
+        "semantic_check": {
+          "status": "proofable",
+          "annotation_or_spec_gap": false,
+          "requires_generated_file_change": false,
+          "requires_witness_statement_change": false
+        }
+      },
+      "changed_files": [],
+      "blockers": []
+    }
+  },
+  "verification_result": {},
+  "blockers": []
+}

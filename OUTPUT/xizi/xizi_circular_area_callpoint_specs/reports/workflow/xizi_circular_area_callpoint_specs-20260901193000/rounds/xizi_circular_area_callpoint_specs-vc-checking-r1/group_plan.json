@@ -1,0 +1,137 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "5f07afd9f83774617e1e162220c79ca4c44f4004d7435f9456a5bcdbbae14088",
+  "target_witnesses": [
+    "proof_of_xizi_circular_area_call_init_metadata_release_return_wit_1",
+    "proof_of_xizi_circular_area_call_init_metadata_release_return_wit_2",
+    "proof_of_xizi_circular_area_call_init_empty_read_release_return_wit_1",
+    "proof_of_xizi_circular_area_call_init_empty_read_release_return_wit_2",
+    "proof_of_xizi_circular_area_call_init_first_write_release_return_wit_1",
+    "proof_of_xizi_circular_area_call_init_first_write_release_return_wit_2",
+    "proof_of_xizi_circular_area_call_write_read_release_return_wit_1",
+    "proof_of_xizi_circular_area_call_write_read_release_return_wit_2",
+    "proof_of_xizi_circular_area_call_repeated_write_release_return_wit_1",
+    "proof_of_xizi_circular_area_call_repeated_write_release_return_wit_2",
+    "proof_of_xizi_circular_area_call_repeated_write_release_partial_solve_wit_3_pure",
+    "proof_of_xizi_circular_area_call_read_then_write_release_return_wit_1",
+    "proof_of_xizi_circular_area_call_read_then_write_release_return_wit_2",
+    "proof_of_xizi_circular_area_call_reset_release_return_wit_1",
+    "proof_of_xizi_circular_area_call_reset_release_return_wit_2",
+    "proof_of_xizi_circular_area_call_force_full_release_entail_wit_1",
+    "proof_of_xizi_circular_area_call_force_full_release_entail_wit_2",
+    "proof_of_xizi_circular_area_call_force_full_release_return_wit_1",
+    "proof_of_xizi_circular_area_call_force_full_release_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "call_result_return_frames",
+      "witness_names": [
+        "proof_of_xizi_circular_area_call_init_metadata_release_return_wit_1",
+        "proof_of_xizi_circular_area_call_init_metadata_release_return_wit_2",
+        "proof_of_xizi_circular_area_call_init_empty_read_release_return_wit_1",
+        "proof_of_xizi_circular_area_call_init_empty_read_release_return_wit_2",
+        "proof_of_xizi_circular_area_call_init_first_write_release_return_wit_1",
+        "proof_of_xizi_circular_area_call_init_first_write_release_return_wit_2",
+        "proof_of_xizi_circular_area_call_repeated_write_release_return_wit_1",
+        "proof_of_xizi_circular_area_call_repeated_write_release_return_wit_2",
+        "proof_of_xizi_circular_area_call_reset_release_return_wit_1",
+        "proof_of_xizi_circular_area_call_reset_release_return_wit_2",
+        "proof_of_xizi_circular_area_call_force_full_release_return_wit_1",
+        "proof_of_xizi_circular_area_call_force_full_release_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_circular_area_call_init_metadata_release_return_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "Select the convenient top-level branch, unfold CircularAreaCallResult, choose ret=0 or ret=1, and cancel unchanged frames.",
+      "natural_language_proof_pattern": "The result is a pure constant equality conjoined with emp; all retained frames occur unchanged in P.",
+      "proving_hints": [
+        "Prefer the branch omitting optional caller buffers",
+        "Use structural entailment tactics",
+        "Do not use forbidden equivalence/commutativity lemmas"
+      ],
+      "grouping_reason": "Identical assertion family and proof shape; 12 is exactly max_witnesses_per_group.",
+      "confidence": "high",
+      "grouping_confidence": "high"
+    },
+    {
+      "group_id": "read_result_return_frames",
+      "witness_names": [
+        "proof_of_xizi_circular_area_call_write_read_release_return_wit_1",
+        "proof_of_xizi_circular_area_call_write_read_release_return_wit_2",
+        "proof_of_xizi_circular_area_call_read_then_write_release_return_wit_1",
+        "proof_of_xizi_circular_area_call_read_then_write_release_return_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_circular_area_call_write_read_release_return_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "Choose the branch with only output ownership, unfold CircularAreaReadCallResult, select ret=1/[byte] or ret=0/output_before, and cancel the exact UCharArray.full and GlobalStrings frames.",
+      "natural_language_proof_pattern": "Successful Read uses the byte already stored in the output cell; failure preserves output_before exactly.",
+      "proving_hints": [
+        "No undef-to-full conversion",
+        "The output list matches syntactically",
+        "Use structural cancellation"
+      ],
+      "grouping_reason": "All four share the distinct Read result relation and exact buffer pattern.",
+      "confidence": "high",
+      "grouping_confidence": "high"
+    },
+    {
+      "group_id": "state_bridge_and_force_full",
+      "witness_names": [
+        "proof_of_xizi_circular_area_call_repeated_write_release_partial_solve_wit_3_pure",
+        "proof_of_xizi_circular_area_call_force_full_release_entail_wit_1",
+        "proof_of_xizi_circular_area_call_force_full_release_entail_wit_2"
+      ],
+      "representative_witness": "proof_of_xizi_circular_area_call_force_full_release_entail_wit_2",
+      "dependencies": [],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "CircularArea_force_full_fresh_to_backing",
+          "statement_shape": "forall area data_buffer operations input physical_before physical_after actual new_writeidx, CircularAreaFourBytes input -> xizi_circular_area_uninitialized 4 physical_before -> CircularAreaForceWriteEffect 4 0 4 actual new_writeidx [] input physical_before physical_after -> CircularAreaForceWriteResource area data_buffer new_writeidx 4 operations physical_after |-- CircularAreaBackingResource area data_buffer 0 0 4 1 operations input physical_after",
+          "used_by_witnesses": [
+            "proof_of_xizi_circular_area_call_force_full_release_entail_wit_2"
+          ],
+          "premise_discharge": [
+            "FourBytes: PreH3",
+            "fresh physical: PreH4",
+            "force effect: PreH1",
+            "raw resource: exact antecedent"
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        }
+      ],
+      "likely_helper_declarations": [
+        "CircularArea_force_full_fresh_to_backing with mandatory group suffix"
+      ],
+      "expected_helpers": [
+        "CircularArea_force_full_fresh_to_backing with mandatory group suffix"
+      ],
+      "proof_strategy": "Solve aligned-length arithmetic first. For force canonicalization, prove a suffixed group-local bridge by deriving actual=4/new_writeidx=0, proving live-byte coverage from CircularAreaPhysicalWrite, rebuilding CircularAreaLogicalState, and reusing unchanged mixed_full/struct cells.",
+      "natural_language_proof_pattern": "All three unfold the shared circular-area state layer. The bridge is valid only because request, capacity, and valid input length are all 4 on a fresh empty ring.",
+      "proving_hints": [
+        "Use an official ZArith division-bound lemma",
+        "Prove every CircularAreaLogicalState conjunct",
+        "Suffix any helper with the controller-provided group suffix",
+        "Do not modify seed declarations or place helpers in the manual file"
+      ],
+      "grouping_reason": "Only nontrivial state/helper family. The smaller group is deliberate because the force bridge is much more context-heavy than return framing.",
+      "confidence": "high",
+      "grouping_confidence": "high"
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 19,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

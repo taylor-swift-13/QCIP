@@ -1,0 +1,832 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "annotation",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "annotation": {
+      "status": "completed",
+      "ready_for_annotation_check_round": true,
+      "source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "ef070e292141db10e6ed23c78c75116a4f40e6473ae6b5452026887deeaa6d36",
+        "binding": "matches agent_input.json; candidate digests are recorded separately"
+      },
+      "source_goal_version": null,
+      "target_function": "CircularAreaGetDataLength",
+      "summary": "The case-local duplicate CircularAreaDescriptorState was removed. The case_lib now Require Exports the one shared definition from QCIPLib.xizi.xizi_circular_area_common.xizi_circular_area_lib so generated downstream theories can resolve the shared name. Existing C contracts and implementation were preserved without weakening.",
+      "c_annotation_patch": "empty; the existing function contracts already reference the shared predicate name and state mathematical return-value behavior plus spatial preservation",
+      "case_lib_patch": {
+        "status": "completed",
+        "path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_lib.v",
+        "changes": [
+          "added Require Export QCIPLib.xizi.xizi_circular_area_common.xizi_circular_area_lib",
+          "deleted the case-local CircularAreaDescriptorState definition",
+          "preserved CircularAreaErrorResult, CircularAreaIsFullResult, and CircularAreaDataLengthResult unchanged"
+        ],
+        "why_require_export": "The generated goal imports only the case_lib. Plain Require Import compiled the case_lib but did not expose CircularAreaDescriptorState to that downstream theory; Require Export preserves the single shared definition and makes it available without aliasing or duplication."
+      },
+      "spec_definition_review": {
+        "status": "passed",
+        "shared_definition_path": "QCIPLib/xizi/xizi_circular_area_common/xizi_circular_area_lib.v",
+        "shared_definition_sha256": "78d41f3df2fde917581763d22e1f7c31e89b207be0d01d67e1eccb820d695d53",
+        "definition_name": "CircularAreaDescriptorState",
+        "mathematical_semantics": [
+          "0 <= readidx < area_length",
+          "0 <= writeidx < area_length",
+          "0 < area_length <= 256",
+          "b_status = 0 or b_status = 1",
+          "Zlength buffer_contents = area_length"
+        ],
+        "algorithm_mirror": "no",
+        "duplicate_or_alias_remaining_in_case_lib": "no",
+        "strength_review": "The shared definition strengthens the old local b_status machine-range fact to the required boolean-state fact and otherwise preserves the descriptor invariants."
+      },
+      "function_spec_review": {
+        "status": "passed",
+        "CircularAreaIsFull": "CircularAreaIsFullResult precisely connects equal indices and nonzero status to true, with the complementary case false, while preserving the shared descriptor and all spatial resources.",
+        "CircularAreaGetDataLength": "CircularAreaDataLengthResult distinguishes the full case (area_length) from the non-full modular distance and preserves the shared descriptor and all spatial resources. The null error branch remains unchanged.",
+        "mathematical_postconditions_present": "yes",
+        "contracts_weakened": "no"
+      },
+      "invariant_review": {
+        "status": "not-applicable",
+        "reason": "Neither verified function contains a loop."
+      },
+      "array_memory_review": {
+        "status": "passed",
+        "predicate": "UCharArray::full(data_buffer, area_length, buffer_contents)",
+        "reason": "The contracts need exact buffer contents and length, so the builtin value-level full predicate remains appropriate and no duplicate array predicate was introduced."
+      },
+      "qcp_mcp_requirement_satisfied": "yes",
+      "qcp_mcp_interactive_evidence": {
+        "schema_version": "qcp-mcp-interactive-evidence/v1",
+        "status": "passed",
+        "chain": "qcp_mcp.session_manager + qcp_mcp.server.symbolic",
+        "backend": "/home/yangfp/QCIP/worktrees/xizi_circular_area_data_length-20260826162928/xizi_circular_area_data_length-annotation-r1/linux-binary/mcp",
+        "cwd": "/home/yangfp/QCIP/worktrees/xizi_circular_area_data_length-20260826162928/xizi_circular_area_data_length-annotation-r1",
+        "include_args": [
+          "QCP_examples/QCP_demos_LLM/"
+        ],
+        "slp_args": [
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM"
+        ],
+        "symbolic_line": 143,
+        "file_line_count": 143,
+        "startup_finished_parsing": true,
+        "result": "success",
+        "errormessage": null,
+        "warningmessage": null,
+        "loaded_strategies": [
+          "builtin/uchar_array.strategies",
+          "builtin/undef_uchar_array.strategies",
+          "builtin/mixed_uchar_array.strategies",
+          "builtin/uchar_array_shape.strategies"
+        ],
+        "witness_totals": {
+          "CircularAreaIsFull": {
+            "auto_solved": 7,
+            "manual": 4
+          },
+          "CircularAreaGetDataLength": {
+            "auto_solved": 7,
+            "manual": 5
+          }
+        }
+      },
+      "canonical_symexec_evidence": {
+        "schema_version": "qcp-canonical-symexec-evidence/v1",
+        "status": "passed",
+        "driver": "/home/yangfp/QCIP/linux-binary/symexec",
+        "cwd": "/home/yangfp/QCIP/worktrees/xizi_circular_area_data_length-20260826162928/xizi_circular_area_data_length-annotation-r1",
+        "include_args": [
+          "QCP_examples/QCP_demos_LLM/"
+        ],
+        "slp_args": [
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM"
+        ],
+        "coq_logic_path": "SimpleC.EE.OUTPUT.xizi.xizi_circular_area_data_length.source",
+        "input_file": "OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length.c",
+        "reached_end_of_file": true,
+        "functions_completed": [
+          "CircularAreaIsFull",
+          "CircularAreaGetDataLength"
+        ],
+        "returncode": 0,
+        "stdout_summary": "Successfully finished symbolic execution",
+        "nonfatal_warning": "manual proof file not updated because it already exists; existing manual proofs were intentionally preserved",
+        "generated_file_digests": {
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_goal.v": "4f74174f925df30e1ac8742f4bcac245c933bae4331f14c0635856a692ec1cc5",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_proof_auto.v": "cf49dbda2f2c12a70e513793c271aafbc267abefe932c0c391fd978404f158be",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_proof_manual.v": "a8bee9be8057f287f22db44e8dbd117c630f4e5cc1971c52cde5bb36e17e6672",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_goal_check.v": "3e198438272f2a8e1e39be1032963b4326348b8cebda3cdadaada207a13647d2"
+        }
+      },
+      "case_lib_coqc_evidence": {
+        "schema_version": "qcp-coqc-check-evidence/v1",
+        "status": "passed",
+        "tool": "coqc",
+        "entrypoint": "/home/yangfp/QCIP/.agents/skills/vc-proving/scripts/coq_tooling.py check",
+        "target_kind": "case_lib",
+        "target_file": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_lib.v",
+        "target_sha256": "e03f727033b52d32bab237deba6f2504a658c4a4f174c68bca7a72b29c659fab",
+        "build_workspace": "/home/yangfp/QCIP/worktrees/xizi_circular_area_data_length-20260826162928/_coq_builds/xizi_circular_area_data_length-annotation-r1-case-lib-r2",
+        "fixed_flags_hash": "24021e94f65d7fcb0014dc119baf8b1f9efef2bcb2cf5fbeb875549a843dbeb8",
+        "coq_version": "The Coq Proof Assistant, version 8.20.1",
+        "returncode": 0,
+        "elapsed_seconds": 23.586
+      },
+      "goal_check_coqc_evidence": {
+        "schema_version": "qcp-coqc-check-evidence/v1",
+        "status": "passed",
+        "tool": "coqc",
+        "entrypoint": "/home/yangfp/QCIP/.agents/skills/vc-proving/scripts/coq_tooling.py check",
+        "target_kind": "check",
+        "target_file": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_goal_check.v",
+        "build_workspace": "/home/yangfp/QCIP/worktrees/xizi_circular_area_data_length-20260826162928/_coq_builds/xizi_circular_area_data_length-annotation-r1-full-check-r2",
+        "fixed_flags_hash": "24021e94f65d7fcb0014dc119baf8b1f9efef2bcb2cf5fbeb875549a843dbeb8",
+        "coq_version": "The Coq Proof Assistant, version 8.20.1",
+        "returncode": 0,
+        "elapsed_seconds": 154.879,
+        "post_final_symexec_digest_match": "yes; current case_lib, goal, proof_auto, proof_manual, and goal_check hashes exactly match the sources compiled in this build workspace"
+      },
+      "annotation_checking_evidence": {
+        "schema_version": "qcp-annotation-checking-report/v1",
+        "status": "passed",
+        "checked_scope": "shared descriptor definition, all external spec definitions referenced by the C contracts, both function Require/Ensure blocks, builtin byte-array resource, and absence of loops",
+        "qcp_mcp_requirement_satisfied": "yes",
+        "annotation_scratch_lib_coqc_status": "passed",
+        "spec_definition_status": "passed; strict mathematical properties, no C algorithm mirror, no duplicate or alias",
+        "function_spec_status": "passed; result semantics and descriptor/resource preservation remain explicit",
+        "invariant_status": "not-applicable; no loops",
+        "annotation_scratch_lib_changes": "case_lib exports the shared circular-area library and deletes only the local duplicate descriptor definition",
+        "summary": "The requested unification is semantically sound and all required QCP and Coq checks pass after the Require Export repair.",
+        "failed_checks": [],
+        "required_annotation_rework": [],
+        "required_annotation_scratch_lib_rework": [],
+        "rework_plan": [],
+        "ready_for_main_common_case_formal_lib_update": "yes",
+        "ready_for_main_symexec": "yes",
+        "timing_summary": "Checking included one detected downstream-name-visibility failure, a Require Export repair, and successful reruns of case_lib plus full goal_check.",
+        "timing_gaps": "Individual sub-second inspection and semantic-review activities were not separately timestamped."
+      },
+      "annotation_design_summary": {
+        "schema_version": "qcp-annotation-design-summary/v1",
+        "source": "annotation-subagent",
+        "case_lib_spec_declarations": [
+          {
+            "kind": "shared Definition",
+            "name": "CircularAreaDescriptorState",
+            "source": "QCIPLib.xizi.xizi_circular_area_common.xizi_circular_area_lib"
+          },
+          {
+            "kind": "Definition",
+            "name": "CircularAreaErrorResult"
+          },
+          {
+            "kind": "Definition",
+            "name": "CircularAreaIsFullResult"
+          },
+          {
+            "kind": "Definition",
+            "name": "CircularAreaDataLengthResult"
+          }
+        ],
+        "case_lib_sha256": "e03f727033b52d32bab237deba6f2504a658c4a4f174c68bca7a72b29c659fab",
+        "hidden_properties": [
+          "Every live descriptor retains bounded indices, positive bounded capacity, boolean full status, and exact buffer length.",
+          "Successful calls preserve the shared descriptor invariant."
+        ],
+        "known_risks": [],
+        "qcp_repair_history": [
+          "Plain Require Import did not re-export the shared predicate to generated downstream theories; replaced with Require Export and revalidated."
+        ]
+      },
+      "iteration_count": 3,
+      "iterations": [
+        {
+          "iteration": 1,
+          "status": "candidate-produced",
+          "work": "spec-first review, add shared-library import, remove local duplicate, case_lib coqc passed"
+        },
+        {
+          "iteration": 2,
+          "status": "repaired",
+          "failure_class": "case_lib-coqc/downstream-name-visibility",
+          "failure_evidence": "goal_check failed in generated goal.v line 25: CircularAreaDescriptorState was not found",
+          "repair": "changed the dependency line from Require Import to Require Export; no definition or alias was added"
+        },
+        {
+          "iteration": 3,
+          "status": "completed",
+          "work": "reran case_lib coqc, qcp-mcp symbolic at exact EOF, canonical symexec, full fixed goal_check, and annotation-checking semantic review"
+        }
+      ],
+      "self_repair_budget": {
+        "configured_min_complete_cycles": 3,
+        "configured_min_wall_clock_minutes": 30,
+        "complete_cycles": 3,
+        "wall_clock_basis": "annotation round handoff creation through terminal report",
+        "wall_clock_minutes_observed": 64,
+        "exhausted": "no; candidate completed"
+      },
+      "self_reworkable_failures": [],
+      "resolved_failure_history": [
+        {
+          "failure_class": "case_lib-coqc",
+          "status": "resolved",
+          "message": "The case_lib compiled under plain Require Import, but the full generated goal could not resolve the shared name.",
+          "repair": "Use Require Export for the shared library and rerun both compile gates."
+        }
+      ],
+      "previous_attempts_reviewed": [],
+      "prior_blockers_addressed": [],
+      "changed_files": [
+        {
+          "path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_lib.v",
+          "change_kind": "formal-spec-edit",
+          "sha256": "e03f727033b52d32bab237deba6f2504a658c4a4f174c68bca7a72b29c659fab"
+        },
+        {
+          "path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_goal.v",
+          "change_kind": "canonical-symexec-refresh",
+          "sha256": "4f74174f925df30e1ac8742f4bcac245c933bae4331f14c0635856a692ec1cc5"
+        },
+        {
+          "path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_proof_auto.v",
+          "change_kind": "canonical-symexec-refresh",
+          "sha256": "cf49dbda2f2c12a70e513793c271aafbc267abefe932c0c391fd978404f158be"
+        },
+        {
+          "path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_goal_check.v",
+          "change_kind": "canonical-symexec-refresh",
+          "sha256": "3e198438272f2a8e1e39be1032963b4326348b8cebda3cdadaada207a13647d2"
+        }
+      ],
+      "unchanged_formal_files": [
+        {
+          "path": "OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length.c",
+          "sha256": "4bbe2da53b4f488cb138e9f803930a7868b5df165452805f54555a5059ba9054",
+          "reason": "existing annotation already uses the shared predicate name and preserves all contracts"
+        },
+        {
+          "path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_proof_manual.v",
+          "sha256": "a8bee9be8057f287f22db44e8dbd117c630f4e5cc1971c52cde5bb36e17e6672",
+          "reason": "manual proof file preserved by symexec and successfully compiled"
+        }
+      ],
+      "formal_structure_review": {
+        "case_lib_admitted_or_axiom": "none",
+        "manual_admitted_or_forbidden_top_level": "none",
+        "manual_split_goal_or_abort_artifacts": "none"
+      },
+      "file_access_summary": {
+        "must_log_file_reads": "yes",
+        "read_categories": [
+          {
+            "category": "handoff-and-rules",
+            "paths": [
+              "/home/yangfp/QCIP/reports/xizi_circular_area_data_length-20260826162928/rounds/xizi_circular_area_data_length-annotation-r1/agent_input.json",
+              ".agents/skills/verification-orchestrator/SKILL.md",
+              ".agents/skills/annotation-filling/SKILL.md",
+              ".agents/skills/annotation-checking/SKILL.md",
+              ".agents/skills/annotation-filling/docs/use-notes.md",
+              ".agents/skills/annotation-filling/docs/annotation-rules.md",
+              ".agents/skills/annotation-filling/docs/common-annotation-errors.md",
+              ".agents/skills/annotation-filling/docs/predicate-first-annotation.md",
+              ".agents/skills/annotation-filling/docs/builtin-array-string-support.md",
+              ".agents/skills/annotation-filling/docs/array-predicate-selection.md",
+              ".agents/skills/annotation-filling/docs/reference-cases.md",
+              ".agents/skills/annotation-checking/docs/spec-quality-checklist.md",
+              ".agents/skills/annotation-filling/docs/symexec-refresh.md"
+            ]
+          },
+          {
+            "category": "formal-inputs",
+            "paths": [
+              "OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length.c",
+              "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_lib.v",
+              "QCIPLib/xizi/xizi_circular_area_common/xizi_circular_area_lib.v"
+            ]
+          },
+          {
+            "category": "generated-targets-and-tooling",
+            "paths": [
+              "_CoqProject",
+              "mcp/qcp-mcp/README.md",
+              "mcp/qcp-mcp/pyproject.toml",
+              "mcp/qcp-mcp/src/qcp_mcp/server.py",
+              "mcp/qcp-mcp/src/qcp_mcp/session.py",
+              "mcp/qcp-mcp/src/qcp_mcp/session_manager.py",
+              ".agents/skills/vc-proving/scripts/coq_tooling.py",
+              ".agents/skills/verification-orchestrator/scripts/controller.py",
+              "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_goal.v",
+              "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_proof_manual.v",
+              "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_goal_check.v"
+            ]
+          }
+        ],
+        "searches": [
+          "qcp-mcp executable and implementation discovery under mcp/qcp-mcp",
+          "controller annotation evidence field and validation discovery under .agents/skills/verification-orchestrator/scripts/controller.py",
+          "forbidden declaration and diagnostics marker review limited to current case formal files",
+          "shared/local CircularAreaDescriptorState declaration and import/export review"
+        ],
+        "reference_example_files_read": [],
+        "denied_globs_touched": []
+      },
+      "timing_summary": {
+        "phase_started_at": "2026-08-26T16:29:55+08:00",
+        "phase_finished_at": "2026-08-26T17:34:04+08:00",
+        "phase_elapsed_seconds": 3849,
+        "command_evidence_seconds": {
+          "initial_case_lib_check": 21.48,
+          "failed_full_goal_check_approx": 111.0,
+          "repaired_case_lib_check": 23.586,
+          "repaired_full_goal_check": 154.879,
+          "qcp_mcp_and_symexec_approx": 2.5
+        },
+        "major_time_sinks": [
+          "reading the complete handoff and required skill/reference rules",
+          "fixed Coq dependency builds for full goal_check",
+          "diagnosing and repairing downstream shared-name visibility",
+          "semantic annotation-checking and report preparation"
+        ],
+        "timing_gap_seconds": 3536,
+        "timing_gap_reason": "The round handoff timestamp is the only precise phase start marker. Individual file inspections, semantic review, orchestration latency, and short commands were not all separately timestamped; the gap is explicitly retained rather than attributed to command runtime."
+      },
+      "blockers": []
+    }
+  },
+  "verification_result": {
+    "annotation_subagent_checks": {
+      "status": "passed",
+      "qcp_mcp_interactive": "passed",
+      "canonical_symexec": "passed",
+      "case_lib_coqc": "passed",
+      "goal_check_coqc": "passed",
+      "annotation_checking": "passed"
+    },
+    "controller_acceptance": "pending",
+    "annotation_review": {
+      "status": "accepted-for-main-check",
+      "reviewed_at": "2026-08-26T09:35:05Z"
+    },
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-08-26T09:35:05Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_circular_area_data_length-20260826162928/rounds/xizi_circular_area_data_length-annotation-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    },
+    "annotation_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-08-26T09:35:12Z",
+      "source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "0411f37aac2cf78b72eef794de36c793f32e8f136c949b63ecabcce8765cd027",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_circular_area_data_length-20260826162928/xizi_circular_area_data_length-annotation-r1/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length.c",
+            "relative_path": "OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length.c",
+            "sha256": "4bbe2da53b4f488cb138e9f803930a7868b5df165452805f54555a5059ba9054",
+            "state": "present",
+            "role": "target-c-annotated"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_circular_area_data_length-20260826162928/xizi_circular_area_data_length-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_lib.v",
+            "sha256": "e03f727033b52d32bab237deba6f2504a658c4a4f174c68bca7a72b29c659fab",
+            "state": "present",
+            "role": "case-lib-seed"
+          }
+        ]
+      },
+      "source_goal_version": {
+        "schema_version": "qcp-source-goal-version/v1",
+        "digest": "a2aedb5fd9a41435d14ba9903b04f4baa76e4bddf2f28b09ebae31cd1e605ffa",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_goal.v",
+            "sha256": "4f74174f925df30e1ac8742f4bcac245c933bae4331f14c0635856a692ec1cc5",
+            "state": "present",
+            "role": "generated-goal"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_proof_auto.v",
+            "sha256": "cf49dbda2f2c12a70e513793c271aafbc267abefe932c0c391fd978404f158be",
+            "state": "present",
+            "role": "generated-proof-auto"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_proof_manual.v",
+            "sha256": "fa8d790928b95b097e076e7bdca41f97eeedc2bf2cf24b95add8ce89238c2348",
+            "state": "present",
+            "role": "generated-proof-manual"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_goal_check.v",
+            "sha256": "3e198438272f2a8e1e39be1032963b4326348b8cebda3cdadaada207a13647d2",
+            "state": "present",
+            "role": "generated-goal-check"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_proof_diagnostics.v",
+            "sha256": "2c73ba956129f5b1e78826b674b877ea34ac67f766a2955cffe9424c6df5c711",
+            "state": "present",
+            "role": "generated-diagnostics"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/diagnostics_snapshot.json",
+            "sha256": "f054889bcf9065c17d64b0bb71f066ab1af476a91a193fbed168c4e7a7989129",
+            "state": "present",
+            "role": "generated-diagnostics-snapshot"
+          }
+        ],
+        "target_witnesses": [
+          "proof_of_CircularAreaIsFull_return_wit_1",
+          "proof_of_CircularAreaIsFull_return_wit_2",
+          "proof_of_CircularAreaIsFull_return_wit_3",
+          "proof_of_CircularAreaIsFull_partial_solve_wit_1_pure",
+          "proof_of_CircularAreaGetDataLength_safety_wit_7",
+          "proof_of_CircularAreaGetDataLength_safety_wit_8",
+          "proof_of_CircularAreaGetDataLength_return_wit_1",
+          "proof_of_CircularAreaGetDataLength_return_wit_2",
+          "proof_of_CircularAreaGetDataLength_return_wit_3"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_CircularAreaIsFull_return_wit_1": "4c12f12b1fa0a8e05759790266c7efe31e77a9d4d65d0e7d72bb0fae46c73782",
+          "proof_of_CircularAreaIsFull_return_wit_2": "beada8b2edeb4da92f433c54b87f2b69f26afdd2a44d71a7546f03ad0ed93e50",
+          "proof_of_CircularAreaIsFull_return_wit_3": "ad01b57ecb8f5400deddfc2e5a2a777760914ccaea2d1417e9949f167b0c78bd",
+          "proof_of_CircularAreaIsFull_partial_solve_wit_1_pure": "6f75d70bc892659cde29b791c45bf40aa34a0d5c474670c758f86c49de1b8c15",
+          "proof_of_CircularAreaGetDataLength_safety_wit_7": "27eb752348a52414ba6e579f77581e1ed22856b2012223617773b4b099e12ee9",
+          "proof_of_CircularAreaGetDataLength_safety_wit_8": "7b03e958fe1fbe4ca4a5af7e23413e113c3a68481ce7a70d16f34e314d544b1d",
+          "proof_of_CircularAreaGetDataLength_return_wit_1": "8444e81ea6b8f70ffcedf800218b9a448e7ec8877aae14cadd2122ef9a9fa95c",
+          "proof_of_CircularAreaGetDataLength_return_wit_2": "6c913e9c47399e8547948c64be626ade67c6eb8d532928e73541bb3a2d83739b",
+          "proof_of_CircularAreaGetDataLength_return_wit_3": "d4f7e2855f7a9e6c7464a3cd567993b20f01bdfdcb94b7ea0719e773525a9af3"
+        },
+        "witnesses": [
+          {
+            "name": "proof_of_CircularAreaIsFull_return_wit_1",
+            "target_symbol": "CircularAreaIsFull_return_wit_1",
+            "statement_hash": "4c12f12b1fa0a8e05759790266c7efe31e77a9d4d65d0e7d72bb0fae46c73782",
+            "start_line": 24,
+            "end_line": 26
+          },
+          {
+            "name": "proof_of_CircularAreaIsFull_return_wit_2",
+            "target_symbol": "CircularAreaIsFull_return_wit_2",
+            "statement_hash": "beada8b2edeb4da92f433c54b87f2b69f26afdd2a44d71a7546f03ad0ed93e50",
+            "start_line": 27,
+            "end_line": 29
+          },
+          {
+            "name": "proof_of_CircularAreaIsFull_return_wit_3",
+            "target_symbol": "CircularAreaIsFull_return_wit_3",
+            "statement_hash": "ad01b57ecb8f5400deddfc2e5a2a777760914ccaea2d1417e9949f167b0c78bd",
+            "start_line": 30,
+            "end_line": 32
+          },
+          {
+            "name": "proof_of_CircularAreaIsFull_partial_solve_wit_1_pure",
+            "target_symbol": "CircularAreaIsFull_partial_solve_wit_1_pure",
+            "statement_hash": "6f75d70bc892659cde29b791c45bf40aa34a0d5c474670c758f86c49de1b8c15",
+            "start_line": 33,
+            "end_line": 35
+          },
+          {
+            "name": "proof_of_CircularAreaGetDataLength_safety_wit_7",
+            "target_symbol": "CircularAreaGetDataLength_safety_wit_7",
+            "statement_hash": "27eb752348a52414ba6e579f77581e1ed22856b2012223617773b4b099e12ee9",
+            "start_line": 36,
+            "end_line": 38
+          },
+          {
+            "name": "proof_of_CircularAreaGetDataLength_safety_wit_8",
+            "target_symbol": "CircularAreaGetDataLength_safety_wit_8",
+            "statement_hash": "7b03e958fe1fbe4ca4a5af7e23413e113c3a68481ce7a70d16f34e314d544b1d",
+            "start_line": 39,
+            "end_line": 41
+          },
+          {
+            "name": "proof_of_CircularAreaGetDataLength_return_wit_1",
+            "target_symbol": "CircularAreaGetDataLength_return_wit_1",
+            "statement_hash": "8444e81ea6b8f70ffcedf800218b9a448e7ec8877aae14cadd2122ef9a9fa95c",
+            "start_line": 42,
+            "end_line": 44
+          },
+          {
+            "name": "proof_of_CircularAreaGetDataLength_return_wit_2",
+            "target_symbol": "CircularAreaGetDataLength_return_wit_2",
+            "statement_hash": "6c913e9c47399e8547948c64be626ade67c6eb8d532928e73541bb3a2d83739b",
+            "start_line": 45,
+            "end_line": 47
+          },
+          {
+            "name": "proof_of_CircularAreaGetDataLength_return_wit_3",
+            "target_symbol": "CircularAreaGetDataLength_return_wit_3",
+            "statement_hash": "d4f7e2855f7a9e6c7464a3cd567993b20f01bdfdcb94b7ea0719e773525a9af3",
+            "start_line": 48,
+            "end_line": 50
+          }
+        ]
+      },
+      "annotation_design_summary": {
+        "schema_version": "qcp-annotation-design-summary/v1",
+        "source": "annotation-subagent",
+        "case_lib_spec_declarations": [
+          {
+            "kind": "shared Definition",
+            "name": "CircularAreaDescriptorState",
+            "source": "QCIPLib.xizi.xizi_circular_area_common.xizi_circular_area_lib"
+          },
+          {
+            "kind": "Definition",
+            "name": "CircularAreaErrorResult"
+          },
+          {
+            "kind": "Definition",
+            "name": "CircularAreaIsFullResult"
+          },
+          {
+            "kind": "Definition",
+            "name": "CircularAreaDataLengthResult"
+          }
+        ],
+        "case_lib_sha256": "e03f727033b52d32bab237deba6f2504a658c4a4f174c68bca7a72b29c659fab",
+        "hidden_properties": [
+          "Every live descriptor retains bounded indices, positive bounded capacity, boolean full status, and exact buffer length.",
+          "Successful calls preserve the shared descriptor invariant."
+        ],
+        "known_risks": [],
+        "qcp_repair_history": [
+          "Plain Require Import did not re-export the shared predicate to generated downstream theories; replaced with Require Export and revalidated."
+        ]
+      },
+      "canonical_symexec_evidence": {
+        "schema_version": "qcp-canonical-symexec-evidence/v1",
+        "driver": "/home/yangfp/QCIP/linux-binary/symexec",
+        "cwd": "/home/yangfp/QCIP/worktrees/xizi_circular_area_data_length-20260826162928/xizi_circular_area_data_length-annotation-r1",
+        "argv": [
+          "/home/yangfp/QCIP/linux-binary/symexec",
+          "--goal-file=SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_goal.v",
+          "--proof-auto-file=SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_proof_auto.v",
+          "--proof-manual-file=SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_proof_manual.v",
+          "-IQCP_examples/QCP_demos_LLM/",
+          "-slp",
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM",
+          "--coq-logic-path=SimpleC.EE.OUTPUT.xizi.xizi_circular_area_data_length.source",
+          "--input-file=OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length.c",
+          "--no-exec-info"
+        ],
+        "include_args": [
+          "QCP_examples/QCP_demos_LLM/"
+        ],
+        "slp_args": [
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM"
+        ],
+        "manual_refresh": {
+          "policy": "fresh-symbolic-execution-skeleton",
+          "path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_proof_manual.v",
+          "previous_sha256": "a8bee9be8057f287f22db44e8dbd117c630f4e5cc1971c52cde5bb36e17e6672",
+          "generated": true,
+          "generated_sha256": "b5754d37b770833ec7741977dbf4124e592e6122bf99f660136b7c9559489660",
+          "previous_restored_on_failure": false
+        },
+        "status": "passed",
+        "returncode": 0,
+        "stdout_tail": "Start to symbolic execution on program : OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length.c\nStart to parse function declaration of function KPrintf\nSymbolic Execution into function CircularAreaIsFull\nEnd of symbolic execution of function CircularAreaIsFull\nSymbolic Execution into function CircularAreaGetDataLength\nEnd of symbolic execution of function CircularAreaGetDataLength\nSuccessfully finished symbolic execution\n",
+        "stderr_tail": ""
+      },
+      "diagnostics_split": {
+        "status": "passed",
+        "normalized_at": "2026-08-26T09:35:12Z",
+        "proof_manual_file": "/home/yangfp/QCIP/worktrees/xizi_circular_area_data_length-20260826162928/xizi_circular_area_data_length-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_proof_manual.v",
+        "proof_diagnostics_file": "/home/yangfp/QCIP/worktrees/xizi_circular_area_data_length-20260826162928/xizi_circular_area_data_length-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_proof_diagnostics.v",
+        "diagnostics_snapshot": "/home/yangfp/QCIP/worktrees/xizi_circular_area_data_length-20260826162928/xizi_circular_area_data_length-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/diagnostics_snapshot.json",
+        "schema_version": "qcp-diagnostics-snapshot/v1",
+        "manual_obligations": [
+          {
+            "name": "proof_of_CircularAreaIsFull_return_wit_1",
+            "statement_hash": "4c12f12b1fa0a8e05759790266c7efe31e77a9d4d65d0e7d72bb0fae46c73782",
+            "target_symbol": "CircularAreaIsFull_return_wit_1",
+            "start_line": 30,
+            "end_line": 32
+          },
+          {
+            "name": "proof_of_CircularAreaIsFull_return_wit_2",
+            "statement_hash": "beada8b2edeb4da92f433c54b87f2b69f26afdd2a44d71a7546f03ad0ed93e50",
+            "target_symbol": "CircularAreaIsFull_return_wit_2",
+            "start_line": 39,
+            "end_line": 41
+          },
+          {
+            "name": "proof_of_CircularAreaIsFull_return_wit_3",
+            "statement_hash": "ad01b57ecb8f5400deddfc2e5a2a777760914ccaea2d1417e9949f167b0c78bd",
+            "target_symbol": "CircularAreaIsFull_return_wit_3",
+            "start_line": 48,
+            "end_line": 50
+          },
+          {
+            "name": "proof_of_CircularAreaIsFull_partial_solve_wit_1_pure",
+            "statement_hash": "6f75d70bc892659cde29b791c45bf40aa34a0d5c474670c758f86c49de1b8c15",
+            "target_symbol": "CircularAreaIsFull_partial_solve_wit_1_pure",
+            "start_line": 54,
+            "end_line": 56
+          },
+          {
+            "name": "proof_of_CircularAreaGetDataLength_safety_wit_7",
+            "statement_hash": "27eb752348a52414ba6e579f77581e1ed22856b2012223617773b4b099e12ee9",
+            "target_symbol": "CircularAreaGetDataLength_safety_wit_7",
+            "start_line": 60,
+            "end_line": 62
+          },
+          {
+            "name": "proof_of_CircularAreaGetDataLength_safety_wit_8",
+            "statement_hash": "7b03e958fe1fbe4ca4a5af7e23413e113c3a68481ce7a70d16f34e314d544b1d",
+            "target_symbol": "CircularAreaGetDataLength_safety_wit_8",
+            "start_line": 69,
+            "end_line": 71
+          },
+          {
+            "name": "proof_of_CircularAreaGetDataLength_return_wit_1",
+            "statement_hash": "8444e81ea6b8f70ffcedf800218b9a448e7ec8877aae14cadd2122ef9a9fa95c",
+            "target_symbol": "CircularAreaGetDataLength_return_wit_1",
+            "start_line": 78,
+            "end_line": 80
+          },
+          {
+            "name": "proof_of_CircularAreaGetDataLength_return_wit_2",
+            "statement_hash": "6c913e9c47399e8547948c64be626ade67c6eb8d532928e73541bb3a2d83739b",
+            "target_symbol": "CircularAreaGetDataLength_return_wit_2",
+            "start_line": 87,
+            "end_line": 89
+          },
+          {
+            "name": "proof_of_CircularAreaGetDataLength_return_wit_3",
+            "statement_hash": "d4f7e2855f7a9e6c7464a3cd567993b20f01bdfdcb94b7ea0719e773525a9af3",
+            "target_symbol": "CircularAreaGetDataLength_return_wit_3",
+            "start_line": 96,
+            "end_line": 98
+          }
+        ],
+        "diagnostics": [
+          {
+            "name": "proof_of_CircularAreaIsFull_return_wit_1_split_goal_1",
+            "statement_hash": "75ac7ee4e6886374ddcbac0f3787f80b9f034cf6e5dd820fb25b54837d4ee4e1",
+            "target_symbol": "CircularAreaIsFull_return_wit_1_split_goal_1",
+            "start_line": 24,
+            "end_line": 26,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_CircularAreaIsFull_return_wit_1_split_goal_spatial",
+            "statement_hash": "7f0a7a02290f56f83000f9f61ff103f37ea9da604aded1397588e9e5a57bf019",
+            "target_symbol": "CircularAreaIsFull_return_wit_1_split_goal_spatial",
+            "start_line": 27,
+            "end_line": 29,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_CircularAreaIsFull_return_wit_2_split_goal_1",
+            "statement_hash": "93a12179a1c30298bd3d8ff1b02d9315db2062cbbe7d461a5955759315f05196",
+            "target_symbol": "CircularAreaIsFull_return_wit_2_split_goal_1",
+            "start_line": 33,
+            "end_line": 35,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_CircularAreaIsFull_return_wit_2_split_goal_spatial",
+            "statement_hash": "74fad6a4fa6f76d81c8542cc3643e0338061d5d07d0c1474fde9c9d69c94ae47",
+            "target_symbol": "CircularAreaIsFull_return_wit_2_split_goal_spatial",
+            "start_line": 36,
+            "end_line": 38,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_CircularAreaIsFull_return_wit_3_split_goal_1",
+            "statement_hash": "f64e7d7b41d5ae6d4db74926052a048e9ce3c6d3ac3dab79c25f9f70b84529e4",
+            "target_symbol": "CircularAreaIsFull_return_wit_3_split_goal_1",
+            "start_line": 42,
+            "end_line": 44,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_CircularAreaIsFull_return_wit_3_split_goal_spatial",
+            "statement_hash": "5477653c8bdfe65325f7ad6953665b4918623a40cffc5ebc650c42b7078963e9",
+            "target_symbol": "CircularAreaIsFull_return_wit_3_split_goal_spatial",
+            "start_line": 45,
+            "end_line": 47,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_CircularAreaIsFull_partial_solve_wit_1_pure_split_goal_1",
+            "statement_hash": "5d83ace98d50503a60324ef127719b24c6bb03dd052109dcde1cd7cd5d4056a7",
+            "target_symbol": "CircularAreaIsFull_partial_solve_wit_1_pure_split_goal_1",
+            "start_line": 51,
+            "end_line": 53,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_CircularAreaGetDataLength_safety_wit_7_split_goal_1",
+            "statement_hash": "0aec1a9aca3cbaa464d01fbaa2e191cdbf4e20fd25fa2658eab0f6d9c38f6e91",
+            "target_symbol": "CircularAreaGetDataLength_safety_wit_7_split_goal_1",
+            "start_line": 57,
+            "end_line": 59,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_CircularAreaGetDataLength_safety_wit_8_split_goal_1",
+            "statement_hash": "439aba65743cdd2aef354a360a5bff7bc63f336458d7804239107a21a90215a5",
+            "target_symbol": "CircularAreaGetDataLength_safety_wit_8_split_goal_1",
+            "start_line": 63,
+            "end_line": 65,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_CircularAreaGetDataLength_safety_wit_8_split_goal_2",
+            "statement_hash": "513d0e0550a39f8ac0fb7a74de1acfd879f0f94bc6e5b02abb688b0d007beb73",
+            "target_symbol": "CircularAreaGetDataLength_safety_wit_8_split_goal_2",
+            "start_line": 66,
+            "end_line": 68,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_CircularAreaGetDataLength_return_wit_1_split_goal_1",
+            "statement_hash": "781eabbf3001fb16d19465060d5f8de8e067f4a9861989bc4c10879e502127ac",
+            "target_symbol": "CircularAreaGetDataLength_return_wit_1_split_goal_1",
+            "start_line": 72,
+            "end_line": 74,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_CircularAreaGetDataLength_return_wit_1_split_goal_spatial",
+            "statement_hash": "04f0840c2ec3c387ad632af89e8646a395b48cf53e5f61b0a91215f946e48636",
+            "target_symbol": "CircularAreaGetDataLength_return_wit_1_split_goal_spatial",
+            "start_line": 75,
+            "end_line": 77,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_CircularAreaGetDataLength_return_wit_2_split_goal_1",
+            "statement_hash": "956d3dddda2eae41bb813f0e18be366aeec217ea16b1a7a3434d203be673e13b",
+            "target_symbol": "CircularAreaGetDataLength_return_wit_2_split_goal_1",
+            "start_line": 81,
+            "end_line": 83,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_CircularAreaGetDataLength_return_wit_2_split_goal_spatial",
+            "statement_hash": "ac38c6ce48d050ae7e1bde8955736777ded4b311950620d7dbd98cb52a0d1cf6",
+            "target_symbol": "CircularAreaGetDataLength_return_wit_2_split_goal_spatial",
+            "start_line": 84,
+            "end_line": 86,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_CircularAreaGetDataLength_return_wit_3_split_goal_1",
+            "statement_hash": "ba4c7442c931a4e7efc8517a4ef310ad745dabd2aeda24fa70627e46b65278c7",
+            "target_symbol": "CircularAreaGetDataLength_return_wit_3_split_goal_1",
+            "start_line": 90,
+            "end_line": 92,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_CircularAreaGetDataLength_return_wit_3_split_goal_spatial",
+            "statement_hash": "8f2838cfdd161f8c702405a4f0629eb56fad98c6e283fe9a1f93d052cea67d14",
+            "target_symbol": "CircularAreaGetDataLength_return_wit_3_split_goal_spatial",
+            "start_line": 93,
+            "end_line": 95,
+            "has_abort": true,
+            "has_split_goal": true
+          }
+        ],
+        "manual_obligation_count": 9,
+        "diagnostic_count": 16
+      }
+    }
+  },
+  "blockers": []
+}

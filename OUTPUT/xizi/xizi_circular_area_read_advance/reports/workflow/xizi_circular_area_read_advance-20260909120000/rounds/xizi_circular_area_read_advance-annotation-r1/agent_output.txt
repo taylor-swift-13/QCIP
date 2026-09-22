@@ -1,0 +1,13 @@
+# Reuse Note
+
+Note kind: non-authoritative reuse note
+
+This file is not acceptance evidence.
+
+The round-worktree candidate removes `d0`, uses `data_length` in `state_spec` Require, and uses `data_length@pre` in both result predicates in Ensure. Its C hash is `aff9300642d82a9e556827bc8940084aa6c1a4a25566c36eddbef87e4c1d5f3c`.
+
+Important reusable finding: with independent `null_spec` and `state_spec` attached to the same implementation, a complete Assert containing unqualified `data_length@pre` fails qcp-mcp with `pre at branch <unspecified> is not determined`. Replacing it with current `data_length` makes symbolic execution finish but loses the relation between the full-Assert logical value and `data_length_pre`, yielding semantically insufficient return VCs.
+
+A local `store_circular_area ... which implies ...` decomposition preserves the original parameter store in the symbolic frame. Removing the redundant explicit overflow condition lets qcp-mcp reach EOF consistently, with two return witnesses and one which-implies witness. Three final qcp-mcp cycles succeeded and canonical direct symexec succeeded. The unchanged case lib passed fixed `coq_tooling.py check --target-kind case_lib`.
+
+Do not accept this candidate as-is: the current annotation quality rules prohibit `which implies` in place of a complete Assert, the preserved proof_manual still names the old entail witness, and this attempt touched the denied `QCP_examples/QCP_demos_human/**` glob through an over-broad search. A fresh round must avoid the denied glob and either find a controller-approved complete-Assert/spec restructuring or obtain an explicit rule decision for the local decomposition.

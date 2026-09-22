@@ -1,0 +1,326 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "vc_checking": {
+      "status": "completed",
+      "ready_for_vc_proving": "yes",
+      "group_plan_ready": true,
+      "source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "d526c5020a1e78e153c4cea68cb923a5e3140082cd11fce72c7371b12aa6d97c",
+        "validated": true
+      },
+      "source_goal_version": "3a4e7c2ac3aba7882c897da52f788e9b492f57f8613361be84561674face0f5a",
+      "version_evidence": {
+        "status": "matched",
+        "source_files": {
+          "OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance.c": "db830037f8dc198a07e5ec5752f0be975807f8938b475bc2be9a3e8c0e165c24",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_lib.v": "384e22d23bc6bc193501b86205881c973711641be89634ccdac808d848ec5d7a"
+        },
+        "generated_files": {
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_goal.v": "d145036206153caa773dead670c03fadc7756c48aa017a5f9cfd6a14f69f1ad8",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_proof_auto.v": "3410c5d5b18156d97095efc84cd87a73a94afee4f307c0bd31a640f639eec000",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_proof_manual.v": "c0a65652290fd61cf6439279f4418eb27bfaec5adc5c9559a3d262284df34ebb",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_goal_check.v": "21ce429a745440828819501c6e7ffc8b31dfe6a49753688aba5a9258b7d2382e",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_proof_diagnostics.v": "009b4a3778639e473ad3146b558eb99788f4dd2347c32c2916538747c1abb270",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/diagnostics_snapshot.json": "f41bf35ba8dc70f01d8bda32590856749fd221ae9cfd223105796bc035064516"
+        },
+        "manual_target_witnesses": [
+          "proof_of_CircularAreaDivideWrData_return_wit_1",
+          "proof_of_CircularAreaDivideWrData_return_wit_2"
+        ],
+        "manual_target_witnesses_match_handoff": true,
+        "diagnostics_used_as_hint_only": true
+      },
+      "natural_language_analysis": {
+        "summary": "Both target return VCs are semantically valid. Each generated definition is an outer disjunction containing a pure reduced entailment. Choosing that reduced branch leaves TT && emp on the left and the case-specific result relation conjoined with emp on the right. Unfolding CircularAreaDivideWrDataResult makes the selected result branch follow directly from the corresponding C guard.",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_CircularAreaDivideWrData_return_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "In the chosen reduced arm of the generated outer disjunction: emp, guarded by TT. The alternative arm contains all eight unchanged CircularArea field cells plus UCharArray.full, but it need not be selected to prove this disjunctive VC definition.",
+              "pre_pure": "PreH1 states writeidx + data_length_pre > area_length. The remaining binders provide the non-null, capacity, index, input-length, and no-uint32-overflow facts generated from the function precondition.",
+              "pre_exists": "none",
+              "post_spatial": "emp in the chosen reduced arm; no field or array transformation is required.",
+              "post_pure": "CircularAreaDivideWrDataResult writeidx data_length_pre area_length 1.",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "No existential witness is present. The concrete result argument is already 1; unfold CircularAreaDivideWrDataResult and select its wrap alternative.",
+            "space_plan": "Choose the reduced right arm of the outer Coq disjunction. After preprocessing the lifted pure proposition, preserve emp directly; no split, merge, cancellation of descriptor fields, or array lemma is needed.",
+            "pure_plan": "Unfold CircularAreaDivideWrDataResult and select (area_length < writeidx + data_length_pre /\\ result = 1). The first conjunct is exactly PreH1 after normalizing Z greater-than notation; the second is reflexivity. The other bounds are not needed for this relation, although they are available.",
+            "refinement_plan": "not applicable; this is a direct return-result relation with no safeExec or abstract-state transition.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "area_length < writeidx + data_length_pre",
+                "discharged_by": "PreH1: writeidx + data_length_pre > area_length, by definitional normalization of Z.gt"
+              },
+              {
+                "premise": "1 = 1",
+                "discharged_by": "reflexivity"
+              }
+            ],
+            "failure_signal": "none",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "divide_result_branches",
+            "proof_group_candidate": "divide_result_branches",
+            "grouping_reason": "Same generated outer-disjunction reduction, same case-lib definition, and the same pure/spatial proof pattern as return_wit_2."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaDivideWrData_return_wit_2",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "In the chosen reduced arm of the generated outer disjunction: emp, guarded by TT. The alternative arm contains all eight unchanged CircularArea field cells plus UCharArray.full, but it need not be selected to prove this disjunctive VC definition.",
+              "pre_pure": "PreH1 states writeidx + data_length_pre <= area_length. The remaining binders provide the non-null, capacity, index, input-length, and no-uint32-overflow facts generated from the function precondition.",
+              "pre_exists": "none",
+              "post_spatial": "emp in the chosen reduced arm; no field or array transformation is required.",
+              "post_pure": "CircularAreaDivideWrDataResult writeidx data_length_pre area_length 0.",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "No existential witness is present. The concrete result argument is already 0; unfold CircularAreaDivideWrDataResult and select its non-wrap alternative.",
+            "space_plan": "Choose the reduced right arm of the outer Coq disjunction. After preprocessing the lifted pure proposition, preserve emp directly; no split, merge, cancellation of descriptor fields, or array lemma is needed.",
+            "pure_plan": "Unfold CircularAreaDivideWrDataResult and select (writeidx + data_length_pre <= area_length /\\ result = 0). The first conjunct is exactly PreH1 and the second is reflexivity. The other bounds are not needed for this relation, although they are available.",
+            "refinement_plan": "not applicable; this is a direct return-result relation with no safeExec or abstract-state transition.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "writeidx + data_length_pre <= area_length",
+                "discharged_by": "exactly PreH1"
+              },
+              {
+                "premise": "0 = 0",
+                "discharged_by": "reflexivity"
+              }
+            ],
+            "failure_signal": "none",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "divide_result_branches",
+            "proof_group_candidate": "divide_result_branches",
+            "grouping_reason": "Same generated outer-disjunction reduction, same case-lib definition, and the same pure/spatial proof pattern as return_wit_1."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "divide_result_branches",
+            "witness_names": [
+              "proof_of_CircularAreaDivideWrData_return_wit_1",
+              "proof_of_CircularAreaDivideWrData_return_wit_2"
+            ],
+            "representative_witness": "proof_of_CircularAreaDivideWrData_return_wit_1",
+            "shared_proof_pattern": "Select the pure reduced arm of the generated outer disjunction, introduce the binders, preprocess TT && emp entailment, unfold CircularAreaDivideWrDataResult, choose the relation branch fixed by the return value, and close the guard/result equalities from PreH1 and reflexivity.",
+            "shared_space_plan": "Preserve emp; no descriptor-field or UCharArray resource transformation.",
+            "shared_pure_plan": "return_wit_1 uses the wrap alternative from sum > area_length; return_wit_2 uses the non-wrap alternative from sum <= area_length.",
+            "shared_refinement_plan": "not applicable",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "Both witnesses belong to the same function, case-lib relation, generated return phase, and proof pattern; two witnesses are below the controller limit of 12.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "3a4e7c2ac3aba7882c897da52f788e9b492f57f8613361be84561674face0f5a",
+        "target_witnesses": [
+          "proof_of_CircularAreaDivideWrData_return_wit_1",
+          "proof_of_CircularAreaDivideWrData_return_wit_2"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "divide_result_branches",
+            "witness_names": [
+              "proof_of_CircularAreaDivideWrData_return_wit_1",
+              "proof_of_CircularAreaDivideWrData_return_wit_2"
+            ],
+            "representative_witness": "proof_of_CircularAreaDivideWrData_return_wit_1",
+            "dependencies": [],
+            "candidate_helper_declarations": [],
+            "expected_helpers": [],
+            "proof_strategy": "For each theorem, unfold its generated return-witness definition, select the reduced pure entailment arm of the outer disjunction, introduce all parameters and PreH hypotheses, preprocess the TT && emp entailment, unfold CircularAreaDivideWrDataResult, select the result branch corresponding to 1 (wrap) or 0 (non-wrap), and discharge the inequality from PreH1 and the result equality by reflexivity.",
+            "natural_language_proof_strategy": "The wrap witness obtains area_length < writeidx + data_length_pre from its strict guard and selects the result=1 relation arm. The non-wrap witness reuses its <= guard and selects the result=0 relation arm. In both cases emp is unchanged.",
+            "grouping_reason": "The two targets share the same function, return phase, result-relation unfolding, reduced entailment shape, and no-helper proof route; their count is within max_witnesses_per_group=12.",
+            "confidence": "high",
+            "difficulty": "low",
+            "vc_shape": {
+              "outer": "generated Coq disjunction of a full spatial entailment and a pure reduced entailment",
+              "selected_pre": "TT && emp",
+              "selected_post": "lifted CircularAreaDivideWrDataResult proposition && emp"
+            },
+            "witness_instantiation": {
+              "proof_of_CircularAreaDivideWrData_return_wit_1": "no existential; select result relation wrap arm with result 1",
+              "proof_of_CircularAreaDivideWrData_return_wit_2": "no existential; select result relation non-wrap arm with result 0"
+            },
+            "space_plan": {
+              "shared": "preserve emp after preprocessing; no array or struct manipulation"
+            },
+            "pure_plan": {
+              "proof_of_CircularAreaDivideWrData_return_wit_1": "PreH1 yields area_length < writeidx + data_length_pre; close 1=1",
+              "proof_of_CircularAreaDivideWrData_return_wit_2": "PreH1 yields writeidx + data_length_pre <= area_length; close 0=0"
+            },
+            "refinement_plan": {
+              "shared": "not applicable"
+            },
+            "premise_discharge": {
+              "proof_of_CircularAreaDivideWrData_return_wit_1": [
+                "wrap inequality from PreH1",
+                "result equality by reflexivity"
+              ],
+              "proof_of_CircularAreaDivideWrData_return_wit_2": [
+                "non-wrap inequality from PreH1",
+                "result equality by reflexivity"
+              ]
+            },
+            "per_witness_plan": {
+              "proof_of_CircularAreaDivideWrData_return_wit_1": {
+                "judgment": "proofable",
+                "relation_branch": "wrap/result=1",
+                "helper_required": false
+              },
+              "proof_of_CircularAreaDivideWrData_return_wit_2": {
+                "judgment": "proofable",
+                "relation_branch": "non-wrap/result=0",
+                "helper_required": false
+              }
+            }
+          }
+        ],
+        "blockers": []
+      },
+      "changed_files": [],
+      "blockers": [],
+      "recommended_next_phase": "vc-proving-preparing",
+      "timing": {
+        "started_at": null,
+        "finished_at": "2026-08-21T00:13:50+08:00",
+        "elapsed_seconds": null,
+        "timing_gap": "The handoff did not provide a subagent start timestamp and no writable activity-ledger path was declared; no elapsed duration was fabricated.",
+        "major_time_sinks": [
+          "complete rule and handoff review",
+          "generated VC shape and source-goal hash audit"
+        ]
+      }
+    }
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-08-20T16:18:52Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_circular_area_write_advance-20260820235001/rounds/xizi_circular_area_write_advance-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    },
+    "controller_simple_repairs": [
+      {
+        "kind": "materialized-inline-group-plan",
+        "source": "/home/yangfp/QCIP/reports/xizi_circular_area_write_advance-20260820235001/rounds/xizi_circular_area_write_advance-vc-checking-r1/agent_report.json",
+        "target": "/home/yangfp/QCIP/reports/xizi_circular_area_write_advance-20260820235001/rounds/xizi_circular_area_write_advance-vc-checking-r1/group_plan.json",
+        "reason": "vc-checking report included an inline group_plan but the default group_plan.json artifact was missing"
+      }
+    ],
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-08-20T16:18:52Z",
+      "source_version": {
+        "digest": "d526c5020a1e78e153c4cea68cb923a5e3140082cd11fce72c7371b12aa6d97c",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_circular_area_write_advance-20260820235001/xizi_circular_area_write_advance-annotation-r1/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance.c",
+            "relative_path": "OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance.c",
+            "role": "target-c-annotated",
+            "sha256": "db830037f8dc198a07e5ec5752f0be975807f8938b475bc2be9a3e8c0e165c24",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_circular_area_write_advance-20260820235001/xizi_circular_area_write_advance-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "384e22d23bc6bc193501b86205881c973711641be89634ccdac808d848ec5d7a",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "3a4e7c2ac3aba7882c897da52f788e9b492f57f8613361be84561674face0f5a",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_goal.v",
+            "role": "generated-goal",
+            "sha256": "d145036206153caa773dead670c03fadc7756c48aa017a5f9cfd6a14f69f1ad8",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "3410c5d5b18156d97095efc84cd87a73a94afee4f307c0bd31a640f639eec000",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "c0a65652290fd61cf6439279f4418eb27bfaec5adc5c9559a3d262284df34ebb",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "21ce429a745440828819501c6e7ffc8b31dfe6a49753688aba5a9258b7d2382e",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/xizi_circular_area_write_advance_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "009b4a3778639e473ad3146b558eb99788f4dd2347c32c2916538747c1abb270",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write_advance/source/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "f41bf35ba8dc70f01d8bda32590856749fd221ae9cfd223105796bc035064516",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_CircularAreaDivideWrData_return_wit_1",
+          "proof_of_CircularAreaDivideWrData_return_wit_2"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_CircularAreaDivideWrData_return_wit_1": "62ab479cee6df015b2759f0da66d00856235568cbcd6d15fe6cefdc5d88ef059",
+          "proof_of_CircularAreaDivideWrData_return_wit_2": "10672fb10a945114bb1ef279fb25d5af16eaf4cacfadb8c14407d8b89fd6d72a"
+        },
+        "witnesses": [
+          {
+            "end_line": 27,
+            "name": "proof_of_CircularAreaDivideWrData_return_wit_1",
+            "start_line": 25,
+            "statement_hash": "62ab479cee6df015b2759f0da66d00856235568cbcd6d15fe6cefdc5d88ef059",
+            "target_symbol": "CircularAreaDivideWrData_return_wit_1"
+          },
+          {
+            "end_line": 30,
+            "name": "proof_of_CircularAreaDivideWrData_return_wit_2",
+            "start_line": 28,
+            "statement_hash": "10672fb10a945114bb1ef279fb25d5af16eaf4cacfadb8c14407d8b89fd6d72a",
+            "target_symbol": "CircularAreaDivideWrData_return_wit_2"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_circular_area_write_advance-20260820235001/rounds/xizi_circular_area_write_advance-vc-checking-r1/group_plan.json",
+      "target_witnesses": [
+        "proof_of_CircularAreaDivideWrData_return_wit_1",
+        "proof_of_CircularAreaDivideWrData_return_wit_2"
+      ]
+    }
+  },
+  "blockers": []
+}

@@ -9,7 +9,7 @@ typedef struct CircularArea *CircularAreaType;
 #define NONE ((void *)0)
 #define RET_FALSE 0
 #define EOK 0
-#define ERROR (-1)
+#define ERROR 1
 #define MEM_ALIGN_SIZE 4u
 #define ALIGN_MEN_DOWN(length, align) ((uint32)((length) / (align) * (align)))
 #define CHECK(cond) do { if (!(cond)) return NONE; } while (0)
@@ -96,7 +96,6 @@ CircularAreaType CircularAreaInit(uint32 circular_area_length)
     CircularAreaType circular_area = x_malloc(sizeof(struct CircularArea));
     if (NONE == circular_area) {
         // KPrintf("CircularAreaInit malloc struct circular_area failed\n");
-        x_free(circular_area);
         return NONE;
     }
 
@@ -105,7 +104,7 @@ CircularAreaType CircularAreaInit(uint32 circular_area_length)
     circular_area->data_buffer = x_malloc(circular_area_length);
     if (NONE == circular_area->data_buffer) {
         // KPrintf("CircularAreaInit malloc circular_area data_buffer failed\n");
-        x_free(circular_area->data_buffer);
+        x_free(circular_area);
         return NONE;
     }
 

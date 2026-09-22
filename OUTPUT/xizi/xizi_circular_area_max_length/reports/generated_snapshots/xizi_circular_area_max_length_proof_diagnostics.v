@@ -21,9 +21,6 @@ Import naive_C_Rules.
 From SimpleC.EE.OUTPUT.xizi.xizi_circular_area_max_length.source Require Import xizi_circular_area_max_length_lib.
 Local Open Scope sac.
 
-Lemma proof_of_CircularAreaGetMaxLength_return_wit_1_split_goal_1 : CircularAreaGetMaxLength_return_wit_1_split_goal_1.
-Proof. Abort.
-
-Lemma proof_of_CircularAreaGetMaxLength_return_wit_2_split_goal_1 : CircularAreaGetMaxLength_return_wit_2_split_goal_1.
+Lemma proof_of_CircularAreaGetMaxLength_return_wit_1_state_spec_split_goal_spatial : CircularAreaGetMaxLength_return_wit_1_state_spec_split_goal_spatial.
 Proof. Abort.
 

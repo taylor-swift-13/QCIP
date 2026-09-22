@@ -1,25 +1,12 @@
-# xizi_circular_area_max_length 验证交付
+# CircularAreaGetMaxLength 验证归档
 
-本目录保存 `CircularAreaGetMaxLength` 的最终 accepted 交付。`source/` 是带 annotation 的 C 源码，`rocq/` 包含 generated goal、auto/manual proof、goal check、唯一 case lib 与 diagnostics，`reports/` 保存 controller、workflow、checkpoint 和复用证据。
+真实 CRTOS `CircularAreaGetMaxLength` 已改用统一 `circular_area_state/store_circular_area` 规格：live 返回 `ca_capacity state` 并保持同一资源；null 返回 `ERROR=1`。公开 `With` 只有 `LitMap/state/area_addr`，所有表示字段仍为公共资源内部 existential。
 
-验证状态：controller run `xizi_circular_area_max_length-20260821120003` 已到 `done`，final-check 与独立 freshness 均通过；`source_goal_version` 为 `7a6b62f9a724c7fbed60ca7a1a7e2a0aadf2040f3bfcf5bbc17b139008f25e80`，manual target witness 共 2 个，全部完成证明。
+- run：`xizi_circular_area_max_length-20260903121804`
+- source version：`20623ba2715a0888ca66cffd7ed99db35243cb54e2f78add683136e6b15d9ed5`
+- source-goal version：`fc3da5f5009779394b56d598233f53d3c3262812bc0a0e40582b1d04ceda5e0f`
+- manual VC：2/2；新增 helper/import：无
+- parent/final fixed Coq、结构与 forbidden 扫描：通过
+- isolated freshness：skipped；accepted annotation canonical symexec 已到 EOF
 
-规约直接使用函数参数名，不含参数 `@pre`。函数名、static 属性、签名和可执行语义已与 CRTOS `circular_area.c` 对齐；`ERROR` 为 1，descriptor 保持 `p_head=data_buffer`、`p_tail=data_buffer+area_length` 和 `0 < area_length <= 256` 的有效状态约束。
-
-## 复现
-
-在仓库根目录运行 canonical symbolic execution，必须保留：
-
-    -IQCP_examples/QCP_demos_LLM/
-    -slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM
-
-fresh 输出必须写到报告临时目录，不能覆盖已证明的 manual。Rocq 只通过 `.agents/skills/vc-proving/scripts/coq_tooling.py check` 的 fixed argv 检查。精确命令、哈希和 phase 证据见 `reports/controller/` 与 `reports/workflow/`。
-
-## 文件组织
-
-- `source/`：最终 annotated C。
-- `rocq/`：最终 generated files、manual proof、case_lib 与 diagnostics。
-- `reports/controller/`：run log、timing、final state 与 freshness。
-- `reports/workflow/`：accepted annotation、vc-checking、vc-proving handoff/report。
-- `reports/generated_snapshots/`、`reports/input_snapshots/`：交付快照。
-- `reports/checkpoint.json`、`reuse_packet.json`、`partial_proof_packet.json`：续证入口。
+完整 workflow：`reports/workflow/xizi_circular_area_max_length-20260903121804/`。run log 也保留了一次 main-agent 参数误用及随后按 accepted parent state 恢复成功的过程。

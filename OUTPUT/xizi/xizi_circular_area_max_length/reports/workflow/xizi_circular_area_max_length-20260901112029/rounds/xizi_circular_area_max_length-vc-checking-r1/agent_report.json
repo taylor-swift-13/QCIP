@@ -1,0 +1,318 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "vc_checking": {
+      "status": "completed",
+      "terminal": true,
+      "ready_for_vc_proving_preparing": true,
+      "source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "02cefcea6907bfbd1dfb7daae9e12acb474dec911281540cee3b425bb4897913"
+      },
+      "source_goal_version": {
+        "schema_version": "qcp-source-goal-version/v1",
+        "digest": "aed1402226944633b74cae66b09b1571a4930d0b5da9e85b309266a7d142db92"
+      },
+      "version_check_evidence": {
+        "status": "passed",
+        "source_files": {
+          "OUTPUT/xizi/xizi_circular_area_max_length/source/xizi_circular_area_max_length.c": "a8f903517bb61a515ef1aea5924eb071f850633d7fb32085312f04bbbad340e7",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_max_length/source/xizi_circular_area_max_length_lib.v": "1775f28297abe1cd0839fd28899e4dc8125b0c417d6d136e6577c8b5469da512"
+        },
+        "generated_files": {
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_max_length/source/xizi_circular_area_max_length_goal.v": "99e3c5b95bdfee3be3ab2a1f6424ba7e811a2dcb22e3aba6d97f09da1d9aa66d",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_max_length/source/xizi_circular_area_max_length_proof_auto.v": "5c237c0f84bb59f3f2e55ae498165e1044a08926a363b2266f19e875c523261e",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_max_length/source/xizi_circular_area_max_length_proof_manual.v": "fd8409174e22390b014a0f7eccd72eb058e29a35f6576402e1bf20a5aadafdd7",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_max_length/source/xizi_circular_area_max_length_goal_check.v": "35bae0c7dfb3f1d2fff35c83df7ea2e846b35caec924a97f47582f0bbe282930",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_max_length/source/xizi_circular_area_max_length_proof_diagnostics.v": "fc4350bebb8c074162c78b9a7af3e36f0577600a7e2ce277dce354e522482065",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_max_length/source/diagnostics_snapshot.json": "195b72d0055dc5e7981affd2dd1097843e25508045eb7a6d0a6b1727fc53d8de"
+        },
+        "manual_target_witnesses_match_handoff": true,
+        "manual_target_order": [
+          "proof_of_CircularAreaGetMaxLength_entail_wit_1",
+          "proof_of_CircularAreaGetMaxLength_return_wit_1",
+          "proof_of_CircularAreaGetMaxLength_return_wit_2"
+        ],
+        "diagnostics_used_as_hint_only": true
+      },
+      "natural_language_analysis": {
+        "status": "passed",
+        "summary": "All three manual VCs are semantic unfold/refold obligations over the unchanged CircularAreaBackingResource and the direct two-branch CircularAreaGetMaxLengthResult relation. No annotation/spec gap or helper is required.",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_CircularAreaGetMaxLength_entail_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "A local circular_area pointer cell framed with CircularAreaBackingResource; the alternative generated disjunct omits only the local cell.",
+              "pre_pure": "circular_area_pre <> 0, circular_area_pre = entry_circular_area, and entry_circular_area <> 0.",
+              "pre_exists": "none",
+              "post_spatial": "The unchanged local pointer cell plus every descriptor field points-to and UCharArray.mixed_full from the backing resource; the alternative requests the same expansion without the local cell.",
+              "post_pure": "entry_circular_area <> 0 and the unchanged CircularAreaLogicalState.",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "No right-side existential. Substitute circular_area_pre by entry_circular_area and retain the same logical and physical state parameters.",
+            "space_plan": "Select a generated disjunct, unfold CircularAreaBackingResource once, preserve the local pointer cell by framing, and cancel every unchanged descriptor field and mixed_full atom.",
+            "pure_plan": "The unfolded resource supplies its non-nullness and exact CircularAreaLogicalState; PreH2 aligns the local cell address and PreH3 supplies the requested entry non-null fact.",
+            "refinement_plan": "not applicable: loop-free read-only metadata query",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "entry_circular_area <> 0 is PreH3 and also occurs in the unfolded resource",
+              "CircularAreaLogicalState is a pure conjunct of CircularAreaBackingResource",
+              "all post spatial atoms occur unchanged in the unfolded resource"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "max_length_direct_query",
+            "grouping_reason": "Same backing-resource unfold/refold and direct-result family as both return witnesses."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaGetMaxLength_return_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "All descriptor field points-to atoms and unchanged UCharArray.mixed_full(data_buffer, area_length, physical).",
+              "pre_pure": "entry_circular_area <> 0 and unchanged CircularAreaLogicalState; one generated disjunct additionally exposes integer representability bounds.",
+              "pre_exists": "none",
+              "post_spatial": "CircularAreaBackingResource with exactly the same descriptor identity, field values, logical FIFO and physical option-byte list.",
+              "post_pure": "CircularAreaGetMaxLengthResult(entry_circular_area, area_length, area_length), plus entry_circular_area <> 0 in one disjunct.",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "No right-side existential. Refold with the original data_buffer, indices, area_length, status, operations, logical and physical values.",
+            "space_plan": "Keep every field and mixed_full atom unchanged and fold CircularAreaBackingResource. CircularAreaLogicalState gives positive area_length, so the nonempty mixed buffer discharges the resource's data_buffer non-null side condition through standard entailment automation.",
+            "pure_plan": "Unfold CircularAreaGetMaxLengthResult and choose its non-null branch. The explicit entry non-null fact closes the guard and result = area_length is reflexive; the unchanged logical-state premise closes the refold.",
+            "refinement_plan": "not applicable: the field read preserves the complete abstract state",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "entry_circular_area <> 0 is explicit",
+              "result = area_length is reflexivity after unfolding CircularAreaGetMaxLengthResult",
+              "CircularAreaLogicalState and the complete spatial resource are unchanged"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "max_length_direct_query",
+            "grouping_reason": "Reverse fold of the entail witness using the same two definitions and unchanged resource atoms."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaGetMaxLength_return_wit_2",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "emp",
+              "pre_pure": "circular_area_pre = 0, circular_area_pre = entry_circular_area, and entry_circular_area = 0.",
+              "pre_exists": "none",
+              "post_spatial": "emp",
+              "post_pure": "CircularAreaGetMaxLengthResult at a null pointer and result 1, with explicit entry nullness in one disjunct.",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "No right-side existential. Substitute both pointer names to 0 and select the null result branch.",
+            "space_plan": "Cancel emp directly; no owned state is created or consumed.",
+            "pure_plan": "Rewrite both pointer names to zero, unfold CircularAreaGetMaxLengthResult, select its null branch, and prove result = 1 by reflexivity.",
+            "refinement_plan": "not applicable: null early return has no abstract state",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "pointer nullness follows directly from PreH1-PreH3",
+              "the concrete ERROR return equals 1 by the null branch of the result relation"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "max_length_direct_query",
+            "grouping_reason": "Spatially trivial but shares the direct result-relation unfolding and remains small in the common query group."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "max_length_direct_query",
+            "witness_names": [
+              "proof_of_CircularAreaGetMaxLength_entail_wit_1",
+              "proof_of_CircularAreaGetMaxLength_return_wit_1",
+              "proof_of_CircularAreaGetMaxLength_return_wit_2"
+            ],
+            "representative_witness": "proof_of_CircularAreaGetMaxLength_return_wit_1",
+            "shared_proof_pattern": "Preprocess generated disjunctions, unfold CircularAreaBackingResource and/or CircularAreaGetMaxLengthResult, preserve identical spatial atoms, and close direct equalities/non-nullness.",
+            "shared_space_plan": "The non-null pair unfolds then refolds the identical unified backing resource; the null return cancels emp.",
+            "shared_pure_plan": "Use branch guards and the two direct equations in CircularAreaGetMaxLengthResult; no recurrence arithmetic is present.",
+            "shared_refinement_plan": "none",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "All targets belong to one loop-free metadata query and share the same two definition unfoldings; 3 witnesses are below the controller limit of 12.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "status": "ready",
+        "source_goal_version": {
+          "schema_version": "qcp-source-goal-version/v1",
+          "digest": "aed1402226944633b74cae66b09b1571a4930d0b5da9e85b309266a7d142db92"
+        },
+        "target_witnesses": [
+          "proof_of_CircularAreaGetMaxLength_entail_wit_1",
+          "proof_of_CircularAreaGetMaxLength_return_wit_1",
+          "proof_of_CircularAreaGetMaxLength_return_wit_2"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "max_length_direct_query",
+            "witness_names": [
+              "proof_of_CircularAreaGetMaxLength_entail_wit_1",
+              "proof_of_CircularAreaGetMaxLength_return_wit_1",
+              "proof_of_CircularAreaGetMaxLength_return_wit_2"
+            ],
+            "representative_witness": "proof_of_CircularAreaGetMaxLength_return_wit_1",
+            "dependencies": [],
+            "likely_helper_declarations": [],
+            "candidate_helper_declarations": [],
+            "proof_strategy": "Use direct generated-disjunction preprocessing, CircularAreaBackingResource unfold/refold, and CircularAreaGetMaxLengthResult branch selection; no helper lemma is needed.",
+            "natural_language_proof_strategy": "Process the three generated disjunctions in manual order. Substitute the entry identity and unfold CircularAreaBackingResource for the entail witness; unfold CircularAreaGetMaxLengthResult, select its non-null branch, and refold the identical resource for non-null return; rewrite both pointers to zero, select the null result branch, and cancel emp for null return.",
+            "grouping_reason": "Same loop-free function, direct metadata-query contract, and CircularAreaBackingResource/CircularAreaGetMaxLengthResult unfold family; 3 witnesses are within max_witnesses_per_group=12."
+          }
+        ],
+        "dependency_graph": [],
+        "max_witnesses_per_group": 12,
+        "coverage_check": {
+          "all_target_witnesses_assigned_once": true,
+          "duplicate_assignments": [],
+          "missing_assignments": [],
+          "extra_assignments": []
+        },
+        "blockers": []
+      },
+      "changed_files": [],
+      "blockers": [],
+      "errors": [],
+      "recommended_next_phase": "vc-proving-preparing",
+      "completed_at": "2026-09-01T11:55:25+08:00"
+    }
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-09-01T03:59:45Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_circular_area_max_length-20260901112029/rounds/xizi_circular_area_max_length-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    },
+    "controller_simple_repairs": [
+      {
+        "kind": "materialized-inline-group-plan",
+        "source": "/home/yangfp/QCIP/reports/xizi_circular_area_max_length-20260901112029/rounds/xizi_circular_area_max_length-vc-checking-r1/agent_report.json",
+        "target": "/home/yangfp/QCIP/reports/xizi_circular_area_max_length-20260901112029/rounds/xizi_circular_area_max_length-vc-checking-r1/group_plan.json",
+        "reason": "vc-checking report included an inline group_plan but the default group_plan.json artifact was missing"
+      }
+    ],
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-09-01T03:59:45Z",
+      "source_version": {
+        "digest": "02cefcea6907bfbd1dfb7daae9e12acb474dec911281540cee3b425bb4897913",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_circular_area_max_length-20260901112029/xizi_circular_area_max_length-annotation-r1/OUTPUT/xizi/xizi_circular_area_max_length/source/xizi_circular_area_max_length.c",
+            "relative_path": "OUTPUT/xizi/xizi_circular_area_max_length/source/xizi_circular_area_max_length.c",
+            "role": "target-c-annotated",
+            "sha256": "a8f903517bb61a515ef1aea5924eb071f850633d7fb32085312f04bbbad340e7",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_circular_area_max_length-20260901112029/xizi_circular_area_max_length-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_max_length/source/xizi_circular_area_max_length_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_max_length/source/xizi_circular_area_max_length_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "1775f28297abe1cd0839fd28899e4dc8125b0c417d6d136e6577c8b5469da512",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "aed1402226944633b74cae66b09b1571a4930d0b5da9e85b309266a7d142db92",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_max_length/source/xizi_circular_area_max_length_goal.v",
+            "role": "generated-goal",
+            "sha256": "99e3c5b95bdfee3be3ab2a1f6424ba7e811a2dcb22e3aba6d97f09da1d9aa66d",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_max_length/source/xizi_circular_area_max_length_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "5c237c0f84bb59f3f2e55ae498165e1044a08926a363b2266f19e875c523261e",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_max_length/source/xizi_circular_area_max_length_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "fd8409174e22390b014a0f7eccd72eb058e29a35f6576402e1bf20a5aadafdd7",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_max_length/source/xizi_circular_area_max_length_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "35bae0c7dfb3f1d2fff35c83df7ea2e846b35caec924a97f47582f0bbe282930",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_max_length/source/xizi_circular_area_max_length_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "fc4350bebb8c074162c78b9a7af3e36f0577600a7e2ce277dce354e522482065",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_max_length/source/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "195b72d0055dc5e7981affd2dd1097843e25508045eb7a6d0a6b1727fc53d8de",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_CircularAreaGetMaxLength_entail_wit_1",
+          "proof_of_CircularAreaGetMaxLength_return_wit_1",
+          "proof_of_CircularAreaGetMaxLength_return_wit_2"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_CircularAreaGetMaxLength_entail_wit_1": "5314148293204f74626b1e5011d2094dd96843180ffac84d8873017fc852906f",
+          "proof_of_CircularAreaGetMaxLength_return_wit_1": "9759e0f0a1654494c4dc71d3cb3a4966a1af2c71f505fd281ade29c7ab85a71a",
+          "proof_of_CircularAreaGetMaxLength_return_wit_2": "f4aa87fdd2d35ae5784e47436e1d9dea484662680668f689b2f6e0648a99be76"
+        },
+        "witnesses": [
+          {
+            "end_line": 26,
+            "name": "proof_of_CircularAreaGetMaxLength_entail_wit_1",
+            "start_line": 24,
+            "statement_hash": "5314148293204f74626b1e5011d2094dd96843180ffac84d8873017fc852906f",
+            "target_symbol": "CircularAreaGetMaxLength_entail_wit_1"
+          },
+          {
+            "end_line": 29,
+            "name": "proof_of_CircularAreaGetMaxLength_return_wit_1",
+            "start_line": 27,
+            "statement_hash": "9759e0f0a1654494c4dc71d3cb3a4966a1af2c71f505fd281ade29c7ab85a71a",
+            "target_symbol": "CircularAreaGetMaxLength_return_wit_1"
+          },
+          {
+            "end_line": 32,
+            "name": "proof_of_CircularAreaGetMaxLength_return_wit_2",
+            "start_line": 30,
+            "statement_hash": "f4aa87fdd2d35ae5784e47436e1d9dea484662680668f689b2f6e0648a99be76",
+            "target_symbol": "CircularAreaGetMaxLength_return_wit_2"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_circular_area_max_length-20260901112029/rounds/xizi_circular_area_max_length-vc-checking-r1/group_plan.json",
+      "target_witnesses": [
+        "proof_of_CircularAreaGetMaxLength_entail_wit_1",
+        "proof_of_CircularAreaGetMaxLength_return_wit_1",
+        "proof_of_CircularAreaGetMaxLength_return_wit_2"
+      ]
+    }
+  },
+  "blockers": []
+}

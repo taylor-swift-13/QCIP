@@ -1,0 +1,70 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "0252b41f762679fb36781b2755e9670c6fae63fc241c3a596db837ba9235473a",
+  "target_witnesses": [
+    "proof_of_CircularAreaIsFull_return_wit_1",
+    "proof_of_CircularAreaIsFull_return_wit_2",
+    "proof_of_CircularAreaIsFull_return_wit_3",
+    "proof_of_CircularAreaGetDataLength_return_wit_1",
+    "proof_of_CircularAreaGetDataLength_return_wit_2"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "result_classification",
+      "witness_names": [
+        "proof_of_CircularAreaIsFull_return_wit_1",
+        "proof_of_CircularAreaIsFull_return_wit_2",
+        "proof_of_CircularAreaIsFull_return_wit_3",
+        "proof_of_CircularAreaGetDataLength_return_wit_1",
+        "proof_of_CircularAreaGetDataLength_return_wit_2"
+      ],
+      "representative_witness": "proof_of_CircularAreaGetDataLength_return_wit_1",
+      "dependencies": [],
+      "likely_helper_declarations": [],
+      "candidate_helper_declarations": [],
+      "expected_helpers": [],
+      "proof_strategy": "For each witness, select the generated pure emp alternative. Unfold CircularAreaIsFullResult; for the three IsFull witnesses choose the directly forced result branch. For the two GetDataLength witnesses, destruct CircularAreaIsFullResult, use retval = 0 or retval <> 0 to eliminate the incompatible branch, unfold CircularAreaDataLengthResult, and select the remaining full/non-full branch. Finish structural conjunctions, reflexive result equalities, and 0/1 contradictions with standard propositional or lia-style arithmetic without forbidden lemmas.",
+      "grouping_reason": "All five obligations share the same pure result-predicate classification pattern and need no helper family or dependency ordering; keeping them together minimizes worker count and remains below max_witnesses_per_group = 12.",
+      "space_plan": {
+        "all_witnesses": "Select the right pure entailment disjunct with emp. No spatial transformation is required; the left disjunct has identical complete CircularArea and UCharArray.full resources on both sides."
+      },
+      "pure_plan": {
+        "is_full_returns": "Unfold CircularAreaIsFullResult and choose the branch directly established by readidx/writeidx and b_status guards.",
+        "data_length_returns": "Unfold CircularAreaIsFullResult, eliminate the branch incompatible with retval = 0 or retval <> 0, then unfold CircularAreaDataLengthResult and choose the forced non-full or full branch."
+      },
+      "refinement_plan": {
+        "all_witnesses": "not applicable"
+      },
+      "witness_instantiation": {
+        "all_witnesses": "No existential witnesses; returned result terms are already explicit and match the selected result-predicate branches."
+      },
+      "premise_discharge": {
+        "proof_of_CircularAreaIsFull_return_wit_1": "PreH1 supplies readidx <> writeidx.",
+        "proof_of_CircularAreaIsFull_return_wit_2": "PreH1 supplies b_status = 0.",
+        "proof_of_CircularAreaIsFull_return_wit_3": "PreH1 and PreH2 supply b_status <> 0 and readidx = writeidx.",
+        "proof_of_CircularAreaGetDataLength_return_wit_1": "PreH1 is the IsFull classification; PreH12 retval = 0 eliminates its full/result=1 branch; the modulo result equality is reflexive under the local % = Z.rem notation.",
+        "proof_of_CircularAreaGetDataLength_return_wit_2": "PreH1 is the IsFull classification; PreH12 retval <> 0 eliminates its non-full/result=0 branch; the area_length result equality is reflexive."
+      },
+      "per_witness_plan": {
+        "proof_of_CircularAreaIsFull_return_wit_1": "right; unfold CircularAreaIsFullResult; prove the non-full branch from readidx <> writeidx",
+        "proof_of_CircularAreaIsFull_return_wit_2": "right; unfold CircularAreaIsFullResult; prove the non-full branch from b_status = 0",
+        "proof_of_CircularAreaIsFull_return_wit_3": "right; unfold CircularAreaIsFullResult; prove the full branch from equal indices and nonzero status",
+        "proof_of_CircularAreaGetDataLength_return_wit_1": "right; destruct CircularAreaIsFullResult; eliminate result=1 using retval=0; prove the exact non-full Z.rem branch",
+        "proof_of_CircularAreaGetDataLength_return_wit_2": "right; destruct CircularAreaIsFullResult; eliminate result=0 using retval<>0; prove the full area_length branch"
+      },
+      "difficulty": "low",
+      "confidence": "high"
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 5,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

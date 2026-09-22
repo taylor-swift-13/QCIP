@@ -1,3 +1,3 @@
 # Strategy Report
 
-证明按 vc-checking group plan 分组，在隔离 group worktree 中完成；parent verify 合并后运行 full fixed goal_check。未使用 forbidden lemma。
+公开规格仅保留 `LitMap/state/area_addr`。函数内部展开 `store_circular_area` 读取 descriptor 的 `area_length`，再按相同 existential witness 重新封装。

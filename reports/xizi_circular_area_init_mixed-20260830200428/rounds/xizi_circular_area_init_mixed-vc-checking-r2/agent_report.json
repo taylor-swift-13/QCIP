@@ -1,0 +1,350 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "vc_checking": {
+      "schema_version": "qcp-vc-checking-agent-result/v1",
+      "status": "completed",
+      "round": "xizi_circular_area_init_mixed-vc-checking-r2",
+      "attempt_id": "xizi_circular_area_init_mixed-vc-checking-r2-attempt-1",
+      "round_outcome": "completed",
+      "summary": "All three cleaned manual return witnesses are semantically provable from the current generated preconditions and canonical case-library definitions. The success witness converts allocator undef_full ownership to the exact mixed_full repeat-None backing resource, while the two failure witnesses package their existing ownership into the exact canonical failure resource. No annotation repair or new helper declaration is required.",
+      "source_version": "e5a55c86126fcc04008b46a93c80ffeed0b96cd2f99afb4cf8bb1ea205ef1829",
+      "source_goal_version": "aeb17e989dbc0cf234fb4ca07a0c4107f5d6ae5f279a206f5c960f3d9fe6475a",
+      "target_witnesses": [
+        "proof_of_CircularAreaInit_return_wit_1",
+        "proof_of_CircularAreaInit_return_wit_2",
+        "proof_of_CircularAreaInit_return_wit_3"
+      ],
+      "source_integrity_evidence": {
+        "status": "passed",
+        "source_files_match_handoff": true,
+        "generated_files_match_handoff": true,
+        "manual_obligations_match_handoff": true,
+        "manual_obligation_count": 3,
+        "manual_file_sha256": "9ce37ac4ecc23f690befed0cf8fbfe3cffffe920e1ed31ade78fb9a56b27339f",
+        "case_lib_sha256": "95c8f72386084a94863aafd139286c1f78458260843dcdd7e9c459ea170f589a",
+        "witness_statement_hashes": {
+          "proof_of_CircularAreaInit_return_wit_1": "8db7a4b7c6dd45f67acbb17a81d97b90d63bad7eea96e4e82c4844cd2b920fdb",
+          "proof_of_CircularAreaInit_return_wit_2": "34df322a7e98b45b8e2af7a715a7cafeafc71e4a5de836bd2311c4dbb1acfaa6",
+          "proof_of_CircularAreaInit_return_wit_3": "bcdf4c407754de3d930ec8a61a5df44631ae1d1559eb43081d524fcbfc59f0a6"
+        },
+        "diagnostics_role": "hint-only",
+        "diagnostics_count": 0
+      },
+      "natural_language_analysis": {
+        "schema_version": "qcp-vc-natural-language-analysis/v1",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_CircularAreaInit_return_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "UCharArray.undef_full retval_2 aligned_u plus exact ownership of all eight CircularArea descriptor fields, where aligned_u = unsigned_last_nbits ((circular_area_length_pre \u00f7 4) * 4) 32; p_head is retval_2, p_tail is retval_2 + aligned_u * sizeof(UCHAR), area_length is aligned_u, and operations is &CircularAreaOperations.",
+              "pre_pure": "retval and retval_2 are nonzero; aligned_u > 0; readidx = 0, writeidx = 0, b_status = 0; 0 < circular_area_length_pre <= 256.",
+              "pre_exists": "none",
+              "post_spatial": "CircularAreaBackingResource retval data_buffer 0 0 aligned 0 &CircularAreaOperations nil physical, including the same descriptor ownership and UCharArray.mixed_full data_buffer aligned physical.",
+              "post_pure": "retval <> 0; CircularAreaAlignedLength circular_area_length_pre aligned; xizi_circular_area_uninitialized aligned physical; and the pure CircularAreaLogicalState embedded in the backing resource.",
+              "post_exists": "data_buffer : Z, physical : list (option Z), aligned : Z"
+            },
+            "witness_instantiation": "Choose the first outer disjunct, data_buffer := retval_2, aligned := aligned_u, and physical := repeat None (Z.to_nat aligned_u).",
+            "space_plan": "Unfold CircularAreaBackingResource and xizi_circular_area_uninitialized. Apply UCharArray.undef_full_to_mixed_full to transform the allocator resource in the permitted direction. Rewrite sizeof(UCHAR) to 1 with sizeof_uchar, substitute the reset-field equalities, and cancel the eight descriptor cells and the resulting mixed_full resource.",
+            "pure_plan": "Use CircularArea_div4_aligned_range__init_return_branches to bound raw = (requested \u00f7 4) * 4 in [0,2^32), then unsigned_last_nbits_eq to obtain aligned_u = raw. Use CircularArea_quot_eq_div_nonneg__init_return_branch_construction to replace quotient by nonnegative division. aligned_u > 0 then yields requested >= 4, while requested <= 256 is already a precondition. For CircularAreaLogicalState at readidx=writeidx=b_status=0, logical=nil and physical=repeat None: positivity and upper bounds come from the aligned arithmetic; Zlength nil and Zlength repeat establish lengths; the nil Forall and CircularAreaLiveBytes goals are vacuous; 0 mod aligned = 0 follows from aligned > 0; and the two b_status equivalences reduce to 0 < aligned and nil length facts.",
+            "refinement_plan": "not applicable; this is a direct spatial/pure return entailment with no safeExec state",
+            "used_existing_lemmas": [
+              "UCharArray.undef_full_to_mixed_full",
+              "CircularArea_div4_aligned_range__init_return_branches",
+              "CircularArea_quot_eq_div_nonneg__init_return_branch_construction",
+              "unsigned_last_nbits_eq",
+              "sizeof_uchar",
+              "Zlength_repeat"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "CircularArea_div4_aligned_range__init_return_branches receives requested > 0 from PreH9/PreH10 and requested <= 4294967295 from PreH11 together with 256 <= 4294967295.",
+              "CircularArea_quot_eq_div_nonneg__init_return_branch_construction receives requested >= 0 from PreH10.",
+              "unsigned_last_nbits_eq receives 0 <= raw < 2^32 from CircularArea_div4_aligned_range__init_return_branches.",
+              "UCharArray.undef_full_to_mixed_full consumes exactly the undef_full spatial conjunct and has no extra pure premise.",
+              "The nonempty-alignment facts needed for modulo, length, and empty logical-state conditions follow from PreH3 after rewriting aligned_u to raw."
+            ],
+            "failure_signal": "none; every resource and pure premise required by the canonical success resource is present or derivable without strengthening the VC",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "circular_area_init_returns",
+            "grouping_reason": "The only substantial success conversion and the two exact failure packagings all unfold the same canonical init postcondition family and can be handled sequentially by one worker."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaInit_return_wit_2",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "Exact ownership of all eight descriptor fields at retval; data_buffer contains retval_2=0, readidx/writeidx/b_status contain values each equal to 0, and p_head/p_tail/area_length/operations remain existential cell contents.",
+              "pre_pure": "retval <> 0, retval_2 = 0, readidx = 0, writeidx = 0, b_status = 0, and the request bounds.",
+              "pre_exists": "wildcard cell values already represented existentially by the points-to-underscore assertions",
+              "post_spatial": "CircularAreaInitFailureResource failed_area, whose nonzero arm owns the same eight descriptor fields with data_buffer/readidx/writeidx/b_status fixed to 0 and the other four fields unconstrained.",
+              "post_pure": "the selected outer alternative additionally has 0 = 0; the failure resource nonzero arm requires failed_area <> 0.",
+              "post_exists": "failed_area : Z"
+            },
+            "witness_instantiation": "Choose the first outer disjunct and failed_area := retval; then select the nonzero arm of CircularAreaInitFailureResource.",
+            "space_plan": "Unfold CircularAreaInitFailureResource, select its nonzero disjunct, substitute retval_2/readidx/writeidx/b_status with zero using the preconditions, and cancel all eight descriptor cells. The wildcard fields match directly.",
+            "pure_plan": "Discharge 0 = 0 reflexively and failed_area <> 0 from PreH6/PreH7 after instantiating failed_area with retval; no arithmetic or new specification fact is needed.",
+            "refinement_plan": "not applicable; this is exact failure-resource packaging",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "failed_area <> 0 is exactly retval <> 0 from PreH6/PreH7.",
+              "The four fixed field values follow from PreH1 through PreH5.",
+              "All remaining failure-resource ownership is already present with matching points-to shapes."
+            ],
+            "failure_signal": "none; the failure resource is an exact abstraction of the existing branch ownership",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "circular_area_init_returns",
+            "grouping_reason": "Uses the same canonical init return definitions and descriptor cancellation context as the success return witness."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaInit_return_wit_3",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "emp under TT",
+              "pre_pure": "retval = 0 and 0 < circular_area_length_pre <= 256",
+              "pre_exists": "none",
+              "post_spatial": "CircularAreaInitFailureResource failed_area; its failed_area=0 arm is pure equality conjoined with emp.",
+              "post_pure": "the selected outer alternative additionally has 0 = 0.",
+              "post_exists": "failed_area : Z"
+            },
+            "witness_instantiation": "Choose the first outer disjunct and failed_area := 0; then select the zero arm of CircularAreaInitFailureResource.",
+            "space_plan": "Unfold CircularAreaInitFailureResource, select its zero arm, and cancel emp against the precondition emp.",
+            "pure_plan": "Both required equalities reduce to 0 = 0; the request facts are unused but consistent.",
+            "refinement_plan": "not applicable; this is the descriptor-allocation failure branch",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "The selected failure-resource arm requires only failed_area = 0, true by the chosen existential witness.",
+              "The outer return equality is reflexive."
+            ],
+            "failure_signal": "none; emp is exactly the zero-failure resource footprint",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "circular_area_init_returns",
+            "grouping_reason": "A small companion failure branch using the same canonical failure-resource unfolding as return_wit_2."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "circular_area_init_returns",
+            "witness_names": [
+              "proof_of_CircularAreaInit_return_wit_1",
+              "proof_of_CircularAreaInit_return_wit_2",
+              "proof_of_CircularAreaInit_return_wit_3"
+            ],
+            "representative_witness": "proof_of_CircularAreaInit_return_wit_1",
+            "shared_proof_pattern": "Select the usable generated outer disjunct, instantiate the postcondition existentials with branch-state values, unfold the canonical init resource, discharge its pure facts, and cancel the exact branch ownership.",
+            "shared_space_plan": "All three proofs are direct return entailments over the canonical init success/failure resource family; return_wit_1 adds the single undef_full-to-mixed_full conversion and the failure witnesses cancel exact descriptor or emp footprints.",
+            "shared_pure_plan": "Substitute branch equalities first; use the two existing init arithmetic helpers only for the success branch; failure branches reduce to nonzero/reflexive facts.",
+            "shared_refinement_plan": "none",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "Three witnesses are below the bound of 12, arise from the same function and canonical postcondition definitions, and are compact enough for one worker to prove sequentially without unrelated context.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "aeb17e989dbc0cf234fb4ca07a0c4107f5d6ae5f279a206f5c960f3d9fe6475a",
+        "target_witnesses": [
+          "proof_of_CircularAreaInit_return_wit_1",
+          "proof_of_CircularAreaInit_return_wit_2",
+          "proof_of_CircularAreaInit_return_wit_3"
+        ],
+        "grouping_policy": {
+          "controller_policy": "bounded-witness-groups/v1",
+          "controller_enforced": "pending-controller-check",
+          "target_witness_count": 3,
+          "max_witnesses_per_group": 12,
+          "single_group_allowed_only_if_target_witness_count_lte": 12,
+          "oversized_group_rejected": "yes"
+        },
+        "proof_groups": [
+          {
+            "group_id": "circular_area_init_returns",
+            "witness_names": [
+              "proof_of_CircularAreaInit_return_wit_1",
+              "proof_of_CircularAreaInit_return_wit_2",
+              "proof_of_CircularAreaInit_return_wit_3"
+            ],
+            "representative_witness": "proof_of_CircularAreaInit_return_wit_1",
+            "dependencies": [],
+            "candidate_helper_declarations": [],
+            "expected_helpers": [],
+            "likely_helper_declarations": [],
+            "proof_strategy": "Prove the two failure packagings by choosing the matching outer and inner disjuncts and cancelling exact ownership, then prove the success packaging by normalizing quotient/unsigned alignment with the existing case-lib helpers, instantiating data_buffer/aligned/physical, applying UCharArray.undef_full_to_mixed_full, unfolding the empty CircularAreaLogicalState, rewriting sizeof_uchar, and cancelling the descriptor fields.",
+            "natural_language_proof_pattern": "generated return disjunct selection plus exact existential resource packaging",
+            "proving_hints": [
+              "Choose the first generated outer disjunct for each witness; the paired second disjunct is not needed.",
+              "For return_wit_1, keep the conversion one-way: sep_apply UCharArray.undef_full_to_mixed_full.",
+              "Use CircularArea_div4_aligned_range__init_return_branches before unsigned_last_nbits_eq, then CircularArea_quot_eq_div_nonneg__init_return_branch_construction.",
+              "Instantiate physical with repeat None (Z.to_nat aligned) and unfold CircularAreaLogicalState/CircularAreaLiveBytes only after fixing aligned > 0.",
+              "For return_wit_2 use failed_area=retval and the nonzero failure-resource arm; for return_wit_3 use failed_area=0 and the zero arm."
+            ],
+            "per_witness_plan": {
+              "proof_of_CircularAreaInit_return_wit_1": "canonical success backing-resource construction with allocator-resource conversion",
+              "proof_of_CircularAreaInit_return_wit_2": "nonzero descriptor failure-resource packaging",
+              "proof_of_CircularAreaInit_return_wit_3": "zero/emp failure-resource packaging"
+            },
+            "difficulty": "medium",
+            "confidence": "high",
+            "grouping_reason": "All three are same-function return obligations over one canonical contract family; the count is 3 <= 12, and one worker can reuse the same unfolds and branch-selection context while handling the success conversion and two small failure cases."
+          }
+        ],
+        "blockers": []
+      },
+      "changed_files": [],
+      "blockers": [],
+      "errors": [],
+      "ready_for_vc_proving_preparing": true,
+      "recommended_next_phase": "vc-proving-preparing",
+      "controller_acceptance_claimed": false,
+      "timing": {
+        "phase_started_at": "2026-08-30T21:57:42+08:00",
+        "phase_finished_at": "2026-08-30T22:04:44+08:00",
+        "phase_elapsed_seconds_approx": 422,
+        "major_time_sinks": [
+          "complete handoff and rule-source review",
+          "success-branch canonical resource and alignment analysis",
+          "report and group-plan construction"
+        ],
+        "timing_gap_reason": "The handoff declared no dedicated activity-ledger path; elapsed time uses the controller-created pending report timestamp through the final analysis timestamp."
+      }
+    }
+  },
+  "verification_result": {
+    "source_integrity": "passed",
+    "manual_witness_coverage": "passed",
+    "semantic_provability": "passed",
+    "group_plan_ready": "yes",
+    "controller_acceptance": "pending",
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-08-30T14:05:12Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_circular_area_init_mixed-20260830200428/rounds/xizi_circular_area_init_mixed-vc-checking-r2/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    },
+    "controller_simple_repairs": [
+      {
+        "kind": "materialized-inline-group-plan",
+        "source": "/home/yangfp/QCIP/reports/xizi_circular_area_init_mixed-20260830200428/rounds/xizi_circular_area_init_mixed-vc-checking-r2/agent_report.json",
+        "target": "/home/yangfp/QCIP/reports/xizi_circular_area_init_mixed-20260830200428/rounds/xizi_circular_area_init_mixed-vc-checking-r2/group_plan.json",
+        "reason": "vc-checking report included an inline group_plan but the default group_plan.json artifact was missing"
+      }
+    ],
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-08-30T14:05:12Z",
+      "source_version": {
+        "digest": "e5a55c86126fcc04008b46a93c80ffeed0b96cd2f99afb4cf8bb1ea205ef1829",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_circular_area_init_mixed-20260830200428/xizi_circular_area_init_mixed-annotation-r4/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init.c",
+            "relative_path": "OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init.c",
+            "role": "target-c-annotated",
+            "sha256": "d84b43a791577550353892729a98577afc60769777401be89f67a943c603cc48",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_circular_area_init_mixed-20260830200428/xizi_circular_area_init_mixed-annotation-r4/SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "95c8f72386084a94863aafd139286c1f78458260843dcdd7e9c459ea170f589a",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "aeb17e989dbc0cf234fb4ca07a0c4107f5d6ae5f279a206f5c960f3d9fe6475a",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_goal.v",
+            "role": "generated-goal",
+            "sha256": "f5f35c734aaef04ecb93aa7d3b101aa1ba392ad7d84fe64a1a0cf504235d503e",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "08eca8c7aba6a0600353f8b829c53cdcaea93613d2f28739caebe2fddc73364f",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "9ce37ac4ecc23f690befed0cf8fbfe3cffffe920e1ed31ade78fb9a56b27339f",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "02be63d0881e6a2759373725fe5660430eca3f0e6d94ee3322e80dd7e08b4526",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "571199ac9870d1893a2bd88f4869a2eb410f14ae43d3346fff2d560853822b49",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "6137cabdb4802bb0a5c81b91631dde0ca20077e9287bd39da81f34d4ef19a2f4",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_CircularAreaInit_return_wit_1",
+          "proof_of_CircularAreaInit_return_wit_2",
+          "proof_of_CircularAreaInit_return_wit_3"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_CircularAreaInit_return_wit_1": "8db7a4b7c6dd45f67acbb17a81d97b90d63bad7eea96e4e82c4844cd2b920fdb",
+          "proof_of_CircularAreaInit_return_wit_2": "34df322a7e98b45b8e2af7a715a7cafeafc71e4a5de836bd2311c4dbb1acfaa6",
+          "proof_of_CircularAreaInit_return_wit_3": "bcdf4c407754de3d930ec8a61a5df44631ae1d1559eb43081d524fcbfc59f0a6"
+        },
+        "witnesses": [
+          {
+            "end_line": 27,
+            "name": "proof_of_CircularAreaInit_return_wit_1",
+            "start_line": 25,
+            "statement_hash": "8db7a4b7c6dd45f67acbb17a81d97b90d63bad7eea96e4e82c4844cd2b920fdb",
+            "target_symbol": "CircularAreaInit_return_wit_1"
+          },
+          {
+            "end_line": 30,
+            "name": "proof_of_CircularAreaInit_return_wit_2",
+            "start_line": 28,
+            "statement_hash": "34df322a7e98b45b8e2af7a715a7cafeafc71e4a5de836bd2311c4dbb1acfaa6",
+            "target_symbol": "CircularAreaInit_return_wit_2"
+          },
+          {
+            "end_line": 33,
+            "name": "proof_of_CircularAreaInit_return_wit_3",
+            "start_line": 31,
+            "statement_hash": "bcdf4c407754de3d930ec8a61a5df44631ae1d1559eb43081d524fcbfc59f0a6",
+            "target_symbol": "CircularAreaInit_return_wit_3"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_circular_area_init_mixed-20260830200428/rounds/xizi_circular_area_init_mixed-vc-checking-r2/group_plan.json",
+      "target_witnesses": [
+        "proof_of_CircularAreaInit_return_wit_1",
+        "proof_of_CircularAreaInit_return_wit_2",
+        "proof_of_CircularAreaInit_return_wit_3"
+      ]
+    }
+  },
+  "blockers": []
+}

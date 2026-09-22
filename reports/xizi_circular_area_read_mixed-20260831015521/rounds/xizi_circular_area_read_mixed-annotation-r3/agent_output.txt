@@ -1,0 +1,26 @@
+# Reuse Note
+
+Note kind: non-authoritative reuse note
+This file is not acceptance evidence.
+
+The r3 candidate replaces full initialized backing ownership with the shared
+`CircularAreaBackingResource` / `UCharArray.mixed_full` representation and
+states read behavior as consumption of a logical FIFO prefix.  The case lib
+re-exports the callpoint-spec library and adds only extensional read/chunk/
+output-update predicates.
+
+The retry-specific repair is explicit preservation of `ca0 != 0` and
+`data_buffer != 0` in every resource-unfolding helper/read assertion.  The
+specialized `memcpy` contract also carries an `owner != 0` ghost fact and
+non-null source/destination bases, and each Read call instantiates
+`owner = ca0`.  Fresh generated `CircularAreaRead_return_wit_1` and
+`CircularAreaRead_return_wit_2` both contain the two required non-null facts.
+
+Checks completed: qcp-mcp clean symbolic success (29 manual obligations), an
+interactive final-line check success, canonical symexec exit 0 with canonical
+`-I`/`-slp` arguments, and fixed `coq_tooling.py` case-lib compilation success.
+Executable C statements are unchanged after annotation stripping.
+
+The existing manual/diagnostics artifacts are not reuse evidence and must be
+freshened by controller `annotation-check-round`.  JSON handoff, controller
+state, current files, and newly computed versions win over this note.

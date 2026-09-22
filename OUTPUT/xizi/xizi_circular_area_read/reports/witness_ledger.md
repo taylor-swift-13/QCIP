@@ -1,31 +1,10 @@
-# Witness Ledger
+# Witness ledger
 
-- `proof_of_CircularAreaIsFull_return_wit_1`: proved
-- `proof_of_CircularAreaIsFull_return_wit_2`: proved
-- `proof_of_CircularAreaIsFull_return_wit_3`: proved
-- `proof_of_CircularAreaIsEmpty_return_wit_1`: proved
-- `proof_of_CircularAreaIsEmpty_return_wit_2`: proved
-- `proof_of_CircularAreaIsEmpty_return_wit_3`: proved
-- `proof_of_CircularAreaGetDataLength_safety_wit_4`: proved
-- `proof_of_CircularAreaGetDataLength_safety_wit_5`: proved
-- `proof_of_CircularAreaGetDataLength_return_wit_1`: proved
-- `proof_of_CircularAreaGetDataLength_return_wit_2`: proved
-- `proof_of_CircularAreaDivideRdData_return_wit_1`: proved
-- `proof_of_CircularAreaDivideRdData_return_wit_2`: proved
-- `proof_of_CircularAreaRead_entail_wit_2`: proved
-- `proof_of_CircularAreaRead_entail_wit_3_1`: proved
-- `proof_of_CircularAreaRead_entail_wit_3_2`: proved
-- `proof_of_CircularAreaRead_entail_wit_4`: proved
-- `proof_of_CircularAreaRead_entail_wit_5_1`: proved
-- `proof_of_CircularAreaRead_entail_wit_5_2`: proved
-- `proof_of_CircularAreaRead_return_wit_1`: proved
-- `proof_of_CircularAreaRead_return_wit_2`: proved
-- `proof_of_CircularAreaRead_return_wit_3`: proved
-- `proof_of_CircularAreaRead_return_wit_4`: proved
-- `proof_of_CircularAreaRead_return_wit_5`: proved
-- `proof_of_CircularAreaRead_return_wit_6`: proved
-- `proof_of_CircularAreaRead_partial_solve_wit_4_pure`: proved
-- `proof_of_CircularAreaRead_partial_solve_wit_5_pure`: proved
-- `proof_of_CircularAreaRead_partial_solve_wit_6_pure`: proved
-- `proof_of_CircularAreaRead_partial_solve_wit_7_pure`: proved
-- `proof_of_CircularAreaRead_partial_solve_wit_8_pure`: proved
+当前 `source_goal_version`：`e176fbd0a89351b86f945c404f1dd64e7680cbfa304e37b0ac9d714be8265fc7`。37 个 target witness 全部 proved：
+
+- `query_store_roundtrip`: 10/10
+- `length_divide_normalization`: 10/10
+- `read_copy_preconditions`: 8/8
+- `read_postconditions`: 9/9
+
+逐项 witness、statement hash 与 suffixed helper 见 `workflow/xizi_circular_area_read-20260908100001/` 中的 group plan、group reports 和 `group_merged_result.json`。

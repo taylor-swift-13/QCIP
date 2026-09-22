@@ -1,0 +1,237 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "annotation",
+  "status": "blocked",
+  "terminal": "yes",
+  "agent_result": {
+    "annotation": {
+      "status": "blocked",
+      "ready_for_annotation_check_round": false,
+      "summary": "Replaced the Init case_lib's untracked callpoint-spec dependency with the tracked shared QCIPLib circular-area library. The existing C annotation remains semantically correct and canonical symbolic execution still reaches EOF without changing any generated file. The fixed case_lib and full goal-check both pass. Annotation-checking cannot return passed because this subagent runtime exposes no qcp-mcp tool or executable, and direct symexec is not valid qcp-mcp evidence.",
+      "source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "022e90b595c59e6209322936b5e77685c28025216a7e679fb47a6559f1af511e",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "relative_path": "OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init.c",
+            "sha256": "fff615d1c2f96ee09fa2425991525e3c8cf301aff5c54ea8fc91b64a16d5faed",
+            "state": "present",
+            "role": "target-c-annotated"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_lib.v",
+            "sha256": "c40907e8fe425142dca36ce6c6d1fc5347214c646c960b47fcfc9597315a2697",
+            "state": "present",
+            "role": "case-lib-seed"
+          }
+        ]
+      },
+      "source_goal_version": "81f93b85b9a37c691573f5010b207f06a2c2fe085907817e99a52a442d252d56",
+      "previous_attempts_reviewed": [
+        {
+          "round": "xizi_circular_area_init-vc-proving-r1/init_success_resource_construction",
+          "report": "/home/yangfp/QCIP/reports/xizi_circular_area_init-20260831164429/rounds/xizi_circular_area_init-vc-proving-r1/groups/group_00__init_success_resource_construction/group_worker_report.json",
+          "lessons_applied": [
+            "xizi_circular_area_init-vc-proving-r1-init_success_resource_construction-required-tool-cannot-run-on-prepared-group-worktree-1"
+          ],
+          "conclusion": "The worker failed before the witness because the init case_lib exported an untracked callpoint-spec case library that was absent from the prepared group worktree."
+        }
+      ],
+      "prior_blockers_addressed": [
+        {
+          "id": "xizi_circular_area_init-vc-proving-r1-init_success_resource_construction-required-tool-cannot-run-on-prepared-group-worktree-1",
+          "status": "addressed",
+          "resolution": "The case_lib now directly exports QCIPLib.xizi.xizi_circular_area_common.xizi_circular_area_lib, which contains xizi_circular_area_uninitialized, CircularAreaBackingResource, and CircularAreaAlignedLength and is covered by the fixed -R QCIPLib QCIPLib mapping."
+        }
+      ],
+      "annotation_design": {
+        "spec_style": "predicate-first",
+        "mathematical_semantics": "Failure returns zero with emp. Success returns a nonzero descriptor satisfying CircularAreaAlignedLength, an all-None physical allocation predicate, and the shared CircularAreaBackingResource with readidx=writeidx=status=0 and logical=nil.",
+        "algorithm_mirror_present": false,
+        "loop_invariant_status": "not-applicable-no-loops",
+        "failure_cleanup_status": "descriptor allocation failure returns zero directly; backing-buffer allocation failure frees the nonnull descriptor then returns zero",
+        "input_body_sync": "The CircularAreaInit executable body matches the declared INPUT failure-cleanup behavior; no C implementation or annotation change was needed in this round."
+      },
+      "canonical_symexec_evidence": {
+        "schema_version": "qcp-canonical-symexec-evidence/v1",
+        "status": "passed",
+        "driver": "/home/yangfp/QCIP/linux-binary/symexec",
+        "cwd": "/home/yangfp/QCIP/worktrees/xizi_circular_area_init-20260831164429/xizi_circular_area_init-annotation-r2",
+        "include_args": [
+          "QCP_examples/QCP_demos_LLM/"
+        ],
+        "slp_args": [
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM"
+        ],
+        "coq_logic_path": "SimpleC.EE.OUTPUT.xizi.xizi_circular_area_init.source",
+        "input_file": "OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init.c",
+        "returncode": 0,
+        "eof_evidence": "Function CircularAreaInit / End of function CircularAreaInit / Successfully finished symbolic execution",
+        "generated_hashes_unchanged": true
+      },
+      "qcp_mcp_interactive_evidence": {
+        "status": "unavailable",
+        "qcp_mcp_requirement_satisfied": "no",
+        "attempts": [
+          "Inspected the complete runtime tool catalog; no tool name or description matched qcp or symexec MCP.",
+          "Checked command -v for qcp-mcp and qcp_mcp and searched /home/yangfp for matching executables; none was present.",
+          "Searched /opt, /usr/local, /tmp and running processes for a qcp-mcp service or executable; none was present.",
+          "Listed MCP resources and templates; only codex_apps resources were exposed and no qcp server was configured."
+        ],
+        "direct_symexec_substitution_forbidden": true
+      },
+      "case_lib_coqc_evidence": {
+        "schema_version": "qcp-coqc-check-evidence/v1",
+        "status": "passed",
+        "tool": "coqc",
+        "target_kind": "case_lib",
+        "target_file": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_lib.v",
+        "fixed_flags_hash": "24021e94f65d7fcb0014dc119baf8b1f9efef2bcb2cf5fbeb875549a843dbeb8",
+        "source_goal_version": "81f93b85b9a37c691573f5010b207f06a2c2fe085907817e99a52a442d252d56",
+        "returncode": 0,
+        "elapsed_seconds": 173.261,
+        "coq_version": "The Coq Proof Assistant, version 8.20.1"
+      },
+      "round_check_evidence": {
+        "schema_version": "qcp-coqc-check-evidence/v1",
+        "status": "passed",
+        "tool": "coqc",
+        "target_kind": "check",
+        "target_file": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_goal_check.v",
+        "fixed_flags_hash": "24021e94f65d7fcb0014dc119baf8b1f9efef2bcb2cf5fbeb875549a843dbeb8",
+        "source_goal_version": "81f93b85b9a37c691573f5010b207f06a2c2fe085907817e99a52a442d252d56",
+        "returncode": 0,
+        "elapsed_seconds": 180.023,
+        "coq_version": "The Coq Proof Assistant, version 8.20.1"
+      },
+      "annotation_checking_evidence": {
+        "status": "blocked",
+        "checked_scope": "shared mathematical definitions, Init Require/Ensure, allocation/failure branches, no-loop invariant applicability, C/lib reference consistency, case_lib fixed compile, canonical symexec EOF",
+        "qcp_mcp_requirement_satisfied": "no",
+        "annotation_scratch_lib_coqc_status": "passed",
+        "spec_definition_status": "passed",
+        "function_spec_status": "passed",
+        "invariant_status": "not-applicable-no-loops",
+        "annotation_scratch_lib_changes": "one dependency rewrite: callpoint-spec export replaced by direct shared QCIPLib export",
+        "summary": "All semantic and compile checks pass, but the mandatory qcp-mcp interactive requirement cannot be established in this runtime.",
+        "failed_checks": [
+          "qcp_mcp_requirement_satisfied"
+        ],
+        "required_annotation_rework": "none",
+        "required_annotation_scratch_lib_rework": "none",
+        "ready_for_main_common_case_formal_lib_update": "no",
+        "ready_for_main_symexec": "no"
+      },
+      "changed_files": [
+        {
+          "path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_lib.v",
+          "change": "Replaced Require Export of the callpoint-spec case library with Require Export QCIPLib.xizi.xizi_circular_area_common.xizi_circular_area_lib."
+        }
+      ],
+      "generated_files_changed": [],
+      "self_reworkable_failures": [],
+      "repair_iterations": [
+        {
+          "cycle": 1,
+          "focus": "dependency repair and shared definition audit",
+          "result": "passed"
+        },
+        {
+          "cycle": 2,
+          "focus": "fixed case_lib compilation plus canonical symbolic execution to EOF",
+          "result": "passed"
+        },
+        {
+          "cycle": 3,
+          "focus": "full fixed goal-check, generated hash comparison, and qcp-mcp availability audit",
+          "result": "blocked-only-on-missing-qcp-mcp"
+        }
+      ],
+      "self_repair_budget": {
+        "min_complete_cycles": 3,
+        "completed_cycles": 3,
+        "min_wall_clock_minutes": 30,
+        "wall_clock_minimum_not_artificially_waited": true,
+        "reason": "The formal repair and all available checks completed; the remaining failure is complete absence of the mandatory external qcp-mcp interface, not a self-reworkable annotation failure."
+      },
+      "file_access_summary": {
+        "must_log_file_reads": "yes",
+        "read_categories": [
+          {
+            "category": "handoff-and-rules",
+            "paths": [
+              "reports/xizi_circular_area_init-20260831164429/rounds/xizi_circular_area_init-annotation-r2/agent_input.json",
+              ".agents/skills/verification-orchestrator/SKILL.md",
+              ".agents/skills/annotation-filling/SKILL.md",
+              ".agents/skills/annotation-checking/SKILL.md",
+              ".agents/skills/annotation-filling/docs/use-notes.md",
+              ".agents/skills/annotation-filling/docs/annotation-rules.md",
+              ".agents/skills/annotation-filling/docs/common-annotation-errors.md",
+              ".agents/skills/annotation-filling/docs/predicate-first-annotation.md",
+              ".agents/skills/annotation-filling/docs/builtin-array-string-support.md",
+              ".agents/skills/annotation-filling/docs/array-predicate-selection.md",
+              ".agents/skills/annotation-filling/docs/reference-cases.md",
+              ".agents/skills/annotation-filling/docs/symexec-refresh.md",
+              ".agents/skills/annotation-checking/docs/spec-quality-checklist.md"
+            ]
+          },
+          {
+            "category": "target-and-generated-files",
+            "paths": [
+              "OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init.c",
+              "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_lib.v",
+              "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_init/source/xizi_circular_area_init_proof_manual.v"
+            ]
+          },
+          {
+            "category": "allowed-references",
+            "paths": [
+              "INPUT/xizi/xizi_circular_area_init/xizi_circular_area_init.c",
+              "QCIPLib/xizi/xizi_circular_area_common/xizi_circular_area_lib.v"
+            ]
+          },
+          {
+            "category": "declared-previous-attempt",
+            "paths": [
+              "reports/xizi_circular_area_init-20260831164429/rounds/xizi_circular_area_init-vc-proving-r1/groups/group_00__init_success_resource_construction/group_worker_report.json",
+              "reports/xizi_circular_area_init-20260831164429/rounds/xizi_circular_area_init-vc-proving-r1/groups/group_00__init_success_resource_construction/group_worker_output.txt"
+            ]
+          }
+        ],
+        "searches": [
+          {
+            "query": "QCIPLib.xizi.xizi_circular_area_common|xizi_circular_area_uninitialized|CircularAreaBackingResource|CircularAreaAlignedLength",
+            "scope": "declared target paths plus allowed QCIPLib and INPUT globs"
+          },
+          {
+            "query": "qcp-mcp|qcp_mcp|mcp.*symbolic",
+            "scope": "skill scripts/docs and executable/service locations"
+          }
+        ],
+        "denied_globs_touched": []
+      },
+      "blockers": [
+        {
+          "kind": "required-tool-unavailable",
+          "message": "The mandatory qcp-mcp interactive interface is not exposed in this agent runtime and no local qcp-mcp executable or service exists. Direct canonical symexec passed but cannot satisfy the qcp-mcp requirement.",
+          "required_external_action": "Provide a qcp-mcp tool/session to an annotation-subagent and rerun the interactive EOF check on this unchanged candidate; no further annotation or case_lib repair is currently indicated."
+        }
+      ]
+    }
+  },
+  "verification_result": {
+    "canonical_symexec": "passed-eof",
+    "generated_hashes": "unchanged-from-source_goal_version",
+    "case_lib_fixed_check": "passed",
+    "goal_check_fixed_check": "passed",
+    "annotation_checking": "blocked-missing-qcp-mcp-only"
+  },
+  "blockers": [
+    {
+      "kind": "required-tool-unavailable",
+      "message": "qcp-mcp is mandatory for annotation-checking passed status but is unavailable in this subagent runtime."
+    }
+  ]
+}

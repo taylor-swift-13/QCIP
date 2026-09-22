@@ -1,11 +1,12 @@
-# Final Checklist
+# Final checklist
 
-- [x] canonical symbolic execution reached EOF
-- [x] generated files are fresh
-- [x] all target manual VC are proved
-- [x] fixed goal_check passed
-- [x] no Admitted, Abort, or extra Axiom
-- [x] forbidden lemma scan has zero hits
-- [x] case_lib contract passed
-- [x] independent freshness passed
-- [x] controller phase is done
+- [x] qcp-mcp final candidate passed twice
+- [x] canonical symbolic execution reached the end of `CircularAreaReset`
+- [x] public contract exposes one abstract state and no implementation resources
+- [x] Reset preserves capacity/ownership and changes FIFO contents to `nil`
+- [x] 2/2 manual witnesses proved
+- [x] group/parent/final fixed `goal_check` passed
+- [x] manual proof contains witness proofs only
+- [x] no `Admitted`, extra `Axiom`, helper drift, or forbidden lemma
+- [ ] strict isolated freshness replay (`skipped`: repository layout not configured)
+- [x] controller phase `done`

@@ -1,0 +1,750 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "vc_checking": {
+      "status": "completed",
+      "ready_for_vc_proving_preparing": true,
+      "source_version": "25431568f55fa83809e706e32559d559b6fae3fff4caa60f11dc9d04d102e08d",
+      "source_goal_version": "e5b5cc555533411f72b990114eaf53173764b59ed2bffc9f12b637a5ae81b293",
+      "version_check": {
+        "status": "matched",
+        "checked_sha256": {
+          "OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length.c": "efb69946f022583ddc932efb111d43105ff72aa09757ffc4d039325fc15b6124",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_lib.v": "63dec6e05ff88294beed38ef3b1df53eb44c59c75ae0ecd77acc5694f8b00143",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_goal.v": "3340d7fe79e4e0df20ed886ce7cd2fee83a1d8e959a44a42fa60984d57875dfc",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_proof_auto.v": "de3c08ed2129a5f9abcf95489202fbb05c49317ef7707347ec904227497bd0bc",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_proof_manual.v": "8a26aefc30387c8318b7367b4e8ab0194c4a28ecc788461e9d49082d97f560f3",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_goal_check.v": "3e198438272f2a8e1e39be1032963b4326348b8cebda3cdadaada207a13647d2",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_proof_diagnostics.v": "f38eb94775dd094f48e1fa3d8885d383705cdcdde6fbbdc6e1bb660f5509c607",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/diagnostics_snapshot.json": "263f27845dc62e62015584bc39403f0664b506837adfc853fe3b5ead933978d9"
+        }
+      },
+      "target_witness_check": {
+        "status": "matched",
+        "manual_obligation_count": 14,
+        "diagnostics_used_as_hint_only": true
+      },
+      "natural_language_analysis": {
+        "summary": "All fourteen targets are semantically valid. The unified backing predicate provides exactly the canonical state, preserved descriptor/mixed-buffer resources, and non-null facts needed by non-null branches. Status/index equivalences decide IsFull. The non-full data-length arithmetic normalizes to the ring distance and uses the existing modulo helper. Null state-spec artifacts with a backing resource are vacuous because that resource entails a nonzero descriptor address.",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_CircularAreaIsFull_entail_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "circular_area cell ** GlobalStrings ** CircularAreaBackingResource",
+              "pre_pure": "pre address is nonzero and equals area address",
+              "pre_exists": "none",
+              "post_spatial": "same cell/strings plus expanded backing fields and mixed_full",
+              "post_pure": "address/buffer non-null and CircularAreaLogicalState",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "Reuse every canonical state component unchanged.",
+            "space_plan": "Choose the first disjunct, unfold CircularAreaBackingResource, then reassociate and cancel the unchanged resources.",
+            "pure_plan": "Rewrite the address equality and extract non-null/state conjuncts from the backing predicate.",
+            "refinement_plan": "No refinement state.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "PreH2 gives address equality",
+              "the backing predicate gives buffer non-null and logical state"
+            ],
+            "failure_signal": "none",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "nested_isfull_contract",
+            "grouping_reason": "Same nested IsFull contract and backing unfold/fold pattern."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaIsFull_return_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "GlobalStrings plus expanded backing",
+              "pre_pure": "readidx<>writeidx and CircularAreaLogicalState",
+              "pre_exists": "none",
+              "post_spatial": "GlobalStrings ** unchanged CircularAreaBackingResource",
+              "post_pure": "CircularAreaFullResult ... 0",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "Reuse the original state.",
+            "space_plan": "Fold the unchanged descriptor fields and mixed_full into the backing predicate.",
+            "pure_plan": "Apply circular_area_distinct_indices_imply_nonfull__is_full_contract; strict non-full length makes Z.eq_dec select result 0.",
+            "refinement_plan": "No refinement state.",
+            "used_existing_lemmas": [
+              "circular_area_distinct_indices_imply_nonfull__is_full_contract"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "state and distinct-index premises are explicit preconditions"
+            ],
+            "failure_signal": "none",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "nested_isfull_contract",
+            "grouping_reason": "IsFull result and backing fold family."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaIsFull_return_wit_2",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "GlobalStrings plus expanded backing",
+              "pre_pure": "status=0, equal indices, logical state",
+              "pre_exists": "none",
+              "post_spatial": "same folded backing",
+              "post_pure": "CircularAreaFullResult ... 0",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "Reuse the original state.",
+            "space_plan": "Direct fold/cancel of unchanged resources.",
+            "pure_plan": "The state empty equivalence gives Zlength logical=0; capacity positivity excludes equality with area_length, so the result is 0.",
+            "refinement_plan": "No refinement state.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "equal indices/status 0 are preconditions",
+              "positivity and empty equivalence are state conjuncts"
+            ],
+            "failure_signal": "none",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "nested_isfull_contract",
+            "grouping_reason": "IsFull empty branch and same resource fold."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaIsFull_return_wit_3",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "GlobalStrings plus expanded backing",
+              "pre_pure": "status<>0, equal indices, logical state",
+              "pre_exists": "none",
+              "post_spatial": "same folded backing",
+              "post_pure": "CircularAreaFullResult ... 1",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "Reuse the original state.",
+            "space_plan": "Direct fold/cancel of unchanged resources.",
+            "pure_plan": "State restricts status to 0 or 1, hence it is 1; the full equivalence with equal indices yields Zlength logical=area_length and result 1.",
+            "refinement_plan": "No refinement state.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "status disjunction/full equivalence come from state",
+              "status nonzero/equal indices are preconditions"
+            ],
+            "failure_signal": "none",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "nested_isfull_contract",
+            "grouping_reason": "IsFull full branch and same resource fold."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaIsFull_return_wit_4",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "GlobalStrings ** CircularAreaBackingResource in first disjunct",
+              "pre_pure": "pre address=0=area address",
+              "pre_exists": "none",
+              "post_spatial": "same resources",
+              "post_pure": "CircularAreaFullResult ... 1",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "Choose the first disjunct.",
+            "space_plan": "Unfold the backing predicate only to expose its non-null pure conjunct.",
+            "pure_plan": "The address equalities imply area address 0, contradicting backing's area address<>0; close ex falso.",
+            "refinement_plan": "No refinement state; unreachable state-spec alternative.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "address contradiction comes from PreH1/PreH2 and CircularAreaBackingResource"
+            ],
+            "failure_signal": "Do not select the unconstrained second disjunct.",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "nested_isfull_contract",
+            "grouping_reason": "Generated nested IsFull null-state artifact."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaIsFull_partial_solve_wit_1_pure",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "string and area resources",
+              "pre_pure": "full-branch context",
+              "pre_exists": "none",
+              "post_spatial": "none required by pure target",
+              "post_pure": "LitMap value + 0*sizeof(CHAR) equals itself",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "No existential.",
+            "space_plan": "Frame the spatial context.",
+            "pure_plan": "Simplify multiplication and addition by zero; reflexivity/arithmetic closes both alternatives.",
+            "refinement_plan": "No refinement state.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "zero arithmetic is unconditional"
+            ],
+            "failure_signal": "none",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "nested_isfull_contract",
+            "grouping_reason": "Same generated nested IsFull context."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaGetDataLength_safety_wit_7_state_spec",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "variable cell, GlobalStrings, expanded backing",
+              "pre_pure": "non-full bound and logical state",
+              "pre_exists": "none",
+              "post_spatial": "framed pre resources",
+              "post_pure": "area_length<>0",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "No existential.",
+            "space_plan": "Frame resources and extract the pure state.",
+            "pure_plan": "The first state conjunct is 0<area_length, which implies nonzero.",
+            "refinement_plan": "No refinement state.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "capacity positivity is in CircularAreaLogicalState"
+            ],
+            "failure_signal": "none",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "data_length_query",
+            "grouping_reason": "Non-full GetDataLength arithmetic safety."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaGetDataLength_safety_wit_8_state_spec",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "variable cell, GlobalStrings, expanded backing",
+              "pre_pure": "non-full bound and logical state",
+              "pre_exists": "none",
+              "post_spatial": "framed pre resources",
+              "post_pure": "INT_MIN<=writeidx-readidx<=INT_MAX",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "No existential.",
+            "space_plan": "Frame resources and extract index/capacity bounds.",
+            "pure_plan": "0<=readidx,writeidx<area_length<=256 gives -255<=difference<=255, inside signed 32-bit bounds.",
+            "refinement_plan": "No refinement state.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "index and capacity bounds are state conjuncts"
+            ],
+            "failure_signal": "none",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "data_length_query",
+            "grouping_reason": "Machine-bound companion to the non-full calculation."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaGetDataLength_entail_wit_1_state_spec",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "GlobalStrings ** backing ** variable cell",
+              "pre_pure": "FullResult retval, retval<>0, address equality",
+              "pre_exists": "none",
+              "post_spatial": "same cell/strings plus expanded backing",
+              "post_pure": "non-null/state and Zlength logical=area_length",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "Reuse all state components.",
+            "space_plan": "Unfold backing, rewrite address, and cancel unchanged resources.",
+            "pure_plan": "Unfold FullResult; its 0/1 equality test plus retval<>0 forces the equality branch.",
+            "refinement_plan": "No refinement state; nested-call full split.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "retval facts select Z.eq_dec true",
+              "backing supplies state/non-null facts"
+            ],
+            "failure_signal": "none",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "data_length_query",
+            "grouping_reason": "Establishes the full path for the query."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaGetDataLength_entail_wit_2_state_spec",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "GlobalStrings ** backing ** variable cell",
+              "pre_pure": "FullResult retval, retval=0, address equality",
+              "pre_exists": "none",
+              "post_spatial": "same cell/strings plus expanded backing",
+              "post_pure": "non-null/state and Zlength logical<area_length",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "Reuse all state components.",
+            "space_plan": "Unfold backing, rewrite address, and cancel unchanged resources.",
+            "pure_plan": "FullResult with retval=0 excludes length=capacity; combine with the state's length upper bound to obtain strict inequality.",
+            "refinement_plan": "No refinement state; nested-call non-full split.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "retval facts select Z.eq_dec false",
+              "length upper bound is in the state"
+            ],
+            "failure_signal": "none",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "data_length_query",
+            "grouping_reason": "Establishes the non-full path for the query."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaGetDataLength_return_wit_1_state_spec",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "GlobalStrings plus expanded backing",
+              "pre_pure": "non-full bound, logical state, and machine bounds",
+              "pre_exists": "none",
+              "post_spatial": "same folded backing",
+              "post_pure": "DataLengthResult for double-u32-normalized modular expression",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "Reuse original state; prove the generated result expression equals Zlength logical.",
+            "space_plan": "Fold descriptor fields and mixed_full into the unchanged backing predicate.",
+            "pure_plan": "Let d=writeidx-readidx. State bounds give -256<d<256 and 0<d+area_length<512. Split on d<0: inner u32 is 2^32+d or d, and outer u32 reduces both cases to d+area_length. With positive divisor, normalize remainder/modulo and apply circular_area_nonfull_mod_length__data_length_contract.",
+            "refinement_plan": "No refinement state; concrete ring-distance calculation.",
+            "used_existing_lemmas": [
+              "circular_area_nonfull_mod_length__data_length_contract",
+              "unsigned_last_nbits_eq",
+              "standard Z.mod/Z.rem laws"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "index/capacity bounds come from state",
+              "non-full bound is explicit",
+              "positive capacity permits modulo normalization",
+              "the seed helper needs exactly state plus non-full bound"
+            ],
+            "failure_signal": "No semantic gap; if rewriting is awkward, keep unsigned normalization as a local assert rather than a case_lib helper.",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "data_length_query",
+            "grouping_reason": "Core arithmetic return consuming the earlier split/safety facts."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaGetDataLength_return_wit_2_state_spec",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "GlobalStrings plus expanded backing",
+              "pre_pure": "Zlength logical=area_length and logical state",
+              "pre_exists": "none",
+              "post_spatial": "same folded backing",
+              "post_pure": "DataLengthResult logical area_length",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "Reuse state and full-branch return area_length.",
+            "space_plan": "Fold/cancel unchanged resources.",
+            "pure_plan": "Unfold DataLengthResult and use the explicit length equality.",
+            "refinement_plan": "No refinement state; full branch.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "the result equality is PreH3/PreH7"
+            ],
+            "failure_signal": "none",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "data_length_query",
+            "grouping_reason": "Full-path companion to the arithmetic return."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaGetDataLength_return_wit_3_null_spec",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "GlobalStrings",
+              "pre_pure": "circular_area_pre=0",
+              "pre_exists": "none",
+              "post_spatial": "same GlobalStrings",
+              "post_pure": "null equality and CircularAreaErrorResult 1",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "Choose first alternative and preserve LitMap.",
+            "space_plan": "Cancel GlobalStrings unchanged.",
+            "pure_plan": "Use the null precondition; ErrorResult 1 unfolds to reflexive 1=1.",
+            "refinement_plan": "No refinement state; real null branch.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "null equality is explicit",
+              "ErrorResult reduces by reflexivity"
+            ],
+            "failure_signal": "none",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "data_length_query",
+            "grouping_reason": "GetDataLength null return contract."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaGetDataLength_return_wit_4_state_spec",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "GlobalStrings ** backing in first disjunct",
+              "pre_pure": "pre address=0=area address",
+              "pre_exists": "none",
+              "post_spatial": "same resources",
+              "post_pure": "DataLengthResult logical 1",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "Choose the first disjunct.",
+            "space_plan": "Expose backing's area-address non-null conjunct.",
+            "pure_plan": "Address equalities force area address 0, contradicting backing; close ex falso without proving an unconstrained logical length is 1.",
+            "refinement_plan": "No refinement state; unreachable state-spec alternative.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "backing gives non-null; PreH1/PreH2 give zero"
+            ],
+            "failure_signal": "Do not select the unconstrained second disjunct.",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "data_length_query",
+            "grouping_reason": "Generated GetDataLength null-state artifact."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "nested_isfull_contract",
+            "witness_names": [
+              "proof_of_CircularAreaIsFull_entail_wit_1",
+              "proof_of_CircularAreaIsFull_return_wit_1",
+              "proof_of_CircularAreaIsFull_return_wit_2",
+              "proof_of_CircularAreaIsFull_return_wit_3",
+              "proof_of_CircularAreaIsFull_return_wit_4",
+              "proof_of_CircularAreaIsFull_partial_solve_wit_1_pure"
+            ],
+            "representative_witness": "proof_of_CircularAreaIsFull_return_wit_1",
+            "shared_proof_pattern": "Unified backing unfold/fold plus IsFull result facts from the logical state.",
+            "shared_space_plan": "Cancel/refold GlobalStrings, descriptor points-to fields, and mixed_full.",
+            "shared_pure_plan": "Use status/index equivalences, the distinct-index helper, or the backing non-null contradiction.",
+            "shared_refinement_plan": "none",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "All six arise from the same nested IsFull call and are within the size bound.",
+            "proof_group_ready": true
+          },
+          {
+            "group_id": "data_length_query",
+            "witness_names": [
+              "proof_of_CircularAreaGetDataLength_safety_wit_7_state_spec",
+              "proof_of_CircularAreaGetDataLength_safety_wit_8_state_spec",
+              "proof_of_CircularAreaGetDataLength_entail_wit_1_state_spec",
+              "proof_of_CircularAreaGetDataLength_entail_wit_2_state_spec",
+              "proof_of_CircularAreaGetDataLength_return_wit_1_state_spec",
+              "proof_of_CircularAreaGetDataLength_return_wit_2_state_spec",
+              "proof_of_CircularAreaGetDataLength_return_wit_3_null_spec",
+              "proof_of_CircularAreaGetDataLength_return_wit_4_state_spec"
+            ],
+            "representative_witness": "proof_of_CircularAreaGetDataLength_return_wit_1_state_spec",
+            "shared_proof_pattern": "Preserve unified state, split full/non-full, discharge bounds, and return logical FIFO length.",
+            "shared_space_plan": "Preserve and refold identical strings, descriptor fields, physical list, and mixed buffer ownership.",
+            "shared_pure_plan": "Extract state bounds, derive full/non-full length, normalize unsigned arithmetic, and use the modulo helper.",
+            "shared_refinement_plan": "none",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "All eight form one sequential GetDataLength proof family and are within the size bound.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "e5b5cc555533411f72b990114eaf53173764b59ed2bffc9f12b637a5ae81b293",
+        "target_witnesses": [
+          "proof_of_CircularAreaIsFull_entail_wit_1",
+          "proof_of_CircularAreaIsFull_return_wit_1",
+          "proof_of_CircularAreaIsFull_return_wit_2",
+          "proof_of_CircularAreaIsFull_return_wit_3",
+          "proof_of_CircularAreaIsFull_return_wit_4",
+          "proof_of_CircularAreaIsFull_partial_solve_wit_1_pure",
+          "proof_of_CircularAreaGetDataLength_safety_wit_7_state_spec",
+          "proof_of_CircularAreaGetDataLength_safety_wit_8_state_spec",
+          "proof_of_CircularAreaGetDataLength_entail_wit_1_state_spec",
+          "proof_of_CircularAreaGetDataLength_entail_wit_2_state_spec",
+          "proof_of_CircularAreaGetDataLength_return_wit_1_state_spec",
+          "proof_of_CircularAreaGetDataLength_return_wit_2_state_spec",
+          "proof_of_CircularAreaGetDataLength_return_wit_3_null_spec",
+          "proof_of_CircularAreaGetDataLength_return_wit_4_state_spec"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "nested_isfull_contract",
+            "witness_names": [
+              "proof_of_CircularAreaIsFull_entail_wit_1",
+              "proof_of_CircularAreaIsFull_return_wit_1",
+              "proof_of_CircularAreaIsFull_return_wit_2",
+              "proof_of_CircularAreaIsFull_return_wit_3",
+              "proof_of_CircularAreaIsFull_return_wit_4",
+              "proof_of_CircularAreaIsFull_partial_solve_wit_1_pure"
+            ],
+            "representative_witness": "proof_of_CircularAreaIsFull_return_wit_1",
+            "dependencies": [],
+            "candidate_helper_declarations": [],
+            "expected_helpers": [
+              "circular_area_distinct_indices_imply_nonfull__is_full_contract"
+            ],
+            "proof_strategy": "Unfold/fold the unified backing predicate, derive IsFull results from the logical-state equivalences and existing distinct-index helper, use the backing non-null contradiction for the null-state artifact, and simplify the string-offset pure goal.",
+            "grouping_reason": "One nested-call contract with a shared result definition and resource pattern; six witnesses are below the maximum of twelve.",
+            "confidence": "high"
+          },
+          {
+            "group_id": "data_length_query",
+            "witness_names": [
+              "proof_of_CircularAreaGetDataLength_safety_wit_7_state_spec",
+              "proof_of_CircularAreaGetDataLength_safety_wit_8_state_spec",
+              "proof_of_CircularAreaGetDataLength_entail_wit_1_state_spec",
+              "proof_of_CircularAreaGetDataLength_entail_wit_2_state_spec",
+              "proof_of_CircularAreaGetDataLength_return_wit_1_state_spec",
+              "proof_of_CircularAreaGetDataLength_return_wit_2_state_spec",
+              "proof_of_CircularAreaGetDataLength_return_wit_3_null_spec",
+              "proof_of_CircularAreaGetDataLength_return_wit_4_state_spec"
+            ],
+            "representative_witness": "proof_of_CircularAreaGetDataLength_return_wit_1_state_spec",
+            "dependencies": [],
+            "candidate_helper_declarations": [],
+            "expected_helpers": [
+              "circular_area_nonfull_mod_length__data_length_contract"
+            ],
+            "proof_strategy": "Extract canonical bounds, split full/non-full via CircularAreaFullResult, preserve the backing resource, normalize the nested u32 operations on the non-full return and apply the existing modulo-length helper, then close null/unreachable alternatives by ErrorResult or the backing non-null contradiction.",
+            "grouping_reason": "All eight witnesses are the same read-only GetDataLength workflow and remain below the maximum of twelve.",
+            "confidence": "high"
+          }
+        ],
+        "blockers": []
+      },
+      "changed_files": [],
+      "errors": [],
+      "blockers": []
+    }
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-09-01T01:32:46Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_circular_area_data_length-20260901083618/rounds/xizi_circular_area_data_length-vc-checking-r2/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    },
+    "controller_simple_repairs": [
+      {
+        "kind": "materialized-inline-group-plan",
+        "source": "/home/yangfp/QCIP/reports/xizi_circular_area_data_length-20260901083618/rounds/xizi_circular_area_data_length-vc-checking-r2/agent_report.json",
+        "target": "/home/yangfp/QCIP/reports/xizi_circular_area_data_length-20260901083618/rounds/xizi_circular_area_data_length-vc-checking-r2/group_plan.json",
+        "reason": "vc-checking report included an inline group_plan but the default group_plan.json artifact was missing"
+      }
+    ],
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-09-01T01:32:46Z",
+      "source_version": {
+        "digest": "25431568f55fa83809e706e32559d559b6fae3fff4caa60f11dc9d04d102e08d",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_circular_area_data_length-20260901083618/xizi_circular_area_data_length-annotation-r2/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length.c",
+            "relative_path": "OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length.c",
+            "role": "target-c-annotated",
+            "sha256": "efb69946f022583ddc932efb111d43105ff72aa09757ffc4d039325fc15b6124",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_circular_area_data_length-20260901083618/xizi_circular_area_data_length-annotation-r2/SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "63dec6e05ff88294beed38ef3b1df53eb44c59c75ae0ecd77acc5694f8b00143",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "e5b5cc555533411f72b990114eaf53173764b59ed2bffc9f12b637a5ae81b293",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_goal.v",
+            "role": "generated-goal",
+            "sha256": "3340d7fe79e4e0df20ed886ce7cd2fee83a1d8e959a44a42fa60984d57875dfc",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "de3c08ed2129a5f9abcf95489202fbb05c49317ef7707347ec904227497bd0bc",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "8a26aefc30387c8318b7367b4e8ab0194c4a28ecc788461e9d49082d97f560f3",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "3e198438272f2a8e1e39be1032963b4326348b8cebda3cdadaada207a13647d2",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "f38eb94775dd094f48e1fa3d8885d383705cdcdde6fbbdc6e1bb660f5509c607",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "263f27845dc62e62015584bc39403f0664b506837adfc853fe3b5ead933978d9",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_CircularAreaIsFull_entail_wit_1",
+          "proof_of_CircularAreaIsFull_return_wit_1",
+          "proof_of_CircularAreaIsFull_return_wit_2",
+          "proof_of_CircularAreaIsFull_return_wit_3",
+          "proof_of_CircularAreaIsFull_return_wit_4",
+          "proof_of_CircularAreaIsFull_partial_solve_wit_1_pure",
+          "proof_of_CircularAreaGetDataLength_safety_wit_7_state_spec",
+          "proof_of_CircularAreaGetDataLength_safety_wit_8_state_spec",
+          "proof_of_CircularAreaGetDataLength_entail_wit_1_state_spec",
+          "proof_of_CircularAreaGetDataLength_entail_wit_2_state_spec",
+          "proof_of_CircularAreaGetDataLength_return_wit_1_state_spec",
+          "proof_of_CircularAreaGetDataLength_return_wit_2_state_spec",
+          "proof_of_CircularAreaGetDataLength_return_wit_3_null_spec",
+          "proof_of_CircularAreaGetDataLength_return_wit_4_state_spec"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_CircularAreaGetDataLength_entail_wit_1_state_spec": "385ebb11f7c56de37297bfe6459148e7ea9a5c387ee4270c701d4e7142ec475a",
+          "proof_of_CircularAreaGetDataLength_entail_wit_2_state_spec": "a125c19b83be2cb4e4d9757a1a7fe37100b165e1a40667db07b11bd820c3abda",
+          "proof_of_CircularAreaGetDataLength_return_wit_1_state_spec": "75829faa518b64ebbf22ada8a7c55ee52d0a04461ff61c919e5b461c5024b56d",
+          "proof_of_CircularAreaGetDataLength_return_wit_2_state_spec": "4b8e889a92f881cb83471a3c90a46677b7421a43437de2cfd511fe979875bcc5",
+          "proof_of_CircularAreaGetDataLength_return_wit_3_null_spec": "2b2a061913480fa1ac0968de9e4569d234ec03dd86cba33402d79a13e5254906",
+          "proof_of_CircularAreaGetDataLength_return_wit_4_state_spec": "62bcf942fe16ff9549f32b56a2da1bb8b3d47b5992846295f4fd5741e8ae880d",
+          "proof_of_CircularAreaGetDataLength_safety_wit_7_state_spec": "0d04aa3ad746d6b163c85ed393358621505d28382a2224da2ae4b8fd8b7be202",
+          "proof_of_CircularAreaGetDataLength_safety_wit_8_state_spec": "a319e4b86c9e9bf950ef5070959c1ad32352922ea7c75f9a00956c03f499a061",
+          "proof_of_CircularAreaIsFull_entail_wit_1": "875787cfd9422852c1c39626f02b206be540c40e709fbcfb135fed70f7a76862",
+          "proof_of_CircularAreaIsFull_partial_solve_wit_1_pure": "6f75d70bc892659cde29b791c45bf40aa34a0d5c474670c758f86c49de1b8c15",
+          "proof_of_CircularAreaIsFull_return_wit_1": "4c12f12b1fa0a8e05759790266c7efe31e77a9d4d65d0e7d72bb0fae46c73782",
+          "proof_of_CircularAreaIsFull_return_wit_2": "beada8b2edeb4da92f433c54b87f2b69f26afdd2a44d71a7546f03ad0ed93e50",
+          "proof_of_CircularAreaIsFull_return_wit_3": "ad01b57ecb8f5400deddfc2e5a2a777760914ccaea2d1417e9949f167b0c78bd",
+          "proof_of_CircularAreaIsFull_return_wit_4": "90da0f3ee7c5076d8aa979a79d62abc91dce6b7fba69adc35f2574248ecf1f9d"
+        },
+        "witnesses": [
+          {
+            "end_line": 26,
+            "name": "proof_of_CircularAreaIsFull_entail_wit_1",
+            "start_line": 24,
+            "statement_hash": "875787cfd9422852c1c39626f02b206be540c40e709fbcfb135fed70f7a76862",
+            "target_symbol": "CircularAreaIsFull_entail_wit_1"
+          },
+          {
+            "end_line": 29,
+            "name": "proof_of_CircularAreaIsFull_return_wit_1",
+            "start_line": 27,
+            "statement_hash": "4c12f12b1fa0a8e05759790266c7efe31e77a9d4d65d0e7d72bb0fae46c73782",
+            "target_symbol": "CircularAreaIsFull_return_wit_1"
+          },
+          {
+            "end_line": 32,
+            "name": "proof_of_CircularAreaIsFull_return_wit_2",
+            "start_line": 30,
+            "statement_hash": "beada8b2edeb4da92f433c54b87f2b69f26afdd2a44d71a7546f03ad0ed93e50",
+            "target_symbol": "CircularAreaIsFull_return_wit_2"
+          },
+          {
+            "end_line": 35,
+            "name": "proof_of_CircularAreaIsFull_return_wit_3",
+            "start_line": 33,
+            "statement_hash": "ad01b57ecb8f5400deddfc2e5a2a777760914ccaea2d1417e9949f167b0c78bd",
+            "target_symbol": "CircularAreaIsFull_return_wit_3"
+          },
+          {
+            "end_line": 38,
+            "name": "proof_of_CircularAreaIsFull_return_wit_4",
+            "start_line": 36,
+            "statement_hash": "90da0f3ee7c5076d8aa979a79d62abc91dce6b7fba69adc35f2574248ecf1f9d",
+            "target_symbol": "CircularAreaIsFull_return_wit_4"
+          },
+          {
+            "end_line": 41,
+            "name": "proof_of_CircularAreaIsFull_partial_solve_wit_1_pure",
+            "start_line": 39,
+            "statement_hash": "6f75d70bc892659cde29b791c45bf40aa34a0d5c474670c758f86c49de1b8c15",
+            "target_symbol": "CircularAreaIsFull_partial_solve_wit_1_pure"
+          },
+          {
+            "end_line": 44,
+            "name": "proof_of_CircularAreaGetDataLength_safety_wit_7_state_spec",
+            "start_line": 42,
+            "statement_hash": "0d04aa3ad746d6b163c85ed393358621505d28382a2224da2ae4b8fd8b7be202",
+            "target_symbol": "CircularAreaGetDataLength_safety_wit_7_state_spec"
+          },
+          {
+            "end_line": 47,
+            "name": "proof_of_CircularAreaGetDataLength_safety_wit_8_state_spec",
+            "start_line": 45,
+            "statement_hash": "a319e4b86c9e9bf950ef5070959c1ad32352922ea7c75f9a00956c03f499a061",
+            "target_symbol": "CircularAreaGetDataLength_safety_wit_8_state_spec"
+          },
+          {
+            "end_line": 50,
+            "name": "proof_of_CircularAreaGetDataLength_entail_wit_1_state_spec",
+            "start_line": 48,
+            "statement_hash": "385ebb11f7c56de37297bfe6459148e7ea9a5c387ee4270c701d4e7142ec475a",
+            "target_symbol": "CircularAreaGetDataLength_entail_wit_1_state_spec"
+          },
+          {
+            "end_line": 53,
+            "name": "proof_of_CircularAreaGetDataLength_entail_wit_2_state_spec",
+            "start_line": 51,
+            "statement_hash": "a125c19b83be2cb4e4d9757a1a7fe37100b165e1a40667db07b11bd820c3abda",
+            "target_symbol": "CircularAreaGetDataLength_entail_wit_2_state_spec"
+          },
+          {
+            "end_line": 56,
+            "name": "proof_of_CircularAreaGetDataLength_return_wit_1_state_spec",
+            "start_line": 54,
+            "statement_hash": "75829faa518b64ebbf22ada8a7c55ee52d0a04461ff61c919e5b461c5024b56d",
+            "target_symbol": "CircularAreaGetDataLength_return_wit_1_state_spec"
+          },
+          {
+            "end_line": 59,
+            "name": "proof_of_CircularAreaGetDataLength_return_wit_2_state_spec",
+            "start_line": 57,
+            "statement_hash": "4b8e889a92f881cb83471a3c90a46677b7421a43437de2cfd511fe979875bcc5",
+            "target_symbol": "CircularAreaGetDataLength_return_wit_2_state_spec"
+          },
+          {
+            "end_line": 62,
+            "name": "proof_of_CircularAreaGetDataLength_return_wit_3_null_spec",
+            "start_line": 60,
+            "statement_hash": "2b2a061913480fa1ac0968de9e4569d234ec03dd86cba33402d79a13e5254906",
+            "target_symbol": "CircularAreaGetDataLength_return_wit_3_null_spec"
+          },
+          {
+            "end_line": 65,
+            "name": "proof_of_CircularAreaGetDataLength_return_wit_4_state_spec",
+            "start_line": 63,
+            "statement_hash": "62bcf942fe16ff9549f32b56a2da1bb8b3d47b5992846295f4fd5741e8ae880d",
+            "target_symbol": "CircularAreaGetDataLength_return_wit_4_state_spec"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_circular_area_data_length-20260901083618/rounds/xizi_circular_area_data_length-vc-checking-r2/group_plan.json",
+      "target_witnesses": [
+        "proof_of_CircularAreaIsFull_entail_wit_1",
+        "proof_of_CircularAreaIsFull_return_wit_1",
+        "proof_of_CircularAreaIsFull_return_wit_2",
+        "proof_of_CircularAreaIsFull_return_wit_3",
+        "proof_of_CircularAreaIsFull_return_wit_4",
+        "proof_of_CircularAreaIsFull_partial_solve_wit_1_pure",
+        "proof_of_CircularAreaGetDataLength_safety_wit_7_state_spec",
+        "proof_of_CircularAreaGetDataLength_safety_wit_8_state_spec",
+        "proof_of_CircularAreaGetDataLength_entail_wit_1_state_spec",
+        "proof_of_CircularAreaGetDataLength_entail_wit_2_state_spec",
+        "proof_of_CircularAreaGetDataLength_return_wit_1_state_spec",
+        "proof_of_CircularAreaGetDataLength_return_wit_2_state_spec",
+        "proof_of_CircularAreaGetDataLength_return_wit_3_null_spec",
+        "proof_of_CircularAreaGetDataLength_return_wit_4_state_spec"
+      ]
+    }
+  },
+  "blockers": []
+}

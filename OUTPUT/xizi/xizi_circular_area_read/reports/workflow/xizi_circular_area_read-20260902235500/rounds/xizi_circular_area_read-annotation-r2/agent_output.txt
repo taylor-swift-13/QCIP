@@ -1,0 +1,22 @@
+# Reuse Note
+
+Note kind: non-authoritative reuse note
+
+This file is not acceptance evidence.
+
+Round r2 restores the exact original executable control flow: `CircularAreaDivideRdData(circular_area, data_length)` is again the `if` condition. A normalized preprocessed-token comparison against the input baseline returns 0, so only annotations changed.
+
+The reusable annotation idea is an implementation-local existential post bridge on `CircularAreaDivideRdData`. Its caller-selected binders remain only abstract `state`, data length, and `LitMap`; its existential post opens the same hidden representation and carries the exact `CircularAreaDivideRdDataResult` into the immediately enclosing wrap/non-wrap branches. This is needed because wrap is not determined by `ca_capacity` and `ca_contents` alone.
+
+Candidate source version: `3aa6db57967431e735ff9f6839c0d6619da93fabd84f838c0885b891c5509128`.
+
+Validation completed:
+
+- canonical symexec reached `End of function CircularAreaRead` twice on the final candidate;
+- two independent qcp-mcp sessions returned `result=success`, with 36 manual obligations and no warning;
+- two fixed `case_lib` checks passed with flags hash `24021e94f65d7fcb0014dc119baf8b1f9efef2bcb2cf5fbeb875549a843dbeb8`;
+- no `Admitted.`, extra `Axiom`, algorithm-mirroring `Fixpoint`, `CircularAreaBackingResource`, or executable repeated wrap comparison remains in the candidate.
+
+Controller annotation-check-round must refresh the manual skeleton and diagnostics and compute the new `source_goal_version`.
+
+If this note conflicts with JSON handoff data, controller manifests, source versions, or current files, ignore this note.

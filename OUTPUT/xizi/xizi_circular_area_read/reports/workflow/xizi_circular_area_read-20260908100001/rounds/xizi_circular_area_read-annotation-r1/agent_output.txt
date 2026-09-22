@@ -1,0 +1,11 @@
+# Reuse Note
+Note kind: non-authoritative reuse note
+This file is not acceptance evidence.
+
+The successful design preserves the old nullable Read Require exactly inside `CircularAreaReadInput`, giving QCP one syntactic entry branch. An immediate entry Assert unfolds the wrapper for the null checks. This makes `data_length@pre` usable after local `data_length` is clamped, so the `requested` With binder can be removed without restricting `output_capacity` or weakening FIFO semantics.
+
+The final candidate also removes `ca0`, `out0`, and helper `d0`. `CircularAreaDivideRdData` has one Require branch, so its body can use `data_length@pre` directly.
+
+Evidence pointers: canonical symbolic execution reached all five function ends; two independent qcp-mcp EOF runs returned success; fixed case-lib coqc passed; executable preprocessing hashes match before/after. Exact structured evidence and the candidate source version are in `agent_report.json`.
+
+Do not reuse the failed direct conversion: QCP reports `pre at branch '<unspecified>' is not determined` when `@pre` is referenced under the original top-level spatial disjunction. Also do not place `@pre` in Require itself; Require parameter names already denote entry values and QCP reports that no `pre` mark is in scope there.

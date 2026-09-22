@@ -1,0 +1,9 @@
+# Reuse Note
+Note kind: non-authoritative reuse note
+This file is not acceptance evidence.
+
+The candidate re-exports the callpoint-spec library as the single canonical source for CircularAreaBackingResource, CircularAreaLogicalState, CircularAreaFullResult, and CircularAreaDataLengthResult. The local case lib only adds the exact null error result.
+
+QCP cannot read fields through an opaque user Assertion. Keep public Require/Ensure folded as CircularAreaBackingResource, and add a ghost Assert that unfolds the exact canonical resource immediately before implementation field reads. CircularAreaGetDataLength calls CircularAreaIsFull with the folded resource; each branch then unfolds it and records the exact logical full/non-full fact.
+
+qcp-mcp reached EOF with 13 manual obligations. Canonical symexec with the mandated -I/-slp arguments also reached EOF, and the final fixed case-lib check passed. Downstream proofs should group resource unfold/fold witnesses with full-result reasoning; the non-full return also needs the modular arithmetic consequence of CircularAreaLogicalState.

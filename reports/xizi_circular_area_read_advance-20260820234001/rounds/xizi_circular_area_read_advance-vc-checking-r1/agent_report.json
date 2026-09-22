@@ -1,0 +1,321 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "vc_checking": {
+      "schema_version": "qcp-vc-checking-result/v1",
+      "status": "completed",
+      "source_version": "c89f1c489d53968bae4760e26ac5eeffce561e52fc553628b857fef95eec633e",
+      "source_goal_version": "a021d93c2a910750b0dad26a3590648161428a97186eef77ceb146d47fd14b0c",
+      "version_evidence": {
+        "status": "matched",
+        "checked_files": [
+          {
+            "relative_path": "OUTPUT/xizi/xizi_circular_area_read_advance/source/xizi_circular_area_read_advance.c",
+            "sha256": "ef9d09f32576818ba6b9a2fabd0bfe657faa1700e9b33ea1eefd0da2c7a8eaa0",
+            "matched": true
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_read_advance/source/xizi_circular_area_read_advance_lib.v",
+            "sha256": "9952bb5ed09d9b9da0e624561d8d96915ab8fa411e48e990d6f45f3edf302ca7",
+            "matched": true
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_read_advance/source/xizi_circular_area_read_advance_goal.v",
+            "sha256": "026bae050d2bbc79e4a133bfcd1b9f30b59e41ca9314e43b92f848eda8b4d52e",
+            "matched": true
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_read_advance/source/xizi_circular_area_read_advance_proof_auto.v",
+            "sha256": "771cb0e87de3c5e4d866955fb22fda4c9614a96c0a31b6cdb1516045d98d46a8",
+            "matched": true
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_read_advance/source/xizi_circular_area_read_advance_proof_manual.v",
+            "sha256": "06432be5715d250a1138557fa56e9da991b1b7efc230b1bac43294e7fb1ab2f5",
+            "matched": true
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_read_advance/source/xizi_circular_area_read_advance_goal_check.v",
+            "sha256": "7ba9a91945ce569764bebd128c111e1cff97a8d0c03002d79753d5a3effbad72",
+            "matched": true
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_read_advance/source/xizi_circular_area_read_advance_proof_diagnostics.v",
+            "sha256": "33e73bf66f25277e754b7f1b47224b2cf9b227d7f4f18f31f8c69e887e49466f",
+            "matched": true
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_read_advance/source/diagnostics_snapshot.json",
+            "sha256": "4f3c60f611e7d860b036042cf07ad1c05d39aceaab2bbbe95e63c37545f15c7a",
+            "matched": true
+          }
+        ],
+        "manual_target_witnesses": [
+          "proof_of_CircularAreaDivideRdData_return_wit_1",
+          "proof_of_CircularAreaDivideRdData_return_wit_2"
+        ],
+        "manual_witness_set_matches_source_goal_version": true,
+        "diagnostics_used_as_hint_only": true
+      },
+      "natural_language_analysis": {
+        "summary": "Both target definitions are disjunctions of a full spatial entailment and an equivalent pure-result entailment. Each proof can select the second disjunct, preserve emp, normalize the nested 32-bit truncations using bounds already present in the VC, and then select the matching disjunct of CircularAreaDivideRdDataResult.",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_CircularAreaDivideRdData_return_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "After choosing the second disjunct of CircularAreaDivideRdData_return_wit_1, P is TT && emp.",
+              "pre_pure": "PreH1 states unsigned_last_nbits (unsigned_last_nbits readidx 32 + data_length_pre) 32 > area_length; PreH4 gives 0 <= data_length_pre; PreH5 gives data_length_pre <= area_length; PreH6 gives readidx + data_length_pre <= 4294967295; PreH7 is CircularAreaDescriptorState.",
+              "pre_exists": "none",
+              "post_spatial": "emp",
+              "post_pure": "CircularAreaDivideRdDataResult readidx data_length_pre area_length 1",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "No existential witness is needed. Unfold CircularAreaDivideRdDataResult and choose its wrap/result-1 disjunct.",
+            "space_plan": "Choose the pure second disjunct of the return witness; split the pure/spatial goal and discharge emp directly. The full descriptor and UCharArray frame need not be rearranged because the alternative pure entailment is sufficient for the top-level disjunction.",
+            "pure_plan": "Unfold CircularAreaDescriptorState in PreH7 to obtain 0 <= readidx < area_length and 0 < area_length <= 255. Prove unsigned_last_nbits readidx 32 = readidx with unsigned_last_nbits_eq. Rewrite the inner truncation in PreH1, then use 0 <= readidx, 0 <= data_length_pre, and PreH6 to prove the sum is in [0, 2^32), rewrite the outer truncation, and obtain area_length < readidx + data_length_pre. After unfolding CircularAreaDivideRdDataResult, choose the right disjunct and combine that strict inequality with 1 = 1.",
+            "refinement_plan": "not applicable; this VC is a pure branch-result relation with unchanged spatial ownership",
+            "used_existing_lemmas": [
+              "unsigned_last_nbits_eq"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "0 <= readidx < 2^32",
+                "discharged_by": "the first conjunct of unfolded CircularAreaDescriptorState and area_length <= 255"
+              },
+              {
+                "premise": "0 <= readidx + data_length_pre < 2^32",
+                "discharged_by": "readidx >= 0 from CircularAreaDescriptorState, PreH4, and PreH6 (upper bound 4294967295)"
+              },
+              {
+                "premise": "area_length < readidx + data_length_pre",
+                "discharged_by": "PreH1 after both unsigned_last_nbits occurrences are normalized"
+              }
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "divide_return_branch_normalization",
+            "grouping_reason": "same nested unsigned_last_nbits normalization and result-predicate construction as return_wit_2"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaDivideRdData_return_wit_2",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "After choosing the second disjunct of CircularAreaDivideRdData_return_wit_2, P is TT && emp.",
+              "pre_pure": "PreH1 states unsigned_last_nbits (unsigned_last_nbits readidx 32 + data_length_pre) 32 <= area_length; PreH4 gives 0 <= data_length_pre; PreH5 gives data_length_pre <= area_length; PreH6 gives readidx + data_length_pre <= 4294967295; PreH7 is CircularAreaDescriptorState.",
+              "pre_exists": "none",
+              "post_spatial": "emp",
+              "post_pure": "CircularAreaDivideRdDataResult readidx data_length_pre area_length 0",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "No existential witness is needed. Unfold CircularAreaDivideRdDataResult and choose its non-wrap/result-0 disjunct.",
+            "space_plan": "Choose the pure second disjunct of the return witness; split the pure/spatial goal and discharge emp directly. No array split, merge, or descriptor-field cancellation is required.",
+            "pure_plan": "Unfold CircularAreaDescriptorState in PreH7. Normalize unsigned_last_nbits readidx 32 using 0 <= readidx < area_length <= 255. Normalize the outer unsigned_last_nbits using nonnegativity and PreH6. The rewritten PreH1 is exactly readidx + data_length_pre <= area_length; unfold CircularAreaDivideRdDataResult, choose its left disjunct, and combine this inequality with 0 = 0.",
+            "refinement_plan": "not applicable; this VC is a pure branch-result relation with unchanged spatial ownership",
+            "used_existing_lemmas": [
+              "unsigned_last_nbits_eq"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "0 <= readidx < 2^32",
+                "discharged_by": "the first conjunct of unfolded CircularAreaDescriptorState and area_length <= 255"
+              },
+              {
+                "premise": "0 <= readidx + data_length_pre < 2^32",
+                "discharged_by": "readidx >= 0 from CircularAreaDescriptorState, PreH4, and PreH6 (upper bound 4294967295)"
+              },
+              {
+                "premise": "readidx + data_length_pre <= area_length",
+                "discharged_by": "PreH1 after both unsigned_last_nbits occurrences are normalized"
+              }
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "divide_return_branch_normalization",
+            "grouping_reason": "same nested unsigned_last_nbits normalization and result-predicate construction as return_wit_1"
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "divide_return_branch_normalization",
+            "witness_names": [
+              "proof_of_CircularAreaDivideRdData_return_wit_1",
+              "proof_of_CircularAreaDivideRdData_return_wit_2"
+            ],
+            "representative_witness": "proof_of_CircularAreaDivideRdData_return_wit_1",
+            "shared_proof_pattern": "select the pure return-witness disjunct, normalize nested 32-bit truncations, unfold the result relation, and select the guard-matching result disjunct",
+            "shared_space_plan": "TT && emp entails the required pure proposition && emp; no descriptor or array transformation is needed",
+            "shared_pure_plan": "derive readidx and sum bounds from CircularAreaDescriptorState plus PreH4/PreH6, apply unsigned_last_nbits_eq twice, then use the normalized branch guard",
+            "shared_refinement_plan": "not applicable",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "both witnesses belong to the same function, use the same bounds and normalization lemma, and differ only in choosing the <=/ret=0 versus >/ret=1 result disjunct",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "a021d93c2a910750b0dad26a3590648161428a97186eef77ceb146d47fd14b0c",
+        "target_witnesses": [
+          "proof_of_CircularAreaDivideRdData_return_wit_1",
+          "proof_of_CircularAreaDivideRdData_return_wit_2"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "divide_return_branch_normalization",
+            "witness_names": [
+              "proof_of_CircularAreaDivideRdData_return_wit_1",
+              "proof_of_CircularAreaDivideRdData_return_wit_2"
+            ],
+            "representative_witness": "proof_of_CircularAreaDivideRdData_return_wit_1",
+            "dependencies": [],
+            "candidate_helper_declarations": [],
+            "expected_helpers": [],
+            "proof_strategy": "For each witness choose the second top-level disjunct, run the standard pre-processing for TT && emp, unfold CircularAreaDescriptorState and CircularAreaDivideRdDataResult, establish unsigned_last_nbits readidx 32 = readidx, normalize the outer truncation with PreH6, then select the result disjunct matching the normalized guard and discharge the equality for return 0 or 1.",
+            "space_plan": "Discharge the emp frame in the selected pure alternative directly; do not alter or reconstruct the full spatial alternative.",
+            "pure_plan": "Use DescriptorState readidx bounds, data_length nonnegativity, and the explicit uint32 sum bound to apply unsigned_last_nbits_eq twice; use the rewritten branch guard to establish the corresponding Result disjunct.",
+            "refinement_plan": "not applicable",
+            "premise_discharge": {
+              "inner_truncation": "0 <= readidx < area_length <= 255 < 2^32 from CircularAreaDescriptorState",
+              "outer_truncation": "0 <= readidx + data_length_pre from DescriptorState and PreH4; upper bound from PreH6",
+              "branch_result": "normalized PreH1 plus reflexivity of ret = 0 or ret = 1"
+            },
+            "per_witness_plan": {
+              "proof_of_CircularAreaDivideRdData_return_wit_1": "choose the wrap/result-1 disjunct after deriving area_length < readidx + data_length_pre",
+              "proof_of_CircularAreaDivideRdData_return_wit_2": "choose the non-wrap/result-0 disjunct after deriving readidx + data_length_pre <= area_length"
+            },
+            "difficulty": "low",
+            "confidence": "high",
+            "grouping_reason": "The two related witnesses share one proof pattern and helper family, their combined size 2 is below max_witnesses_per_group 12, and there is no dependency ordering that justifies a split."
+          }
+        ],
+        "blockers": []
+      },
+      "changed_files": [],
+      "blockers": [],
+      "ready_for_vc_proving_preparing": true
+    }
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-08-20T15:53:22Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_circular_area_read_advance-20260820234001/rounds/xizi_circular_area_read_advance-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    },
+    "controller_simple_repairs": [
+      {
+        "kind": "materialized-inline-group-plan",
+        "source": "/home/yangfp/QCIP/reports/xizi_circular_area_read_advance-20260820234001/rounds/xizi_circular_area_read_advance-vc-checking-r1/agent_report.json",
+        "target": "/home/yangfp/QCIP/reports/xizi_circular_area_read_advance-20260820234001/rounds/xizi_circular_area_read_advance-vc-checking-r1/group_plan.json",
+        "reason": "vc-checking report included an inline group_plan but the default group_plan.json artifact was missing"
+      }
+    ],
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-08-20T15:53:22Z",
+      "source_version": {
+        "digest": "c89f1c489d53968bae4760e26ac5eeffce561e52fc553628b857fef95eec633e",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_circular_area_read_advance-20260820234001/xizi_circular_area_read_advance-annotation-r1/OUTPUT/xizi/xizi_circular_area_read_advance/source/xizi_circular_area_read_advance.c",
+            "relative_path": "OUTPUT/xizi/xizi_circular_area_read_advance/source/xizi_circular_area_read_advance.c",
+            "role": "target-c-annotated",
+            "sha256": "ef9d09f32576818ba6b9a2fabd0bfe657faa1700e9b33ea1eefd0da2c7a8eaa0",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_circular_area_read_advance-20260820234001/xizi_circular_area_read_advance-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_read_advance/source/xizi_circular_area_read_advance_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_read_advance/source/xizi_circular_area_read_advance_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "9952bb5ed09d9b9da0e624561d8d96915ab8fa411e48e990d6f45f3edf302ca7",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "a021d93c2a910750b0dad26a3590648161428a97186eef77ceb146d47fd14b0c",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_read_advance/source/xizi_circular_area_read_advance_goal.v",
+            "role": "generated-goal",
+            "sha256": "026bae050d2bbc79e4a133bfcd1b9f30b59e41ca9314e43b92f848eda8b4d52e",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_read_advance/source/xizi_circular_area_read_advance_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "771cb0e87de3c5e4d866955fb22fda4c9614a96c0a31b6cdb1516045d98d46a8",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_read_advance/source/xizi_circular_area_read_advance_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "06432be5715d250a1138557fa56e9da991b1b7efc230b1bac43294e7fb1ab2f5",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_read_advance/source/xizi_circular_area_read_advance_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "7ba9a91945ce569764bebd128c111e1cff97a8d0c03002d79753d5a3effbad72",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_read_advance/source/xizi_circular_area_read_advance_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "33e73bf66f25277e754b7f1b47224b2cf9b227d7f4f18f31f8c69e887e49466f",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_read_advance/source/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "4f3c60f611e7d860b036042cf07ad1c05d39aceaab2bbbe95e63c37545f15c7a",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_CircularAreaDivideRdData_return_wit_1",
+          "proof_of_CircularAreaDivideRdData_return_wit_2"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_CircularAreaDivideRdData_return_wit_1": "6f5ea14fd475514a73253f3ee35f08e68b703a6125c8aae8835ec64faaff50aa",
+          "proof_of_CircularAreaDivideRdData_return_wit_2": "27241422d32fc083e8e6aa56f103d5d84898b8af5fc90fce66b5826ed34e2267"
+        },
+        "witnesses": [
+          {
+            "end_line": 26,
+            "name": "proof_of_CircularAreaDivideRdData_return_wit_1",
+            "start_line": 24,
+            "statement_hash": "6f5ea14fd475514a73253f3ee35f08e68b703a6125c8aae8835ec64faaff50aa",
+            "target_symbol": "CircularAreaDivideRdData_return_wit_1"
+          },
+          {
+            "end_line": 29,
+            "name": "proof_of_CircularAreaDivideRdData_return_wit_2",
+            "start_line": 27,
+            "statement_hash": "27241422d32fc083e8e6aa56f103d5d84898b8af5fc90fce66b5826ed34e2267",
+            "target_symbol": "CircularAreaDivideRdData_return_wit_2"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_circular_area_read_advance-20260820234001/rounds/xizi_circular_area_read_advance-vc-checking-r1/group_plan.json",
+      "target_witnesses": [
+        "proof_of_CircularAreaDivideRdData_return_wit_1",
+        "proof_of_CircularAreaDivideRdData_return_wit_2"
+      ]
+    }
+  },
+  "blockers": []
+}

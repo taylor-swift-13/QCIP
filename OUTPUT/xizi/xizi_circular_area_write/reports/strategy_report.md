@@ -1,3 +1,3 @@
-# Strategy Report
+# Proof strategy
 
-证明按 vc-checking group plan 分组，在隔离 group worktree 中完成；parent verify 合并后运行 full fixed goal_check。未使用 forbidden lemma。
+状态查询与 DivideWrData 只观察并保持统一资源；dispatch witnesses 从可写长度和 wrap 判定建立一段或两段 memcpy；memory witnesses精确拆分/合并 mixed physical array；return witnesses把具体写入折回 `ca_contents before ++ input prefix`。仅状态查询组新增一个 suffixed arithmetic helper。

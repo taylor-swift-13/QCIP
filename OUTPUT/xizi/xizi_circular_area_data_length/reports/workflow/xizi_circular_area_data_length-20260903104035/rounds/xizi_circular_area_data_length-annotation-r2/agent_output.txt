@@ -1,0 +1,14 @@
+# Reuse Note
+
+Note kind: non-authoritative reuse note
+This file is not acceptance evidence.
+
+Annotation r2 repaired the five return-witness ownership-root mismatches reported by vc-checking r1. Both live specs now bind `circular_area == area_addr`; their preconditions consume `store_circular_area(state, circular_area)`, their postconditions return `store_circular_area(state, area_addr)`, and all representation-opening assertions preserve the same root identity. `area_addr` is only an entry-address bridge and does not expose raw layout state.
+
+The final fresh qcp-mcp symbolic run succeeded with 12 manual obligations: 5 for CircularAreaIsFull and 7 for CircularAreaGetDataLength. Canonical symexec also succeeded with the required include and `-slp` mapping and produced goal SHA-256 `b6a941879f9db4e1fbee39d24524abc9dc21bf4a598a3f48decaa8ebf52310dd`. The affected return goals consistently use `area_addr_state_spec` in both opened field roots and `store_circular_area` postconditions.
+
+The case lib was unchanged at SHA-256 `92fa9353fdc96253d9507995b2f8cd08fedd2be126d3c5c2e5215a61eea0f200`; fixed case-lib checking passed under fixed-flags hash `24021e94f65d7fcb0014dc119baf8b1f9efef2bcb2cf5fbeb875549a843dbeb8` in 178.305 seconds, with no Admitted or Axiom. Annotation-checking passed with no required rework.
+
+The output source-version digest is `9c92e952ed9d99623ccc3ffd787a6af4e9dba9f5ca19b8d175977e8224312d5e`. Controller annotation-check-round must perform its mandated fresh manual-skeleton refresh, deterministic diagnostics split, and authoritative source-goal-version computation.
+
+If a retry is needed, avoid direct `circular_area@pre` in the live assertions: qcp-mcp rejected it because the pre branch was not determined in the multi-spec function. The stable ghost entry-root formulation is the validated repair.

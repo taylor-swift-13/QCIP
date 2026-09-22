@@ -1,0 +1,9 @@
+# Reuse Note
+Note kind: non-authoritative reuse note
+This file is not acceptance evidence.
+
+The direct unfold/refold route closes `proof_of_CircularAreaGetMaxLength_entail_wit_1` and `proof_of_CircularAreaGetMaxLength_return_wit_2` with `pre_process`, the relevant definition unfolds, substitution, and `entailer!`.
+
+`proof_of_CircularAreaGetMaxLength_return_wit_1` is blocked at the annotation/spec boundary. After `pre_process` and unfolding `CircularAreaGetMaxLengthResult` and `CircularAreaBackingResource`, fixed `coq_tooling.py debug` leaves exactly `data_buffer <> 0`. The generated return VC supplies `CircularAreaLogicalState` and the backing heap fields, but not this non-null fact. `CircularAreaBackingResource` requires it, so the resource cannot be refolded without weakening the specification or assuming a new axiom.
+
+The upstream repair is to preserve `data_buffer <> 0` in the annotation when the backing resource is unfolded on the non-null path, regenerate symbolic execution output, and retry this group. See `group_worker_report.json` for authoritative source-version-bound command evidence.

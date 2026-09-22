@@ -2,7 +2,7 @@
 
 - Case: `xizi_circular_area_release`
 - Function: `CircularAreaRelease`
-- Run: `xizi_circular_area_release-20260820231001`
+- Run: `xizi_circular_area_release-20260901182500`
 - Status: complete
-- Target witnesses: 0
-- Source goal version: `21bfb5aef806929b48d57cbf6ea193d27aca4dc7e7bc74e9b3dc389884a580b7`
+- Target witnesses: 1
+- Source goal version: `6fb6b2f9e7044cccfcc87f5d019be3bc71990894caa5a747c436b06b83b998e6`

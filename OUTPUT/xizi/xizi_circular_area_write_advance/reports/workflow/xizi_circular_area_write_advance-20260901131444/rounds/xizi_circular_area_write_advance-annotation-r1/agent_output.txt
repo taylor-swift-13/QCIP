@@ -1,0 +1,11 @@
+# Reuse Note
+
+Note kind: non-authoritative reuse note
+
+This file is not acceptance evidence.
+
+The ready candidate replaces the descriptor-only/UCharArray::full contract with the shared CircularAreaBackingResource and preserves GlobalStrings.  The internal Assert deliberately unfolds that shared resource only after the null-return branch, retaining CircularAreaLogicalState and UCharArray::mixed_full verbatim so the two non-null returns can refold the identical resource.
+
+Two explicit ghost values, entry_circular_area and entry_data_length, bridge the C parameters across the macro-expanded null check.  Do not remove them unless another verified bridge is introduced: a trial without those equalities reached symbolic EOF but generated return VCs with unrelated pre/current parameters and was rejected during annotation-checking.
+
+Final QCP MCP shape is stable across three consecutive runs: 8 safety obligations auto-solved, the null return auto-solved, and exactly 3 manual obligations remain (one backing-resource unfold and two non-null return/refold obligations).  The case lib adds only a Require Export of the common circular-area lib and retains CircularAreaDivideWrDataResult as the local exact result relation.

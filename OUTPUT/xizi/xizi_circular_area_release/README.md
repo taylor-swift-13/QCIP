@@ -1,25 +1,12 @@
-# xizi_circular_area_release 验证交付
+# CircularAreaRelease 验证归档
 
-本目录保存 `CircularAreaRelease` 的最终 accepted 交付。`source/` 是带 annotation 的 C 源码，`rocq/` 包含 generated goal、auto/manual proof、goal check、唯一 case lib 与 diagnostics，`reports/` 保存 controller、workflow、checkpoint 和复用证据。
+真实 CRTOS `CircularAreaRelease` 已使用统一 `circular_area_state/store_circular_area` 重证。公开 `With` 只有 `state/LitMap`；函数先更新字段，再依次释放 backing buffer 和 descriptor，出口只保留 `GlobalStrings`，不返回悬空 circular-area 资源。
 
-验证状态：controller run `xizi_circular_area_release-20260820231001` 已到 `done`，final-check 与独立 freshness 均通过；`source_goal_version` 为 `21bfb5aef806929b48d57cbf6ea193d27aca4dc7e7bc74e9b3dc389884a580b7`，manual target witness 共 0 个，全部完成证明。
+- run：`xizi_circular_area_release-20260903153314`
+- source version：`3eedfbfc6559fd5a90109d37092c651045e8c08ed2dfc4070162311e74fb0ac1`
+- source-goal version：`d9b1514c7081b3275db88cb25fe44851c7b0ce9b0d5d0073e4515ca7f4e0bdf6`
+- manual VC：1/1；helper/import：无
+- parent/final fixed Coq 与结构扫描：通过
+- isolated freshness：skipped；canonical symexec 到 EOF
 
-规约直接使用函数参数名，不含参数 `@pre`。函数名、static 属性、签名和可执行语义已与 CRTOS `circular_area.c` 对齐；`ERROR` 为 1，descriptor 保持 `p_head=data_buffer`、`p_tail=data_buffer+area_length` 和 `0 < area_length <= 256` 的有效状态约束。
-
-## 复现
-
-在仓库根目录运行 canonical symbolic execution，必须保留：
-
-    -IQCP_examples/QCP_demos_LLM/
-    -slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM
-
-fresh 输出必须写到报告临时目录，不能覆盖已证明的 manual。Rocq 只通过 `.agents/skills/vc-proving/scripts/coq_tooling.py check` 的 fixed argv 检查。精确命令、哈希和 phase 证据见 `reports/controller/` 与 `reports/workflow/`。
-
-## 文件组织
-
-- `source/`：最终 annotated C。
-- `rocq/`：最终 generated files、manual proof、case_lib 与 diagnostics。
-- `reports/controller/`：run log、timing、final state 与 freshness。
-- `reports/workflow/`：accepted annotation、vc-checking、vc-proving handoff/report。
-- `reports/generated_snapshots/`、`reports/input_snapshots/`：交付快照。
-- `reports/checkpoint.json`、`reuse_packet.json`、`partial_proof_packet.json`：续证入口。
+完整 workflow：`reports/workflow/xizi_circular_area_release-20260903153314/`。

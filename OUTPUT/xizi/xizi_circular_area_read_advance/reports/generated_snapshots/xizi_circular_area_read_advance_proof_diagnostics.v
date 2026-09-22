@@ -24,6 +24,12 @@ Local Open Scope sac.
 Lemma proof_of_CircularAreaDivideRdData_return_wit_1_split_goal_1 : CircularAreaDivideRdData_return_wit_1_split_goal_1.
 Proof. Abort.
 
+Lemma proof_of_CircularAreaDivideRdData_return_wit_1_split_goal_2 : CircularAreaDivideRdData_return_wit_1_split_goal_2.
+Proof. Abort.
+
 Lemma proof_of_CircularAreaDivideRdData_return_wit_2_split_goal_1 : CircularAreaDivideRdData_return_wit_2_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_CircularAreaDivideRdData_return_wit_2_split_goal_2 : CircularAreaDivideRdData_return_wit_2_split_goal_2.
 Proof. Abort.
 

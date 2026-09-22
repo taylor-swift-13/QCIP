@@ -77,9 +77,6 @@ Proof. Admitted.
 Lemma proof_of_CircularAreaGetDataLength_safety_wit_3 : CircularAreaGetDataLength_safety_wit_3.
 Proof. Admitted. 
 
-Lemma proof_of_CircularAreaGetDataLength_partial_solve_wit_1_pure : CircularAreaGetDataLength_partial_solve_wit_1_pure.
-Proof. Admitted. 
-
 Lemma proof_of_CircularAreaGetDataLength_partial_solve_wit_1 : CircularAreaGetDataLength_partial_solve_wit_1.
 Proof. Admitted. 
 
@@ -170,22 +167,13 @@ Proof. Admitted.
 Lemma proof_of_CircularAreaRead_safety_wit_24 : CircularAreaRead_safety_wit_24.
 Proof. Admitted. 
 
-Lemma proof_of_CircularAreaRead_entail_wit_1 : CircularAreaRead_entail_wit_1.
-Proof. Admitted. 
-
-Lemma proof_of_CircularAreaRead_partial_solve_wit_1_pure : CircularAreaRead_partial_solve_wit_1_pure.
+Lemma proof_of_CircularAreaRead_entail_wit_2 : CircularAreaRead_entail_wit_2.
 Proof. Admitted. 
 
 Lemma proof_of_CircularAreaRead_partial_solve_wit_1 : CircularAreaRead_partial_solve_wit_1.
 Proof. Admitted. 
 
-Lemma proof_of_CircularAreaRead_partial_solve_wit_2_pure : CircularAreaRead_partial_solve_wit_2_pure.
-Proof. Admitted. 
-
 Lemma proof_of_CircularAreaRead_partial_solve_wit_2 : CircularAreaRead_partial_solve_wit_2.
-Proof. Admitted. 
-
-Lemma proof_of_CircularAreaRead_partial_solve_wit_3_pure : CircularAreaRead_partial_solve_wit_3_pure.
 Proof. Admitted. 
 
 Lemma proof_of_CircularAreaRead_partial_solve_wit_3 : CircularAreaRead_partial_solve_wit_3.

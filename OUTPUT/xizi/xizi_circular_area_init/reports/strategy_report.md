@@ -1,3 +1,3 @@
-# Strategy Report
+# 证明策略
 
-证明按 vc-checking group plan 分组，在隔离 group worktree 中完成；parent verify 合并后运行 full fixed goal_check。未使用 forbidden lemma。
+失败分支由 symbolic execution 自动闭合。成功分支使用对齐长度事实和 allocator 的 `undef_full`，构造 `repeat None` 物理列表、空逻辑 FIFO 以及 readidx/writeidx/status=0 的共享 resource。

@@ -1,0 +1,336 @@
+{
+  "schema_version": "qcp-group-worker-report/v1",
+  "group_id": "ring_list_reconstruction",
+  "agent_result": {
+    "vc_proving": {
+      "group": {
+        "status": "blocked",
+        "group_id": "ring_list_reconstruction",
+        "assigned_witnesses": [
+          "proof_of_CircularAreaWrite_entail_wit_2",
+          "proof_of_CircularAreaWrite_return_wit_1",
+          "proof_of_CircularAreaWrite_return_wit_2",
+          "proof_of_CircularAreaWrite_return_wit_3",
+          "proof_of_CircularAreaWrite_return_wit_4",
+          "proof_of_CircularAreaWrite_partial_solve_wit_8_pure",
+          "proof_of_CircularAreaWrite_partial_solve_wit_9_pure",
+          "proof_of_CircularAreaWrite_partial_solve_wit_10_pure"
+        ],
+        "helper_namespace": {
+          "policy": "group-id-suffixed",
+          "group_id": "ring_list_reconstruction",
+          "suffix": "__ring_list_reconstruction",
+          "required": "yes"
+        },
+        "source_goal_version": "090fa714cca5cc09c87481abe38f12dfac33091f8bee5ab41f80a10acfe836db",
+        "solved_witnesses": [
+          "proof_of_CircularAreaWrite_entail_wit_2",
+          "proof_of_CircularAreaWrite_partial_solve_wit_8_pure",
+          "proof_of_CircularAreaWrite_partial_solve_wit_9_pure",
+          "proof_of_CircularAreaWrite_partial_solve_wit_10_pure"
+        ],
+        "unsolved_witnesses": [
+          "proof_of_CircularAreaWrite_return_wit_1",
+          "proof_of_CircularAreaWrite_return_wit_2",
+          "proof_of_CircularAreaWrite_return_wit_3",
+          "proof_of_CircularAreaWrite_return_wit_4"
+        ],
+        "errors": [],
+        "blockers": [
+          {
+            "kind": "required-premise-not-derivable-current-vc",
+            "summary": "All four return witnesses require UCharArray.full input_buffer_entry requested input_contents, hence Zlength input_contents = requested, but their antecedents contain only segments whose ranges jointly cover [0, requested); no entry full resource, input_length = requested pure fact, or equivalent sublist identity constrains any tail after requested.",
+            "affected_witnesses": [
+              "proof_of_CircularAreaWrite_return_wit_1",
+              "proof_of_CircularAreaWrite_return_wit_2",
+              "proof_of_CircularAreaWrite_return_wit_3",
+              "proof_of_CircularAreaWrite_return_wit_4"
+            ],
+            "failed_conclusion": "UCharArray.full input_buffer_entry requested input_contents",
+            "derived_consequence_of_conclusion": "Zlength input_contents = requested via UCharArray.full_to_seg and UCharArray.seg_Zlength",
+            "antecedent_audit": {
+              "entry_full_present": "no",
+              "pure_input_length_equals_requested_present": "no",
+              "joint_segment_coverage": "exactly [0, requested)",
+              "joint_segment_length_consequence": "the represented sublists have the requested prefix lengths; this does not imply Zlength input_contents = requested",
+              "extra_tail_excluded": "no"
+            },
+            "counterexamples": [
+              {
+                "applies_to": [
+                  "proof_of_CircularAreaWrite_return_wit_1",
+                  "proof_of_CircularAreaWrite_return_wit_3"
+                ],
+                "branch": "wrap",
+                "values": {
+                  "area_length": 2,
+                  "writeidx": 1,
+                  "readidx": 1,
+                  "b_status": 0,
+                  "requested": 2,
+                  "data_length": 2,
+                  "write_len_up": 1,
+                  "write_len_down": 1,
+                  "contents": [
+                    0,
+                    0
+                  ],
+                  "input_contents": [
+                    7,
+                    8,
+                    99
+                  ],
+                  "force0_return_wit_1": 1,
+                  "force0_return_wit_3": 0
+                },
+                "premise_check": "CircularAreaDataLengthResult has used=0; actual=min(2,2-0)=2; writeidx+actual=3>2 gives divide result 1; the three input segments are [0,1)=[7], [1,2)=[8], [2,2)=[], and the extra tail [99] is unmentioned.",
+                "post_contradiction": "UCharArray.full input_buffer_entry 2 [7;8;99] entails Zlength [7;8;99]=2, but its Zlength is 3."
+              },
+              {
+                "applies_to": [
+                  "proof_of_CircularAreaWrite_return_wit_2",
+                  "proof_of_CircularAreaWrite_return_wit_4"
+                ],
+                "branch": "contiguous",
+                "values": {
+                  "area_length": 2,
+                  "writeidx": 1,
+                  "readidx": 0,
+                  "b_status": 0,
+                  "requested": 1,
+                  "data_length": 1,
+                  "contents": [
+                    0,
+                    0
+                  ],
+                  "input_contents": [
+                    7,
+                    99
+                  ],
+                  "force0_return_wit_2": 1,
+                  "force0_return_wit_4": 0
+                },
+                "premise_check": "CircularAreaDataLengthResult has used=1; actual=min(1,2-1)=1; writeidx+actual=2<=2 gives divide result 0; the two input segments are [0,1)=[7] and [1,1)=[], and the extra tail [99] is unmentioned.",
+                "post_contradiction": "UCharArray.full input_buffer_entry 1 [7;99] entails Zlength [7;99]=1, but its Zlength is 2."
+              }
+            ],
+            "repair_direction": "Return to annotation/specification and preserve or reintroduce Zlength input_contents = requested (or the original UCharArray.full resource) across the write path before these four return VCs are generated."
+          }
+        ],
+        "candidate": {
+          "worktree_path": "/home/yangfp/QCIP/worktrees/xizi_circular_area_write-20260821010001/xizi_circular_area_write-vc-proving-r1/group_02__ring_list_reconstruction",
+          "proof_manual_file": "/home/yangfp/QCIP/worktrees/xizi_circular_area_write-20260821010001/xizi_circular_area_write-vc-proving-r1/group_02__ring_list_reconstruction/SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write/source/xizi_circular_area_write_proof_manual.v",
+          "case_lib": "/home/yangfp/QCIP/worktrees/xizi_circular_area_write-20260821010001/xizi_circular_area_write-vc-proving-r1/group_02__ring_list_reconstruction/SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write/source/xizi_circular_area_write_lib.v"
+        },
+        "changed_files": [
+          {
+            "path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write/source/xizi_circular_area_write_proof_manual.v",
+            "sha256": "e3c586557c299af091802dd6f012f609d6d1f39745e5425656109172e8c5996a",
+            "change": "proved four assigned witness bodies; left four semantically blocked return bodies unchanged"
+          },
+          {
+            "path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_write/source/xizi_circular_area_write_lib.v",
+            "sha256": "119dcf674b27bc3d25c9e50d01a365ca3e726a3d3a5fc88766379de4746cd317",
+            "change": "added one proved current-group-suffixed bounds helper"
+          }
+        ],
+        "case_lib_added_declarations": [
+          {
+            "name": "CircularAreaActualWriteLength_bounds__ring_list_reconstruction",
+            "kind": "Lemma",
+            "statement_hash": "6cdaaa3b39df610211e800a6416146dc12b04154d70fd070d3f619df129d862e"
+          }
+        ],
+        "verification_result": {
+          "coqc_check": {
+            "status": "passed",
+            "tool": "coqc",
+            "kind": "coqc_check",
+            "argv": [
+              "coqc",
+              "-q",
+              "-R",
+              "QCIPLib",
+              "QCIPLib",
+              "-R",
+              "QCIPCases",
+              "QCIPCases",
+              "-R",
+              "SeparationLogic/flocq/src",
+              "Flocq",
+              "-R",
+              "SeparationLogic/SeparationLogic",
+              "SimpleC.SL",
+              "-R",
+              "SeparationLogic/unifysl",
+              "Logic",
+              "-R",
+              "SeparationLogic/sets",
+              "SetsClass",
+              "-R",
+              "SeparationLogic/compcert_lib",
+              "compcert.lib",
+              "-R",
+              "SeparationLogic/auxlibs",
+              "AUXLib",
+              "-R",
+              "SeparationLogic/examples",
+              "SimpleC.EE",
+              "-R",
+              "SeparationLogic/stdlib",
+              "SimpleC.StdLib",
+              "-R",
+              "SeparationLogic/StrategyLib",
+              "SimpleC.StrategyLib",
+              "-R",
+              "SeparationLogic/Common",
+              "SimpleC.Common",
+              "-R",
+              "SeparationLogic/fixedpoints",
+              "FP",
+              "-R",
+              "SeparationLogic/MonadLib",
+              "MonadLib",
+              "-R",
+              "SeparationLogic/listlib",
+              "ListLib",
+              "-R",
+              "SeparationLogic/MaxMinLib",
+              "MaxMinLib",
+              "-R",
+              "SeparationLogic/GraphLib",
+              "GraphLib",
+              "-R",
+              "SeparationLogic/SumLib",
+              "SumLib",
+              "-R",
+              "SeparationLogic/tracelib",
+              "TraceLib",
+              "-R",
+              "SeparationLogic/coq-record-update/src",
+              "RecordUpdate",
+              "-Q",
+              "SeparationLogic/algorithms",
+              "Algorithms",
+              "-Q",
+              "FloatTest",
+              "FloatTest",
+              "-Q",
+              "OUTPUT/iplib",
+              "OUTPUT.iplib",
+              ".coq_group_checks/xizi_circular_area_write_group_02__ring_list_reconstruction_check.v"
+            ],
+            "cwd": "/home/yangfp/QCIP/worktrees/xizi_circular_area_write-20260821010001/_coq_builds/xizi_circular_area_write-vc-proving-r1/group_02__ring_list_reconstruction/src",
+            "target_file": ".coq_group_checks/xizi_circular_area_write_group_02__ring_list_reconstruction_check.v",
+            "target_kind": "group-check",
+            "fixed_flags_hash": "75b2bdd1edb990c20e7514694fa4303e8d948c120bc1e5ac3813d06caabc3dff",
+            "source_goal_version": "090fa714cca5cc09c87481abe38f12dfac33091f8bee5ab41f80a10acfe836db",
+            "returncode": 0,
+            "elapsed_seconds": 152.968,
+            "stdout_tail": "",
+            "stderr_tail": "",
+            "artifact": "/home/yangfp/QCIP/worktrees/xizi_circular_area_write-20260821010001/_coq_builds/xizi_circular_area_write-vc-proving-r1/group_02__ring_list_reconstruction/src/.coq_group_checks/xizi_circular_area_write_group_02__ring_list_reconstruction_check.vo",
+            "note": "Fixed group-check passed for the current files and source_goal_version. Coqc permits the four pre-existing Admitted return bodies, so this is compile evidence for the solved proofs, not evidence that the blocked return witnesses were proved."
+          },
+          "coqtop_debug": {
+            "status": "passed",
+            "tool": "coqtop",
+            "kind": "coqtop_debug",
+            "argv": [
+              "coqtop",
+              "-q",
+              "-batch",
+              "-R",
+              "QCIPLib",
+              "QCIPLib",
+              "-R",
+              "QCIPCases",
+              "QCIPCases",
+              "-R",
+              "SeparationLogic/flocq/src",
+              "Flocq",
+              "-R",
+              "SeparationLogic/SeparationLogic",
+              "SimpleC.SL",
+              "-R",
+              "SeparationLogic/unifysl",
+              "Logic",
+              "-R",
+              "SeparationLogic/sets",
+              "SetsClass",
+              "-R",
+              "SeparationLogic/compcert_lib",
+              "compcert.lib",
+              "-R",
+              "SeparationLogic/auxlibs",
+              "AUXLib",
+              "-R",
+              "SeparationLogic/examples",
+              "SimpleC.EE",
+              "-R",
+              "SeparationLogic/stdlib",
+              "SimpleC.StdLib",
+              "-R",
+              "SeparationLogic/StrategyLib",
+              "SimpleC.StrategyLib",
+              "-R",
+              "SeparationLogic/Common",
+              "SimpleC.Common",
+              "-R",
+              "SeparationLogic/fixedpoints",
+              "FP",
+              "-R",
+              "SeparationLogic/MonadLib",
+              "MonadLib",
+              "-R",
+              "SeparationLogic/listlib",
+              "ListLib",
+              "-R",
+              "SeparationLogic/MaxMinLib",
+              "MaxMinLib",
+              "-R",
+              "SeparationLogic/GraphLib",
+              "GraphLib",
+              "-R",
+              "SeparationLogic/SumLib",
+              "SumLib",
+              "-R",
+              "SeparationLogic/tracelib",
+              "TraceLib",
+              "-R",
+              "SeparationLogic/coq-record-update/src",
+              "RecordUpdate",
+              "-Q",
+              "SeparationLogic/algorithms",
+              "Algorithms",
+              "-Q",
+              "FloatTest",
+              "FloatTest",
+              "-Q",
+              "OUTPUT/iplib",
+              "OUTPUT.iplib",
+              "-l",
+              "/home/yangfp/QCIP/worktrees/xizi_circular_area_write-20260821010001/_coq_builds/xizi_circular_area_write-vc-proving-r1/group_02__ring_list_reconstruction/src/.coq_debug/group_02__ring_list_reconstruction.v"
+            ],
+            "cwd": "/home/yangfp/QCIP/worktrees/xizi_circular_area_write-20260821010001/_coq_builds/xizi_circular_area_write-vc-proving-r1/group_02__ring_list_reconstruction/src",
+            "fixed_flags_hash": "75b2bdd1edb990c20e7514694fa4303e8d948c120bc1e5ac3813d06caabc3dff",
+            "source_goal_version": "090fa714cca5cc09c87481abe38f12dfac33091f8bee5ab41f80a10acfe836db",
+            "returncode": 0,
+            "debug_script_sha256": "0a9082a6ab90d09e525f7108512fd55d30265c640606ccb0d16d32ccfaa0d178",
+            "note": "The successful debug run proved partial_solve_wit_8_pure, partial_solve_wit_9_pure, and partial_solve_wit_10_pure; the temporary debug script was then removed. Earlier successful runs also validated entail_wit_2 and the helper."
+          }
+        }
+      }
+    }
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-08-20T18:47:46Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_circular_area_write-20260821010001/rounds/xizi_circular_area_write-vc-proving-r1/groups/group_02__ring_list_reconstruction/group_worker_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    }
+  }
+}

@@ -1,7 +1,7 @@
 # Witness Ledger
 
-- `proof_of_CircularAreaIsEmpty_return_wit_1`: proved
-- `proof_of_CircularAreaIsEmpty_return_wit_2`: proved
-- `proof_of_CircularAreaIsEmpty_return_wit_3`: proved
-- `proof_of_CircularAreaIsEmpty_return_wit_4`: proved
-- `proof_of_CircularAreaIsEmpty_partial_solve_wit_1_pure`: proved
+| group | count | result |
+| --- | ---: | --- |
+| `empty_query_unfold_and_repack` | 6 | accepted; group/parent/final checks passed |
+
+完整 witness 与 hashes 见 `vc_checking_report.json`。

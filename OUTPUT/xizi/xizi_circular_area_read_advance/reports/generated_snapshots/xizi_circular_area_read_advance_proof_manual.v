@@ -21,54 +21,78 @@ Import naive_C_Rules.
 From SimpleC.EE.OUTPUT.xizi.xizi_circular_area_read_advance.source Require Import xizi_circular_area_read_advance_lib.
 Local Open Scope sac.
 
+Lemma proof_of_CircularAreaDivideRdData_entail_wit_1 : CircularAreaDivideRdData_entail_wit_1.
+Proof.
+  aggressive_pre_process.
+  unfold CircularAreaDivideRdDataInput.
+  Split.
+  - Intros_p Hnull.
+    entailer!.
+  - Intros_p Hinput.
+    unfold store_circular_area.
+    Intros data_buffer operations readidx writeidx b_status physical.
+    destruct Hinput as [Harea [Hnonzero Hlength]].
+    subst circular_area_pre.
+    match goal with
+    | Hstore : area_addr <> 0 /\ data_buffer <> 0 /\
+        CircularAreaLogicalState readidx writeidx (ca_capacity state)
+          b_status (ca_contents state) physical |- _ =>
+        destruct Hstore as [Harea_store [Hbuffer_nonzero Hlogical]]
+    end.
+    pose proof Hlogical as Hlogical_facts.
+    unfold CircularAreaLogicalState in Hlogical_facts.
+    Exists operations writeidx b_status physical readidx data_buffer.
+    split_pure_spatial.
+    + cancel (GlobalStrings LitMap).
+      cancel (UCharArray.mixed_full data_buffer (ca_capacity state) physical).
+      cancel (&(area_addr # "CircularArea" ->ₛ "data_buffer") # Ptr |-> data_buffer).
+      cancel (&(area_addr # "CircularArea" ->ₛ "readidx") # UChar |-> readidx).
+      cancel (&(area_addr # "CircularArea" ->ₛ "writeidx") # UChar |-> writeidx).
+      cancel (&(area_addr # "CircularArea" ->ₛ "p_head") # Ptr |-> data_buffer).
+      cancel (&(area_addr # "CircularArea" ->ₛ "p_tail") # Ptr
+        |-> (data_buffer + ca_capacity state)).
+      cancel (&(area_addr # "CircularArea" ->ₛ "area_length") # UInt
+        |-> ca_capacity state).
+      cancel (&(area_addr # "CircularArea" ->ₛ "b_status") # Int |-> b_status).
+      cancel (&(area_addr # "CircularArea" ->ₛ "CircularAreaOperations") # Ptr
+        |-> operations).
+    + split_pures; dump_pre_spatial; auto; lia.
+Qed.
+
 Lemma proof_of_CircularAreaDivideRdData_return_wit_1 : CircularAreaDivideRdData_return_wit_1.
 Proof.
-  right.
-  intros data_length_pre circular_area_pre buffer_contents b_status
-    area_length p_tail p_head writeidx readidx data_buffer
-    PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9.
-  unfold CircularAreaDescriptorState in PreH7.
-  destruct PreH7 as
-    [[Hread_nonneg Hread_lt]
-      [[Hwrite_nonneg Hwrite_lt]
-        [[Harea_pos Harea_bound] [Hb_status Hbuffer_length]]]].
-  assert (Hread_u32 : 0 <= readidx < 2 ^ 32) by lia.
-  pose proof
-    (unsigned_last_nbits_eq readidx 32 Hread_u32) as Hread_unsigned.
-  rewrite Hread_unsigned in PreH1.
-  assert (Hsum_u32 : 0 <= readidx + data_length_pre < 2 ^ 32) by lia.
-  pose proof
-    (unsigned_last_nbits_eq (readidx + data_length_pre) 32 Hsum_u32)
-    as Hsum_unsigned.
-  rewrite Hsum_unsigned in PreH1.
-  pre_process.
-  entailer!.
-  unfold CircularAreaDivideRdDataResult.
-  right; lia.
+  aggressive_pre_process.
+  - unfold CircularAreaLogicalState in PreH8.
+    rewrite (unsigned_last_nbits_eq readidx_2 32) in PreH1 by lia.
+    rewrite (unsigned_last_nbits_eq (readidx_2 + data_length_pre) 32) in PreH1 by lia.
+    unfold CircularAreaDivideRdDataResult.
+    lia.
+  - unfold CircularAreaStateDivideRdDataResult, CircularAreaValid.
+    unfold CircularAreaLogicalState in PreH8.
+    intuition.
 Qed.
 
 Lemma proof_of_CircularAreaDivideRdData_return_wit_2 : CircularAreaDivideRdData_return_wit_2.
 Proof.
-  right.
-  intros data_length_pre circular_area_pre buffer_contents b_status
-    area_length p_tail p_head writeidx readidx data_buffer
-    PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9.
-  unfold CircularAreaDescriptorState in PreH7.
-  destruct PreH7 as
-    [[Hread_nonneg Hread_lt]
-      [[Hwrite_nonneg Hwrite_lt]
-        [[Harea_pos Harea_bound] [Hb_status Hbuffer_length]]]].
-  assert (Hread_u32 : 0 <= readidx < 2 ^ 32) by lia.
-  pose proof
-    (unsigned_last_nbits_eq readidx 32 Hread_u32) as Hread_unsigned.
-  rewrite Hread_unsigned in PreH1.
-  assert (Hsum_u32 : 0 <= readidx + data_length_pre < 2 ^ 32) by lia.
-  pose proof
-    (unsigned_last_nbits_eq (readidx + data_length_pre) 32 Hsum_u32)
-    as Hsum_unsigned.
-  rewrite Hsum_unsigned in PreH1.
+  aggressive_pre_process.
+  - unfold CircularAreaLogicalState in PreH8.
+    rewrite (unsigned_last_nbits_eq readidx_2 32) in PreH1 by lia.
+    rewrite (unsigned_last_nbits_eq (readidx_2 + data_length_pre) 32) in PreH1 by lia.
+    unfold CircularAreaDivideRdDataResult.
+    lia.
+  - unfold CircularAreaStateDivideRdDataResult, CircularAreaValid.
+    unfold CircularAreaLogicalState in PreH8.
+    intuition.
+Qed.
+
+Lemma proof_of_CircularAreaDivideRdData_return_wit_3 : CircularAreaDivideRdData_return_wit_3.
+Proof.
   pre_process.
-  entailer!.
-  unfold CircularAreaDivideRdDataResult.
-  left; lia.
+  unfold CircularAreaDivideRdDataInput.
+  Split.
+  - Intros_p Hnull.
+    Right.
+    entailer!.
+  - Intros_p Hinput.
+    entailer!.
 Qed.

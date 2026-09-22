@@ -1,14 +1,5 @@
-Require Import Coq.Lists.List.
-Require Import Coq.ZArith.ZArith.
-Require Import Coq.micromega.Lia.
-Require Import AUXLib.ListLib.
+Require Export QCIPLib.xizi.xizi_circular_area_common.xizi_circular_area_lib.
 
-Import ListNotations.
-Local Open Scope Z_scope.
-
-Definition xizi_circular_area_release_domain
-    (circular_area data_buffer area_length : Z)
-    (contents : list Z) : Prop :=
-  circular_area <> 0 /\
-  data_buffer <> 0 /\
-  Zlength contents = area_length.
+(** [CircularAreaRelease] consumes the unique shared descriptor-and-buffer
+    resource.  This case library deliberately introduces no duplicate FIFO,
+    status, descriptor, or backing-buffer definition. *)

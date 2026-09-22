@@ -1,3 +1,3 @@
 # Strategy Report
 
-证明按 vc-checking group plan 分组，在隔离 group worktree 中完成；parent verify 合并后运行 full fixed goal_check。未使用 forbidden lemma。
+函数内部 assertion 打开 `store_circular_area` 的 representation，再用 `CircularAreaLogicalState` 的 full equivalence 把等下标/status 分支转换为公开的 FIFO 长度结果。返回前重新封装原抽象 state，representation witness 不进入 public `With`。

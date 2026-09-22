@@ -1,0 +1,74 @@
+{
+  "schema_version": "qcp-vc-checking-group-plan/v1",
+  "status": "blocked",
+  "source_goal_version": "990bc62add767823f5be7715813857a610cf1747b9dc856fa2870bbb0fbe0b63",
+  "target_witnesses": [
+    "proof_of_CircularAreaIsFull_entail_wit_1_state_spec",
+    "proof_of_CircularAreaIsFull_return_wit_1_state_spec",
+    "proof_of_CircularAreaIsFull_return_wit_2_state_spec",
+    "proof_of_CircularAreaIsFull_return_wit_3_state_spec",
+    "proof_of_CircularAreaIsFull_return_wit_4_null_spec",
+    "proof_of_CircularAreaIsFull_partial_solve_wit_1_state_spec_pure",
+    "proof_of_CircularAreaGetDataLength_safety_wit_7_state_spec",
+    "proof_of_CircularAreaGetDataLength_safety_wit_8_state_spec",
+    "proof_of_CircularAreaGetDataLength_entail_wit_1_state_spec",
+    "proof_of_CircularAreaGetDataLength_entail_wit_2_state_spec",
+    "proof_of_CircularAreaGetDataLength_return_wit_1_state_spec",
+    "proof_of_CircularAreaGetDataLength_return_wit_2_state_spec",
+    "proof_of_CircularAreaGetDataLength_return_wit_3_null_spec"
+  ],
+  "proof_groups": [],
+  "blockers": [
+    {
+      "blocker_class": "annotation-bug",
+      "affected_witnesses": [
+        "proof_of_CircularAreaIsFull_return_wit_1_state_spec",
+        "proof_of_CircularAreaIsFull_return_wit_2_state_spec",
+        "proof_of_CircularAreaIsFull_return_wit_3_state_spec",
+        "proof_of_CircularAreaGetDataLength_return_wit_1_state_spec",
+        "proof_of_CircularAreaGetDataLength_return_wit_2_state_spec"
+      ],
+      "missing_fact": "circular_area = circular_area_pre (or an equivalent ownership bridge)",
+      "missing_resource": "The antecedent owns every CircularArea descriptor field at circular_area, while the postcondition requires store_circular_area state circular_area_pre.",
+      "reason": "Both generated alternatives of each affected witness universally quantify circular_area and circular_area_pre independently and contain only non-nullness, not equality. A group-local helper cannot manufacture heap cells at a different root address or prove equality of arbitrary addresses.",
+      "counterexample_shape": "Choose distinct nonzero descriptor roots circular_area and circular_area_pre and a heap containing exactly the descriptor fields rooted at circular_area plus the backing buffer required by the antecedent. CircularAreaLogicalState and all pure branch facts may hold, but the heap has none of the descriptor cells rooted at circular_area_pre required by the consequent store_circular_area.",
+      "recommended_repair": "Return to the C annotation and preserve the unchanged parameter/pre-state pointer bridge through the live internal assertions of both CircularAreaIsFull and CircularAreaGetDataLength, using annotation syntax that regenerates an explicit equality or consistently uses the frozen public-spec address in the return VCs. Preserve executable C tokens and the public store_circular_area specification, then rerun canonical symbolic execution.",
+      "recommended_next_phase": "annotation",
+      "group_worker_must_not_attempt": true
+    }
+  ],
+  "grouping_reason": "No proof groups are dispatchable because five target witnesses have an annotation-level ownership gap. The target list still records all 13 cleaned-manual obligations in exact order. After annotation repair, the natural boundary is two groups (the six IsFull witnesses and the seven GetDataLength witnesses), which also satisfies max_witnesses_per_group=12.",
+  "coverage": {
+    "manual_target_count": 13,
+    "planned_target_count": 0,
+    "missing_witnesses": [],
+    "unknown_witnesses": [],
+    "duplicate_assignments": [],
+    "target_list_matches_cleaned_manual_exactly": true,
+    "complete_plan_withheld_due_to_blocker": true
+  },
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "target_witness_count": 13,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes",
+    "policy_satisfied": true,
+    "post_repair_grouping_hint": [
+      {
+        "group_id": "is_full_open_close_and_results",
+        "witness_count": 6,
+        "reason": "Same function, representation opening/refolding, and full-result invariant family."
+      },
+      {
+        "group_id": "data_length_query_and_arithmetic",
+        "witness_count": 7,
+        "reason": "Same function, full/non-full call result split, range checks, and logical-length arithmetic family."
+      }
+    ]
+  },
+  "group_plan_ready": false,
+  "ready_for_vc_proving_preparing": false,
+  "recommended_next_phase": "annotation"
+}

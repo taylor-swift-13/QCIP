@@ -1,0 +1,29 @@
+# Reuse Note
+
+Note kind: non-authoritative reuse note
+This file is not acceptance evidence.
+
+The current handoff and round-worktree hashes matched source_version
+`b4d040f00d5f65a83fa29ff4bcf5f6cc06b48085553f16b838b61a20dabea7fd`
+and source_goal_version
+`5b17673b620441796fe217c22741107cca11cb0603faf2ada4db93c631849117`.
+The cleaned manual contains exactly return witnesses 1, 2, and 3; diagnostic
+split goals are hints only and were not included as proof targets.
+
+All three witnesses are semantically proofable in one group named
+`init_return_branches`.  The reusable proof pattern is:
+
+1. Substitute `circular_area_length_pre = requested`.
+2. Bound `(requested / 4) * 4` between 0 and `UINT_MAX` using quotient and
+   remainder bounds, then apply existing `unsigned_last_nbits_eq` at 32 bits.
+3. Select the matching return branch, instantiate its existential variables,
+   unfold the appropriate case_lib predicate, and cancel unchanged resources.
+
+For return witness 1, select the right top-level Coq disjunct and preserve the
+buffer.  For return witness 2, select the leaked-descriptor orp branch and
+preserve all eight descriptor fields.  For return witness 3, select the final
+descriptor-allocation-failure branch and preserve `emp`.  No new helper is
+semantically required, and no annotation/spec blocker was found.
+
+If this note conflicts with the JSON handoff, controller manifest, declared
+versions, or current files, those authoritative sources win.

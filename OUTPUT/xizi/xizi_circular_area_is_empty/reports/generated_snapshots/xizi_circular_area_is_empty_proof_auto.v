@@ -18,6 +18,7 @@ Local Open Scope string_scope.
 Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.OUTPUT.xizi.xizi_circular_area_is_empty.source.xizi_circular_area_is_empty_lib.
+Require Import QCIPLib.xizi.xizi_circular_area_common.xizi_circular_area_lib.
 Local Open Scope sac.
 
 Lemma proof_of_CircularAreaIsEmpty_safety_wit_1 : CircularAreaIsEmpty_safety_wit_1.
@@ -39,15 +40,6 @@ Lemma proof_of_CircularAreaIsEmpty_safety_wit_6 : CircularAreaIsEmpty_safety_wit
 Proof. Admitted. 
 
 Lemma proof_of_CircularAreaIsEmpty_safety_wit_7 : CircularAreaIsEmpty_safety_wit_7.
-Proof. Admitted. 
-
-Lemma proof_of_CircularAreaIsEmpty_safety_wit_8 : CircularAreaIsEmpty_safety_wit_8.
-Proof. Admitted. 
-
-Lemma proof_of_CircularAreaIsEmpty_safety_wit_9 : CircularAreaIsEmpty_safety_wit_9.
-Proof. Admitted. 
-
-Lemma proof_of_CircularAreaIsEmpty_safety_wit_10 : CircularAreaIsEmpty_safety_wit_10.
 Proof. Admitted. 
 
 Lemma proof_of_CircularAreaIsEmpty_partial_solve_wit_1 : CircularAreaIsEmpty_partial_solve_wit_1.

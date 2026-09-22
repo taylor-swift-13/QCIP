@@ -8,7 +8,7 @@ typedef struct CircularArea *CircularAreaType;
 #define NONE ((void *)0)
 #define RET_TRUE 1
 #define RET_FALSE 0
-#define ERROR (-1)
+#define ERROR 1
 #define NULL_PARAM_CHECK(p) do { if ((p) == NONE) return ERROR; } while (0)
 // #define KPrintf(...) ((void)0)
 

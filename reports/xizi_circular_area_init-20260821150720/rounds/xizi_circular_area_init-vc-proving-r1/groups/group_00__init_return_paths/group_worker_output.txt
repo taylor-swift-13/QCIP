@@ -1,0 +1,11 @@
+# Reuse Note
+
+Note kind: non-authoritative reuse note
+
+This file is not acceptance evidence.
+
+The current group candidate proves `proof_of_CircularAreaInit_return_wit_1` and `proof_of_CircularAreaInit_return_wit_3` without case-lib changes. The fixed group-check returned 0 for source_goal_version `c3d38be29b09000c4eff2fa2161388533d44e2c000245118f340a8fb5138a053`, but `proof_of_CircularAreaInit_return_wit_2` remains the input `Admitted` skeleton and the group is blocked, not completed.
+
+For return_wit_2, choosing the retained-descriptor failure branch and discharging all pure facts leaves four impossible ownership strengthenings: p_head, p_tail, area_length, and CircularAreaOperations are `|->_` in the VC premise but `|-> existential_value` in `CircularAreaInitFailureState`. The current memory model includes a genuine `single_Noninit_mem` case in `mstore_noninit`; no proof/helper can convert it to initialized `mstore`. The empty failure branch cannot discard the eight-cell heap, and the success branch contradicts its required zero result with the descriptor's nonzero condition.
+
+Recommended retry: return to annotation/spec, preserve undef ownership for those four retained fields (or actually initialize them before the buffer-allocation failure), regenerate symbolic execution, and issue a fresh source_goal_version and handoff. JSON handoff, manifest, source versions, current files, and group_worker_report.json win over this note on conflict.

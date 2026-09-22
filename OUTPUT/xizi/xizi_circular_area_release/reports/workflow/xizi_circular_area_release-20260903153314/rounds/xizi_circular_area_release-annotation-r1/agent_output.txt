@@ -1,0 +1,11 @@
+# Reuse Note
+
+Note kind: non-authoritative reuse note
+
+This file is not acceptance evidence.
+
+Release 的最终候选使用公共 `With state LitMap`，前置为 `GlobalStrings(LitMap) * store_circular_area(state,circular_area)`，后置仅为 `GlobalStrings(LitMap)`。内部 Assert 才展开 data_buffer、operations、readidx、writeidx、b_status、physical；backing free 直接消费 `UCharArray::mixed_full`，descriptor free 由当前字段资源自动实例化。
+
+QCP 中不要在 Assert-local existential 名上写 `where data_buffer = data_buffer`：这些名字不是后续 call annotation 的词法变量。选中对应 spec 后让 QCP 从当前资源自动推断 With 参数即可。
+
+最终三轮 qcp-mcp 均为 success/unproved，8 条自动义务、1 条 manual 展开义务；两轮 canonical symexec 的 goal/proof_auto 哈希稳定。case-lib 固定 coq_tooling 检查通过。所有结论仍以 agent_input.json、当前 round worktree、controller 版本和 agent_report.json 为准。

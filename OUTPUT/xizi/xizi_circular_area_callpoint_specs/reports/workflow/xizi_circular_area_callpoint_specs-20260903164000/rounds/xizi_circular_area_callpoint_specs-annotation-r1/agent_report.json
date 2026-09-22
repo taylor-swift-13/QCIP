@@ -1,0 +1,1326 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "annotation",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "status": "completed",
+    "terminal": "yes",
+    "round_outcome": "completed",
+    "phase": "annotation",
+    "round": "xizi_circular_area_callpoint_specs-annotation-r1",
+    "attempt_id": "xizi_circular_area_callpoint_specs-annotation-r1-attempt-1",
+    "source_version": {
+      "schema_version": "qcp-source-version/v1",
+      "digest": "76f2a45cc2cbf9dfd011044a121b51feb2281ed42d38870ddba4b3984db0dfa8",
+      "digest_input_policy": "relative_path+sha256+state+role only",
+      "verified_current": true,
+      "files": [
+        {
+          "path": "/home/yangfp/QCIP/worktrees/xizi_circular_area_callpoint_specs-20260903164000/xizi_circular_area_callpoint_specs-annotation-r1/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs.c",
+          "relative_path": "OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs.c",
+          "sha256": "2cb7dc177b50c83c5c57e73029f4c696c0bcc5d9b3515fe9767165075c7c127d",
+          "state": "present",
+          "role": "target-c-annotated"
+        },
+        {
+          "path": "/home/yangfp/QCIP/worktrees/xizi_circular_area_callpoint_specs-20260903164000/xizi_circular_area_callpoint_specs-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_lib.v",
+          "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_lib.v",
+          "sha256": "5e17ab50d2ee5f742d73d5800253d907e6129f2e569ef9782ade1f60a59cdd16",
+          "state": "present",
+          "role": "case-lib-seed"
+        }
+      ]
+    },
+    "source_goal_version": null,
+    "input_source_version": {
+      "digest": "1452e1f4b8d0f5ae0667d3ae19c9ef317749beed40654d26b39ba99573bbabc3",
+      "verified_before_edit": true,
+      "current_parent_hashes": {
+        "OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs.c": "f5d4e1462793366a1b209d79197998987a7bf625c549b2ed5e775299e3b228d5",
+        "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_lib.v": "db6b3c372ec3a5f6d68373cca09e08b2193027644832c5edc26e8583c61f2c99"
+      }
+    },
+    "annotation": {
+      "schema_version": "qcp-annotation-agent-result/v1",
+      "status": "completed",
+      "terminal": "yes",
+      "round": "xizi_circular_area_callpoint_specs-annotation-r1",
+      "attempt_id": "xizi_circular_area_callpoint_specs-annotation-r1-attempt-1",
+      "round_outcome": "completed",
+      "ready_for_annotation_check_round": true,
+      "controller_acceptance_claimed": false,
+      "summary": "Updated all eight circular-area callpoint harnesses to the unified circular_area_state/store_circular_area interface. Public call specs now expose logical state, capacity, buffers and LitMap only; ordinary operations preserve or transform the abstract FIFO, Read uses mixed_full ownership, Reset returns the canonical empty state, Release consumes the shared store, and general force mode remains raw except for a proved fresh-capacity-four/full recovery bridge.",
+      "source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "76f2a45cc2cbf9dfd011044a121b51feb2281ed42d38870ddba4b3984db0dfa8",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "relative_path": "OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs.c",
+            "sha256": "2cb7dc177b50c83c5c57e73029f4c696c0bcc5d9b3515fe9767165075c7c127d",
+            "state": "present",
+            "role": "target-c-annotated"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_lib.v",
+            "sha256": "5e17ab50d2ee5f742d73d5800253d907e6129f2e569ef9782ade1f60a59cdd16",
+            "state": "present",
+            "role": "case-lib-seed"
+          }
+        ]
+      },
+      "source_goal_version": {
+        "status": "not-yet-controller-generated",
+        "reason": "The annotations changed and canonical symbolic execution refreshed goal/proof-auto. The pre-existing manual file was intentionally not hand-edited; controller annotation-check-round must regenerate the manual skeleton, split diagnostics, and compute the new source_goal_version."
+      },
+      "spec_design": {
+        "style": "predicate-first unified abstract state",
+        "mathematical_state": "circular_area_state records the queue capacity and logical FIFO contents; store_circular_area existentially owns all concrete array, index, status, head/tail and operations fields.",
+        "ordinary_transition_summary": "Init yields CircularAreaInitState; one-byte Write appends; one-byte Read removes the singleton byte and writes Some byte to mixed_full output; Reset preserves capacity and clears contents; queries compute from ca_capacity/ca_contents; Release consumes the store.",
+        "force_transition_summary": "CircularAreaForceWriteResult and store_forced_circular_area expose the raw force-mode physical result. CircularArea_force_fresh_full_to_store__callpoint_seed proves canonical recovery only for a fresh capacity-four area written with four valid bytes.",
+        "algorithm_mirror_review": "passed: the abstract FIFO result and the raw physical force relation state mathematical input/output properties; no C control-flow loop is redefined as a Rocq algorithm.",
+        "loop_invariant_review": "not-applicable: the eight target harness bodies contain no loops."
+      },
+      "c_annotation_changes": [
+        "Replaced legacy CircularAreaBackingResource and public physical-field With parameters by circular_area_state/store_circular_area.",
+        "Aligned query, Read, ordinary Write, Reset and Release call specs with the final shared state interface.",
+        "Changed Read caller ownership to UCharArray::mixed_full and preserved the caller's pre-read option list on the empty/error path.",
+        "Kept force mode as store_forced_circular_area and added an explicit post-call Assert that uses only the restricted proved bridge before Release.",
+        "Updated all named where instantiations to pass logical states/capacity and LitMap.",
+        "Preserved every executable C statement and function body."
+      ],
+      "case_lib_changes": [
+        "Defined callpoint result predicates over return codes and mixed_full Read output.",
+        "Defined the raw forced_circular_area_state, CircularAreaForceWriteResult, CircularAreaPhysicalWrite and store_forced_circular_area.",
+        "Proved CircularArea_force_fresh_full_to_store__callpoint_seed without Admitted, Axiom, or a forbidden lemma."
+      ],
+      "semantic_coverage": {
+        "harness_count": 8,
+        "harnesses": [
+          "xizi_circular_area_call_init_metadata_release",
+          "xizi_circular_area_call_init_empty_read_release",
+          "xizi_circular_area_call_init_first_write_release",
+          "xizi_circular_area_call_write_read_release",
+          "xizi_circular_area_call_repeated_write_release",
+          "xizi_circular_area_call_read_then_write_release",
+          "xizi_circular_area_call_reset_release",
+          "xizi_circular_area_call_force_full_release"
+        ],
+        "legacy_public_resource_absent": true,
+        "public_physical_with_fields_absent": true,
+        "read_mixed_full": true,
+        "force_not_silently_canonical": true,
+        "executable_c_identical_after_annotation_strip": true,
+        "annotation_stripped_sha256": "1bda7994fc4f8a34dae5fbd007fb783f6e7076c599399510ebf90d6b7572f7ce"
+      },
+      "canonical_symexec_evidence": {
+        "schema_version": "qcp-canonical-symexec-evidence/v1",
+        "status": "passed",
+        "driver": "/home/yangfp/QCIP/linux-binary/symexec",
+        "working_directory": "/home/yangfp/QCIP/worktrees/xizi_circular_area_callpoint_specs-20260903164000/xizi_circular_area_callpoint_specs-annotation-r1",
+        "include_args": [
+          "QCP_examples/QCP_demos_LLM/"
+        ],
+        "slp_args": [
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM"
+        ],
+        "argv": [
+          "/home/yangfp/QCIP/linux-binary/symexec",
+          "--goal-file=SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_goal.v",
+          "--proof-auto-file=SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_proof_auto.v",
+          "--proof-manual-file=SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_proof_manual.v",
+          "-IQCP_examples/QCP_demos_LLM/",
+          "-slp",
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM",
+          "--coq-logic-path=SimpleC.EE.OUTPUT.xizi.xizi_circular_area_callpoint_specs.source",
+          "--input-file=OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs.c",
+          "--no-exec-info"
+        ],
+        "exit_code": 0,
+        "reached_file_end": true,
+        "function_count": 8,
+        "elapsed_seconds": 0.3,
+        "stdout_summary": "All eight functions reached End of function; Successfully finished symbolic execution.",
+        "manual_refresh_note": "The driver reported that the existing manual proof file was not updated. This is expected at phase-owner level; controller annotation-check-round owns fresh manual regeneration and diagnostics split.",
+        "generated_file_digests": {
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_goal.v": "11c115407cab19a64b1d995182c4e8327e21b4380ffaefdece0839032655afaf",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_proof_auto.v": "3b333a5349f7ba2cd72e90e4df045fcc4e590439a0bebedcafaad3062774ca00",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_proof_manual.v": "3fae7581f86ac206cd92bd85fb53f1e11f354f75f3d492c820521fab22468aca",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_goal_check.v": "dc58ec32243defd88d40ce3edf91ed0e83e0138194420ccba28fd22927ca2d4d"
+        }
+      },
+      "qcp_mcp_interactive_evidence": {
+        "schema_version": "qcp-mcp-interactive-evidence/v1",
+        "status": "passed",
+        "qcp_mcp_requirement_satisfied": "yes",
+        "wrapper": "qcp_mcp.server",
+        "wrapper_python": "/home/yangfp/QCIP/mcp/qcp-mcp/.venv/bin/python",
+        "backend_driver": "/home/yangfp/QCIP/linux-binary/mcp",
+        "working_directory": "/home/yangfp/QCIP/worktrees/xizi_circular_area_callpoint_specs-20260903164000/xizi_circular_area_callpoint_specs-annotation-r1",
+        "target_file": "/home/yangfp/QCIP/worktrees/xizi_circular_area_callpoint_specs-20260903164000/xizi_circular_area_callpoint_specs-annotation-r1/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs.c",
+        "operations_per_cycle": [
+          "initialize/load_target_file",
+          "symbolic(499)",
+          "close"
+        ],
+        "final_cycle_additional_operation": "check(1)",
+        "complete_cycles": 3,
+        "cycle_results": [
+          "success: all 8 harnesses traversed; 29 manual obligations; no error",
+          "success: all 8 harnesses traversed; 29 manual obligations; no error",
+          "success: check(1) proved the first selected function and symbolic(499) traversed all 8 harnesses; 29 manual obligations; no error"
+        ],
+        "reached_file_end": true,
+        "manual_obligation_count": 29,
+        "error": null,
+        "canonical_parameter_transport": {
+          "status": "unsupported-by-wrapper-not-claimed",
+          "note": "qcp-mcp loads the absolute target through its MCP backend and does not expose the canonical -I/-slp arguments. Canonical parameter evidence is supplied by the separate direct symexec pass."
+        }
+      },
+      "case_lib_coqc_evidence": {
+        "schema_version": "qcp-coqc-check-evidence/v1",
+        "status": "passed",
+        "tool": "coqc",
+        "entrypoint": "/home/yangfp/QCIP/.agents/skills/vc-proving/scripts/coq_tooling.py check",
+        "target_kind": "case_lib",
+        "target_file": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_lib.v",
+        "target_sha256": "5e17ab50d2ee5f742d73d5800253d907e6129f2e569ef9782ade1f60a59cdd16",
+        "workspace_root": "/home/yangfp/QCIP/worktrees/xizi_circular_area_callpoint_specs-20260903164000/xizi_circular_area_callpoint_specs-annotation-r1",
+        "build_workspace": "/home/yangfp/QCIP/worktrees/xizi_circular_area_callpoint_specs-20260903164000/_coq_builds/annotation-r1-case-lib",
+        "fixed_flags_hash": "24021e94f65d7fcb0014dc119baf8b1f9efef2bcb2cf5fbeb875549a843dbeb8",
+        "coq_version": "The Coq Proof Assistant, version 8.20.1",
+        "returncode": 0,
+        "elapsed_seconds": 169.292,
+        "dependency_mode": "full",
+        "source_binding": "1452e1f4b8d0f5ae0667d3ae19c9ef317749beed40654d26b39ba99573bbabc3"
+      },
+      "annotation_checking_evidence": {
+        "schema_version": "qcp-annotation-checking-evidence/v1",
+        "status": "passed",
+        "checked_scope": [
+          "unified circular_area_state/store_circular_area definition use",
+          "all public callpoint and named local call specs",
+          "Read mixed_full ownership and exact singleton transition",
+          "ordinary Write append and Reset clear transitions",
+          "query result definitions",
+          "raw force result and restricted fresh/full recovery bridge",
+          "qcp-mcp generated symbolic obligations",
+          "case_lib compile and forbidden declaration scan",
+          "annotation-stripped executable C comparison"
+        ],
+        "qcp_mcp_requirement_satisfied": "yes",
+        "annotation_scratch_lib_coqc_status": "passed",
+        "spec_definition_status": "passed: circular_area_state is the mathematical FIFO interface; store_circular_area hides representation fields existentially. Force mode has a distinct raw state instead of pretending a non-canonical layout is canonical.",
+        "function_spec_status": "passed: every harness composition tracks exact logical state changes and buffer ownership; Init failure/success, Read error/success, ordinary Write, Reset, query and Release behavior are represented.",
+        "invariant_status": "not-applicable: the target harnesses contain no loops.",
+        "force_bridge_status": "passed: the bridge derives capacity, indices, status, physical length and live-byte equations for exactly the fresh capacity-four/full case and compiles under the fixed toolchain.",
+        "executable_body_status": "passed: stripping all /*@ ... */ annotations yields identical normalized executable C for input and candidate, with sha256 1bda7994fc4f8a34dae5fbd007fb783f6e7076c599399510ebf90d6b7572f7ce.",
+        "forbidden_scan_status": "passed: no Admitted, extra Axiom, SimpleC.EE generated-artifact import, or forbidden lemma name in case_lib; no forbidden lemma name in the existing manual file.",
+        "failed_checks": [],
+        "required_annotation_rework": [],
+        "required_annotation_scratch_lib_rework": [],
+        "ready_for_main_common_case_formal_lib_update": "yes",
+        "ready_for_main_symexec": "yes",
+        "semantic_review": {
+          "mathematical_postconditions_present": true,
+          "representation_fields_hidden_from_public_with": true,
+          "algorithm_mirror_absent": true,
+          "read_option_ownership_preserved": true,
+          "ordinary_fifo_transitions_exact": true,
+          "force_general_case_remains_raw": true,
+          "force_recovery_restricted_and_proved": true,
+          "executable_statements_unchanged": true
+        }
+      },
+      "iteration_evidence": {
+        "complete_cycles": 3,
+        "failures": [
+          {
+            "failure_class": "qcp-symbolic-execution",
+            "cause": "The first unified-state draft left a Release instantiation with a nested state expression that did not match the preceding specialized call result."
+          },
+          {
+            "failure_class": "case_lib-coqc",
+            "cause": "The initial force bridge proof needed local repairs to destructuring, substitution order, modulo normalization, logical-state construction and the final separating entailment."
+          }
+        ],
+        "repairs": [
+          {
+            "repair_class": "where-instantiation",
+            "change": "Added explicit capacity bindings and made each Release state syntactically follow the prior Read/Write/Reset transition.",
+            "validated_by": "three successful qcp-mcp cycles and final canonical symexec"
+          },
+          {
+            "repair_class": "force-bridge-proof",
+            "change": "Derived actual=4, normalized (writeidx+4) mod 4 with Z.mod_unique, built CircularAreaLogicalState explicitly, and discharged the spatial entailment after rewriting the raw capacity.",
+            "validated_by": "fixed no-deps feedback during repair followed by a full dependency case_lib check with returncode 0"
+          }
+        ],
+        "self_reworkable_failures": [],
+        "self_repair_budget": {
+          "min_complete_cycles": 3,
+          "completed_cycles": 3,
+          "min_wall_clock_minutes": 30,
+          "exhausted": false,
+          "note": "All readiness gates passed within this single spawn; the minimum repair budget did not need to be exhausted."
+        }
+      },
+      "file_access_summary": {
+        "must_log_file_reads": "yes",
+        "read_categories": {
+          "handoff": [
+            "/home/yangfp/QCIP/reports/xizi_circular_area_callpoint_specs-20260903164000/rounds/xizi_circular_area_callpoint_specs-annotation-r1/agent_input.json"
+          ],
+          "rules": [
+            ".agents/skills/verification-orchestrator/SKILL.md",
+            ".agents/skills/annotation-filling/SKILL.md",
+            ".agents/skills/annotation-checking/SKILL.md",
+            ".agents/skills/verification-orchestrator/docs/forbidden_lemma.md",
+            ".agents/skills/annotation-filling/docs/use-notes.md",
+            ".agents/skills/annotation-filling/docs/annotation-rules.md",
+            ".agents/skills/annotation-filling/docs/common-annotation-errors.md",
+            ".agents/skills/annotation-filling/docs/predicate-first-annotation.md",
+            ".agents/skills/annotation-filling/docs/builtin-array-string-support.md",
+            ".agents/skills/annotation-filling/docs/array-predicate-selection.md",
+            ".agents/skills/annotation-filling/docs/reference-cases.md",
+            ".agents/skills/annotation-filling/docs/symexec-refresh.md",
+            ".agents/skills/annotation-checking/docs/spec-quality-checklist.md"
+          ],
+          "formal_current": [
+            "OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs.c",
+            "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_lib.v",
+            "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_goal.v",
+            "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_proof_auto.v",
+            "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_proof_manual.v",
+            "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_goal_check.v"
+          ],
+          "allowed_support": [
+            "QCIPLib/xizi/xizi_circular_area_common/xizi_circular_area_lib.v",
+            "OUTPUT/xizi/xizi_circular_area_common/source/xizi_circular_area_def.h",
+            "mcp/qcp-mcp/src/qcp_mcp/server.py",
+            ".agents/skills/verification-orchestrator/scripts/controller.py"
+          ],
+          "schema_only_examples": [
+            "reports/xizi_single_link_append-20260722210000/rounds/xizi_single_link_append-annotation-r5/agent_report.json",
+            "reports/xizi_circular_area_callpoint_specs-20260901193000/rounds/xizi_circular_area_callpoint_specs-annotation-r1/agent_report.json"
+          ]
+        },
+        "searches": [
+          "rg excluding denied QCP_demos_human paths for unified circular-area predicates and latest real-function contracts",
+          "rg for qcp-mcp wrapper availability and source-version digest construction",
+          "rg for legacy CircularAreaBackingResource, public physical With fields, Admitted, Axiom, forbidden lemma names and generated imports",
+          "annotation-stripped candidate/input executable C comparison",
+          "sha256 calculations for input, candidate and generated files"
+        ],
+        "denied_globs_touched": []
+      },
+      "changed_files": [
+        "OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs.c",
+        "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_lib.v",
+        "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_goal.v",
+        "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_proof_auto.v"
+      ],
+      "unchanged_formal_files": [
+        "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_proof_manual.v",
+        "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_goal_check.v"
+      ],
+      "blockers": []
+    },
+    "changed_files": [
+      "OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs.c",
+      "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_lib.v",
+      "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_goal.v",
+      "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_proof_auto.v"
+    ],
+    "blockers": []
+  },
+  "verification_result": {
+    "annotation_review": {
+      "status": "accepted-for-main-check",
+      "reviewed_at": "2026-09-03T08:42:04Z"
+    },
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-09-03T08:42:04Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_circular_area_callpoint_specs-20260903164000/rounds/xizi_circular_area_callpoint_specs-annotation-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    },
+    "annotation_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-09-03T08:42:05Z",
+      "source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "76f2a45cc2cbf9dfd011044a121b51feb2281ed42d38870ddba4b3984db0dfa8",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_circular_area_callpoint_specs-20260903164000/xizi_circular_area_callpoint_specs-annotation-r1/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs.c",
+            "relative_path": "OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs.c",
+            "sha256": "2cb7dc177b50c83c5c57e73029f4c696c0bcc5d9b3515fe9767165075c7c127d",
+            "state": "present",
+            "role": "target-c-annotated"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_circular_area_callpoint_specs-20260903164000/xizi_circular_area_callpoint_specs-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_lib.v",
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_lib.v",
+            "sha256": "5e17ab50d2ee5f742d73d5800253d907e6129f2e569ef9782ade1f60a59cdd16",
+            "state": "present",
+            "role": "case-lib-seed"
+          }
+        ]
+      },
+      "source_goal_version": {
+        "schema_version": "qcp-source-goal-version/v1",
+        "digest": "053c692fe2ef81b571578ee3da38cc69d41cc1456bc9388579cb3a44ff0c66cb",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_goal.v",
+            "sha256": "11c115407cab19a64b1d995182c4e8327e21b4380ffaefdece0839032655afaf",
+            "state": "present",
+            "role": "generated-goal"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_proof_auto.v",
+            "sha256": "3b333a5349f7ba2cd72e90e4df045fcc4e590439a0bebedcafaad3062774ca00",
+            "state": "present",
+            "role": "generated-proof-auto"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_proof_manual.v",
+            "sha256": "b3a106f869971f0d82de26ba1b22a406f69ebd1ca5f4e141ad2964ec53960b1e",
+            "state": "present",
+            "role": "generated-proof-manual"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_goal_check.v",
+            "sha256": "dc58ec32243defd88d40ce3edf91ed0e83e0138194420ccba28fd22927ca2d4d",
+            "state": "present",
+            "role": "generated-goal-check"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_proof_diagnostics.v",
+            "sha256": "c4fc6ebafa1262e5b77b1a02aa3b0b242d2e7924b044006455308bd27c7f78ef",
+            "state": "present",
+            "role": "generated-diagnostics"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/diagnostics_snapshot.json",
+            "sha256": "02d416a5777c3a709d0b9b4a35e3ea145dd1eda44e3bb5b5c5f71a39d86b729f",
+            "state": "present",
+            "role": "generated-diagnostics-snapshot"
+          }
+        ],
+        "target_witnesses": [
+          "proof_of_xizi_circular_area_call_init_metadata_release_return_wit_1",
+          "proof_of_xizi_circular_area_call_init_metadata_release_return_wit_2",
+          "proof_of_xizi_circular_area_call_init_empty_read_release_return_wit_1",
+          "proof_of_xizi_circular_area_call_init_empty_read_release_return_wit_2",
+          "proof_of_xizi_circular_area_call_init_empty_read_release_partial_solve_wit_2_pure",
+          "proof_of_xizi_circular_area_call_init_first_write_release_return_wit_1",
+          "proof_of_xizi_circular_area_call_init_first_write_release_return_wit_2",
+          "proof_of_xizi_circular_area_call_init_first_write_release_partial_solve_wit_2_pure",
+          "proof_of_xizi_circular_area_call_write_read_release_return_wit_1",
+          "proof_of_xizi_circular_area_call_write_read_release_return_wit_2",
+          "proof_of_xizi_circular_area_call_write_read_release_partial_solve_wit_2_pure",
+          "proof_of_xizi_circular_area_call_write_read_release_partial_solve_wit_3_pure",
+          "proof_of_xizi_circular_area_call_repeated_write_release_return_wit_1",
+          "proof_of_xizi_circular_area_call_repeated_write_release_return_wit_2",
+          "proof_of_xizi_circular_area_call_repeated_write_release_partial_solve_wit_2_pure",
+          "proof_of_xizi_circular_area_call_repeated_write_release_partial_solve_wit_3_pure",
+          "proof_of_xizi_circular_area_call_read_then_write_release_return_wit_1",
+          "proof_of_xizi_circular_area_call_read_then_write_release_return_wit_2",
+          "proof_of_xizi_circular_area_call_read_then_write_release_partial_solve_wit_2_pure",
+          "proof_of_xizi_circular_area_call_read_then_write_release_partial_solve_wit_3_pure",
+          "proof_of_xizi_circular_area_call_read_then_write_release_partial_solve_wit_4_pure",
+          "proof_of_xizi_circular_area_call_reset_release_return_wit_1",
+          "proof_of_xizi_circular_area_call_reset_release_return_wit_2",
+          "proof_of_xizi_circular_area_call_reset_release_partial_solve_wit_2_pure",
+          "proof_of_xizi_circular_area_call_reset_release_partial_solve_wit_3_pure",
+          "proof_of_xizi_circular_area_call_force_full_release_entail_wit_1",
+          "proof_of_xizi_circular_area_call_force_full_release_return_wit_1",
+          "proof_of_xizi_circular_area_call_force_full_release_return_wit_2",
+          "proof_of_xizi_circular_area_call_force_full_release_partial_solve_wit_2_pure"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_xizi_circular_area_call_init_metadata_release_return_wit_1": "e34c21d11e6b905ba7256573e43d642df6fb7004aec515dc1c106fd5e08f5901",
+          "proof_of_xizi_circular_area_call_init_metadata_release_return_wit_2": "2dc4d8b009b52886ed2de58886214314e0eb754af5f25c9dd0452f6786070d15",
+          "proof_of_xizi_circular_area_call_init_empty_read_release_return_wit_1": "af8916753395560cc4776107e4d1d1ecf42384909f3528836eafc88e1d5dfd23",
+          "proof_of_xizi_circular_area_call_init_empty_read_release_return_wit_2": "e99e97e9034da9987515a873384fd5de95f70e975da48f423b750e813b88c567",
+          "proof_of_xizi_circular_area_call_init_empty_read_release_partial_solve_wit_2_pure": "c9a11ccee097ea588c3f6840f96d77abfd3feafa9501e7e67820b55118e01a06",
+          "proof_of_xizi_circular_area_call_init_first_write_release_return_wit_1": "3a13afec105dff47f49625621fc43c8232e79babf50f71ff89b8e36385f5f75b",
+          "proof_of_xizi_circular_area_call_init_first_write_release_return_wit_2": "abd0b68e79573e3f80a86f3d0e1d938cbeabccb5b798fb7c138e0622d87a7010",
+          "proof_of_xizi_circular_area_call_init_first_write_release_partial_solve_wit_2_pure": "ec2ae93787c8b958c02ad738edd40ffe9ec90481acc0e6cfc8af806ad8724432",
+          "proof_of_xizi_circular_area_call_write_read_release_return_wit_1": "09736b585b3747ecde3153a2ad7926b44afdca7f84cd9da5282b6dd534ba227d",
+          "proof_of_xizi_circular_area_call_write_read_release_return_wit_2": "ebc7596b85eb8c6b4a0673e809b1c82b728adefa64017ab0ab834648cb245f9b",
+          "proof_of_xizi_circular_area_call_write_read_release_partial_solve_wit_2_pure": "beff73ec53c6d33801144b0bc06c303824a5a707f6d3470e1b4722cd28cf5912",
+          "proof_of_xizi_circular_area_call_write_read_release_partial_solve_wit_3_pure": "37b6b15b1174f94bd21f73343802ad83e98780be35b0ec9de8abf8bf90b307b1",
+          "proof_of_xizi_circular_area_call_repeated_write_release_return_wit_1": "eb19c45afa59a2420b91906f4fda6d748c11a4834d3cab5317979495bf49d5b7",
+          "proof_of_xizi_circular_area_call_repeated_write_release_return_wit_2": "e554e9df7e23e1a7ee0ee1e047fba957fd14c48f773269dc46e31da7fdd0d224",
+          "proof_of_xizi_circular_area_call_repeated_write_release_partial_solve_wit_2_pure": "23c7e1b710baca44b5be404ca9e64a868ba68cc608596f41e7d660496341c0c8",
+          "proof_of_xizi_circular_area_call_repeated_write_release_partial_solve_wit_3_pure": "997764ea3220c6fde6ae7373a3fd42b4a7c63f3b2eb7875f3cfe53125d961661",
+          "proof_of_xizi_circular_area_call_read_then_write_release_return_wit_1": "70101254716ec7873cdfa6967be823cde7ec51985b8cc50e6840e7b47f06ccf4",
+          "proof_of_xizi_circular_area_call_read_then_write_release_return_wit_2": "4e7ad1c2381bd42ccc83f88fbe3df55a0f9995fe4746bc151d0481688e2a7cb5",
+          "proof_of_xizi_circular_area_call_read_then_write_release_partial_solve_wit_2_pure": "a1febe1bf208b47c736bb019dcb6ae41d86587aec36cf3987a6c98f88251267f",
+          "proof_of_xizi_circular_area_call_read_then_write_release_partial_solve_wit_3_pure": "1b21ed77e1037daf9ccee20d8164b3cdbd413876e23979fcddf90dd6f24b5b61",
+          "proof_of_xizi_circular_area_call_read_then_write_release_partial_solve_wit_4_pure": "0958deb975daaa6dc8e7a307459d2d6858f91bff6b6fdb104512edd1fcbdca8f",
+          "proof_of_xizi_circular_area_call_reset_release_return_wit_1": "a2ee5e695a75d2472989a13038e487d2a9baf3dc78a8c954ed95d3547eb73b5c",
+          "proof_of_xizi_circular_area_call_reset_release_return_wit_2": "7b1402cc854f93c02cbd33ddc7f7827f961891c588a7a00136bbd5ab52906345",
+          "proof_of_xizi_circular_area_call_reset_release_partial_solve_wit_2_pure": "9d9608ee7d93dee936ce8ff9c7ddfa486cf4eadc3ee3ea5a0b87c78d8cc94cea",
+          "proof_of_xizi_circular_area_call_reset_release_partial_solve_wit_3_pure": "f0caa64d456e629f5bf58b0e549e8938823326bf947e6a92d020c3bfd3a41c99",
+          "proof_of_xizi_circular_area_call_force_full_release_entail_wit_1": "f58d9c0fbb04e36321f65d140121ec68d67551facc8c6afc10af18ebff103feb",
+          "proof_of_xizi_circular_area_call_force_full_release_return_wit_1": "cfd80a36b59ecd9b1e5c8e269d0f99d02e840b3bd4db419c51fe59af99241d17",
+          "proof_of_xizi_circular_area_call_force_full_release_return_wit_2": "7fd582cbd7aede747a81d23e1e2489cf03f46d52eb3a1b512d15979e5c96cee9",
+          "proof_of_xizi_circular_area_call_force_full_release_partial_solve_wit_2_pure": "7d7198677b24e83b75c178bd9d1911ebd2bedeb9fbdbc1fc413383b71432dad0"
+        },
+        "witnesses": [
+          {
+            "name": "proof_of_xizi_circular_area_call_init_metadata_release_return_wit_1",
+            "target_symbol": "xizi_circular_area_call_init_metadata_release_return_wit_1",
+            "statement_hash": "e34c21d11e6b905ba7256573e43d642df6fb7004aec515dc1c106fd5e08f5901",
+            "start_line": 25,
+            "end_line": 27
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_init_metadata_release_return_wit_2",
+            "target_symbol": "xizi_circular_area_call_init_metadata_release_return_wit_2",
+            "statement_hash": "2dc4d8b009b52886ed2de58886214314e0eb754af5f25c9dd0452f6786070d15",
+            "start_line": 28,
+            "end_line": 30
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_init_empty_read_release_return_wit_1",
+            "target_symbol": "xizi_circular_area_call_init_empty_read_release_return_wit_1",
+            "statement_hash": "af8916753395560cc4776107e4d1d1ecf42384909f3528836eafc88e1d5dfd23",
+            "start_line": 31,
+            "end_line": 33
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_init_empty_read_release_return_wit_2",
+            "target_symbol": "xizi_circular_area_call_init_empty_read_release_return_wit_2",
+            "statement_hash": "e99e97e9034da9987515a873384fd5de95f70e975da48f423b750e813b88c567",
+            "start_line": 34,
+            "end_line": 36
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_init_empty_read_release_partial_solve_wit_2_pure",
+            "target_symbol": "xizi_circular_area_call_init_empty_read_release_partial_solve_wit_2_pure",
+            "statement_hash": "c9a11ccee097ea588c3f6840f96d77abfd3feafa9501e7e67820b55118e01a06",
+            "start_line": 37,
+            "end_line": 39
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_init_first_write_release_return_wit_1",
+            "target_symbol": "xizi_circular_area_call_init_first_write_release_return_wit_1",
+            "statement_hash": "3a13afec105dff47f49625621fc43c8232e79babf50f71ff89b8e36385f5f75b",
+            "start_line": 40,
+            "end_line": 42
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_init_first_write_release_return_wit_2",
+            "target_symbol": "xizi_circular_area_call_init_first_write_release_return_wit_2",
+            "statement_hash": "abd0b68e79573e3f80a86f3d0e1d938cbeabccb5b798fb7c138e0622d87a7010",
+            "start_line": 43,
+            "end_line": 45
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_init_first_write_release_partial_solve_wit_2_pure",
+            "target_symbol": "xizi_circular_area_call_init_first_write_release_partial_solve_wit_2_pure",
+            "statement_hash": "ec2ae93787c8b958c02ad738edd40ffe9ec90481acc0e6cfc8af806ad8724432",
+            "start_line": 46,
+            "end_line": 48
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_write_read_release_return_wit_1",
+            "target_symbol": "xizi_circular_area_call_write_read_release_return_wit_1",
+            "statement_hash": "09736b585b3747ecde3153a2ad7926b44afdca7f84cd9da5282b6dd534ba227d",
+            "start_line": 49,
+            "end_line": 51
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_write_read_release_return_wit_2",
+            "target_symbol": "xizi_circular_area_call_write_read_release_return_wit_2",
+            "statement_hash": "ebc7596b85eb8c6b4a0673e809b1c82b728adefa64017ab0ab834648cb245f9b",
+            "start_line": 52,
+            "end_line": 54
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_write_read_release_partial_solve_wit_2_pure",
+            "target_symbol": "xizi_circular_area_call_write_read_release_partial_solve_wit_2_pure",
+            "statement_hash": "beff73ec53c6d33801144b0bc06c303824a5a707f6d3470e1b4722cd28cf5912",
+            "start_line": 55,
+            "end_line": 57
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_write_read_release_partial_solve_wit_3_pure",
+            "target_symbol": "xizi_circular_area_call_write_read_release_partial_solve_wit_3_pure",
+            "statement_hash": "37b6b15b1174f94bd21f73343802ad83e98780be35b0ec9de8abf8bf90b307b1",
+            "start_line": 58,
+            "end_line": 60
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_repeated_write_release_return_wit_1",
+            "target_symbol": "xizi_circular_area_call_repeated_write_release_return_wit_1",
+            "statement_hash": "eb19c45afa59a2420b91906f4fda6d748c11a4834d3cab5317979495bf49d5b7",
+            "start_line": 61,
+            "end_line": 63
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_repeated_write_release_return_wit_2",
+            "target_symbol": "xizi_circular_area_call_repeated_write_release_return_wit_2",
+            "statement_hash": "e554e9df7e23e1a7ee0ee1e047fba957fd14c48f773269dc46e31da7fdd0d224",
+            "start_line": 64,
+            "end_line": 66
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_repeated_write_release_partial_solve_wit_2_pure",
+            "target_symbol": "xizi_circular_area_call_repeated_write_release_partial_solve_wit_2_pure",
+            "statement_hash": "23c7e1b710baca44b5be404ca9e64a868ba68cc608596f41e7d660496341c0c8",
+            "start_line": 67,
+            "end_line": 69
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_repeated_write_release_partial_solve_wit_3_pure",
+            "target_symbol": "xizi_circular_area_call_repeated_write_release_partial_solve_wit_3_pure",
+            "statement_hash": "997764ea3220c6fde6ae7373a3fd42b4a7c63f3b2eb7875f3cfe53125d961661",
+            "start_line": 70,
+            "end_line": 72
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_read_then_write_release_return_wit_1",
+            "target_symbol": "xizi_circular_area_call_read_then_write_release_return_wit_1",
+            "statement_hash": "70101254716ec7873cdfa6967be823cde7ec51985b8cc50e6840e7b47f06ccf4",
+            "start_line": 73,
+            "end_line": 75
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_read_then_write_release_return_wit_2",
+            "target_symbol": "xizi_circular_area_call_read_then_write_release_return_wit_2",
+            "statement_hash": "4e7ad1c2381bd42ccc83f88fbe3df55a0f9995fe4746bc151d0481688e2a7cb5",
+            "start_line": 76,
+            "end_line": 78
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_read_then_write_release_partial_solve_wit_2_pure",
+            "target_symbol": "xizi_circular_area_call_read_then_write_release_partial_solve_wit_2_pure",
+            "statement_hash": "a1febe1bf208b47c736bb019dcb6ae41d86587aec36cf3987a6c98f88251267f",
+            "start_line": 79,
+            "end_line": 81
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_read_then_write_release_partial_solve_wit_3_pure",
+            "target_symbol": "xizi_circular_area_call_read_then_write_release_partial_solve_wit_3_pure",
+            "statement_hash": "1b21ed77e1037daf9ccee20d8164b3cdbd413876e23979fcddf90dd6f24b5b61",
+            "start_line": 82,
+            "end_line": 84
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_read_then_write_release_partial_solve_wit_4_pure",
+            "target_symbol": "xizi_circular_area_call_read_then_write_release_partial_solve_wit_4_pure",
+            "statement_hash": "0958deb975daaa6dc8e7a307459d2d6858f91bff6b6fdb104512edd1fcbdca8f",
+            "start_line": 85,
+            "end_line": 87
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_reset_release_return_wit_1",
+            "target_symbol": "xizi_circular_area_call_reset_release_return_wit_1",
+            "statement_hash": "a2ee5e695a75d2472989a13038e487d2a9baf3dc78a8c954ed95d3547eb73b5c",
+            "start_line": 88,
+            "end_line": 90
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_reset_release_return_wit_2",
+            "target_symbol": "xizi_circular_area_call_reset_release_return_wit_2",
+            "statement_hash": "7b1402cc854f93c02cbd33ddc7f7827f961891c588a7a00136bbd5ab52906345",
+            "start_line": 91,
+            "end_line": 93
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_reset_release_partial_solve_wit_2_pure",
+            "target_symbol": "xizi_circular_area_call_reset_release_partial_solve_wit_2_pure",
+            "statement_hash": "9d9608ee7d93dee936ce8ff9c7ddfa486cf4eadc3ee3ea5a0b87c78d8cc94cea",
+            "start_line": 94,
+            "end_line": 96
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_reset_release_partial_solve_wit_3_pure",
+            "target_symbol": "xizi_circular_area_call_reset_release_partial_solve_wit_3_pure",
+            "statement_hash": "f0caa64d456e629f5bf58b0e549e8938823326bf947e6a92d020c3bfd3a41c99",
+            "start_line": 97,
+            "end_line": 99
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_force_full_release_entail_wit_1",
+            "target_symbol": "xizi_circular_area_call_force_full_release_entail_wit_1",
+            "statement_hash": "f58d9c0fbb04e36321f65d140121ec68d67551facc8c6afc10af18ebff103feb",
+            "start_line": 100,
+            "end_line": 102
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_force_full_release_return_wit_1",
+            "target_symbol": "xizi_circular_area_call_force_full_release_return_wit_1",
+            "statement_hash": "cfd80a36b59ecd9b1e5c8e269d0f99d02e840b3bd4db419c51fe59af99241d17",
+            "start_line": 103,
+            "end_line": 105
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_force_full_release_return_wit_2",
+            "target_symbol": "xizi_circular_area_call_force_full_release_return_wit_2",
+            "statement_hash": "7fd582cbd7aede747a81d23e1e2489cf03f46d52eb3a1b512d15979e5c96cee9",
+            "start_line": 106,
+            "end_line": 108
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_force_full_release_partial_solve_wit_2_pure",
+            "target_symbol": "xizi_circular_area_call_force_full_release_partial_solve_wit_2_pure",
+            "statement_hash": "7d7198677b24e83b75c178bd9d1911ebd2bedeb9fbdbc1fc413383b71432dad0",
+            "start_line": 109,
+            "end_line": 111
+          }
+        ]
+      },
+      "annotation_design_summary": {
+        "schema_version": "qcp-annotation-design-summary/v1",
+        "source": "controller-fallback",
+        "case_lib_spec_declarations": [
+          {
+            "kind": "Definition",
+            "name": "CircularAreaCallResult"
+          },
+          {
+            "kind": "Definition",
+            "name": "CircularAreaReadCallResult"
+          },
+          {
+            "kind": "Definition",
+            "name": "CircularAreaStateEmptyResult"
+          },
+          {
+            "kind": "Definition",
+            "name": "CircularAreaStateFullResult"
+          },
+          {
+            "kind": "Definition",
+            "name": "CircularAreaStateDataLengthResult"
+          },
+          {
+            "kind": "Definition",
+            "name": "CircularAreaFourBytes"
+          },
+          {
+            "kind": "Definition",
+            "name": "CircularAreaActualWriteLength"
+          },
+          {
+            "kind": "Definition",
+            "name": "CircularAreaPhysicalWrite"
+          },
+          {
+            "kind": "Record",
+            "name": "forced_circular_area_state"
+          },
+          {
+            "kind": "Definition",
+            "name": "CircularAreaForceWriteResult"
+          },
+          {
+            "kind": "Definition",
+            "name": "store_forced_circular_area"
+          },
+          {
+            "kind": "Lemma",
+            "name": "CircularArea_force_fresh_full_to_store__callpoint_seed"
+          }
+        ],
+        "case_lib_sha256": "5e17ab50d2ee5f742d73d5800253d907e6129f2e569ef9782ade1f60a59cdd16",
+        "hidden_properties": [
+          "Physical array, indices, status and operations pointer stay existential inside store_circular_area; force mode is never silently treated as canonical outside its proved restricted bridge."
+        ],
+        "known_risks": [],
+        "qcp_repair_history": [],
+        "changed_files": [
+          "OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs.c",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_lib.v",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_goal.v",
+          "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_proof_auto.v"
+        ]
+      },
+      "canonical_symexec_evidence": {
+        "schema_version": "qcp-canonical-symexec-evidence/v1",
+        "driver": "/home/yangfp/QCIP/linux-binary/symexec",
+        "cwd": "/home/yangfp/QCIP/worktrees/xizi_circular_area_callpoint_specs-20260903164000/xizi_circular_area_callpoint_specs-annotation-r1",
+        "argv": [
+          "/home/yangfp/QCIP/linux-binary/symexec",
+          "--goal-file=SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_goal.v",
+          "--proof-auto-file=SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_proof_auto.v",
+          "--proof-manual-file=SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_proof_manual.v",
+          "-IQCP_examples/QCP_demos_LLM/",
+          "-slp",
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM",
+          "--coq-logic-path=SimpleC.EE.OUTPUT.xizi.xizi_circular_area_callpoint_specs.source",
+          "--input-file=OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs.c",
+          "--no-exec-info"
+        ],
+        "include_args": [
+          "QCP_examples/QCP_demos_LLM/"
+        ],
+        "slp_args": [
+          "QCP_examples/QCP_demos_LLM/",
+          "SimpleC.EE.QCP_demos_LLM"
+        ],
+        "manual_refresh": {
+          "policy": "fresh-symbolic-execution-skeleton",
+          "path": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_proof_manual.v",
+          "previous_sha256": "3fae7581f86ac206cd92bd85fb53f1e11f354f75f3d492c820521fab22468aca",
+          "generated": true,
+          "generated_sha256": "5866acef2e033ff314ade4082080c8bc463be9010c0b44344792fb08f92ee506",
+          "previous_restored_on_failure": false
+        },
+        "status": "passed",
+        "returncode": 0,
+        "stdout_tail": "Program: `/tmp/qcp-null-macro-xkah_364/xizi_circular_area_callpoint_specs.c`\nStart to parse strategies file common\nFile Path: builtin/common.strategies\nFinish parsing strategies file common\nStart to parse strategies file string_literal\nFile Path: builtin/string_literal.strategies\nFinish parsing strategies file string_literal\nStart to parse function declaration of function CircularAreaInit\nStart to parse function declaration of function CircularAreaIsEmpty\nStart to parse function declaration of function CircularAreaIsFull\nStart to parse function declaration of function CircularAreaGetMaxLength\nStart to parse function declaration of function CircularAreaGetDataLength\nStart to parse function declaration of function CircularAreaRead\nStart to parse strategies file uchar_array\nFile Path: builtin/uchar_array.strategies\nFinish parsing strategies file uchar_array\nStart to parse strategies file undef_uchar_array\nFile Path: builtin/undef_uchar_array.strategies\nFinish parsing strategies file undef_uchar_array\nStart to parse strategies file mixed_uchar_array\nFile Path: builtin/mixed_uchar_array.strategies\nFinish parsing strategies file mixed_uchar_array\nStart to parse strategies file uchar_array_shape\nFile Path: builtin/uchar_array_shape.strategies\nFinish parsing strategies file uchar_array_shape\nStart to parse function declaration of function CircularAreaRead\nStart to parse function declaration of function CircularAreaWrite\nStart to parse function declaration of function CircularAreaWrite\nStart to parse function declaration of function CircularAreaWrite\nStart to parse function declaration of function CircularAreaReset\nStart to parse function declaration of function CircularAreaRelease\nFunction `xizi_circular_area_call_init_metadata_release`\nEnd of function `xizi_circular_area_call_init_metadata_release`\nFunction `xizi_circular_area_call_init_empty_read_release`\nEnd of function `xizi_circular_area_call_init_empty_read_release`\nFunction `xizi_circular_area_call_init_first_write_release`\nEnd of function `xizi_circular_area_call_init_first_write_release`\nFunction `xizi_circular_area_call_write_read_release`\nEnd of function `xizi_circular_area_call_write_read_release`\nFunction `xizi_circular_area_call_repeated_write_release`\nEnd of function `xizi_circular_area_call_repeated_write_release`\nFunction `xizi_circular_area_call_read_then_write_release`\nEnd of function `xizi_circular_area_call_read_then_write_release`\nFunction `xizi_circular_area_call_reset_release`\nEnd of function `xizi_circular_area_call_reset_release`\nFunction `xizi_circular_area_call_force_full_release`\nEnd of function `xizi_circular_area_call_force_full_release`\nSuccessfully finished symbolic execution\n",
+        "stderr_tail": ""
+      },
+      "diagnostics_split": {
+        "status": "passed",
+        "normalized_at": "2026-09-03T08:42:05Z",
+        "proof_manual_file": "/home/yangfp/QCIP/worktrees/xizi_circular_area_callpoint_specs-20260903164000/xizi_circular_area_callpoint_specs-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_proof_manual.v",
+        "proof_diagnostics_file": "/home/yangfp/QCIP/worktrees/xizi_circular_area_callpoint_specs-20260903164000/xizi_circular_area_callpoint_specs-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/xizi_circular_area_callpoint_specs_proof_diagnostics.v",
+        "diagnostics_snapshot": "/home/yangfp/QCIP/worktrees/xizi_circular_area_callpoint_specs-20260903164000/xizi_circular_area_callpoint_specs-annotation-r1/SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_callpoint_specs/source/diagnostics_snapshot.json",
+        "schema_version": "qcp-diagnostics-snapshot/v1",
+        "manual_obligations": [
+          {
+            "name": "proof_of_xizi_circular_area_call_init_metadata_release_return_wit_1",
+            "statement_hash": "e34c21d11e6b905ba7256573e43d642df6fb7004aec515dc1c106fd5e08f5901",
+            "target_symbol": "xizi_circular_area_call_init_metadata_release_return_wit_1",
+            "start_line": 28,
+            "end_line": 30
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_init_metadata_release_return_wit_2",
+            "statement_hash": "2dc4d8b009b52886ed2de58886214314e0eb754af5f25c9dd0452f6786070d15",
+            "target_symbol": "xizi_circular_area_call_init_metadata_release_return_wit_2",
+            "start_line": 34,
+            "end_line": 36
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_init_empty_read_release_return_wit_1",
+            "statement_hash": "af8916753395560cc4776107e4d1d1ecf42384909f3528836eafc88e1d5dfd23",
+            "target_symbol": "xizi_circular_area_call_init_empty_read_release_return_wit_1",
+            "start_line": 40,
+            "end_line": 42
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_init_empty_read_release_return_wit_2",
+            "statement_hash": "e99e97e9034da9987515a873384fd5de95f70e975da48f423b750e813b88c567",
+            "target_symbol": "xizi_circular_area_call_init_empty_read_release_return_wit_2",
+            "start_line": 46,
+            "end_line": 48
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_init_empty_read_release_partial_solve_wit_2_pure",
+            "statement_hash": "c9a11ccee097ea588c3f6840f96d77abfd3feafa9501e7e67820b55118e01a06",
+            "target_symbol": "xizi_circular_area_call_init_empty_read_release_partial_solve_wit_2_pure",
+            "start_line": 52,
+            "end_line": 54
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_init_first_write_release_return_wit_1",
+            "statement_hash": "3a13afec105dff47f49625621fc43c8232e79babf50f71ff89b8e36385f5f75b",
+            "target_symbol": "xizi_circular_area_call_init_first_write_release_return_wit_1",
+            "start_line": 58,
+            "end_line": 60
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_init_first_write_release_return_wit_2",
+            "statement_hash": "abd0b68e79573e3f80a86f3d0e1d938cbeabccb5b798fb7c138e0622d87a7010",
+            "target_symbol": "xizi_circular_area_call_init_first_write_release_return_wit_2",
+            "start_line": 64,
+            "end_line": 66
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_init_first_write_release_partial_solve_wit_2_pure",
+            "statement_hash": "ec2ae93787c8b958c02ad738edd40ffe9ec90481acc0e6cfc8af806ad8724432",
+            "target_symbol": "xizi_circular_area_call_init_first_write_release_partial_solve_wit_2_pure",
+            "start_line": 70,
+            "end_line": 72
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_write_read_release_return_wit_1",
+            "statement_hash": "09736b585b3747ecde3153a2ad7926b44afdca7f84cd9da5282b6dd534ba227d",
+            "target_symbol": "xizi_circular_area_call_write_read_release_return_wit_1",
+            "start_line": 76,
+            "end_line": 78
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_write_read_release_return_wit_2",
+            "statement_hash": "ebc7596b85eb8c6b4a0673e809b1c82b728adefa64017ab0ab834648cb245f9b",
+            "target_symbol": "xizi_circular_area_call_write_read_release_return_wit_2",
+            "start_line": 82,
+            "end_line": 84
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_write_read_release_partial_solve_wit_2_pure",
+            "statement_hash": "beff73ec53c6d33801144b0bc06c303824a5a707f6d3470e1b4722cd28cf5912",
+            "target_symbol": "xizi_circular_area_call_write_read_release_partial_solve_wit_2_pure",
+            "start_line": 88,
+            "end_line": 90
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_write_read_release_partial_solve_wit_3_pure",
+            "statement_hash": "37b6b15b1174f94bd21f73343802ad83e98780be35b0ec9de8abf8bf90b307b1",
+            "target_symbol": "xizi_circular_area_call_write_read_release_partial_solve_wit_3_pure",
+            "start_line": 97,
+            "end_line": 99
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_repeated_write_release_return_wit_1",
+            "statement_hash": "eb19c45afa59a2420b91906f4fda6d748c11a4834d3cab5317979495bf49d5b7",
+            "target_symbol": "xizi_circular_area_call_repeated_write_release_return_wit_1",
+            "start_line": 103,
+            "end_line": 105
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_repeated_write_release_return_wit_2",
+            "statement_hash": "e554e9df7e23e1a7ee0ee1e047fba957fd14c48f773269dc46e31da7fdd0d224",
+            "target_symbol": "xizi_circular_area_call_repeated_write_release_return_wit_2",
+            "start_line": 109,
+            "end_line": 111
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_repeated_write_release_partial_solve_wit_2_pure",
+            "statement_hash": "23c7e1b710baca44b5be404ca9e64a868ba68cc608596f41e7d660496341c0c8",
+            "target_symbol": "xizi_circular_area_call_repeated_write_release_partial_solve_wit_2_pure",
+            "start_line": 115,
+            "end_line": 117
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_repeated_write_release_partial_solve_wit_3_pure",
+            "statement_hash": "997764ea3220c6fde6ae7373a3fd42b4a7c63f3b2eb7875f3cfe53125d961661",
+            "target_symbol": "xizi_circular_area_call_repeated_write_release_partial_solve_wit_3_pure",
+            "start_line": 127,
+            "end_line": 129
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_read_then_write_release_return_wit_1",
+            "statement_hash": "70101254716ec7873cdfa6967be823cde7ec51985b8cc50e6840e7b47f06ccf4",
+            "target_symbol": "xizi_circular_area_call_read_then_write_release_return_wit_1",
+            "start_line": 133,
+            "end_line": 135
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_read_then_write_release_return_wit_2",
+            "statement_hash": "4e7ad1c2381bd42ccc83f88fbe3df55a0f9995fe4746bc151d0481688e2a7cb5",
+            "target_symbol": "xizi_circular_area_call_read_then_write_release_return_wit_2",
+            "start_line": 139,
+            "end_line": 141
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_read_then_write_release_partial_solve_wit_2_pure",
+            "statement_hash": "a1febe1bf208b47c736bb019dcb6ae41d86587aec36cf3987a6c98f88251267f",
+            "target_symbol": "xizi_circular_area_call_read_then_write_release_partial_solve_wit_2_pure",
+            "start_line": 145,
+            "end_line": 147
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_read_then_write_release_partial_solve_wit_3_pure",
+            "statement_hash": "1b21ed77e1037daf9ccee20d8164b3cdbd413876e23979fcddf90dd6f24b5b61",
+            "target_symbol": "xizi_circular_area_call_read_then_write_release_partial_solve_wit_3_pure",
+            "start_line": 154,
+            "end_line": 156
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_read_then_write_release_partial_solve_wit_4_pure",
+            "statement_hash": "0958deb975daaa6dc8e7a307459d2d6858f91bff6b6fdb104512edd1fcbdca8f",
+            "target_symbol": "xizi_circular_area_call_read_then_write_release_partial_solve_wit_4_pure",
+            "start_line": 163,
+            "end_line": 165
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_reset_release_return_wit_1",
+            "statement_hash": "a2ee5e695a75d2472989a13038e487d2a9baf3dc78a8c954ed95d3547eb73b5c",
+            "target_symbol": "xizi_circular_area_call_reset_release_return_wit_1",
+            "start_line": 169,
+            "end_line": 171
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_reset_release_return_wit_2",
+            "statement_hash": "7b1402cc854f93c02cbd33ddc7f7827f961891c588a7a00136bbd5ab52906345",
+            "target_symbol": "xizi_circular_area_call_reset_release_return_wit_2",
+            "start_line": 175,
+            "end_line": 177
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_reset_release_partial_solve_wit_2_pure",
+            "statement_hash": "9d9608ee7d93dee936ce8ff9c7ddfa486cf4eadc3ee3ea5a0b87c78d8cc94cea",
+            "target_symbol": "xizi_circular_area_call_reset_release_partial_solve_wit_2_pure",
+            "start_line": 181,
+            "end_line": 183
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_reset_release_partial_solve_wit_3_pure",
+            "statement_hash": "f0caa64d456e629f5bf58b0e549e8938823326bf947e6a92d020c3bfd3a41c99",
+            "target_symbol": "xizi_circular_area_call_reset_release_partial_solve_wit_3_pure",
+            "start_line": 187,
+            "end_line": 189
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_force_full_release_entail_wit_1",
+            "statement_hash": "f58d9c0fbb04e36321f65d140121ec68d67551facc8c6afc10af18ebff103feb",
+            "target_symbol": "xizi_circular_area_call_force_full_release_entail_wit_1",
+            "start_line": 193,
+            "end_line": 195
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_force_full_release_return_wit_1",
+            "statement_hash": "cfd80a36b59ecd9b1e5c8e269d0f99d02e840b3bd4db419c51fe59af99241d17",
+            "target_symbol": "xizi_circular_area_call_force_full_release_return_wit_1",
+            "start_line": 199,
+            "end_line": 201
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_force_full_release_return_wit_2",
+            "statement_hash": "7fd582cbd7aede747a81d23e1e2489cf03f46d52eb3a1b512d15979e5c96cee9",
+            "target_symbol": "xizi_circular_area_call_force_full_release_return_wit_2",
+            "start_line": 205,
+            "end_line": 207
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_force_full_release_partial_solve_wit_2_pure",
+            "statement_hash": "7d7198677b24e83b75c178bd9d1911ebd2bedeb9fbdbc1fc413383b71432dad0",
+            "target_symbol": "xizi_circular_area_call_force_full_release_partial_solve_wit_2_pure",
+            "start_line": 214,
+            "end_line": 216
+          }
+        ],
+        "diagnostics": [
+          {
+            "name": "proof_of_xizi_circular_area_call_init_metadata_release_return_wit_1_split_goal_spatial",
+            "statement_hash": "d6d60f5429d597c454703fa388af77e714429a3d07a52593944520d963f74cdf",
+            "target_symbol": "xizi_circular_area_call_init_metadata_release_return_wit_1_split_goal_spatial",
+            "start_line": 25,
+            "end_line": 27,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_init_metadata_release_return_wit_2_split_goal_spatial",
+            "statement_hash": "edc296c7f14820f501709bfbbe0db70784f2d505596c84fc525a2d883391f892",
+            "target_symbol": "xizi_circular_area_call_init_metadata_release_return_wit_2_split_goal_spatial",
+            "start_line": 31,
+            "end_line": 33,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_init_empty_read_release_return_wit_1_split_goal_spatial",
+            "statement_hash": "72e28d63c8932a788a942dfbd68f8bebcffcf546a79cfe16ec29c7a671190abc",
+            "target_symbol": "xizi_circular_area_call_init_empty_read_release_return_wit_1_split_goal_spatial",
+            "start_line": 37,
+            "end_line": 39,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_init_empty_read_release_return_wit_2_split_goal_spatial",
+            "statement_hash": "b6dda63f1f1e3f667580b922365edc6a8afd93a4ca36428184e4e749695ce0ad",
+            "target_symbol": "xizi_circular_area_call_init_empty_read_release_return_wit_2_split_goal_spatial",
+            "start_line": 43,
+            "end_line": 45,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_init_empty_read_release_partial_solve_wit_2_pure_split_goal_1",
+            "statement_hash": "06cf82d28c64befc726471ac8d56766f2a1d08ace771ba7609281d81ea20a2df",
+            "target_symbol": "xizi_circular_area_call_init_empty_read_release_partial_solve_wit_2_pure_split_goal_1",
+            "start_line": 49,
+            "end_line": 51,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_init_first_write_release_return_wit_1_split_goal_spatial",
+            "statement_hash": "ac07d5ded1613a0fee7287cc8f2779f0a981e1603d541841a72ca15063e158d6",
+            "target_symbol": "xizi_circular_area_call_init_first_write_release_return_wit_1_split_goal_spatial",
+            "start_line": 55,
+            "end_line": 57,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_init_first_write_release_return_wit_2_split_goal_spatial",
+            "statement_hash": "ef5bcb3fdbe7e12bfb52046d2c056ea97440f72d6f209e3261c34f9e7ae8d4ce",
+            "target_symbol": "xizi_circular_area_call_init_first_write_release_return_wit_2_split_goal_spatial",
+            "start_line": 61,
+            "end_line": 63,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_init_first_write_release_partial_solve_wit_2_pure_split_goal_1",
+            "statement_hash": "42964a501cccc39059fae933eae6d019beb26a624ead7bd5de508cd336980884",
+            "target_symbol": "xizi_circular_area_call_init_first_write_release_partial_solve_wit_2_pure_split_goal_1",
+            "start_line": 67,
+            "end_line": 69,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_write_read_release_return_wit_1_split_goal_spatial",
+            "statement_hash": "187f8888204e39c7d46ba5242d206cb26f3f66fc58544a4ea487f3222642060d",
+            "target_symbol": "xizi_circular_area_call_write_read_release_return_wit_1_split_goal_spatial",
+            "start_line": 73,
+            "end_line": 75,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_write_read_release_return_wit_2_split_goal_spatial",
+            "statement_hash": "bc8879134ffa717897183eff6ea05bfb722c16b46a591cca2d9cbe9664cc302e",
+            "target_symbol": "xizi_circular_area_call_write_read_release_return_wit_2_split_goal_spatial",
+            "start_line": 79,
+            "end_line": 81,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_write_read_release_partial_solve_wit_2_pure_split_goal_1",
+            "statement_hash": "10e7577848c2b8602e1e89a4f6919a57a13dd44dfaf07c65766693243ef87f3a",
+            "target_symbol": "xizi_circular_area_call_write_read_release_partial_solve_wit_2_pure_split_goal_1",
+            "start_line": 85,
+            "end_line": 87,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_write_read_release_partial_solve_wit_3_pure_split_goal_1",
+            "statement_hash": "fb17d8c8ecf73020172a715c87172c220d81a601cd7201ac2005e53d0a4d6f89",
+            "target_symbol": "xizi_circular_area_call_write_read_release_partial_solve_wit_3_pure_split_goal_1",
+            "start_line": 91,
+            "end_line": 93,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_write_read_release_partial_solve_wit_3_pure_split_goal_2",
+            "statement_hash": "6cbfce51b70aa4d05498cc28630ca48c6f2e1116bf9cac56283dc9ff52fd9e97",
+            "target_symbol": "xizi_circular_area_call_write_read_release_partial_solve_wit_3_pure_split_goal_2",
+            "start_line": 94,
+            "end_line": 96,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_repeated_write_release_return_wit_1_split_goal_spatial",
+            "statement_hash": "c75c182b415e865cf326f343278300735a0345fffdc58eee683a4036c262e62e",
+            "target_symbol": "xizi_circular_area_call_repeated_write_release_return_wit_1_split_goal_spatial",
+            "start_line": 100,
+            "end_line": 102,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_repeated_write_release_return_wit_2_split_goal_spatial",
+            "statement_hash": "c6cf635857ca07869737ccca41330bf7405cef50e40624a0a7845fa15de0b1af",
+            "target_symbol": "xizi_circular_area_call_repeated_write_release_return_wit_2_split_goal_spatial",
+            "start_line": 106,
+            "end_line": 108,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_repeated_write_release_partial_solve_wit_2_pure_split_goal_1",
+            "statement_hash": "39d00254c8fb29a7464b988c9fa0ace8ae4887f30e4307030672ad7f52ca1aef",
+            "target_symbol": "xizi_circular_area_call_repeated_write_release_partial_solve_wit_2_pure_split_goal_1",
+            "start_line": 112,
+            "end_line": 114,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_repeated_write_release_partial_solve_wit_3_pure_split_goal_1",
+            "statement_hash": "60afcc566ec90ea8c1d1e8b19689a6f7ca978417c4890ef3e031d69871a5841e",
+            "target_symbol": "xizi_circular_area_call_repeated_write_release_partial_solve_wit_3_pure_split_goal_1",
+            "start_line": 118,
+            "end_line": 120,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_repeated_write_release_partial_solve_wit_3_pure_split_goal_2",
+            "statement_hash": "f2bbba24c0afa99e768524b9adc5d7ae297b6047a9ecb8e38ee972200d50f05c",
+            "target_symbol": "xizi_circular_area_call_repeated_write_release_partial_solve_wit_3_pure_split_goal_2",
+            "start_line": 121,
+            "end_line": 123,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_repeated_write_release_partial_solve_wit_3_pure_split_goal_3",
+            "statement_hash": "36b8b8cbcf05cc7833de5e6f68a3f1aef7ce2eee69ba1fc54743f4a9aa012971",
+            "target_symbol": "xizi_circular_area_call_repeated_write_release_partial_solve_wit_3_pure_split_goal_3",
+            "start_line": 124,
+            "end_line": 126,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_read_then_write_release_return_wit_1_split_goal_spatial",
+            "statement_hash": "d4d6a2f6ef0fbcdd14638aae64c20d77eb88c4421721e9a2eda2a84727eebef6",
+            "target_symbol": "xizi_circular_area_call_read_then_write_release_return_wit_1_split_goal_spatial",
+            "start_line": 130,
+            "end_line": 132,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_read_then_write_release_return_wit_2_split_goal_spatial",
+            "statement_hash": "f333d5a3c5bad8802fd755800abd944232c1b98ff3fe8ce99e9d6d7d2282035c",
+            "target_symbol": "xizi_circular_area_call_read_then_write_release_return_wit_2_split_goal_spatial",
+            "start_line": 136,
+            "end_line": 138,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_read_then_write_release_partial_solve_wit_2_pure_split_goal_1",
+            "statement_hash": "c845d50e2999213c08d2f1faf9b2eff6eafd6767356367ffcce0cdc3635212e6",
+            "target_symbol": "xizi_circular_area_call_read_then_write_release_partial_solve_wit_2_pure_split_goal_1",
+            "start_line": 142,
+            "end_line": 144,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_read_then_write_release_partial_solve_wit_3_pure_split_goal_1",
+            "statement_hash": "f27434939e6fd701b6f5248fedafb09505db687aa896a2084e732dbf9450bb23",
+            "target_symbol": "xizi_circular_area_call_read_then_write_release_partial_solve_wit_3_pure_split_goal_1",
+            "start_line": 148,
+            "end_line": 150,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_read_then_write_release_partial_solve_wit_3_pure_split_goal_2",
+            "statement_hash": "98512003902204ea50ad1cd320ce04906b0396c5b7e23cf1bbed8f16e7f3174e",
+            "target_symbol": "xizi_circular_area_call_read_then_write_release_partial_solve_wit_3_pure_split_goal_2",
+            "start_line": 151,
+            "end_line": 153,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_read_then_write_release_partial_solve_wit_4_pure_split_goal_1",
+            "statement_hash": "7f2c97f2413436e7b0f0cf62d1fa9f6a1a17d221129b90f3d3c5cd205c8a32ac",
+            "target_symbol": "xizi_circular_area_call_read_then_write_release_partial_solve_wit_4_pure_split_goal_1",
+            "start_line": 157,
+            "end_line": 159,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_read_then_write_release_partial_solve_wit_4_pure_split_goal_2",
+            "statement_hash": "b73ba9b1e59a9d6d8cac83be1639921a9ca999a4e8f43ee208179f58a4599105",
+            "target_symbol": "xizi_circular_area_call_read_then_write_release_partial_solve_wit_4_pure_split_goal_2",
+            "start_line": 160,
+            "end_line": 162,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_reset_release_return_wit_1_split_goal_spatial",
+            "statement_hash": "1ce0a90f2fef97021e421b5c74e24672e62048929a51425daf3bcb9154f40ce3",
+            "target_symbol": "xizi_circular_area_call_reset_release_return_wit_1_split_goal_spatial",
+            "start_line": 166,
+            "end_line": 168,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_reset_release_return_wit_2_split_goal_spatial",
+            "statement_hash": "d967528eadc7054f47dab41e89a8479e4a1749538955221ac99547ec30fdcd6c",
+            "target_symbol": "xizi_circular_area_call_reset_release_return_wit_2_split_goal_spatial",
+            "start_line": 172,
+            "end_line": 174,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_reset_release_partial_solve_wit_2_pure_split_goal_1",
+            "statement_hash": "745e3b215c1f11e34f69e9489ca0b1cd878d6df784d4a358b8a76276dc9866c6",
+            "target_symbol": "xizi_circular_area_call_reset_release_partial_solve_wit_2_pure_split_goal_1",
+            "start_line": 178,
+            "end_line": 180,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_reset_release_partial_solve_wit_3_pure_split_goal_1",
+            "statement_hash": "0739db38b60510b623365adbb0221ad8fdc4d10f079476f4a7768d6b34b140bb",
+            "target_symbol": "xizi_circular_area_call_reset_release_partial_solve_wit_3_pure_split_goal_1",
+            "start_line": 184,
+            "end_line": 186,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_force_full_release_entail_wit_1_split_goal_spatial",
+            "statement_hash": "0909b955971cc9c8afcea745d768395f3742ae22e513025ec3a82513eb857cf4",
+            "target_symbol": "xizi_circular_area_call_force_full_release_entail_wit_1_split_goal_spatial",
+            "start_line": 190,
+            "end_line": 192,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_force_full_release_return_wit_1_split_goal_spatial",
+            "statement_hash": "ebe615eeedda24e26dc6d80f03acc8a5643e524b1fd932add26921e3c870bfbd",
+            "target_symbol": "xizi_circular_area_call_force_full_release_return_wit_1_split_goal_spatial",
+            "start_line": 196,
+            "end_line": 198,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_force_full_release_return_wit_2_split_goal_spatial",
+            "statement_hash": "f8aeb10a5b986d175cd1b6c2a1bf9898279ece64c79c8a30a3b42bcc82bc0659",
+            "target_symbol": "xizi_circular_area_call_force_full_release_return_wit_2_split_goal_spatial",
+            "start_line": 202,
+            "end_line": 204,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_force_full_release_partial_solve_wit_2_pure_split_goal_1",
+            "statement_hash": "1ec90908801dedd6e321324328428ff2cf29fb9a25699719fe4ba007d571c18d",
+            "target_symbol": "xizi_circular_area_call_force_full_release_partial_solve_wit_2_pure_split_goal_1",
+            "start_line": 208,
+            "end_line": 210,
+            "has_abort": true,
+            "has_split_goal": true
+          },
+          {
+            "name": "proof_of_xizi_circular_area_call_force_full_release_partial_solve_wit_2_pure_split_goal_2",
+            "statement_hash": "3b9a050235dd9fcbfe03c4f2a311dca62a56b67d17a0a0f0f1688fd7651607ec",
+            "target_symbol": "xizi_circular_area_call_force_full_release_partial_solve_wit_2_pure_split_goal_2",
+            "start_line": 211,
+            "end_line": 213,
+            "has_abort": true,
+            "has_split_goal": true
+          }
+        ],
+        "manual_obligation_count": 29,
+        "diagnostic_count": 35
+      }
+    }
+  },
+  "blockers": []
+}

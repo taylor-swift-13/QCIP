@@ -1,25 +1,13 @@
-# xizi_circular_area_is_empty 验证交付
+# CircularAreaIsEmpty 验证归档
 
-本目录保存 `CircularAreaIsEmpty` 的最终 accepted 交付。`source/` 是带 annotation 的 C 源码，`rocq/` 包含 generated goal、auto/manual proof、goal check、唯一 case lib 与 diagnostics，`reports/` 保存 controller、workflow、checkpoint 和复用证据。
+本 case 使用统一 `circular_area_state/store_circular_area` 资源重证真实 CRTOS `CircularAreaIsEmpty`。公开 `With` 只有 `LitMap` 与抽象 `state`，live 返回 `1` 当且仅当 `ca_contents state = nil`，并保持原资源。
 
-验证状态：controller run `xizi_circular_area_is_empty-20260821120002` 已到 `done`，final-check 与独立 freshness 均通过；`source_goal_version` 为 `460f73cf7172b49f1ba5fb1192ebf2967379a197c479759d86fb562b26fccdd7`，manual target witness 共 5 个，全部完成证明。
+- run：`xizi_circular_area_is_empty-20260903094014`
+- source version：`9ef70415f5c7b68e6a6acc146dfc9725661eeefbb6d1d4df85dfe7b578f89b3b`
+- source-goal version：`b3d8c1016da9a18cc4a2d60112a89a28a99213ef04116b4340a2e2ece40dfb40`
+- manual VC：6/6
+- helper：`CircularAreaLogicalState_nil_iff__empty_query_unfold_and_repack`
+- parent/final fixed Coq 与所有结构扫描：通过
+- isolated freshness：skipped；accepted annotation canonical symexec 已到 EOF
 
-规约直接使用函数参数名，不含参数 `@pre`。函数名、static 属性、签名和可执行语义已与 CRTOS `circular_area.c` 对齐；`ERROR` 为 1，descriptor 保持 `p_head=data_buffer`、`p_tail=data_buffer+area_length` 和 `0 < area_length <= 256` 的有效状态约束。
-
-## 复现
-
-在仓库根目录运行 canonical symbolic execution，必须保留：
-
-    -IQCP_examples/QCP_demos_LLM/
-    -slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM
-
-fresh 输出必须写到报告临时目录，不能覆盖已证明的 manual。Rocq 只通过 `.agents/skills/vc-proving/scripts/coq_tooling.py check` 的 fixed argv 检查。精确命令、哈希和 phase 证据见 `reports/controller/` 与 `reports/workflow/`。
-
-## 文件组织
-
-- `source/`：最终 annotated C。
-- `rocq/`：最终 generated files、manual proof、case_lib 与 diagnostics。
-- `reports/controller/`：run log、timing、final state 与 freshness。
-- `reports/workflow/`：accepted annotation、vc-checking、vc-proving handoff/report。
-- `reports/generated_snapshots/`、`reports/input_snapshots/`：交付快照。
-- `reports/checkpoint.json`、`reuse_packet.json`、`partial_proof_packet.json`：续证入口。
+完整 workflow 位于 `reports/workflow/xizi_circular_area_is_empty-20260903094014/`。

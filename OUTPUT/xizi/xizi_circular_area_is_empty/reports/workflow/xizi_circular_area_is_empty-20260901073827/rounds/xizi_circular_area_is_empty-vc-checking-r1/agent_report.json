@@ -1,0 +1,320 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "pending",
+  "terminal": "no",
+  "agent_result": {
+    "phase": "vc-checking",
+    "vc_checking": {
+      "status": "completed",
+      "ready_for_vc_proving_preparing": true,
+      "source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "0249eb02ad8bd05c33c45381fcc6b6d450616e5c0d4f9b62af264e931992e49c"
+      },
+      "source_goal_version": {
+        "schema_version": "qcp-source-goal-version/v1",
+        "digest": "aa0a95befdf73b5cdf3789ad5beb98f5e95d1685575b3ca37c6180bfe5e65726"
+      },
+      "target_witnesses": [
+        "proof_of_CircularAreaIsEmpty_return_wit_1",
+        "proof_of_CircularAreaIsEmpty_return_wit_2",
+        "proof_of_CircularAreaIsEmpty_return_wit_3",
+        "proof_of_CircularAreaIsEmpty_return_wit_4",
+        "proof_of_CircularAreaIsEmpty_partial_solve_wit_1_pure"
+      ],
+      "witness_judgments": [
+        {
+          "witness_name": "proof_of_CircularAreaIsEmpty_return_wit_1",
+          "judgment": "proofable",
+          "summary": "The readidx <> writeidx guard establishes the nonempty-disjunct premise of CircularAreaEmptyResult for return value 0."
+        },
+        {
+          "witness_name": "proof_of_CircularAreaIsEmpty_return_wit_2",
+          "judgment": "proofable",
+          "summary": "The b_status <> 0 guard establishes the nonempty-disjunct premise of CircularAreaEmptyResult for return value 0 even though the indices are equal."
+        },
+        {
+          "witness_name": "proof_of_CircularAreaIsEmpty_return_wit_3",
+          "judgment": "proofable",
+          "summary": "The equal-index and b_status = 0 guards establish the empty disjunct of CircularAreaEmptyResult for return value 1."
+        },
+        {
+          "witness_name": "proof_of_CircularAreaIsEmpty_return_wit_4",
+          "judgment": "proofable",
+          "summary": "The null return is 1, so xizi_circular_area_error_result 1 unfolds to reflexivity."
+        },
+        {
+          "witness_name": "proof_of_CircularAreaIsEmpty_partial_solve_wit_1_pure",
+          "judgment": "proofable",
+          "summary": "The string literal address side condition normalizes from base + 0 * sizeof(CHAR) to the same base address."
+        }
+      ],
+      "natural_language_analysis": {
+        "status": "passed",
+        "summary": "All five target witnesses are pure closures over unchanged spatial resources. The four return witnesses can select the generated pure disjunct; the string-literal witness closes by arithmetic normalization. No annotation change or helper declaration is required.",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_CircularAreaIsEmpty_return_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "The full branch owns GlobalStrings, UCharArray.mixed_full, and every unchanged CircularArea descriptor field; the selected pure branch has TT && emp.",
+              "pre_pure": "readidx <> writeidx, circular_area_pre <> 0, data_buffer <> 0, and CircularAreaLogicalState readidx writeidx area_length b_status logical physical.",
+              "pre_exists": "None.",
+              "post_spatial": "The full branch repeats every resource unchanged; the selected pure branch requires emp.",
+              "post_pure": "CircularAreaEmptyResult readidx writeidx b_status 0.",
+              "post_exists": "None."
+            },
+            "witness_instantiation": "No existential witness is introduced; choose the right disjunct of CircularAreaIsEmpty_return_wit_1.",
+            "space_plan": "Use the generated pure TT && emp entailment branch, so emp cancels directly and no mixed buffer or descriptor resource is opened.",
+            "pure_plan": "Unfold CircularAreaEmptyResult; choose its return-0 disjunct, then choose readidx <> writeidx from PreH1 and prove 0 = 0 by reflexivity.",
+            "refinement_plan": "Not applicable; the shared CircularAreaLogicalState is preserved and no safeExec/refinement transition occurs.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "readidx <> writeidx / b_status <> 0",
+                "discharged_by": "left alternative from PreH1: readidx <> writeidx"
+              },
+              {
+                "premise": "return value = 0",
+                "discharged_by": "reflexivity"
+              }
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "circular_area_is_empty_pure_results",
+            "grouping_reason": "Same generated disjunction and local-result-unfolding pattern as the other return witnesses."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaIsEmpty_return_wit_2",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "The full branch owns GlobalStrings, UCharArray.mixed_full, and every unchanged CircularArea descriptor field; the selected pure branch has TT && emp.",
+              "pre_pure": "b_status <> 0, readidx = writeidx, circular_area_pre <> 0, data_buffer <> 0, and the shared CircularAreaLogicalState.",
+              "pre_exists": "None.",
+              "post_spatial": "The full branch repeats every resource unchanged; the selected pure branch requires emp.",
+              "post_pure": "CircularAreaEmptyResult writeidx writeidx b_status 0.",
+              "post_exists": "None."
+            },
+            "witness_instantiation": "No existential witness is introduced; choose the right disjunct of CircularAreaIsEmpty_return_wit_2. The generated target already substitutes readidx with writeidx.",
+            "space_plan": "Use the generated pure TT && emp entailment branch; emp cancels directly.",
+            "pure_plan": "Unfold CircularAreaEmptyResult; choose its return-0 disjunct, use the right alternative b_status <> 0 from PreH1, and close 0 = 0 by reflexivity.",
+            "refinement_plan": "Not applicable.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "writeidx <> writeidx / b_status <> 0",
+                "discharged_by": "right alternative from PreH1: b_status <> 0"
+              },
+              {
+                "premise": "return value = 0",
+                "discharged_by": "reflexivity"
+              }
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "circular_area_is_empty_pure_results",
+            "grouping_reason": "Same return-0 result-relation pattern as return_wit_1."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaIsEmpty_return_wit_3",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "The full branch owns GlobalStrings, UCharArray.mixed_full, and every unchanged CircularArea descriptor field; the selected pure branch has TT && emp.",
+              "pre_pure": "b_status = 0, readidx = writeidx, circular_area_pre <> 0, data_buffer <> 0, and the shared CircularAreaLogicalState.",
+              "pre_exists": "None.",
+              "post_spatial": "The full branch repeats every resource unchanged; the selected pure branch requires emp.",
+              "post_pure": "CircularAreaEmptyResult writeidx writeidx 0 1.",
+              "post_exists": "None."
+            },
+            "witness_instantiation": "No existential witness is introduced; choose the right disjunct of CircularAreaIsEmpty_return_wit_3. The generated target substitutes both readidx and b_status using branch equalities.",
+            "space_plan": "Use the generated pure TT && emp entailment branch; emp cancels directly.",
+            "pure_plan": "Unfold CircularAreaEmptyResult; choose its empty/return-1 disjunct and prove writeidx = writeidx, 0 = 0, and 1 = 1 by reflexivity.",
+            "refinement_plan": "Not applicable.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "writeidx = writeidx",
+                "discharged_by": "reflexivity after generated substitution from PreH2"
+              },
+              {
+                "premise": "b_status = 0 in the target instance",
+                "discharged_by": "the target is instantiated with literal 0 from PreH1"
+              },
+              {
+                "premise": "return value = 1",
+                "discharged_by": "reflexivity"
+              }
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "circular_area_is_empty_pure_results",
+            "grouping_reason": "Same local-result-unfolding pattern, using the return-1 disjunct."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaIsEmpty_return_wit_4",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "The full branch owns GlobalStrings; the selected pure branch has TT && emp.",
+              "pre_pure": "circular_area_pre = 0.",
+              "pre_exists": "None.",
+              "post_spatial": "The full branch preserves GlobalStrings; the selected pure branch requires emp.",
+              "post_pure": "xizi_circular_area_error_result 1.",
+              "post_exists": "None."
+            },
+            "witness_instantiation": "No existential witness is introduced; choose the right disjunct of CircularAreaIsEmpty_return_wit_4.",
+            "space_plan": "Use the generated pure TT && emp entailment branch; emp cancels directly.",
+            "pure_plan": "Unfold xizi_circular_area_error_result; the goal is 1 = 1 and closes by reflexivity.",
+            "refinement_plan": "Not applicable.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "result = 1",
+                "discharged_by": "reflexivity at result 1"
+              }
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "circular_area_is_empty_pure_results",
+            "grouping_reason": "Same generated pure-disjunct pattern; only the local error-result definition differs."
+          },
+          {
+            "witness_name": "proof_of_CircularAreaIsEmpty_partial_solve_wit_1_pure",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "The chosen branch owns unchanged GlobalStrings, the circular_area pointer cell, UCharArray.mixed_full, and all descriptor fields.",
+              "pre_pure": "area_length and b_status machine bounds, b_status = 0, readidx = writeidx, pointer non-null facts, and CircularAreaLogicalState.",
+              "pre_exists": "None.",
+              "post_spatial": "None; the target is a pure proposition embedded in the entailment.",
+              "post_pure": "LitMap(message) + 0 * sizeof(CHAR) = LitMap(message).",
+              "post_exists": "None."
+            },
+            "witness_instantiation": "No existential witness is introduced; choose the second generated disjunct, matching the diagnostic pure split goal.",
+            "space_plan": "Retain the entire spatial antecedent as frame while extracting the pure arithmetic target; no array, string, or descriptor predicate needs unfolding.",
+            "pure_plan": "Normalize multiplication by zero and addition of zero; the equality becomes reflexive. No bounds or guard hypothesis is required for this arithmetic identity.",
+            "refinement_plan": "Not applicable.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              {
+                "premise": "0 * sizeof(CHAR) = 0",
+                "discharged_by": "ring/constant normalization"
+              },
+              {
+                "premise": "LitMap(message) + 0 = LitMap(message)",
+                "discharged_by": "integer addition normalization"
+              }
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "circular_area_is_empty_pure_results",
+            "grouping_reason": "Although it normalizes pointer arithmetic rather than a result predicate, it is another small pure closure in the same function and requires no distinct helper family or dependency."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "circular_area_is_empty_pure_results",
+            "witness_names": [
+              "proof_of_CircularAreaIsEmpty_return_wit_1",
+              "proof_of_CircularAreaIsEmpty_return_wit_2",
+              "proof_of_CircularAreaIsEmpty_return_wit_3",
+              "proof_of_CircularAreaIsEmpty_return_wit_4",
+              "proof_of_CircularAreaIsEmpty_partial_solve_wit_1_pure"
+            ],
+            "representative_witness": "proof_of_CircularAreaIsEmpty_return_wit_1",
+            "shared_proof_pattern": "Select the generated pure disjunct, reduce the entailment to pure facts, unfold the local result predicate when present, and close by branch hypotheses plus normalization/reflexivity.",
+            "shared_space_plan": "Avoid opening the shared state or mixed buffer; use the pure generated branch or frame all resources for the pure target.",
+            "shared_pure_plan": "Use the branch guard to select the appropriate CircularAreaEmptyResult disjunct, or normalize zero-offset string pointer arithmetic.",
+            "shared_refinement_plan": "Not applicable.",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "All five are bounded, closely related pure obligations from one read-only function and can be handled sequentially without helper sharing or proof-order constraints.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "aa0a95befdf73b5cdf3789ad5beb98f5e95d1685575b3ca37c6180bfe5e65726",
+        "target_witnesses": [
+          "proof_of_CircularAreaIsEmpty_return_wit_1",
+          "proof_of_CircularAreaIsEmpty_return_wit_2",
+          "proof_of_CircularAreaIsEmpty_return_wit_3",
+          "proof_of_CircularAreaIsEmpty_return_wit_4",
+          "proof_of_CircularAreaIsEmpty_partial_solve_wit_1_pure"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "circular_area_is_empty_pure_results",
+            "witness_names": [
+              "proof_of_CircularAreaIsEmpty_return_wit_1",
+              "proof_of_CircularAreaIsEmpty_return_wit_2",
+              "proof_of_CircularAreaIsEmpty_return_wit_3",
+              "proof_of_CircularAreaIsEmpty_return_wit_4",
+              "proof_of_CircularAreaIsEmpty_partial_solve_wit_1_pure"
+            ],
+            "representative_witness": "proof_of_CircularAreaIsEmpty_return_wit_1",
+            "dependencies": [],
+            "candidate_helper_declarations": [],
+            "likely_helper_declarations": [],
+            "expected_helpers": [],
+            "proof_strategy": "For each return witness select the right/pure generated disjunct, unfold CircularAreaEmptyResult or xizi_circular_area_error_result, use the matching guard hypothesis, and close reflexive equalities. For the partial-solve witness choose the pure arithmetic branch and normalize multiplication/addition by zero while leaving all resources framed.",
+            "natural_language_proof_pattern": "Pure result-relation closure and zero-offset arithmetic normalization over an unchanged read-only state.",
+            "space_plan": "No state predicate or mixed buffer resource needs unfolding; pure branches use emp directly, and the string-address obligation leaves all antecedent resources framed.",
+            "pure_plan": "Case-select local result definitions from readidx/writeidx/b_status guards; simplify all literal equalities and the zero address offset.",
+            "refinement_plan": "Not applicable.",
+            "premise_discharge": {
+              "return_wit_1": "PreH1 supplies readidx <> writeidx.",
+              "return_wit_2": "PreH1 supplies b_status <> 0.",
+              "return_wit_3": "The generated target is instantiated at equal indices, status 0, and result 1.",
+              "return_wit_4": "The error result at 1 unfolds to 1 = 1.",
+              "partial_solve_wit_1_pure": "Zero multiplication and zero addition normalize independently of the spatial antecedent."
+            },
+            "per_witness_plan": {
+              "proof_of_CircularAreaIsEmpty_return_wit_1": "right; reduce entailment; unfold CircularAreaEmptyResult; select return-0 disjunct using readidx <> writeidx.",
+              "proof_of_CircularAreaIsEmpty_return_wit_2": "right; reduce entailment; unfold CircularAreaEmptyResult; select return-0 disjunct using b_status <> 0.",
+              "proof_of_CircularAreaIsEmpty_return_wit_3": "right; reduce entailment; unfold CircularAreaEmptyResult; select return-1 disjunct and close literal equalities.",
+              "proof_of_CircularAreaIsEmpty_return_wit_4": "right; reduce entailment; unfold xizi_circular_area_error_result; reflexivity.",
+              "proof_of_CircularAreaIsEmpty_partial_solve_wit_1_pure": "right; reduce the pure entailment; normalize 0 * sizeof(CHAR) and + 0."
+            },
+            "difficulty": "low",
+            "confidence": "high",
+            "grouping_reason": "The target count is 5, below the controller limit 12. All obligations arise from the same read-only function, are pure closures with no helper or dependency, and are suitable for one worker to prove sequentially."
+          }
+        ],
+        "blockers": []
+      },
+      "evidence": {
+        "version_hash_check": "passed",
+        "source_version_digest": "0249eb02ad8bd05c33c45381fcc6b6d450616e5c0d4f9b62af264e931992e49c",
+        "source_goal_version_digest": "aa0a95befdf73b5cdf3789ad5beb98f5e95d1685575b3ca37c6180bfe5e65726",
+        "manual_target_coverage": "passed: exactly 5 manual obligations, each assigned once",
+        "manual_file_sha256": "355d06f52bdb485eb478e20f510fc5f6beca7b3e52b1a33647447bf897e66411",
+        "goal_file_sha256": "234f1414404bc321ae76c0e226a03b1b2581b7903530275a5e0bb32c1ebe8572",
+        "case_lib_sha256": "abf8c190d101d1f482feaec91724bbfd9fd17b70f711fa5e835de370987871f8",
+        "diagnostics_role": "hint-only; split goals were not included as target witnesses"
+      },
+      "changed_files": [],
+      "report_files_written": [
+        "/home/yangfp/QCIP/reports/xizi_circular_area_is_empty-20260901073827/rounds/xizi_circular_area_is_empty-vc-checking-r1/agent_report.json",
+        "/home/yangfp/QCIP/reports/xizi_circular_area_is_empty-20260901073827/rounds/xizi_circular_area_is_empty-vc-checking-r1/agent_output.txt"
+      ],
+      "blockers": []
+    }
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-09-01T00:06:10Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_circular_area_is_empty-20260901073827/rounds/xizi_circular_area_is_empty-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    }
+  },
+  "blockers": []
+}

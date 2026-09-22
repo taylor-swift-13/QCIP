@@ -1,0 +1,555 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "pending",
+  "terminal": "no",
+  "agent_result": {
+    "vc_checking": {
+      "schema_version": "qcp-vc-checking-agent-result/v1",
+      "status": "blocked",
+      "round": "xizi_circular_area_data_length-vc-checking-r1",
+      "attempt_id": "xizi_circular_area_data_length-vc-checking-r1-attempt-1",
+      "summary": "The current generated target set is not semantically proofable. Five non-null return witnesses require circular_area_pre = area_addr in their postcondition, but neither their pure nor spatial antecedents constrain circular_area_pre. This missing pre-state/address bridge must be repaired in the C annotations and regenerated; no helper lemma can soundly manufacture it.",
+      "source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "883c1bce062775f6eb920108ca794237a969352d619b96314641acbb27d6c531",
+        "status": "matched"
+      },
+      "source_goal_version": {
+        "schema_version": "qcp-source-goal-version/v1",
+        "digest": "e4bc60fb1162bc3c261061d07a2c45d09a89061a09682f2f1278bd053c1493cd",
+        "status": "matched"
+      },
+      "version_evidence": {
+        "method": "sha256sum of every source_version and source_goal_version file in the declared round worktree",
+        "all_declared_hashes_match": true,
+        "manual_target_set_matches": true,
+        "manual_obligation_count": 14,
+        "diagnostic_obligation_count": 25,
+        "diagnostics_used_as_hint_only": true
+      },
+      "natural_language_analysis": {
+        "schema_version": "qcp-vc-natural-language-analysis/v1",
+        "overall_judgment": "annotation-bug",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_CircularAreaIsFull_entail_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "local circular_area cell, GlobalStrings, and CircularAreaBackingResource",
+              "pre_pure": "circular_area_pre <> 0 and circular_area_pre = area_addr_state_spec",
+              "pre_exists": "none",
+              "post_spatial": "the same local cell and GlobalStrings plus the fully expanded descriptor fields and UCharArray.mixed_full",
+              "post_pure": "area_addr_state_spec <> 0, data_buffer_state_spec <> 0, and CircularAreaLogicalState",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "All state parameters are preserved unchanged; rewrite circular_area_pre by PreH2.",
+            "space_plan": "Choose either generated disjunct, unfold CircularAreaBackingResource, expose its pure conjunct, and cancel the unchanged GlobalStrings, struct fields, mixed buffer, and local cell where present.",
+            "pure_plan": "The two non-null facts and CircularAreaLogicalState are direct conjuncts of CircularAreaBackingResource; PreH2 supplies the address rewrite.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "CircularAreaBackingResource definition",
+              "PreH2: circular_area_pre = area_addr_state_spec"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing after annotation repair and rechecking of the entire regenerated target set",
+            "analysis_group_candidate": "state_unpack_and_call_results",
+            "grouping_reason": "same backing-resource unfold/cancel pattern as the call-result entail witnesses"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaIsFull_return_wit_1",
+            "judgment": "annotation-bug",
+            "vc_shape": {
+              "pre_spatial": "GlobalStrings plus expanded descriptor fields and UCharArray.mixed_full",
+              "pre_pure": "readidx_state_spec <> writeidx_state_spec, non-null area/data, and CircularAreaLogicalState",
+              "pre_exists": "none",
+              "post_spatial": "GlobalStrings plus CircularAreaBackingResource",
+              "post_pure": "circular_area_pre = area_addr_state_spec and CircularAreaFullResult ... 0",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "State values are unchanged, but the required circular_area_pre/address equality has no source in P.",
+            "space_plan": "The resource can be folded back to CircularAreaBackingResource, but this does not mention circular_area_pre.",
+            "pure_plan": "The logical invariant and readidx <> writeidx imply Zlength logical < area_length, hence CircularAreaFullResult ... 0. They cannot imply circular_area_pre = area_addr_state_spec because circular_area_pre is otherwise unconstrained.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "length result: CircularAreaLogicalState bounds/equal-index/full equivalence",
+              "address equality: no premise exists"
+            ],
+            "failure_signal": "Both top-level generated alternatives quantify arbitrary circular_area_pre, omit it from P, and require circular_area_pre = area_addr_state_spec in Q.",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": null,
+            "grouping_reason": "not groupable: semantic address-bridge gap"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaIsFull_return_wit_2",
+            "judgment": "annotation-bug",
+            "vc_shape": {
+              "pre_spatial": "GlobalStrings plus expanded unchanged backing resources",
+              "pre_pure": "readidx = writeidx, b_status = 0, non-null area/data, and CircularAreaLogicalState",
+              "pre_exists": "none",
+              "post_spatial": "GlobalStrings plus CircularAreaBackingResource",
+              "post_pure": "circular_area_pre = area_addr_state_spec and CircularAreaFullResult ... 0",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "Preserve the current state; no witness can instantiate the missing address equality.",
+            "space_plan": "Fold the unchanged fields and mixed buffer into CircularAreaBackingResource.",
+            "pure_plan": "The empty-state equivalence yields Zlength logical = 0 and area_length > 0, so the result relation holds; circular_area_pre remains unconstrained.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "length result: empty-state equivalence and positive area length",
+              "address equality: no premise exists"
+            ],
+            "failure_signal": "Both generated alternatives require an equality absent from P.",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": null,
+            "grouping_reason": "not groupable: semantic address-bridge gap"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaIsFull_return_wit_3",
+            "judgment": "annotation-bug",
+            "vc_shape": {
+              "pre_spatial": "GlobalStrings plus expanded unchanged backing resources",
+              "pre_pure": "readidx = writeidx, b_status <> 0, non-null area/data, and CircularAreaLogicalState",
+              "pre_exists": "none",
+              "post_spatial": "GlobalStrings plus CircularAreaBackingResource",
+              "post_pure": "circular_area_pre = area_addr_state_spec and CircularAreaFullResult ... 1",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "Preserve the current state; circular_area_pre cannot be tied to area_addr_state_spec from P.",
+            "space_plan": "Fold the unchanged fields and mixed buffer into CircularAreaBackingResource.",
+            "pure_plan": "The status range gives b_status = 1; the full-state equivalence then gives Zlength logical = area_length. The address equality is independent and missing.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "full result: status disjunction plus full-state equivalence",
+              "address equality: no premise exists"
+            ],
+            "failure_signal": "Both generated alternatives require an equality absent from P.",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": null,
+            "grouping_reason": "not groupable: semantic address-bridge gap"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaIsFull_return_wit_4",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "one alternative has GlobalStrings plus CircularAreaBackingResource",
+              "pre_pure": "circular_area_pre = 0 and circular_area_pre = area_addr_state_spec",
+              "pre_exists": "none",
+              "post_spatial": "same state resources",
+              "post_pure": "address equality and CircularAreaFullResult ... 1",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "Choose the first top-level alternative.",
+            "space_plan": "Unfold CircularAreaBackingResource only far enough to obtain area_addr_state_spec <> 0.",
+            "pure_plan": "PreH1 and PreH2 imply area_addr_state_spec = 0, contradicting the backing-resource non-null fact; conclude the entailment ex falso.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "area_addr_state_spec <> 0 from CircularAreaBackingResource",
+              "area_addr_state_spec = 0 from PreH1 and PreH2"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing after annotation repair",
+            "analysis_group_candidate": "null_and_contradictory_returns",
+            "grouping_reason": "same direct null-result or contradictory-precondition pattern"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaIsFull_partial_solve_wit_1_pure",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "string literal resource, GlobalStrings_missing, local/descriptor resources, and mixed buffer",
+              "pre_pure": "full-branch state facts",
+              "pre_exists": "none",
+              "post_spatial": "none beyond the pure embedding",
+              "post_pure": "LitMap address + 0 * sizeof(CHAR) = the same LitMap address",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "none",
+            "space_plan": "No resource transformation is needed for the pure arithmetic consequence.",
+            "pure_plan": "Reduce multiplication by zero and addition by zero; reflexivity closes both generated alternatives.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "integer ring simplification"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing after annotation repair",
+            "analysis_group_candidate": "simple_pure_safety",
+            "grouping_reason": "small pure arithmetic obligation"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaGetDataLength_safety_wit_7",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "local/descriptor resources, GlobalStrings, and mixed buffer",
+              "pre_pure": "Zlength logical < area_length and CircularAreaLogicalState",
+              "pre_exists": "none",
+              "post_spatial": "none beyond pure embedding",
+              "post_pure": "area_length <> 0",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "none",
+            "space_plan": "Extract the pure invariant from PreH4; spatial resources are framed.",
+            "pure_plan": "CircularAreaLogicalState directly gives 0 < area_length, hence the divisor is nonzero.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "first conjunct of CircularAreaLogicalState"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing after annotation repair",
+            "analysis_group_candidate": "simple_pure_safety",
+            "grouping_reason": "pure bound extracted from the shared logical invariant"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaGetDataLength_safety_wit_8",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "local/descriptor resources, GlobalStrings, and mixed buffer",
+              "pre_pure": "Zlength logical < area_length and CircularAreaLogicalState",
+              "pre_exists": "none",
+              "post_spatial": "none beyond pure embedding",
+              "post_pure": "INT_MIN <= writeidx - readidx <= INT_MAX",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "none",
+            "space_plan": "Extract read/write and area-length bounds from PreH4; spatial resources are framed.",
+            "pure_plan": "0 <= readidx,writeidx < area_length and area_length <= 256 bound the difference between -255 and 255, which lies inside signed-int bounds after unfolding constants.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "read index bounds from CircularAreaLogicalState",
+              "write index bounds from CircularAreaLogicalState",
+              "area_length <= 256 from CircularAreaLogicalState"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing after annotation repair",
+            "analysis_group_candidate": "simple_pure_safety",
+            "grouping_reason": "pure integer-bound consequence of the same invariant"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaGetDataLength_entail_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "GlobalStrings, CircularAreaBackingResource at circular_area_pre, and local circular_area cell",
+              "pre_pure": "CircularAreaFullResult ... retval, circular_area_pre <> 0, circular_area_pre = area_addr, retval <> 0",
+              "pre_exists": "none",
+              "post_spatial": "expanded unchanged backing resources and local cell",
+              "post_pure": "area/data non-null, Zlength logical = area_length, and CircularAreaLogicalState",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "Preserve all state values and rewrite circular_area_pre to area_addr.",
+            "space_plan": "Unfold CircularAreaBackingResource and cancel all unchanged fields, mixed buffer, GlobalStrings, and local cell.",
+            "pure_plan": "Unfold CircularAreaFullResult; retval <> 0 eliminates the result=0 branch and yields retval=1 with full logical length.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "non-null/logical-state facts from CircularAreaBackingResource",
+              "full length from CircularAreaFullResult plus retval <> 0",
+              "address rewrite from PreH4"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing after annotation repair",
+            "analysis_group_candidate": "state_unpack_and_call_results",
+            "grouping_reason": "same resource expansion and pure query-result case analysis"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaGetDataLength_entail_wit_2",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "GlobalStrings, CircularAreaBackingResource at circular_area_pre, and local circular_area cell",
+              "pre_pure": "CircularAreaFullResult ... retval, circular_area_pre <> 0, circular_area_pre = area_addr, retval = 0",
+              "pre_exists": "none",
+              "post_spatial": "expanded unchanged backing resources and local cell",
+              "post_pure": "area/data non-null, Zlength logical < area_length, and CircularAreaLogicalState",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "Preserve all state values and rewrite circular_area_pre to area_addr.",
+            "space_plan": "Unfold CircularAreaBackingResource and cancel all unchanged resources.",
+            "pure_plan": "Unfold CircularAreaFullResult; retval = 0 selects its non-full branch and yields Zlength logical < area_length.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "non-null/logical-state facts from CircularAreaBackingResource",
+              "strict length bound from CircularAreaFullResult plus retval = 0",
+              "address rewrite from PreH3"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing after annotation repair",
+            "analysis_group_candidate": "state_unpack_and_call_results",
+            "grouping_reason": "same resource expansion and pure query-result case analysis"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaGetDataLength_return_wit_1",
+            "judgment": "annotation-bug",
+            "vc_shape": {
+              "pre_spatial": "GlobalStrings plus expanded unchanged backing resources",
+              "pre_pure": "area/data non-null, Zlength logical < area_length, and CircularAreaLogicalState",
+              "pre_exists": "none",
+              "post_spatial": "null branch keeps only GlobalStrings; non-null branch requires GlobalStrings plus CircularAreaBackingResource",
+              "post_pure": "either circular_area_pre = 0 with error result, or circular_area_pre = area_addr with exact logical-length result",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "The non-null branch would preserve all state and use the computed modular expression, but its required address equality is missing from P.",
+            "space_plan": "The backing resources can be folded unchanged for the non-null branch.",
+            "pure_plan": "CircularAreaLogicalState supplies index/length bounds and writeidx = (readidx + Zlength logical) mod area_length, sufficient in principle to prove the uint32 modular expression equals Zlength logical. It supplies no fact about circular_area_pre.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "circular_area_uint32_length_formula",
+                "statement_shape": "for 0 < area_length <= 256, bounded readidx/writeidx, 0 <= len < area_length, and writeidx = (readidx + len) mod area_length, the nested unsigned_last_nbits subtraction/addition expression modulo area_length equals len",
+                "used_by_witnesses": [
+                  "proof_of_CircularAreaGetDataLength_return_wit_1"
+                ],
+                "premises": [
+                  {
+                    "premise": "0 < area_length <= 256; bounded readidx/writeidx; 0 <= len < area_length; writeidx = (readidx + len) mod area_length",
+                    "discharged_by": "CircularAreaLogicalState plus PreH3",
+                    "needs_unfold": [
+                      "CircularAreaLogicalState",
+                      "unsigned_last_nbits"
+                    ],
+                    "arithmetic": "split on writeidx >= readidx and normalize modulo 2^32",
+                    "spatial_resource": "none"
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix, but only after the annotation bridge is repaired"
+              }
+            ],
+            "premise_discharge": [
+              "modular length premises from CircularAreaLogicalState",
+              "address equality: no premise exists"
+            ],
+            "failure_signal": "For arbitrary circular_area_pre distinct from both 0 and area_addr, neither postcondition disjunct can hold although P is independent of circular_area_pre.",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": null,
+            "grouping_reason": "not groupable until the semantic address bridge is restored"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaGetDataLength_return_wit_2",
+            "judgment": "annotation-bug",
+            "vc_shape": {
+              "pre_spatial": "GlobalStrings plus expanded unchanged backing resources",
+              "pre_pure": "area/data non-null, Zlength logical = area_length, and CircularAreaLogicalState",
+              "pre_exists": "none",
+              "post_spatial": "null branch keeps GlobalStrings; non-null branch requires the unchanged backing state",
+              "post_pure": "either circular_area_pre = 0 with error result or circular_area_pre = area_addr with CircularAreaDataLengthResult logical area_length",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "The full branch result is area_length, already equal to Zlength logical, but the non-null address equality has no source.",
+            "space_plan": "Fold unchanged fields and mixed buffer into CircularAreaBackingResource for the intended non-null disjunct.",
+            "pure_plan": "PreH3 proves the data-length result directly; it cannot constrain arbitrary circular_area_pre.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "exact length from PreH3",
+              "address equality: no premise exists"
+            ],
+            "failure_signal": "For arbitrary circular_area_pre distinct from both 0 and area_addr, neither result disjunct can hold.",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": null,
+            "grouping_reason": "not groupable: semantic address-bridge gap"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaGetDataLength_return_wit_3",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "GlobalStrings",
+              "pre_pure": "circular_area_pre = 0",
+              "pre_exists": "none",
+              "post_spatial": "GlobalStrings in the null result disjunct",
+              "post_pure": "circular_area_pre = 0 and CircularAreaErrorResult 1",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "Choose the null postcondition disjunct.",
+            "space_plan": "Cancel GlobalStrings unchanged.",
+            "pure_plan": "Use PreH1 and unfold CircularAreaErrorResult to reflexivity 1 = 1.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "null equality from PreH1",
+              "error result by unfolding CircularAreaErrorResult"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing after annotation repair",
+            "analysis_group_candidate": "null_and_contradictory_returns",
+            "grouping_reason": "direct null-result branch"
+          },
+          {
+            "witness_name": "proof_of_CircularAreaGetDataLength_return_wit_4",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "GlobalStrings plus CircularAreaBackingResource",
+              "pre_pure": "circular_area_pre = 0 and circular_area_pre = area_addr",
+              "pre_exists": "none",
+              "post_spatial": "one of the result branches",
+              "post_pure": "null/error or non-null/data-length result",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "none required; antecedent is contradictory.",
+            "space_plan": "Unfold CircularAreaBackingResource enough to extract area_addr <> 0.",
+            "pure_plan": "The two PreH equalities imply area_addr = 0, contradicting the backing-resource non-null conjunct; conclude ex falso.",
+            "refinement_plan": "not applicable",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "area_addr <> 0 from CircularAreaBackingResource",
+              "area_addr = 0 from PreH1 and PreH2"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing after annotation repair",
+            "analysis_group_candidate": "null_and_contradictory_returns",
+            "grouping_reason": "contradictory null/non-null path"
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "state_unpack_and_call_results",
+            "witness_names": [
+              "proof_of_CircularAreaIsFull_entail_wit_1",
+              "proof_of_CircularAreaGetDataLength_entail_wit_1",
+              "proof_of_CircularAreaGetDataLength_entail_wit_2"
+            ],
+            "representative_witness": "proof_of_CircularAreaGetDataLength_entail_wit_1",
+            "shared_proof_pattern": "unfold CircularAreaBackingResource, derive the query-result pure branch, rewrite the area address, and cancel unchanged state",
+            "shared_space_plan": "expand/fold the canonical backing resource without changing any field or buffer ownership",
+            "shared_pure_plan": "unfold CircularAreaFullResult and use the retval guard where applicable",
+            "shared_refinement_plan": "not applicable",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "same canonical-resource and call-result proof family",
+            "proof_group_ready": true
+          },
+          {
+            "group_id": "simple_pure_safety",
+            "witness_names": [
+              "proof_of_CircularAreaIsFull_partial_solve_wit_1_pure",
+              "proof_of_CircularAreaGetDataLength_safety_wit_7",
+              "proof_of_CircularAreaGetDataLength_safety_wit_8"
+            ],
+            "representative_witness": "proof_of_CircularAreaGetDataLength_safety_wit_8",
+            "shared_proof_pattern": "extract pure invariant bounds and normalize arithmetic",
+            "shared_space_plan": "frame all resources while proving pure embeddings",
+            "shared_pure_plan": "simplification plus explicit index/area bounds",
+            "shared_refinement_plan": "not applicable",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "small pure arithmetic and safety obligations",
+            "proof_group_ready": true
+          },
+          {
+            "group_id": "null_and_contradictory_returns",
+            "witness_names": [
+              "proof_of_CircularAreaIsFull_return_wit_4",
+              "proof_of_CircularAreaGetDataLength_return_wit_3",
+              "proof_of_CircularAreaGetDataLength_return_wit_4"
+            ],
+            "representative_witness": "proof_of_CircularAreaGetDataLength_return_wit_3",
+            "shared_proof_pattern": "select the null result branch or derive contradiction from null equality plus canonical non-null backing state",
+            "shared_space_plan": "cancel GlobalStrings for the real null path; unfold only the pure prefix of the backing resource for contradictory paths",
+            "shared_pure_plan": "unfold CircularAreaErrorResult or close by contradiction",
+            "shared_refinement_plan": "not applicable",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "same null/contradictory return family",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "e4bc60fb1162bc3c261061d07a2c45d09a89061a09682f2f1278bd053c1493cd",
+        "target_witnesses": [
+          "proof_of_CircularAreaIsFull_entail_wit_1",
+          "proof_of_CircularAreaIsFull_return_wit_1",
+          "proof_of_CircularAreaIsFull_return_wit_2",
+          "proof_of_CircularAreaIsFull_return_wit_3",
+          "proof_of_CircularAreaIsFull_return_wit_4",
+          "proof_of_CircularAreaIsFull_partial_solve_wit_1_pure",
+          "proof_of_CircularAreaGetDataLength_safety_wit_7",
+          "proof_of_CircularAreaGetDataLength_safety_wit_8",
+          "proof_of_CircularAreaGetDataLength_entail_wit_1",
+          "proof_of_CircularAreaGetDataLength_entail_wit_2",
+          "proof_of_CircularAreaGetDataLength_return_wit_1",
+          "proof_of_CircularAreaGetDataLength_return_wit_2",
+          "proof_of_CircularAreaGetDataLength_return_wit_3",
+          "proof_of_CircularAreaGetDataLength_return_wit_4"
+        ],
+        "proof_groups": [],
+        "dependencies": [],
+        "complete_target_coverage": false,
+        "ready_for_vc_proving_preparing": false,
+        "grouping_policy_observed": true,
+        "reason_no_proof_groups": "The skill forbids emitting a complete proving plan when any target witness is annotation-bug or blocked. Five witnesses require annotation repair.",
+        "blockers": [
+          "proof_of_CircularAreaIsFull_return_wit_1",
+          "proof_of_CircularAreaIsFull_return_wit_2",
+          "proof_of_CircularAreaIsFull_return_wit_3",
+          "proof_of_CircularAreaGetDataLength_return_wit_1",
+          "proof_of_CircularAreaGetDataLength_return_wit_2"
+        ]
+      },
+      "changed_files": [],
+      "formal_files_modified": false,
+      "blockers": [
+        {
+          "blocker_id": "missing-nonnull-prestate-address-bridge",
+          "class": "annotation-bug",
+          "witnesses": [
+            "proof_of_CircularAreaIsFull_return_wit_1",
+            "proof_of_CircularAreaIsFull_return_wit_2",
+            "proof_of_CircularAreaIsFull_return_wit_3",
+            "proof_of_CircularAreaGetDataLength_return_wit_1",
+            "proof_of_CircularAreaGetDataLength_return_wit_2"
+          ],
+          "missing_fact": "circular_area_pre = area_addr_state_spec (IsFull) or circular_area_pre = area_addr (GetDataLength)",
+          "evidence": {
+            "goal_file": "SeparationLogic/examples/OUTPUT/xizi/xizi_circular_area_data_length/source/xizi_circular_area_data_length_goal.v",
+            "definition_lines": [
+              204,
+              291,
+              378,
+              936,
+              959
+            ],
+            "observation": "Each antecedent is independent of circular_area_pre, while every usable postcondition requires it to equal the non-null area address (or, for GetDataLength, alternatively zero). Choosing circular_area_pre distinct from both values refutes the implication whenever the canonical backing state is inhabited.",
+            "not_helper_repairable": true
+          },
+          "required_repair": "Return to the C annotation. Strengthen the non-null paths so the pre-state function argument/address identity is explicitly retained at the return point and appears as a premise in every regenerated non-null return VC (for example, add the precise QCP pre-state bridge expected by the annotation language rather than relying only on the current-state equality). Apply the same repair inside nested CircularAreaIsFull and CircularAreaGetDataLength, then rerun canonical symbolic execution and vc-checking.",
+          "source_version_matches": true,
+          "source_goal_version_matches": true
+        }
+      ],
+      "recommended_next_phase": "annotation",
+      "controller_acceptance": "pending"
+    }
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-09-01T01:02:37Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_circular_area_data_length-20260901083618/rounds/xizi_circular_area_data_length-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    }
+  },
+  "blockers": []
+}

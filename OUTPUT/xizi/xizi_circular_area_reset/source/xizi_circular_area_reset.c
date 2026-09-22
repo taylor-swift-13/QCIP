@@ -2,9 +2,11 @@ typedef unsigned char uint8;
 typedef unsigned int uint32;
 typedef int x_bool;
 
+/*@ Extern Coq (circular_area_state :: *) */
 /*@ Extern Coq
-      (CircularAreaResetPost :
-         Z -> Z -> Z -> Z -> Z -> Z -> Z -> Z -> Z -> Z -> Z -> Z -> Z -> Prop)
+      (ca_capacity : circular_area_state -> Z)
+      (Build_circular_area_state : Z -> list Z -> circular_area_state)
+      (store_circular_area : circular_area_state -> Z -> Assertion)
 */
 /*@ Import Coq Require Import
       SimpleC.EE.OUTPUT.xizi.xizi_circular_area_reset.source.xizi_circular_area_reset_lib
@@ -29,35 +31,31 @@ struct CircularArea {
 };
 
 void CircularAreaReset(CircularAreaType circular_area)
-/*@ With data_buffer0 readidx0 writeidx0 p_head0 p_tail0
-          area_length0 b_status0 operations0 buffer_contents
-    Require circular_area -> data_buffer == data_buffer0 &&
-            circular_area -> readidx == readidx0 &&
-            circular_area -> writeidx == writeidx0 &&
-            circular_area -> p_head == p_head0 &&
-            circular_area -> p_tail == p_tail0 &&
-            circular_area -> area_length == area_length0 &&
-            circular_area -> b_status == b_status0 &&
-            circular_area -> CircularAreaOperations == operations0 &&
-            UCharArray::full(data_buffer0, area_length0, buffer_contents)
-    Ensure exists data_buffer1 readidx1 writeidx1 p_head1 p_tail1
-                  area_length1 b_status1 operations1,
-           CircularAreaResetPost(data_buffer0, p_head0, p_tail0,
-                                 area_length0, operations0,
-                                 data_buffer1, readidx1, writeidx1,
-                                 p_head1, p_tail1, area_length1,
-                                 b_status1, operations1) &&
-           circular_area -> data_buffer == data_buffer1 &&
-           circular_area -> readidx == readidx1 &&
-           circular_area -> writeidx == writeidx1 &&
-           circular_area -> p_head == p_head1 &&
-           circular_area -> p_tail == p_tail1 &&
-           circular_area -> area_length == area_length1 &&
-           circular_area -> b_status == b_status1 &&
-           circular_area -> CircularAreaOperations == operations1 &&
-           UCharArray::full(data_buffer1, area_length1, buffer_contents)
+/*@ With (state : circular_area_state)
+    Require store_circular_area(state, circular_area)
+    Ensure store_circular_area(
+             Build_circular_area_state(ca_capacity(state), nil),
+             circular_area)
 */
 {
+    /*@ Assert
+          exists data_buffer0 operations0 readidx0 writeidx0 b_status0 physical,
+            circular_area == circular_area@pre &&
+            circular_area != 0 &&
+            data_buffer0 != 0 &&
+            0 < ca_capacity(state) && ca_capacity(state) <= 256 &&
+            Zlength(physical) == ca_capacity(state) &&
+            circular_area -> data_buffer == data_buffer0 &&
+            circular_area -> readidx == readidx0 &&
+            circular_area -> writeidx == writeidx0 &&
+            circular_area -> p_head == data_buffer0 &&
+            circular_area -> p_tail == data_buffer0 + ca_capacity(state) &&
+            circular_area -> area_length == ca_capacity(state) &&
+            circular_area -> b_status == b_status0 &&
+            circular_area -> CircularAreaOperations == operations0 &&
+            UCharArray::mixed_full(
+              data_buffer0, ca_capacity(state), physical)
+    */
     circular_area->writeidx = 0;
     circular_area->readidx = 0;
     circular_area->b_status = RET_FALSE;

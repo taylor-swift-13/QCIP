@@ -1,3 +1,7 @@
 # Timing Summary
 
-机器可读 timing 见 `controller/timing_summary.json`；run 为 `xizi_circular_area_data_length-20260821120004`。
+- run wall time：5543.716728 秒
+- annotation：2252.257275 秒（两轮）
+- vc-checking：1593.540769 秒（两轮）
+- vc-proving-preparing：1419.239425 秒
+- final-check：234.931377 秒

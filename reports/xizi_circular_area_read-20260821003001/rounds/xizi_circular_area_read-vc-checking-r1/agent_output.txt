@@ -1,0 +1,20 @@
+# Reuse Note
+
+Note kind: non-authoritative reuse note
+
+This file is not acceptance evidence. If it conflicts with JSON reports, handoff files, source versions, manifests, or current worktree files, ignore this file.
+
+Round: xizi_circular_area_read-vc-checking-r1
+Attempt: xizi_circular_area_read-vc-checking-r1-attempt-1
+Source goal version: be6044c85b8f0f3eda4f6895dd20923e833954c91f3a5a6795c322e9b0a9519e
+
+## Result
+
+Owner status: blocked
+Ready for controller check: no; return to annotation.
+
+The generated `CircularAreaRead_return_wit_4` only assumes `data_length_pre <= 0` and `data_length_pre = requested`. It lacks `0 <= data_length_pre`, so `requested = 0` does not follow. A concrete pure counterexample is `data_length_pre = requested = -1`, `output_capacity = 0`, with a valid nonempty descriptor (`area_length = 2`, `readidx = 0`, `writeidx = 1`, `b_status = 0`). Both postcondition alternatives then fail.
+
+Recommended repair: preserve the unsigned input bound in the CircularAreaRead annotation, preferably `0 <= requested` (optionally together with `requested <= UINT_MAX`), or add an equivalent local assertion before `CHECK(data_length > 0)`. Then rerun symbolic execution and vc-checking. The other 28 target witnesses were assessed as semantically proofable; likely reusable proof families and helper shapes are recorded in `agent_report.json`.
+
+No formal file was changed, and no complete proof group plan was emitted.

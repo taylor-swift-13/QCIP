@@ -1,3 +1,3 @@
 # Strategy Report
 
-证明按 vc-checking group plan 分组，在隔离 group worktree 中完成；parent verify 合并后运行 full fixed goal_check。未使用 forbidden lemma。
+函数内部打开统一 representation，以 `CircularAreaLogicalState` 的 empty equivalence 推导 `ca_contents=nil`；返回前重新封装相同 abstract state。一个 group-local suffixed helper集中复用该纯事实。

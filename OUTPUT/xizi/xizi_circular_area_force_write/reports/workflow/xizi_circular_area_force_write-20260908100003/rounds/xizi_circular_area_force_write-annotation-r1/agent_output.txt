@@ -1,0 +1,34 @@
+# Reuse Note
+
+Note kind: non-authoritative reuse note
+
+This file is not acceptance evidence.
+
+The force-write candidate removes `ca0`, `in0`, `requested`, and `d0` from
+`With`. Keep `state`, `LitMap`, and `input_contents`: those are genuine logical
+models, not C entry snapshots.
+
+An unqualified `@pre` cannot be used while the original nullable resource
+precondition has multiple branches; QCP reports `pre at branch <unspecified>
+is not determined`. The accepted candidate therefore uses the unchanged
+`circular_area` and `input_buffer` parameters directly. It replaces the
+logical `requested` alias with `Zlength(input_contents)`, which is equal to the
+entry `data_length` whenever the input is non-null; in the null-input error
+branch the request value is not needed to return the retained area resource.
+
+The private divide helper does not modify `data_length`, so it uses that
+parameter directly after removing `d0`. Do not reintroduce the temporary
+Input/Output assertion wrappers from repair iteration 2: they compiled, but
+changed the case-lib surface and generated avoidable wrapper obligations.
+
+Checks completed in the annotation worktree:
+
+- canonical symexec with required `-I` and `-slp`: passed to file end;
+- qcp-mcp symbolic with the same include/logical-path inputs: success, 31
+  manual obligations;
+- fixed case-lib `coq_tooling.py check`: passed;
+- executable C after stripping annotations: byte-for-byte hash unchanged;
+- annotation-checking: passed, with no case-lib update required.
+
+The JSON handoff, controller state, source versions, and current files override
+this note if any conflict exists.
