@@ -597,3 +597,19 @@ sentinel、prev field、删除后节点重置等实际 C 语义差异必须保�
   `proof_auto.v` 与正式文件逐字节一致，fresh manual 的 5 个 witness 顺序和 statement
   hash 与正式已证明 manual 完全一致。以后不能把 controller 的 `skipped` 当作
   freshness 证据，必须保留这类独立重放与比较结果。
+## 2026-09-18：remove 的 detached 公开资源规约
+
+- `xizi_dll_detached(node)` 定义为无 payload 的空 `DLL.store_dll`：
+  `@DLL.store_dll unit (fun _ _ => emp) node nil`。它精确持有 next/prev 两个
+  自环结构字段，同时允许业务 `storeA(node, data)` 作为独立 frame 返回。
+- `DoubleLinkListRmNode` 应支持 already-detached 输入的幂等调用：
+  `Require xizi_dll_detached(node); Ensure xizi_dll_detached(node)`。成功删除的
+  member/front/tail/strong 后置条件也统一返回
+  `xizi_dll_detached(node) * storeA(node, data)`，避免向调用者暴露
+  `store_dll(storeA, node, nil)` 这一带无关泛型参数的编码。
+- 本轮可执行 C 未变化；canonical symexec 到文件尾，5 个 target manual VC
+  全部证明，parent full check 与 final-check 通过。source_goal_version 为
+  `106e7450e1240a122a0c4f805c858ef2131497196d6f149e0007a7270f7415f0`。
+- provenance 教训：annotation retry 不应对整个 OUTPUT case 根做递归搜索，
+  因为会读到未声明历史 reports；干净重试只读取 handoff 声明的精确 formal
+  文件和 common lib。技术候选通过不等于来源隔离验收通过。

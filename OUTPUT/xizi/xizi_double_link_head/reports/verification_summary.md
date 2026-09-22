@@ -1,16 +1,16 @@
 # xizi_double_link_head 验证交付
 
-本次验证已通过 controller final-check，run 为 `xizi_double_link_head-20260910183958`。保持此前已对齐的原函数体，并在 CRules 下重新生成目标和证明；与原源码的函数名、参数和函数体 token 比对通过。详见 executable_c_comparison.json。 完整套件仍在迁移中，旧套件检查不作为本版本证据。
+本次验证已通过 controller final-check，run 为 `xizi_double_link_head-20260911122553`。保持此前已对齐的原函数体，并在 CRules 下重新生成目标和证明；与原源码的函数名、参数和函数体 token 比对通过。详见 executable_c_comparison.json。 完整套件仍在迁移中，旧套件检查不作为本版本证据。
 
-泛型 storeA : addr -> A -> Assertion 表示嵌入 link 对应的业务资源；结构指针字段由链表谓词持有。公共 DLL 谓词保留参考逻辑条件，实际 C 用例与 idmanager 共用 CRules 模型；XiziLocalDLL 是 XiziIdmanagerDLL 同一实例的别名。
+泛型 storeA : addr -> A -> Assertion 表示嵌入 link 对应的业务资源；结构指针字段由链表谓词持有。公共 DLL 谓词保留参考逻辑条件，实际 C 用例与 idmanager 共用 CRules 模型；active 规约直接使用 DLL，旧名称仅保留兼容别名；MasterDLL 单独保留 master 参考布局。
 
 - `source/`：正式带标注 C 与头文件。
 - `rocq/`：本版本生成目标与已完成证明。
 - 唯一 active case_lib：`SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_head/source/xizi_double_link_head_lib.v`；归档：`OUTPUT/xizi/xizi_double_link_head/rocq/xizi_double_link_head_lib.v`。
 - `reports/controller/`：本 run 的 controller、round、group 与最终证据。
-- `reports/before_crules_unification/`：迁移前历史报告，不作为当前验收证据。
+- `reports/before_origin_dll_alignment/`：迁移前历史报告，不作为当前验收证据。
 
-source_goal_version：`adac07e4e3553b257bc78bc989863f54a9ee8c797740de7b15363bb9c240a956`；manual witness 数：5。symbolic execution freshness、固定 Coq 检查、manual 结构、case_lib 合同及 forbidden lemma 检查均通过。
+source_goal_version：`37f7a42c72ddb2aa901451b43a8a99ea51c0468115cafb76fd6b59cb8822d67f`；manual witness 数：5。symbolic execution freshness、固定 Coq 检查、manual 结构、case_lib 合同及 forbidden lemma 检查均通过。
 
 验证边界：当前 QCP 自动生成的 `proof_auto.v` 有 4 个 `Admitted` 占位。按仓库生成文件边界保留并单独记录；本轮完成证明的是 manual witnesses 和维护库中的引理，不能据此宣称整套证明完全没有假设。
 
@@ -24,7 +24,7 @@ mkdir -p /tmp/xizi_double_link_head-storeA-refresh
 通过固定入口编译：
 
 ```sh
-python3 /home/yangfp/QCIP/.agents/skills/vc-proving/scripts/coq_tooling.py check --workspace-root /home/yangfp/QCIP --build-workspace /tmp/xizi_double_link_head-storeA-coq-build --target-file SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_head/source/xizi_double_link_head_goal_check.v --target-kind check --source-goal-version adac07e4e3553b257bc78bc989863f54a9ee8c797740de7b15363bb9c240a956
+python3 /home/yangfp/QCIP/.agents/skills/vc-proving/scripts/coq_tooling.py check --workspace-root /home/yangfp/QCIP --build-workspace /tmp/xizi_double_link_head-storeA-coq-build --target-file SeparationLogic/examples/OUTPUT/xizi/xizi_double_link_head/source/xizi_double_link_head_goal_check.v --target-kind check --source-goal-version 37f7a42c72ddb2aa901451b43a8a99ea51c0468115cafb76fd6b59cb8822d67f
 ```
 
 修改源码、规约或目标后应重新执行 controller 流程。快照与 OUTPUT 副本的字节比对见 `reports/archive_comparison.json`。

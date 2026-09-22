@@ -27,8 +27,8 @@ From QCIPLib.xizi.xizi_double_link_common Require Import xizi_double_link_strate
 Definition DoubleLinkListInsertNodeAfter_entail_wit_1 := 
 forall (A: Type) (linklist_node_pre: Z) (linklist_pre: Z) (nodes_dispatch_case: (@list (@DLL.DL_Node A))) (head_dispatch_case: Z) (data_dispatch_case: A) (storeA_dispatch_case: (Z -> (A -> Assertion))) (PreH1 : (xizi_double_link_insert_after_anchor head_dispatch_case (xizi_insert_after_ptrs (nodes_dispatch_case)) linklist_pre )) ,
   ((( &( "linklist" ) )) # Ptr  |-> linklist_pre)
-  **  (XiziLocalDLL.store_dll storeA_dispatch_case head_dispatch_case nodes_dispatch_case )
-  **  (XiziLocalDLL.occupy_dll_node linklist_node_pre )
+  **  (DLL.store_dll storeA_dispatch_case head_dispatch_case nodes_dispatch_case )
+  **  (DLL.occupy_dll_node linklist_node_pre )
   **  (storeA_dispatch_case linklist_node_pre data_dispatch_case )
 |--
   (EX (old_prev: Z)  (first: Z)  (nodes_before: (@list (@DLL.DL_Node A)))  (anchor_data: A)  (nodes_after: (@list (@DLL.DL_Node A)))  (detached_prev: Z)  (detached_next: Z) ,
@@ -42,7 +42,7 @@ forall (A: Type) (linklist_node_pre: Z) (linklist_pre: Z) (nodes_dispatch_case: 
   **  (storeA_dispatch_case linklist_node_pre data_dispatch_case )
   **  (storeA_dispatch_case linklist_pre anchor_data )
   **  ((&((head_dispatch_case)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
-  **  (XiziLocalDLL.dllseg storeA_dispatch_case first head_dispatch_case linklist_pre old_prev nodes_before )
+  **  (DLL.dllseg storeA_dispatch_case first head_dispatch_case linklist_pre old_prev nodes_before )
   **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> head_dispatch_case)
   **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> old_prev)
   **  ((&((head_dispatch_case)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> linklist_pre))
@@ -60,12 +60,12 @@ forall (A: Type) (linklist_node_pre: Z) (linklist_pre: Z) (nodes_dispatch_case: 
   **  (storeA_dispatch_case old_next next_data )
   **  ((&((head_dispatch_case)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
   **  ((&((head_dispatch_case)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> last)
-  **  (XiziLocalDLL.dllseg storeA_dispatch_case first head_dispatch_case linklist_pre old_prev nodes_before )
+  **  (DLL.dllseg storeA_dispatch_case first head_dispatch_case linklist_pre old_prev nodes_before )
   **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> old_next)
   **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> old_prev)
   **  ((&((old_next)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> next_next)
   **  ((&((old_next)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> linklist_pre)
-  **  (XiziLocalDLL.dllseg storeA_dispatch_case next_next old_next head_dispatch_case last rest ))
+  **  (DLL.dllseg storeA_dispatch_case next_next old_next head_dispatch_case last rest ))
   ||
   (EX (next_next: Z)  (last: Z)  (next_data_2: A)  (old_next: Z)  (rest_2: (@list (@DLL.DL_Node A)))  (detached_prev: Z)  (detached_next: Z) ,
   “ (head_dispatch_case = linklist_pre) ” 
@@ -80,7 +80,7 @@ forall (A: Type) (linklist_node_pre: Z) (linklist_pre: Z) (nodes_dispatch_case: 
   **  ((&((head_dispatch_case)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> last)
   **  ((&((old_next)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> next_next)
   **  ((&((old_next)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> head_dispatch_case)
-  **  (XiziLocalDLL.dllseg storeA_dispatch_case next_next old_next head_dispatch_case last rest_2 ))
+  **  (DLL.dllseg storeA_dispatch_case next_next old_next head_dispatch_case last rest_2 ))
   ||
   (EX (old_next: Z)  (last: Z)  (first: Z)  (detached_prev: Z)  (detached_next: Z) ,
   “ (head_dispatch_case = linklist_pre) ” 
@@ -108,7 +108,7 @@ forall (A: Type) (linklist_node_pre: Z) (linklist_pre: Z) (nodes_dispatch_case: 
 |--
   EX (result: (@list (@DLL.DL_Node A))) ,
   “ (xizi_insert_after_dispatch_payload head_dispatch_case nodes_dispatch_case linklist_pre (DLL.Build_DL_Node (data_dispatch_case) (linklist_node_pre)) result ) ”
-  &&  (XiziLocalDLL.store_dll storeA_dispatch_case head_dispatch_case result )
+  &&  (DLL.store_dll storeA_dispatch_case head_dispatch_case result )
 ) \/
 (
 forall (A: Type) (linklist_node_pre: Z) (linklist_pre: Z) (nodes_dispatch_case: (@list (@DLL.DL_Node A))) (head_dispatch_case: Z) (data_dispatch_case: A) (storeA_dispatch_case: (Z -> (A -> Assertion))) (first: Z) (last: Z) (old_next: Z) (PreH1 : (head_dispatch_case = linklist_pre)) (PreH2 : (xizi_insert_after_dispatch_payload head_dispatch_case nodes_dispatch_case head_dispatch_case (DLL.Build_DL_Node (data_dispatch_case) (linklist_node_pre)) (cons ((DLL.Build_DL_Node (data_dispatch_case) (linklist_node_pre))) (nodes_dispatch_case)) )) (PreH3 : (nodes_dispatch_case = (@nil (@DLL.DL_Node A)))) (PreH4 : (first = head_dispatch_case)) (PreH5 : (last = head_dispatch_case)) (PreH6 : (old_next = head_dispatch_case)) ,
@@ -120,7 +120,7 @@ forall (A: Type) (linklist_node_pre: Z) (linklist_pre: Z) (nodes_dispatch_case: 
 |--
   EX (result: (@list (@DLL.DL_Node A))) ,
   “ (xizi_insert_after_dispatch_payload head_dispatch_case nodes_dispatch_case linklist_pre (DLL.Build_DL_Node (data_dispatch_case) (linklist_node_pre)) result ) ”
-  &&  (XiziLocalDLL.store_dll storeA_dispatch_case head_dispatch_case result )
+  &&  (DLL.store_dll storeA_dispatch_case head_dispatch_case result )
 ).
 
 Definition DoubleLinkListInsertNodeAfter_return_wit_2 := 
@@ -134,11 +134,11 @@ forall (A: Type) (linklist_node_pre: Z) (linklist_pre: Z) (nodes_dispatch_case: 
   **  ((&((head_dispatch_case)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> last)
   **  ((&((old_next)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> next_next)
   **  ((&((old_next)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> linklist_node_pre)
-  **  (XiziLocalDLL.dllseg storeA_dispatch_case next_next old_next head_dispatch_case last rest )
+  **  (DLL.dllseg storeA_dispatch_case next_next old_next head_dispatch_case last rest )
 |--
   EX (result: (@list (@DLL.DL_Node A))) ,
   “ (xizi_insert_after_dispatch_payload head_dispatch_case nodes_dispatch_case linklist_pre (DLL.Build_DL_Node (data_dispatch_case) (linklist_node_pre)) result ) ”
-  &&  (XiziLocalDLL.store_dll storeA_dispatch_case head_dispatch_case result )
+  &&  (DLL.store_dll storeA_dispatch_case head_dispatch_case result )
 ) \/
 (
 forall (A: Type) (linklist_node_pre: Z) (linklist_pre: Z) (nodes_dispatch_case: (@list (@DLL.DL_Node A))) (head_dispatch_case: Z) (data_dispatch_case: A) (storeA_dispatch_case: (Z -> (A -> Assertion))) (last: Z) (old_next: Z) (next_next: Z) (rest: (@list (@DLL.DL_Node A))) (next_data: A) (PreH1 : (head_dispatch_case = linklist_pre)) (PreH2 : (xizi_insert_after_dispatch_payload head_dispatch_case nodes_dispatch_case head_dispatch_case (DLL.Build_DL_Node (data_dispatch_case) (linklist_node_pre)) (cons ((DLL.Build_DL_Node (data_dispatch_case) (linklist_node_pre))) (nodes_dispatch_case)) )) (PreH3 : (nodes_dispatch_case = (cons ((DLL.Build_DL_Node (next_data) (old_next))) (rest)))) ,
@@ -150,11 +150,11 @@ forall (A: Type) (linklist_node_pre: Z) (linklist_pre: Z) (nodes_dispatch_case: 
   **  ((&((head_dispatch_case)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> last)
   **  ((&((old_next)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> next_next)
   **  ((&((old_next)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> linklist_node_pre)
-  **  (XiziLocalDLL.dllseg storeA_dispatch_case next_next old_next head_dispatch_case last rest )
+  **  (DLL.dllseg storeA_dispatch_case next_next old_next head_dispatch_case last rest )
 |--
   EX (result: (@list (@DLL.DL_Node A))) ,
   “ (xizi_insert_after_dispatch_payload head_dispatch_case nodes_dispatch_case linklist_pre (DLL.Build_DL_Node (data_dispatch_case) (linklist_node_pre)) result ) ”
-  &&  (XiziLocalDLL.store_dll storeA_dispatch_case head_dispatch_case result )
+  &&  (DLL.store_dll storeA_dispatch_case head_dispatch_case result )
 ).
 
 Definition DoubleLinkListInsertNodeAfter_return_wit_3 := 
@@ -167,16 +167,16 @@ forall (A: Type) (linklist_node_pre: Z) (linklist_pre: Z) (nodes_dispatch_case: 
   **  (storeA_dispatch_case old_next next_data )
   **  ((&((head_dispatch_case)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
   **  ((&((head_dispatch_case)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> last)
-  **  (XiziLocalDLL.dllseg storeA_dispatch_case first head_dispatch_case linklist_pre old_prev nodes_before )
+  **  (DLL.dllseg storeA_dispatch_case first head_dispatch_case linklist_pre old_prev nodes_before )
   **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> linklist_node_pre)
   **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> old_prev)
   **  ((&((old_next)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> next_next)
   **  ((&((old_next)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> linklist_node_pre)
-  **  (XiziLocalDLL.dllseg storeA_dispatch_case next_next old_next head_dispatch_case last rest )
+  **  (DLL.dllseg storeA_dispatch_case next_next old_next head_dispatch_case last rest )
 |--
   EX (result: (@list (@DLL.DL_Node A))) ,
   “ (xizi_insert_after_dispatch_payload head_dispatch_case nodes_dispatch_case linklist_pre (DLL.Build_DL_Node (data_dispatch_case) (linklist_node_pre)) result ) ”
-  &&  (XiziLocalDLL.store_dll storeA_dispatch_case head_dispatch_case result )
+  &&  (DLL.store_dll storeA_dispatch_case head_dispatch_case result )
 ) \/
 (
 forall (A: Type) (linklist_node_pre: Z) (linklist_pre: Z) (nodes_dispatch_case: (@list (@DLL.DL_Node A))) (head_dispatch_case: Z) (data_dispatch_case: A) (storeA_dispatch_case: (Z -> (A -> Assertion))) (first: Z) (last: Z) (old_next: Z) (old_prev: Z) (next_next: Z) (nodes_before: (@list (@DLL.DL_Node A))) (nodes_after: (@list (@DLL.DL_Node A))) (anchor_data: A) (rest: (@list (@DLL.DL_Node A))) (next_data: A) (PreH1 : (nodes_dispatch_case = (app (nodes_before) ((cons ((DLL.Build_DL_Node (anchor_data) (linklist_pre))) (nodes_after)))))) (PreH2 : ~((In linklist_pre (xizi_insert_after_ptrs (nodes_before)) ))) (PreH3 : (xizi_insert_after_dispatch_payload head_dispatch_case nodes_dispatch_case linklist_pre (DLL.Build_DL_Node (data_dispatch_case) (linklist_node_pre)) (app (nodes_before) ((cons ((DLL.Build_DL_Node (anchor_data) (linklist_pre))) ((cons ((DLL.Build_DL_Node (data_dispatch_case) (linklist_node_pre))) (nodes_after)))))) )) (PreH4 : (nodes_after = (cons ((DLL.Build_DL_Node (next_data) (old_next))) (rest)))) ,
@@ -187,16 +187,16 @@ forall (A: Type) (linklist_node_pre: Z) (linklist_pre: Z) (nodes_dispatch_case: 
   **  (storeA_dispatch_case old_next next_data )
   **  ((&((head_dispatch_case)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
   **  ((&((head_dispatch_case)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> last)
-  **  (XiziLocalDLL.dllseg storeA_dispatch_case first head_dispatch_case linklist_pre old_prev nodes_before )
+  **  (DLL.dllseg storeA_dispatch_case first head_dispatch_case linklist_pre old_prev nodes_before )
   **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> linklist_node_pre)
   **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> old_prev)
   **  ((&((old_next)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> next_next)
   **  ((&((old_next)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> linklist_node_pre)
-  **  (XiziLocalDLL.dllseg storeA_dispatch_case next_next old_next head_dispatch_case last rest )
+  **  (DLL.dllseg storeA_dispatch_case next_next old_next head_dispatch_case last rest )
 |--
   EX (result: (@list (@DLL.DL_Node A))) ,
   “ (xizi_insert_after_dispatch_payload head_dispatch_case nodes_dispatch_case linklist_pre (DLL.Build_DL_Node (data_dispatch_case) (linklist_node_pre)) result ) ”
-  &&  (XiziLocalDLL.store_dll storeA_dispatch_case head_dispatch_case result )
+  &&  (DLL.store_dll storeA_dispatch_case head_dispatch_case result )
 ).
 
 Definition DoubleLinkListInsertNodeAfter_return_wit_4 := 
@@ -207,14 +207,14 @@ forall (A: Type) (linklist_node_pre: Z) (linklist_pre: Z) (nodes_dispatch_case: 
   **  (storeA_dispatch_case linklist_node_pre data_dispatch_case )
   **  (storeA_dispatch_case linklist_pre anchor_data )
   **  ((&((head_dispatch_case)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
-  **  (XiziLocalDLL.dllseg storeA_dispatch_case first head_dispatch_case linklist_pre old_prev nodes_before )
+  **  (DLL.dllseg storeA_dispatch_case first head_dispatch_case linklist_pre old_prev nodes_before )
   **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> linklist_node_pre)
   **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> old_prev)
   **  ((&((head_dispatch_case)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> linklist_node_pre)
 |--
   EX (result: (@list (@DLL.DL_Node A))) ,
   “ (xizi_insert_after_dispatch_payload head_dispatch_case nodes_dispatch_case linklist_pre (DLL.Build_DL_Node (data_dispatch_case) (linklist_node_pre)) result ) ”
-  &&  (XiziLocalDLL.store_dll storeA_dispatch_case head_dispatch_case result )
+  &&  (DLL.store_dll storeA_dispatch_case head_dispatch_case result )
 ) \/
 (
 forall (A: Type) (linklist_node_pre: Z) (linklist_pre: Z) (nodes_dispatch_case: (@list (@DLL.DL_Node A))) (head_dispatch_case: Z) (data_dispatch_case: A) (storeA_dispatch_case: (Z -> (A -> Assertion))) (first: Z) (old_prev: Z) (nodes_before: (@list (@DLL.DL_Node A))) (nodes_after: (@list (@DLL.DL_Node A))) (anchor_data: A) (PreH1 : (nodes_dispatch_case = (app (nodes_before) ((cons ((DLL.Build_DL_Node (anchor_data) (linklist_pre))) (nodes_after)))))) (PreH2 : ~((In linklist_pre (xizi_insert_after_ptrs (nodes_before)) ))) (PreH3 : (xizi_insert_after_dispatch_payload head_dispatch_case nodes_dispatch_case linklist_pre (DLL.Build_DL_Node (data_dispatch_case) (linklist_node_pre)) (app (nodes_before) ((cons ((DLL.Build_DL_Node (anchor_data) (linklist_pre))) ((cons ((DLL.Build_DL_Node (data_dispatch_case) (linklist_node_pre))) (nodes_after)))))) )) (PreH4 : (nodes_after = (@nil (@DLL.DL_Node A)))) ,
@@ -223,59 +223,59 @@ forall (A: Type) (linklist_node_pre: Z) (linklist_pre: Z) (nodes_dispatch_case: 
   **  (storeA_dispatch_case linklist_node_pre data_dispatch_case )
   **  (storeA_dispatch_case linklist_pre anchor_data )
   **  ((&((head_dispatch_case)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> first)
-  **  (XiziLocalDLL.dllseg storeA_dispatch_case first head_dispatch_case linklist_pre old_prev nodes_before )
+  **  (DLL.dllseg storeA_dispatch_case first head_dispatch_case linklist_pre old_prev nodes_before )
   **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> linklist_node_pre)
   **  ((&((linklist_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> old_prev)
   **  ((&((head_dispatch_case)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> linklist_node_pre)
 |--
   EX (result: (@list (@DLL.DL_Node A))) ,
   “ (xizi_insert_after_dispatch_payload head_dispatch_case nodes_dispatch_case linklist_pre (DLL.Build_DL_Node (data_dispatch_case) (linklist_node_pre)) result ) ”
-  &&  (XiziLocalDLL.store_dll storeA_dispatch_case head_dispatch_case result )
+  &&  (DLL.store_dll storeA_dispatch_case head_dispatch_case result )
 ).
 
 Definition DoubleLinkListInsertNodeAfter_derive_sentinel_case_by_dispatch_case := 
 forall (A: Type) ,
 forall (linklist_node_pre: Z) (linklist_pre: Z) (nodes_sentinel_case: (@list (@DLL.DL_Node A))) (data_sentinel_case: A) (storeA_sentinel_case: (Z -> (A -> Assertion))) ,
-  (XiziLocalDLL.store_dll storeA_sentinel_case linklist_pre nodes_sentinel_case )
-  **  (XiziLocalDLL.occupy_dll_node linklist_node_pre )
+  (DLL.store_dll storeA_sentinel_case linklist_pre nodes_sentinel_case )
+  **  (DLL.occupy_dll_node linklist_node_pre )
   **  (storeA_sentinel_case linklist_node_pre data_sentinel_case )
 |--
 EX (A: Type) ,
 EX (storeA_dispatch_case: (Z -> (A -> Assertion))) (data_dispatch_case: A) (head_dispatch_case: Z) (nodes_dispatch_case: (@list (@DLL.DL_Node A))) ,
   (“ (xizi_double_link_insert_after_anchor head_dispatch_case (xizi_insert_after_ptrs (nodes_dispatch_case)) linklist_pre ) ”
-  &&  (XiziLocalDLL.store_dll storeA_dispatch_case head_dispatch_case nodes_dispatch_case )
-  **  (XiziLocalDLL.occupy_dll_node linklist_node_pre )
+  &&  (DLL.store_dll storeA_dispatch_case head_dispatch_case nodes_dispatch_case )
+  **  (DLL.occupy_dll_node linklist_node_pre )
   **  (storeA_dispatch_case linklist_node_pre data_dispatch_case ))
   **
   ((EX result,
   “ (xizi_insert_after_dispatch_payload head_dispatch_case nodes_dispatch_case linklist_pre (DLL.Build_DL_Node (data_dispatch_case) (linklist_node_pre)) result ) ”
-  &&  (XiziLocalDLL.store_dll storeA_dispatch_case head_dispatch_case result ))
+  &&  (DLL.store_dll storeA_dispatch_case head_dispatch_case result ))
   -*
-  ((XiziLocalDLL.store_dll storeA_sentinel_case linklist_pre (cons ((DLL.Build_DL_Node (data_sentinel_case) (linklist_node_pre))) (nodes_sentinel_case)) )))
+  ((DLL.store_dll storeA_sentinel_case linklist_pre (cons ((DLL.Build_DL_Node (data_sentinel_case) (linklist_node_pre))) (nodes_sentinel_case)) )))
 .
 
 Definition DoubleLinkListInsertNodeAfter_derive_member_case_by_dispatch_case := 
 forall (A: Type) ,
 forall (linklist_node_pre: Z) (linklist_pre: Z) (nodes_member_case: (@list (@DLL.DL_Node A))) (head_member_case: Z) (data_member_case: A) (storeA_member_case: (Z -> (A -> Assertion))) ,
   “ (In linklist_pre (xizi_insert_after_ptrs (nodes_member_case)) ) ”
-  &&  (XiziLocalDLL.store_dll storeA_member_case head_member_case nodes_member_case )
-  **  (XiziLocalDLL.occupy_dll_node linklist_node_pre )
+  &&  (DLL.store_dll storeA_member_case head_member_case nodes_member_case )
+  **  (DLL.occupy_dll_node linklist_node_pre )
   **  (storeA_member_case linklist_node_pre data_member_case )
 |--
 EX (A: Type) ,
 EX (storeA_dispatch_case: (Z -> (A -> Assertion))) (data_dispatch_case: A) (head_dispatch_case: Z) (nodes_dispatch_case: (@list (@DLL.DL_Node A))) ,
   (“ (xizi_double_link_insert_after_anchor head_dispatch_case (xizi_insert_after_ptrs (nodes_dispatch_case)) linklist_pre ) ”
-  &&  (XiziLocalDLL.store_dll storeA_dispatch_case head_dispatch_case nodes_dispatch_case )
-  **  (XiziLocalDLL.occupy_dll_node linklist_node_pre )
+  &&  (DLL.store_dll storeA_dispatch_case head_dispatch_case nodes_dispatch_case )
+  **  (DLL.occupy_dll_node linklist_node_pre )
   **  (storeA_dispatch_case linklist_node_pre data_dispatch_case ))
   **
   ((EX result_2,
   “ (xizi_insert_after_dispatch_payload head_dispatch_case nodes_dispatch_case linklist_pre (DLL.Build_DL_Node (data_dispatch_case) (linklist_node_pre)) result_2 ) ”
-  &&  (XiziLocalDLL.store_dll storeA_dispatch_case head_dispatch_case result_2 ))
+  &&  (DLL.store_dll storeA_dispatch_case head_dispatch_case result_2 ))
   -*
   (EX result,
   “ (xizi_insert_after_payload nodes_member_case linklist_pre (DLL.Build_DL_Node (data_member_case) (linklist_node_pre)) result ) ”
-  &&  (XiziLocalDLL.store_dll storeA_member_case head_member_case result )))
+  &&  (DLL.store_dll storeA_member_case head_member_case result )))
 .
 
 Module Type VC_Correct.

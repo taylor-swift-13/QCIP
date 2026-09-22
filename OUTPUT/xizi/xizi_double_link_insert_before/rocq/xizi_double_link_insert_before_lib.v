@@ -9,6 +9,7 @@ From QCIPLib.xizi.xizi_double_link_common Require Import xizi_double_link_lib.
 
 Import ListNotations.
 Import CRules.
+Import DLL.
 Local Open Scope list.
 Local Open Scope string_scope.
 Local Open Scope sac.
@@ -109,135 +110,135 @@ Qed.
     appends the same inserted logical node.  In the public contracts absence
     is the sentinel case.  No concrete pointer updates are encoded here. *)
 Definition xizi_insert_before_payload {A : Type}
-  (nodes : list (DLL.DL_Node A)) (anchor : Z)
-  (inserted : DLL.DL_Node A)
-  (result : list (DLL.DL_Node A)) : Prop :=
+  (nodes : list (DL_Node A)) (anchor : Z)
+  (inserted : DL_Node A)
+  (result : list (DL_Node A)) : Prop :=
   (exists prefix current suffix,
     nodes = prefix ++ current :: suffix /\
-    DLL.getPtr current = anchor /\
-    ~ In anchor (XiziLocalDLL.ptrs prefix) /\
+    getPtr current = anchor /\
+    ~ In anchor (ptrs prefix) /\
     result = prefix ++ inserted :: current :: suffix) \/
-  (~ In anchor (XiziLocalDLL.ptrs nodes) /\ result = nodes ++ inserted :: nil).
+  (~ In anchor (ptrs nodes) /\ result = nodes ++ inserted :: nil).
 
 (** Erasing payloads recovers the preserved original operation exactly. *)
 Lemma xizi_insert_before_payload_address_semantics : forall {A}
-  (nodes result : list (DLL.DL_Node A)) anchor inserted,
+  (nodes result : list (DL_Node A)) anchor inserted,
   xizi_insert_before_payload nodes anchor inserted result ->
-  XiziLocalDLL.ptrs result =
-  xizi_double_link_insert_before_nodes (XiziLocalDLL.ptrs nodes)
-    anchor (DLL.getPtr inserted).
+  ptrs result =
+  xizi_double_link_insert_before_nodes (ptrs nodes)
+    anchor (getPtr inserted).
 Proof.
   intros A nodes result anchor inserted H.
   destruct H as [(prefix & current & suffix & Hnodes & Hptr & Hfirst & Hresult) | [Habsent Hresult]].
-  - subst nodes result. unfold XiziLocalDLL.ptrs in *.
+  - subst nodes result. unfold ptrs in *.
     rewrite !map_app; simpl. rewrite Hptr.
     symmetry; apply xizi_insert_before_first_occurrence__insert_before_dispatch_and_reassembly; assumption.
-  - subst result. unfold XiziLocalDLL.ptrs in *.
+  - subst result. unfold ptrs in *.
     rewrite map_app; simpl.
     symmetry; apply xizi_insert_before_absent_append__insert_before_dispatch_and_reassembly; assumption.
 Qed.
 
-Lemma first_payload_split__insert_before_payload : forall A (xs : list (DLL.DL_Node A)) a,
- In a (XiziLocalDLL.ptrs xs) ->
- exists pre cur suf, xs = pre ++ cur :: suf /\ DLL.getPtr cur = a /\ ~ In a (XiziLocalDLL.ptrs pre).
+Lemma first_payload_split__insert_before_payload : forall A (xs : list (DL_Node A)) a,
+ In a (ptrs xs) ->
+ exists pre cur suf, xs = pre ++ cur :: suf /\ getPtr cur = a /\ ~ In a (ptrs pre).
 Proof.
  intros A xs; induction xs as [|x xs IH]; intros a Hin; simpl in Hin.
  - contradiction.
- - destruct (Z.eq_dec (DLL.getPtr x) a) as [E|N].
+ - destruct (Z.eq_dec (getPtr x) a) as [E|N].
    + exists nil,x,xs; simpl; auto.
    + destruct Hin as [E|Hin]; [contradiction|].
      destruct (IH a Hin) as (pre&cur&suf&E&P&H).
      exists (x::pre),cur,suf. simpl. rewrite E. repeat split; auto.
-     unfold XiziLocalDLL.ptrs; simpl. intros [C|C]; contradiction.
+     unfold ptrs; simpl. intros [C|C]; contradiction.
 Qed.
 
 Require Import Coq.Strings.String.
 Lemma addr_split__insert_before_dispatch_and_reassembly : forall x px z pz xs ys,
- XiziLocalDLL.addr_dllseg x px z pz (xs ++ ys) |--
- EX y py, XiziLocalDLL.addr_dllseg x px y py xs ** XiziLocalDLL.addr_dllseg y py z pz ys.
+ addr_dllseg x px z pz (xs ++ ys) |--
+ EX y py, addr_dllseg x px y py xs ** addr_dllseg y py z pz ys.
 Proof.
- intros; unfold XiziLocalDLL.addr_dllseg; rewrite XiziLocalDLL.addr_nodes_app.
- apply XiziLocalDLL.dllseg_split.
+ intros; unfold addr_dllseg; rewrite addr_nodes_app.
+ apply dllseg_split.
 Qed.
 Lemma addr_join__insert_before_dispatch_and_reassembly : forall x px y py z pz xs ys,
- XiziLocalDLL.addr_dllseg x px y py xs ** XiziLocalDLL.addr_dllseg y py z pz ys |--
- XiziLocalDLL.addr_dllseg x px z pz (xs ++ ys).
+ addr_dllseg x px y py xs ** addr_dllseg y py z pz ys |--
+ addr_dllseg x px z pz (xs ++ ys).
 Proof.
- intros; unfold XiziLocalDLL.addr_dllseg; rewrite XiziLocalDLL.addr_nodes_app.
- apply XiziLocalDLL.dllseg_concat.
+ intros; unfold addr_dllseg; rewrite addr_nodes_app.
+ apply dllseg_concat.
 Qed.
 Lemma addr_cons__insert_before_dispatch_and_reassembly : forall x px n z pz xs,
  &(x # "SysDoubleLinklistNode" ->ₛ "node_prev") # Ptr |-> px **
  &(x # "SysDoubleLinklistNode" ->ₛ "node_next") # Ptr |-> n **
- XiziLocalDLL.addr_dllseg n x z pz xs |--
- XiziLocalDLL.addr_dllseg x px z pz (x :: xs).
+ addr_dllseg n x z pz xs |--
+ addr_dllseg x px z pz (x :: xs).
 Proof.
- intros; unfold XiziLocalDLL.addr_dllseg, XiziLocalDLL.addr_nodes;
- simpl XiziLocalDLL.dllseg; unfold XiziLocalDLL.addr_store.
+ intros; unfold addr_dllseg, addr_nodes;
+ simpl dllseg; unfold addr_store.
  Exists n; entailer!.
 Qed.
 Lemma payload_split__insert_before_dispatch_and_reassembly : forall A (s: Z -> A -> Assertion) xs ys,
- XiziLocalDLL.payloads s (xs ++ ys) |-- XiziLocalDLL.payloads s xs ** XiziLocalDLL.payloads s ys.
+ payloads s (xs ++ ys) |-- payloads s xs ** payloads s ys.
 Proof.
- intros A s xs; induction xs as [|a xs IH]; intros ys; simpl [XiziLocalDLL.payloads].
+ intros A s xs; induction xs as [|a xs IH]; intros ys; simpl [payloads].
  - entailer!.
  - sep_apply_l_atomic (IH ys); entailer!.
 Qed.
 Lemma payload_join__insert_before_dispatch_and_reassembly : forall A (s: Z -> A -> Assertion) xs ys,
- XiziLocalDLL.payloads s xs ** XiziLocalDLL.payloads s ys |-- XiziLocalDLL.payloads s (xs ++ ys).
+ payloads s xs ** payloads s ys |-- payloads s (xs ++ ys).
 Proof.
- intros A s xs; induction xs as [|a xs IH]; intros ys; simpl [XiziLocalDLL.payloads].
+ intros A s xs; induction xs as [|a xs IH]; intros ys; simpl [payloads].
  - entailer!.
  - sep_apply_l_atomic (IH ys); entailer!.
 Qed.
 Lemma payload_insert__insert_before_dispatch_and_reassembly : forall A (s: Z -> A -> Assertion) xs ys d n,
- XiziLocalDLL.payloads s (xs ++ ys) ** s n d |--
- XiziLocalDLL.payloads s (xs ++ DLL.Build_DL_Node d n :: ys).
+ payloads s (xs ++ ys) ** s n d |--
+ payloads s (xs ++ Build_DL_Node d n :: ys).
 Proof.
  intros. sep_apply_l_atomic (payload_split__insert_before_dispatch_and_reassembly A s xs ys).
- sep_apply_r_atomic (payload_join__insert_before_dispatch_and_reassembly A s xs (DLL.Build_DL_Node d n :: ys)).
- simpl XiziLocalDLL.payloads; entailer!.
+ sep_apply_r_atomic (payload_join__insert_before_dispatch_and_reassembly A s xs (Build_DL_Node d n :: ys)).
+ simpl payloads; entailer!.
 Qed.
 Lemma seg_excludes_field__insert_before_dispatch_and_reassembly : forall A (s: Z -> A -> Assertion) xs x px y py h hn,
- XiziLocalDLL.dllseg s x px y py xs **
+ dllseg s x px y py xs **
  &(h # "SysDoubleLinklistNode" ->ₛ "node_next") # Ptr |-> hn |--
- “ ~ In h (XiziLocalDLL.ptrs xs) ”.
+ “ ~ In h (ptrs xs) ”.
 Proof.
  intros A s xs; induction xs as [|a xs IH]; intros x px y py h hn.
- - simpl [XiziLocalDLL.ptrs]; entailer!; tauto.
- - simpl XiziLocalDLL.dllseg. Intros n. Intros. subst x.
-   destruct (Z.eq_dec (DLL.getPtr a) h) as [E|N].
+ - simpl [ptrs]; entailer!; tauto.
+ - simpl dllseg. Intros n. Intros. subst x.
+   destruct (Z.eq_dec (getPtr a) h) as [E|N].
    + rewrite E.
      sep_apply_l_atomic (dup_store_ptr (&(h # "SysDoubleLinklistNode" ->ₛ "node_next")) n hn).
      entailer!.
-   + prop_apply_p (IH n (DLL.getPtr a) y py h hn).
-     Intros. entailer!. simpl [XiziLocalDLL.ptrs] in *; tauto.
+   + prop_apply_p (IH n (getPtr a) y py h hn).
+     Intros. entailer!. simpl [ptrs] in *; tauto.
 Qed.
 Lemma head_absent__insert_before_dispatch_and_reassembly : forall A (s: Z -> A -> Assertion) h xs,
- XiziLocalDLL.store_dll s h xs |-- “ ~ In h (XiziLocalDLL.ptrs xs) ”.
+ store_dll s h xs |-- “ ~ In h (ptrs xs) ”.
 Proof.
- intros; unfold XiziLocalDLL.store_dll; Intros first last.
+ intros; unfold store_dll; Intros first last.
  sep_apply_l_atomic (seg_excludes_field__insert_before_dispatch_and_reassembly A s xs first h h last h first).
  entailer!.
 Qed.
 Lemma addr_open__insert_before_dispatch_and_reassembly : forall x px z pz a xs,
- XiziLocalDLL.addr_dllseg x px z pz (a :: xs) |--
+ addr_dllseg x px z pz (a :: xs) |--
  EX n, “ x = a ” &&
  &(x # "SysDoubleLinklistNode" ->ₛ "node_prev") # Ptr |-> px **
  &(x # "SysDoubleLinklistNode" ->ₛ "node_next") # Ptr |-> n **
- XiziLocalDLL.addr_dllseg n x z pz xs.
+ addr_dllseg n x z pz xs.
 Proof.
- intros; unfold XiziLocalDLL.addr_dllseg, XiziLocalDLL.addr_nodes;
- simpl XiziLocalDLL.dllseg; unfold XiziLocalDLL.addr_store.
+ intros; unfold addr_dllseg, addr_nodes;
+ simpl dllseg; unfold addr_store.
  Intros n; Exists n; entailer!.
 Qed.
 Lemma addr_nil__insert_before_dispatch_and_reassembly : forall x px z pz,
- XiziLocalDLL.addr_dllseg x px z pz nil |-- “ x = z /\ px = pz ” && emp.
-Proof. intros; unfold XiziLocalDLL.addr_dllseg, XiziLocalDLL.addr_nodes; simpl XiziLocalDLL.dllseg; entailer!. Qed.
+ addr_dllseg x px z pz nil |-- “ x = z /\ px = pz ” && emp.
+Proof. intros; unfold addr_dllseg, addr_nodes; simpl dllseg; entailer!. Qed.
 Lemma payload_append__insert_before_dispatch_and_reassembly : forall A (s: Z -> A -> Assertion) xs d n,
- XiziLocalDLL.payloads s xs ** s n d |--
- XiziLocalDLL.payloads s (xs ++ DLL.Build_DL_Node d n :: nil).
+ payloads s xs ** s n d |--
+ payloads s (xs ++ Build_DL_Node d n :: nil).
 Proof.
- intros. sep_apply_r_atomic (payload_join__insert_before_dispatch_and_reassembly A s xs (DLL.Build_DL_Node d n :: nil)).
- simpl XiziLocalDLL.payloads; entailer!.
+ intros. sep_apply_r_atomic (payload_join__insert_before_dispatch_and_reassembly A s xs (Build_DL_Node d n :: nil)).
+ simpl payloads; entailer!.
 Qed.

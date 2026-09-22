@@ -232,3 +232,17 @@ CRules 统一中期：init、empty、insert_after、insert_before 四个 run fin
 ## CRules 统一最终完成（2026-09-10）
 
 8 个 DLL run 均经 controller final-apply/final-check 完成并归档；9 个 SLL 保持源码/规格/证明不变并通过当前依赖回归。统一 suite `crules_unification/suite_audits/20260910113338/audit.json` passed，17 函数 72 manual witnesses、21 既有 generated auto Admitted 单列。公共库单份 CanonicalDLL/CRules 实现，实际布局本地与 idmanager 为同一模块实例别名；45 项静态接口检查与原 idnode 实际编译通过，218 个兼容依赖同当前版本，原证明除 imports 外正文不变。公共库 SHA053f77... 与 compatibility fixture 及 OUTPUT 副本相同。42 DLL proof scripts 中 41 直接复用，init 一项仅将末尾 entailer 改为两次显式字段 cancel。8 个 C 含 annotation 逐字节不变。全部本轮 worktrees/build 和报告脚本 cache 已清理，原 crtosverify repo clean。最终汇总与复现 README 在 OUTPUT/xizi/xizi_double_link_common/reports/crules_unification。
+
+## 公共 DLL 命名与 origin/idnode 对齐（2026-09-11）
+
+用户要求本地也直接使用 DLL。新 public DLL 为实际 SysDoubleLinklistNode 布局；原 master 布局改名 MasterDLL，旧 XiziLocalDLL/XiziIdmanagerDLL 保留为兼容别名。8 个原函数的 C annotation、case_lib 和证明限定名迁移；原 C 与数学/资源承诺不变。9 SLL 当前依赖回归、两侧原证明导入实编译再验。报告目录 origin_dll_alignment；此前 CRules 完成记录保持历史不改。
+
+本轮 init-run 必须显式传 --case-lib-file QCIPLib/xizi/xizi_double_link_common/xizi_double_link_lib.v；仅在 problem_context 声明共享库不足以改变 controller 默认 case-local 选择。首个误配置 handoff 由 owner 检出，未编辑正式文件，按 stale 结束并由 main 创建正确新 run；drive init 已修正。
+
+## DLL 公共入口迁移完成（2026-09-11）
+
+8 个 DLL run 均完成 controller final-apply/final-check 并归档。公共 DLL 使用 SysDoubleLinklistNode，与 origin/idnode 对齐；MasterDLL 保留 master 布局；两个旧名称仅为 DLL 别名。公共库 SHA 为 0dc1cd12d1643530082f49a187ca41cf2925b8c6a17decd07be5821792832405。51 项静态接口检查通过，原 idnode 六组证明和 master 原 idnode 库通过实际本地导入编译，218 个兼容依赖与最终版本一致，原证明除 imports 外正文不变。
+
+suite origin_dll_alignment/suite_audits/20260911051353/audit.json passed：8 DLL 与 9 SLL 共 72 个 manual witnesses 通过当前依赖统一复验。42 段 DLL proof scripts 全部按 namespace mapping 复用，8 个 C 含 annotation 仅替换 XiziLocalDLL:: 为 DLL::。原 C 算法、规约条件和资源承诺不变。21 个既有 generated auto Admitted 以及原 idmanager 假设单列；维护库/manual 通过严格扫描。全部本轮 run worktree、编译目录与交付前脚本缓存已清理，历史报告及源快照保留。
+
+用户明确限制本次 crtosverify 发布只能修改/推送 double_linklist、single_linklist；master 禁止修改或推送。只在对应 detached export worktrees 准备提交，并核对 master 引用保持原值。Gitee HTTPS/SSH 认证暂失败，不能把本地提交冒充 push 成功。

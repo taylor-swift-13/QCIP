@@ -24,7 +24,7 @@ Local Open Scope sac.
 Lemma proof_of_InitDoubleLinkList_entail_wit_1 : InitDoubleLinkList_entail_wit_1.
 Proof.
   pre_process.
-  unfold XiziLocalDLL.occupy_dll_node.
+  unfold DLL.occupy_dll_node.
   Intros prev next.
   Exists next prev.
   cancel (&(linklist_head_pre # "SysDoubleLinklistNode" ->ₛ "node_next") # Ptr |-> next).
@@ -34,6 +34,6 @@ Qed.
 Lemma proof_of_InitDoubleLinkList_return_wit_1 : InitDoubleLinkList_return_wit_1.
 Proof.
   pre_process.
-  apply XiziLocalDLL.store_dll_empty_rev.
+  apply DLL.store_dll_empty_rev.
 Qed. 
 

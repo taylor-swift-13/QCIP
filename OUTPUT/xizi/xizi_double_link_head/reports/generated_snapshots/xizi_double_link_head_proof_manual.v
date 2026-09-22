@@ -25,7 +25,7 @@ Local Open Scope sac.
 
 Lemma proof_of_DoubleLinkListGetHead_entail_wit_1 : DoubleLinkListGetHead_entail_wit_1.
 Proof.
- pre_process. unfold XiziLocalDLL.store_dll.
+ pre_process. unfold DLL.store_dll.
  Intros first last. Exists last first. entailer!.
 Qed. 
 
@@ -33,7 +33,7 @@ Lemma proof_of_DoubleLinkListGetHead_return_wit_1 : DoubleLinkListGetHead_return
 Proof.
  pre_process. subst nodes_general.
  split_pure_spatial.
- - unfold XiziLocalDLL.store_dll. Exists first_out last_out. entailer!.
+ - unfold DLL.store_dll. Exists first_out last_out. entailer!.
  - dump_pre_spatial. reflexivity.
 Qed. 
 
@@ -41,9 +41,9 @@ Lemma proof_of_DoubleLinkListGetHead_return_wit_2 : DoubleLinkListGetHead_return
 Proof.
  pre_process.
  split_pure_spatial.
- - unfold XiziLocalDLL.store_dll. Exists first_out last_out. entailer!.
+ - unfold DLL.store_dll. Exists first_out last_out. entailer!.
  - destruct nodes_general as [| a rest]; [contradiction |].
-   simpl [XiziLocalDLL.dllseg]. Intros next. Intros.
+   simpl [DLL.dllseg]. Intros next. Intros.
    dump_pre_spatial. assumption.
 Qed. 
 
@@ -62,13 +62,13 @@ Proof.
  pre_process.
  Exists A storeA_expanded nodes_expanded.
  apply sepcon_cancel_end.
- - unfold XiziLocalDLL.store_dll. Exists first_link_expanded last_link_expanded.
+ - unfold DLL.store_dll. Exists first_link_expanded last_link_expanded.
    entailer!.
  - apply derivable1_wand_sepcon_adjoint. cancel.
    Split.
-   + Intros retval. Intros. unfold XiziLocalDLL.store_dll.
+   + Intros retval. Intros. unfold DLL.store_dll.
      Intros first last. Left. Exists last first retval. entailer!.
-   + Intros retval. Intros. unfold XiziLocalDLL.store_dll.
+   + Intros retval. Intros. unfold DLL.store_dll.
      Intros first last. Right. Exists last first retval. entailer!.
 Qed. 
 

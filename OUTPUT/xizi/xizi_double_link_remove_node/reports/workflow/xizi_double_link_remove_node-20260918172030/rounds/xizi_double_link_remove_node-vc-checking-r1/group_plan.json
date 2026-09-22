@@ -1,0 +1,106 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "106e7450e1240a122a0c4f805c858ef2131497196d6f149e0007a7270f7415f0",
+  "target_witnesses": [
+    "proof_of_DoubleLinkListRmNode_entail_wit_1",
+    "proof_of_DoubleLinkListRmNode_return_wit_1",
+    "proof_of_DoubleLinkListRmNode_derive_remove_tail_spec_by_strong_spec",
+    "proof_of_DoubleLinkListRmNode_derive_remove_front_spec_by_strong_spec",
+    "proof_of_DoubleLinkListRmNode_derive_remove_member_spec_by_strong_spec"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "remove_spatial_split_reassemble",
+      "witness_names": [
+        "proof_of_DoubleLinkListRmNode_entail_wit_1",
+        "proof_of_DoubleLinkListRmNode_return_wit_1"
+      ],
+      "representative_witness": "proof_of_DoubleLinkListRmNode_entail_wit_1",
+      "dependencies": [],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "store_dll_split_removed_node",
+          "statement_shape": "Split store_dll over prefix ++ removed :: suffix into shifted segments, four boundary cells, and removed payload.",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListRmNode_entail_wit_1"
+          ],
+          "premises": [
+            {
+              "premise": "getPtr removed and list decomposition",
+              "discharged_by": "PreH1 and PreH2"
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        },
+        {
+          "name_hint": "store_dll_reassemble_after_remove",
+          "statement_shape": "Reassemble shifted prefix/suffix and bypass cells into store_dll over prefix ++ suffix.",
+          "used_by_witnesses": [
+            "proof_of_DoubleLinkListRmNode_return_wit_1"
+          ],
+          "premises": [
+            {
+              "premise": "segment and bypass resources",
+              "discharged_by": "explicit antecedent"
+            }
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        }
+      ],
+      "likely_helper_declarations": [
+        "store_dll_split_removed_node__remove_spatial_split_reassemble",
+        "store_dll_reassemble_after_remove__remove_spatial_split_reassemble"
+      ],
+      "proof_strategy": "Choose the identical left disjuncts. Split the entry store_dll at removed. On return, reassemble prefix++suffix, frame payload, and fold self-link cells as xizi_dll_detached via store_dll_empty_rev.",
+      "natural_language_proof_pattern": "Inverse DLL boundary decomposition/reassembly.",
+      "shared_helper_candidates": [
+        "store_dll_split_removed_node",
+        "store_dll_reassemble_after_remove"
+      ],
+      "proving_hints": [
+        "Both generated disjuncts are identical.",
+        "Keep reusable induction lemmas in group-local case_lib with suffix __remove_spatial_split_reassemble.",
+        "Diagnostics split goal is hint-only."
+      ],
+      "grouping_reason": "Same inverse structural transformation and helper family; separated from derivation VCs due to materially different strategy; size 2 <= 12.",
+      "difficulty": "high",
+      "confidence": "high",
+      "grouping_confidence": "high"
+    },
+    {
+      "group_id": "strong_spec_derivations",
+      "witness_names": [
+        "proof_of_DoubleLinkListRmNode_derive_remove_tail_spec_by_strong_spec",
+        "proof_of_DoubleLinkListRmNode_derive_remove_front_spec_by_strong_spec",
+        "proof_of_DoubleLinkListRmNode_derive_remove_member_spec_by_strong_spec"
+      ],
+      "representative_witness": "proof_of_DoubleLinkListRmNode_derive_remove_tail_spec_by_strong_spec",
+      "dependencies": [],
+      "candidate_helper_declarations": [],
+      "likely_helper_declarations": [],
+      "proof_strategy": "Instantiate the strong spec. Tail uses suffix=nil; front uses prefix=nil; member applies first_split__storeA_remove and chooses remaining=prefix++suffix. Close all wands by cancellation after list normalization.",
+      "natural_language_proof_pattern": "Specialized contracts derived by existential instantiation and identity wand.",
+      "shared_helper_candidates": [],
+      "proving_hints": [
+        "Use existing first_split__storeA_remove for member.",
+        "Normalize nil append for tail/front.",
+        "No new helper expected."
+      ],
+      "grouping_reason": "Same strong-spec/wand skeleton, distinct from runtime DLL splitting; size 3 <= 12.",
+      "difficulty": "low",
+      "confidence": "high",
+      "grouping_confidence": "high"
+    }
+  ],
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 5,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

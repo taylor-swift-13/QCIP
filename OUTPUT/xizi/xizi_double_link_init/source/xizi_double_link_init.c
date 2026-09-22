@@ -1,17 +1,19 @@
 #include "xizi_double_link_def.h"
 
-/*@ Extern Coq (DLL::DL_Node :: * => *) */
-/*@ Extern Coq (XiziLocalDLL::store_dll : {A} -> (Z -> A -> Assertion) -> Z -> list (DLL::DL_Node A) -> Assertion)
+/*@ Import Coq Import DLL */
+
+/*@ Extern Coq (DL_Node :: * => *) */
+/*@ Extern Coq (store_dll : {A} -> (Z -> A -> Assertion) -> Z -> list (DL_Node A) -> Assertion)
 */
 
-/*@ Extern Coq (XiziLocalDLL::occupy_dll_node : Z -> Assertion) */
+/*@ Extern Coq (occupy_dll_node : Z -> Assertion) */
 
 void InitDoubleLinkList(DoubleLinklistType *linklist_head)
 /*@ With {A} (storeA : Z -> A -> Assertion)
     Require
-      XiziLocalDLL::occupy_dll_node(linklist_head)
+      occupy_dll_node(linklist_head)
     Ensure
-      XiziLocalDLL::store_dll(storeA, linklist_head, nil)
+      store_dll(storeA, linklist_head, nil)
 */
 {
     /*@ Assert exists prev next,

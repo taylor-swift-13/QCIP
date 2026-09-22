@@ -93,14 +93,14 @@ Qed.
 
 Require Import Coq.Strings.String.
 Lemma next_addr_cons__next_dispatch_resources : forall x px y py a xs,
-  XiziLocalDLL.addr_dllseg x px y py (a :: xs) |--
+  DLL.addr_dllseg x px y py (a :: xs) |--
   EX q, “ x = a ” &&
   &(x # "SysDoubleLinklistNode" ->ₛ "node_prev") # Ptr |-> px **
   &(x # "SysDoubleLinklistNode" ->ₛ "node_next") # Ptr |-> q **
-  XiziLocalDLL.addr_dllseg q x y py xs.
+  DLL.addr_dllseg q x y py xs.
 Proof.
-  intros. unfold XiziLocalDLL.addr_dllseg, XiziLocalDLL.addr_nodes,
-    XiziLocalDLL.addr_store; simpl [XiziLocalDLL.dllseg].
+  intros. unfold DLL.addr_dllseg, DLL.addr_nodes,
+    DLL.addr_store; simpl [DLL.dllseg].
   Intros q. Exists q. split_pure_spatial.
   - sepcon_right_assoc. repeat progress cancel.
   - dump_pre_spatial. exact H.
@@ -108,18 +108,18 @@ Qed.
 Lemma next_addr_cons_rev__next_dispatch_resources : forall x px y py q xs,
   &(x # "SysDoubleLinklistNode" ->ₛ "node_prev") # Ptr |-> px **
   &(x # "SysDoubleLinklistNode" ->ₛ "node_next") # Ptr |-> q **
-  XiziLocalDLL.addr_dllseg q x y py xs |--
-  XiziLocalDLL.addr_dllseg x px y py (x :: xs).
+  DLL.addr_dllseg q x y py xs |--
+  DLL.addr_dllseg x px y py (x :: xs).
 Proof.
-  intros. unfold XiziLocalDLL.addr_dllseg, XiziLocalDLL.addr_nodes,
-    XiziLocalDLL.addr_store; simpl [XiziLocalDLL.dllseg].
+  intros. unfold DLL.addr_dllseg, DLL.addr_nodes,
+    DLL.addr_store; simpl [DLL.dllseg].
   Exists q. split_pure_spatial.
   - sepcon_right_assoc. repeat progress cancel.
   - dump_pre_spatial. reflexivity.
 Qed.
 Lemma next_field_exclusion__next_dispatch_resources : forall xs s v x px y py,
   &(s # "SysDoubleLinklistNode" ->ₛ "node_next") # Ptr |-> v **
-  XiziLocalDLL.addr_dllseg x px y py xs |-- “ ~ In s xs ”.
+  DLL.addr_dllseg x px y py xs |-- “ ~ In s xs ”.
 Proof.
   induction xs as [|a xs IH]; intros s v x px y py.
   - dump_pre_spatial. simpl. tauto.
@@ -134,7 +134,7 @@ Proof.
 Qed.
 Lemma next_empty_observation__next_dispatch_resources : forall xs h v p l,
   &(h # "SysDoubleLinklistNode" ->ₛ "node_next") # Ptr |-> v **
-  XiziLocalDLL.addr_dllseg h p h l xs |-- “ xs = nil ”.
+  DLL.addr_dllseg h p h l xs |-- “ xs = nil ”.
 Proof.
   intros xs h v p l. destruct xs as [|a xs].
   - dump_pre_spatial. reflexivity.
@@ -145,62 +145,62 @@ Proof.
     Intros_p Hfalse. contradiction.
 Qed.
 Lemma next_nonempty_observation__next_dispatch_resources : forall xs x px y py,
-  x <> y -> XiziLocalDLL.addr_dllseg x px y py xs |--
+  x <> y -> DLL.addr_dllseg x px y py xs |--
   “ x = xizi_double_link_first_value xs ”.
 Proof.
   intros xs x px y py Hneq. destruct xs as [|a xs].
-  - unfold XiziLocalDLL.addr_dllseg, XiziLocalDLL.addr_nodes.
-    simpl [XiziLocalDLL.dllseg]. Intros_p H. destruct H; contradiction.
+  - unfold DLL.addr_dllseg, DLL.addr_nodes.
+    simpl [DLL.dllseg]. Intros_p H. destruct H; contradiction.
   - sep_apply_l_atomic (next_addr_cons__next_dispatch_resources x px y py a xs).
     Intros q. dump_pre_spatial. exact H.
 Qed.
 Lemma next_addr_segment_cut__next_dispatch_resources : forall before after f h t l n,
-  XiziLocalDLL.addr_dllseg f h t l (before ++ n :: after) |--
-  EX p q, XiziLocalDLL.addr_dllseg f h n p before **
+  DLL.addr_dllseg f h t l (before ++ n :: after) |--
+  EX p q, DLL.addr_dllseg f h n p before **
   &(n # "SysDoubleLinklistNode" ->ₛ "node_prev") # Ptr |-> p **
   &(n # "SysDoubleLinklistNode" ->ₛ "node_next") # Ptr |-> q **
-  XiziLocalDLL.addr_dllseg q n t l after.
+  DLL.addr_dllseg q n t l after.
 Proof.
-  intros. unfold XiziLocalDLL.addr_dllseg at 1.
-  rewrite XiziLocalDLL.addr_nodes_app.
-  sep_apply_l_atomic (XiziLocalDLL.dllseg_split XiziLocalDLL.addr_store f h t l
-    (XiziLocalDLL.addr_nodes before) (XiziLocalDLL.addr_nodes (n :: after))).
+  intros. unfold DLL.addr_dllseg at 1.
+  rewrite DLL.addr_nodes_app.
+  sep_apply_l_atomic (DLL.dllseg_split DLL.addr_store f h t l
+    (DLL.addr_nodes before) (DLL.addr_nodes (n :: after))).
   Intros z p.
-  fold (XiziLocalDLL.addr_dllseg f h z p before).
-  fold (XiziLocalDLL.addr_dllseg z p t l (n :: after)).
+  fold (DLL.addr_dllseg f h z p before).
+  fold (DLL.addr_dllseg z p t l (n :: after)).
   sep_apply_l_atomic (next_addr_cons__next_dispatch_resources z p t l n after).
   Intros q. subst z. Exists p q. sepcon_right_assoc. repeat progress cancel.
 Qed.
 Lemma next_addr_segment_rejoin__next_dispatch_resources : forall before after f h t l n p q,
-  XiziLocalDLL.addr_dllseg f h n p before **
+  DLL.addr_dllseg f h n p before **
   &(n # "SysDoubleLinklistNode" ->ₛ "node_prev") # Ptr |-> p **
   &(n # "SysDoubleLinklistNode" ->ₛ "node_next") # Ptr |-> q **
-  XiziLocalDLL.addr_dllseg q n t l after |--
-  XiziLocalDLL.addr_dllseg f h t l (before ++ n :: after).
+  DLL.addr_dllseg q n t l after |--
+  DLL.addr_dllseg f h t l (before ++ n :: after).
 Proof.
   intros. sep_apply_l_atomic (next_addr_cons_rev__next_dispatch_resources n p t l q after).
-  unfold XiziLocalDLL.addr_dllseg. rewrite XiziLocalDLL.addr_nodes_app.
-  sep_apply_l_atomic (XiziLocalDLL.dllseg_concat XiziLocalDLL.addr_store f h n p t l
-    (XiziLocalDLL.addr_nodes before) (XiziLocalDLL.addr_nodes (n :: after))).
+  unfold DLL.addr_dllseg. rewrite DLL.addr_nodes_app.
+  sep_apply_l_atomic (DLL.dllseg_concat DLL.addr_store f h n p t l
+    (DLL.addr_nodes before) (DLL.addr_nodes (n :: after))).
   sepcon_right_assoc. repeat progress cancel.
 Qed.
 Lemma next_store_close__next_dispatch_resources : forall A (storeA : Z -> A -> Assertion) h nodes f l,
-  XiziLocalDLL.payloads storeA nodes **
+  DLL.payloads storeA nodes **
   &(h # "SysDoubleLinklistNode" ->ₛ "node_next") # Ptr |-> f **
   &(h # "SysDoubleLinklistNode" ->ₛ "node_prev") # Ptr |-> l **
-  XiziLocalDLL.addr_dllseg f h h l (XiziLocalDLL.ptrs nodes) |--
-  XiziLocalDLL.store_dll storeA h nodes.
+  DLL.addr_dllseg f h h l (DLL.ptrs nodes) |--
+  DLL.store_dll storeA h nodes.
 Proof.
-  intros. sep_apply_r_atomic (XiziLocalDLL.store_dll_compose storeA h nodes).
-  unfold XiziLocalDLL.addr_store_dll, XiziLocalDLL.store_dll.
-  Exists f l. unfold XiziLocalDLL.addr_dllseg. sepcon_right_assoc. repeat progress cancel.
+  intros. sep_apply_r_atomic (DLL.store_dll_compose storeA h nodes).
+  unfold DLL.addr_store_dll, DLL.store_dll.
+  Exists f l. unfold DLL.addr_dllseg. sepcon_right_assoc. repeat progress cancel.
 Qed.
 Lemma next_store_exclusion__next_dispatch_resources : forall A (storeA : Z -> A -> Assertion) h nodes,
-  XiziLocalDLL.store_dll storeA h nodes |-- “ ~ In h (XiziLocalDLL.ptrs nodes) ”.
+  DLL.store_dll storeA h nodes |-- “ ~ In h (DLL.ptrs nodes) ”.
 Proof.
-  intros. sep_apply_l_atomic (XiziLocalDLL.store_dll_decompose storeA h nodes).
-  unfold XiziLocalDLL.addr_store_dll, XiziLocalDLL.store_dll.
-  Intros f l. fold (XiziLocalDLL.addr_dllseg f h h l (XiziLocalDLL.ptrs nodes)).
-  sep_apply_l_atomic (next_field_exclusion__next_dispatch_resources (XiziLocalDLL.ptrs nodes) h f f h h l).
+  intros. sep_apply_l_atomic (DLL.store_dll_decompose storeA h nodes).
+  unfold DLL.addr_store_dll, DLL.store_dll.
+  Intros f l. fold (DLL.addr_dllseg f h h l (DLL.ptrs nodes)).
+  sep_apply_l_atomic (next_field_exclusion__next_dispatch_resources (DLL.ptrs nodes) h f f h h l).
   Intros_p H. dump_pre_spatial. exact H.
 Qed.

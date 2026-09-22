@@ -8,6 +8,7 @@ Require Export QCIPLib.xizi.xizi_double_link_common.xizi_double_link_lib.
 
 Import ListNotations.
 Import CRules.
+Import DLL.
 Local Open Scope sac.
 Local Open Scope string_scope.
 Local Open Scope Z_scope.
@@ -24,5 +25,5 @@ Definition xizi_double_link_first_value (nodes : list Z) : Z :=
 (** Forget only logical data when computing the observed address; the spatial
     contract retains the original nodes and their payload resources. *)
 Definition xizi_double_link_head_ptrs {A : Type}
-  (nodes : list (DLL.DL_Node A)) : list Z :=
-  map DLL.getPtr nodes.
+  (nodes : list (DL_Node A)) : list Z :=
+  map getPtr nodes.

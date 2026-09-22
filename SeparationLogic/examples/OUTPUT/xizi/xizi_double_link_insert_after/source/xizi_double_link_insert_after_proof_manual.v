@@ -20,6 +20,7 @@ Local Open Scope list.
 Import CRules.
 From QCIPLib.xizi.xizi_double_link_common Require Import xizi_double_link_lib.
 From SimpleC.EE.OUTPUT.xizi.xizi_double_link_insert_after.source Require Import xizi_double_link_insert_after_lib.
+Import DLL.
 Local Open Scope sac.
 
 Lemma proof_of_DoubleLinkListInsertNodeAfter_entail_wit_1 : DoubleLinkListInsertNodeAfter_entail_wit_1.
@@ -27,15 +28,15 @@ Proof.
 pre_process.
 destruct (Z.eq_dec linklist_pre head_dispatch_case) as [Heq|Hneq].
 - subst linklist_pre.
-  unfold XiziLocalDLL.store_dll, XiziLocalDLL.occupy_dll_node.
+  unfold store_dll, occupy_dll_node.
   Intros first last detached_prev detached_next.
   destruct nodes_dispatch_case as [|[next_data old_next] rest].
-  + simpl XiziLocalDLL.dllseg. Intros. destruct H; subst first last.
+  + simpl dllseg. Intros. destruct H; subst first last.
     Right.
     Exists head_dispatch_case head_dispatch_case head_dispatch_case detached_prev detached_next.
     unfold xizi_insert_after_dispatch_payload.
     entailer!.
-  + simpl XiziLocalDLL.dllseg. Intros next_next. subst first.
+  + simpl dllseg. Intros next_next. subst first.
     Left. Right.
     Exists next_next last next_data old_next rest detached_prev detached_next.
     unfold xizi_insert_after_dispatch_payload.
@@ -45,44 +46,44 @@ destruct (Z.eq_dec linklist_pre head_dispatch_case) as [Heq|Hneq].
   destruct (payload_first_split__payload_insert_after nodes_dispatch_case linklist_pre Hin)
     as (prefix & anchor_data & suffix & Hnodes & Hfirst).
   subst nodes_dispatch_case.
-  unfold XiziLocalDLL.store_dll, XiziLocalDLL.occupy_dll_node.
+  unfold store_dll, occupy_dll_node.
   Intros first last detached_prev detached_next.
-  sep_apply_l_atomic (XiziLocalDLL.dllseg_split storeA_dispatch_case first head_dispatch_case head_dispatch_case last prefix (DLL.Build_DL_Node anchor_data linklist_pre :: suffix)).
+  sep_apply_l_atomic (dllseg_split storeA_dispatch_case first head_dispatch_case head_dispatch_case last prefix (Build_DL_Node anchor_data linklist_pre :: suffix)).
   Intros anchor old_prev.
-  simpl XiziLocalDLL.dllseg. Intros old_next. subst anchor.
+  simpl dllseg. Intros old_next. subst anchor.
   destruct suffix as [|[next_data next_ptr] rest].
-  + simpl XiziLocalDLL.dllseg. Intros. destruct H; subst old_next last.
+  + simpl dllseg. Intros. destruct H; subst old_next last.
     Left. Left. Left.
-    Exists old_prev first prefix anchor_data (@nil (DLL.DL_Node A)) detached_prev detached_next.
+    Exists old_prev first prefix anchor_data (@nil (DL_Node A)) detached_prev detached_next.
     split_pure_spatial.
     * entailer!.
     * split_pures; dump_pre_spatial; try reflexivity; try assumption.
       unfold xizi_insert_after_dispatch_payload, xizi_insert_after_payload.
       right; split; [exact Hneq|].
-      exists prefix, (DLL.Build_DL_Node anchor_data linklist_pre), nil.
+      exists prefix, (Build_DL_Node anchor_data linklist_pre), nil.
       repeat split; auto.
-  + simpl XiziLocalDLL.dllseg. Intros next_next. subst old_next.
+  + simpl dllseg. Intros next_next. subst old_next.
     Left. Left. Right.
-    Exists next_next old_prev last first next_data next_ptr rest prefix anchor_data (DLL.Build_DL_Node next_data next_ptr :: rest) detached_prev detached_next.
+    Exists next_next old_prev last first next_data next_ptr rest prefix anchor_data (Build_DL_Node next_data next_ptr :: rest) detached_prev detached_next.
     split_pure_spatial.
     * entailer!.
     * split_pures; dump_pre_spatial; try reflexivity; try assumption.
       unfold xizi_insert_after_dispatch_payload, xizi_insert_after_payload.
       right; split; [exact Hneq|].
-      exists prefix, (DLL.Build_DL_Node anchor_data linklist_pre), (DLL.Build_DL_Node next_data next_ptr :: rest).
+      exists prefix, (Build_DL_Node anchor_data linklist_pre), (Build_DL_Node next_data next_ptr :: rest).
       repeat split; auto.
 Qed. 
 
 Lemma proof_of_DoubleLinkListInsertNodeAfter_return_wit_1 : DoubleLinkListInsertNodeAfter_return_wit_1.
 Proof.
 pre_process.
-Exists (DLL.Build_DL_Node data_dispatch_case linklist_node_pre :: nil).
+Exists (Build_DL_Node data_dispatch_case linklist_node_pre :: nil).
 split_pure_spatial.
-- unfold XiziLocalDLL.store_dll.
+- unfold store_dll.
   Exists linklist_node_pre linklist_node_pre.
-  simpl XiziLocalDLL.dllseg.
+  simpl dllseg.
   Exists head_dispatch_case.
-  simpl XiziLocalDLL.dllseg.
+  simpl dllseg.
   entailer!.
 - dump_pre_spatial. subst. exact PreH2.
 Qed. 
@@ -90,11 +91,11 @@ Qed.
 Lemma proof_of_DoubleLinkListInsertNodeAfter_return_wit_2 : DoubleLinkListInsertNodeAfter_return_wit_2.
 Proof.
 pre_process.
-Exists (DLL.Build_DL_Node data_dispatch_case linklist_node_pre :: nodes_dispatch_case).
+Exists (Build_DL_Node data_dispatch_case linklist_node_pre :: nodes_dispatch_case).
 split_pure_spatial.
-- subst nodes_dispatch_case. unfold XiziLocalDLL.store_dll.
+- subst nodes_dispatch_case. unfold store_dll.
   Exists linklist_node_pre last.
-  simpl XiziLocalDLL.dllseg. Exists old_next next_next.
+  simpl dllseg. Exists old_next next_next.
   entailer!.
 - dump_pre_spatial. subst. exact PreH2.
 Qed. 
@@ -102,12 +103,12 @@ Qed.
 Lemma proof_of_DoubleLinkListInsertNodeAfter_return_wit_3 : DoubleLinkListInsertNodeAfter_return_wit_3.
 Proof.
 pre_process.
-Exists (nodes_before ++ DLL.Build_DL_Node anchor_data linklist_pre :: DLL.Build_DL_Node data_dispatch_case linklist_node_pre :: nodes_after).
+Exists (nodes_before ++ Build_DL_Node anchor_data linklist_pre :: Build_DL_Node data_dispatch_case linklist_node_pre :: nodes_after).
 split_pure_spatial.
-- subst nodes_after. unfold XiziLocalDLL.store_dll.
+- subst nodes_after. unfold store_dll.
   Exists first last.
-  sep_apply_r_atomic (XiziLocalDLL.dllseg_concat storeA_dispatch_case first head_dispatch_case linklist_pre old_prev head_dispatch_case last nodes_before (DLL.Build_DL_Node anchor_data linklist_pre :: DLL.Build_DL_Node data_dispatch_case linklist_node_pre :: DLL.Build_DL_Node next_data old_next :: rest)).
-  simpl XiziLocalDLL.dllseg. Exists linklist_node_pre old_next next_next.
+  sep_apply_r_atomic (dllseg_concat storeA_dispatch_case first head_dispatch_case linklist_pre old_prev head_dispatch_case last nodes_before (Build_DL_Node anchor_data linklist_pre :: Build_DL_Node data_dispatch_case linklist_node_pre :: Build_DL_Node next_data old_next :: rest)).
+  simpl dllseg. Exists linklist_node_pre old_next next_next.
   entailer!.
 - dump_pre_spatial. exact PreH3.
 Qed. 
@@ -115,12 +116,12 @@ Qed.
 Lemma proof_of_DoubleLinkListInsertNodeAfter_return_wit_4 : DoubleLinkListInsertNodeAfter_return_wit_4.
 Proof.
 pre_process.
-Exists (nodes_before ++ DLL.Build_DL_Node anchor_data linklist_pre :: DLL.Build_DL_Node data_dispatch_case linklist_node_pre :: nodes_after).
+Exists (nodes_before ++ Build_DL_Node anchor_data linklist_pre :: Build_DL_Node data_dispatch_case linklist_node_pre :: nodes_after).
 split_pure_spatial.
-- subst nodes_after. unfold XiziLocalDLL.store_dll.
+- subst nodes_after. unfold store_dll.
   Exists first linklist_node_pre.
-  sep_apply_r_atomic (XiziLocalDLL.dllseg_concat storeA_dispatch_case first head_dispatch_case linklist_pre old_prev head_dispatch_case linklist_node_pre nodes_before (DLL.Build_DL_Node anchor_data linklist_pre :: DLL.Build_DL_Node data_dispatch_case linklist_node_pre :: nil)).
-  simpl XiziLocalDLL.dllseg. Exists linklist_node_pre head_dispatch_case.
+  sep_apply_r_atomic (dllseg_concat storeA_dispatch_case first head_dispatch_case linklist_pre old_prev head_dispatch_case linklist_node_pre nodes_before (Build_DL_Node anchor_data linklist_pre :: Build_DL_Node data_dispatch_case linklist_node_pre :: nil)).
+  simpl dllseg. Exists linklist_node_pre head_dispatch_case.
   entailer!.
 - dump_pre_spatial. exact PreH3.
 Qed. 
@@ -151,4 +152,3 @@ unfold xizi_insert_after_dispatch_payload in H0.
 destruct H0 as [[Heq _]|[_ Hresult]]; [contradiction|].
 Exists result. entailer!.
 Qed. 
-

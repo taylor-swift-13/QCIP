@@ -164,7 +164,7 @@ Lemma store_dll_member_not_sentinel__insert_after_payload : forall {A}
   (storeA : Z -> A -> SeparationLogic.CRules.expr) head nodes member,
   In member (xizi_insert_after_ptrs nodes) ->
   SeparationLogic.CRules.derivable1
-    (XiziLocalDLL.store_dll storeA head nodes)
+    (DLL.store_dll storeA head nodes)
     (SeparationLogic.CRules.coq_prop (member <> head)).
 Proof.
   Import SeparationLogic.CRules.
@@ -174,11 +174,11 @@ Proof.
   subst member.
   destruct (payload_first_split__payload_insert_after nodes head Hin)
     as (prefix & value & suffix & Hnodes & Hfirst).
-  subst nodes. unfold XiziLocalDLL.store_dll.
+  subst nodes. unfold DLL.store_dll.
   Intros first last.
-  sep_apply_l_atomic (XiziLocalDLL.dllseg_split storeA first head head last prefix (DLL.Build_DL_Node value head :: suffix)).
+  sep_apply_l_atomic (DLL.dllseg_split storeA first head head last prefix (DLL.Build_DL_Node value head :: suffix)).
   Intros anchor previous.
-  simpl XiziLocalDLL.dllseg. Intros next. subst anchor.
+  simpl DLL.dllseg. Intros next. subst anchor.
   match goal with
   | |- context [SeparationLogic.CRules.store_ptr ?field last] =>
       prop_apply_p (SeparationLogic.CRules.dup_store_ptr field last previous)

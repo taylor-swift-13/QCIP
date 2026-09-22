@@ -1,0 +1,35 @@
+Require Import Coq.ZArith.ZArith.
+Require Import Coq.Bool.Bool.
+Require Import Coq.Strings.String.
+Require Import Coq.Strings.Ascii.
+Require Import Coq.Lists.List.
+Require Import Coq.Classes.RelationClasses.
+Require Import Coq.Classes.Morphisms.
+Require Import Coq.micromega.Psatz.
+Require Import Coq.Sorting.Permutation.
+From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
+Require Import SetsClass.SetsClass. Import SetsNotation.
+From SimpleC.SL Require Import Mem SeparationLogic.
+From CRTOS_Verify.VC.code.xizi.xizi_single_link_len Require Import xizi_single_link_len_goal.
+From CRTOS_Verify.VC.code.xizi.xizi_single_link_len Require Import xizi_single_link_len_proof_auto.
+Require Import Logic.LogicGenerator.demo932.Interface.
+Local Open Scope Z_scope.
+Local Open Scope sets.
+Local Open Scope string_scope.
+Local Open Scope list.
+Import naive_C_Rules.
+From CRTOS_Verify.lib Require Import sll.
+Local Open Scope sac.
+
+Lemma proof_of_SingleLinkListGetLen_entail_wit_2_split_goal_1 : SingleLinkListGetLen_entail_wit_2_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_SingleLinkListGetLen_entail_wit_2_split_goal_2 : SingleLinkListGetLen_entail_wit_2_split_goal_2.
+Proof. Abort.
+
+Lemma proof_of_SingleLinkListGetLen_return_wit_1_split_goal_1 : SingleLinkListGetLen_return_wit_1_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_SingleLinkListGetLen_return_wit_1_split_goal_spatial : SingleLinkListGetLen_return_wit_1_split_goal_spatial.
+Proof. Abort.
+

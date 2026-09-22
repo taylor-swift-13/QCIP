@@ -5,6 +5,7 @@ From SimpleC.SL Require Import Mem SeparationLogic StoreAux.
 Require Import Logic.LogicGenerator.demo932.Interface.
 Import CRules.
 From QCIPLib.xizi.xizi_double_link_common Require Import xizi_double_link_lib.
+Import DLL.
 
 (** The result is the mathematical list length. The loop splits the shared
     DLL node list into a visited prefix and an unvisited suffix. Shifted

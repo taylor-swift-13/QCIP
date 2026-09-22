@@ -25,15 +25,15 @@ Local Open Scope sac.
 Lemma proof_of_DoubleLinkListLenGet_entail_wit_1 : DoubleLinkListLenGet_entail_wit_1.
 Proof.
   pre_process.
-  unfold XiziLocalDLL.store_dll. Intros first last.
+  unfold DLL.store_dll. Intros first last.
   Exists first last (@nil (DLL.DL_Node A)) nodes_general.
-  simpl [XiziLocalDLL.dllseg_shift]. entailer!.
+  simpl [DLL.dllseg_shift]. entailer!.
 Qed. 
 
 Lemma proof_of_DoubleLinkListLenGet_entail_wit_2 : DoubleLinkListLenGet_entail_wit_2.
 Proof.
   pre_process.
-  sep_apply_l_atomic (XiziLocalDLL.dllseg_neq storeA_general next tmp_node
+  sep_apply_l_atomic (DLL.dllseg_neq storeA_general next tmp_node
     linklist_pre last_2 todo PreH1).
   Intros after node rest. Intros.
   Exists after last_2 done_2 node rest.
@@ -45,15 +45,15 @@ Lemma proof_of_DoubleLinkListLenGet_entail_wit_3 : DoubleLinkListLenGet_entail_w
 Proof.
   pre_process.
 assert (Hcapacity : forall px py xs,
- XiziLocalDLL.dllseg_shift storeA_general px py xs |-- store_align4_n (2 * Zlength xs) ** TT).
+ DLL.dllseg_shift storeA_general px py xs |-- store_align4_n (2 * Zlength xs) ** TT).
   {
  intros px py xs; revert px.
  induction xs as [|a xs IH]; intros px.
- - simpl [XiziLocalDLL.dllseg_shift]. Intros.
+ - simpl [DLL.dllseg_shift]. Intros.
    unfold store_align4_n. Exists (@nil Z). entailer!.
    + simpl. entailer!.
    + constructor.
- - simpl [XiziLocalDLL.dllseg_shift]. Intros x.
+ - simpl [DLL.dllseg_shift]. Intros x.
    sep_apply_l_atomic (IH x).
    sep_apply store_ptr_align4_32.
    sep_apply store_ptr_align4_32.
@@ -67,7 +67,7 @@ assert (Hcapacity : forall px py xs,
    apply derivable1_truep_intros.
   }
 assert (Hbound : forall px py xs,
- XiziLocalDLL.dllseg_shift storeA_general px py xs |-- “ 0 <= Zlength xs + 1 < 2 ^ 32 ”).
+ DLL.dllseg_shift storeA_general px py xs |-- “ 0 <= Zlength xs + 1 < 2 ^ 32 ”).
   {
  intros.
  sep_apply_l_atomic (Hcapacity px py xs).
@@ -81,7 +81,7 @@ assert (Hbound : forall px py xs,
   }
   prop_apply_p (Hbound linklist_pre tmp_node done_2). Intros.
   destruct node as [data ptr]. simpl in *.
-  sep_apply_l_atomic (XiziLocalDLL.dllseg_shift_contact_a storeA_general
+  sep_apply_l_atomic (DLL.dllseg_shift_contact_a storeA_general
     linklist_pre tmp_node ptr data done_2).
   Exists after last_2 (done_2 ++ DLL.Build_DL_Node data ptr :: nil) rest.
   entailer!.
@@ -96,14 +96,14 @@ Lemma proof_of_DoubleLinkListLenGet_return_wit_1 : DoubleLinkListLenGet_return_w
 Proof.
   pre_process. subst next.
   destruct todo as [|node rest].
-  - simpl [XiziLocalDLL.dllseg]. Intros.
+  - simpl [DLL.dllseg]. Intros.
     destruct H as [_ Hprev]. subst tmp_node.
     rewrite app_nil_r in PreH2. subst nodes_general.
-    sep_apply_l_atomic (XiziLocalDLL.dllseg_shift_to_dllseg
+    sep_apply_l_atomic (DLL.dllseg_shift_to_dllseg
       storeA_general linklist_pre last linklist_pre done).
-    Intros first. unfold XiziLocalDLL.store_dll. Exists first last.
+    Intros first. unfold DLL.store_dll. Exists first last.
     entailer!.
-  - simpl [XiziLocalDLL.dllseg]. Intros after.
+  - simpl [DLL.dllseg]. Intros after.
     sep_apply_l_atomic (dup_store_ptr
       (&(linklist_pre # "SysDoubleLinklistNode" ->ₛ "node_prev")) last tmp_node).
     entailer!.

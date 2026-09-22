@@ -574,9 +574,10 @@ Module SysDoubleLinkLayout <: DLL_LAYOUT.
   Definition prev_field : string := "node_prev".
 End SysDoubleLinkLayout.
 
-Module DLL := CanonicalDLL ReferenceDoubleLinkLayout.
-Module XiziIdmanagerDLL := CanonicalDLL SysDoubleLinkLayout.
-Module XiziLocalDLL := XiziIdmanagerDLL.
+Module DLL := CanonicalDLL SysDoubleLinkLayout.
+Module MasterDLL := CanonicalDLL ReferenceDoubleLinkLayout.
+Module XiziIdmanagerDLL := DLL.
+Module XiziLocalDLL := DLL.
 
 (** Reflexivity witnesses for the exported shared record and assertion API. *)
 Module DLLIdentityChecks.
@@ -591,25 +592,35 @@ Lemma data_projection_identity : @XiziLocalDLL.getData = @DLL.getData.
 Proof. reflexivity. Qed.
 Lemma ptr_projection_identity : @XiziLocalDLL.getPtr = @DLL.getPtr.
 Proof. reflexivity. Qed.
-Lemma dllseg_identity : @XiziLocalDLL.dllseg = @XiziIdmanagerDLL.dllseg.
+Lemma dllseg_identity : @XiziLocalDLL.dllseg = @DLL.dllseg.
 Proof. reflexivity. Qed.
-Lemma dllseg_shift_identity : @XiziLocalDLL.dllseg_shift = @XiziIdmanagerDLL.dllseg_shift.
+Lemma dllseg_shift_identity : @XiziLocalDLL.dllseg_shift = @DLL.dllseg_shift.
 Proof. reflexivity. Qed.
-Lemma dllseg_shift_rev_identity : @XiziLocalDLL.dllseg_shift_rev = @XiziIdmanagerDLL.dllseg_shift_rev.
+Lemma dllseg_shift_rev_identity : @XiziLocalDLL.dllseg_shift_rev = @DLL.dllseg_shift_rev.
 Proof. reflexivity. Qed.
-Lemma store_dll_identity : @XiziLocalDLL.store_dll = @XiziIdmanagerDLL.store_dll.
+Lemma store_dll_identity : @XiziLocalDLL.store_dll = @DLL.store_dll.
 Proof. reflexivity. Qed.
-Lemma occupy_dll_node_identity : @XiziLocalDLL.occupy_dll_node = @XiziIdmanagerDLL.occupy_dll_node.
+Lemma occupy_dll_node_identity : @XiziLocalDLL.occupy_dll_node = @DLL.occupy_dll_node.
 Proof. reflexivity. Qed.
-Lemma payloads_identity : @XiziLocalDLL.payloads = @XiziIdmanagerDLL.payloads.
+Lemma payloads_identity : @XiziLocalDLL.payloads = @DLL.payloads.
 Proof. reflexivity. Qed.
 Lemma payload_assertion_type_identity : forall A,
   (@XiziLocalDLL.store_dll A : (addr -> A -> Assertion) -> addr -> list (DLL.DL_Node A) -> Assertion)
-  = (@XiziIdmanagerDLL.store_dll A : (addr -> A -> Assertion) -> addr -> list (DLL.DL_Node A) -> Assertion).
+  = (@DLL.store_dll A : (addr -> A -> Assertion) -> addr -> list (DLL.DL_Node A) -> Assertion).
 Proof. reflexivity. Qed.
 Lemma record_syntax_identity : forall A (data : A) pointer,
   ({| XiziLocalDLL.getData := data; XiziLocalDLL.getPtr := pointer |} : DLL.DL_Node A)
   = DLL.Build_DL_Node data pointer.
+Proof. reflexivity. Qed.
+Lemma master_node_type_identity : MasterDLL.DL_Node = DLL.DL_Node.
+Proof. reflexivity. Qed.
+Lemma master_constructor_identity : @MasterDLL.Build_DL_Node = @DLL.Build_DL_Node.
+Proof. reflexivity. Qed.
+Lemma master_data_projection_identity : @MasterDLL.getData = @DLL.getData.
+Proof. reflexivity. Qed.
+Lemma master_ptr_projection_identity : @MasterDLL.getPtr = @DLL.getPtr.
+Proof. reflexivity. Qed.
+Lemma idmanager_store_dll_identity : @XiziIdmanagerDLL.store_dll = @DLL.store_dll.
 Proof. reflexivity. Qed.
 End DLLIdentityChecks.
 

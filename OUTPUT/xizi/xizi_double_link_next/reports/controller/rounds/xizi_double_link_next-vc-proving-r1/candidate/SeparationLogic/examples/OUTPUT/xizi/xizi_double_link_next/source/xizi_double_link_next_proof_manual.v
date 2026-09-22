@@ -25,16 +25,16 @@ Local Open Scope sac.
 Lemma proof_of_DoubleLinkListGetNext_entail_wit_1 : DoubleLinkListGetNext_entail_wit_1.
 Proof.
   pre_process.
-  sep_apply_l_atomic (XiziLocalDLL.store_dll_decompose storeA_dispatch_case linklist_pre nodes_dispatch_case).
-  unfold XiziLocalDLL.addr_store_dll, XiziLocalDLL.store_dll.
+  sep_apply_l_atomic (DLL.store_dll_decompose storeA_dispatch_case linklist_pre nodes_dispatch_case).
+  unfold DLL.addr_store_dll, DLL.store_dll.
   Intros first last.
-  fold (XiziLocalDLL.addr_dllseg first linklist_pre linklist_pre last (XiziLocalDLL.ptrs nodes_dispatch_case)).
+  fold (DLL.addr_dllseg first linklist_pre linklist_pre last (DLL.ptrs nodes_dispatch_case)).
   destruct (Z.eq_dec linklist_node_pre linklist_pre) as [Heq | Hneq].
   - Right. Exists last first. split_pure_spatial.
     + sepcon_right_assoc. repeat progress cancel.
     + split_pures; dump_pre_spatial; try exact Heq.
       unfold xizi_double_link_next_dispatch_value. destruct (Z.eq_dec linklist_node_pre linklist_pre); congruence.
-  - assert (Hin : In linklist_node_pre (XiziLocalDLL.ptrs nodes_dispatch_case)) by
+  - assert (Hin : In linklist_node_pre (DLL.ptrs nodes_dispatch_case)) by
       (unfold xizi_double_link_next_anchor in *; tauto).
     destruct (xizi_double_link_in_first_occurrence__dll_dispatch_forbidden_free _ _ Hin)
       as [before [after [Hnodes Hnotin]]].
@@ -50,7 +50,7 @@ Qed.
 Lemma proof_of_DoubleLinkListGetNext_return_wit_1 : DoubleLinkListGetNext_return_wit_1.
 Proof.
   pre_process. subst first linklist_node_pre.
-  prop_apply_p (next_empty_observation__next_dispatch_resources (XiziLocalDLL.ptrs nodes_dispatch_case) linklist_pre linklist_pre linklist_pre last).
+  prop_apply_p (next_empty_observation__next_dispatch_resources (DLL.ptrs nodes_dispatch_case) linklist_pre linklist_pre linklist_pre last).
   Intros_p Hempty.
   split_pure_spatial.
   - sep_apply_r_atomic (next_store_close__next_dispatch_resources A storeA_dispatch_case linklist_pre nodes_dispatch_case linklist_pre last). sepcon_right_assoc. repeat progress cancel.
@@ -84,7 +84,7 @@ Qed.
 Lemma proof_of_DoubleLinkListGetNext_return_wit_4 : DoubleLinkListGetNext_return_wit_4.
 Proof.
   pre_process. subst linklist_node_pre.
-  prop_apply_p (next_nonempty_observation__next_dispatch_resources (XiziLocalDLL.ptrs nodes_dispatch_case) first linklist_pre linklist_pre last PreH1).
+  prop_apply_p (next_nonempty_observation__next_dispatch_resources (DLL.ptrs nodes_dispatch_case) first linklist_pre linklist_pre last PreH1).
   Intros_p Hnext.
   split_pure_spatial.
   - sep_apply_r_atomic (next_store_close__next_dispatch_resources A storeA_dispatch_case linklist_pre nodes_dispatch_case first last). sepcon_right_assoc. repeat progress cancel.

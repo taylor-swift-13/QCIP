@@ -79,38 +79,39 @@ Qed.
 
 
 Require Import QCIPLib.xizi.xizi_double_link_common.xizi_double_link_lib.
+Import DLL.
 
 (** Payload-preserving lift of the existing first-occurrence address spec.
     The relation retains the exact prefix, anchor value and suffix; it does
     not encode any of the four concrete pointer writes. *)
 Definition xizi_insert_after_ptrs {A : Type}
-  (nodes : list (DLL.DL_Node A)) : list Z :=
-  map DLL.getPtr nodes.
+  (nodes : list (DL_Node A)) : list Z :=
+  map getPtr nodes.
 
 Definition xizi_insert_after_payload {A : Type}
-  (nodes : list (DLL.DL_Node A)) (anchor : Z)
-  (inserted : DLL.DL_Node A)
-  (result : list (DLL.DL_Node A)) : Prop :=
+  (nodes : list (DL_Node A)) (anchor : Z)
+  (inserted : DL_Node A)
+  (result : list (DL_Node A)) : Prop :=
   exists prefix current suffix,
     nodes = prefix ++ current :: suffix /\
-    DLL.getPtr current = anchor /\
+    getPtr current = anchor /\
     ~ In anchor (xizi_insert_after_ptrs prefix) /\
     result = prefix ++ current :: inserted :: suffix.
 
 Definition xizi_insert_after_dispatch_payload {A : Type}
-  (head : Z) (nodes : list (DLL.DL_Node A)) (anchor : Z)
-  (inserted : DLL.DL_Node A)
-  (result : list (DLL.DL_Node A)) : Prop :=
+  (head : Z) (nodes : list (DL_Node A)) (anchor : Z)
+  (inserted : DL_Node A)
+  (result : list (DL_Node A)) : Prop :=
   (anchor = head /\ result = inserted :: nodes) \/
   (anchor <> head /\ xizi_insert_after_payload nodes anchor inserted result).
 
 (** Erasing only the payload recovers the previously verified address API. *)
 Lemma xizi_insert_after_payload_address_semantics : forall {A}
-  (nodes result : list (DLL.DL_Node A)) anchor inserted,
+  (nodes result : list (DL_Node A)) anchor inserted,
   xizi_insert_after_payload nodes anchor inserted result ->
   xizi_insert_after_ptrs result =
   xizi_double_link_insert_after_nodes (xizi_insert_after_ptrs nodes)
-    anchor (DLL.getPtr inserted).
+    anchor (getPtr inserted).
 Proof.
   intros A nodes result anchor inserted (prefix & current & suffix & Hnodes & Hptr & Hfirst & Hresult).
   subst nodes result.
@@ -121,11 +122,11 @@ Proof.
 Qed.
 
 Lemma xizi_insert_after_dispatch_payload_address_semantics : forall {A}
-  head (nodes result : list (DLL.DL_Node A)) anchor inserted,
+  head (nodes result : list (DL_Node A)) anchor inserted,
   xizi_insert_after_dispatch_payload head nodes anchor inserted result ->
   xizi_insert_after_ptrs result =
   xizi_double_link_insert_after_dispatch_nodes head
-    (xizi_insert_after_ptrs nodes) anchor (DLL.getPtr inserted).
+    (xizi_insert_after_ptrs nodes) anchor (getPtr inserted).
 Proof.
   intros A head nodes result anchor inserted H.
   unfold xizi_insert_after_dispatch_payload in H.
@@ -138,10 +139,10 @@ Qed.
 
 Require Import Coq.Strings.String.
 Lemma payload_first_split__payload_insert_after : forall {A}
-  (nodes : list (DLL.DL_Node A)) anchor,
+  (nodes : list (DL_Node A)) anchor,
   In anchor (xizi_insert_after_ptrs nodes) ->
   exists prefix value suffix,
-    nodes = prefix ++ DLL.Build_DL_Node value anchor :: suffix /\
+    nodes = prefix ++ Build_DL_Node value anchor :: suffix /\
     ~ In anchor (xizi_insert_after_ptrs prefix).
 Proof.
   intros A nodes; induction nodes as [|[value ptr] nodes IH]; intros anchor Hin.
@@ -151,7 +152,7 @@ Proof.
     + change (ptr = anchor \/ In anchor (xizi_insert_after_ptrs nodes)) in Hin.
       destruct Hin as [Heq|Hin]; [contradiction|].
       destruct (IH anchor Hin) as (prefix & current & suffix & Heq & Hfirst).
-      exists (DLL.Build_DL_Node value ptr :: prefix), current, suffix.
+      exists (Build_DL_Node value ptr :: prefix), current, suffix.
       split; [simpl; now rewrite Heq|].
       change (~ (ptr = anchor \/ In anchor (xizi_insert_after_ptrs prefix))).
       tauto.
@@ -164,7 +165,7 @@ Lemma store_dll_member_not_sentinel__insert_after_payload : forall {A}
   (storeA : Z -> A -> SeparationLogic.CRules.expr) head nodes member,
   In member (xizi_insert_after_ptrs nodes) ->
   SeparationLogic.CRules.derivable1
-    (XiziLocalDLL.store_dll storeA head nodes)
+    (store_dll storeA head nodes)
     (SeparationLogic.CRules.coq_prop (member <> head)).
 Proof.
   Import SeparationLogic.CRules.
@@ -174,11 +175,11 @@ Proof.
   subst member.
   destruct (payload_first_split__payload_insert_after nodes head Hin)
     as (prefix & value & suffix & Hnodes & Hfirst).
-  subst nodes. unfold XiziLocalDLL.store_dll.
+  subst nodes. unfold store_dll.
   Intros first last.
-  sep_apply_l_atomic (XiziLocalDLL.dllseg_split storeA first head head last prefix (DLL.Build_DL_Node value head :: suffix)).
+  sep_apply_l_atomic (dllseg_split storeA first head head last prefix (Build_DL_Node value head :: suffix)).
   Intros anchor previous.
-  simpl XiziLocalDLL.dllseg. Intros next. subst anchor.
+  simpl dllseg. Intros next. subst anchor.
   match goal with
   | |- context [SeparationLogic.CRules.store_ptr ?field last] =>
       prop_apply_p (SeparationLogic.CRules.dup_store_ptr field last previous)

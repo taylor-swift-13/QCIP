@@ -27,8 +27,8 @@ Proof.
  pre_process.
  prop_apply_p (head_absent__insert_before_dispatch_and_reassembly A storeA_dispatch_case head_dispatch_case nodes_dispatch_case).
  Intros_p Habs.
- sep_apply_l_atomic (XiziLocalDLL.store_dll_decompose storeA_dispatch_case head_dispatch_case nodes_dispatch_case).
- unfold XiziLocalDLL.occupy_dll_node. Intros old_prev old_next.
+ sep_apply_l_atomic (DLL.store_dll_decompose storeA_dispatch_case head_dispatch_case nodes_dispatch_case).
+ unfold DLL.occupy_dll_node. Intros old_prev old_next.
  destruct PreH1 as [Hin | Ehead].
  - destruct (first_payload_split__insert_before_payload A nodes_dispatch_case linklist_pre Hin)
      as (pre & cur & suf & E & P & N).
@@ -38,27 +38,27 @@ Proof.
        (pre ++ DLL.Build_DL_Node data_dispatch_case linklist_node_pre :: cur :: suf)).
    { left. exists pre,cur,suf. repeat split; auto. }
    pose proof (xizi_insert_before_payload_address_semantics _ _ _ _ Hr) as Ha.
-   assert (Hop: xizi_double_link_insert_before_nodes (XiziLocalDLL.ptrs (pre ++ cur :: suf)) linklist_pre linklist_node_pre =
-       XiziLocalDLL.ptrs pre ++ linklist_node_pre :: linklist_pre :: XiziLocalDLL.ptrs suf).
-   { rewrite XiziLocalDLL.ptrs_app. simpl XiziLocalDLL.ptrs. rewrite P.
+   assert (Hop: xizi_double_link_insert_before_nodes (DLL.ptrs (pre ++ cur :: suf)) linklist_pre linklist_node_pre =
+       DLL.ptrs pre ++ linklist_node_pre :: linklist_pre :: DLL.ptrs suf).
+   { rewrite DLL.ptrs_app. simpl DLL.ptrs. rewrite P.
      apply xizi_insert_before_first_occurrence__insert_before_dispatch_and_reassembly; exact N. }
    sep_apply_l_atomic (payload_insert__insert_before_dispatch_and_reassembly A storeA_dispatch_case pre (cur :: suf) data_dispatch_case linklist_node_pre).
-   unfold XiziLocalDLL.addr_store_dll, XiziLocalDLL.store_dll.
+   unfold DLL.addr_store_dll, DLL.store_dll.
    Intros first last.
-   fold (XiziLocalDLL.addr_dllseg first head_dispatch_case head_dispatch_case last (XiziLocalDLL.ptrs (pre ++ cur :: suf))).
-   rewrite XiziLocalDLL.ptrs_app. simpl XiziLocalDLL.ptrs. rewrite P.
-   sep_apply_l_atomic (addr_split__insert_before_dispatch_and_reassembly first head_dispatch_case head_dispatch_case last (XiziLocalDLL.ptrs pre) (linklist_pre :: XiziLocalDLL.ptrs suf)).
+   fold (DLL.addr_dllseg first head_dispatch_case head_dispatch_case last (DLL.ptrs (pre ++ cur :: suf))).
+   rewrite DLL.ptrs_app. simpl DLL.ptrs. rewrite P.
+   sep_apply_l_atomic (addr_split__insert_before_dispatch_and_reassembly first head_dispatch_case head_dispatch_case last (DLL.ptrs pre) (linklist_pre :: DLL.ptrs suf)).
    Intros at_anchor prev.
-   sep_apply_l_atomic (addr_open__insert_before_dispatch_and_reassembly at_anchor prev head_dispatch_case last linklist_pre (XiziLocalDLL.ptrs suf)).
+   sep_apply_l_atomic (addr_open__insert_before_dispatch_and_reassembly at_anchor prev head_dispatch_case last linklist_pre (DLL.ptrs suf)).
    Intros next.
    match goal with H: at_anchor = linklist_pre |- _ => rename H into Eat end. subst at_anchor.
-   destruct (XiziLocalDLL.ptrs pre) as [|a ps] eqn:Epre.
+   destruct (DLL.ptrs pre) as [|a ps] eqn:Epre.
    + sep_apply_l_atomic (addr_nil__insert_before_dispatch_and_reassembly first head_dispatch_case linklist_pre prev).
      Intros_p Eends. destruct Eends as [Ef Ep]. subst first prev.
      Left. Left. Left.
-     Exists linklist_pre last next last head_dispatch_case (@nil Z) (XiziLocalDLL.ptrs suf) old_next old_prev
-       (pre ++ DLL.Build_DL_Node data_dispatch_case linklist_node_pre :: cur :: suf) (XiziLocalDLL.ptrs (pre ++ cur :: suf)).
-     entailer!; rewrite XiziLocalDLL.ptrs_app, Epre; simpl XiziLocalDLL.ptrs; rewrite P; reflexivity.
+     Exists linklist_pre last next last head_dispatch_case (@nil Z) (DLL.ptrs suf) old_next old_prev
+       (pre ++ DLL.Build_DL_Node data_dispatch_case linklist_node_pre :: cur :: suf) (DLL.ptrs (pre ++ cur :: suf)).
+     entailer!; rewrite DLL.ptrs_app, Epre; simpl DLL.ptrs; rewrite P; reflexivity.
    + assert (Hne: a :: ps <> nil) by discriminate.
      destruct (exists_last Hne) as [prefix0 [pred Eps]].
      rewrite Eps.
@@ -70,21 +70,21 @@ Proof.
      sep_apply_l_atomic (addr_nil__insert_before_dispatch_and_reassembly after_prev pred linklist_pre prev).
      Intros_p Eends. destruct Eends as [Ea Ep]. subst after_prev prev.
      Left. Left. Right.
-     Exists first prefix0 last next before_prev pred (prefix0 ++ pred :: nil) (XiziLocalDLL.ptrs suf) old_next old_prev
-       (pre ++ DLL.Build_DL_Node data_dispatch_case linklist_node_pre :: cur :: suf) (XiziLocalDLL.ptrs (pre ++ cur :: suf)).
-     entailer!; try (rewrite XiziLocalDLL.ptrs_app, Epre, Eps; simpl XiziLocalDLL.ptrs; rewrite P; reflexivity); try (rewrite <- Eps; assumption).
+     Exists first prefix0 last next before_prev pred (prefix0 ++ pred :: nil) (DLL.ptrs suf) old_next old_prev
+       (pre ++ DLL.Build_DL_Node data_dispatch_case linklist_node_pre :: cur :: suf) (DLL.ptrs (pre ++ cur :: suf)).
+     entailer!; try (rewrite DLL.ptrs_app, Epre, Eps; simpl DLL.ptrs; rewrite P; reflexivity); try (rewrite <- Eps; assumption).
  - subst linklist_pre.
    assert (Hr: xizi_insert_before_payload nodes_dispatch_case head_dispatch_case
        (DLL.Build_DL_Node data_dispatch_case linklist_node_pre)
        (nodes_dispatch_case ++ DLL.Build_DL_Node data_dispatch_case linklist_node_pre :: nil)).
    { right. auto. }
    pose proof (xizi_insert_before_payload_address_semantics _ _ _ _ Hr) as Ha.
-   pose proof (xizi_insert_before_absent_append__insert_before_dispatch_and_reassembly (XiziLocalDLL.ptrs nodes_dispatch_case) head_dispatch_case linklist_node_pre Habs) as Hop.
+   pose proof (xizi_insert_before_absent_append__insert_before_dispatch_and_reassembly (DLL.ptrs nodes_dispatch_case) head_dispatch_case linklist_node_pre Habs) as Hop.
    sep_apply_l_atomic (payload_append__insert_before_dispatch_and_reassembly A storeA_dispatch_case nodes_dispatch_case data_dispatch_case linklist_node_pre).
-   unfold XiziLocalDLL.addr_store_dll, XiziLocalDLL.store_dll.
+   unfold DLL.addr_store_dll, DLL.store_dll.
    Intros first last.
-   fold (XiziLocalDLL.addr_dllseg first head_dispatch_case head_dispatch_case last (XiziLocalDLL.ptrs nodes_dispatch_case)).
-   destruct (XiziLocalDLL.ptrs nodes_dispatch_case) as [|a ps] eqn:Eptr.
+   fold (DLL.addr_dllseg first head_dispatch_case head_dispatch_case last (DLL.ptrs nodes_dispatch_case)).
+   destruct (DLL.ptrs nodes_dispatch_case) as [|a ps] eqn:Eptr.
    + sep_apply_l_atomic (addr_nil__insert_before_dispatch_and_reassembly first head_dispatch_case head_dispatch_case last).
      Intros_p Eends. destruct Eends as [Ef El]. subst first last.
      Right.
@@ -110,12 +110,12 @@ Lemma proof_of_DoubleLinkListInsertNodeBefore_return_wit_1 : DoubleLinkListInser
 Proof.
  pre_process.
  Exists result_2. split_pure_spatial.
- - sep_apply_r_atomic (XiziLocalDLL.store_dll_compose storeA_dispatch_case head_dispatch_case result_2).
+ - sep_apply_r_atomic (DLL.store_dll_compose storeA_dispatch_case head_dispatch_case result_2).
    rewrite PreH4, PreH5, PreH6. simpl List.app.
-   unfold XiziLocalDLL.addr_store_dll, XiziLocalDLL.store_dll.
+   unfold DLL.addr_store_dll, DLL.store_dll.
    Exists linklist_node_pre linklist_node_pre.
-   unfold XiziLocalDLL.addr_nodes; simpl XiziLocalDLL.dllseg.
-   Exists head_dispatch_case. unfold XiziLocalDLL.addr_store; entailer!.
+   unfold DLL.addr_nodes; simpl DLL.dllseg.
+   Exists head_dispatch_case. unfold DLL.addr_store; entailer!.
  - dump_pre_spatial. rewrite <- PreH1. exact PreH3.
 Qed. 
 
@@ -123,16 +123,16 @@ Lemma proof_of_DoubleLinkListInsertNodeBefore_return_wit_2 : DoubleLinkListInser
 Proof.
  pre_process.
  Exists result_2. split_pure_spatial.
- - sep_apply_r_atomic (XiziLocalDLL.store_dll_compose storeA_dispatch_case head_dispatch_case result_2).
+ - sep_apply_r_atomic (DLL.store_dll_compose storeA_dispatch_case head_dispatch_case result_2).
    rewrite PreH4, PreH5, PreH6, <- app_assoc. simpl List.app.
-   unfold XiziLocalDLL.addr_store_dll, XiziLocalDLL.store_dll.
+   unfold DLL.addr_store_dll, DLL.store_dll.
    Exists first linklist_node_pre.
-   fold (XiziLocalDLL.addr_dllseg first head_dispatch_case head_dispatch_case linklist_node_pre (prefix0 ++ prev :: linklist_node_pre :: nil)).
+   fold (DLL.addr_dllseg first head_dispatch_case head_dispatch_case linklist_node_pre (prefix0 ++ prev :: linklist_node_pre :: nil)).
    sepcon_assoc_change. cancel.
    sep_apply_r_atomic (addr_join__insert_before_dispatch_and_reassembly first head_dispatch_case prev before_prev head_dispatch_case linklist_node_pre prefix0 (prev :: linklist_node_pre :: nil)).
-   cancel (XiziLocalDLL.addr_dllseg first head_dispatch_case prev before_prev prefix0).
-   unfold XiziLocalDLL.addr_dllseg, XiziLocalDLL.addr_nodes; simpl XiziLocalDLL.dllseg.
-   Exists linklist_node_pre head_dispatch_case. unfold XiziLocalDLL.addr_store; entailer!.
+   cancel (DLL.addr_dllseg first head_dispatch_case prev before_prev prefix0).
+   unfold DLL.addr_dllseg, DLL.addr_nodes; simpl DLL.dllseg.
+   Exists linklist_node_pre head_dispatch_case. unfold DLL.addr_store; entailer!.
  - dump_pre_spatial. rewrite <- PreH1. exact PreH3.
 Qed. 
 
@@ -140,13 +140,13 @@ Lemma proof_of_DoubleLinkListInsertNodeBefore_return_wit_3 : DoubleLinkListInser
 Proof.
  pre_process.
  Exists result_2. split_pure_spatial.
- - sep_apply_r_atomic (XiziLocalDLL.store_dll_compose storeA_dispatch_case head_dispatch_case result_2).
+ - sep_apply_r_atomic (DLL.store_dll_compose storeA_dispatch_case head_dispatch_case result_2).
    rewrite PreH3, PreH6, PreH7, <- app_assoc. simpl List.app.
-   unfold XiziLocalDLL.addr_store_dll, XiziLocalDLL.store_dll. Exists first last.
-   fold (XiziLocalDLL.addr_dllseg first head_dispatch_case head_dispatch_case last (prefix0 ++ prev :: linklist_node_pre :: linklist_pre :: nodes_after)).
+   unfold DLL.addr_store_dll, DLL.store_dll. Exists first last.
+   fold (DLL.addr_dllseg first head_dispatch_case head_dispatch_case last (prefix0 ++ prev :: linklist_node_pre :: linklist_pre :: nodes_after)).
    sepcon_assoc_change. cancel.
    sep_apply_r_atomic (addr_join__insert_before_dispatch_and_reassembly first head_dispatch_case prev before_prev head_dispatch_case last prefix0 (prev :: linklist_node_pre :: linklist_pre :: nodes_after)).
-   cancel (XiziLocalDLL.addr_dllseg first head_dispatch_case prev before_prev prefix0).
+   cancel (DLL.addr_dllseg first head_dispatch_case prev before_prev prefix0).
    sepcon_assoc_change. cancel.
    sep_apply_r_atomic (addr_cons__insert_before_dispatch_and_reassembly prev before_prev linklist_node_pre head_dispatch_case last (linklist_node_pre :: linklist_pre :: nodes_after)).
    sepcon_assoc_change. cancel.
@@ -161,10 +161,10 @@ Lemma proof_of_DoubleLinkListInsertNodeBefore_return_wit_4 : DoubleLinkListInser
 Proof.
  pre_process.
  Exists result_2. split_pure_spatial.
- - sep_apply_r_atomic (XiziLocalDLL.store_dll_compose storeA_dispatch_case head_dispatch_case result_2).
+ - sep_apply_r_atomic (DLL.store_dll_compose storeA_dispatch_case head_dispatch_case result_2).
    rewrite PreH4, PreH7, PreH8. simpl List.app. subst prev before_prev.
-   unfold XiziLocalDLL.addr_store_dll, XiziLocalDLL.store_dll. Exists linklist_node_pre last.
-   fold (XiziLocalDLL.addr_dllseg linklist_node_pre head_dispatch_case head_dispatch_case last (linklist_node_pre :: first :: nodes_after)).
+   unfold DLL.addr_store_dll, DLL.store_dll. Exists linklist_node_pre last.
+   fold (DLL.addr_dllseg linklist_node_pre head_dispatch_case head_dispatch_case last (linklist_node_pre :: first :: nodes_after)).
    sepcon_assoc_change. cancel.
    sepcon_assoc_change. cancel.
    sep_apply_r_atomic (addr_cons__insert_before_dispatch_and_reassembly linklist_node_pre head_dispatch_case first head_dispatch_case last (first :: nodes_after)).
@@ -188,7 +188,7 @@ Proof.
    Intros result.
    match goal with H: xizi_insert_before_payload _ _ _ _ |- _ => rename H into Hr end.
    destruct Hr as [(pre & cur & suf & E & P & N & R) | [N R]].
-   + exfalso. apply Habs. rewrite E, XiziLocalDLL.ptrs_app.
+   + exfalso. apply Habs. rewrite E, DLL.ptrs_app.
      apply in_or_app. right. simpl. left. exact P.
    + subst result. entailer!.
 Qed. 

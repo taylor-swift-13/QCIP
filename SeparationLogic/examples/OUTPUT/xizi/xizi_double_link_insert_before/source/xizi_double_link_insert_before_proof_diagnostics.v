@@ -20,5 +20,6 @@ Local Open Scope list.
 Import CRules.
 From QCIPLib.xizi.xizi_double_link_common Require Import xizi_double_link_lib.
 From SimpleC.EE.OUTPUT.xizi.xizi_double_link_insert_before.source Require Import xizi_double_link_insert_before_lib.
+Import DLL.
 Local Open Scope sac.
 

@@ -26,7 +26,7 @@ From QCIPLib.xizi.xizi_double_link_common Require Import xizi_double_link_strate
 Definition InitDoubleLinkList_entail_wit_1 := 
 (
 forall (linklist_head_pre: Z) ,
-  (XiziLocalDLL.occupy_dll_node linklist_head_pre )
+  (DLL.occupy_dll_node linklist_head_pre )
 |--
   EX (next: Z)  (prev: Z) ,
   ((&((linklist_head_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> prev)
@@ -34,7 +34,7 @@ forall (linklist_head_pre: Z) ,
 ) \/
 (
 forall (linklist_head_pre: Z) ,
-  (XiziLocalDLL.occupy_dll_node linklist_head_pre )
+  (DLL.occupy_dll_node linklist_head_pre )
 |--
   EX (next: Z)  (prev: Z) ,
   ((&((linklist_head_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> prev)
@@ -47,14 +47,14 @@ forall (A: Type) (linklist_head_pre: Z) (storeA: (Z -> (A -> Assertion))) ,
   ((&((linklist_head_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> linklist_head_pre)
   **  ((&((linklist_head_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> linklist_head_pre)
 |--
-  (XiziLocalDLL.store_dll storeA linklist_head_pre (@nil (@DLL.DL_Node A)) )
+  (DLL.store_dll storeA linklist_head_pre (@nil (@DLL.DL_Node A)) )
 ) \/
 (
 forall (A: Type) (linklist_head_pre: Z) (storeA: (Z -> (A -> Assertion))) ,
   ((&((linklist_head_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> linklist_head_pre)
   **  ((&((linklist_head_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> linklist_head_pre)
 |--
-  (XiziLocalDLL.store_dll storeA linklist_head_pre (@nil (@DLL.DL_Node A)) )
+  (DLL.store_dll storeA linklist_head_pre (@nil (@DLL.DL_Node A)) )
 ).
 
 Definition InitDoubleLinkList_return_wit_1_split_goal_spatial := 
@@ -62,7 +62,7 @@ forall (A: Type) (linklist_head_pre: Z) (storeA: (Z -> (A -> Assertion))) ,
   ((&((linklist_head_pre)  # "SysDoubleLinklistNode" ->ₛ "node_prev")) # Ptr  |-> linklist_head_pre)
   **  ((&((linklist_head_pre)  # "SysDoubleLinklistNode" ->ₛ "node_next")) # Ptr  |-> linklist_head_pre)
 |--
-  (XiziLocalDLL.store_dll storeA linklist_head_pre (@nil (@DLL.DL_Node A)) )
+  (DLL.store_dll storeA linklist_head_pre (@nil (@DLL.DL_Node A)) )
 .
 
 Module Type VC_Correct.

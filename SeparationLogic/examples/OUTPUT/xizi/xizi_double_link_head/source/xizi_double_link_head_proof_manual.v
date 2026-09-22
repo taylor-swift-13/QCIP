@@ -21,54 +21,81 @@ Import CRules.
 From QCIPLib.xizi.xizi_double_link_common Require Import xizi_double_link_lib.
 From SimpleC.EE.OUTPUT.xizi.xizi_double_link_head.source
       Require Import xizi_double_link_head_lib.
+Import DLL.
 Local Open Scope sac.
 
 Lemma proof_of_DoubleLinkListGetHead_entail_wit_1 : DoubleLinkListGetHead_entail_wit_1.
 Proof.
- pre_process. unfold XiziLocalDLL.store_dll.
- Intros first last. Exists last first. entailer!.
-Qed. 
+  pre_process.
+  unfold store_dll.
+  Intros first last.
+  Exists last first.
+  entailer!.
+Qed.
 
 Lemma proof_of_DoubleLinkListGetHead_return_wit_1 : DoubleLinkListGetHead_return_wit_1.
 Proof.
- pre_process. subst nodes_general.
- split_pure_spatial.
- - unfold XiziLocalDLL.store_dll. Exists first_out last_out. entailer!.
- - dump_pre_spatial. reflexivity.
-Qed. 
+  pre_process.
+  subst nodes_general.
+  unfold store_dll.
+  Exists first_out last_out.
+  entailer!.
+Qed.
 
 Lemma proof_of_DoubleLinkListGetHead_return_wit_2 : DoubleLinkListGetHead_return_wit_2.
 Proof.
- pre_process.
- split_pure_spatial.
- - unfold XiziLocalDLL.store_dll. Exists first_out last_out. entailer!.
- - destruct nodes_general as [| a rest]; [contradiction |].
-   simpl [XiziLocalDLL.dllseg]. Intros next. Intros.
-   dump_pre_spatial. assumption.
-Qed. 
+  pre_process.
+  destruct nodes_general as [| node nodes].
+  - contradiction.
+  - simpl [dllseg].
+    Intros next.
+    Intros.
+    subst first_out.
+    unfold store_dll.
+    Exists (getPtr node) last_out.
+    split_pure_spatial.
+    + simpl [dllseg].
+      Exists next.
+      entailer!.
+    + dump_pre_spatial.
+      reflexivity.
+Qed.
 
 Lemma proof_of_DoubleLinkListGetHead_derive_nil_case_by_general : DoubleLinkListGetHead_derive_nil_case_by_general.
 Proof.
- pre_process.
- Exists A storeA_nil_case (@nil (DLL.DL_Node A)).
- apply sepcon_cancel_end.
- - cancel.
- - apply derivable1_wand_sepcon_adjoint. cancel.
-   Intros retval. Intros. Exists retval. entailer!.
-Qed. 
+  pre_process.
+  Exists A storeA_nil_case (@nil (DL_Node A)).
+  cancel (store_dll storeA_nil_case linklist_pre nil).
+  apply derivable1_wand_sepcon_adjoint.
+  Intros retval_2.
+  Exists 0.
+  entailer!.
+Qed.
 
 Lemma proof_of_IsDoubleLinkListEmpty_derive_expanded_by_general : IsDoubleLinkListEmpty_derive_expanded_by_general.
 Proof.
- pre_process.
- Exists A storeA_expanded nodes_expanded.
- apply sepcon_cancel_end.
- - unfold XiziLocalDLL.store_dll. Exists first_link_expanded last_link_expanded.
-   entailer!.
- - apply derivable1_wand_sepcon_adjoint. cancel.
-   Split.
-   + Intros retval. Intros. unfold XiziLocalDLL.store_dll.
-     Intros first last. Left. Exists last first retval. entailer!.
-   + Intros retval. Intros. unfold XiziLocalDLL.store_dll.
-     Intros first last. Right. Exists last first retval. entailer!.
-Qed. 
-
+  pre_process.
+  Exists A storeA_expanded nodes_expanded.
+  unfold store_dll at 1.
+  Exists first_link_expanded last_link_expanded.
+  cancel (dllseg storeA_expanded first_link_expanded linklist_pre
+                 linklist_pre last_link_expanded nodes_expanded).
+  cancel (&(linklist_pre # "SysDoubleLinklistNode" ->ₛ "node_next") # Ptr
+          |-> first_link_expanded).
+  cancel (&(linklist_pre # "SysDoubleLinklistNode" ->ₛ "node_prev") # Ptr
+          |-> last_link_expanded).
+  apply derivable1_wand_sepcon_adjoint.
+  Split.
+  - Intros retval_2.
+    Left.
+    unfold store_dll.
+    Intros first last.
+    Exists last first 0.
+    entailer!.
+  - Intros retval_2.
+    Right.
+    unfold store_dll.
+    Intros first last.
+    Exists last first 1.
+    entailer!.
+Qed.

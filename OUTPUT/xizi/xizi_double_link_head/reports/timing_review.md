@@ -1,8 +1,8 @@
 # 用时与记录缺口
 
-从 intake 到当前记录终点：3037.337 秒；包含 cleanup：True。
+从 intake 到当前记录终点：2632.662 秒；包含 cleanup：True。
 
-已记录区间的并集：1378.414 秒；未归类间隔：1658.923 秒。两项相加等于真实 wall-clock，不重复累加嵌套或并行区间。
+已记录区间的并集：1334.998 秒；未归类间隔：1297.664 秒。两项相加等于真实 wall-clock，不重复累加嵌套或并行区间。
 
 主 agent 活动、实际等待、所有 worker 命令与失败重跑没有完整分项计时，相关总量明确为 unknown。详情见 timing_review.json；controller 原始计时保留在 timing_summary.json。
 

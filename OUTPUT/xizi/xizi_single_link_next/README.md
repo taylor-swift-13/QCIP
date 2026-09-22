@@ -34,3 +34,5 @@ python3 /home/yangfp/QCIP/.agents/skills/vc-proving/scripts/coq_tooling.py check
 本次参考 DLL 迁移后的当前版本复验：canonical symbolic execution freshness、manual/case_lib 结构与禁用项检查、固定 Coq 编译均通过。统一证据：`OUTPUT/xizi/xizi_double_link_common/reports/idmanager_dll_alignment/suite_audits/20260910072705/audit.json`。历史报告仍按原版本保留。
 
 本次双链表 CRules 统一后的当前依赖复验：canonical symbolic execution freshness、manual/case_lib 结构与禁用项检查、固定 Coq 编译均通过。统一证据：`OUTPUT/xizi/xizi_double_link_common/reports/crules_unification/suite_audits/20260910113338/audit.json`。历史报告仍按原版本保留。
+
+本次 DLL 公共入口对齐 origin/idnode 后的当前依赖复验：canonical symbolic execution freshness、manual/case_lib 结构与禁用项检查、固定 Coq 编译均通过。统一证据：`OUTPUT/xizi/xizi_double_link_common/reports/origin_dll_alignment/suite_audits/20260911051353/audit.json`。历史报告仍按原版本保留。
