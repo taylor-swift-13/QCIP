@@ -1,0 +1,5 @@
+From QCIPLib.binaryTree.common Require Import binaryTree_strategy_goal binaryTree_strategy_proof.
+
+Module binaryTree_Strategy_Correctness : binaryTree_Strategy_Correct.
+  Include binaryTree_strategy_proof.
+End binaryTree_Strategy_Correctness.

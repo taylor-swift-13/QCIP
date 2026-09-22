@@ -1,0 +1,258 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "phase": "vc-checking",
+  "round": "bst_left_child-vc-checking-r1",
+  "attempt_id": "bst_left_child-vc-checking-r1-attempt-1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "schema_version": "qcp-agent-result/v1",
+    "phase": "vc-checking",
+    "round": "bst_left_child-vc-checking-r1",
+    "attempt_id": "bst_left_child-vc-checking-r1-attempt-1",
+    "status": "completed",
+    "terminal": "yes",
+    "round_outcome": "completed",
+    "source_version": {
+      "digest": "6d3c52c43e7c82130398d1738f08c83c9f2564eb44fe5ac2d554f5c850892e59",
+      "verified_current": true
+    },
+    "source_goal_version": {
+      "digest": "2127b4f3e5d07cf445e8110f49702d9de9cab3cf6d6923db9d3e8de2a1f390f4",
+      "verified_current": true
+    },
+    "vc_checking": {
+      "status": "completed",
+      "source_version": "6d3c52c43e7c82130398d1738f08c83c9f2564eb44fe5ac2d554f5c850892e59",
+      "source_goal_version": "2127b4f3e5d07cf445e8110f49702d9de9cab3cf6d6923db9d3e8de2a1f390f4",
+      "target_witnesses": [
+        "proof_of_bst_left_child_return_wit_1"
+      ],
+      "semantic_judgment": "proofable",
+      "recommended_next_phase": "vc-proving-preparing",
+      "group_plan_ready": true,
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "2127b4f3e5d07cf445e8110f49702d9de9cab3cf6d6923db9d3e8de2a1f390f4",
+        "target_witnesses": [
+          "proof_of_bst_left_child_return_wit_1"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "left_child_identity_frame",
+            "witness_names": [
+              "proof_of_bst_left_child_return_wit_1"
+            ],
+            "representative_witness": "proof_of_bst_left_child_return_wit_1",
+            "dependencies": [],
+            "candidate_helper_declarations": [],
+            "likely_helper_declarations": [],
+            "expected_helpers": [],
+            "proof_strategy": "Unfold bst_left_child_return_wit_1 and choose its first Coq-level disjunct. Introduce root_pre, g, and the three pure precondition hypotheses. Unfold bst_left_child_result, split the pure-and-spatial postcondition, cancel the unchanged root->left points-to cell for the spatial conjunct, and prove ptr_of (bst_left g root_pre) = ptr_of (bst_left g root_pre) by reflexivity for the pure conjunct. No property of bst_gvalid or bst_vvalid and no helper lemma is needed.",
+            "natural_language_proof_pattern": "Identity framing: preserve an unchanged points-to cell while discharging a result predicate that unfolds to a reflexive equality.",
+            "shared_helper_candidates": [],
+            "proving_hints": [
+              "The outer witness is a Coq disjunction; proving the first branch is sufficient and directly reflects the concrete field-preserving execution.",
+              "A likely short route is unfold bst_left_child_return_wit_1; Left; intros; unfold bst_left_child_result; split_pure_spatial, followed by cancel for the spatial goal and dump_pre_spatial/reflexivity for the pure goal.",
+              "Do not use the diagnostic split-goal theorem as the target and do not modify the generated witness statement."
+            ],
+            "grouping_reason": "There is exactly one target witness. It is a single direct field-read return obligation with one identity-frame proof pattern, has no dependency, and is within the controller limit of twelve witnesses per group.",
+            "difficulty": "low",
+            "confidence": "high",
+            "grouping_confidence": "high"
+          }
+        ],
+        "blockers": []
+      },
+      "natural_language_analysis": {
+        "schema_version": "qcp-vc-natural-language-analysis/v1",
+        "source_goal_version": "2127b4f3e5d07cf445e8110f49702d9de9cab3cf6d6923db9d3e8de2a1f390f4",
+        "summary": "The sole target witness is semantically valid. Its resource-preserving branch has exactly the same root->left points-to cell on both sides, and bst_left_child_result at the returned modeled pointer unfolds to reflexive equality.",
+        "witnesses": [
+          {
+            "witness_name": "proof_of_bst_left_child_return_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "The cell &root_pre->left points to ptr_of (bst_left g root_pre).",
+              "pre_pure": "bst_gvalid g, bst_vvalid g root_pre, and root_pre <> 0 are universally introduced Coq hypotheses.",
+              "pre_exists": "none",
+              "post_spatial": "In the selected first disjunct, the identical cell &root_pre->left still points to ptr_of (bst_left g root_pre).",
+              "post_pure": "bst_left_child_result (ptr_of (bst_left g root_pre)) (ptr_of (bst_left g root_pre)), which unfolds to equality of a term with itself.",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "No existential witness is required. Select the first outer disjunct, which preserves the concrete field cell.",
+            "space_plan": "Split the pure/spatial conjunction and cancel the unchanged root->left points-to resource directly. No shape unfolding, segment split, or merge is needed.",
+            "pure_plan": "Unfold bst_left_child_result. The remaining proposition is ptr_of (bst_left g root_pre) = ptr_of (bst_left g root_pre), discharged by reflexivity; the validity and non-null hypotheses are not needed for this equality.",
+            "refinement_plan": "No safeExec or abstract-state refinement obligation is present.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "Spatial premise: the exact points-to assertion in P is reused unchanged in Q by cancellation.",
+              "Pure result premise: unfolding bst_left_child_result reduces it to reflexivity.",
+              "The universally quantified bst_gvalid, bst_vvalid, and root_pre <> 0 hypotheses require no further discharge and are consistent with the C precondition."
+            ],
+            "failure_signal": "No semantic, resource, pure-fact, version, or witness-coverage gap found.",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "left_child_identity_frame",
+            "proof_group_candidate": "left_child_identity_frame",
+            "grouping_reason": "This is the only target witness and uses one self-contained identity-frame proof pattern."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "left_child_identity_frame",
+            "witness_names": [
+              "proof_of_bst_left_child_return_wit_1"
+            ],
+            "representative_witness": "proof_of_bst_left_child_return_wit_1",
+            "shared_proof_pattern": "Choose the resource-preserving branch, cancel the unchanged points-to cell, and unfold the result predicate to reflexivity.",
+            "shared_space_plan": "Direct identity cancellation of the root->left points-to assertion.",
+            "shared_pure_plan": "Unfold bst_left_child_result and use reflexivity.",
+            "shared_refinement_plan": "none",
+            "candidate_helper_declarations": [],
+            "dependencies": [],
+            "grouping_reason": "One proofable witness forms one bounded group; no split or dependency is applicable.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "evidence": {
+        "source_file_hashes": {
+          "status": "matched",
+          "checked_count": 8,
+          "details": "The annotated C file, case-lib seed, and all six generated source_goal_version files in the declared vc-checking round worktree match their handoff SHA-256 values."
+        },
+        "manual_witness_coverage": {
+          "status": "exact",
+          "manual_witness_count": 1,
+          "declared_target_count": 1,
+          "duplicates": [],
+          "missing": [],
+          "extra": [],
+          "manual_order": [
+            "proof_of_bst_left_child_return_wit_1"
+          ],
+          "statement_hashes": {
+            "proof_of_bst_left_child_return_wit_1": "12a260239397b9fb68f0dfd1177461545434490dcea4c3bf984a98a93036e5a0"
+          }
+        },
+        "diagnostics_usage": "The diagnostics snapshot names the same single manual obligation and one split-goal diagnostic. The split goal was used only as a hint that the result predicate is the pure subgoal; it was not treated as a target witness.",
+        "case_lib_review": "The seed case_lib defines bst_left_child_result ret expected as ret = expected and contains no helper declaration. The witness needs no new helper."
+      },
+      "blockers": []
+    },
+    "changed_files": [],
+    "report_artifacts": [
+      "/home/yangfp/QCIP/reports/bst_left_child-20260920175645/rounds/bst_left_child-vc-checking-r1/agent_report.json",
+      "/home/yangfp/QCIP/reports/bst_left_child-20260920175645/rounds/bst_left_child-vc-checking-r1/agent_output.txt"
+    ],
+    "blockers": []
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-09-20T10:17:40Z",
+      "path": "/home/yangfp/QCIP/reports/bst_left_child-20260920175645/rounds/bst_left_child-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    },
+    "controller_simple_repairs": [
+      {
+        "kind": "materialized-inline-group-plan",
+        "source": "/home/yangfp/QCIP/reports/bst_left_child-20260920175645/rounds/bst_left_child-vc-checking-r1/agent_report.json",
+        "target": "/home/yangfp/QCIP/reports/bst_left_child-20260920175645/rounds/bst_left_child-vc-checking-r1/group_plan.json",
+        "reason": "vc-checking report included an inline group_plan but the default group_plan.json artifact was missing"
+      }
+    ],
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-09-20T10:17:40Z",
+      "source_version": {
+        "digest": "6d3c52c43e7c82130398d1738f08c83c9f2564eb44fe5ac2d554f5c850892e59",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/bst_left_child-20260920175645/bst_left_child-annotation-r1/QCP_examples/QCP_demos_LLM/bst_left_child.c",
+            "relative_path": "QCP_examples/QCP_demos_LLM/bst_left_child.c",
+            "role": "target-c-annotated",
+            "sha256": "2794808fe4e313dbf2f8b48d415d494986da392b0b04e4bde321ffaf5197d8f6",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/bst_left_child-20260920175645/bst_left_child-annotation-r1/SeparationLogic/examples/QCP_demos_LLM/bst_left_child_lib.v",
+            "relative_path": "SeparationLogic/examples/QCP_demos_LLM/bst_left_child_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "73e7894e07aaf5642cd4b974c76b29423d9a864a8d8cb7ab67b273a3659141da",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "2127b4f3e5d07cf445e8110f49702d9de9cab3cf6d6923db9d3e8de2a1f390f4",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/QCP_demos_LLM/bst_left_child_goal.v",
+            "role": "generated-goal",
+            "sha256": "3cc647baf0b4b6838fcf7610d436c12f3b13c97cc393c86dbf690f695b431e66",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/QCP_demos_LLM/bst_left_child_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "745ef62746085635e8fd243ad2dafcf4a39678424f75a285949417cf3f71fbdf",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/QCP_demos_LLM/bst_left_child_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "98b3eef50a1ef8d06740be3c301f0502925dc1026b8226fb75be4c5a221673a6",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/QCP_demos_LLM/bst_left_child_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "0fd20a6a2bc2b01a8898dc90f892268b392e9bc1a557cee6faa2a061b067532f",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/QCP_demos_LLM/bst_left_child_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "12d89c7c4ae8b4933ce6aa8940f4ad6f525374712fbddd8a68635bad2ff64aa0",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/QCP_demos_LLM/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "326838fc290c1633e12f1eefd667af3149293ef2b60937cd21786b42885cbc57",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_bst_left_child_return_wit_1"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_bst_left_child_return_wit_1": "12a260239397b9fb68f0dfd1177461545434490dcea4c3bf984a98a93036e5a0"
+        },
+        "witnesses": [
+          {
+            "end_line": 27,
+            "name": "proof_of_bst_left_child_return_wit_1",
+            "start_line": 25,
+            "statement_hash": "12a260239397b9fb68f0dfd1177461545434490dcea4c3bf984a98a93036e5a0",
+            "target_symbol": "bst_left_child_return_wit_1"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/bst_left_child-20260920175645/rounds/bst_left_child-vc-checking-r1/group_plan.json",
+      "target_witnesses": [
+        "proof_of_bst_left_child_return_wit_1"
+      ]
+    }
+  },
+  "blockers": []
+}

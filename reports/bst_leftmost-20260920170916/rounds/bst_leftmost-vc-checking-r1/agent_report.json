@@ -1,0 +1,385 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "schema_version": "qcp-vc-checking-agent-result/v1",
+    "status": "completed",
+    "terminal": "yes",
+    "source_version": {
+      "digest": "555615fdbcc520200c454eaeb86657c805aa59f7b22911f1df3a375f0d5d9dcc",
+      "match": "yes"
+    },
+    "source_goal_version": {
+      "digest": "8dcec9c6b7d2e19601dfd029a35118a6117447e829e58037ca3dcf5831888837",
+      "match": "yes"
+    },
+    "vc_checking": {
+      "status": "completed",
+      "source_version": "555615fdbcc520200c454eaeb86657c805aa59f7b22911f1df3a375f0d5d9dcc",
+      "source_goal_version": "8dcec9c6b7d2e19601dfd029a35118a6117447e829e58037ca3dcf5831888837",
+      "judgment": "proofable-with-group-local-helper",
+      "recommended_next_phase": "vc-proving-preparing",
+      "version_evidence": {
+        "source_files_checked": [
+          {
+            "relative_path": "QCP_examples/QCP_demos_LLM/bst_leftmost.c",
+            "sha256": "29959df20f2a1a9b916b8d8078ea950d217ddb4f45f9a87300f2190d050702bc",
+            "match": "yes"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/QCP_demos_LLM/bst_leftmost_lib.v",
+            "sha256": "e54f3514002affa8eec284a01ab190386c80e62d8211086fd9c45d23b1b7151e",
+            "match": "yes"
+          }
+        ],
+        "generated_files_checked": [
+          "SeparationLogic/examples/QCP_demos_LLM/bst_leftmost_goal.v",
+          "SeparationLogic/examples/QCP_demos_LLM/bst_leftmost_proof_auto.v",
+          "SeparationLogic/examples/QCP_demos_LLM/bst_leftmost_proof_manual.v",
+          "SeparationLogic/examples/QCP_demos_LLM/bst_leftmost_goal_check.v",
+          "SeparationLogic/examples/QCP_demos_LLM/bst_leftmost_proof_diagnostics.v",
+          "SeparationLogic/examples/QCP_demos_LLM/diagnostics_snapshot.json"
+        ],
+        "all_declared_sha256_match": "yes"
+      },
+      "manual_witness_evidence": {
+        "cleaned_manual_file": "SeparationLogic/examples/QCP_demos_LLM/bst_leftmost_proof_manual.v",
+        "manual_witness_order": [
+          "proof_of_bst_leftmost_entail_wit_1",
+          "proof_of_bst_leftmost_entail_wit_2",
+          "proof_of_bst_leftmost_return_wit_1"
+        ],
+        "target_witnesses_exact_match": "yes",
+        "duplicate_targets": [],
+        "diagnostics_used_as_hint_only": "yes"
+      },
+      "natural_language_analysis": {
+        "witnesses": [
+          {
+            "witness_name": "proof_of_bst_leftmost_entail_wit_1",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "tree_store g",
+              "pre_pure": "bst_gvalid g, bst_vvalid g root_pre, and root_pre <> 0",
+              "pre_exists": "none",
+              "post_spatial": "the unchanged tree_store g",
+              "post_pure": "the three incoming pure facts plus left_reachable g root_pre root_pre",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "No existential witness is required; the current/root value is root_pre on both sides.",
+            "space_plan": "Select the full spatial disjunct and frame tree_store g unchanged; the pre- and post-spatial resources are definitionally identical.",
+            "pure_plan": "Reuse PreH1 through PreH3. Unfold left_reachable and use the exported Reflexive instance for RelsDomain.clos_refl_trans to establish the zero-step path root_pre to itself.",
+            "refinement_plan": "No safeExec or abstract-state refinement obligation occurs in this VC.",
+            "used_existing_lemmas": [
+              "RelsDomain.rt2_refl_ins"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "bst_gvalid, bst_vvalid, and non-nullness are direct hypotheses",
+              "left_reachable reflexivity has no additional premise",
+              "tree_store g is preserved directly"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "left_spine_invariant",
+            "grouping_reason": "This is the invariant-entry member of the same left-spine reachability proof family as the loop transition and exit witnesses."
+          },
+          {
+            "witness_name": "proof_of_bst_leftmost_entail_wit_2",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "tree_nodes_store g (bst_nodes g)",
+              "pre_pure": "the loop guard ptr_of (bst_left g cur_v) <> 0, validity of cur_v and the child pointer, bst_gvalid g, domain/permutation facts, and left_reachable g root_pre cur_v",
+              "pre_exists": "none; l1 and rest are universally bound decomposition lists",
+              "post_spatial": "tree_store g, definitionally tree_nodes_store g (bst_nodes g)",
+              "post_pure": "bst_gvalid g, child validity/non-nullness, and left_reachable g root_pre (ptr_of (bst_left g cur_v))",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "No right-side EX occurs. After destructing bst_left g cur_v, the non-null guard rules out None, and the Some child payload is definitionally ptr_of (bst_left g cur_v).",
+            "space_plan": "Select the full spatial disjunct and preserve tree_nodes_store g (bst_nodes g); unfold tree_store only to align the identical resource.",
+            "pure_plan": "Reuse bst_gvalid, child validity, and non-nullness directly. Destruct bst_left g cur_v. The None case contradicts ptr_of ... <> 0 because NULL is 0. In the Some child case, use the edge bst_left g cur_v = Some child as a one-step relation and append it to PreH11 with RelsDomain.rt_trans_n1 (or the Transitive closure instance).",
+            "refinement_plan": "No safeExec or abstract-state refinement obligation occurs in this VC.",
+            "used_existing_lemmas": [
+              "RelsDomain.rt_trans_n1",
+              "RelsDomain.rt2_trans_ins"
+            ],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "the prefix reachability is PreH11",
+              "the final left edge is the equation obtained from destructing bst_left g cur_v",
+              "the None branch is excluded by PreH4 and ptr_of None = NULL = 0",
+              "the post child validity and non-nullness are PreH2 and PreH4"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "left_spine_invariant",
+            "grouping_reason": "This is the one-edge preservation step for the same left_reachable invariant used by entry and exit."
+          },
+          {
+            "witness_name": "proof_of_bst_leftmost_return_wit_1",
+            "judgment": "needs-helper",
+            "vc_shape": {
+              "pre_spatial": "tree_nodes_store g (bst_nodes g)",
+              "pre_pure": "ptr_of (bst_left g cur_v) = 0, bst_gvalid g, bst_vvalid g cur_v, cur_v <> 0, left_reachable g root_pre cur_v, plus domain/permutation facts",
+              "pre_exists": "none; l1 is a universally bound decomposition list",
+              "post_spatial": "the unchanged tree_store g",
+              "post_pure": "bst_leftmost_result g root_pre cur_v, i.e. current-node validity, non-nullness, left reachability, and bst_left g cur_v = None",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "The result is the current loop value cur_v; there is no right-side EX.",
+            "space_plan": "Select the full spatial disjunct and preserve the complete node store. Use a group-local helper showing that every member represented by tree_nodes_store is non-null. If bst_left g cur_v = Some child, the zero pointer equation makes child = NULL; child closure/validity puts it in bst_nodes g, and the helper derives child <> NULL, contradiction.",
+            "pure_plan": "The first three conjuncts of bst_leftmost_result are PreH6, PreH2/PreH7, and PreH8. For the last conjunct, destruct bst_left g cur_v. None is immediate. In the Some child branch, ptr_of = 0 yields child = NULL; bst_gvalid with cur_v validity (or PreH4's child-closed field) gives bst_vvalid g child; the domain membership equivalence gives In child (bst_nodes g); the spatial helper contradicts child = NULL.",
+            "refinement_plan": "No safeExec or abstract-state refinement obligation occurs in this VC.",
+            "used_existing_lemmas": [
+              "GraphLib.examples.bst.child_valid",
+              "bst_node_domain_membership",
+              "tree_nodes_store_cons"
+            ],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "tree_nodes_store_member_nonnull",
+                "statement_shape": "forall g xs z, In z xs -> tree_nodes_store g xs |-- \u201c z <> NULL \u201d",
+                "used_by_witnesses": [
+                  "proof_of_bst_leftmost_return_wit_1"
+                ],
+                "premises": [
+                  {
+                    "premise": "In z xs",
+                    "discharged_by": "For z = child and xs = bst_nodes g, derive bst_vvalid g child from the left-child edge and valid parent, then use bst_node_domain_membership from PreH4.",
+                    "needs_unfold": [
+                      "tree_nodes_store",
+                      "tree_node_store"
+                    ],
+                    "arithmetic": "Only NULL = 0 and the equality child = 0 are used; no numeric bound solver is needed.",
+                    "spatial_resource": "tree_nodes_store g xs from the VC antecedent"
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "premise_discharge": [
+              "current validity, current non-nullness, and prefix reachability are direct hypotheses",
+              "the Some-child edge and bst_gvalid/current validity discharge child validity",
+              "PreH4 converts child validity to membership in bst_nodes g",
+              "the antecedent tree_nodes_store supplies non-nullness for that member through the proposed helper"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "left_spine_invariant",
+            "grouping_reason": "This is the loop-exit member of the same invariant family; its only extra ingredient is a local store-membership/non-null helper."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "left_spine_invariant",
+            "witness_names": [
+              "proof_of_bst_leftmost_entail_wit_1",
+              "proof_of_bst_leftmost_entail_wit_2",
+              "proof_of_bst_leftmost_return_wit_1"
+            ],
+            "representative_witness": "proof_of_bst_leftmost_entail_wit_2",
+            "shared_proof_pattern": "Open the full spatial disjunct, preserve the unchanged tree resource, and establish the left-spine invariant at entry, after one left edge, and at loop exit.",
+            "shared_space_plan": "The tree resource is never mutated; tree_store and tree_nodes_store g (bst_nodes g) align by unfolding, with one member-nonnull extraction needed at exit.",
+            "shared_pure_plan": "Use reflexivity for entry, append one left edge for the transition, and combine the zero child pointer with store-derived non-nullness to prove None at exit.",
+            "shared_refinement_plan": "No refinement-state obligations occur.",
+            "candidate_helper_declarations": [
+              "tree_nodes_store_member_nonnull with the required group-id suffix"
+            ],
+            "dependencies": [],
+            "grouping_reason": "All three witnesses come from one function and one predicate-first left-spine invariant lifecycle; three witnesses are below the controller limit of 12, and a single worker can prove them coherently while owning the exit helper.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "8dcec9c6b7d2e19601dfd029a35118a6117447e829e58037ca3dcf5831888837",
+        "target_witnesses": [
+          "proof_of_bst_leftmost_entail_wit_1",
+          "proof_of_bst_leftmost_entail_wit_2",
+          "proof_of_bst_leftmost_return_wit_1"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "left_spine_invariant",
+            "witness_names": [
+              "proof_of_bst_leftmost_entail_wit_1",
+              "proof_of_bst_leftmost_entail_wit_2",
+              "proof_of_bst_leftmost_return_wit_1"
+            ],
+            "representative_witness": "proof_of_bst_leftmost_entail_wit_2",
+            "dependencies": [],
+            "likely_helper_declarations": [
+              {
+                "name_hint": "tree_nodes_store_member_nonnull",
+                "statement_shape": "forall g xs z, In z xs -> tree_nodes_store g xs |-- \u201c z <> NULL \u201d",
+                "destination": "group-local case_lib",
+                "suffix_policy": "append the helper_namespace suffix supplied by group_worker_input.json"
+              }
+            ],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "tree_nodes_store_member_nonnull",
+                "statement_shape": "forall g xs z, In z xs -> tree_nodes_store g xs |-- \u201c z <> NULL \u201d",
+                "used_by_witnesses": [
+                  "proof_of_bst_leftmost_return_wit_1"
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "expected_helpers": [
+              "tree_nodes_store_member_nonnull with the required group-id suffix"
+            ],
+            "proof_strategy": "Prove invariant entry by reflexivity of left_reachable and preserve tree_store. Prove loop preservation by destructing bst_left, excluding None with the non-null guard, and appending the resulting left edge to the existing reflexive-transitive closure. Prove the return postcondition from the invariant; destruct bst_left, and in the Some child branch derive child validity/membership and contradict child = NULL using the suffixed tree_nodes_store member-nonnull helper. Preserve the complete tree resource throughout.",
+            "natural_language_proof_strategy": "Prove invariant entry by reflexivity of left_reachable and preserve tree_store. Prove loop preservation by destructing bst_left, excluding None with the non-null guard, and appending the resulting left edge to the existing reflexive-transitive closure. Prove the return postcondition from the invariant; destruct bst_left, and in the Some child branch derive child validity/membership and contradict child = NULL using the suffixed tree_nodes_store member-nonnull helper. Preserve the complete tree resource throughout.",
+            "grouping_reason": "The witnesses are the entry, one-step preservation, and exit obligations of the same left-spine invariant; their contexts and proof vocabulary are shared, and the group size 3 respects max_witnesses_per_group = 12."
+          }
+        ],
+        "coverage": {
+          "all_targets_assigned_once": "yes",
+          "unassigned": [],
+          "duplicates": []
+        },
+        "dependency_graph_acyclic": "yes",
+        "max_witnesses_per_group": 12,
+        "largest_group_size": 3,
+        "blockers": []
+      },
+      "blockers": []
+    },
+    "changed_files": [],
+    "report_files_written": [
+      "/home/yangfp/QCIP/reports/bst_leftmost-20260920170916/rounds/bst_leftmost-vc-checking-r1/agent_report.json",
+      "/home/yangfp/QCIP/reports/bst_leftmost-20260920170916/rounds/bst_leftmost-vc-checking-r1/agent_output.txt"
+    ],
+    "blockers": []
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-09-20T09:43:04Z",
+      "path": "/home/yangfp/QCIP/reports/bst_leftmost-20260920170916/rounds/bst_leftmost-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    },
+    "controller_simple_repairs": [
+      {
+        "kind": "materialized-inline-group-plan",
+        "source": "/home/yangfp/QCIP/reports/bst_leftmost-20260920170916/rounds/bst_leftmost-vc-checking-r1/agent_report.json",
+        "target": "/home/yangfp/QCIP/reports/bst_leftmost-20260920170916/rounds/bst_leftmost-vc-checking-r1/group_plan.json",
+        "reason": "vc-checking report included an inline group_plan but the default group_plan.json artifact was missing"
+      }
+    ],
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-09-20T09:43:04Z",
+      "source_version": {
+        "digest": "555615fdbcc520200c454eaeb86657c805aa59f7b22911f1df3a375f0d5d9dcc",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/bst_leftmost-20260920170916/bst_leftmost-annotation-r1/QCP_examples/QCP_demos_LLM/bst_leftmost.c",
+            "relative_path": "QCP_examples/QCP_demos_LLM/bst_leftmost.c",
+            "role": "target-c-annotated",
+            "sha256": "29959df20f2a1a9b916b8d8078ea950d217ddb4f45f9a87300f2190d050702bc",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/bst_leftmost-20260920170916/bst_leftmost-annotation-r1/SeparationLogic/examples/QCP_demos_LLM/bst_leftmost_lib.v",
+            "relative_path": "SeparationLogic/examples/QCP_demos_LLM/bst_leftmost_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "e54f3514002affa8eec284a01ab190386c80e62d8211086fd9c45d23b1b7151e",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "8dcec9c6b7d2e19601dfd029a35118a6117447e829e58037ca3dcf5831888837",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/QCP_demos_LLM/bst_leftmost_goal.v",
+            "role": "generated-goal",
+            "sha256": "efd6748819eb515020c257d55b9a135e2e20537327364ba9d6f8f4b66ce96105",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/QCP_demos_LLM/bst_leftmost_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "6fb6c4341018a7ed90e24ac60b7d825578b1c73d4b3e2ca5c9b6495555dee3da",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/QCP_demos_LLM/bst_leftmost_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "2bfc618abca6ea68df92668db364eea77bd1273d22572637611ccea2cb3725e9",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/QCP_demos_LLM/bst_leftmost_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "f12bae73b34ba466287f209fbd836b50e3459c8c74ca1a34c286e0369fbfbbe9",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/QCP_demos_LLM/bst_leftmost_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "31088186126598448ac2f07be1c674d97ae3648fbe2ce5e2497070e991ed9403",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/QCP_demos_LLM/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "0f2686c35a86d26da3f8fba379f0e3c24462c50ff30141319bd037a1bc11982c",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_bst_leftmost_entail_wit_1",
+          "proof_of_bst_leftmost_entail_wit_2",
+          "proof_of_bst_leftmost_return_wit_1"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_bst_leftmost_entail_wit_1": "89503f0b0571ccedd9ad44fd2da3126678ac66542be50b9c4084326bbc8606e2",
+          "proof_of_bst_leftmost_entail_wit_2": "04ac78f3f140969da3eef07027de889413c7f791a956584f43eb32a4d0d959de",
+          "proof_of_bst_leftmost_return_wit_1": "4ffdc2bfb3f1d12139245c464db13247d71e268f2344860714a6ce62bb111c6a"
+        },
+        "witnesses": [
+          {
+            "end_line": 29,
+            "name": "proof_of_bst_leftmost_entail_wit_1",
+            "start_line": 27,
+            "statement_hash": "89503f0b0571ccedd9ad44fd2da3126678ac66542be50b9c4084326bbc8606e2",
+            "target_symbol": "bst_leftmost_entail_wit_1"
+          },
+          {
+            "end_line": 32,
+            "name": "proof_of_bst_leftmost_entail_wit_2",
+            "start_line": 30,
+            "statement_hash": "04ac78f3f140969da3eef07027de889413c7f791a956584f43eb32a4d0d959de",
+            "target_symbol": "bst_leftmost_entail_wit_2"
+          },
+          {
+            "end_line": 35,
+            "name": "proof_of_bst_leftmost_return_wit_1",
+            "start_line": 33,
+            "statement_hash": "4ffdc2bfb3f1d12139245c464db13247d71e268f2344860714a6ce62bb111c6a",
+            "target_symbol": "bst_leftmost_return_wit_1"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/bst_leftmost-20260920170916/rounds/bst_leftmost-vc-checking-r1/group_plan.json",
+      "target_witnesses": [
+        "proof_of_bst_leftmost_entail_wit_1",
+        "proof_of_bst_leftmost_entail_wit_2",
+        "proof_of_bst_leftmost_return_wit_1"
+      ]
+    }
+  },
+  "blockers": []
+}

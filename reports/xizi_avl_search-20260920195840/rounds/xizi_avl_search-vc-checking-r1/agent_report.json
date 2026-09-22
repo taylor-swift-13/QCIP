@@ -1,0 +1,440 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "pending",
+  "terminal": "no",
+  "agent_result": {
+    "schema_version": "qcp-vc-checking-agent-result/v1",
+    "status": "blocked",
+    "terminal": "yes",
+    "source_version": {
+      "digest": "22363582835e166a5481bb660098911248650722bffbdaca2f21e59af4fbbe33",
+      "match": "yes"
+    },
+    "source_goal_version": {
+      "digest": "c01aab9c9eb0e59056f7a804dd1ad6ecfe611d5540f069b617513846bbffd365",
+      "match": "yes"
+    },
+    "vc_checking": {
+      "status": "blocked",
+      "source_version": "22363582835e166a5481bb660098911248650722bffbdaca2f21e59af4fbbe33",
+      "source_goal_version": "c01aab9c9eb0e59056f7a804dd1ad6ecfe611d5540f069b617513846bbffd365",
+      "judgment": "annotation-bug",
+      "recommended_next_phase": "annotation",
+      "version_evidence": {
+        "all_declared_source_sha256_match": "yes",
+        "all_declared_generated_sha256_match": "yes",
+        "source_files_checked": [
+          "INPUT/xizi/xizi_avl_search/xizi_avl_search.c",
+          "QCIPLib/xizi/xizi_avl_common/xizi_avl_graph_lib.v"
+        ],
+        "generated_files_checked": [
+          "SeparationLogic/examples/INPUT/xizi/xizi_avl_search/xizi_avl_search_goal.v",
+          "SeparationLogic/examples/INPUT/xizi/xizi_avl_search/xizi_avl_search_proof_auto.v",
+          "SeparationLogic/examples/INPUT/xizi/xizi_avl_search/xizi_avl_search_proof_manual.v",
+          "SeparationLogic/examples/INPUT/xizi/xizi_avl_search/xizi_avl_search_goal_check.v",
+          "SeparationLogic/examples/INPUT/xizi/xizi_avl_search/xizi_avl_search_proof_diagnostics.v",
+          "SeparationLogic/examples/INPUT/xizi/xizi_avl_search/diagnostics_snapshot.json"
+        ]
+      },
+      "manual_witness_evidence": {
+        "cleaned_manual_file": "SeparationLogic/examples/INPUT/xizi/xizi_avl_search/xizi_avl_search_proof_manual.v",
+        "manual_witness_order": [
+          "proof_of_xizi_avl_search_entail_wit_1",
+          "proof_of_xizi_avl_search_entail_wit_2",
+          "proof_of_xizi_avl_search_entail_wit_3",
+          "proof_of_xizi_avl_search_return_wit_1",
+          "proof_of_xizi_avl_search_return_wit_2",
+          "proof_of_xizi_avl_search_return_wit_3",
+          "proof_of_xizi_avl_search_return_wit_4",
+          "proof_of_xizi_avl_search_derive_high_level_spec_by_low_level_spec"
+        ],
+        "target_witnesses_exact_match": "yes",
+        "duplicate_targets": [],
+        "diagnostics_used_as_hint_only": "yes"
+      },
+      "natural_language_analysis": {
+        "witnesses": [
+          {
+            "witness_name": "proof_of_xizi_avl_search_entail_wit_1",
+            "judgment": "needs-helper",
+            "vc_shape": {
+              "pre_spatial": "avl_subtree_store_at g avl_node_pre",
+              "pre_pure": "avl_node_pre <> NULL, avl_search_cursor_valid g avl_node_pre data_pre, avl_gvalid g, and input integer bounds",
+              "pre_exists": "none",
+              "post_spatial": "the current node's four concrete fields and the two child subtree stores",
+              "post_pure": "current-node validity, key/height bounds, cursor validity, graph validity, and unchanged branch facts",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "No EX is introduced; the current cursor and its model-projected children are used directly.",
+            "space_plan": "Unfold the non-null subtree slice, use reflexive offspring to isolate the current node, partition the remaining descendant list into left and right offspring lists, rewrite iter_sepcon by the resulting permutation, and unfold avl_graph_node_store for the four fields.",
+            "pure_plan": "Non-null cursor validity selects its second disjunct and supplies avl_vvalid g avl_node_pre. The isolated avl_graph_node_store supplies key and height bounds; cursor validity and avl_gvalid are direct hypotheses.",
+            "refinement_plan": "No safeExec state occurs; this is graph-slice decomposition.",
+            "used_existing_lemmas": [
+              "GraphLib rooted-tree offspring reflexivity/first-child decomposition",
+              "Permutation and iter_sepcon congruence"
+            ],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "avl_subtree_store_unfold_nonnull",
+                "statement_shape": "for non-null valid p in a valid AVL graph, avl_subtree_store_at g p entails avl_graph_node_store g p separated from the left and right child subtree stores",
+                "used_by_witnesses": [
+                  "proof_of_xizi_avl_search_entail_wit_1"
+                ],
+                "premises": [
+                  {
+                    "premise": "avl_gvalid g /\\ avl_vvalid g p /\\ p <> NULL",
+                    "discharged_by": "avl_gvalid and non-nullness are direct; avl_vvalid follows from the non-null branch of avl_search_cursor_valid",
+                    "needs_unfold": [
+                      "avl_subtree_store_at",
+                      "avl_subtree_nodes",
+                      "avl_graph_node_store"
+                    ],
+                    "arithmetic": "none beyond the bounds already stored in avl_graph_node_store",
+                    "spatial_resource": "avl_subtree_store_at g p"
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "premise_discharge": [
+              "cursor validity plus p <> NULL yields p validity",
+              "the subtree store owns the current node because offspring is reflexive",
+              "valid-tree child uniqueness separates the left and right descendant slices"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing after annotation blockers are repaired",
+            "analysis_group_candidate": "avl_search_graph_slice",
+            "grouping_reason": "Uses the same subtree decomposition family later needed to reconstruct recursive returns and bridge the root-level spec."
+          },
+          {
+            "witness_name": "proof_of_xizi_avl_search_entail_wit_2",
+            "judgment": "annotation-bug",
+            "vc_shape": {
+              "pre_spatial": "current-node raw fields plus left and right avl_subtree_store_at slices",
+              "pre_pure": "current cursor validity/validity, avl_gvalid, and avl_key_of current < data_pre",
+              "pre_exists": "none",
+              "post_spatial": "the identical framed resources",
+              "post_pure": "avl_search_cursor_valid at avl_ptr_of (avl_right g current)",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "The next cursor is avl_ptr_of (avl_right g current).",
+            "space_plan": "All spatial resources frame unchanged; they do not recover the missing pure non-null-address invariant after the parent slice has been decomposed.",
+            "pure_plan": "BST ordering would confine a matching key to the right subtree, but the current specification permits avl_right g current = Some NULL. Then avl_ptr_of is NULL and the requested cursor predicate demands global key absence, although the valid NULL-address child may itself carry data_pre.",
+            "refinement_plan": "The abstract cursor transition is not valid under the current model because Some NULL and None collapse to the same concrete cursor.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [],
+            "failure_signal": "avl_gvalid has no premise forall x, avl_vvalid g x -> x <> NULL; no helper with premises derivable from this VC can exclude a valid child at address NULL.",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": "blocked_cursor_descent",
+            "grouping_reason": "Right-descent confinement is semantically blocked by the missing model/address invariant."
+          },
+          {
+            "witness_name": "proof_of_xizi_avl_search_entail_wit_3",
+            "judgment": "annotation-bug",
+            "vc_shape": {
+              "pre_spatial": "current-node raw fields plus left and right avl_subtree_store_at slices",
+              "pre_pure": "current cursor validity/validity, avl_gvalid, data_pre <= current key, and inequality",
+              "pre_exists": "none",
+              "post_spatial": "the identical framed resources",
+              "post_pure": "avl_search_cursor_valid at avl_ptr_of (avl_left g current)",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "The next cursor is avl_ptr_of (avl_left g current).",
+            "space_plan": "All resources frame unchanged, but the decomposed left slice at concrete NULL is emp and contains no fact excluding Some NULL.",
+            "pure_plan": "The two comparisons imply data_pre < current key, so BST ordering would select the left subtree only after proving the selected graph child is either None or Some non-NULL. That fact is absent.",
+            "refinement_plan": "The abstract cursor transition is invalid for the same Some NULL/None aliasing as the right branch.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [],
+            "failure_signal": "A valid left child at address NULL is allowed by avl_gvalid, making the target cursor predicate's global-absence branch false when that child has the searched key.",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": "blocked_cursor_descent",
+            "grouping_reason": "Left-descent confinement has the symmetric model/address defect."
+          },
+          {
+            "witness_name": "proof_of_xizi_avl_search_return_wit_1",
+            "judgment": "annotation-bug",
+            "vc_shape": {
+              "pre_spatial": "current-node raw fields and both child subtree stores",
+              "pre_pure": "data_pre equals current key, current node is non-null and valid, avl_gvalid, and key/height bounds",
+              "pre_exists": "none",
+              "post_spatial": "avl_subtree_store_at g current",
+              "post_pure": "avl_search_result g data_pre current",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "The successful return pointer is the current node.",
+            "space_plan": "The search-result pure fact follows directly, but reverse folding of the two child slices and raw fields into the parent slice requires every valid child address to be non-NULL.",
+            "pure_plan": "Use current non-nullness, current validity, and the key equality for the success disjunct of avl_search_result.",
+            "refinement_plan": "No safeExec state occurs; the blocker is the representation fold.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "the success-result conjuncts are direct hypotheses"
+            ],
+            "failure_signal": "If a graph child is Some NULL, its avl_subtree_store_at slice is emp in the antecedent, while the parent slice includes that valid vertex and therefore requires avl_graph_node_store g NULL, whose pure NULL <> NULL conjunct is impossible.",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": "blocked_subtree_fold",
+            "grouping_reason": "Successful-return folding is blocked by the same missing non-null-address invariant."
+          },
+          {
+            "witness_name": "proof_of_xizi_avl_search_return_wit_2",
+            "judgment": "annotation-bug",
+            "vc_shape": {
+              "pre_spatial": "returned right-child subtree, current-node raw fields, and framed left-child subtree",
+              "pre_pure": "recursive avl_search_result, child cursor validity, avl_gvalid, destination_node = 0, and current pointer non-null; one disjunct additionally has key/height bounds",
+              "pre_exists": "retval is universally bound from the recursive result",
+              "post_spatial": "avl_subtree_store_at g current",
+              "post_pure": "the recursive search result and avl_gvalid",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "Reuse retval from the recursive call.",
+            "space_plan": "Reorder the framed resources and fold them into the parent subtree only after recovering the parent avl_graph_node_store pure conjuncts.",
+            "pure_plan": "Search result and graph validity are direct, but neither disjunct supplies avl_vvalid g current. The basic disjunct also omits the parent key/height bounds.",
+            "refinement_plan": "The recursive result is already at the same graph state; the defect is lost frame metadata, not state refinement.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [],
+            "failure_signal": "A nonzero current address outside avl_nodes g with model children None can satisfy the raw field resources and NULL child stores, but avl_subtree_store_at g current reduces to emp; a nonempty raw-field heap cannot entail emp. Parent validity cannot be derived from the listed hypotheses.",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": "blocked_recursive_return_fold",
+            "grouping_reason": "Right-recursive return loses parent representation facts at the branch assertion/call boundary."
+          },
+          {
+            "witness_name": "proof_of_xizi_avl_search_return_wit_3",
+            "judgment": "annotation-bug",
+            "vc_shape": {
+              "pre_spatial": "returned left-child subtree, current-node raw fields, and framed right-child subtree",
+              "pre_pure": "recursive avl_search_result, child cursor validity, avl_gvalid, destination_node = 0, and current pointer non-null; one disjunct additionally has key/height bounds",
+              "pre_exists": "retval is universally bound from the recursive result",
+              "post_spatial": "avl_subtree_store_at g current",
+              "post_pure": "the recursive search result and avl_gvalid",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "Reuse retval from the recursive call.",
+            "space_plan": "Symmetric to the right-recursive return; folding needs the omitted parent node metadata.",
+            "pure_plan": "Search result and graph validity are direct, but parent validity is absent in both alternatives and key/height bounds are absent in the basic alternative.",
+            "refinement_plan": "No graph update occurs; the failure is an insufficient branch assertion.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [],
+            "failure_signal": "The same invalid-parent countermodel as return_wit_2 satisfies the antecedent but cannot discard four raw field cells to establish an empty parent slice.",
+            "recommended_next_phase": "annotation",
+            "analysis_group_candidate": "blocked_recursive_return_fold",
+            "grouping_reason": "Left-recursive return has the symmetric lost-metadata defect."
+          },
+          {
+            "witness_name": "proof_of_xizi_avl_search_return_wit_4",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "avl_subtree_store_at g NULL, definitionally emp",
+              "pre_pure": "cursor = NULL, avl_search_cursor_valid g cursor data_pre, avl_gvalid, and input bounds",
+              "pre_exists": "none",
+              "post_spatial": "the unchanged NULL subtree store",
+              "post_pure": "avl_search_result g data_pre NULL and avl_gvalid",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "The return pointer is NULL.",
+            "space_plan": "Unfold avl_subtree_store_at at cursor = NULL to emp and preserve it.",
+            "pure_plan": "Rewrite cursor = NULL in avl_search_cursor_valid, take its NULL disjunct, and reuse the global no-matching-node clause as the first disjunct of avl_search_result.",
+            "refinement_plan": "No refinement state occurs.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "ret = NULL is reflexive after rewriting PreH1",
+              "global key absence is contained in PreH4",
+              "avl_gvalid is PreH5"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing after annotation blockers are repaired",
+            "analysis_group_candidate": "avl_search_null_return",
+            "grouping_reason": "Direct NULL-cursor/result conversion."
+          },
+          {
+            "witness_name": "proof_of_xizi_avl_search_derive_high_level_spec_by_low_level_spec",
+            "judgment": "needs-helper",
+            "vc_shape": {
+              "pre_spatial": "avl_rep g_high, i.e. pure avl_gvalid plus avl_tree_store",
+              "pre_pure": "input bounds and avl_node_pre = avl_ptr_of (avl_root g_high)",
+              "pre_exists": "none",
+              "post_spatial": "EX g_low, low-level pre separated from a wand mapping every low-level result back to the high-level result",
+              "post_pure": "low-level cursor validity/gvalid and, after the wand is consumed, high-level avl_search_result",
+              "post_exists": "instantiate g_low_spec = g_high_spec; the wand maps retval_2 to the high-level retval with the same value"
+            },
+            "witness_instantiation": "Choose g_low_level_spec := g_high_level_spec and later choose retval := retval_2 supplied to the wand.",
+            "space_plan": "Under avl_gvalid, identify avl_tree_store with the subtree slice rooted at avl_ptr_of avl_root. Give that slice to the low-level pre and construct the residual wand; when the wand receives the unchanged low-level slice and result, reattach the pure graph validity to rebuild avl_rep.",
+            "pure_plan": "For Some root, gvalid root validity and root reachability establish cursor confinement of every matching node. For None, rooted-tree validity implies no valid vertices, giving global key absence. Bounds and graph validity come directly from the high-level pre/avl_rep.",
+            "refinement_plan": "This is high/low spec refinement with identical abstract graph state, not an algorithm mirror.",
+            "used_existing_lemmas": [
+              "GraphLib rooted-tree root-valid/root-reaches-all properties",
+              "wand-sepcon adjunction"
+            ],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "avl_root_cursor_valid",
+                "statement_shape": "avl_gvalid g together with avl_tree_store g entails avl_search_cursor_valid g (avl_ptr_of (avl_root g)) key",
+                "used_by_witnesses": [
+                  "proof_of_xizi_avl_search_derive_high_level_spec_by_low_level_spec"
+                ],
+                "premises": [
+                  {
+                    "premise": "avl_gvalid g and avl_tree_store g",
+                    "discharged_by": "both are the pure and spatial components of avl_rep g",
+                    "needs_unfold": [
+                      "avl_rep",
+                      "avl_search_cursor_valid"
+                    ],
+                    "arithmetic": "none",
+                    "spatial_resource": "avl_tree_store g supplies the non-null representation invariant when required"
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              },
+              {
+                "name_hint": "avl_tree_store_root_slice",
+                "statement_shape": "under avl_gvalid g, avl_tree_store g is logically equivalent to avl_subtree_store_at g (avl_ptr_of (avl_root g))",
+                "used_by_witnesses": [
+                  "proof_of_xizi_avl_search_derive_high_level_spec_by_low_level_spec"
+                ],
+                "premises": [
+                  {
+                    "premise": "avl_gvalid g",
+                    "discharged_by": "the pure component of avl_rep g",
+                    "needs_unfold": [
+                      "avl_tree_store",
+                      "avl_subtree_store_at",
+                      "avl_subtree_nodes"
+                    ],
+                    "arithmetic": "none",
+                    "spatial_resource": "avl_tree_store g"
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "premise_discharge": [
+              "choose identical high/low graph models",
+              "root reachability covers all valid nodes",
+              "the low-level post supplies exactly the subtree store and result consumed by the wand"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing after annotation blockers are repaired",
+            "analysis_group_candidate": "avl_search_high_low_refinement",
+            "grouping_reason": "Uses root-slice and cursor-confinement helpers specific to the high/low bridge."
+          }
+        ],
+        "analysis_groups": [],
+        "analysis_groups_reason": "No proof-ready analysis group is emitted because five target witnesses contain annotation/spec defects; the full target set must return to annotation before vc-proving-preparing."
+      },
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "c01aab9c9eb0e59056f7a804dd1ad6ecfe611d5540f069b617513846bbffd365",
+        "target_witnesses": [
+          "proof_of_xizi_avl_search_entail_wit_1",
+          "proof_of_xizi_avl_search_entail_wit_2",
+          "proof_of_xizi_avl_search_entail_wit_3",
+          "proof_of_xizi_avl_search_return_wit_1",
+          "proof_of_xizi_avl_search_return_wit_2",
+          "proof_of_xizi_avl_search_return_wit_3",
+          "proof_of_xizi_avl_search_return_wit_4",
+          "proof_of_xizi_avl_search_derive_high_level_spec_by_low_level_spec"
+        ],
+        "proof_groups": [],
+        "coverage": {
+          "proof_ready": "no",
+          "blocked_witnesses": [
+            "proof_of_xizi_avl_search_entail_wit_2",
+            "proof_of_xizi_avl_search_entail_wit_3",
+            "proof_of_xizi_avl_search_return_wit_1",
+            "proof_of_xizi_avl_search_return_wit_2",
+            "proof_of_xizi_avl_search_return_wit_3"
+          ]
+        },
+        "blockers": [
+          {
+            "kind": "annotation-bug",
+            "message": "Current model permits valid vertices at NULL, so avl_ptr_of cannot distinguish None from Some NULL during cursor descent and subtree reassembly."
+          },
+          {
+            "kind": "annotation-bug",
+            "message": "Recursive branch assertions do not preserve parent avl_vvalid and required key/height range facts, so return_wit_2 and return_wit_3 cannot fold the parent subtree."
+          }
+        ]
+      },
+      "blockers": [
+        {
+          "kind": "annotation-bug",
+          "blocker_class": "annotation-bug",
+          "failure_class": "vc-not-provable",
+          "message": "Add a derivable non-null-address invariant for all valid AVL vertices to the search cursor/spec context (or to avl_gvalid), so Some NULL is excluded before mapping option children through avl_ptr_of.",
+          "blocked_witnesses": [
+            {
+              "witness_name": "proof_of_xizi_avl_search_entail_wit_2",
+              "missing_fact": "forall x, avl_vvalid g x -> x <> NULL",
+              "counterexample_shape": "A valid right child at address NULL carries data_pre; the target cursor is concrete NULL and therefore incorrectly requires global absence.",
+              "recommended_next_phase": "annotation"
+            },
+            {
+              "witness_name": "proof_of_xizi_avl_search_entail_wit_3",
+              "missing_fact": "forall x, avl_vvalid g x -> x <> NULL",
+              "counterexample_shape": "The symmetric valid left child at address NULL carries data_pre.",
+              "recommended_next_phase": "annotation"
+            },
+            {
+              "witness_name": "proof_of_xizi_avl_search_return_wit_1",
+              "missing_fact": "all valid child addresses are non-NULL",
+              "counterexample_shape": "A Some NULL child disappears from child avl_subtree_store_at but remains in the parent graph slice, making reverse folding impossible.",
+              "recommended_next_phase": "annotation"
+            }
+          ],
+          "recommended_next_phase": "annotation",
+          "source_version_match": "yes",
+          "source_goal_version_match": "yes"
+        },
+        {
+          "kind": "annotation-bug",
+          "blocker_class": "annotation-bug",
+          "failure_class": "vc-not-provable",
+          "message": "Preserve avl_vvalid g avl_node and the node key/height bounds in both recursive branch assertions so the framed raw fields can be folded back into avl_graph_node_store and avl_subtree_store_at after the recursive call.",
+          "blocked_witnesses": [
+            {
+              "witness_name": "proof_of_xizi_avl_search_return_wit_2",
+              "missing_fact": "avl_vvalid g avl_node_pre (and key/height bounds in the basic alternative)",
+              "counterexample_shape": "A nonzero invalid parent with None children owns four arbitrary raw field cells; the goal parent slice is emp, which cannot consume those cells.",
+              "recommended_next_phase": "annotation"
+            },
+            {
+              "witness_name": "proof_of_xizi_avl_search_return_wit_3",
+              "missing_fact": "avl_vvalid g avl_node_pre (and key/height bounds in the basic alternative)",
+              "counterexample_shape": "The symmetric left-recursive return has the same invalid-parent heap counterexample.",
+              "recommended_next_phase": "annotation"
+            }
+          ],
+          "recommended_next_phase": "annotation",
+          "source_version_match": "yes",
+          "source_goal_version_match": "yes"
+        }
+      ]
+    },
+    "changed_files": [],
+    "report_files_written": [
+      "/home/yangfp/QCIP/reports/xizi_avl_search-20260920195840/rounds/xizi_avl_search-vc-checking-r1/agent_report.json",
+      "/home/yangfp/QCIP/reports/xizi_avl_search-20260920195840/rounds/xizi_avl_search-vc-checking-r1/agent_output.txt"
+    ],
+    "blockers": [
+      "annotation/spec repair required before vc-proving-preparing"
+    ]
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-09-20T12:32:36Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_avl_search-20260920195840/rounds/xizi_avl_search-vc-checking-r1/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    }
+  },
+  "blockers": []
+}

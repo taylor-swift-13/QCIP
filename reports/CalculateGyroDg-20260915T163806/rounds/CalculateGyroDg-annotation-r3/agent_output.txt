@@ -1,0 +1,13 @@
+# Reuse Note
+
+Note kind: non-authoritative reuse note
+
+This file is not acceptance evidence.
+
+Round r3 is blocked on required QCP float-array support, not stale. Current main `INPUT/0915/CalculateGyroDg.c` still matches the declared SHA-256 `41393a1e475f1bc4bf83fd36fc353b38e9edbafce2a9c34b4c129d85d6b1b19a`.
+
+Canonical symexec and qcp-mcp both reject the source-faithful local `float32 tmpwa[5]` with `unsupported array type`. A contiguous named-field diagnostic representation gets past parsing, but both drivers then fail at the first `tmpwa[j] = 0` because the approved strategy set has no flat `FloatArray` rule that derives writable permission for a dynamic-index float store. Repository searches outside denied `QCP_demos_human` found Rocq FloatArray predicates but no corresponding QCP strategy. The existing I32 and PointF strategies are not sound substitutes.
+
+The candidate case-lib mathematical declarations compile through fixed `coq_tooling.py`; they specify gathered samples and the five-term fp32 matrix-vector product without defining a second matrix algorithm. The existing direct `MatrixMultiFun(&ipMatrixMulti_0)` call was retained and constrained by a call specification. These diagnostic formal edits are not ready for adoption because qcp-mcp did not reach function end.
+
+Before retrying, provide QCP frontend plus sound flat-float-array strategy support within the allowed paths, or an approved semantics-preserving source representation supported by existing strategies. JSON handoff data, source versions, manifests, and current files override this note.

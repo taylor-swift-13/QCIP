@@ -1,0 +1,122 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "annotation",
+  "status": "pending",
+  "terminal": "no",
+  "agent_result": {
+    "annotation": {
+      "status": "stale",
+      "round": "CalculateGyroDg-annotation-r2",
+      "attempt_id": "CalculateGyroDg-annotation-r2-attempt-1",
+      "source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "declared_digest": "6338d517eba0792f43862ac763b6b352d9773117a27d0a73de3f8f9fe7bb9f79",
+        "status": "stale",
+        "mismatches": [
+          {
+            "relative_path": "INPUT/0915/CalculateGyroDg.c",
+            "declared_and_round_sha256": "0fedccd829b14158a58fac185ef91bb39524d54aae4649efa990e872d1f920d7",
+            "current_main_worktree_sha256": "7b743bb88c671f5c9cfb7800d0ab3d0d3c815af3e53446281b7611dd1e09e1b2",
+            "round_content": "IPCALL(MatrixMulti, ipMatrixMulti_0, ...) dispatch",
+            "current_main_content": "local MatrixMulti ipMatrixMulti_0 initialization followed by MatrixMultiFun(&ipMatrixMulti_0)"
+          }
+        ]
+      },
+      "ready_for_annotation_check_round": false,
+      "changed_files": [],
+      "reason": "The main target C changed after r2 worktree creation to implement the requested direct MatrixMultiFun call, while this handoff and worktree still bind the old IPCALL source. Continuing would annotate an obsolete program. No formal file was edited.",
+      "canonical_symexec_evidence": {
+        "status": "skipped",
+        "reason": "source input became stale before phase actions",
+        "driver": "/home/yangfp/QCIP/linux-binary/symexec",
+        "working_directory": "/home/yangfp/QCIP/worktrees/CalculateGyroDg-20260915T163806/CalculateGyroDg-annotation-r2",
+        "include_args": ["QCP_examples/QCP_demos_LLM/"],
+        "slp_args": ["QCP_examples/QCP_demos_LLM/", "SimpleC.EE.QCP_demos_LLM"]
+      },
+      "qcp_mcp_interactive_evidence": {
+        "status": "skipped",
+        "reason": "source input became stale before candidate creation"
+      },
+      "case_lib_coqc_evidence": {
+        "status": "skipped",
+        "reason": "source input became stale before candidate creation"
+      },
+      "annotation_checking_evidence": {
+        "status": "stale",
+        "qcp_mcp_requirement_satisfied": "no",
+        "annotation_scratch_lib_coqc_status": "not-run",
+        "ready_for_main_common_case_formal_lib_update": "no",
+        "ready_for_main_symexec": "no",
+        "reason": "annotation checking cannot be performed against an obsolete target program"
+      },
+      "previous_attempts_reviewed": [
+        {
+          "round": "CalculateGyroDg-annotation-r1",
+          "report": "/home/yangfp/QCIP/reports/CalculateGyroDg-20260915T163806/rounds/CalculateGyroDg-annotation-r1/agent_report.json",
+          "output": "/home/yangfp/QCIP/reports/CalculateGyroDg-20260915T163806/rounds/CalculateGyroDg-annotation-r1/agent_output.txt",
+          "lessons_applied": ["CalculateGyroDg-annotation-r1-annotation-retry-1"],
+          "result": "Confirmed the retry must use the direct MatrixMulti call and must not recreate the matrix algorithm; detected that r2 predates the corresponding C update."
+        }
+      ],
+      "prior_blockers_addressed": [
+        {
+          "id": "CalculateGyroDg-annotation-r1-annotation-retry-1",
+          "status": "addressed",
+          "summary": "Reviewed r1 stale report and reuse note before deciding r2 is also stale."
+        }
+      ],
+      "file_access_summary": {
+        "must_log_file_reads": "yes",
+        "read_categories": {
+          "handoff": [
+            "/home/yangfp/QCIP/reports/CalculateGyroDg-20260915T163806/rounds/CalculateGyroDg-annotation-r2/agent_input.json",
+            "/home/yangfp/QCIP/reports/CalculateGyroDg-20260915T163806/rounds/CalculateGyroDg-annotation-r2/agent_report.json"
+          ],
+          "rules": [
+            ".agents/skills/verification-orchestrator/SKILL.md",
+            ".agents/skills/annotation-filling/SKILL.md",
+            ".agents/skills/annotation-checking/SKILL.md"
+          ],
+          "declared_previous_attempt": [
+            "/home/yangfp/QCIP/reports/CalculateGyroDg-20260915T163806/rounds/CalculateGyroDg-annotation-r1/agent_report.json",
+            "/home/yangfp/QCIP/reports/CalculateGyroDg-20260915T163806/rounds/CalculateGyroDg-annotation-r1/agent_output.txt"
+          ],
+          "version_evidence": [
+            "/home/yangfp/QCIP/INPUT/0915/CalculateGyroDg.c",
+            "INPUT/0915/CalculateGyroDg.c",
+            "SeparationLogic/examples/INPUT/0915/CalculateGyroDg_lib.v"
+          ]
+        },
+        "searches": [
+          "SHA-256 comparison of declared round target, current round target, case_lib seed, and current main target",
+          "targeted IPCALL/MatrixMulti line comparison between main and r2"
+        ],
+        "denied_globs_touched": []
+      },
+      "iteration_count": 0,
+      "failure_history": [],
+      "repairs": [],
+      "self_reworkable_failures": [],
+      "self_repair_budget": {
+        "status": "not-applicable-stale-input",
+        "min_complete_cycles": 3,
+        "min_wall_clock_minutes": 30
+      },
+      "blockers": [],
+      "recommended_controller_action": "Mark r2 stale and create a fresh annotation round whose source_version binds current main INPUT/0915/CalculateGyroDg.c SHA-256 7b743bb88c671f5c9cfb7800d0ab3d0d3c815af3e53446281b7611dd1e09e1b2 and the current MatrixMulti inputs.",
+      "finished_at": "2026-09-15T16:46:18+08:00"
+    }
+  },
+  "verification_result": {
+    "version_gate": {
+      "status": "failed-stale",
+      "declared_target_sha256": "0fedccd829b14158a58fac185ef91bb39524d54aae4649efa990e872d1f920d7",
+      "round_target_sha256": "0fedccd829b14158a58fac185ef91bb39524d54aae4649efa990e872d1f920d7",
+      "current_main_target_sha256": "7b743bb88c671f5c9cfb7800d0ab3d0d3c815af3e53446281b7611dd1e09e1b2"
+    }
+  },
+  "blockers": [],
+  "phase": "annotation",
+  "round": "CalculateGyroDg-annotation-r2",
+  "attempt_id": "CalculateGyroDg-annotation-r2-attempt-1"
+}

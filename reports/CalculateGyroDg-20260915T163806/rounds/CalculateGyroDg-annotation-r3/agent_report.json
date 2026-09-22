@@ -1,0 +1,159 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "annotation",
+  "status": "pending",
+  "terminal": "no",
+  "agent_result": {
+    "annotation": {
+      "status": "blocked",
+      "round": "CalculateGyroDg-annotation-r3",
+      "attempt_id": "CalculateGyroDg-annotation-r3-attempt-1",
+      "source_version": {
+        "schema_version": "qcp-source-version/v1",
+        "digest": "69206d24c6d7cf5f12c81dadf954c6b4efe4c51c4fd0b0a218fb9a2e5980e88d",
+        "status": "current",
+        "files": [
+          {"relative_path": "INPUT/0915/CalculateGyroDg.c", "sha256": "41393a1e475f1bc4bf83fd36fc353b38e9edbafce2a9c34b4c129d85d6b1b19a", "state": "present", "role": "target-c"},
+          {"relative_path": "SeparationLogic/examples/INPUT/0915/CalculateGyroDg_lib.v", "sha256": "27dce0c34cd9cdecc5748b9cdbc38841bd26cc4362fe0336db19f8ac09ac00ad", "state": "present", "role": "case-lib-seed"}
+        ],
+        "version_check": "Current main target SHA-256 remained 41393a1e475f1bc4bf83fd36fc353b38e9edbafce2a9c34b4c129d85d6b1b19a at terminal reporting time."
+      },
+      "ready_for_annotation_check_round": false,
+      "changed_files": [
+        {
+          "relative_path": "INPUT/0915/CalculateGyroDg.c",
+          "state": "diagnostic-unaccepted-candidate",
+          "sha256": "fbb50e6e62b4a50159b3adca8860fc8f6fe7e0019f7405db4575ff3467da4d3e",
+          "summary": "Added candidate direct-MatrixMultiFun call specification, function specification, predicate-first invariants, and a diagnostic named-field local-buffer representation. The direct MatrixMultiFun call was retained; no second matrix algorithm definition was introduced."
+        },
+        {
+          "relative_path": "SeparationLogic/examples/INPUT/0915/CalculateGyroDg_lib.v",
+          "state": "diagnostic-unaccepted-candidate",
+          "sha256": "318f324b40544aa9312ade4ddc04dbcb9b2136789ae3a1bd90513a42ebcfbb3d",
+          "summary": "Added strict fp32 mathematical declarations for gathered samples, five-term matrix-vector product, and conditional result; these are properties, not a second implementation of the C loops."
+        }
+      ],
+      "canonical_symexec_evidence": {
+        "status": "failed",
+        "driver": "/home/yangfp/QCIP/linux-binary/symexec",
+        "working_directory": "/home/yangfp/QCIP/worktrees/CalculateGyroDg-20260915T163806/CalculateGyroDg-annotation-r3",
+        "include_args": ["-IQCP_examples/QCP_demos_LLM/"],
+        "slp_args": ["-slp", "QCP_examples/QCP_demos_LLM/", "SimpleC.EE.QCP_demos_LLM"],
+        "original_source_failure": {"result": "failed", "location": "INPUT/0915/CalculateGyroDg.c:118", "diagnostic": "fatal error: Error: unsupported array type", "construct": "float32 tmpwa[5]"},
+        "diagnostic_representation_failure": {"result": "failed", "location": "INPUT/0915/CalculateGyroDg.c:144", "diagnostic": "cannot derive writable memory permission for assignment target", "construct": "tmpwa[j] = 0"},
+        "reached_file_end": "no",
+        "generated_files_hand_edited": "no"
+      },
+      "qcp_mcp_interactive_evidence": {
+        "status": "failed",
+        "python": "/home/yangfp/QCIP/mcp/qcp-mcp/.venv/bin/python",
+        "module": "qcp_mcp.server",
+        "backend": "/home/yangfp/QCIP/linux-binary/mcp",
+        "working_directory": "/home/yangfp/QCIP/worktrees/CalculateGyroDg-20260915T163806/CalculateGyroDg-annotation-r3",
+        "method_sequence": ["initialize", "symbolic", "close"],
+        "attempts": [
+          {"candidate": "original local float32 tmpwa[5]", "result": "failed", "fatal": "unsupported array type at line 118 column 13", "manual_obligations": 0},
+          {"candidate": "FloatFive named fields with pointer to first field", "result": "failed", "manual_entailment": "UndefStructPred__FloatFive cannot entail FloatArray.undef_seg", "fatal": "cannot derive writable memory permission for pointer_offset(tmpwa,j,float) assignment at line 144"}
+        ],
+        "repair_applied": "Changed the strategy include to the worktree-relative QCP_demos_LLM char_array.strategies path after qcp-mcp exposed that it does not transport canonical -slp arguments.",
+        "strategy_inventory": "Loaded common/string/char-array strategies only; repository searches outside denied QCP_demos_human found no FloatArray C strategy. Rocq FloatArray predicates exist, but no sound QCP rule exposes scalar float stores through a dynamic index.",
+        "canonical_parameter_note": "qcp-mcp cannot pass the mandatory -slp pair, so it is interactive evidence only and is not reported as canonical symbolic-execution success."
+      },
+      "case_lib_coqc_evidence": {
+        "status": "passed",
+        "driver": "/home/yangfp/QCIP/.agents/skills/vc-proving/scripts/coq_tooling.py",
+        "mode": "check",
+        "target_kind": "case_lib",
+        "target_file": "SeparationLogic/examples/INPUT/0915/CalculateGyroDg_lib.v",
+        "build_workspace": "/home/yangfp/QCIP/worktrees/CalculateGyroDg-20260915T163806/_coq_builds/CalculateGyroDg-annotation-r3-case-lib",
+        "source_goal_version_argument": "69206d24c6d7cf5f12c81dadf954c6b4efe4c51c4fd0b0a218fb9a2e5980e88d",
+        "no_deps": true,
+        "coq_version": "8.20.1",
+        "fixed_flags_hash": "24021e",
+        "target_sha256": "318f324b40544aa9312ade4ddc04dbcb9b2136789ae3a1bd90513a42ebcfbb3d",
+        "elapsed_seconds": 1.232
+      },
+      "annotation_checking_evidence": {
+        "status": "failed",
+        "qcp_mcp_requirement_satisfied": "no",
+        "annotation_scratch_lib_coqc_status": "passed",
+        "spec_definition_status": "passed-mathematical-quality-only",
+        "function_spec_status": "candidate-not-qcp-validated",
+        "loop_invariant_status": "candidate-blocked-by-float-array-permission-support",
+        "ready_for_main_common_case_formal_lib_update": "no",
+        "ready_for_main_symexec": "no",
+        "reason": "annotation-checking requires qcp-mcp to reach the function end. Both the source-faithful local float array and a diagnostic parser-compatible representation fail before the first loop can execute."
+      },
+      "previous_attempts_reviewed": [
+        {
+          "round": "CalculateGyroDg-annotation-r2",
+          "report": "/home/yangfp/QCIP/reports/CalculateGyroDg-20260915T163806/rounds/CalculateGyroDg-annotation-r2/agent_report.json",
+          "output": "/home/yangfp/QCIP/reports/CalculateGyroDg-20260915T163806/rounds/CalculateGyroDg-annotation-r2/agent_output.txt",
+          "lessons_applied": ["CalculateGyroDg-annotation-r2-annotation-retry-1"],
+          "result": "Confirmed r3 binds the current direct MatrixMultiFun source, retained that direct call, and did not recreate the matrix algorithm."
+        }
+      ],
+      "prior_blockers_addressed": [
+        {"id": "CalculateGyroDg-annotation-r2-annotation-retry-1", "status": "addressed", "summary": "Reviewed the r2 stale report and reuse note before editing r3."}
+      ],
+      "user_constraint_handling": {
+        "constraint": "Use the existing MatrixMulti implementation through an ordinary direct MatrixMultiFun call; do not add a second matrix algorithm definition.",
+        "actual_handling": "The existing MatrixMultiFun(&ipMatrixMulti_0) call remains the implementation call. The annotation candidate constrains it with a matrix-vector-product property; no replacement MatrixMulti C implementation or Rocq recursive matrix algorithm was added."
+      },
+      "file_access_summary": {
+        "must_log_file_reads": "yes",
+        "read_categories": {
+          "handoff": ["/home/yangfp/QCIP/reports/CalculateGyroDg-20260915T163806/rounds/CalculateGyroDg-annotation-r3/agent_input.json", "/home/yangfp/QCIP/reports/CalculateGyroDg-20260915T163806/rounds/CalculateGyroDg-annotation-r3/agent_report.json"],
+          "rules": [".agents/skills/verification-orchestrator/SKILL.md", ".agents/skills/annotation-filling/SKILL.md", ".agents/skills/annotation-checking/SKILL.md"],
+          "declared_previous_attempt": ["/home/yangfp/QCIP/reports/CalculateGyroDg-20260915T163806/rounds/CalculateGyroDg-annotation-r2/agent_report.json", "/home/yangfp/QCIP/reports/CalculateGyroDg-20260915T163806/rounds/CalculateGyroDg-annotation-r2/agent_output.txt"],
+          "formal_inputs": ["INPUT/0915/CalculateGyroDg.c", "INPUT/0915/CalculateGyroDg.h", "INPUT/0915/MatrixMulti.c", "INPUT/0915/MatrixMulti.h", "SeparationLogic/examples/INPUT/0915/CalculateGyroDg_lib.v"],
+          "allowed_examples_and_libraries": ["QCP_examples/QCP_demos_LLM/char_array.strategies", "QCP_examples/QCP_demos_LLM/int_array.strategies", "QCP_examples/QCP_demos_LLM/pointf_array.strategies", "SeparationLogic/SeparationLogic/ArrayLib.v", "SeparationLogic/SeparationLogic/Array2Lib.v"]
+        },
+        "searches": ["FloatArray annotation and strategy definitions outside denied QCP_demos_human", "flat float-array strategies under repository, /usr, and /opt", "MatrixMultiFun and direct-call declarations", "source-version SHA-256 comparison against current main target"],
+        "denied_globs_touched": []
+      },
+      "iteration_count": 4,
+      "failure_history": [
+        "Canonical symexec rejected the source-faithful local float array as an unsupported array type.",
+        "qcp-mcp reproduced the unsupported-array fatal after strategy-path repair.",
+        "A named-field diagnostic representation parsed but could not establish FloatArray permissions for the first dynamic-index float store.",
+        "qcp-mcp reproduced the missing permission derivation and exposed the unsolved FloatFive-to-FloatArray entailment."
+      ],
+      "repairs": [
+        "Bootstrapped the missing IP.h/MatrixMulti.h-relevant declarations from current source semantics inside the permitted target C.",
+        "Changed the strategy include to a valid worktree-relative QCP_demos_LLM path.",
+        "Tried a semantics-preserving contiguous named-field diagnostic buffer to separate parser support from strategy support.",
+        "Added FloatLib import and used fp32_zero so the candidate case_lib compiles through fixed coq_tooling."
+      ],
+      "self_reworkable_failures": [],
+      "self_repair_budget": {
+        "status": "terminated-on-required-tool-capability-blocker",
+        "complete_cycles": 4,
+        "min_complete_cycles": 3,
+        "min_wall_clock_minutes": 30,
+        "note": "The minimum repair-cycle count was exceeded. Work stopped on a demonstrated hard capability/scope boundary, not on optional context or anticipated proof difficulty."
+      },
+      "blockers": [
+        {
+          "id": "required-qcp-float-array-support-unavailable",
+          "failure_class": "required-tool-major-error",
+          "terminal_for_this_handoff": true,
+          "details": "The required qcp-mcp/symexec path cannot process the source's local float32 tmpwa[5]. The frontend reports unsupported array type. A parser-compatible contiguous struct representation then fails because the available approved strategy set has no FloatArray rule capable of deriving writable permission for tmpwa[j]. Adding a new strategy file is outside allowed_write_paths, applying I32 or PointF rules would be unsound, and unrolling/replacing the algorithm would exceed annotation scope and alter the target program.",
+          "evidence_pointers": ["canonical_symexec_evidence.original_source_failure", "canonical_symexec_evidence.diagnostic_representation_failure", "qcp_mcp_interactive_evidence.attempts", "qcp_mcp_interactive_evidence.strategy_inventory"]
+        }
+      ],
+      "recommended_controller_action": "Treat r3 as blocked, do not adopt its diagnostic formal edits, and request an in-scope tool/source contract change: provide QCP frontend plus sound flat-float-array strategies (and permit the strategy path), or provide an approved semantics-preserving source representation that existing QCP strategies support. Then create a fresh annotation round bound to that input.",
+      "finished_at": "2026-09-15T17:35:00+08:00"
+    }
+  },
+  "verification_result": {
+    "version_gate": {"status": "passed", "declared_target_sha256": "41393a1e475f1bc4bf83fd36fc353b38e9edbafce2a9c34b4c129d85d6b1b19a", "current_main_target_sha256": "41393a1e475f1bc4bf83fd36fc353b38e9edbafce2a9c34b4c129d85d6b1b19a"},
+    "annotation_check_gate": {"status": "failed-required-qcp-capability"}
+  },
+  "blockers": [
+    {"id": "required-qcp-float-array-support-unavailable", "summary": "Required QCP execution cannot model the local float array or its indexed writes with the available approved strategies."}
+  ],
+  "phase": "annotation",
+  "round": "CalculateGyroDg-annotation-r3",
+  "attempt_id": "CalculateGyroDg-annotation-r3-attempt-1"
+}

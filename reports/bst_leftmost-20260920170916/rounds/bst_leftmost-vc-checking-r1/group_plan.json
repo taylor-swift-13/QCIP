@@ -1,0 +1,64 @@
+{
+  "schema_version": "qcp-proof-group-plan/v1",
+  "source_goal_version": "8dcec9c6b7d2e19601dfd029a35118a6117447e829e58037ca3dcf5831888837",
+  "target_witnesses": [
+    "proof_of_bst_leftmost_entail_wit_1",
+    "proof_of_bst_leftmost_entail_wit_2",
+    "proof_of_bst_leftmost_return_wit_1"
+  ],
+  "proof_groups": [
+    {
+      "group_id": "left_spine_invariant",
+      "witness_names": [
+        "proof_of_bst_leftmost_entail_wit_1",
+        "proof_of_bst_leftmost_entail_wit_2",
+        "proof_of_bst_leftmost_return_wit_1"
+      ],
+      "representative_witness": "proof_of_bst_leftmost_entail_wit_2",
+      "dependencies": [],
+      "likely_helper_declarations": [
+        {
+          "name_hint": "tree_nodes_store_member_nonnull",
+          "statement_shape": "forall g xs z, In z xs -> tree_nodes_store g xs |-- \u201c z <> NULL \u201d",
+          "destination": "group-local case_lib",
+          "suffix_policy": "append the helper_namespace suffix supplied by group_worker_input.json"
+        }
+      ],
+      "candidate_helper_declarations": [
+        {
+          "name_hint": "tree_nodes_store_member_nonnull",
+          "statement_shape": "forall g xs z, In z xs -> tree_nodes_store g xs |-- \u201c z <> NULL \u201d",
+          "used_by_witnesses": [
+            "proof_of_bst_leftmost_return_wit_1"
+          ],
+          "destination": "group-local case_lib with helper_namespace.suffix"
+        }
+      ],
+      "expected_helpers": [
+        "tree_nodes_store_member_nonnull with the required group-id suffix"
+      ],
+      "proof_strategy": "Prove invariant entry by reflexivity of left_reachable and preserve tree_store. Prove loop preservation by destructing bst_left, excluding None with the non-null guard, and appending the resulting left edge to the existing reflexive-transitive closure. Prove the return postcondition from the invariant; destruct bst_left, and in the Some child branch derive child validity/membership and contradict child = NULL using the suffixed tree_nodes_store member-nonnull helper. Preserve the complete tree resource throughout.",
+      "natural_language_proof_strategy": "Prove invariant entry by reflexivity of left_reachable and preserve tree_store. Prove loop preservation by destructing bst_left, excluding None with the non-null guard, and appending the resulting left edge to the existing reflexive-transitive closure. Prove the return postcondition from the invariant; destruct bst_left, and in the Some child branch derive child validity/membership and contradict child = NULL using the suffixed tree_nodes_store member-nonnull helper. Preserve the complete tree resource throughout.",
+      "grouping_reason": "The witnesses are the entry, one-step preservation, and exit obligations of the same left-spine invariant; their contexts and proof vocabulary are shared, and the group size 3 respects max_witnesses_per_group = 12."
+    }
+  ],
+  "coverage": {
+    "all_targets_assigned_once": "yes",
+    "unassigned": [],
+    "duplicates": []
+  },
+  "dependency_graph_acyclic": "yes",
+  "max_witnesses_per_group": 12,
+  "largest_group_size": 3,
+  "blockers": [],
+  "controller_verified": true,
+  "grouping_policy": {
+    "schema_version": "qcp-grouping-policy/v1",
+    "controller_policy": "bounded-witness-groups/v1",
+    "controller_enforced": "yes",
+    "target_witness_count": 3,
+    "max_witnesses_per_group": 12,
+    "single_group_allowed_only_if_target_witness_count_lte": 12,
+    "oversized_group_rejected": "yes"
+  }
+}

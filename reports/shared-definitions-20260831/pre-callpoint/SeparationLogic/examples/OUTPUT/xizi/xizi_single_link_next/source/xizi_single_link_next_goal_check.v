@@ -1,0 +1,7 @@
+From SimpleC.EE.OUTPUT.xizi.xizi_single_link_next.source Require Import xizi_single_link_next_goal xizi_single_link_next_proof_auto xizi_single_link_next_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include xizi_single_link_strategy_proof.
+  Include xizi_single_link_next_proof_auto.
+  Include xizi_single_link_next_proof_manual.
+End VC_Correctness.

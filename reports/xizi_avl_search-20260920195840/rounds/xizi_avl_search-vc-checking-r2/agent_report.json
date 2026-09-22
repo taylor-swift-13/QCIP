@@ -1,0 +1,691 @@
+{
+  "schema_version": "qcp-agent-report/v1",
+  "kind": "vc-checking",
+  "status": "accepted",
+  "terminal": "yes",
+  "agent_result": {
+    "schema_version": "qcp-vc-checking-agent-result/v1",
+    "status": "completed",
+    "terminal": "yes",
+    "source_version": {
+      "digest": "79ac97bef577a2342b4d16e03d57f4773996428bd140ad21d74a6f5a671bd4b1",
+      "match": "yes"
+    },
+    "source_goal_version": {
+      "digest": "2e3bd4d0d0aa1671631649df0e5ae02c009cef4892c36ce75a469cd3e6ce787b",
+      "match": "yes"
+    },
+    "vc_checking": {
+      "status": "completed",
+      "source_version": "79ac97bef577a2342b4d16e03d57f4773996428bd140ad21d74a6f5a671bd4b1",
+      "source_goal_version": "2e3bd4d0d0aa1671631649df0e5ae02c009cef4892c36ce75a469cd3e6ce787b",
+      "judgment": "proofable-with-group-local-helpers",
+      "recommended_next_phase": "vc-proving-preparing",
+      "version_evidence": {
+        "all_declared_source_sha256_match": "yes",
+        "all_declared_generated_sha256_match": "yes",
+        "source_files_checked": [
+          "INPUT/xizi/xizi_avl_search/xizi_avl_search.c",
+          "QCIPLib/xizi/xizi_avl_common/xizi_avl_graph_lib.v"
+        ],
+        "generated_files_checked": [
+          "SeparationLogic/examples/INPUT/xizi/xizi_avl_search/xizi_avl_search_goal.v",
+          "SeparationLogic/examples/INPUT/xizi/xizi_avl_search/xizi_avl_search_proof_auto.v",
+          "SeparationLogic/examples/INPUT/xizi/xizi_avl_search/xizi_avl_search_proof_manual.v",
+          "SeparationLogic/examples/INPUT/xizi/xizi_avl_search/xizi_avl_search_goal_check.v",
+          "SeparationLogic/examples/INPUT/xizi/xizi_avl_search/xizi_avl_search_proof_diagnostics.v",
+          "SeparationLogic/examples/INPUT/xizi/xizi_avl_search/diagnostics_snapshot.json"
+        ]
+      },
+      "manual_witness_evidence": {
+        "cleaned_manual_file": "SeparationLogic/examples/INPUT/xizi/xizi_avl_search/xizi_avl_search_proof_manual.v",
+        "manual_witness_order": [
+          "proof_of_xizi_avl_search_entail_wit_1",
+          "proof_of_xizi_avl_search_entail_wit_2",
+          "proof_of_xizi_avl_search_entail_wit_3",
+          "proof_of_xizi_avl_search_return_wit_1",
+          "proof_of_xizi_avl_search_return_wit_2",
+          "proof_of_xizi_avl_search_return_wit_3",
+          "proof_of_xizi_avl_search_return_wit_4",
+          "proof_of_xizi_avl_search_derive_high_level_spec_by_low_level_spec"
+        ],
+        "target_witnesses_exact_match": "yes",
+        "duplicate_targets": [],
+        "diagnostics_used_as_hint_only": "yes"
+      },
+      "repair_review": {
+        "valid_vertices_nonnull_present": "yes",
+        "recursive_branch_parent_validity_preserved": "yes",
+        "recursive_branch_key_height_bounds_preserved": "yes",
+        "previous_semantic_failure_shapes_excluded": "yes"
+      },
+      "natural_language_analysis": {
+        "witnesses": [
+          {
+            "witness_name": "proof_of_xizi_avl_search_entail_wit_1",
+            "judgment": "needs-helper",
+            "vc_shape": {
+              "pre_spatial": "avl_subtree_store_at g current",
+              "pre_pure": "current <> NULL, avl_search_cursor_valid g current key, avl_gvalid g, and input bounds",
+              "pre_exists": "none",
+              "post_spatial": "current node's four field cells and the left/right child subtree stores",
+              "post_pure": "current validity, key/height ranges, cursor validity, graph validity, and unchanged branch facts",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "No right-side existential; use current and its model-projected children directly.",
+            "space_plan": "Apply a subtree fold/unfold helper at current. Its unfolded avl_graph_node_store supplies the four cells and pure node facts, while the remaining resources are exactly the two child slices.",
+            "pure_plan": "The non-null branch of avl_search_cursor_valid yields avl_vvalid g current. The node-store conjunct yields signed key bounds and unsigned height bounds; all other pure facts are direct hypotheses.",
+            "refinement_plan": "No safeExec obligation; this is graph-slice decomposition.",
+            "used_existing_lemmas": [
+              "GraphLib rooted-tree offspring decomposition",
+              "Permutation/iter_sepcon congruence"
+            ],
+            "candidate_helper_declarations": [
+              "avl_subtree_store_fold_unfold"
+            ],
+            "premise_discharge": [
+              "avl_gvalid is PreH5",
+              "current validity follows from PreH4 and current <> NULL",
+              "avl_vertices_nonnull excludes Some NULL child aliases during the list partition"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "avl_search_graph_refinement",
+            "grouping_reason": "Introduces the subtree decomposition reused by all three non-null returns and the root-level refinement bridge."
+          },
+          {
+            "witness_name": "proof_of_xizi_avl_search_entail_wit_2",
+            "judgment": "needs-helper",
+            "vc_shape": {
+              "pre_spatial": "the unfolded current node and both child slices",
+              "pre_pure": "current key < search key, current cursor confinement, current validity, avl_gvalid, and preserved node facts",
+              "pre_exists": "none",
+              "post_spatial": "all resources unchanged",
+              "post_pure": "right-child cursor confinement plus all preserved parent facts",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "Next cursor is avl_ptr_of (avl_right g current).",
+            "space_plan": "Cancel the unchanged field and subtree resources.",
+            "pure_plan": "Apply the right-descent cursor helper. If the right child is None, any matching node confined below current would have to be current or in the left subtree, both contradicted by key ordering. If it is Some child, child validity and avl_vertices_nonnull make the concrete pointer non-null, and BST path decomposition confines every match below that child.",
+            "refinement_plan": "Abstract cursor moves to the right child without changing g.",
+            "used_existing_lemmas": [
+              "GraphLib BST left/right subtree ordering",
+              "GraphLib rooted-tree first-child/path decomposition"
+            ],
+            "candidate_helper_declarations": [
+              "avl_search_cursor_descend_right"
+            ],
+            "premise_discharge": [
+              "parent validity is PreH7",
+              "cursor confinement is PreH5",
+              "strict right comparison is PreH1",
+              "valid-node non-nullness is the fourth conjunct of PreH6"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "avl_search_graph_refinement",
+            "grouping_reason": "Shares the cursor-confinement and BST path helper family with the left branch."
+          },
+          {
+            "witness_name": "proof_of_xizi_avl_search_entail_wit_3",
+            "judgment": "needs-helper",
+            "vc_shape": {
+              "pre_spatial": "the unfolded current node and both child slices",
+              "pre_pure": "current key >= search key, inequality, current cursor confinement/validity, avl_gvalid, and preserved node facts",
+              "pre_exists": "none",
+              "post_spatial": "all resources unchanged",
+              "post_pure": "left-child cursor confinement plus all preserved parent facts",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "Next cursor is avl_ptr_of (avl_left g current).",
+            "space_plan": "Cancel the unchanged field and subtree resources.",
+            "pure_plan": "From current_key >= key and key <> current_key derive key < current_key. Apply the symmetric left-descent cursor helper; avl_vertices_nonnull distinguishes Some child from None, and BST ordering excludes current/right-subtree matches.",
+            "refinement_plan": "Abstract cursor moves to the left child without changing g.",
+            "used_existing_lemmas": [
+              "GraphLib BST left/right subtree ordering",
+              "GraphLib rooted-tree first-child/path decomposition"
+            ],
+            "candidate_helper_declarations": [
+              "avl_search_cursor_descend_left"
+            ],
+            "premise_discharge": [
+              "parent validity and cursor confinement are PreH7 and PreH5",
+              "the two comparison hypotheses yield strict left comparison",
+              "valid-node non-nullness is contained in PreH6"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "avl_search_graph_refinement",
+            "grouping_reason": "Symmetric cursor-confinement proof to entail_wit_2."
+          },
+          {
+            "witness_name": "proof_of_xizi_avl_search_return_wit_1",
+            "judgment": "needs-helper",
+            "vc_shape": {
+              "pre_spatial": "current node's four field cells and both child subtree stores",
+              "pre_pure": "search key equals current key, current non-nullness/validity, avl_gvalid, and complete node ranges",
+              "pre_exists": "none",
+              "post_spatial": "avl_subtree_store_at g current",
+              "post_pure": "avl_search_result g key current and avl_gvalid",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "Return current as the successful search result.",
+            "space_plan": "Build avl_graph_node_store from the preserved pure facts and four cells, then use the reverse direction of avl_subtree_store_fold_unfold with both child slices.",
+            "pure_plan": "Choose the non-null success disjunct of avl_search_result using current <> NULL, avl_vvalid current, and key equality; avl_gvalid is direct.",
+            "refinement_plan": "No graph-state change.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [
+              "avl_subtree_store_fold_unfold"
+            ],
+            "premise_discharge": [
+              "all avl_graph_node_store pure components are PreH5/PreH8-PreH12",
+              "avl_vertices_nonnull makes both option-child encodings faithful"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "avl_search_graph_refinement",
+            "grouping_reason": "Uses the reverse of the same subtree decomposition introduced by entail_wit_1."
+          },
+          {
+            "witness_name": "proof_of_xizi_avl_search_return_wit_2",
+            "judgment": "needs-helper",
+            "vc_shape": {
+              "pre_spatial": "returned right-child slice, current node's four cells, and framed left-child slice",
+              "pre_pure": "recursive result, avl_gvalid, current non-nullness/validity, and complete node ranges",
+              "pre_exists": "retval is universally bound by the recursive-call postcondition",
+              "post_spatial": "avl_subtree_store_at g current",
+              "post_pure": "the same recursive result and avl_gvalid",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "Reuse retval from the recursive call.",
+            "space_plan": "Reassociate the right result slice, parent fields, and left frame; form avl_graph_node_store and apply the reverse subtree fold helper.",
+            "pure_plan": "avl_search_result and avl_gvalid are direct hypotheses; preserved parent validity and range facts discharge every pure component of avl_graph_node_store.",
+            "refinement_plan": "Recursive call preserves the identical graph model.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [
+              "avl_subtree_store_fold_unfold"
+            ],
+            "premise_discharge": [
+              "parent validity is PreH7 in the full alternative",
+              "key/height ranges are PreH8-PreH11",
+              "child stores and raw fields are the exact spatial antecedent"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "avl_search_graph_refinement",
+            "grouping_reason": "Right-recursive reconstruction shares the common subtree fold helper."
+          },
+          {
+            "witness_name": "proof_of_xizi_avl_search_return_wit_3",
+            "judgment": "needs-helper",
+            "vc_shape": {
+              "pre_spatial": "returned left-child slice, current node's four cells, and framed right-child slice",
+              "pre_pure": "recursive result, avl_gvalid, current non-nullness/validity, and complete node ranges",
+              "pre_exists": "retval is universally bound by the recursive-call postcondition",
+              "post_spatial": "avl_subtree_store_at g current",
+              "post_pure": "the same recursive result and avl_gvalid",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "Reuse retval from the recursive call.",
+            "space_plan": "Symmetrically reorder the left result slice, parent fields, and right frame, then apply the common reverse subtree fold helper.",
+            "pure_plan": "All avl_graph_node_store pure facts are now preserved by the branch assertion; result and graph validity are direct.",
+            "refinement_plan": "Recursive call preserves the identical graph model.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [
+              "avl_subtree_store_fold_unfold"
+            ],
+            "premise_discharge": [
+              "parent validity and full key/height ranges are explicit preconditions",
+              "child stores and raw fields are the exact spatial antecedent"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "avl_search_graph_refinement",
+            "grouping_reason": "Left-recursive reconstruction is symmetric to return_wit_2."
+          },
+          {
+            "witness_name": "proof_of_xizi_avl_search_return_wit_4",
+            "judgment": "proofable",
+            "vc_shape": {
+              "pre_spatial": "avl_subtree_store_at g NULL, definitionally emp",
+              "pre_pure": "cursor = NULL, cursor-valid global absence, avl_gvalid, and input bounds",
+              "pre_exists": "none",
+              "post_spatial": "the unchanged NULL subtree store",
+              "post_pure": "avl_search_result g key NULL and avl_gvalid",
+              "post_exists": "none"
+            },
+            "witness_instantiation": "Return NULL.",
+            "space_plan": "Rewrite cursor = NULL and unfold avl_subtree_store_at to emp.",
+            "pure_plan": "The NULL branch of avl_search_cursor_valid supplies global key absence, exactly the NULL branch of avl_search_result; graph validity is direct.",
+            "refinement_plan": "No abstract-state change.",
+            "used_existing_lemmas": [],
+            "candidate_helper_declarations": [],
+            "premise_discharge": [
+              "ret = NULL is reflexive",
+              "global absence is the first cursor-valid branch",
+              "avl_gvalid is PreH5"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "avl_search_graph_refinement",
+            "grouping_reason": "Small base case in the same recursive search proof."
+          },
+          {
+            "witness_name": "proof_of_xizi_avl_search_derive_high_level_spec_by_low_level_spec",
+            "judgment": "needs-helper",
+            "vc_shape": {
+              "pre_spatial": "avl_rep g_high, i.e. avl_gvalid together with avl_tree_store",
+              "pre_pure": "input bounds and initial pointer equals avl_ptr_of root",
+              "pre_exists": "none",
+              "post_spatial": "EX g_low, low-level pre separated from a wand mapping every low-level post to the high-level post",
+              "post_pure": "root cursor validity and identical high/low search-result semantics",
+              "post_exists": "choose g_low = g_high; inside the wand choose high-level retval = low-level retval_2"
+            },
+            "witness_instantiation": "Instantiate g_low_level_spec with g_high_level_spec and forward the low-level retval unchanged.",
+            "space_plan": "Use the root-slice equivalence to present avl_tree_store as the low-level subtree store. The residual wand is provable from emp: when supplied a low-level post, rewrite its root slice back to avl_tree_store and combine with avl_gvalid to rebuild avl_rep.",
+            "pure_plan": "Apply avl_root_cursor_valid. For Some root, gvalid supplies root validity/reachability and avl_vertices_nonnull; for None, root-reaches-all implies no valid nodes. Search-result propositions are identical because the models are identical.",
+            "refinement_plan": "Direct high/low refinement with identical abstract model; no recursive Rocq implementation is introduced.",
+            "used_existing_lemmas": [
+              "GraphLib root_valid and root-reaches-all",
+              "wand-sepcon adjunction"
+            ],
+            "candidate_helper_declarations": [
+              "avl_root_cursor_valid",
+              "avl_tree_store_root_slice"
+            ],
+            "premise_discharge": [
+              "avl_gvalid and avl_tree_store are the pure/spatial parts of avl_rep",
+              "valid-root non-nullness follows from avl_vertices_nonnull",
+              "the low-level post supplies the result and root slice consumed by the wand"
+            ],
+            "failure_signal": "",
+            "recommended_next_phase": "vc-proving-preparing",
+            "analysis_group_candidate": "avl_search_graph_refinement",
+            "grouping_reason": "Uses the same root/descendant slice model and should share its helper family with the low-level witnesses."
+          }
+        ],
+        "analysis_groups": [
+          {
+            "group_id": "avl_search_graph_refinement",
+            "witness_names": [
+              "proof_of_xizi_avl_search_entail_wit_1",
+              "proof_of_xizi_avl_search_entail_wit_2",
+              "proof_of_xizi_avl_search_entail_wit_3",
+              "proof_of_xizi_avl_search_return_wit_1",
+              "proof_of_xizi_avl_search_return_wit_2",
+              "proof_of_xizi_avl_search_return_wit_3",
+              "proof_of_xizi_avl_search_return_wit_4",
+              "proof_of_xizi_avl_search_derive_high_level_spec_by_low_level_spec"
+            ],
+            "representative_witness": "proof_of_xizi_avl_search_entail_wit_1",
+            "shared_proof_pattern": "Operate on one graph model, decompose/reassemble descendant slices around the current node, use BST ordering to move cursor confinement, and identify the root slice with the complete representation.",
+            "shared_space_plan": "One fold/unfold equivalence handles the non-null node and all recursive returns; a root specialization connects the full tree store to the initial slice.",
+            "shared_pure_plan": "avl_gvalid supplies BST validity and valid-vertex non-nullness; cursor predicates supply search confinement; branch comparisons choose the proper child.",
+            "shared_refinement_plan": "Low-level recursion preserves g, and the high-level bridge instantiates its low-level model with that same g.",
+            "candidate_helper_declarations": [
+              "avl_subtree_store_fold_unfold",
+              "avl_search_cursor_descend_right",
+              "avl_search_cursor_descend_left",
+              "avl_root_cursor_valid",
+              "avl_tree_store_root_slice"
+            ],
+            "dependencies": [],
+            "grouping_reason": "All eight witnesses belong to the same function and share the descendant-slice/cursor helper family. Keeping them together avoids duplicating suffixed helpers; group size 8 is within the controller limit 12.",
+            "proof_group_ready": true
+          }
+        ]
+      },
+      "group_plan": {
+        "schema_version": "qcp-proof-group-plan/v1",
+        "source_goal_version": "2e3bd4d0d0aa1671631649df0e5ae02c009cef4892c36ce75a469cd3e6ce787b",
+        "target_witnesses": [
+          "proof_of_xizi_avl_search_entail_wit_1",
+          "proof_of_xizi_avl_search_entail_wit_2",
+          "proof_of_xizi_avl_search_entail_wit_3",
+          "proof_of_xizi_avl_search_return_wit_1",
+          "proof_of_xizi_avl_search_return_wit_2",
+          "proof_of_xizi_avl_search_return_wit_3",
+          "proof_of_xizi_avl_search_return_wit_4",
+          "proof_of_xizi_avl_search_derive_high_level_spec_by_low_level_spec"
+        ],
+        "proof_groups": [
+          {
+            "group_id": "avl_search_graph_refinement",
+            "witness_names": [
+              "proof_of_xizi_avl_search_entail_wit_1",
+              "proof_of_xizi_avl_search_entail_wit_2",
+              "proof_of_xizi_avl_search_entail_wit_3",
+              "proof_of_xizi_avl_search_return_wit_1",
+              "proof_of_xizi_avl_search_return_wit_2",
+              "proof_of_xizi_avl_search_return_wit_3",
+              "proof_of_xizi_avl_search_return_wit_4",
+              "proof_of_xizi_avl_search_derive_high_level_spec_by_low_level_spec"
+            ],
+            "representative_witness": "proof_of_xizi_avl_search_entail_wit_1",
+            "dependencies": [],
+            "candidate_helper_declarations": [
+              {
+                "name_hint": "avl_subtree_store_fold_unfold",
+                "statement_shape": "forall g p, avl_gvalid g -> avl_vvalid g p -> p <> NULL -> avl_subtree_store_at g p --||-- avl_graph_node_store g p ** avl_subtree_store_at g (avl_ptr_of (avl_left g p)) ** avl_subtree_store_at g (avl_ptr_of (avl_right g p))",
+                "used_by_witnesses": [
+                  "proof_of_xizi_avl_search_entail_wit_1",
+                  "proof_of_xizi_avl_search_return_wit_1",
+                  "proof_of_xizi_avl_search_return_wit_2",
+                  "proof_of_xizi_avl_search_return_wit_3"
+                ],
+                "premises": [
+                  {
+                    "premise": "avl_gvalid g",
+                    "discharged_by": "direct hypothesis in every using witness",
+                    "needs_unfold": [
+                      "avl_subtree_store_at",
+                      "avl_subtree_nodes"
+                    ],
+                    "arithmetic": "none",
+                    "spatial_resource": "parent subtree on unfold; node fields and both child slices on fold"
+                  },
+                  {
+                    "premise": "avl_vvalid g p and p <> NULL",
+                    "discharged_by": "explicit return preconditions; for entail_wit_1, derive validity from non-null cursor validity",
+                    "needs_unfold": [
+                      "avl_search_cursor_valid"
+                    ],
+                    "arithmetic": "none",
+                    "spatial_resource": "none"
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              },
+              {
+                "name_hint": "avl_search_cursor_descend_right",
+                "statement_shape": "avl_gvalid g -> avl_vvalid g p -> avl_search_cursor_valid g p key -> avl_key_of g p < key -> avl_search_cursor_valid g (avl_ptr_of (avl_right g p)) key",
+                "used_by_witnesses": [
+                  "proof_of_xizi_avl_search_entail_wit_2"
+                ],
+                "premises": [
+                  {
+                    "premise": "graph validity, parent validity, cursor confinement, and strict right comparison",
+                    "discharged_by": "PreH6, PreH7, PreH5, and PreH1",
+                    "needs_unfold": [
+                      "avl_gvalid",
+                      "avl_search_cursor_valid"
+                    ],
+                    "arithmetic": "no arithmetic beyond the supplied strict comparison",
+                    "spatial_resource": "none"
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              },
+              {
+                "name_hint": "avl_search_cursor_descend_left",
+                "statement_shape": "avl_gvalid g -> avl_vvalid g p -> avl_search_cursor_valid g p key -> key < avl_key_of g p -> avl_search_cursor_valid g (avl_ptr_of (avl_left g p)) key",
+                "used_by_witnesses": [
+                  "proof_of_xizi_avl_search_entail_wit_3"
+                ],
+                "premises": [
+                  {
+                    "premise": "graph validity, parent validity, cursor confinement, and strict left comparison",
+                    "discharged_by": "PreH6, PreH7, PreH5, with strict comparison derived from PreH1 and PreH2",
+                    "needs_unfold": [
+                      "avl_gvalid",
+                      "avl_search_cursor_valid"
+                    ],
+                    "arithmetic": "derive key < parent key from parent key >= key and key <> parent key",
+                    "spatial_resource": "none"
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              },
+              {
+                "name_hint": "avl_root_cursor_valid",
+                "statement_shape": "forall g key, avl_gvalid g -> avl_search_cursor_valid g (avl_ptr_of (avl_root g)) key",
+                "used_by_witnesses": [
+                  "proof_of_xizi_avl_search_derive_high_level_spec_by_low_level_spec"
+                ],
+                "premises": [
+                  {
+                    "premise": "avl_gvalid g",
+                    "discharged_by": "pure component of avl_rep g",
+                    "needs_unfold": [
+                      "avl_gvalid",
+                      "avl_search_cursor_valid"
+                    ],
+                    "arithmetic": "none",
+                    "spatial_resource": "none"
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              },
+              {
+                "name_hint": "avl_tree_store_root_slice",
+                "statement_shape": "forall g, avl_gvalid g -> avl_tree_store g --||-- avl_subtree_store_at g (avl_ptr_of (avl_root g))",
+                "used_by_witnesses": [
+                  "proof_of_xizi_avl_search_derive_high_level_spec_by_low_level_spec"
+                ],
+                "premises": [
+                  {
+                    "premise": "avl_gvalid g",
+                    "discharged_by": "pure component of avl_rep g",
+                    "needs_unfold": [
+                      "avl_tree_store",
+                      "avl_subtree_store_at",
+                      "avl_subtree_nodes"
+                    ],
+                    "arithmetic": "none",
+                    "spatial_resource": "avl_tree_store g or the root subtree slice"
+                  }
+                ],
+                "destination": "group-local case_lib with helper_namespace.suffix"
+              }
+            ],
+            "likely_helper_declarations": [
+              "avl_subtree_store_fold_unfold",
+              "avl_search_cursor_descend_right",
+              "avl_search_cursor_descend_left",
+              "avl_root_cursor_valid",
+              "avl_tree_store_root_slice"
+            ],
+            "expected_helpers": [
+              "the five candidate declarations above, each with helper_namespace.suffix"
+            ],
+            "proof_strategy": "First prove the descendant-list partition and its iter_sepcon fold/unfold equivalence using valid-vertex non-nullness. Use it to discharge the initial decomposition and all non-null return folds. Prove symmetric BST cursor-descent helpers for the two recursive branches. Prove root cursor confinement and root-slice/full-store equivalence, then construct the high/low wand with identical graph and retval witnesses. The NULL return is direct.",
+            "natural_language_proof_strategy": "Use one shared helper family for graph slices, cursor movement, and the root bridge; preserve g and frame all heap resources throughout the read-only search.",
+            "grouping_reason": "All targets are one recursive function's entry, branch, return, and high/low obligations and depend on the same graph-slice definitions. A single group avoids duplicated suffixed helpers and contains 8 witnesses, below max_witnesses_per_group = 12."
+          }
+        ],
+        "coverage": {
+          "all_targets_assigned_once": "yes",
+          "unassigned": [],
+          "duplicates": []
+        },
+        "dependency_graph_acyclic": "yes",
+        "max_witnesses_per_group": 12,
+        "largest_group_size": 8,
+        "blockers": []
+      },
+      "blockers": []
+    },
+    "changed_files": [],
+    "report_files_written": [
+      "/home/yangfp/QCIP/reports/xizi_avl_search-20260920195840/rounds/xizi_avl_search-vc-checking-r2/agent_report.json",
+      "/home/yangfp/QCIP/reports/xizi_avl_search-20260920195840/rounds/xizi_avl_search-vc-checking-r2/agent_output.txt"
+    ],
+    "blockers": []
+  },
+  "verification_result": {
+    "output_note_check": {
+      "status": "passed",
+      "checked_at": "2026-09-20T12:45:40Z",
+      "path": "/home/yangfp/QCIP/reports/xizi_avl_search-20260920195840/rounds/xizi_avl_search-vc-checking-r2/agent_output.txt",
+      "kind": "non-authoritative-reuse-note",
+      "acceptance_evidence": "no",
+      "warnings": []
+    },
+    "controller_simple_repairs": [
+      {
+        "kind": "materialized-inline-group-plan",
+        "source": "/home/yangfp/QCIP/reports/xizi_avl_search-20260920195840/rounds/xizi_avl_search-vc-checking-r2/agent_report.json",
+        "target": "/home/yangfp/QCIP/reports/xizi_avl_search-20260920195840/rounds/xizi_avl_search-vc-checking-r2/group_plan.json",
+        "reason": "vc-checking report included an inline group_plan but the default group_plan.json artifact was missing"
+      }
+    ],
+    "vc_checking_check_round": {
+      "status": "passed",
+      "accepted_at": "2026-09-20T12:45:44Z",
+      "source_version": {
+        "digest": "79ac97bef577a2342b4d16e03d57f4773996428bd140ad21d74a6f5a671bd4b1",
+        "digest_input_policy": "relative_path+sha256+state+role only",
+        "files": [
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_avl_search-20260920195840/xizi_avl_search-annotation-r2/INPUT/xizi/xizi_avl_search/xizi_avl_search.c",
+            "relative_path": "INPUT/xizi/xizi_avl_search/xizi_avl_search.c",
+            "role": "target-c-annotated",
+            "sha256": "dd19555fd38b8b035220a0ef3bc1a7fe13ccb819c9da5cafde371e34b82d3174",
+            "state": "present"
+          },
+          {
+            "path": "/home/yangfp/QCIP/worktrees/xizi_avl_search-20260920195840/xizi_avl_search-annotation-r2/QCIPLib/xizi/xizi_avl_common/xizi_avl_graph_lib.v",
+            "relative_path": "QCIPLib/xizi/xizi_avl_common/xizi_avl_graph_lib.v",
+            "role": "case-lib-seed",
+            "sha256": "318a8f53a6d33facab469d751e8fdbd1bb43c7f0badd135b29d72a5905b46240",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-version/v1"
+      },
+      "source_goal_version": {
+        "digest": "2e3bd4d0d0aa1671631649df0e5ae02c009cef4892c36ce75a469cd3e6ce787b",
+        "digest_input_policy": "relative_path+sha256+state+role over generated files and witness statements",
+        "generated_files": [
+          {
+            "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_avl_search/xizi_avl_search_goal.v",
+            "role": "generated-goal",
+            "sha256": "066c5ad8df720eb39a9cf7d7c8609f767898e74a4678e936831b441787dbd043",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_avl_search/xizi_avl_search_proof_auto.v",
+            "role": "generated-proof-auto",
+            "sha256": "582436adb7abfb7c71f2212b1766abbb6e7aecb86bde22411b66820d78ab2244",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_avl_search/xizi_avl_search_proof_manual.v",
+            "role": "generated-proof-manual",
+            "sha256": "32eda8675501d5f592d7c417a0308239725e050168804ba1098a25d184d508fd",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_avl_search/xizi_avl_search_goal_check.v",
+            "role": "generated-goal-check",
+            "sha256": "492821ac4a51f7824672bb9c5a0d08fe0cab235cb30bece02b39be545efedd41",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_avl_search/xizi_avl_search_proof_diagnostics.v",
+            "role": "generated-diagnostics",
+            "sha256": "793b786e1fac07ff2bd9e55c53460954189ec487c6cefc375d2740e8f7bce12a",
+            "state": "present"
+          },
+          {
+            "relative_path": "SeparationLogic/examples/INPUT/xizi/xizi_avl_search/diagnostics_snapshot.json",
+            "role": "generated-diagnostics-snapshot",
+            "sha256": "c6b3d966030eb180b6c07ea563342f3882356d2973cc65afa44ba963bb206ade",
+            "state": "present"
+          }
+        ],
+        "schema_version": "qcp-source-goal-version/v1",
+        "target_witnesses": [
+          "proof_of_xizi_avl_search_entail_wit_1",
+          "proof_of_xizi_avl_search_entail_wit_2",
+          "proof_of_xizi_avl_search_entail_wit_3",
+          "proof_of_xizi_avl_search_return_wit_1",
+          "proof_of_xizi_avl_search_return_wit_2",
+          "proof_of_xizi_avl_search_return_wit_3",
+          "proof_of_xizi_avl_search_return_wit_4",
+          "proof_of_xizi_avl_search_derive_high_level_spec_by_low_level_spec"
+        ],
+        "witness_statement_hashes": {
+          "proof_of_xizi_avl_search_derive_high_level_spec_by_low_level_spec": "145f13b6e084ccc55b76539e287db9f5a52508720e14e567f89761dc2ecb0909",
+          "proof_of_xizi_avl_search_entail_wit_1": "b08ee40bec1f7ee0f02cb0ff9856a3f1e05198d4e69d48345b0955f9e5497fc9",
+          "proof_of_xizi_avl_search_entail_wit_2": "32a5f50b77359a89d7700a4fd3d96e6295689139eb9000c2d9640b8de5ca7158",
+          "proof_of_xizi_avl_search_entail_wit_3": "be7683e8987e3884398e4ec5f8bbcc1d100d30f841f345f1219c006108d1beef",
+          "proof_of_xizi_avl_search_return_wit_1": "09c5377d342d418dbf4db76194c6c6e90817783ee897fd4eda72a00420562c19",
+          "proof_of_xizi_avl_search_return_wit_2": "47e6fb81a3a59c44f1275cfa603e333c4680cf0c40239230e3784bdea514bde4",
+          "proof_of_xizi_avl_search_return_wit_3": "7422e77bc9c77d5b742dc4e3d39bd73ed91fb5a2250da10186aeb77c4fa7f925",
+          "proof_of_xizi_avl_search_return_wit_4": "3f3aa5aa49bcf48b61c74ff71bed7969f94c48a54fee6286e0476fc65a215203"
+        },
+        "witnesses": [
+          {
+            "end_line": 26,
+            "name": "proof_of_xizi_avl_search_entail_wit_1",
+            "start_line": 24,
+            "statement_hash": "b08ee40bec1f7ee0f02cb0ff9856a3f1e05198d4e69d48345b0955f9e5497fc9",
+            "target_symbol": "xizi_avl_search_entail_wit_1"
+          },
+          {
+            "end_line": 29,
+            "name": "proof_of_xizi_avl_search_entail_wit_2",
+            "start_line": 27,
+            "statement_hash": "32a5f50b77359a89d7700a4fd3d96e6295689139eb9000c2d9640b8de5ca7158",
+            "target_symbol": "xizi_avl_search_entail_wit_2"
+          },
+          {
+            "end_line": 32,
+            "name": "proof_of_xizi_avl_search_entail_wit_3",
+            "start_line": 30,
+            "statement_hash": "be7683e8987e3884398e4ec5f8bbcc1d100d30f841f345f1219c006108d1beef",
+            "target_symbol": "xizi_avl_search_entail_wit_3"
+          },
+          {
+            "end_line": 35,
+            "name": "proof_of_xizi_avl_search_return_wit_1",
+            "start_line": 33,
+            "statement_hash": "09c5377d342d418dbf4db76194c6c6e90817783ee897fd4eda72a00420562c19",
+            "target_symbol": "xizi_avl_search_return_wit_1"
+          },
+          {
+            "end_line": 38,
+            "name": "proof_of_xizi_avl_search_return_wit_2",
+            "start_line": 36,
+            "statement_hash": "47e6fb81a3a59c44f1275cfa603e333c4680cf0c40239230e3784bdea514bde4",
+            "target_symbol": "xizi_avl_search_return_wit_2"
+          },
+          {
+            "end_line": 41,
+            "name": "proof_of_xizi_avl_search_return_wit_3",
+            "start_line": 39,
+            "statement_hash": "7422e77bc9c77d5b742dc4e3d39bd73ed91fb5a2250da10186aeb77c4fa7f925",
+            "target_symbol": "xizi_avl_search_return_wit_3"
+          },
+          {
+            "end_line": 44,
+            "name": "proof_of_xizi_avl_search_return_wit_4",
+            "start_line": 42,
+            "statement_hash": "3f3aa5aa49bcf48b61c74ff71bed7969f94c48a54fee6286e0476fc65a215203",
+            "target_symbol": "xizi_avl_search_return_wit_4"
+          },
+          {
+            "end_line": 47,
+            "name": "proof_of_xizi_avl_search_derive_high_level_spec_by_low_level_spec",
+            "start_line": 45,
+            "statement_hash": "145f13b6e084ccc55b76539e287db9f5a52508720e14e567f89761dc2ecb0909",
+            "target_symbol": "xizi_avl_search_derive_high_level_spec_by_low_level_spec"
+          }
+        ]
+      },
+      "group_plan": "/home/yangfp/QCIP/reports/xizi_avl_search-20260920195840/rounds/xizi_avl_search-vc-checking-r2/group_plan.json",
+      "target_witnesses": [
+        "proof_of_xizi_avl_search_entail_wit_1",
+        "proof_of_xizi_avl_search_entail_wit_2",
+        "proof_of_xizi_avl_search_entail_wit_3",
+        "proof_of_xizi_avl_search_return_wit_1",
+        "proof_of_xizi_avl_search_return_wit_2",
+        "proof_of_xizi_avl_search_return_wit_3",
+        "proof_of_xizi_avl_search_return_wit_4",
+        "proof_of_xizi_avl_search_derive_high_level_spec_by_low_level_spec"
+      ]
+    }
+  },
+  "blockers": []
+}

@@ -1,0 +1,272 @@
+{
+  "schema_version": "qcp-agent-input/v1",
+  "phase": "annotation",
+  "round": "CalculateGyroDg-annotation-r3",
+  "attempt_control": {
+    "attempt_id": "CalculateGyroDg-annotation-r3-attempt-1",
+    "attempt_index": 1,
+    "max_compact_attempts": 3,
+    "retry_reasons": [
+      "compact-error-with-no-progress",
+      "explicit-cancel",
+      "invalid-report",
+      "stale-input"
+    ],
+    "heartbeat_policy": "no-timeout-retry"
+  },
+  "run": {
+    "run_id": "CalculateGyroDg-20260915T163806",
+    "run_root": "/home/yangfp/QCIP/worktrees/CalculateGyroDg-20260915T163806",
+    "report_root": "/home/yangfp/QCIP/reports/CalculateGyroDg-20260915T163806",
+    "main_worktree": "/home/yangfp/QCIP"
+  },
+  "round_worktree": "/home/yangfp/QCIP/worktrees/CalculateGyroDg-20260915T163806/CalculateGyroDg-annotation-r3",
+  "parent_worktree": "/home/yangfp/QCIP",
+  "startup": {
+    "owner": "main-agent",
+    "controller_owned_state": "yes",
+    "script_launch_allowed": "no"
+  },
+  "single_spawn_policy": {
+    "preferred": "yes",
+    "goal": "complete all feasible phase repair and validation attempts inside this one spawn",
+    "continue_without_confirmation": [
+      "missing optional problem context",
+      "missing case_lib seed when phase policy permits bootstrap",
+      "missing generated diagnostic hint files",
+      "spec uncertainty resolvable from C code and problem_context",
+      "future proof difficulty",
+      "recoverable QCP or Coq feedback"
+    ],
+    "create_missing_allowed_files": "yes",
+    "retry_inside_spawn": "yes",
+    "terminal_blocked_only_for": [
+      "phase skill declares the current task semantically impossible under current inputs",
+      "required toolchain completely unavailable after command evidence"
+    ],
+    "state_reports": {
+      "stale": "report stale when source_version or source_goal_version is no longer current",
+      "compact_error": "report compact-error only as a compaction fact; controller/main decides retry or final blocker"
+    },
+    "controller_acceptance_model": "controller validates final candidate and evidence after spawn returns"
+  },
+  "handoff": {
+    "rendered_instructions_compact": "Read /home/yangfp/QCIP/reports/CalculateGyroDg-20260915T163806/rounds/CalculateGyroDg-annotation-r3/agent_input.json.\nThe goal is to complete the workflow task assigned by the input JSON; /home/yangfp/QCIP/reports/CalculateGyroDg-20260915T163806/rounds/CalculateGyroDg-annotation-r3/agent_report.json is only the final report file recording the result.\nBefore acting, read the input JSON completely and read every skill or rule file listed in handoff.rules_source.\nThe input JSON, declared round worktree, declared source versions, and current files are the source of truth.\nDo not rely on parent chat history or unstated assumptions as task context or evidence.\nMinimize respawns: perform repair, retry, missing-file bootstrap, and alternative attempts inside this same spawn whenever the input versions are still current.\nDo not stop for confirmation about optional context, missing bootstrap files, future proof difficulty, or recoverable tool feedback; make a conservative local choice and continue.\nWork only in the declared round worktree; write only the declared report/output files and formal files allowed by allowed_write_paths.\nNo compromise operations: do not weaken specifications, bypass required checks, fake evidence, change generated files by hand, change witness statements to fit a proof, add Admitted/Axiom, use forbidden tools/tactics, or edit paths outside the handoff.\nTask completion means the assigned phase work is completed under the strict workflow, with a terminal agent_result, required evidence, changed-files or blocker details, applicable source_version/source_goal_version, and an output note satisfying output_contract.\nController acceptance is separate; do not mark yourself accepted or claim acceptance unless the controller writes it.\nReuse only previous_attempts, required_lessons, prior_failure_summaries, and output notes declared in the JSON; previous outputs are non-authoritative and lose conflicts to JSON, manifests, source versions, and current files.\nCompact-error is not your blocked judgment; report it only as a compaction fact and let controller/main decide retry or final blocker.\nIf the strict workflow cannot be completed, write a blocked, stale, or compact-error result with concrete evidence instead of improvising around the process.",
+    "rules_source": [
+      ".agents/skills/verification-orchestrator/SKILL.md",
+      ".agents/skills/annotation-filling/SKILL.md",
+      ".agents/skills/annotation-checking/SKILL.md"
+    ]
+  },
+  "source_version": {
+    "schema_version": "qcp-source-version/v1",
+    "digest": "69206d24c6d7cf5f12c81dadf954c6b4efe4c51c4fd0b0a218fb9a2e5980e88d",
+    "digest_input_policy": "relative_path+sha256+state+role only",
+    "files": [
+      {
+        "path": "/home/yangfp/QCIP/worktrees/CalculateGyroDg-20260915T163806/CalculateGyroDg-annotation-r3/INPUT/0915/CalculateGyroDg.c",
+        "relative_path": "INPUT/0915/CalculateGyroDg.c",
+        "sha256": "41393a1e475f1bc4bf83fd36fc353b38e9edbafce2a9c34b4c129d85d6b1b19a",
+        "state": "present",
+        "role": "target-c"
+      },
+      {
+        "path": "/home/yangfp/QCIP/worktrees/CalculateGyroDg-20260915T163806/CalculateGyroDg-annotation-r3/SeparationLogic/examples/INPUT/0915/CalculateGyroDg_lib.v",
+        "relative_path": "SeparationLogic/examples/INPUT/0915/CalculateGyroDg_lib.v",
+        "sha256": "27dce0c34cd9cdecc5748b9cdbc38841bd26cc4362fe0336db19f8ac09ac00ad",
+        "state": "present",
+        "role": "case-lib-seed"
+      }
+    ]
+  },
+  "source_goal_version": null,
+  "problem_context": {
+    "problem_statement": "Verify CalculateGyroDgFun end-to-end with QCP/Rocq. The function initializes tmpwa[0..4] to 0, copies JoinTotal selected gyroscope samples wa[SignFlag[j]] into tmpwa[j], and when JoinTotal >= 3 delegates a 3x5 by 5x1 matrix multiplication to compute W[0..2]; otherwise it sets W[0..2] to 0. Missing IP.h/MatrixMulti.h must be bootstrapped from the C semantics rather than treated as a terminal blocker.",
+    "target_function": "CalculateGyroDgFun",
+    "expected_behavior": "Memory-safe execution; tmpwa initialized; for 0 <= j < JoinTotal selected wa values are copied according to SignFlag; if JoinTotal < 3 then W[0..2] are float zero; if JoinTotal >= 3 then W represents Rtemp multiplied by the five-element tmpwa vector under the approved MatrixMulti call specification.",
+    "input_output_contract": "pIp and pGyroData are valid; JoinTotal <= 5; every SignFlag index read for j < JoinTotal is < 9; arrays have declared extents; only W[0..2] is externally modified by this function, subject to the MatrixMulti call contract.",
+    "spec_hint": [
+      "Use predicate-first loop invariants for the zero-initialization and gather loops. Model the MatrixMulti call through an annotation-approved mathematical call specification; do not mirror the C algorithm as a new Rocq recursive function."
+    ],
+    "preferred_hidden_properties": [
+      "tmpwa prefix initialization and prefix gather relation: initialized suffix remains zero and gathered prefix equals wa indexed by SignFlag; final W is either zero vector or the matrix-vector product."
+    ],
+    "forbidden_patterns": [
+      "Do not use QCP_demos_human; do not encode a second copy of the C loops as a Rocq algorithm; do not leave the external call unconstrained."
+    ],
+    "reference_case_hints": [
+      "Use only QCP_demos_LLM or verified engineering cases with predicate-first annotations and call specifications."
+    ],
+    "source": "user-input"
+  },
+  "target_files": {
+    "c_file": "INPUT/0915/CalculateGyroDg.c",
+    "formal_directory": "SeparationLogic/examples/INPUT/0915",
+    "case_lib": "SeparationLogic/examples/INPUT/0915/CalculateGyroDg_lib.v",
+    "goal_file": "SeparationLogic/examples/INPUT/0915/CalculateGyroDg_goal.v",
+    "proof_auto_file": "SeparationLogic/examples/INPUT/0915/CalculateGyroDg_proof_auto.v",
+    "proof_manual_file": "SeparationLogic/examples/INPUT/0915/CalculateGyroDg_proof_manual.v",
+    "goal_check_file": "SeparationLogic/examples/INPUT/0915/CalculateGyroDg_goal_check.v",
+    "proof_diagnostics_file": "SeparationLogic/examples/INPUT/0915/CalculateGyroDg_proof_diagnostics.v",
+    "diagnostics_snapshot": "SeparationLogic/examples/INPUT/0915/diagnostics_snapshot.json"
+  },
+  "case_lib": "SeparationLogic/examples/INPUT/0915/CalculateGyroDg_lib.v",
+  "allowed_write_paths": [
+    "INPUT/0915/CalculateGyroDg.c",
+    "SeparationLogic/examples/INPUT/0915/CalculateGyroDg_lib.v",
+    "SeparationLogic/examples/INPUT/0915/CalculateGyroDg_goal.v",
+    "SeparationLogic/examples/INPUT/0915/CalculateGyroDg_proof_auto.v",
+    "SeparationLogic/examples/INPUT/0915/CalculateGyroDg_proof_manual.v",
+    "SeparationLogic/examples/INPUT/0915/CalculateGyroDg_goal_check.v",
+    "SeparationLogic/examples/INPUT/0915/CalculateGyroDg_proof_diagnostics.v",
+    "SeparationLogic/examples/INPUT/0915/diagnostics_snapshot.json"
+  ],
+  "coq_tooling": {
+    "helper": "/home/yangfp/QCIP/.agents/skills/vc-proving/scripts/coq_tooling.py",
+    "main_workspace_root": "/home/yangfp/QCIP",
+    "workspace_root": "/home/yangfp/QCIP/worktrees/CalculateGyroDg-20260915T163806/CalculateGyroDg-annotation-r3",
+    "coq_builds_root": "/home/yangfp/QCIP/worktrees/CalculateGyroDg-20260915T163806/_coq_builds",
+    "fixed_flags_hash": "24021e94f65d7fcb0014dc119baf8b1f9efef2bcb2cf5fbeb875549a843dbeb8",
+    "case_lib_target_kind": "case_lib",
+    "round_check_file": "SeparationLogic/examples/INPUT/0915/CalculateGyroDg_goal_check.v"
+  },
+  "compact_retry": {
+    "attempt_index": 1,
+    "max_compact_attempts": 3
+  },
+  "reports": {
+    "input": "/home/yangfp/QCIP/reports/CalculateGyroDg-20260915T163806/rounds/CalculateGyroDg-annotation-r3/agent_input.json",
+    "report": "/home/yangfp/QCIP/reports/CalculateGyroDg-20260915T163806/rounds/CalculateGyroDg-annotation-r3/agent_report.json",
+    "output": "/home/yangfp/QCIP/reports/CalculateGyroDg-20260915T163806/rounds/CalculateGyroDg-annotation-r3/agent_output.txt"
+  },
+  "output_contract": {
+    "path": "/home/yangfp/QCIP/reports/CalculateGyroDg-20260915T163806/rounds/CalculateGyroDg-annotation-r3/agent_output.txt",
+    "kind": "non-authoritative-reuse-note",
+    "required": "yes",
+    "acceptance_evidence": "no",
+    "must_start_with": "# Reuse Note",
+    "must_contain": [
+      "Note kind: non-authoritative reuse note"
+    ],
+    "conflict_rule": "json_handoff_manifest_versions_and_current_files_win"
+  },
+  "annotation_contract": {
+    "subagent_skills": [
+      "annotation-filling",
+      "annotation-checking"
+    ],
+    "no_existing_lib_policy": "create-minimal-case-lib-then-bootstrap-spec",
+    "self_repair_budget": {
+      "min_complete_cycles": 3,
+      "min_wall_clock_minutes": 30
+    },
+    "self_reworkable_failure_classes": [
+      "spec-quality",
+      "qcp-symbolic-execution",
+      "case_lib-coqc",
+      "where-instantiation",
+      "annotation-checking-failed"
+    ],
+    "ready_condition": "agent_result.annotation.status == completed and ready_for_annotation_check_round == true only after canonical QCP, case_lib coqc, and annotation-checking pass; self_reworkable_failures must be empty",
+    "blocked_condition": "only phase skill hard blockers should use status == blocked; self_repair_budget_exhausted is work evidence, not an automatic blocked condition"
+  },
+  "case_lib_seed_evidence": {
+    "status": "created",
+    "path": "/home/yangfp/QCIP/worktrees/CalculateGyroDg-20260915T163806/CalculateGyroDg-annotation-r3/SeparationLogic/examples/INPUT/0915/CalculateGyroDg_lib.v",
+    "relative_path": "SeparationLogic/examples/INPUT/0915/CalculateGyroDg_lib.v",
+    "created": true,
+    "sha256": "27dce0c34cd9cdecc5748b9cdbc38841bd26cc4362fe0336db19f8ac09ac00ad"
+  },
+  "reference_policy": {
+    "allowed_globs": [],
+    "denied_globs": [
+      "QCP_examples/QCP_demos_human/**",
+      "SeparationLogic/examples/QCP_demos_human/**"
+    ],
+    "mode": "default",
+    "must_log_file_reads": "yes"
+  },
+  "previous_attempts": [
+    {
+      "round": "CalculateGyroDg-annotation-r2",
+      "report": "/home/yangfp/QCIP/reports/CalculateGyroDg-20260915T163806/rounds/CalculateGyroDg-annotation-r2/agent_report.json",
+      "output": "/home/yangfp/QCIP/reports/CalculateGyroDg-20260915T163806/rounds/CalculateGyroDg-annotation-r2/agent_output.txt",
+      "worktree": "/home/yangfp/QCIP/worktrees/CalculateGyroDg-20260915T163806/CalculateGyroDg-annotation-r2",
+      "allowed_use": "read-only-analysis",
+      "formal_copy_allowed": "no"
+    }
+  ],
+  "required_lessons": [
+    {
+      "id": "CalculateGyroDg-annotation-r2-annotation-retry-1",
+      "source_round": "CalculateGyroDg-annotation-r2",
+      "failure_class": "annotation-retry",
+      "must_address": "Review previous annotation blocker before retry."
+    }
+  ],
+  "prior_failure_summaries": [
+    {
+      "round": "CalculateGyroDg-annotation-r2",
+      "attempt_id": "CalculateGyroDg-annotation-r2-attempt-1",
+      "reason": "Target C changed after r2 snapshot: IPCALL replaced by direct MatrixMultiFun call per user instruction.",
+      "status": "stale",
+      "blockers": []
+    }
+  ],
+  "qcp_driver": {
+    "driver": "/home/yangfp/QCIP/linux-binary/symexec",
+    "cwd": "/home/yangfp/QCIP/worktrees/CalculateGyroDg-20260915T163806/CalculateGyroDg-annotation-r3",
+    "include_args": [
+      "QCP_examples/QCP_demos_LLM/"
+    ],
+    "slp_args": [
+      "QCP_examples/QCP_demos_LLM/",
+      "SimpleC.EE.QCP_demos_LLM"
+    ],
+    "slp_mappings": [
+      [
+        "QCP_examples/QCP_demos_LLM/",
+        "SimpleC.EE.QCP_demos_LLM"
+      ]
+    ],
+    "coq_logic_path": "SimpleC.EE.INPUT.0915",
+    "coq_rules": null,
+    "canonical_argv_template": [
+      "/home/yangfp/QCIP/linux-binary/symexec",
+      "--goal-file=SeparationLogic/examples/INPUT/0915/CalculateGyroDg_goal.v",
+      "--proof-auto-file=SeparationLogic/examples/INPUT/0915/CalculateGyroDg_proof_auto.v",
+      "--proof-manual-file=SeparationLogic/examples/INPUT/0915/CalculateGyroDg_proof_manual.v",
+      "-IQCP_examples/QCP_demos_LLM/",
+      "-slp",
+      "QCP_examples/QCP_demos_LLM/",
+      "SimpleC.EE.QCP_demos_LLM",
+      "--coq-logic-path=SimpleC.EE.INPUT.0915",
+      "--input-file=INPUT/0915/CalculateGyroDg.c",
+      "--no-exec-info"
+    ]
+  },
+  "spec_requirements": {
+    "mathematical_postconditions_required": [
+      "Function specs must state what result the function computes, not only bounds or shape facts.",
+      "Loop invariants must connect processed state to the final mathematical postcondition."
+    ],
+    "avoid_spec_antipatterns": [
+      "Do not weaken the spec to shape-only or bounds-only conditions.",
+      "Do not restate the C loops as the mathematical definition.",
+      "Do not use QCP_demos_human examples."
+    ],
+    "problem_context_summary": {
+      "target_function": "CalculateGyroDgFun",
+      "expected_behavior": "Memory-safe execution; tmpwa initialized; for 0 <= j < JoinTotal selected wa values are copied according to SignFlag; if JoinTotal < 3 then W[0..2] are float zero; if JoinTotal >= 3 then W represents Rtemp multiplied by the five-element tmpwa vector under the approved MatrixMulti call specification.",
+      "input_output_contract": "pIp and pGyroData are valid; JoinTotal <= 5; every SignFlag index read for j < JoinTotal is < 9; arrays have declared extents; only W[0..2] is externally modified by this function, subject to the MatrixMulti call contract.",
+      "spec_hint": [
+        "Use predicate-first loop invariants for the zero-initialization and gather loops. Model the MatrixMulti call through an annotation-approved mathematical call specification; do not mirror the C algorithm as a new Rocq recursive function."
+      ],
+      "preferred_hidden_properties": [
+        "tmpwa prefix initialization and prefix gather relation: initialized suffix remains zero and gathered prefix equals wa indexed by SignFlag; final W is either zero vector or the matrix-vector product."
+      ],
+      "source": "user-input"
+    },
+    "bootstrap_required_when_case_lib_seed_created": "yes"
+  }
+}
