@@ -1,28 +1,46 @@
 #include "xizi_avl_def.h"
 
-/* Height of an AVL tree node (an empty tree has height 0), returning
- * max(height(left), height(right)) + 1.
- *
- * Faithful compilable closure of
- *   crtos/Ubiquitous/XiZi_IIoT_Macro/kernel/thread/avl_tree.c
- *   :: AvlTreeGetNodeHeight
- * with the AVL_MAX(a, b) ternary macro hoisted into an explicit if/else and
- * each recursive call bound to a local so every child is visited exactly once
- * (the macro would otherwise re-evaluate its arguments).  The uint32 return of
- * the kernel routine is modelled as a C int; heights are small non-negative
- * counts, and the precondition tree_depth(tr) <= INT_MAX keeps the +1
- * increments inside the int range so they never overflow. */
-int xizi_avl_height(struct AvlNode *avl_node)
+/*@ Import Coq Require Import QCIPLib.xizi.xizi_avl_common.xizi_avl_graph_lib */
+/*@ Extern Coq (avl_model :: *) */
+/*@ Extern Coq (avl_tree_valid : avl_model -> Prop)
+               (avl_height_int_result_safe : avl_model -> Z -> Prop)
+               (avl_height_consistent : avl_model -> Prop)
+               (avl_height_result : avl_model -> Z -> Z -> Prop)
+               (avl_height_of : avl_model -> Z -> Z)
+               (avl_vvalid : avl_model -> Z -> Prop)
+               (avl_key_of : avl_model -> Z -> Z)
+               (avl_left : avl_model -> Z -> option Z)
+               (avl_right : avl_model -> Z -> option Z)
+               (avl_ptr_of : option Z -> Z)
+               (avl_subtree_store_at : avl_model -> Z -> Assertion)
+*/
 
+/* Return the cached AVL node height, or zero for an empty subtree. */
+int xizi_avl_height(struct AvlNode *avl_node)
+  /*@ low_level_spec
+      With g
+      Require avl_tree_valid(g) &&
+              avl_height_int_result_safe(g, avl_node) &&
+              avl_subtree_store_at(g, avl_node)
+      Ensure avl_height_result(g, avl_node, __return) &&
+             avl_subtree_store_at(g, avl_node)
+   */
 {
     if (avl_node == (void *)0) {
         return 0;
     }
-    int lh = xizi_avl_height(avl_node->left);
-    int rh = xizi_avl_height(avl_node->right);
-    if (lh > rh) {
-        return lh + 1;
-    } else {
-        return rh + 1;
-    }
+    /*@ Assert
+        avl_node == avl_node@pre &&
+        avl_tree_valid(g) &&
+        avl_vvalid(g, avl_node) && avl_node != 0 &&
+        0 <= avl_height_of(g, avl_node) &&
+        avl_height_of(g, avl_node) <= INT_MAX &&
+        store(&(avl_node->data), avl_key_of(g, avl_node)) *
+        store(&(avl_node->height), avl_height_of(g, avl_node)) *
+        store(&(avl_node->left), avl_ptr_of(avl_left(g, avl_node))) *
+        store(&(avl_node->right), avl_ptr_of(avl_right(g, avl_node))) *
+        avl_subtree_store_at(g, avl_ptr_of(avl_left(g, avl_node))) *
+        avl_subtree_store_at(g, avl_ptr_of(avl_right(g, avl_node)))
+    */
+    return (int)avl_node->height;
 }
