@@ -1,0 +1,420 @@
+Require Import Coq.ZArith.ZArith.
+Require Import Coq.Bool.Bool.
+Require Import Coq.Strings.String.
+Require Import Coq.Strings.Ascii.
+Require Import Coq.Lists.List.
+Require Import Coq.Classes.RelationClasses.
+Require Import Coq.Classes.Morphisms.
+Require Import Coq.micromega.Psatz.
+Require Import Coq.Sorting.Permutation.
+From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
+Require Import SetsClass.SetsClass. Import SetsNotation.
+From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.EE.INPUT.crtos.crtos_avl_api_crtos Require Import crtos_avl_api_crtos_goal.
+From SimpleC.EE.INPUT.crtos.crtos_avl_api_crtos Require Import crtos_avl_api_crtos_proof_auto.
+Require Import Logic.LogicGenerator.demo932.Interface.
+Local Open Scope Z_scope.
+Local Open Scope sets.
+Local Open Scope string_scope.
+Local Open Scope list.
+Import naive_C_Rules.
+Require Import SimpleC.EE.INPUT.crtos.crtos_avl_internal_crtos.crtos_avl_internal_crtos_lib.
+Require Import SimpleC.EE.INPUT.crtos.crtos_avl_api_crtos.crtos_avl_api_crtos_lib.
+Local Open Scope sac.
+
+Lemma proof_of_crtos_avl_height_crtos_return_wit_1_split_goal_1 : crtos_avl_height_crtos_return_wit_1_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_height_crtos_return_wit_1_split_goal_spatial : crtos_avl_height_crtos_return_wit_1_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_height_crtos_return_wit_2_split_goal_1 : crtos_avl_height_crtos_return_wit_2_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_update_height_crtos_entail_wit_1_split_goal_1 : crtos_avl_update_height_crtos_entail_wit_1_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_update_height_crtos_entail_wit_1_split_goal_2 : crtos_avl_update_height_crtos_entail_wit_1_split_goal_2.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_update_height_crtos_entail_wit_1_split_goal_spatial : crtos_avl_update_height_crtos_entail_wit_1_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_update_height_crtos_return_wit_1_split_goal_spatial : crtos_avl_update_height_crtos_return_wit_1_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_update_height_crtos_return_wit_2_split_goal_spatial : crtos_avl_update_height_crtos_return_wit_2_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_update_height_crtos_return_wit_3_split_goal_spatial : crtos_avl_update_height_crtos_return_wit_3_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_balance_factor_crtos_entail_wit_1_split_goal_1 : crtos_avl_balance_factor_crtos_entail_wit_1_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_balance_factor_crtos_entail_wit_1_split_goal_2 : crtos_avl_balance_factor_crtos_entail_wit_1_split_goal_2.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_balance_factor_crtos_entail_wit_1_split_goal_spatial : crtos_avl_balance_factor_crtos_entail_wit_1_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_balance_factor_crtos_return_wit_2_split_goal_1 : crtos_avl_balance_factor_crtos_return_wit_2_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_balance_factor_crtos_return_wit_2_split_goal_2 : crtos_avl_balance_factor_crtos_return_wit_2_split_goal_2.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_balance_factor_crtos_return_wit_2_split_goal_3 : crtos_avl_balance_factor_crtos_return_wit_2_split_goal_3.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_balance_factor_crtos_return_wit_2_split_goal_spatial : crtos_avl_balance_factor_crtos_return_wit_2_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_right_rotate_crtos_entail_wit_1_split_goal_1 : crtos_avl_right_rotate_crtos_entail_wit_1_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_right_rotate_crtos_entail_wit_4_split_goal_1 : crtos_avl_right_rotate_crtos_entail_wit_4_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_right_rotate_crtos_entail_wit_4_split_goal_2 : crtos_avl_right_rotate_crtos_entail_wit_4_split_goal_2.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_right_rotate_crtos_entail_wit_4_split_goal_3 : crtos_avl_right_rotate_crtos_entail_wit_4_split_goal_3.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_right_rotate_crtos_entail_wit_4_split_goal_spatial : crtos_avl_right_rotate_crtos_entail_wit_4_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_right_rotate_crtos_entail_wit_5_split_goal_1 : crtos_avl_right_rotate_crtos_entail_wit_5_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_right_rotate_crtos_entail_wit_5_split_goal_2 : crtos_avl_right_rotate_crtos_entail_wit_5_split_goal_2.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_right_rotate_crtos_entail_wit_5_split_goal_spatial : crtos_avl_right_rotate_crtos_entail_wit_5_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_right_rotate_crtos_return_wit_1_split_goal_spatial : crtos_avl_right_rotate_crtos_return_wit_1_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_left_rotate_crtos_entail_wit_1_split_goal_1 : crtos_avl_left_rotate_crtos_entail_wit_1_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_left_rotate_crtos_entail_wit_4_split_goal_1 : crtos_avl_left_rotate_crtos_entail_wit_4_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_left_rotate_crtos_entail_wit_4_split_goal_2 : crtos_avl_left_rotate_crtos_entail_wit_4_split_goal_2.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_left_rotate_crtos_entail_wit_4_split_goal_3 : crtos_avl_left_rotate_crtos_entail_wit_4_split_goal_3.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_left_rotate_crtos_entail_wit_4_split_goal_spatial : crtos_avl_left_rotate_crtos_entail_wit_4_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_left_rotate_crtos_entail_wit_5_split_goal_1 : crtos_avl_left_rotate_crtos_entail_wit_5_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_left_rotate_crtos_entail_wit_5_split_goal_2 : crtos_avl_left_rotate_crtos_entail_wit_5_split_goal_2.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_left_rotate_crtos_entail_wit_5_split_goal_spatial : crtos_avl_left_rotate_crtos_entail_wit_5_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_left_rotate_crtos_return_wit_1_split_goal_spatial : crtos_avl_left_rotate_crtos_return_wit_1_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_lr_rotate_crtos_entail_wit_1_split_goal_1 : crtos_avl_lr_rotate_crtos_entail_wit_1_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_lr_rotate_crtos_entail_wit_3_split_goal_1 : crtos_avl_lr_rotate_crtos_entail_wit_3_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_lr_rotate_crtos_entail_wit_3_split_goal_spatial : crtos_avl_lr_rotate_crtos_entail_wit_3_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_lr_rotate_crtos_return_wit_1_split_goal_spatial : crtos_avl_lr_rotate_crtos_return_wit_1_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_rl_rotate_crtos_entail_wit_1_split_goal_1 : crtos_avl_rl_rotate_crtos_entail_wit_1_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_rl_rotate_crtos_entail_wit_3_split_goal_1 : crtos_avl_rl_rotate_crtos_entail_wit_3_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_rl_rotate_crtos_entail_wit_3_split_goal_spatial : crtos_avl_rl_rotate_crtos_entail_wit_3_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_rl_rotate_crtos_return_wit_1_split_goal_spatial : crtos_avl_rl_rotate_crtos_return_wit_1_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_balance_crtos_entail_wit_1_split_goal_1 : crtos_avl_balance_crtos_entail_wit_1_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_balance_crtos_entail_wit_1_split_goal_spatial : crtos_avl_balance_crtos_entail_wit_1_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_balance_crtos_entail_wit_2_split_goal_spatial : crtos_avl_balance_crtos_entail_wit_2_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_balance_crtos_entail_wit_3_1_split_goal_1 : crtos_avl_balance_crtos_entail_wit_3_1_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_balance_crtos_entail_wit_3_1_split_goal_spatial : crtos_avl_balance_crtos_entail_wit_3_1_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_balance_crtos_entail_wit_3_2_split_goal_1 : crtos_avl_balance_crtos_entail_wit_3_2_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_balance_crtos_entail_wit_3_2_split_goal_2 : crtos_avl_balance_crtos_entail_wit_3_2_split_goal_2.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_balance_crtos_entail_wit_3_2_split_goal_spatial : crtos_avl_balance_crtos_entail_wit_3_2_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_balance_crtos_entail_wit_4_split_goal_1 : crtos_avl_balance_crtos_entail_wit_4_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_balance_crtos_entail_wit_4_split_goal_spatial : crtos_avl_balance_crtos_entail_wit_4_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_balance_crtos_entail_wit_5_1_split_goal_1 : crtos_avl_balance_crtos_entail_wit_5_1_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_balance_crtos_entail_wit_5_1_split_goal_spatial : crtos_avl_balance_crtos_entail_wit_5_1_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_balance_crtos_entail_wit_5_2_split_goal_1 : crtos_avl_balance_crtos_entail_wit_5_2_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_balance_crtos_entail_wit_5_2_split_goal_2 : crtos_avl_balance_crtos_entail_wit_5_2_split_goal_2.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_balance_crtos_entail_wit_5_2_split_goal_spatial : crtos_avl_balance_crtos_entail_wit_5_2_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_balance_crtos_entail_wit_6_split_goal_1 : crtos_avl_balance_crtos_entail_wit_6_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_balance_crtos_entail_wit_6_split_goal_spatial : crtos_avl_balance_crtos_entail_wit_6_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_balance_crtos_return_wit_6_split_goal_1 : crtos_avl_balance_crtos_return_wit_6_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_balance_crtos_return_wit_6_split_goal_2 : crtos_avl_balance_crtos_return_wit_6_split_goal_2.
+Proof. Abort.
+
+Lemma proof_of_crtos_avl_balance_crtos_return_wit_6_split_goal_3 : crtos_avl_balance_crtos_return_wit_6_split_goal_3.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeInsertNode_entail_wit_2_split_goal_1 : AvlTreeInsertNode_entail_wit_2_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeInsertNode_entail_wit_2_split_goal_spatial : AvlTreeInsertNode_entail_wit_2_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeInsertNode_entail_wit_3_split_goal_1 : AvlTreeInsertNode_entail_wit_3_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeInsertNode_entail_wit_3_split_goal_2 : AvlTreeInsertNode_entail_wit_3_split_goal_2.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeInsertNode_entail_wit_3_split_goal_spatial : AvlTreeInsertNode_entail_wit_3_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeInsertNode_return_wit_1_split_goal_1 : AvlTreeInsertNode_return_wit_1_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeInsertNode_return_wit_5_split_goal_1 : AvlTreeInsertNode_return_wit_5_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeInsertNode_partial_solve_wit_2_pure_split_goal_1 : AvlTreeInsertNode_partial_solve_wit_2_pure_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeInsertNode_partial_solve_wit_3_pure_split_goal_1 : AvlTreeInsertNode_partial_solve_wit_3_pure_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeInsertNode_partial_solve_wit_5_pure_split_goal_1 : AvlTreeInsertNode_partial_solve_wit_5_pure_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeInsertNode_partial_solve_wit_7_pure_split_goal_1 : AvlTreeInsertNode_partial_solve_wit_7_pure_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_entail_wit_5_split_goal_1 : AvlTreeDeleteNode_entail_wit_5_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_entail_wit_5_split_goal_2 : AvlTreeDeleteNode_entail_wit_5_split_goal_2.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_entail_wit_5_split_goal_3 : AvlTreeDeleteNode_entail_wit_5_split_goal_3.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_entail_wit_5_split_goal_4 : AvlTreeDeleteNode_entail_wit_5_split_goal_4.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_entail_wit_5_split_goal_5 : AvlTreeDeleteNode_entail_wit_5_split_goal_5.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_entail_wit_5_split_goal_spatial : AvlTreeDeleteNode_entail_wit_5_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_entail_wit_6_split_goal_1 : AvlTreeDeleteNode_entail_wit_6_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_entail_wit_6_split_goal_2 : AvlTreeDeleteNode_entail_wit_6_split_goal_2.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_entail_wit_6_split_goal_3 : AvlTreeDeleteNode_entail_wit_6_split_goal_3.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_entail_wit_6_split_goal_4 : AvlTreeDeleteNode_entail_wit_6_split_goal_4.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_entail_wit_6_split_goal_5 : AvlTreeDeleteNode_entail_wit_6_split_goal_5.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_entail_wit_6_split_goal_spatial : AvlTreeDeleteNode_entail_wit_6_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_entail_wit_7_split_goal_1 : AvlTreeDeleteNode_entail_wit_7_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_entail_wit_7_split_goal_spatial : AvlTreeDeleteNode_entail_wit_7_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_entail_wit_8_split_goal_1 : AvlTreeDeleteNode_entail_wit_8_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_entail_wit_8_split_goal_spatial : AvlTreeDeleteNode_entail_wit_8_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_entail_wit_9_split_goal_1 : AvlTreeDeleteNode_entail_wit_9_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_entail_wit_9_split_goal_2 : AvlTreeDeleteNode_entail_wit_9_split_goal_2.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_entail_wit_9_split_goal_3 : AvlTreeDeleteNode_entail_wit_9_split_goal_3.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_entail_wit_9_split_goal_spatial : AvlTreeDeleteNode_entail_wit_9_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_entail_wit_10_split_goal_1 : AvlTreeDeleteNode_entail_wit_10_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_entail_wit_10_split_goal_2 : AvlTreeDeleteNode_entail_wit_10_split_goal_2.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_entail_wit_10_split_goal_3 : AvlTreeDeleteNode_entail_wit_10_split_goal_3.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_entail_wit_10_split_goal_4 : AvlTreeDeleteNode_entail_wit_10_split_goal_4.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_entail_wit_10_split_goal_5 : AvlTreeDeleteNode_entail_wit_10_split_goal_5.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_entail_wit_10_split_goal_6 : AvlTreeDeleteNode_entail_wit_10_split_goal_6.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_entail_wit_10_split_goal_7 : AvlTreeDeleteNode_entail_wit_10_split_goal_7.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_entail_wit_10_split_goal_spatial : AvlTreeDeleteNode_entail_wit_10_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_return_wit_1_split_goal_1 : AvlTreeDeleteNode_return_wit_1_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_return_wit_1_split_goal_2 : AvlTreeDeleteNode_return_wit_1_split_goal_2.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_return_wit_2_split_goal_1 : AvlTreeDeleteNode_return_wit_2_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_return_wit_2_split_goal_2 : AvlTreeDeleteNode_return_wit_2_split_goal_2.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_return_wit_3_split_goal_1 : AvlTreeDeleteNode_return_wit_3_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_return_wit_3_split_goal_2 : AvlTreeDeleteNode_return_wit_3_split_goal_2.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_return_wit_4_split_goal_1 : AvlTreeDeleteNode_return_wit_4_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_return_wit_4_split_goal_2 : AvlTreeDeleteNode_return_wit_4_split_goal_2.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_partial_solve_wit_1_pure_split_goal_1 : AvlTreeDeleteNode_partial_solve_wit_1_pure_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_partial_solve_wit_1_pure_split_goal_2 : AvlTreeDeleteNode_partial_solve_wit_1_pure_split_goal_2.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_partial_solve_wit_2_pure_split_goal_1 : AvlTreeDeleteNode_partial_solve_wit_2_pure_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_partial_solve_wit_2_pure_split_goal_2 : AvlTreeDeleteNode_partial_solve_wit_2_pure_split_goal_2.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_partial_solve_wit_11_pure_split_goal_1 : AvlTreeDeleteNode_partial_solve_wit_11_pure_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_AvlTreeDeleteNode_partial_solve_wit_13_pure_split_goal_1 : AvlTreeDeleteNode_partial_solve_wit_13_pure_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_AvlNodeModifyNode_partial_solve_wit_3_pure_split_goal_1 : AvlNodeModifyNode_partial_solve_wit_3_pure_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_AvlNodeSearchNode_entail_wit_2_split_goal_1 : AvlNodeSearchNode_entail_wit_2_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_AvlNodeSearchNode_entail_wit_2_split_goal_2 : AvlNodeSearchNode_entail_wit_2_split_goal_2.
+Proof. Abort.
+
+Lemma proof_of_AvlNodeSearchNode_entail_wit_2_split_goal_3 : AvlNodeSearchNode_entail_wit_2_split_goal_3.
+Proof. Abort.
+
+Lemma proof_of_AvlNodeSearchNode_entail_wit_2_split_goal_4 : AvlNodeSearchNode_entail_wit_2_split_goal_4.
+Proof. Abort.
+
+Lemma proof_of_AvlNodeSearchNode_entail_wit_2_split_goal_5 : AvlNodeSearchNode_entail_wit_2_split_goal_5.
+Proof. Abort.
+
+Lemma proof_of_AvlNodeSearchNode_entail_wit_2_split_goal_spatial : AvlNodeSearchNode_entail_wit_2_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_AvlNodeSearchNode_entail_wit_3_split_goal_1 : AvlNodeSearchNode_entail_wit_3_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_AvlNodeSearchNode_entail_wit_4_split_goal_1 : AvlNodeSearchNode_entail_wit_4_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_AvlNodeSearchNode_entail_wit_4_split_goal_2 : AvlNodeSearchNode_entail_wit_4_split_goal_2.
+Proof. Abort.
+
+Lemma proof_of_AvlNodeSearchNode_return_wit_1_split_goal_1 : AvlNodeSearchNode_return_wit_1_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_AvlNodeSearchNode_return_wit_1_split_goal_spatial : AvlNodeSearchNode_return_wit_1_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_AvlNodeSearchNode_return_wit_2_split_goal_spatial : AvlNodeSearchNode_return_wit_2_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_AvlNodeSearchNode_return_wit_3_split_goal_spatial : AvlNodeSearchNode_return_wit_3_split_goal_spatial.
+Proof. Abort.
+
+Lemma proof_of_AvlNodeSearchNode_return_wit_4_split_goal_1 : AvlNodeSearchNode_return_wit_4_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_AvlNodeSearchNode_partial_solve_wit_1_pure_split_goal_1 : AvlNodeSearchNode_partial_solve_wit_1_pure_split_goal_1.
+Proof. Abort.
+
+Lemma proof_of_AvlNodeSearchNode_partial_solve_wit_4_pure_split_goal_1 : AvlNodeSearchNode_partial_solve_wit_4_pure_split_goal_1.
+Proof. Abort.
+
